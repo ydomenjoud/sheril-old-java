@@ -205,7 +205,7 @@ Un niveau de taxation élevé rapporte donc beaucoup de Centaures, mais il faut 
 | :--- | :--- | :--- |
 | 0 | pas de revenu | +6% par tour |
 | 1 | revenu normal | +3% par tour |
-| 2 | revenu x 2 | - |
+| 2 | revenu x 2 | +1% par tour |
 | 3 | revenu x 3 | -3% par tour |
 | 4 | revenu x 4 | -7% par tour |
 | 5 | revenu x 5 | -12% par tour |
@@ -221,6 +221,20 @@ Chaque planète, habitée ou non, rapporte au moins un point de construction. Ce
 Exprimé en %, il est utilisé chaque tour pour tester si la population de la planète entre en révolte. Plus le taux est bas, plus il y a de risque de révolte.
 De plus, la capacité de défense de la planète dépend directement de la stabilité. Par exemple un système ayant une stabilité de 80% ne pourra se défendre en cas d'attaque qu'à 80% de ses capacités.
 Enfin, si la planète est en révolte (voir ci-dessous), le coefficient de défense est encore divisé par 2.
+
+La distance du système à la capitale impacte la stabilité.
+
+| Distance à la capitale | Effet sur la stabilité de la planète |
+| :--- | :--- |
+| 0 | +3% par tour |
+| 1 ou 2 | +2% par tour |
+| 3 ou 4 | +1% par tour |
+| 5 | 0 |
+| 6 | -1% par tour |
+| 7 | -3% par tour |
+| 8 ou 9 | -6% par tour |
+| 10 | -9% par tour |
+| 11 ou plus | -16% par tour |
 
 Outre la distance à la capitale et le taux d'imposition, un troisième modificateur peut jouer.
 Chaque race en effet à son opinion sur les autres races. Cette opinion peut rendre une coexistence difficile, ou favorable.
