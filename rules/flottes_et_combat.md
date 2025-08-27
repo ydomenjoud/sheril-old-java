@@ -49,11 +49,22 @@ Chacune de vos flottes doit avoir des directives pour le cas où elle se retrouv
 Il n'est jamais procédé à une attaque contre une planète,un système ou une flotte appartenant à un Commandant avec qui vous avez passé une alliance ou un pacte de non-agression, même si vous en avez donné l'ordre. Il faut d'abord rompre le pacte ou l'alliance.
 Dans le cas de l'attaque d'un système partagé entre plusieurs commandants par exemple, votre flotte n'attaquera pas les planètes du système possédées par des commandants avec qui vous êtes alliés (elle attaquera par contre les autres).
 
+
+
+### 5.4.2. Puissance d'une flotte
+
+La puissance d'une flotte est égale à la somme de la puissance spatiale de tous les vaisseaux de cette flotte, plus la somme de la puissance planétaire divisée par deux de tous les vaisseaux de cette flotte.
+
+
 ## 5.5. Engagement du combat
 
 Les combats sont résolus par l'ordinateur en tenant compte des paramètres de combat propre à chaque vaisseau et construction terrestre, de la présence éventuelle de Héros dans les flottes ou de Gouverneur sur les systèmes, et enfin d'un léger facteur de hasard.
 
 Il est à noter que, lors d'une attaque contre un système, toutes les constructions et stocks de minerai qui se trouvent dans ce système peuvent subir des dégâts dus à l'attaque.
+
+Le combat contre une planète ou un système n'est engagé que si la flotte possède une puissance minimale de 50.
+
+*Exemple: une flotte de 1 Bombardier Standard et 2 Grands Bombardier Standard possède une puissance de 0.5x20 (AP Bombardier Standard) + 0.5x2x35 (AP Grand Bombardier Standard) = 45. Cette flotte n'a pas la puissance minimale requise pour attaquer une planète ou un système.*
 
 ### 5.5.1. Combat spatial et combat planétaire
 
@@ -63,9 +74,6 @@ Il faut bien faire la différence entre le combat spatial et le combat planétai
 
 *Remarque : Au cours d'un combat spatial particulièrement meurtrier, il se pourrait que la case sur laquelle a eu lieu le combat devienne à ce point encombrée par des débris de vaisseaux qu'elle en soit rendue dangereuse.*
 
-### 5.5.2. Puissance d'une flotte
-
-La puissance d'une flotte est égale à la somme de la puissance spatiale de tous les vaisseaux de cette flotte, plus la somme de la puissance planétaire divisée par deux de tous les vaisseaux de cette flotte.
 
 ### 5.5.3. Ordre de résolution des combats
 
