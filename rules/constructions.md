@@ -119,9 +119,11 @@ Votre seule solution si vous ne voulez pas subir les terribles inconvénients li
 
 Si vous possédez une usine de retraitement de minerai sur la planète où vous voulez détruire du matériel, vous récupérez automatiquement la moitié du minerai qui avait été consommé lors de la construction du bâtiment.
 
-### 4.2.3. Transport de matériel
+### 4.2.3. Transferts Inter Systèmes
 
-Vous pouvez, si vous le désirer, transporter les diverses constructions planétaires dans des cargos. Rien ne vous empêche donc par exemple de charger 2 batteries à plasmas dans un cargo et de les transporter dans un autre système vous appartenant. Il n'est pas nécessaire que le système possède un poste commercial. La place que prend une construction dans un cargo est égale à son nombre de points de structure.
+Vous pouvez, si vous le désirer, transférer les diverses constructions planétaires et marchandises entre vos systèmes. 
+Le nombre de transfert inter systèmes autorisés st indiqué en tête de votre rapport. Il est possible de transférer un maximum de 999 unités par transfert inter-système (e.g. 999 systèmes de guidages ou 999 mines). Les points de structure du bâtiment n'affectent pas la limite d'unités, c'est à dire qu'il est possible de transférer 999 bâtiments du même type quelque soit leur points de structure.
+
 
 ## 4.3. Mise en construction
 
