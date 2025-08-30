@@ -2,7 +2,7 @@
 <P><h1>Transferts de Centaures</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
  Effectuer un virement de
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=8 MAXLENGTH=8>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=8 MAXLENGTH=8>
  centaures au profit du commandant  
 <?php select1("v0",$t0); ?>
  en mode de transfert

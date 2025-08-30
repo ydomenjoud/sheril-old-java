@@ -4,7 +4,7 @@
 Je désire renommer l'alliance
 <?php select1("v1",$t0); ?>
 que je dirige ainsi : <BR>
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v0" VALUE="<?=V('v0')?>" SIZE=30 MAXLENGTH=80>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

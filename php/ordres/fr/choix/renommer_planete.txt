@@ -6,7 +6,7 @@ Je désire renommer ma planète numéro
   du système
 <?php select1("v0",$t0); ?>
 . Son nouveau nom :
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

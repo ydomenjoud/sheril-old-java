@@ -2,7 +2,7 @@
 <P><h1>Mise au rebus de constructions planétaires</h1>
 <BR>
  Je désire détruire
-<INPUT TYPE="text" NAME="v2" VALUE="" SIZE=3 MAXLENGTH=3>
+<INPUT TYPE="text" NAME="v2" VALUE="<?=V('v2')?>" SIZE=3 MAXLENGTH=3>
  construction(s) planétaire(s) de type
 <?php select1("v1",$t1); ?>
  sur mon syst&egrave;me

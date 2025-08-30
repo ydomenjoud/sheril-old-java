@@ -10,7 +10,7 @@ $v1=$nb_div;
 En divisant ma flotte 
     <span class="important"><?php echo($t0[$v0]); ?></span>
  je désire ajouter dans ma nouvelle flotte
-<INPUT TYPE="text" NAME="v3" VALUE="" SIZE=3 MAXLENGTH=3>
+<INPUT TYPE="text" NAME="v3" VALUE="<?=V('v3')?>" SIZE=3 MAXLENGTH=3>
 <?php select3("v2",$t1); ?>
  
 </B></P>

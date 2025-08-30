@@ -4,7 +4,7 @@
  Dans mon syst&egrave;me
 <?php select1("v0",$t0); ?>
  mettre en chantier
-<INPUT TYPE="text" NAME="v2" VALUE="<?=((array_key_exists('v2',$_POST)) ? $_POST['v2'] : '')?>" SIZE=3 MAXLENGTH=3>
+<INPUT TYPE="text" NAME="v2" VALUE="<?=V('v2')?>" SIZE=3 MAXLENGTH=3>
  construction(s) de type
 <?php select1("v1",$t1); ?><br />
  (pr&eacute;cisez &eacute;ventuellement pour la plan&egrave;te numéro

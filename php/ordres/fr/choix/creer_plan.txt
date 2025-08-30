@@ -3,9 +3,9 @@
 <BR>
 <NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activ� dans votre navigateur</FONT></H1></NOSCRIPT>
 Je désire créer un nouveau plan de vaisseau de nom
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v0" VALUE="<?=V('v0')?>" SIZE=30 MAXLENGTH=80>
  de marque
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80>
  de domaine
 <?php select1("v2",$t0); ?>
 avec un pourcentage de royalties de

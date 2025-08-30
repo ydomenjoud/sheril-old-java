@@ -2,13 +2,13 @@
 <P><h1>créer une nouvelle alliance</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
 Je désire créer une alliance ayant pour nom
-<input type="text" size="30" maxlength="100" name="v0">
+<input type="text" size="30" maxlength="100" name="v0" value="<?=V('v0')?>">
 et qui sera
 <?php select1("v1",$t0); ?>
  et de type
 <?php select1("v2",$t1); ?>
  avec pour taxe d'entrée
- <input type="text" size="3" maxlength="3" name="v3">
+ <input type="text" size="3" maxlength="3" name="v3" value="<?=V('v3')?>">
  centaures.
 
 </B></P>

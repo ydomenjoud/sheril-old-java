@@ -2,7 +2,7 @@
 <P><h1>Envoyer l'adresse internet du site de votre commandant </h1>
 <BR>
 Je viens de créer un site dédié à mon commandant. Son adresse :
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=100>
+<INPUT TYPE="text" NAME="v0" VALUE="<?=V('v0')?>" SIZE=30 MAXLENGTH=100>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

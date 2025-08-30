@@ -5,7 +5,7 @@
 Je désire diviser ma flotte
 <?php select1("v0",$t0); ?>
  afin de créer une nouvelle flotte de nom
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80>
 <?php
 $result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
 $nb_lignes = mysql_num_rows($result);

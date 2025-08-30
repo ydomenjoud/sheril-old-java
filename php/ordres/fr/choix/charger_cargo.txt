@@ -2,7 +2,7 @@
 <P><h1>Déplacer des constructions/marchandises entre systèmes</h1>
 <BR>
 Déplacer
-        <input type="text" size="4" maxlength="4" name="v2">
+        <input type="text" value="<?=V('v2')?>" size="4" maxlength="4" name="v2">
         unités de type
         <?php select1("v1",$t1); ?>
         de mon système

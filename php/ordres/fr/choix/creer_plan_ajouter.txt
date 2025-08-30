@@ -3,7 +3,7 @@
 <BR>
 
 Je désire ajouter
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=3 MAXLENGTH=3>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=3 MAXLENGTH=3>
  composant(s) de type
 <?php select1("v0",$t0); ?>
  à mon plan de vaisseau.

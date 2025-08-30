@@ -4,7 +4,7 @@
 décharger ma flotte
 <?php select1("v0",$t0); ?>
  avec
-<input type="text" size="4" maxlength="4" name="v2">
+<input type="text" size="4" maxlength="4" name="v2" value="<?=V('v2')?>">
  unit�(s) de type
 <?php select1("v1",$t1); ?>
 <BR>

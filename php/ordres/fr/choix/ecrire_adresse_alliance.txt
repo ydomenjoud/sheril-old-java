@@ -5,7 +5,7 @@ Je viens de créer un site dédié à mon alliance
 <?php select1("v1",$t0); ?>
 <BR>
  L'adresse de ce site est :
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=100>
+<INPUT TYPE="text" NAME="v0" VALUE="<?=V('v0')?>" SIZE=30 MAXLENGTH=100>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
