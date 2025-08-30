@@ -1,9 +1,13 @@
 <?php
+$resultRace = mysql_query("SELECT RACE FROM aa_registre WHERE NUMERO='$commandant'");
+$row = mysql_fetch_row($resultRace);
+$max = $row[0] === 3 ? 7 : 3;
+
 $result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
 $nb_lignes = mysql_num_rows($result);
-if($nb_lignes<3){
+if($nb_lignes<$max){
  echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
- echo("<h1>Mission des services spéciaux</h1>");
+ echo("<h1>Mission des services spéciaux ({$nb_lignes}/{$max})</h1>");
  echo("Mission spéciale ");
  select1("v1",$t1);
  echo(" sur le système ");
