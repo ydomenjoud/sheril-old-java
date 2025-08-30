@@ -541,7 +541,7 @@ public class Commandant extends Joueur implements Serializable {
                         * p.getBudget(typeBudget);
 
                 // bonus commandant
-                t *= (float) (1 + Const.RACES_CARACTERISTIQUES[getRace()][Const.RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE]) / 100;
+                t *= (float) (100 + Const.RACES_CARACTERISTIQUES[getRace()][Const.RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE]) / 100;
             }
             else
                 t = Univers.getSysteme(liste[i]).getRevenu(numero,
