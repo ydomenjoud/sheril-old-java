@@ -6,7 +6,7 @@
  mettre en chantier
 <INPUT TYPE="text" NAME="v2" VALUE="<?=((array_key_exists('v2',$_POST)) ? $_POST['v2'] : '')?>" SIZE=3 MAXLENGTH=3>
  construction(s) de type
-<?php select1("v1",$t1); ?>
+<?php select1("v1",$t1); ?><br />
  (pr&eacute;cisez &eacute;ventuellement pour la plan&egrave;te numéro
 <?php select_planete2("v3"); ?>
 )

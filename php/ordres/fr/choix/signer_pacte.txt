@@ -1,3 +1,4 @@
+
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
 <P><h1>Signer un pacte de non-agression </h1><BR>
 Je désire signer un pacte de non-agression avec le commandant

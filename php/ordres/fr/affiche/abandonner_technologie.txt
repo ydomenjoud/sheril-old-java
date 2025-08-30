@@ -1,4 +1,4 @@
 <?php
 $inter1=$rf[1];
-echo("Je d"sire abandonner la technologie <SPAN class=\"item\">$t0[$inter1]</SPAN> .");
+echo("Je désire abandonner la technologie <SPAN class=\"item\">$t0[$inter1]</SPAN> .");
 ?>

@@ -21,6 +21,13 @@
             --help: #00e6e6;
             --important: #1de9b6;
         }
+        input:not([type="checkbox"]):focus,
+        select:focus,
+        textarea:focus {
+            outline: none;                /* supprime le contour par défaut */
+            box-shadow: 0px 0px 16px 12px #003963;
+            transition: box-shadow 0.2s ease;
+        }
 
 
         .important {
@@ -184,5 +191,19 @@
         }
 
         //--></script>
+
+    <?php if(($table?'ordre':'')) { ?>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            console.log(form);
+            if (form) {
+                const firstInput = form.querySelector('input, select, textarea, button');
+                console.log(firstInput);
+                if (firstInput) firstInput.focus();
+            }
+        });
+    </script>
+    <?php } ?>
 </HEAD>
-<BODY class="<?= substr($nom_page, 0, -5) ?> <?=(strpos($table, 'ajouter') ? 'popup': '')?>">
+<BODY class="<?= substr($nom_page, 0, -5) ?> <?=($table?'ordre':'')?> <?=(strpos($table, 'ajouter') ? 'popup': '')?>">

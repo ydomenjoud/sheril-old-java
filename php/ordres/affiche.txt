@@ -13,7 +13,8 @@ if($nb_lignes!=0){
   if($zo==0){
    echo("<TR><TD><A HREF=\"$nom_page?table=$table&elimine=$i\" class='delete'>$suppression</A>");
    include "./$langue/affiche/$table.txt";
-   echo("</TD></TR>");
+   $encode = urlencode(serialize($rf));
+   echo("</TD><td><a href='$nom_page?table=$table&previous={$encode}'>copy</td></TR>");
    }  
   }
  echo("</TABLE>");
