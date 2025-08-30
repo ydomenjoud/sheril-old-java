@@ -1,7 +1,7 @@
 <?php
 $resultRace = mysql_query("SELECT RACE FROM aa_registre WHERE NUMERO='$commandant'");
 $row = mysql_fetch_row($resultRace);
-$max = $row[0] === 3 ? 7 : 3;
+$max = $row[0] == 3 ? 7 : 3;
 
 $result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
 $nb_lignes = mysql_num_rows($result);

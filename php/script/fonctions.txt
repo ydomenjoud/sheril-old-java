@@ -103,7 +103,7 @@ function select1($nv, $t)
     $k = array_keys($t);
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];
-        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $j) ? 'selected ' : ''));
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $j) ? 'selected ' : ''));
         echo("VALUE=\"$j\">$t[$j]");
     }
     echo("</SELECT>");
@@ -113,7 +113,7 @@ function select3($nv, $t)
 {
     echo("<SELECT SIZE=\"1\" NAME=\"$nv\">");
     for ($i = 0; $i < sizeof($t); $i++) {
-        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $t[$i]) ? 'selected ' : ''));
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $t[$i]) ? 'selected ' : ''));
         echo("VALUE=\"$t[$i]\">$t[$i]");
     }
     echo("</SELECT>");
@@ -123,7 +123,7 @@ function select_nb($nv, $a, $b)
 {
     echo("<SELECT NAME=\"$nv\">");
     for ($i = $a; $i < $b; $i++) {
-        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $i) ? 'selected ' : ''));
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $i) ? 'selected ' : ''));
         echo("VALUE=\"$i\">$i");
     }
     echo("</SELECT>");
@@ -144,7 +144,7 @@ function select_planete($nv)
     echo("<SELECT NAME=\"$nv\">");
     for ($i = 1; $i < 21; $i++) {
         $inter = $i - 1;
-        echo("<OPTION VALUE=\"$inter\">$i");
+        echo("<OPTION VALUE=\"$inter\" ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $inter) ? 'selected ' : '').">$i");
     }
     echo("</SELECT>");
 }
