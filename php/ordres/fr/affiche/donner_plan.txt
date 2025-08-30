@@ -2,5 +2,5 @@
 $inter1=$rf[1];
 $inter2=$rf[2];
 $inter3=$rf[3];
-echo("Vous donnez le plan : <SPAN id=\"r\">$inter1</SPAN> au commandant <SPAN id=\"r\">$t0[$inter2]</SPAN> en mode de transfert <SPAN id=\"r\">$t2[$inter3]</SPAN>.");
+echo("Vous donnez le plan : <SPAN class=\"item\">$inter1</SPAN> au commandant <SPAN class=\"item\">$t0[$inter2]</SPAN> en mode de transfert <SPAN class=\"item\">$t2[$inter3]</SPAN>.");
 ?>

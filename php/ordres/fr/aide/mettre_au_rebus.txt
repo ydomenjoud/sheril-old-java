@@ -1,9 +1,9 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez détruire certaines de vos constructions planétaires.<BR><BR>
-Cette opération ne côute rien et peut même rapporter du minerai si vous possédez des 
-usines de retraitement sur votre planète.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez dÃ©truire certaines de vos constructions planÃ©taires.<BR><BR>
+Cette opÃ©ration ne coÃ»te rien et peut mÃªme rapporter du minerai si vous possÃ©dez des
+usines de retraitement sur votre planÃ¨te.
 
 

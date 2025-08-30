@@ -2,5 +2,5 @@
 $inter1=$rf[1];
 $inter2=$rf[2];
 $inter3=$rf[3];
-echo("Votre flotte  <SPAN id=\"r\">$t0[$inter1]</SPAN> va être divisée pour donner une nouvelle flotte de nom <SPAN id=\"r\">$inter2</SPAN>.<BR> Pour déterminer les vaisseaux de la nouvelle flotte : <FORM><INPUT TYPE='button' value='Choisir les vaisseaux' onClick=\"a('$nom_page?table=diviser_flotte_ajouter&num_f=$inter1&nb_div=$inter3');\"></FORM>");
+echo("Votre flotte  <SPAN class=\"item\">$t0[$inter1]</SPAN> va Ãªtre divisÃ©e pour donner une nouvelle flotte de nom <SPAN class=\"item\">$inter2</SPAN>.<BR> Pour dÃ©terminer les vaisseaux de la nouvelle flotte : <FORM><INPUT TYPE='button' value='Choisir les vaisseaux' onClick=\"a('$nom_page?table=diviser_flotte_ajouter&num_f=$inter1&nb_div=$inter3');\"></FORM>");
 ?>

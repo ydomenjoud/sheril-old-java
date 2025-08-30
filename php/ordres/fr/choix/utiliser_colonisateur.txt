@@ -1,11 +1,11 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Utilisation de robots colonisateurs</FONT>
+<P><h1>Utilisation de robots colonisateurs</h1>
 <BR>
 Ma flotte
 <?php select1("v0",$t0); ?>
- doit coloniser la planète numéro
+ doit coloniser la planÃ¨te numÃ©ro
 <?php select_planete("v1"); ?>
- du système qu'elle survole.
+ du systÃ¨me qu'elle survole.
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

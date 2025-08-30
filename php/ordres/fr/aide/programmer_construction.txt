@@ -1,12 +1,12 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez Ètablir un programme de construction sur un de vos systËmes.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez √©tablir un programme de construction sur un de vos syst√®mes.
 <BR><BR>
-Cet ordre nÈcessite la connaissance de la technologie &quot;MaÓtrise de la planification&quot;.
+Cet ordre n√©cessite la connaissance de la technologie &quot;Ma√Ætrise de la planification&quot;.
 <BR><BR>
-Si le systËme concernÈ possÈdait dÈj‡ un programme de construction, il est automatiquement remplacÈ par le nouveau:
- on ne peut pas utiliser plus d'un programme de construction par systËme.
+Si le syst√®me concern√© poss√©dait d√©j√† un programme de construction, il est automatiquement remplac√© par le nouveau:
+ on ne peut pas utiliser plus d'un programme de construction par syst√®me.
 
 

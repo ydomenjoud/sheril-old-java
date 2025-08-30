@@ -4,7 +4,7 @@ $t1=base2($base,"z_galaxies");
 $t2=base2($base,"z_directives");
 $t3=base3($base,$commandant,"z_strategies");
 if(gettype($t3)=="array"){
- $inter_f=array("par défaut");
+ $inter_f=array("par dÃ©faut");
  $t3=fusion_tab($inter_f,$t3);
  }
 ?>

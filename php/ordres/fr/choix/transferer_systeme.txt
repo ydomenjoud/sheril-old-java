@@ -1,9 +1,9 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Céder un système</FONT>
+<P><h1>cÃ©der un systÃ¨me</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
-Je c&egrave;de toutes les planètes de mon syst&egrave;me 
+Je c&egrave;de toutes les planÃ¨tes de mon syst&egrave;me
 <?php select1("v1",$t1); ?>
- au commandant  
+ au commandant
 <?php select1("v0",$t0); ?>
  en mode de transfert
 <?php select1("v2",$t2); ?>

@@ -1,6 +1,6 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez modifier la taxation d'un de vos systèmes.<BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez modifier la taxation d'un de vos systÃ¨mes.<BR>
 

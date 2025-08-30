@@ -1,5 +1,5 @@
 <?php
-$inter_h=array("100000" => "En réserve");
+$inter_h=array("100000" => "En rÃ©serve");
 $t0=base3($base,$commandant,"z_heros");
 $t1=fusion_tab2(base1($base,$commandant,"z_flottes"),$inter_h);
 ?>

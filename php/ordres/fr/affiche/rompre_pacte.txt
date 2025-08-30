@@ -1,4 +1,4 @@
 <?php
   $inter=$rf[1];
-  echo("Vous souhaitez rompre le pacte de non agression avec le commandant <SPAN id=\"r\">$t0[$inter]</SPAN>.");
+  echo("Vous souhaitez rompre le pacte de non agression avec le commandant <SPAN class=\"item\">$t0[$inter]</SPAN>.");
 ?>

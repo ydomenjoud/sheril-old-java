@@ -1,23 +1,27 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Charger des cargos</FONT>
+<P><h1>D√©placer des constructions/marchandises entre syst√®mes</h1>
 <BR>
-Charger ma flotte
-<?php select1("v0",$t0); ?>
- avec
-<input type="text" size="4" maxlength="4" name="v2">
- unitÈ(s) de type 
-<?php select1("v1",$t1); ?>
-<BR> 
-( optionnel : dans le transporteur numÈro
-<?php select1("v3",$t2); ?>
-<BR>
-  ‡ partir du poste du commandant
-<?php select1("v4",$t3); ?>
-<BR>
-  ‡ partir de la planËte numÈro
-<?php select_planete2("v5"); ?>
- )
+D√©placer
+        <input type="text" size="4" maxlength="4" name="v2">
+        unit√©s de type
+        <?php select1("v1",$t1); ?>
+        de mon syst√®me
+        <?php select1("v0",$t0); ?>
+        ( optionnel : plan√®te
+        <?php select_planete2("v3"); ?>
+        ) au syst√®me
+        <?php select1("v4",$t0); ?>
+         ( optionnel : plan√®te <?php select_planete2("v5"); ?> )
 
+
+<!--        //(-->
+<!--        //    SYSTEME      varchar(20)  null,-->
+<!--        //    CONSTRUCTION varchar(100) null,-->
+<!--        //    NOMBRE       int          null,-->
+<!--        //    PLANETE      int          null,-->
+<!--        //    SYSTEME2     varchar(20)  null,-->
+<!--        //    PLANETE2     int          null-->
+<!--        //)-->
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

@@ -1,10 +1,10 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez signer un pacte de non-agression avec un autre commandant.<BR>
 <BR>
-Pour que cet ordre soit validé, il faudra que le commandant en question ait également
- passé l'ordre de signer un pacte avec vous.
+Pour que cet ordre soit validÃ©, il faudra que le commandant en question ait Ã©galement
+ passÃ© l'ordre de signer un pacte avec vous.
 <br><br>
-Tout pacte signé est effectif immédiatement et empêche tout combat entre les deux commandants signataires.
+Tout pacte signÃ© est effectif immÃ©diatement et empÃ´che tout combat entre les deux commandants signataires.

@@ -1,4 +1,4 @@
 <?php
   $inter1=$rf[1];
-  echo("Terraformer toutes les planËtes de mon systËme  <SPAN id=\"r\">$t0[$inter1] </SPAN>.");
+  echo("Terraformer toutes les plan√®tes de mon syst√®me  <SPAN class=\"item\">$t0[$inter1] </SPAN>.");
 ?>

@@ -1,8 +1,8 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique quand vous
-voulez ajouter des vaisseaux dans la nouvelle flotte créée lors d'une division de flotte.<BR>
-<BR>Evidemment les vaisseaux mentionnés seront soustraits à la flotte originelle.
+<P><FONT ><STRONG>Utilisez cette rubrique quand vous
+voulez ajouter des vaisseaux dans la nouvelle flotte crÃ©Ã©e lors d'une division de flotte.<BR>
+<BR>Evidemment les vaisseaux mentionnÃ©s seront soustraits Ã  la flotte originelle.
 
 

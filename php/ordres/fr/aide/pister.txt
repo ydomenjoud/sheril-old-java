@@ -1,12 +1,12 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous souhaitez pister une des flottes que vous avez détecté au dernier tour.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez pister une des flottes que vous avez dÃ©tectÃ© au dernier tour.
 <BR><BR>
-Pour que l'ordre soit pris en compte, il faut que votre flotte n'ait pas bougé précédemment.
+Pour que l'ordre soit pris en compte, il faut que votre flotte n'ait pas bougÃ© prÃ©cÃ¨demment.
 <BR><BR>
-Après que votre cible ait bougé, votre flotte se dirigera vers elle de toute sa vitesse en directive &quot; Attaque de toute flotte du commandant possesseur de la flotte visée&quot;.
-<br>Si votre flotte rejoint sa cible, un combat aura donc lieu à moins bien sûr que vous ayez un pacte ou un alliance avec le commandant visé.
+aprÃ¨s que votre cible ait bougÃ©, votre flotte se dirigera vers elle de toute sa vitesse en directive &quot; Attaque de toute flotte du commandant possesseur de la flotte visÃ©e&quot;.
+<br>Si votre flotte rejoint sa cible, un combat aura donc lieu Ã  moins bien sÃ»r que vous ayez un pacte ou un alliance avec le commandant visÃ©.
 
 
 

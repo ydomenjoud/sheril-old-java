@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Renommer un gouverneur </FONT>
+<P><h1>Renommer un gouverneur </h1>
 <BR>
-Je désire renommer mon lieutenant 
+Je dÃ©sire renommer mon lieutenant
 <?php select3("v0",$t0); ?>
 . Son nouveau nom : 
 <INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80> 

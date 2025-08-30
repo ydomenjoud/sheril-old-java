@@ -1,5 +1,5 @@
 <?php
   $inter1=$rf[1];
   $inter2=$rf[2]+1;
-  echo("Votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN> va tenter de coloniser la planète numéro <SPAN id=\"r\">$inter2</SPAN> du système qu'elle survole.");
+  echo("Votre flotte <SPAN class=\"item\">$t0[$inter1]</SPAN> va tenter de coloniser la planÃ¨te numÃ©ro <SPAN class=\"item\">$inter2</SPAN> du systÃ¨me qu'elle survole.");
 ?>

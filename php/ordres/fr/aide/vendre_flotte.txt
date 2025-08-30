@@ -1,14 +1,14 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez vendre les vaisseaux d'une de vos flottes.<BR>
 <BR>
- Le commandant acheteur vous payera automatiquement la moitié de la valeur de la flotte(c'est à dire la somme des valeurs des vaisseaux de la flotte).<BR><BR>
- S'il ne peut pas payer, la transaction sera annulée.
-<BR><BR> Les équipages des vaisseaux de la flotte en question seront remplacés par des équipages <i>de même race</i>, mais sans expérience
- et avec un moral &quot;moyen&quot;. En effet les équipages de vos flottes vous sont dévoués et ne veulent en aucun cas passer définitivement sous
- commandant étranger.
+ Le commandant acheteur vous payera automatiquement la moitiï¿½ de la valeur de la flotte(c'est Ã  dire la somme des valeurs des vaisseaux de la flotte).<BR><BR>
+ S'il ne peut pas payer, la transaction sera annulÃ©e.
+<BR><BR> Les Ã©quiipages des vaisseaux de la flotte en question seront remplacÃ©s par des Ã©quiipages <i>de mÃªme race</i>, mais sans expÃ©rience
+ et avec un moral &quot;moyen&quot;. En effet les Ã©quiipages de vos flottes vous sont dÃ©vouÃ©s et ne veulent en aucun cas passer dÃ©finitivement sous
+ commandant Ã©tranger.
 <BR><BR>
  Toute vente de flotte est automatiquement rendu publique, ainsi tous les commandants en auront connaissance.
 

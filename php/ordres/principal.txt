@@ -1,19 +1,35 @@
 <?php
-$nom_page="index.php3";
+$nom_page = "index.php3";
 
-if($table!=""){
- include "../secure/connect.txt";
- include "body.txt";
- include "../script/fonctions.txt";
- include "./data/$table.txt";
- include "insert.txt";
- include "elimine.txt";
- include "affiche.txt";
- include "./$langue/choix/$table.txt";
- include "./$langue/aide/$table.txt";
- }
- else{include "./$langue/depart.htm";}
- mysql_close();
+$table = array_key_exists('table', $_GET) ? $_GET['table'] : null;
+$nb_div = array_key_exists('nb_div', $_GET) ? $_GET['nb_div'] : null;
+
+if ($table === "list_ordres") {
+    include "./list_ordres.php";
+} else if ($table != "") {
+    include "../secure/connect.txt";
+    include "body.txt";
+    include "../script/fonctions.txt";
+    include "./data/$table.txt";
+    include "insert.txt";
+    include "./$langue/choix/$table.txt";
+
+    include "elimine.txt";
+
+    ob_start();
+    include "affiche.txt";
+    $content = ob_get_clean();
+    if (strpos($content, "TABLE") !== false) {
+        echo "<h1>Ordres déjà passé</h1>";
+        echo $content;
+    }
+
+    include "./$langue/aide/$table.txt";
+} else {
+    include "body.txt";
+    include "./$langue/depart.htm";
+}
+mysql_close($DB_RES);
 ?>
 
 </BODY>

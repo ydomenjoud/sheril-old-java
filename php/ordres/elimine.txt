@@ -1,21 +1,24 @@
-<?php 
- if($elimine!=""){
-  $result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
-  for($i=0;$i<$elimine;$i++) mysql_fetch_row($result);
-  $rf=mysql_fetch_row($result);
-  $num_field=mysql_num_fields($result);
-  $var_table=mysql_field_name($result,0);
-  $var_champ="'$commandant'";  
-  $var_result="$var_table=$var_champ";
-  for($i=1;$i<$num_field;$i++){
-   $var_table=mysql_field_name($result,$i);
-   $inter=addslashes($rf[$i]);
-   $var_champ="'$inter'";
-   $var_result="$var_result AND $var_table=$var_champ";
-   }
-  mysql_query("DELETE FROM $table WHERE $var_result")
-   or die("zIgzAg need HELP! Erreur suppression<BR>");
-  if($nb_div!="") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE COMMANDANT='$commandant' AND NB_DIVISION='nb_div'")
-   or die("zIgzAg need HELP! Erreur suppression<BR>");
-  }
+<?php
+
+$elimine = array_key_exists('elimine', $_GET) ? $_GET['elimine'] : null;
+
+if ($elimine != "") {
+    $result = mysql($base, "SELECT * FROM $table WHERE NUMERO='$commandant'");
+    for ($i = 0; $i < $elimine; $i++) mysql_fetch_row($result);
+    $rf = mysql_fetch_row($result);
+    $num_field = mysql_num_fields($result);
+    $var_table = mysql_field_name($result, 0);
+    $var_champ = "'$commandant'";
+    $var_result = "$var_table=$var_champ";
+    for ($i = 1; $i < $num_field; $i++) {
+        $var_table = mysql_field_name($result, $i);
+        $inter = addslashes($rf[$i]);
+        $var_champ = "'$inter'";
+        $var_result = "$var_result AND $var_table=$var_champ";
+    }
+    mysql_query("DELETE FROM $table WHERE $var_result")
+    or die("zIgzAg need HELP! Erreur suppression<BR>");
+    if ($nb_div != "") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE COMMANDANT='$commandant' AND NB_DIVISION='nb_div'")
+    or die("zIgzAg need HELP! Erreur suppression<BR>");
+}
 ?>

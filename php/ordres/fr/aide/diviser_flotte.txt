@@ -1,18 +1,18 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez diviser une flotte.<BR>
-La procédure à suivre est la suivante : <BR>
+La procÃ©dure Ã  suivre est la suivante : <BR>
 <ul>
-<li> Choisissez votre flotte et écrivez le nom de la nouvelle flotte, 
+<li> Choisissez votre flotte et Ã©crivez le nom de la nouvelle flotte,
  puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
 </li>
-<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les 
-vaisseaux qui composeront cette nouvelle flotte. 
+<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez dÃ©terminer les
+vaisseaux qui composeront cette nouvelle flotte.
 </li>
 </ul>
-<br> La nouvelle flotte aura le numéro le moins élevé disponible et héritera de la directive de la flotte de départ.
+<br> La nouvelle flotte aura le numÃ©ro le moins Ã©levÃ© disponible et hÃ©ritera de la directive de la flotte de dÃ©part.
 
 
 

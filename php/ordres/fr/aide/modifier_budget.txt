@@ -1,7 +1,7 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez modifier les budgets de vos systèmes.<BR><BR>
-Pour chaque système, le total des budgets ne doit pas dépasser 100%.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez modifier les budgets de vos systÃ¨mes.<BR><BR>
+Pour chaque systÃ¨me, le total des budgets ne doit pas dÃ©passer 100%.
 

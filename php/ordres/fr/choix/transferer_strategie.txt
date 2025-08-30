@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Transmettre une stratégie de combat</FONT>
+<P><h1>Transmettre une stratÃ©gie de combat</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
-Je c&egrave;de ma stratégie 
+Je c&egrave;de ma stratÃ©gie
 <?php select3("v1",$t1); ?>
  au commandant  
 <?php select1("v0",$t0); ?>

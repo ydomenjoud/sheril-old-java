@@ -1,7 +1,7 @@
 # phpMyAdmin MySQL-Dump
 # http://phpwizard.net/phpMyAdmin/
 #
-# Serveur: localhost Base de données: base_oceane
+# Serveur: localhost Base de donnÃ©es: base_oceane
 
 # --------------------------------------------------------
 #

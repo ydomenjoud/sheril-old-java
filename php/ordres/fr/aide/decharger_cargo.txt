@@ -1,23 +1,23 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous souhaitez décharger des marchandises, de la population, 
-ou des bâtiments à partir d'une de vos flotte dans le système qu'elle survole.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez dÃ©charger des marchandises, de la population,
+ou des bÃ¢timents Ã  partir d'une de vos flotte dans le systÃ¨me qu'elle survole.
 <BR><BR>
 <ul><li>
-    <p><b> Si vous ne précisez pas le numéro du transporteur, les marchandises seront prélevées à partir des différents transporteurs de votre flotte automatiquement.
-     Il peut être utile de préciser le numéro du transporteur si vous souhaitez diviser votre flotte dans le même tour, car vous saurez alors dans quels cargos précisément se trouvent les différentes cargaisons.
+    <p><b> Si vous ne prÃ©cisez pas le numÃ©ro du transporteur, les marchandises seront prÃ©levÃ©es Ã  partir des diffÃ©rents transporteurs de votre flotte automatiquement.
+     Il peut Ãªtre utile de prÃ©ciser le numÃ©ro du transporteur si vous souhaitez diviser votre flotte dans le mÃªme tour, car vous saurez alors dans quels cargos prÃ©cisÃ©ment se trouvent les diffÃ©rentes cargaisons.
     </p></b></li>
-    <li><p><b>En ce qui concerne l'option de préciser un numéro de commandant, il est inutile de préciser le commandant du poste ou du système dans lequel vous voulez décharger votre cargaison dans deux cas.
-       <ol><li> Le système que vous survolez a un seul propriétaire: il n'y a donc pas ce choix possible.
-           </li><li> Vous survolez un système où vous posséder au moins une planète et vous souhaitez vendre dans votre poste ou décharger dans les planètes de votre système : c'est la configuration par défaut.
+    <li><p><b>En ce qui concerne l'option de prÃ©ciser un numÃ©ro de commandant, il est inutile de prÃ©ciser le commandant du poste ou du systÃ¨me dans lequel vous voulez dÃ©charger votre cargaison dans deux cas.
+       <ol><li> Le systÃ¨me que vous survolez a un seul propriÃ©taire: il n'y a donc pas ce choix possible.
+           </li><li> Vous survolez un systÃ¨me  oÃ» vous possÃ©der au moins une planÃ¨te et vous souhaitez vendre dans votre poste ou dÃ©charger dans les planÃ¨tes de votre systÃ¨me : c'est la configuration par dÃ©faut.
            </li>
        </ol>
-       Dans tous les autres cas, il est nécessaire de préciser le commandant chez qui vous souhaitez décharger votre cargaison.
+       Dans tous les autres cas, il est nÃ©cessaire de prÃ©ciser le commandant chez qui vous souhaitez dÃ©charger votre cargaison.
     </b></p></li>
-    <li><p><b> Si vous voulez décharger des bâtiments ou de la population dans une de vos planètes en particulier, vous devez préciser le numéro de la planète. Vous pouvez décharger 
-      des bâtiments ou de la population dans des planètes ne vous appartenant pas, mais il est nécessaire alors d'en préciser le numéro. Si vous ne précisez pas le numéro de planète, les bâtiments ou la population seront 
-        répartis au mieux dans vos différentes planètes par le programme. 
+    <li><p><b> Si vous voulez dÃ©charger des bÃ¢timents ou de la population dans une de vos planÃ¨tes en particulier, vous devez prÃ©ciser le numÃ©ro de la planÃ¨te. Vous pouvez dÃ©charger
+      des bÃ¢timents ou de la population dans des planÃ¨tes ne vous appartenant pas, mais il est nÃ©cessaire alors d'en prÃ©ciser le numÃ©ro. Si vous ne prÃ©cisez pas le numÃ©ro de planÃ¨te, les bÃ¢timents ou la population seront
+        rÃ©partis au mieux dans vos diffÃ©rentes planÃ¨tes par le programme.
      </b></p></li>
 </ul>
 

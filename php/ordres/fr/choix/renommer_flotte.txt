@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Renommer une flotte </FONT>
+<P><h1>Renommer une flotte </h1>
 <BR>
-Je désire renommer ma flotte
+Je dÃ©sire renommer ma flotte
 <?php select1("v0",$t0); ?>
 . Son nouveau nom : 
 <INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80> 

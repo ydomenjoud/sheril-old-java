@@ -1,14 +1,14 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Créer une stratégie de combat</FONT>
+<P><h1>crÃ©er une stratÃ©gie de combat</h1>
 <BR>
-<NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activé dans votre navigateur</FONT></H1></NOSCRIPT>
-Je crée une stratégie de nom
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=80>   
- dont je sélectionne la cible prioritaire :
+<NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activÃ© dans votre navigateur</FONT></H1></NOSCRIPT>
+Je crÃ©e une stratÃ©gie de nom
+<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=80>
+ dont je sÃ©lectionne la cible prioritaire :
 <?php select1("v2",$t0); ?>
- et le paramètre d'agressivité : 
+ et le paramÃªtre d'agressivitÃ© :
 <?php select1("v1",$t1); ?>
- 
+
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

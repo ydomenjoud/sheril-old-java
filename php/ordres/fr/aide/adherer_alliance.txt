@@ -1,10 +1,10 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez adhérer à une alliance.<BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez adhÃ©rer Ã  une alliance.<BR>
 <BR>
-Pour que cet ordre soit validé, il faut que le dirigeant de l'alliance en question ait
- approuvé votre adhésion dans le même tour, et donc que vous l'ayez contacté.
+Pour que cet ordre soit validÃ©, il faut que le dirigeant de l'alliance en question ait
+ approuvÃ© votre adhÃ©sion dans le mÃªme tour, et donc que vous l'ayez contactÃ©.
 <BR><BR>
-Notez bien que l'envoi de cet ordre implique que vous êtes prêt à payer la taxe d'entrée dans l'alliance. 
+Notez bien que l'envoi de cet ordre implique que vous Ãªtes prÃªt Ã  payer la taxe d'entrÃ©e dans l'alliance.

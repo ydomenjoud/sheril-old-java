@@ -1,0 +1,24 @@
+# Configuration du jeu
+
+# PATH
+PATH_DATA = ./data/
+PATH_EXPORT_ZIPPED_RAPPORT = ./rapports/
+PATH_TOUR = ./data/commun/tour.txt
+PATH_STATS = ./data/stats/
+
+#IRC
+IRC_MAIN_CHANNEL = #sheril
+
+# SSH
+SSH_PORT = 22
+SSH_BASE_PATH = user@host:/vhosts/
+
+# DATABASE
+DATABASE_HOST = localhost:3311
+DATABASE_LOGIN = user
+DATABASE_PASSWORD = password
+DATABASE_NAME = sheril
+
+# URL
+NOTIFY_BOT = false
+FAKE_TURN = true

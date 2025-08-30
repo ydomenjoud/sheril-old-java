@@ -1,13 +1,13 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique pour coloniser une de vos planètes.
+<P><FONT ><STRONG>Utilisez cette rubrique pour coloniser une de vos planÃ¨tes.
 <BR><BR>
-Cela vous permet de rendre habitable la planète visée pour la race de l'équipage du colonisateur, 
-si bien sûr cette race peut supporter les conditions de radiation, de température et de gravité de la planète en question.
-(cf. règles complètes).
+Cela vous permet de rendre habitable la planÃ¨te visÃ©e pour la race de l'Ã©quiipage du colonisateur,
+si bien sÃ»r cette race peut supporter les conditions de radiation, de tempÃ©rature et de gravitÃ© de la planÃ¨te en question.
+(cf. rÃ¨gles complÃªtes).
 <br><br>
-En cas de présence de plusieurs colonisateurs dans une même flotte, le colonisateur est choisi au hasard.
+En cas de prÃ©sence de plusieurs colonisateurs dans une mÃªme flotte, le colonisateur est choisi au hasard.
 
 
 

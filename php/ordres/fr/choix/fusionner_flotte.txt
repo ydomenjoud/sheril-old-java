@@ -1,5 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Fusionner deux flottes</FONT>
+<P><h1>Fusionner deux flottes</h1>
 <BR>
 Ma flotte
 <?php select1("v0",$t0); ?>

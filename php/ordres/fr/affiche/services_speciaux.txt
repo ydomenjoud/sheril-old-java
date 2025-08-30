@@ -4,7 +4,7 @@
   $inter3=$rf[3];
   if($inter3!=100){
    $inter3++;
-   $inter3=", plus précisément sur la planète numéro <SPAN id=\"r\">$inter3</SPAN>";
+   $inter3=", plus prÃ©cisÃ©ment sur la planÃ¨te numÃ©ro <SPAN class=\"item\">$inter3</SPAN>";
    } else {$inter3="";}
-  echo("Vos services spéciaux vont tenter d'effectuer une mission <SPAN id=\"r\">$t1[$inter2]</SPAN> sur le système <SPAN id=\"r\">$t0[$inter1]</SPAN>$inter3.");
+  echo("Vos services spÃ©ciaux vont tenter d'effectuer une mission <SPAN class=\"item\">$t1[$inter2]</SPAN> sur le systÃ¨me <SPAN class=\"item\">$t0[$inter1]</SPAN>$inter3.");
 ?>

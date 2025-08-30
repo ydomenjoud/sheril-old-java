@@ -7,7 +7,7 @@ if(isset($nom_cookie)){
 <head>
 <script language="Javascript"><!--
 function d(){
- location.href='http://jeu.oceane.free.fr/principal.htm';
+ location.href='https://sheril.pbem-france.net';
 location.reload();
 } -->
 </script>
@@ -17,8 +17,8 @@ location.reload();
 
 
 <DIV align="center">
-<b>Vous êtes sortis correctement du module des ordres!<BR><BR>
-<A href="../principal.htm">Retour au menu principal</A>
+<b>Vous Ãªtes sortis correctement du module des ordres!<BR><BR>
+<A href="/">Retour au menu principal</A>
 
 
 

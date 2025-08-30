@@ -3,5 +3,5 @@
   $inter2=$rf[2];
   $inter3=$rf[3];
   $inter4=$rf[4];
-  echo("Vous souhaitez créer une alliance <SPAN id=\"r\">$t0[$inter2]</SPAN> de nom <SPAN id=\"r\">$inter1</SPAN> et de type <SPAN id=\"r\">$t1[$inter3]</SPAN> avec pour droits d'entrée <SPAN id=\"r\">$inter4</SPAN> centaures.");
+  echo("Vous souhaitez crÃ©er une alliance <SPAN class=\"item\">$t0[$inter2]</SPAN> de nom <SPAN class=\"item\">$inter1</SPAN> et de type <SPAN class=\"item\">$t1[$inter3]</SPAN> avec pour droits d'entrÃ©e <SPAN class=\"item\">$inter4</SPAN> centaures.");
 ?>

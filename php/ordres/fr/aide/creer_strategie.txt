@@ -1,16 +1,16 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez créer une stratégie de combat.<BR>
-La procédure à suivre est la suivante : <BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez crÃ©er une stratÃ©gie de combat.<BR>
+La procÃ©dure Ã  suivre est la suivante : <BR>
 <ul>
-<li> Choisissez votre stratégie 
+<li> Choisissez votre stratÃ©gie
  puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
 </li>
-<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les 
-les différentes cibles et le positionnement suivant le type de vaisseau. 
+<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez dÃ©terminer les
+les diffÃ©rentes cibles et le positionnement suivant le type de vaisseau.
 </li>
 </ul>
-Attention, ne créez pas plus d'une stratégie de combat par tour, cela génèrerait des erreurs.
+Attention, ne crÃ©ez pas plus d'une stratÃ©gie de combat par tour, cela gÃ©nÃ¨rerait des erreurs.
 

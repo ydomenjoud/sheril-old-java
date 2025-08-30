@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Elire un dirigeant</FONT>
+<P><h1>Elire un dirigeant</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
-Je désire voter pour élire comme dirigeant de l'alliance 
+Je dÃ©sire voter pour Ã©lire comme dirigeant de l'alliance
 <?php select1("v0",$t0); ?> , 
 <?php select1("v1",$t1); ?>
 

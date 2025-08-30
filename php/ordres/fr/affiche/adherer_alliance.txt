@@ -1,4 +1,4 @@
 <?php
 $inter=$rf[1];
-echo("Vous souhaitez adhérer à l'alliance <SPAN id=\"r\">$t0[$inter]</SPAN>.");
+echo("Vous souhaitez adhÃ©rer Ã  l'alliance <SPAN class=\"item\">$t0[$inter]</SPAN>.");
 ?>

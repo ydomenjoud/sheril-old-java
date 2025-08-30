@@ -2,5 +2,5 @@
   $inter1=$rf[1];
   $inter2=$rf[2];
   $inter3=$rf[3];
-  echo("Votre système <SPAN id=\"r\">$t0[$inter1] </SPAN> va désormais consacrer <SPAN id=\"r\">$inter3 %</SPAN> de ses ressources à son budget <SPAN id=\"r\">$t1[$inter2]</SPAN>.");
+  echo("Votre systÃ¨me <SPAN class=\"item\">$t0[$inter1] </SPAN> va dÃ©sormais consacrer <SPAN class=\"item\">$inter3 %</SPAN> de ses ressources Ã  son budget <SPAN class=\"item\">$t1[$inter2]</SPAN>.");
 ?>

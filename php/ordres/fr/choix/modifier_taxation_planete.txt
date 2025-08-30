@@ -1,11 +1,11 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Modifier le niveau de taxation d'un système</FONT>
+<P><h1>Modifier le niveau de taxation d'un systÃ¨me</h1>
 <BR>
- Dans mon syst&egrave;me 
+ Dans mon syst&egrave;me
 <?php select1("v0",$t0); ?>
- faire passer ma planète numéro
+ faire passer ma planÃ¨te numÃ©ro
 <?php select_planete("v2"); ?>
- au niveau de taxation  
+ au niveau de taxation
 <?php select3("v1",$t1); ?>
 
 </B></P>

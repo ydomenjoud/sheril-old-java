@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Terminer un programme de construction</FONT>
+<P><h1>Terminer un programme de construction</h1>
 <BR>
- Je désire donner l'ordre de terminer le programme de construction sur mon système
+ Je dÃ©sire donner l'ordre de terminer le programme de construction sur mon systÃ¨me
 <?php select1("v0",$t0); ?>
 
 </B></P>

@@ -3,5 +3,5 @@
   $inter2=$rf[2];
   $inter3=$rf[3];
   $inter4=$rf[4];
-  echo("Vous souhaitez préter votre flotte <SPAN id=\"r\">$t1[$inter2]</SPAN> au commandant <SPAN id=\"r\">$t0[$inter1]</SPAN> pour <SPAN id=\"r\">$inter3</SPAN> tours en mode <SPAN id=\"r\">$t2[$inter4]</SPAN>.");
+  echo("Vous souhaitez prÃªter votre flotte <SPAN class=\"item\">$t1[$inter2]</SPAN> au commandant <SPAN class=\"item\">$t0[$inter1]</SPAN> pour <SPAN class=\"item\">$inter3</SPAN> tours en mode <SPAN class=\"item\">$t2[$inter4]</SPAN>.");
 ?>

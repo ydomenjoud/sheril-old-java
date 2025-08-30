@@ -1,11 +1,15 @@
 <?php
+
+ // calcul de la somme actuelle
+//var_dump($t0);
+$result = mysql($base, "SELECT SUM(AFFECTATION) as total FROM affecter_recherche WHERE NUMERO=1");
+$row = mysql_fetch_row($result);
  echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
- echo("<P><B><FONT SIZE=\"4\" COLOR=\"#C0C0C0\">Affecter des crÈdits pour la recherche</FONT><BR>");
- echo("DÈpenser ");
+ echo("<h1>Affecter des cr√©dits pour la recherche (" .  $row[0] . "%)</h1>");
+ echo("d√©penser ");
  select_pour_cent("v1");
- echo("% de crÈdits de recherche pour chercher la technologie ");
- select1("v0",$t0); 
- echo("</B></P>");
+ echo("% de cr√©dits de recherche pour chercher la technologie ");
+ select1("v0",$t0);
  echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
  echo("</FORM>");
 ?>

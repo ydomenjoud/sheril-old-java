@@ -1,10 +1,10 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez construire à partir de vos flottes, grâce aux vaisseaux ayant des modules de construction.<BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez construire Ã  partir de vos flottes, grÃ¢ce aux vaisseaux ayant des modules de construction.<BR>
 <BR>
-Les vaisseaux demandés seront construits automatiquement en tenant compte de la capacité de construction de la flotte.
- Un seul type de vaisseau peut être construit par flotte.
+Les vaisseaux demandÃ©s seront construits automatiquement en tenant compte de la capacitÃ© de construction de la flotte.
+ Un seul type de vaisseau peut Ãªtre construit par flotte.
 <br><br>
-Les vaisseaux construits coûtent des centaures comme lors d'une construction normale, mais le minerai nécessaire est lui récupéré à partir des nombreux débris spatiaux qui parsèment l'univers.
+Les vaisseaux construits coÃ»tent des centaures comme lors d'une construction normale, mais le minerai nÃ©cessaire est lui rÃ©cupÃ©rÃ© Ã  partir des nombreux dÃ©bris spatiaux qui parsÃ¨ment l'univers.

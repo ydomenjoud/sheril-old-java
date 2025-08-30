@@ -1,5 +1,5 @@
 <?php
   $inter1=$rf[1];
   $inter2=$rf[2];
-  echo("Votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN> tentera de pister la flotte <SPAN id=\"r\">$t1[$inter2]</SPAN>.");
+  echo("Votre flotte <SPAN class=\"item\">$t0[$inter1]</SPAN> tentera de pister la flotte <SPAN class=\"item\">$t1[$inter2]</SPAN>.");
 ?>

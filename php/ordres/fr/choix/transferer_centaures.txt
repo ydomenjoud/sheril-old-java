@@ -1,5 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Transferts de Centaures</FONT>
+<P><h1>Transferts de Centaures</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
  Effectuer un virement de
 <INPUT TYPE="text" NAME="v1" VALUE="" SIZE=8 MAXLENGTH=8>

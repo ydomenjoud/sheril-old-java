@@ -1,5 +1,5 @@
 <?php
   $inter1=$rf[1];
   $inter2=$rf[2];
-  echo("Vous souhaitez valider l'adhésion à l'alliance <SPAN id=\"r\">$t1[$inter2]</SPAN> du commandant <SPAN id=\"r\">$t0[$inter1]</SPAN>.");
+  echo("Vous souhaitez valider l'adhÃ©sion Ã  l'alliance <SPAN class=\"item\">$t1[$inter2]</SPAN> du commandant <SPAN class=\"item\">$t0[$inter1]</SPAN>.");
 ?>

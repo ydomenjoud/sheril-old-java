@@ -1,13 +1,188 @@
-<HTML><HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-<META NAME="Author" CONTENT="zIgzAg">
-<STYLE type="text/css">
-#r {color:red}
-</STYLE>
-<script Language="JavaScript"><!--
-function a(fe){
- po=open(fe,"a","innerHeight=400,innerWidth=800,screenX=1,scrollbars,resizable");
- }
-//--></script>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <META NAME="Author" CONTENT="zIgzAg">
+<!--    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>-->
+<!--    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>-->
+
+    <STYLE type="text/css">
+        @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+        /*@import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");*/
+
+        /**
+        Cyan / turquoise lumineux (#00e6e6 ou #1de9b6) → cohérent avec les tons spatiaux, futuristes.
+        Violet électrique (#9c27b0 ou #b388ff) → garde l’impact visuel sans rappeler “danger”.
+        Orange doux (#ff9800 ou #ffa726) → attire l’œil, mais plus chaleureux que le rouge.
+        Vert néon (#4caf50 ou #69f0ae) → bonne lisibilité sur fond sombre, mais attention à ne pas le confondre avec une validation.
+         */
+        :root {
+            --header: #9c27b0;
+            --help: #00e6e6;
+            --important: #1de9b6;
+        }
+
+
+        .important {
+            color: #1de9b6;
+        }
+        .item {
+            color: #1de9b6;
+            font-style: italic;
+            text-shadow: #000 1px 1px 1px;
+            text-decoration-style: wavy
+        }
+        * {
+            box-sizing: border-box;
+            font-size: inherit;
+        }
+
+        h1 {
+            font-size: 2em;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 1.7em;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+        }
+        h3 {
+            font-size: 1.4em;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--header);
+            margin-bottom: 10px;
+        }
+        h3.help {
+            margin-top: 30px;
+            color: var(--header);
+            text-transform: uppercase;
+        }
+        h3.help + * {
+            color: var(--help);
+        }
+
+        .delete {
+            margin-right: 10px;
+            color: #c54646;
+        }
+
+        .race0 {
+            color: #CC00FF;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race1 {
+            color: #0066CC;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race2 {
+            color: #FFCC00;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race3 {
+            color: #CC0033;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race4 {
+            color: #009933;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race5 {
+            color: #777777;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .race6 {
+            color: #CC6600;
+            font-weight: bold;
+        }
+
+        a {
+            color: #8BC7FF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            text-decoration-style: revert;
+            color: #a7d0f6;
+        }
+
+        form:has(input[type=button]) {
+            display: inline-block;
+        }
+
+        html,body {
+            font-size: 14px;
+        }
+        body {
+            color: #dedede;
+            font-weight: normal;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to top right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%) fixed;
+        }
+        body.index {
+            background: linear-gradient(to top right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%) fixed,
+            #0a0a0a url("/assets/img/background2-min.png") no-repeat fixed center / cover;
+        }
+        body.popup {
+            background: linear-gradient(to top right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0.8) 100%) fixed;
+            /*background: linear-gradient(to top right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%) fixed;*/
+        }
+
+        button, select, input:not([type="checkbox"]), textarea {
+            background: #001021;
+            color: #dedede;
+            border: 1px solid #a7d0f6;
+            box-shadow: 0px 1px 4px #003963;
+            cursor: pointer;
+            border-radius: 1px;
+            padding: 2px 5px;
+        }
+        input[type=submit] {
+            background: #dedede;
+            color: black;
+            border: 1px solid #999;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        input[type=submit]:hover {
+            filter: brightness(150%);
+        }
+
+        h1+*:not(h1) {
+            padding-left: 20px;
+        }
+        h1+h2 {
+            padding-left: 0;
+            margin-bottom: 10px;
+        }
+
+
+    </STYLE>
+    <script Language="JavaScript"><!--
+        function a(fe) {
+            po = open(fe, "a", "innerHeight=400,innerWidth=800,screenX=1,scrollbars,resizable");
+        }
+
+        //--></script>
 </HEAD>
-<BODY TEXT="#FFFF00" BGCOLOR="#000000" LINK="#008080" ALINK="#008080" VLINK="#008080" BACKGROUND="../images/fond.jpg">
+<BODY class="<?= substr($nom_page, 0, -5) ?> <?=(strpos($table, 'ajouter') ? 'popup': '')?>">

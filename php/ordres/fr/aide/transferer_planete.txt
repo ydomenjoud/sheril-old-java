@@ -1,13 +1,13 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez transférer une planète.<BR><BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez transferer une planÃ¨te.<BR><BR>
 <ul><li>
- En mode normal, tout don de planète a 10% de chance d'être rendu public.
+ En mode normal, tout don de planÃ¨te a 10% de chance d'Ãªtre rendu public.
 </li><li>
- En mode discret, vous êtes assuré que votre don restera secret, mais il vous en coûtera un supplément de 50 centaures.
+ En mode discret, vous Ãªtes assurÃ© que votre don restera secret, mais il vous en coÃ»tera un supplÃ©ment de 50 centaures.
 </li><li>
- En mode anonyme, non seulement votre don reste secret mais même celui qui recoit votre don ne saura pas qui vous êtes. Cela vous coûtera 80 centaures.
+ En mode anonyme, non seulement votre don reste secret mais mÃªme celui qui recoit votre don ne saura pas qui vous Ãªtes. Cela vous coÃ»tera 80 centaures.
 </li></ul>
 

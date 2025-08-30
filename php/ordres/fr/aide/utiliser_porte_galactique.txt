@@ -1,12 +1,12 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous souhaitez utiliser une porte galactique avec une de vos flottes.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez utiliser une porte galactique avec une de vos flottes.
 <BR><br>
-Votre flotte doit se trouver au moment de l'exécution de cet ordre sur la même case qu'une porte galactique ou posséder la trés rare propriété
- &quot;Déplacement intergalactique&quot;.
+Votre flotte doit se trouver au moment de l'exÃ©cution de cet ordre sur la mÃªme case qu'une porte galactique ou possÃ©der la trÃ¨s rare propriÃ©tÃ©
+ &quot;DÃ©placement intergalactique&quot;.
 <br><br>
-Votre flotte peut se déplacer ensuite dans le même tour, cela n'est génant en rien.
+Votre flotte peut se dÃ©placer ensuite dans le mÃªme tour, cela n'est g"nant en rien.
 
 
 

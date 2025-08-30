@@ -2,6 +2,6 @@
   $inter1=$rf[1];
   $inter2=$rf[2];
   $inter3=$rf[3];
-  echo("Vous souhaitez transférer la stratégie <SPAN id=\"r\">$inter2</SPAN> au commandant <SPAN id=\"r\">$t0[$inter1]</SPAN> en mode <SPAN id=\"r\">$t2[$inter3]</SPAN>.");
- 
+  echo("Vous souhaitez transferer la stratÃ©gie <SPAN class=\"item\">$inter2</SPAN> au commandant <SPAN class=\"item\">$t0[$inter1]</SPAN> en mode <SPAN class=\"item\">$t2[$inter3]</SPAN>.");
+
 ?>

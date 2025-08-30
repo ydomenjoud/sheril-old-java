@@ -1,4 +1,4 @@
 <?php
   $inter=$rf[1];
-  echo("Vous demandez à quitter l'alliance <SPAN id=\"r\">$t0[$inter]</SPAN>.");
+  echo("Vous demandez Ã  quitter l'alliance <SPAN class=\"item\">$t0[$inter]</SPAN>.");
 ?>

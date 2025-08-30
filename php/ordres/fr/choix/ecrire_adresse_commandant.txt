@@ -1,8 +1,8 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Envoyer l'adresse internet du site de votre commandant </FONT>
+<P><h1>Envoyer l'adresse internet du site de votre commandant </h1>
 <BR>
-Je viens de créer un site dédié à mon commandant. Son adresse :
-<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=100> 
+Je viens de crÃ©er un site dÃ©diÃ© Ã  mon commandant. Son adresse :
+<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=100>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

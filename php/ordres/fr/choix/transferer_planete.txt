@@ -1,14 +1,14 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Céder une planète</FONT>
+<P><h1>cÃ©der une planÃ¨te</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
-Je c&egrave;de la planète numéro
+Je c&egrave;de la planÃ¨te numÃ©ro
 <?php select_planete("v2"); ?>
- de mon syst&egrave;me 
+ de mon syst&egrave;me
 <?php select1("v1",$t1); ?>
- au commandant  
+ au commandant
 <?php select1("v0",$t0); ?>
  en mode de transfert
-<?php select1("v3",$t2); ?> 
+<?php select1("v3",$t2); ?>
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

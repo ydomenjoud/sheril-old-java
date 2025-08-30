@@ -1,5 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Paramétrer des types de vaisseau</FONT>
+<P><h1>ParamÃªtrer des types de vaisseau</h1>
 <BR>
 Positionner tous les vaisseaux de type 
 <?php select3("v0",$t0); ?>

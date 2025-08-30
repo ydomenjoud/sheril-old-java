@@ -1,13 +1,13 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+<P><FONT ><STRONG>Utilisez cette rubrique si vous dÃ©sirez
 renommer un lieutenant.
 <BR><BR>
 Attention, il n'est possible de renommer son lieutenant qu'une seule fois.
-<BR>Le nouveau nom est définitif.
-<BR><BR>Les lieutenants qui n'ont pas encore été renommés après leur passage dans la cuve de clonage 
-possède une petit (*) après leur nom dans votre rapport.
+<BR>Le nouveau nom est dÃ©finitif.
+<BR><BR>Les lieutenants qui n'ont pas encore Ã©tÃ© renommÃ©s aprÃ¨s leur passage dans la cuve de clonage
+possÃ©de une petit (*) aprÃ¨s leur nom dans votre rapport.
 
 
 

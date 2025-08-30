@@ -1,13 +1,13 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Créer une nouvelle alliance</FONT>
+<P><h1>crÃ©er une nouvelle alliance</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
-Je désire créer une alliance ayant pour nom  
-<input type="text" size="30" maxlength="100" name="v0"> 
+Je dÃ©sire crÃ©er une alliance ayant pour nom
+<input type="text" size="30" maxlength="100" name="v0">
 et qui sera
 <?php select1("v1",$t0); ?>
  et de type
 <?php select1("v2",$t1); ?>
- avec pour taxe d'entrée
+ avec pour taxe d'entrÃ©e
  <input type="text" size="3" maxlength="3" name="v3">
  centaures.
 

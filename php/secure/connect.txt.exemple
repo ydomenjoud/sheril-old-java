@@ -1,0 +1,7 @@
+<?php
+$base = 'sheril';
+$DB_RES = mysql_connect("sheril-db","user","password");
+if(!$DB_RES){
+    echo mysql_error();
+}
+mysql_query( "USE $base");

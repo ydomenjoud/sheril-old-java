@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Terraformer un système</FONT>
+<P><h1>Terraformer un systÃ¨me</h1>
 <BR>
- Terraformer toutes mes planètes de mon syst&egrave;me 
+ Terraformer toutes mes planÃ¨tes de mon syst&egrave;me
 <?php select1("v0",$t0); ?>
 
 </B></P>

@@ -1,11 +1,11 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Modifier le budget d'un syst&egrave;me </FONT>
+<P><h1>Modifier le budget d'un syst&egrave;me </h1>
 <BR>
  Sur mon syst&egrave;me 
 <?php select1("v0",$t0); ?>
  faire passer le budget
 <?php select1("v1",$t1); ?>
- à 
+ Ã 
 <?php select_pour_cent("v2"); ?>
  %
 

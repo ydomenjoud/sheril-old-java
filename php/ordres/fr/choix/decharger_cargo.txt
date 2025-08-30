@@ -1,20 +1,20 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Décharger des cargos</FONT>
+<P><h1>dÃ©charger des cargos</h1>
 <BR>
-Décharger ma flotte 
+dÃ©charger ma flotte
 <?php select1("v0",$t0); ?>
  avec
 <input type="text" size="4" maxlength="4" name="v2">
- unité(s) de type 
+ unitï¿½(s) de type
 <?php select1("v1",$t1); ?>
-<BR> 
-( optionnel : à partir du transporteur numéro
+<BR>
+( optionnel : Ã  partir du transporteur numÃ©ro
 <?php select1("v3",$t2); ?>
 <BR>
   pour le commandant
 <?php select1("v4",$t3); ?>
 <BR>
-  sur la planète numéro
+  sur la planÃ¨te numÃ©ro
 <?php select_planete2("v5"); ?>
  )
 

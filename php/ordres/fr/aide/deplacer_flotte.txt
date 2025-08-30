@@ -1,15 +1,15 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cet ordre quand vous
-voulez déplacer vos flottes.
+<P><FONT ><STRONG>Utilisez cet ordre quand vous
+voulez dÃ©placer vos flottes.
 <br><br>
-Votre flotte se dirigera vers la case mentionnée. Si elle ne peut l'atteindre en un tour, elle conservera son but en mémoire et continuera 
-à bouger aux tours suivants, à moins que vous ne lui demandiez de changer de direction entre temps.<br><br>
-Si vous lui demandez d'aller dans une autre galaxie que dans celle où elle se trouve, elle se dirigera vers la porte galactique la plus proche et s'arrétera là, vous laissant le soin d'utiliser l'ordre
+Votre flotte se dirigera vers la case mentionnÃ©e. Si elle ne peut l'atteindre en un tour, elle conservera son but en mÃ©moire et continuera
+Ã  bouger aux tours suivants, Ã  moins que vous ne lui demandiez de changer de direction entre temps.<br><br>
+Si vous lui demandez d'aller dans une autre galaxie que dans celle  oÃ» elle se trouve, elle se dirigera vers la porte galactique la plus proche et s'arrÃªtera la, vous laissant le soin d'utiliser l'ordre
 &quot; Utiliser une porte galactique&quot; pour changer de galaxie.
 <BR><BR>
-Rappel des différentes directives de rencontres possibles :
+Rappel des diffÃ©rentes directives de rencontres possibles :
 <br><br>
 <div align="center">
 <table BORDER="1" CELLSPACING="0" BGCOLOR="black">
@@ -18,69 +18,69 @@ Rappel des différentes directives de rencontres possibles :
     <td align="center"><font color="#00FFFF"><b><em>Description de la directive</em></b></font></td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Eradication de planète</b></font></td>
+    <td align="center"><font class="important"><b>Eradication de planÃ¨te</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera d'éradiquer une planète du système qu'elle survole, planète dont vous devrez préciser le numéro.<br>
-    Une planète éradiquée voit sa population maximale pour toute les races réduite à 0. L'utilisation d'un colonisateur est nécessaire pour permettre de nouveau à des populations de s'y installer.<br>
-    Une éradication ne rapporte rien. La planète prise devient neutre. Il n'est pas possible de tenter d'éradiquer un système entier en un tour avec la même flotte.
+    flotte tentera d'Ã©radiquer une planÃ¨te du systÃ¨me qu'elle survole, planÃ¨te dont vous devrez prÃ©ciser le numÃ©ro.<br>
+    Une planÃ¨te Ã©radiquÃ©e voit sa population maximale pour toute les races rï¿½duite Ã  0. L'utilisation d'un colonisateur est nÃ©cessaire pour permettre de nouveau Ã  des populations de s'y installer.<br>
+    Une Ã©radication ne rapporte rien. La planÃ¨te prise devient neutre. Il n'est pas possible de tenter d'Ã©radiquer un systÃ¨me entier en un tour avec la mÃªme flotte.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Pillage de planète</b></font></td>
+    <td align="center"><font class="important"><b>Pillage de planÃ¨te</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera de piller une planète du système qu'elle survole, planète dont vous devrez préciser le numéro.
-    En cas de succès, la planète sera totalement dévastée et deviendra neutre.
-    En outre, le pillage rapporte au pilleur l'équivalent en Centaures de la population détruire.
+    flotte tentera de piller une planÃ¨te du systÃ¨me qu'elle survole, planÃ¨te dont vous devrez prÃ©ciser le numÃ©ro.
+    En cas de succÃ¨s, la planÃ¨te sera totalement dÃ©vastÃ©e et deviendra neutre.
+    En outre, le pillage rapporte au pilleur l'Ã©quivalent en Centaures de la population dÃ©truire.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Pillage de système</b></font></td>
+    <td align="center"><font class="important"><b>Pillage de systÃ¨me</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera de piller toutes les planètes du système qu'elle survole. Cela permet de gagner plus de centaures
-    qu'un simple pillage de planète, mais cela peut être aussi plus dangereux...
+    flotte tentera de piller toutes les planÃ¨tes du systÃ¨me qu'elle survole. Cela permet de gagner plus de centaures
+    qu'un simple pillage de planÃ¨te, mais cela peut Ãªtre aussi plus dangereux...
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Attaque de planète</b></font></td>
+    <td align="center"><font class="important"><b>Attaque de planÃ¨te</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera de prendre une planète du système qu'elle survole, planète dont vous devrez préciser le numéro.
-    En cas de succès, cette planète vous appartiendra.
+    flotte tentera de prendre une planÃ¨te du systÃ¨me qu'elle survole, planÃ¨te dont vous devrez prÃ©ciser le numÃ©ro.
+    En cas de succÃ¨s, cette planÃ¨te vous appartiendra.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Attaque de système</b></font></td>
+    <td align="center"><font class="important"><b>Attaque de systÃ¨me</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera de prendre toutes les planètes du système qu'elle survole.
-    C'est plus rapide qu'une simple attaque de planète, mais cela nécessite une certaine puissance de feu pour être efficace.
+    flotte tentera de prendre toutes les planÃ¨tes du systÃ¨me qu'elle survole.
+    C'est plus rapide qu'une simple attaque de planÃ¨te, mais cela nÃ©cessite une certaine puissance de feu pour Ãªtre efficace.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Attaquer toute flotte rencontrée</b></font></td>
+    <td align="center"><font class="important"><b>Attaquer toute flotte rencontrÃ©e</b></font></td>
     <td><dd><font size="2"><b> Votre
-    flotte tentera d'attaquer toute flotte présente sur la même case qu'elle, et uniquement les flottes.
+    flotte tentera d'attaquer toute flotte prÃ©sente sur la mÃªme case qu'elle, et uniquement les flottes.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Attaque préventive</b></font></td>
-    <td><dd><font size="2"><b> Attaque toutes les flottes qui comptent attaquer le système(ou ses planètes) que la flotte survole.
+    <td align="center"><font class="important"><b>Attaque prÃ©ventive</b></font></td>
+    <td><dd><font size="2"><b> Attaque toutes les flottes qui comptent attaquer le systÃ¨me(ou ses planÃ¨tes) que la flotte survole.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"> <font color="#FF0000"> <b>Attaque des flottes appartenant à un joueur donné</b></font></td>
-    <td><dd><font size="2"><b> Attaque toutes les flottes d'un joueur dont vous devrez préciser le numéro, et qui sont présentes sur la même case que votre flotte.
+    <td align="center"> <font class="important"> <b>Attaque des flottes appartenant Ã  un joueur donnÃ©</b></font></td>
+    <td><dd><font size="2"><b> Attaque toutes les flottes d'un joueur dont vous devrez prÃ©ciser le numÃ©ro, et qui sont prÃ©sentes sur la mÃªme case que votre flotte.
     </b></font>
     </td>
   </tr>
 <tr>
-    <td align="center"><font color="#FF0000"><b>Attitude neutre</b></font></td>
-    <td><dd><font size="2"><b> La flotte ne fait rien, mais se défend en cas d'agression.
+    <td align="center"><font class="important"><b>Attitude neutre</b></font></td>
+    <td><dd><font size="2"><b> La flotte ne fait rien, mais se dÃ©fend en cas d'agression.
     </b></font>
     </td>
   </tr>

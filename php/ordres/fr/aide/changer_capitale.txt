@@ -1,9 +1,9 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+<P><FONT ><STRONG>Utilisez cette rubrique si vous dÃ©sirez
 changer la position de votre capitale.<BR><BR>
-Chaque changement de capitale nécessite de dépenser la somme de 100 centaures.
+Chaque changement de capitale nÃ©cessite de dÃ©penser la somme de 100 centaures.
 
 
 

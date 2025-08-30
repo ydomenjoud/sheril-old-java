@@ -1,5 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Modifier la politique d'un syst&egrave;me</FONT>
+<P><h1>Modifier la politique d'un syst&egrave;me</h1>
 <BR>
  Sur mon syst&egrave;me 
 <?php select1("v0",$t0); ?>

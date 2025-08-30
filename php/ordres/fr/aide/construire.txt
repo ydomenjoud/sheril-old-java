@@ -1,14 +1,14 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez mettre quelque chose en construction sur un de vos système.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez mettre quelque chose en construction sur un de vos systÃ¨me.
 <BR><BR>
-Vous pouvez mettre en chantier plusieurs types de construction en même temps sur le même système.
+Vous pouvez mettre en chantier plusieurs types de construction en mÃªme temps sur le mÃªme systÃ¨me.
 <BR><BR>
-Si vous souhaitez construire sur une planète particulière, il faut préciser son numéro.<BR>
-Dans le cas contraire, le programme répartira automatiquement les constructions planétaires 
-sur les différentes planètes du système vous appartenant.
-<BR>Evidemment, il ne sert à rien de préciser le numéro de planète si vous voulez construire des vaisseaux spatiaux.
+Si vous souhaitez construire sur une planÃ¨te particuliÃ¨re, il faut prÃ©ciser son numÃ©ro.<BR>
+Dans le cas contraire, le programme rÃ©partira automatiquement les constructions planÃ©taires
+sur les diffÃ©rentes planÃ¨tes du systÃ¨me vous appartenant.
+<BR>Evidemment, il ne sert Ã  rien de prÃ©ciser le numÃ©ro de planÃ¨te si vous voulez construire des vaisseaux spatiaux.
 
 

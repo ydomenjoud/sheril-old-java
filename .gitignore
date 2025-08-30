@@ -1,1 +1,8 @@
 .idea
+php/secure/connect.txt
+config.properties
+mysql
+data/tour*
+data/carnet.txt
+data/commun/tour.txt
+data/mj

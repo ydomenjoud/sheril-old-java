@@ -1,0 +1,2 @@
+AddType application/x-httpd-php .php3
+DirectoryIndex index.php3 index.php index.html

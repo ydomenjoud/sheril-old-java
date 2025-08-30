@@ -1,11 +1,11 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
-vous séparer d'un lieutenant.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous dÃ©sirez
+vous sÃ©parer d'un lieutenant.
 <BR><BR>
-Sa valeur de base en centaures vous sera alors versée.<BR>
-Le lieutenant sera disponibles aux enchères lors du prochain tour.
+Sa valeur de base en centaures vous sera alors versÃ©e.<BR>
+Le lieutenant sera disponibles aux enchÃ¨res lors du prochain tour.
 
 
 

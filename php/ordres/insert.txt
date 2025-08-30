@@ -1,4 +1,10 @@
-<?php 
+<?php
+
+for ($j = 0; $j < 8; $j++) {
+    $key = 'v'.$j;
+    $$key = array_key_exists($key, $_POST) ? $_POST[$key] : null;
+}
+
 if($v0!=""){
  $result=mysql($base,"SELECT * FROM $table");
  $num_field=mysql_num_fields($result);

@@ -1,0 +1,71 @@
+.neutre { color: #1dddc9;} 
+
+.race0{ color: #CC00FF}
+.race1{ color: #0066CC}
+.race2{ color: #FFCC00}
+.race3{ color: #CC0033}
+.race4{ color: #009933}
+.race5{ color: #777777}
+
+body{
+font-size:10pt;
+Background-attachment:fixed;
+scrollbar-face-color: #000080;
+scrollbar-shadow-color: #000000;
+scrollbar-highlight-color: #15E410;
+scrollbar-3dlight-color: #2E72E2;
+scrollbar-darkshadow-color: #000000;
+scrollbar-track-color: #2E72E2;
+scrollbar-arrow-color: #FFFF0D;
+BACKGROUND: #1A1A1A; 
+MARGIN: 0px 0px 10px; 
+COLOR: #DDDDDD; 
+FONT-FAMILY: verdana, arial, sans-serif;
+background: url(../images/fondb51.gif);
+}
+td,b,i{
+	font-size:10pt;
+	FONT-FAMILY: verdana, arial, sans-serif;}
+	
+table {
+	border: 1px solid #402b03;
+	padding: 2px;
+	}
+td {
+	border: 0px;
+	border-top: 1px solid #555555;
+	border-left: 0px;
+	border-right: 1px solid #DDDDDD;
+	border-bottom: 0px;
+	}
+	
+.titre_section{
+	color: #ffb400;
+	font-size: 14pt;
+	}
+.titre_table{
+ /** #99CC99 **/
+color: #99CC99;
+font-size: 12pt;
+font-weight: bold;
+	}
+.titre_caption{ /* #FBF7AF */
+	color:#967dff;
+	font-style: italic;
+	}
+	}
+A {
+	FONT-SIZE: 10pt; COLOR: #6F578A; FONT-FAMILY: verdana, arial, sans-serif; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #CCCCCC; FONT-SIZE: 10pt; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #CCCCCC; FONT-SIZE: 10pt; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #64D200; FONT-SIZE: 10pt; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #64D200; FONT-SIZE: 10pt; TEXT-DECORATION: none
+}

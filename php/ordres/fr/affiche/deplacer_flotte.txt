@@ -6,7 +6,7 @@
   $inter4=$rf[4];
   $inter5=$rf[5];
   $inter61=$rf[6];
-  if($inter61!="") {$inter6=" avec comme stratégie de combat <SPAN id=\"r\">$inter61 </SPAN>.";}
+  if($inter61!="") {$inter6=" avec comme stratÃ©gie de combat <SPAN class=\"item\">$inter61 </SPAN>.";}
     else {$inter6=".";}
-  echo("Votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN> a ordre de se déplacer vers <SPAN id=\"r\">$inter2-$inter3 [$t1[$inter4]]</SPAN> en directive <SPAN id=\"r\">$t2[$inter5]</SPAN>  $inter6");
+  echo("Votre flotte <SPAN class=\"item\">$t0[$inter1]</SPAN> a ordre de se dÃ©placer vers <SPAN class=\"item\">$inter2-$inter3 [$t1[$inter4]]</SPAN> en directive <SPAN class=\"item\">$t2[$inter5]</SPAN>  $inter6");
 ?>

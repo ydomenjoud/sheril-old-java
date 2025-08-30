@@ -1,7 +1,7 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez préciser votre stratégie de combat pour certains types de vaisseau.<BR><BR>
-Attention, les 10 tailles de cibles doivent êtres représentées dans votre choix, sinon la spécification
- pour le vaisseau choisie sera refusée par le programme.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez prÃ©ciser votre stratÃ©gie de combat pour certains types de vaisseau.<BR><BR>
+Attention, les 10 tailles de cibles doivent Ãªtres reprÃ©sentÃ©es dans votre choix, sinon la spÃ©cification
+ pour le vaisseau choisie sera refusÃ©e par le programme.

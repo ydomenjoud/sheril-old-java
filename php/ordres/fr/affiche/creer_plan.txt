@@ -3,5 +3,5 @@ $inter1=$rf[1];
 $inter2=$rf[2];
 $inter3=$rf[3];
 $inter4=$rf[4];
-echo("Votre nouveau plan aura pour nom <SPAN id=\"r\">$inter1</SPAN>, comme marque <SPAN id=\"r\">$inter2</SPAN>, comme domaine <SPAN id=\"r\">$t0[$inter3]</SPAN> et comme taux de royalties <SPAN id=\"r\">$inter4</SPAN> % .<BR> Pour déterminer les composants de ce plan : <FORM><INPUT TYPE='button' value='Choisir les composants' onClick=\"a('$nom_page?table=creer_plan_ajouter');\"></FORM>");
+echo("Votre nouveau plan aura pour nom <SPAN class=\"item\">$inter1</SPAN>, comme marque <SPAN class=\"item\">$inter2</SPAN>, comme domaine <SPAN class=\"item\">$t0[$inter3]</SPAN> et comme taux de royalties <SPAN class=\"item\">$inter4</SPAN> % .<BR> Pour dÃ©terminer les composants de ce plan : <FORM><INPUT TYPE='button' value='Choisir les composants' onClick=\"a('$nom_page?table=creer_plan_ajouter');\"></FORM>");
 ?>

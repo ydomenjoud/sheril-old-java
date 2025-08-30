@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Demande d'adhésion à une alliance existante  </FONT>
+<P><h1>Demande d'adhÃ©sion Ã  une alliance existante  </h1>
 <BR>
-Je désire adhérer à l'alliance
+Je dÃ©sire adhÃ©rer Ã  l'alliance
 <?php select1("v0",$t0); ?>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

@@ -1,12 +1,12 @@
 <FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Ajouter les composants du nouveau plan </FONT>
+<P><h1>Ajouter les composants du nouveau plan </h1>
 <BR>
 
-Je désire ajouter  
+Je dÃ©sire ajouter
 <INPUT TYPE="text" NAME="v1" VALUE="" SIZE=3 MAXLENGTH=3>
  composant(s) de type
 <?php select1("v0",$t0); ?>
- à mon plan de vaisseau.
+ Ã  mon plan de vaisseau.
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

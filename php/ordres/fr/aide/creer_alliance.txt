@@ -1,9 +1,9 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez créer une alliance.
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez crÃ©er une alliance.
 <BR><BR>
-Il est conseillé de lire le chapitre des <I>Règles Complètes</I> relatif aux alliances avant de 
-créer une alliance.
+Il est conseillÃ© de lire le chapitre des <I>rÃ¨gles ComplÃªtes</I> relatif aux alliances avant de
+crÃ©er une alliance.
 

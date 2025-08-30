@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Don de plans d'un vaisseau privé </FONT>
+<P><h1>Don de plans d'un vaisseau privÃ© </h1>
 <BR>
-Je désire transmettre mon plan 
+Je dÃ©sire transmettre mon plan
 <?php select3("v0",$t1); ?>
  au commandant
 <?php select1("v1",$t0); ?>

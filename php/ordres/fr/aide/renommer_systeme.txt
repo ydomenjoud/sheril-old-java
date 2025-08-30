@@ -1,10 +1,10 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+<P><FONT ><STRONG>Utilisez cette rubrique si vous dÃ©sirez
 renommer un systeme.
 <BR><BR>
-Pour pouvoir renommer un système, il est nécessaire de posséder toutes ses planètes.
+Pour pouvoir renommer un systÃ¨me, il est nÃ©cessaire de possÃ©der toutes ses planÃ¨tes.
 
 
 

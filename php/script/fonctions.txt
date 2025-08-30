@@ -1,144 +1,167 @@
-
 <?php
 
-function base_flotte($base,$commandant){
- $result = mysql($base,"SELECT * FROM diviser_flotte WHERE NUMERO='$commandant'");
- $nb_lignes = mysql_num_rows($result);
- for($i=0;$i<$nb_lignes;$i++){
-  $rf = mysql_fetch_row($result);
-  $num=$rf[1]+1;
-  $tab[10000+$rf[3]]="$rf[2] (divisÈe ‡ partir de la flotte $num)";
-  }
- return $tab;
- }
+function base_flotte($base, $commandant)
+{
+    $tab = [];
+    $result = mysql_query("SELECT * FROM diviser_flotte WHERE NUMERO='$commandant'");
+    $nb_lignes = mysql_num_rows($result);
+    for ($i = 0; $i < $nb_lignes; $i++) {
+        $rf = mysql_fetch_row($result);
+        $num = $rf[1] + 1;
+        $tab[10000 + $rf[3]] = "$rf[2] (divis√©e √† partir de la flotte $num)";
+    }
+    return $tab;
+}
 
-function base3($base,$commandant,$b){
- $result = mysql($base,"SELECT * FROM $b WHERE NUMERO='$commandant'");
- return r_base2($result,0);
- }
+function base3($base, $commandant, $b)
+{
+    $result = mysql_query("SELECT * FROM $b WHERE NUMERO='$commandant'");
+    if (!$result) {
+        echo mysql_error();
+    }
+    return r_base2($result, 0);
+}
 
-function base4($base,$b){
- $result = mysql($base,"SELECT * FROM $b");
- return r_base2($result,1);
- }
+function base4($base, $b)
+{
+    $result = mysql_query("SELECT * FROM $b");
+    if (!$result) {
+        echo mysql_error();
+    }
+    return r_base2($result, 1);
+}
 
-function base1($base,$commandant,$b){
- $result = mysql($base,"SELECT * FROM $b WHERE NUMERO='$commandant'");
- return r_base($result,0);
- }
+function base1($base, $commandant, $b)
+{
+    $result = mysql_query("SELECT * FROM $b WHERE NUMERO='$commandant'");
+    return r_base($result, 0);
+}
 
-function base2($base,$b){
- $result = mysql($base,"SELECT * FROM $b");
- return r_base($result,1);
- } 
+function base2($base, $b)
+{
+    $result = mysql_query("SELECT * FROM $b");
+    return r_base($result, 1);
+}
 
-function r_base2($result,$mod){
- $nb_lignes = mysql_num_rows($result);
- if($nb_lignes==0) return "";
- $rf = mysql_fetch_row($result);
- return explode(",",trim(ereg_replace("#","'",$rf[1-$mod])));
- }
+function r_base2($result, $mod)
+{
+    $nb_lignes = mysql_num_rows($result);
+    if(!$nb_lignes) {
+        echo mysql_error();
+    }
+    if ($nb_lignes == 0) return "";
+    $rf = mysql_fetch_row($result);
+    return explode(",", trim(ereg_replace("#", "'", $rf[1 - $mod])));
+}
 
-function r_base($result,$mod){
- $nb_lignes = mysql_num_rows($result);
- if($nb_lignes==0) return "";
- $rf = mysql_fetch_row($result);
- $tra = explode(",",trim(ereg_replace("#","'",$rf[1-$mod])));
- $tra2 = explode(",",trim(ereg_replace("#","'",$rf[2-$mod])));
- for($i=0;$i<sizeof($tra);$i++)
-  $t[$tra[$i]]=$tra2[$i];
- return $t;
- }
-
-
-function array_keys($t){
- if($t=="") return "";
- $i=0;
- for(reset($t); $k = each($t); ) {
-  $r[$i]=$k[0];
-  $i++;
-  }
- return $r;
- }
-
-function fusion_tab($tab1,$tab2){
- $j=sizeof($tab1);
- for($i=0;$i<sizeof($tab2);$i++)
-  $tab1[$j+$i]=$tab2[$i];
- return $tab1;
- }
-
-function fusion_tab2($tab1,$tab2){
- $j=sizeof($tab1);
- $k=array_keys($tab2);
- for($i=0;$i<sizeof($k);$i++){
-  $n=$k[$i];
-  $tab1[$n]=$tab2[$n];
-  }
- return $tab1;
- }
- 
-
-function select1($nv,$t){
- echo ("<SELECT SIZE=\"1\" NAME=\"$nv\">");
- $k=array_keys($t);
- for($i=0;$i<sizeof($k);$i++){
-  $j=$k[$i];
-  if($i==0) echo("<OPTION SELECTED ");
-   else echo("<OPTION ");
-  echo("VALUE=\"$j\">$t[$j]");
-  }
- echo ("</SELECT>");
- }
-
-function select3($nv,$t){
- echo ("<SELECT SIZE=\"1\" NAME=\"$nv\">");
- for($i=0;$i<sizeof($t);$i++){
-  if($i==0) echo("<OPTION SELECTED ");
-   else echo("<OPTION ");
-  echo("VALUE=\"$t[$i]\">$t[$i]");
-  }
- echo ("</SELECT>");
- }
-
-function select_nb($nv,$a,$b){
- echo ("<SELECT NAME=\"$nv\">");
- for($i=$a;$i<$b;$i++){
-  if($i==$a) echo("<OPTION SELECTED ");
-   else echo("<OPTION ");
-  echo("VALUE=\"$i\">$i");
-  }
- echo ("</SELECT>");
- }
-
-function select_pos($nv){
- select_nb($nv,1,101);
- }
-
-function select_pour_cent($nv){
- select_nb($nv,0,101);
- }
-
-function select_planete($nv){
- echo ("<SELECT NAME=\"$nv\">");
- for($i=1;$i<21;$i++){
-  $inter=$i-1;
-  echo("<OPTION VALUE=\"$inter\">$i");
-  }
- echo ("</SELECT>");
- }
-
-function select_planete2($nv){
- echo ("<SELECT NAME=\"$nv\">");
- echo("<OPTION SELECTED VALUE=\"100\">");
- for($i=1;$i<21;$i++){
-  $inter=$i-1;
-  echo("<OPTION VALUE=\"$inter\">$i");
-  }
- echo ("</SELECT>");
- }
+function r_base($result, $mod)
+{
+    $nb_lignes = mysql_num_rows($result);
+    if ($nb_lignes == 0) return "";
+    $rf = mysql_fetch_row($result);
+    $tra = explode(",", trim(ereg_replace("#", "'", $rf[1 - $mod])));
+    $tra2 = explode(",", trim(ereg_replace("#", "'", $rf[2 - $mod])));
+    for ($i = 0; $i < sizeof($tra); $i++)
+        $t[$tra[$i]] = $tra2[$i];
+    return $t;
+}
 
 
+//function array_keys($t){
+// if($t=="") return "";
+// $i=0;
+// for(reset($t); $k = each($t); ) {
+//  $r[$i]=$k[0];
+//  $i++;
+//  }
+// return $r;
+// }
+
+function fusion_tab($tab1, $tab2)
+{
+    $j = sizeof($tab1);
+    for ($i = 0; $i < sizeof($tab2); $i++)
+        $tab1[$j + $i] = $tab2[$i];
+    return $tab1;
+}
+
+function fusion_tab2($tab1, $tab2)
+{
+    $j = sizeof($tab1);
+    $k = array_keys($tab2);
+    for ($i = 0; $i < sizeof($k); $i++) {
+        $n = $k[$i];
+        $tab1[$n] = $tab2[$n];
+    }
+    return $tab1;
+}
 
 
-?>
+function select1($nv, $t)
+{
+    echo("<SELECT SIZE=\"1\" NAME=\"$nv\" style='max-width: 200px; display: inline-block;'>");
+    $k = array_keys($t);
+    for ($i = 0; $i < sizeof($k); $i++) {
+        $j = $k[$i];
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $j) ? 'selected ' : ''));
+        echo("VALUE=\"$j\">$t[$j]");
+    }
+    echo("</SELECT>");
+}
+
+function select3($nv, $t)
+{
+    echo("<SELECT SIZE=\"1\" NAME=\"$nv\">");
+    for ($i = 0; $i < sizeof($t); $i++) {
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $t[$i]) ? 'selected ' : ''));
+        echo("VALUE=\"$t[$i]\">$t[$i]");
+    }
+    echo("</SELECT>");
+}
+
+function select_nb($nv, $a, $b)
+{
+    echo("<SELECT NAME=\"$nv\">");
+    for ($i = $a; $i < $b; $i++) {
+        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] === $i) ? 'selected ' : ''));
+        echo("VALUE=\"$i\">$i");
+    }
+    echo("</SELECT>");
+}
+
+function select_pos($nv)
+{
+    select_nb($nv, 1, 41);
+}
+
+function select_pour_cent($nv)
+{
+    select_nb($nv, 0, 101);
+}
+
+function select_planete($nv)
+{
+    echo("<SELECT NAME=\"$nv\">");
+    for ($i = 1; $i < 21; $i++) {
+        $inter = $i - 1;
+        echo("<OPTION VALUE=\"$inter\">$i");
+    }
+    echo("</SELECT>");
+}
+
+function select_planete2($nv)
+{
+    echo("<SELECT NAME=\"$nv\">");
+    echo("<OPTION SELECTED VALUE=\"100\">");
+    for ($i = 1; $i < 21; $i++) {
+        $inter = $i - 1;
+        echo("<OPTION VALUE=\"$inter\">$i");
+    }
+    echo("</SELECT>");
+}
+
+function display_planete($nb, $title = "plan√®te" ){
+    if($nb!=100) {
+        return " ($title <SPAN class=\"item\">" . ( $nb + 1 ). "</SPAN> ) ";
+   }
+}

@@ -1,6 +1,6 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique quand vous
-voulez ajouter des composants à votre plan de vaisseau.<BR><BR>
-Il est conseillé de consulter les règles avant de créer un plan de vaisseau.
+<P><FONT ><STRONG>Utilisez cette rubrique quand vous
+voulez ajouter des composants Ã  votre plan de vaisseau.<BR><BR>
+Il est conseillÃ© de consulter les rÃ¨gles avant de crÃ©er un plan de vaisseau.

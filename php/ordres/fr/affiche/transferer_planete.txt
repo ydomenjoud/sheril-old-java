@@ -3,5 +3,5 @@
   $inter2=$rf[2];
   $inter3=$rf[3]+1;
   $inter4=$rf[4];
-  echo("Vous souhaitez céder la planète numéro <SPAN id=\"r\">$inter3</SPAN> de votre système <SPAN id=\"r\">$t1[$inter2]</SPAN> au commandant <SPAN id=\"r\">$t0[$inter1]</SPAN> en mode <SPAN id=\"r\">$t2[$inter4]</SPAN>.");
+  echo("Vous souhaitez cÃ©der la planÃ¨te numÃ©ro <SPAN class=\"item\">$inter3</SPAN> de votre systÃ¨me <SPAN class=\"item\">$t1[$inter2]</SPAN> au commandant <SPAN class=\"item\">$t0[$inter1]</SPAN> en mode <SPAN class=\"item\">$t2[$inter4]</SPAN>.");
 ?>

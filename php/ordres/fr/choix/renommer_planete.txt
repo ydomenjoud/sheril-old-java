@@ -1,12 +1,12 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Renommer une planète </FONT>
+<P><h1>Renommer une planÃ¨te </h1>
 <BR>
-Je désire renommer ma planète numéro
+Je dÃ©sire renommer ma planÃ¨te numÃ©ro
 <?php select_planete("v2"); ?>
-  du système 
+  du systÃ¨me
 <?php select1("v0",$t0); ?>
-. Son nouveau nom : 
-<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80> 
+. Son nouveau nom :
+<INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

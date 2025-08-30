@@ -1,13 +1,13 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Mise au rebus de constructions planétaires</FONT>
+<P><h1>Mise au rebus de constructions planÃ©taires</h1>
 <BR>
- Je désire détruire
+ Je dÃ©sire dÃ©truire
 <INPUT TYPE="text" NAME="v2" VALUE="" SIZE=3 MAXLENGTH=3>
- construction(s) planétaire(s) de type  
+ construction(s) planÃ©taire(s) de type
 <?php select1("v1",$t1); ?>
- sur mon syst&egrave;me 
+ sur mon syst&egrave;me
 <?php select1("v0",$t0); ?>
-(préciser éventuellement la planète :
+(prÃ©ciser ï¿½ventuellement la planÃ¨te :
 <?php select_planete2("v3"); ?>
 )
 </B></P>

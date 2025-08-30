@@ -1,8 +1,8 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez valider l'adhésion d'un commandant à une alliance que vous dirigez.<BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez valider l'adhÃ©sion d'un commandant Ã  une alliance que vous dirigez.<BR>
 <BR>
 Pour que cet ordre soit effectif, il faut aussi que le commandant en question ait
- demandé son adhésion à votre alliance dans le même tour.
+ demandÃ© son adhÃ©sion Ã  votre alliance dans le mÃªme tour.

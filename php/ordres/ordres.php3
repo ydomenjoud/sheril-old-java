@@ -1,16 +1,17 @@
-<?php 
+<?php
 $base="jeu.oceane"; 
 $langue="fr";
 $nom_page="ordres.php3";
 $nom_cookie="ordres";
+include "../mysql_compat.php";
 include "../script/aut.txt";
 
 ?>
 
 
-<HTML>
+<HTML lang="fr">
 <HEAD>
-<META content="text/html; charset=iso-8859-1" http-equiv="Content-Type"></META>
+<META content="text/html; charset=UTF-8" http-equiv="Content-Type"></META>
 <META content="zIgzAg" name="Author"></META>
 <TITLE>Passage des ordres</TITLE>
 </HEAD>

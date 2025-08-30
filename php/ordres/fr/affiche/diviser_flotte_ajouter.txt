@@ -3,5 +3,5 @@ $inter1=$rf[1];
 $inter2=$rf[2];
 $inter3=$rf[3];
 $inter4=$rf[4];
-echo("Ajouter dans votre nouvelle flotte <SPAN id=\"r\">$inter4</SPAN> vaisseau(x) de type <SPAN id=\"r\">$inter3</SPAN>.");
+echo("Ajouter dans votre nouvelle flotte <SPAN class=\"item\">$inter4</SPAN> vaisseau(x) de type <SPAN class=\"item\">$inter3</SPAN>.");
 ?>

@@ -1,5 +1,5 @@
 <?php
 $inter1=$rf[1];
 $inter2=$rf[2];
-echo("Vous lancez la construction de vaisseaux de type <SPAN id=\"r\">$inter2</SPAN> à partir de votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN>.");
+echo("Vous lancez la construction de vaisseaux de type <SPAN class=\"item\">$inter2</SPAN> Ã  partir de votre flotte <SPAN class=\"item\">$t0[$inter1]</SPAN>.");
 ?>

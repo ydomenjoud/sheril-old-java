@@ -1,9 +1,9 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Terraformer une planète</FONT>
+<P><h1>Terraformer une planÃ¨te</h1>
 <BR>
- Terraformer ma planète numéro
+ Terraformer ma planÃ¨te numÃ©ro
 <?php select_planete("v1"); ?>
- de mon syst&egrave;me 
+ de mon syst&egrave;me
 <?php select1("v0",$t0); ?>
 
 </B></P>

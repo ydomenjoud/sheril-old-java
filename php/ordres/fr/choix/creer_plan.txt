@@ -1,8 +1,8 @@
 <FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Conception d'un nouveau vaisseau </FONT>
+<P><h1>Conception d'un nouveau vaisseau </h1>
 <BR>
-<NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activé dans votre navigateur</FONT></H1></NOSCRIPT>
-Je désire créer un nouveau plan de vaisseau de nom 
+<NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activï¿½ dans votre navigateur</FONT></H1></NOSCRIPT>
+Je dÃ©sire crÃ©er un nouveau plan de vaisseau de nom
 <INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=80>
  de marque
 <INPUT TYPE="text" NAME="v1" VALUE="" SIZE=30 MAXLENGTH=80>

@@ -1,5 +1,5 @@
 <?php
   $inter1=$rf[1];
   $inter2=$rf[2];
-  echo("Offre de <SPAN id=\"r\">$inter1</SPAN> centaures pour <SPAN id=\"r\">$t0[$inter2]</SPAN>.");
+  echo("Offre de <SPAN class=\"item\">$inter1</SPAN> centaures pour <SPAN class=\"item\">$t0[$inter2]</SPAN>.");
 ?>

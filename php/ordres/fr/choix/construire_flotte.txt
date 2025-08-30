@@ -1,9 +1,9 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Lancer des constructions sur vos flottes </FONT>
+<P><h1>Lancer des constructions sur vos flottes </h1>
 <BR>
-Je désire lancer la construction de vaisseaux de type 
+Je dÃ©sire lancer la construction de vaisseaux de type
 <?php select3("v1",$t1); ?>
- à partir de ma flotte
+ Ã  partir de ma flotte
 <?php select1("v0",$t0); ?>
 
 </B></P>

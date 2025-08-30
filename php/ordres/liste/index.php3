@@ -5,7 +5,9 @@ if($a!=""){
  include "body.txt";
  include "../fr/aide/$a.txt";
  }
- else{include "depart.htm";}
+ else{
+     include "depart.htm";
+ }
 ?>
 
 </BODY>

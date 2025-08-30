@@ -1,7 +1,7 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Annuler toutes vos constructions en cours</FONT>
+<P><h1>Annuler toutes vos constructions en cours</h1>
 <BR>
- Je désire donner l'ordre d'annuler toutes mes constructions en cours sur mon système
+ Je dÃ©sire donner l'ordre d'annuler toutes mes constructions en cours sur mon systÃ¨me
 <?php select1("v0",$t0); ?>
 
 </B></P>

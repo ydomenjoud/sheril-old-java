@@ -1,5 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><B><FONT SIZE="4" COLOR="#C0C0C0">Vendre une flotte</FONT>
+<P><h1>Vendre une flotte</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
 Je souhaite vendre les vaisseaux de ma flotte  
 <?php select1("v1",$t1); ?>

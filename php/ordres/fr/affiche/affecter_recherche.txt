@@ -1,5 +1,5 @@
 <?php
   $inter1=$rf[1];
   $inter2=$rf[2];
-  echo("Affecter <SPAN id=\"r\">$inter2</SPAN>% des crédits à la technologie <SPAN id=\"r\">$t0[$inter1] </SPAN>.");
+  echo("Affecter <SPAN class=\"item\">$inter2%</SPAN> des crÃ©dits Ã  la technologie <SPAN class=\"item\">$t0[$inter1] </SPAN>.");
 ?>

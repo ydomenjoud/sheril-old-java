@@ -5,7 +5,7 @@
   $inter4=$rf[4];
   if($inter4!=100){
    $inter4++;
-   $inter4=", plus précisément sur ma planète numéro <SPAN id=\"r\">$inter4</SPAN>";
+   $inter4=", plus prÃ©cisÃ©ment sur ma planÃ¨te numÃ©ro <SPAN class=\"item\">$inter4</SPAN>";
    } else {$inter4="";}
-  echo("Mettre au rebus <SPAN id=\"r\">$inter3</SPAN> construction(s) planétaire(s) de type <SPAN id=\"r\">$t1[$inter2]</SPAN> sur mon système <SPAN id=\"r\">$t0[$inter1] </SPAN>$inter4.");
+  echo("Mettre au rebus <SPAN class=\"item\">$inter3</SPAN> construction(s) planÃ©taire(s) de type <SPAN class=\"item\">$t1[$inter2]</SPAN> sur mon systÃ¨me <SPAN class=\"item\">$t0[$inter1] </SPAN>$inter4.");
 ?>

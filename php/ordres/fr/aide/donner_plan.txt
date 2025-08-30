@@ -1,16 +1,16 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
-voulez donner un plan de vaisseau privé que vous avez concu.<BR>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous
+voulez donner un plan de vaisseau privÃ© que vous avez concu.<BR>
 <BR>
 <ul><li>
- En mode normal, tout don de plan a 5% de chance d'être rendu public.
+ En mode normal, tout don de plan a 5% de chance d'Ãªtre rendu public.
 </li><li>
- En mode discret, vous êtes assuré que votre don restera secret, mais il vous en coûtera un supplément de 20 centaures.
+ En mode discret, vous Ãªtes assurÃ© que votre don restera secret, mais il vous en coÃ»tera un supplÃ©ment de 20 centaures.
 </li><li>
- En mode anonyme, non seulement votre don reste secret mais même celui qui recoit votre don ne saura pas qui vous êtes.
-  Ce n'est cependant pas trés intéressant car le nom du concepteur, c'est à dire vous-même est indiqué sur la description du plan...
-  Aussi cela ne vous coûtera que 20 centaures également.
+ En mode anonyme, non seulement votre don reste secret mais mÃªme celui qui recoit votre don ne saura pas qui vous Ãªtes.
+  Ce n'est cependant pas trÃ¨s intÃ©ressant car le nom du concepteur, c'est Ã  dire vous-mÃªme est indiquÃ© sur la description du plan...
+  Aussi cela ne vous coÃ»tera que 20 centaures Ã©galement.
 </li></ul>
 

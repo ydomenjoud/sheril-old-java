@@ -1,17 +1,17 @@
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+<P><FONT ><STRONG>Utilisez cette rubrique si vous dÃ©sirez
 modifier le taux de taxation de l'ensemble de vos postes commerciaux.
 <BR><BR>
  Cela influera sur les taxes que vous verseront automatiquement les commandants qui commercent avec vous.
 <br><br>
-Par exemple, si un commandant vous vend 50 centaures d'<i>Alcools et drogues</i> dans un de vos postes et que vous avez fixé un taux 
-de taxation de 10%, Vous payerez les 50 centaures et récupérerez les marchandises mais en en plus vous percevrez
- 10% de 50 centaures, c'est à dire 5 centaures(qui seront payés par le commandant vendeur). 
+Par exemple, si un commandant vous vend 50 centaures d'<i>Alcools et drogues</i> dans un de vos postes et que vous avez fixÃ© un taux
+de taxation de 10%, Vous payerez les 50 centaures et rÃ©cupÃ©rerez les marchandises mais en en plus vous percevrez
+ 10% de 50 centaures, c'est Ã  dire 5 centaures(qui seront payÃ©s par le commandant vendeur).
 <br><br>
-De même si un commandant achète quelque chose dans un de vos postes, il payera automatiquement la taxe que vous avez fixé en plus.
+De mÃªme si un commandant achÃ¨te quelque chose dans un de vos postes, il payera automatiquement la taxe que vous avez fixÃ© en plus.
 <br><br>
-Attention le taux de taxation de vos postes est connu de tous les commandants : un taux élevé vous protégera des &quot;arnaques&quot;
+Attention le taux de taxation de vos postes est connu de tous les commandants : un taux Ã©levÃ© vous protÃ©gera des &quot;arnaques&quot;
  commerciales mais risque de dissuader les autres commandants de commercer avec vous...
 
 

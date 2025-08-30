@@ -1,9 +1,9 @@
 
-<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+<h3 class="help">Aide</h3>
 
-<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique quand vous
-voulez affecter des crédits à vos domaines de recherche.<BR>
-Le total des affectations passées et à venir ne doit pas dépasser 100%,
-sinon vos ordres d'affectation de ce tour seront annulés.
+<P><FONT ><STRONG>Utilisez cette rubrique quand vous
+voulez affecter des crÃ©dits Ã  vos domaines de recherche.<BR>
+Le total des affectations passÃ©es et Ã  venir ne doit pas dÃ©passer 100%,
+sinon vos ordres d'affectation de ce tour seront annulÃ©s.
 
 
