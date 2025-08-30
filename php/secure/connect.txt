@@ -1,0 +1,5 @@
+<?php 
+//évidemment les champs ne sont pas bon là :o)
+
+mysql_connect("localhost","nom_de la base","mot de passe de la base");
+?>

@@ -1,0 +1,28 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Paramétrer des types de vaisseau</FONT>
+<BR>
+Positionner tous les vaisseaux de type 
+<?php select3("v0",$t0); ?>
+ en 
+<?php select_nb("v1",0,31); ?>
+ - 
+<?php select_nb("v2",0,11); ?>
+<BR> 
+ avec comme cibles prioritaires les vaisseaux de taille : <BR><BR>
+<DIV ALIGN="center">
+<TABLE cellspacing="0" border="1"><TR>
+<?php
+ for($i=1;$i<11;$i++) {echo("<TD align=\"center\"><B>$i</B></TD>");}
+ echo("</TR><TR>");
+ for($i=3;$i<13;$i++) {
+  echo("<TD align=\"center\">");
+  select_nb("v$i",1,11);
+  echo("</TD>");
+  }
+?>
+</TR></TABLE></DIV>
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

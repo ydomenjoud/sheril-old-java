@@ -1,0 +1,12 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  $inter3=$rf[3];
+  $inter4=$rf[4];
+  if($inter4!=100){
+   $inter4++;
+   $inter4=", plus précisément sur la planète numéro <SPAN id=\"r\">$inter4</SPAN>";
+   }
+  else {$inter4="";}
+  echo("Vous allez mettre en chantier <SPAN id=\"r\">$inter3</SPAN> construction(s) de type <SPAN id=\"r\">$t1[$inter2]</SPAN> sur votre système <SPAN id=\"r\">$t0[$inter1]</SPAN>$inter4.");
+?>

@@ -1,0 +1,4 @@
+<?php
+  $inter=$rf[1];
+  echo("Vous souhaitez signer un pacte de non-agression avec le commandant <SPAN id=\"r\">$t0[$inter]</SPAN>.");
+?>

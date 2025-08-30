@@ -1,0 +1,6 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  $inter3=$rf[3];
+  echo("Votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN> et votre flotte <SPAN id=\"r\">$t0[$inter2]</SPAN> vont tenter de fusionner en directive <SPAN id=\"r\">$t1[$inter3]</SPAN>.");
+?>

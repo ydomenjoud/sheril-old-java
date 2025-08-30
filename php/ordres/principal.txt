@@ -1,0 +1,20 @@
+<?php
+$nom_page="index.php3";
+
+if($table!=""){
+ include "../secure/connect.txt";
+ include "body.txt";
+ include "../script/fonctions.txt";
+ include "./data/$table.txt";
+ include "insert.txt";
+ include "elimine.txt";
+ include "affiche.txt";
+ include "./$langue/choix/$table.txt";
+ include "./$langue/aide/$table.txt";
+ }
+ else{include "./$langue/depart.htm";}
+ mysql_close();
+?>
+
+</BODY>
+</HTML>

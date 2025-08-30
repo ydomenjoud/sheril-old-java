@@ -1,0 +1,4 @@
+<?php
+  $inter1=$rf[1];
+  echo("Votre article :<BR><BR> $inter1");
+?>

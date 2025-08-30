@@ -1,0 +1,8 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez terraformer une de vos planètes en particulier.<BR>
+On ne peut pas terraformer une même planète plus d'une fois par tour.
+<br><br>
+Attention, la terraformation d'une planète a un coût, qui dépend de son niveau de terraformation précédent.

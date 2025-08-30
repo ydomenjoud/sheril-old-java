@@ -1,0 +1,110 @@
+<?php
+$base_registre="aa_registre";
+$rep_temp="../script/tmp/";
+$rep_temp2="../script/tmp2/";
+$nom_acces="../script/acces.txt";
+
+if(!isset($HTTP_COOKIE_VARS[$nom_cookie])){
+ $token=md5 (uniqid (rand()));
+ if(setcookie("$nom_cookie","$token",time()+5*3600)){ 
+  echo("<FONT color=\"red\">Erreur :</FONT><BR><BR>");
+  echo("Vous devez permettre à votre navigateur d'accepter les cookies pour pouvoir passer vos ordres.<BR><BR>");
+  echo("Modifiez les options de votre navigateur en conséquence et réessayez.");
+  echo("<FORM name=\"r\" action=\"$nom_page\" method=\"POST\">");
+  echo("<INPUT TYPE=\"submit\" NAME=\"a\" VALUE=\"Recommencer\"></FORM>");
+  exit();
+  }
+ include "$nom_acces";
+ exit();
+ }
+
+
+if( (isset($x0)) and (isset($x1)) ){
+ include "../secure/connect.txt";
+ $inter0=trim($x0);
+ $inter1=trim($x1);
+
+ $result=mysql($base,"SELECT * FROM $base_registre where LOGIN='$inter0' AND MOT_DE_PASSE='$inter1'")
+   or die("Erreur");
+ $nb_lignes = mysql_num_rows($result);
+ if($nb_lignes==0){
+  setcookie("$nom_cookie");
+  include "../script/body.txt";
+  echo("<b>Erreur login ou mot de passe : vous avez du faire une erreur de saisie!</b> <br><br>");
+  echo("<FORM name=\"r\" action=\"$nom_page\" method=\"POST\">");
+  echo("<INPUT TYPE=\"submit\" NAME=\"a\" VALUE=\"Recommencer\"></FORM>");
+  exit();
+  }
+else{
+  $rf=mysql_fetch_row($result);
+  $inter="a$token";
+  $filename="$rep_temp$inter";
+  $fd = fopen ($filename, "w");
+  fwrite($fd,"$rf[0]");
+  fclose($fd);
+
+  $nom_cookie2="r_$nom_cookie";
+  $inter="b$token";
+  $filename="$rep_temp2$inter";
+
+  if( (!isset($HTTP_COOKIE_VARS[$nom_cookie2])) | (!file_exists("$rep_temp2$HTTP_COOKIE_VARS[$nom_cookie2]")) ){
+   setcookie("$nom_cookie2","$inter",time()+100*24*3600);
+   $fd = fopen ($filename, "w");
+   fwrite($fd,"$rf[0]-");
+   fclose($fd);
+   }
+   else{
+    $filename="$rep_temp2$HTTP_COOKIE_VARS[$nom_cookie2]";
+    $fd = fopen ($filename, "r");
+    $num_clone=fread ($fd, filesize ($filename)); 
+    fclose($fd);
+    $tab_c=explode("-",$num_clone);
+    for($i=0;$i<sizeof($tab_c);$i++)
+     if($tab_c[$i]==$rf[0]) $nouveau_c="ok";
+    if($nouveau_c!="ok"){
+     $num_clone="$num_clone$rf[0]-";
+     unlink($filename);
+     $fd = fopen ($filename, "w");
+     fwrite($fd,"$num_clone");
+     fclose($fd);
+     }
+    if( (sizeof($tab_c)>2)  | ($nouveau_c!="ok") ){
+     $dateC=time(); 
+     
+     
+     $result=mysql($base,"INSERT INTO aa_clone(NUMERO,LISTE,DA) VALUES ('$HTTP_COOKIE_VARS[$nom_cookie2]','$num_clone','$dateC')")
+       or die("Erreur insert");
+     }
+    
+    }   
+   
+   
+  
+
+  }
+ }
+
+$inter="a$HTTP_COOKIE_VARS[$nom_cookie]";
+if($inter=="a"){
+ echo("Erreur fatale, tragique, bref ... contactez zIgzAg!");
+ exit();
+ }
+
+$filename="$rep_temp$inter";
+if(!file_exists($filename)){
+ setcookie("$nom_cookie");
+ include "../script/body.txt";
+ echo("<b>Réactualisation nécessaire...");
+ echo("<FORM name=\"r\" action=\"$nom_page\" method=\"POST\">");
+ echo("<INPUT TYPE=\"submit\" NAME=\"a\" VALUE=\"Rechargez la page\"></FORM>");
+ exit();
+ }
+
+$fd = fopen ($filename, "r");
+$commandant=fread ($fd, filesize ($filename)); 
+
+fclose($fd);
+
+
+
+?>

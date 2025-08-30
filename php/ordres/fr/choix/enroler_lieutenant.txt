@@ -1,0 +1,16 @@
+<?php
+$result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
+$nb_lignes = mysql_num_rows($result);
+if($nb_lignes<1){
+ echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
+ echo("<P><B><FONT SIZE=\"4\" COLOR=\"#C0C0C0\">Enrôler un lieutenant</FONT><BR>");
+ echo("Je désire proposer ");
+ echo("<INPUT TYPE=\"text\" NAME=\"v0\" VALUE=\"\" SIZE=5 MAXLENGTH=5>");
+ echo(" centaures à ");
+ select1("v1",$t0); 
+ echo("</B></P>");
+ echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
+ echo("</FORM>");
+ }
+?>
+

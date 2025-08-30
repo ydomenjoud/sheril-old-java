@@ -1,0 +1,16 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous souhaitez utiliser une porte intragalactique avec une de vos flottes.
+<BR><br>
+Votre flotte doit se trouver au moment de l'exécution de cet ordre sur la même case qu'une porte intragalactique.<BR><BR>
+Elle sera automatiquement transportée au point d'arrivée de la porte.<BR><BR>
+Elle ne pourra plus ensuite se déplacer ce tour-ci.<BR><BR>
+Ce déplacement coûte en centaures une somme égale au "nombre de cases" de la flotte.<BR>
+Par exemple, le passage d'un intercepteur standard, qui contient un laser et un réacteur (deux cases donc),
+coûtera 2 centaures.<BR>
+ Une flotte de 3 intercepteurs coûtera 6 centaures. etc.
+
+
+
+

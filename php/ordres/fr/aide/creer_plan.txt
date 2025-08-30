@@ -1,0 +1,16 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez créer un plan de vaisseau.<BR>
+La procédure à suivre est la suivante : <BR>
+<ul>
+<li> Choisissez votre plan 
+ puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
+</li>
+<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les 
+composants de ce plan. 
+</li>
+</ul>
+Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
+

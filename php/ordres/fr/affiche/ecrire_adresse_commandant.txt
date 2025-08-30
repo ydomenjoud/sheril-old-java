@@ -1,0 +1,4 @@
+<?php
+  $inter1=$rf[1];
+  echo("Le site de mon commandant est à l'adresse <SPAN id=\"r\">$inter1</SPAN>.");
+?>

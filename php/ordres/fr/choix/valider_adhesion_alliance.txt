@@ -1,0 +1,11 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Valider l'adhésion d'un commandant à l'alliance que vous dirigez  </FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je désire valider l'adhésion du commandant 
+<?php select1("v0",$t0); ?>
+ à l'alliance 
+<?php select1("v1",$t1); ?>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

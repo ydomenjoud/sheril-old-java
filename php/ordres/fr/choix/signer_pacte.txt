@@ -1,0 +1,9 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Signer un pacte de non-agression </FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je désire signer un pacte de non-agression avec le commandant
+<?php select1("v0",$t0); ?>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

@@ -1,0 +1,14 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Transmettre une stratégie de combat</FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je c&egrave;de ma stratégie 
+<?php select3("v1",$t1); ?>
+ au commandant  
+<?php select1("v0",$t0); ?>
+ en mode de transfert
+<?php select1("v2",$t2); ?> 
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

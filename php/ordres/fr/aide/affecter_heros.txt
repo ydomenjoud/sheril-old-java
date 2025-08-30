@@ -1,0 +1,13 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+affecter un héros à une flotte.
+<BR><BR>
+ On ne peut pas affecter plus d'un héros par flotte, mais il est possible d'affecter autant
+ de héros qu'on le souhaite en réserve.
+<br><br>
+ L'ordres des affectations n'est pas important.
+
+
+

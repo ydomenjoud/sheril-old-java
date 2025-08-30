@@ -1,0 +1,11 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Affecter un gouverneur </FONT>
+<BR>
+Je désire ordonner à mon gouverneur 
+<?php select3("v0",$t0); ?>
+ de rejoindre l'affectation suivante :
+<?php select1("v1",$t1); ?>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

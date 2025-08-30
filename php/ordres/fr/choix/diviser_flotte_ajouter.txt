@@ -1,0 +1,19 @@
+<FORM name="f" action="<?php echo("$nom_page?table=$table&num_f=$num_f&nb_div=$nb_div"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Ajouter des vaisseaux </FONT>
+<BR>
+<?php
+$v0=$num_f;
+$v1=$nb_div;
+?>
+<INPUT TYPE="hidden" name="v0" value="<?php echo("$v0"); ?>">
+<INPUT TYPE="hidden" name="v1" value="<?php echo("$v1"); ?>">
+En divisant ma flotte 
+<?php echo($t0[$v0]); ?>
+ je désire ajouter dans ma nouvelle flotte 
+<INPUT TYPE="text" NAME="v3" VALUE="" SIZE=3 MAXLENGTH=3>
+<?php select3("v2",$t1); ?>
+ 
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

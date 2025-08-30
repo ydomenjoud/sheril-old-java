@@ -1,0 +1,26 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Deplacement de flotte</FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+
+Déplacer ma flotte 
+<?php select1("v0",$t0); ?>
+ vers la case
+<?php select_pos("v1"); ?>
+ - 
+<?php select_pos("v2"); ?>
+ de la galaxie
+<?php select1("v3",$t1); ?>
+ avec comme directive de rencontre 
+<?php select1("v4",$t2); ?>
+
+<?php
+ if(gettype($t3)=="array"){
+  echo ("<BR><BR> et comme stratégie de combat ");
+  select3("v5",$t3);
+  }
+?>
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

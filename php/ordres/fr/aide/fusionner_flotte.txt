@@ -1,0 +1,11 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique pour fusionner deux flottes.
+<BR><BR> Elles doivent toutes les deux se trouver sur la même case au moment de la fusion.
+<BR><BR>Le numéro de la nouvelle flotte est le numéro le moins élevé des deux flottes.
+<BR>Le nom de la nouvelle flotte est le nom de la flotte au numéro le moins élevé.
+<BR>Si il y avait un héros dans chaque flotte, le héros de la flotte au numéro le plus élevé va en réserve.
+
+
+

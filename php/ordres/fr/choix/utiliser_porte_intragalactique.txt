@@ -1,0 +1,11 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Utiliser une porte intragalactique</FONT>
+<BR>
+Ma flotte
+<?php select1("v0",$t0); ?>
+ doit utiliser la porte intragalactique sur laquelle elle se trouve.
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

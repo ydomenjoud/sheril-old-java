@@ -1,0 +1,16 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Mise au rebus de constructions planétaires</FONT>
+<BR>
+ Je désire détruire
+<INPUT TYPE="text" NAME="v2" VALUE="" SIZE=3 MAXLENGTH=3>
+ construction(s) planétaire(s) de type  
+<?php select1("v1",$t1); ?>
+ sur mon syst&egrave;me 
+<?php select1("v0",$t0); ?>
+(préciser éventuellement la planète :
+<?php select_planete2("v3"); ?>
+)
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

@@ -1,0 +1,3 @@
+<?php
+$suppression="Supprimer cet ordre";
+?>

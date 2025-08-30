@@ -1,0 +1,13 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez céder des centaures.
+<ul><li>
+ En mode normal, tout don au-dessus de 300 centaures sera automatiquement rendu public.
+ Dans le cas de plusieurs dons à un même commandant dans un même tour, c'est bien sûr le total des dons qui sera pris en compte...
+</li><li>
+ En mode discret, vous êtes assuré que votre don restera secret, mais il vous en coûtera un supplément de 50 centaures.
+</li><li>
+ En mode anonyme, non seulement votre don reste secret mais même celui qui recoit votre don ne saura pas qui vous êtes. Cela vous coûtera 100 centaures.
+</li></ul>

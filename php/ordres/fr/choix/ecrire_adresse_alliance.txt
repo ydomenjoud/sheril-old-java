@@ -1,0 +1,12 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Envoyer l'adresse internet du site de l'alliance que vous dirigez </FONT>
+<BR>
+Je viens de créer un site dédié à mon alliance
+<?php select1("v1",$t0); ?>
+<BR>
+ L'adresse de ce site est : 
+<INPUT TYPE="text" NAME="v0" VALUE="" SIZE=30 MAXLENGTH=100> 
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

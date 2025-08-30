@@ -1,0 +1,13 @@
+<HTML><HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Author" CONTENT="zIgzAg">
+<STYLE type="text/css">
+#r {color:red}
+</STYLE>
+<script Language="JavaScript"><!--
+function a(fe){
+ po=open(fe,"a","innerHeight=400,innerWidth=800,screenX=1,scrollbars,resizable");
+ }
+//--></script>
+</HEAD>
+<BODY TEXT="#FFFF00" BGCOLOR="#000000" LINK="#008080" ALINK="#008080" VLINK="#008080" BACKGROUND="../images/fond.jpg">

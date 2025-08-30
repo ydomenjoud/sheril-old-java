@@ -1,0 +1,20 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  $inter3=$rf[3];
+  $inter4=$rf[4];
+  if($inter4!=10000){ $inter4="dans le transporteur numéro <SPAN id=\"r\">$t2[$inter4]</SPAN>";
+                    }
+       else {$inter4="";}
+  $inter5=$rf[5];
+  if($inter5!="10000") {$inter5="à partir du poste du commandant <SPAN id=\"r\">$t3[$inter5]</SPAN>";
+                         }
+       else {$inter5="";} 
+
+  $inter6=$rf[6];
+  if($inter6!=100) {
+   $inter6++;
+   $inter6="à partir de la planète numéro <SPAN id=\"r\">$inter6</SPAN>";
+   } else{$inter6="";}
+  echo("Votre flotte <SPAN id=\"r\">$t0[$inter1]</SPAN> va charger <SPAN id=\"r\">$inter3</SPAN> unité(s) de type <SPAN id=\"r\">$t1[$inter2]</SPAN> $inter4 $inter5 $inter6.");
+?>

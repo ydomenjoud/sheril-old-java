@@ -1,0 +1,10 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Terminer un programme de construction</FONT>
+<BR>
+ Je désire donner l'ordre de terminer le programme de construction sur mon système
+<?php select1("v0",$t0); ?>
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

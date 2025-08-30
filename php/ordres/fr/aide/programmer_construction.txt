@@ -1,0 +1,12 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez établir un programme de construction sur un de vos systèmes.
+<BR><BR>
+Cet ordre nécessite la connaissance de la technologie &quot;Maîtrise de la planification&quot;.
+<BR><BR>
+Si le système concerné possédait déjà un programme de construction, il est automatiquement remplacé par le nouveau:
+ on ne peut pas utiliser plus d'un programme de construction par système.
+
+

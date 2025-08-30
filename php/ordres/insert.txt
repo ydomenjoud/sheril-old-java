@@ -1,0 +1,19 @@
+<?php 
+if($v0!=""){
+ $result=mysql($base,"SELECT * FROM $table");
+ $num_field=mysql_num_fields($result);
+ $var_table=mysql_field_name($result,0);
+ $var_champ="'$commandant'";
+ for($i=1;$i<$num_field;$i++){
+  $inter1=mysql_field_name($result,$i);
+  $inter4=$i-1;
+  $inter2="v$inter4";
+  $inter3=$$inter2;
+  if($table=="ecrire_article") $inter3=nl2br($inter3);
+  $var_table="$var_table,$inter1";
+  $var_champ="$var_champ,'$inter3'";
+  }
+ mysql_query("INSERT INTO $table($var_table) VALUES ($var_champ)")
+  or die("zIgzAg need HELP! Erreur insertion<BR>");
+}
+?>

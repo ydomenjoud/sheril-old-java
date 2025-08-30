@@ -1,0 +1,12 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique quand vous
+voulez donner des ordres à vos services spéciaux.<BR><BR>
+Vous ne pouvez pas donner plus de trois ordres de ce type 
+par tour.
+<br><br>
+Si vous ne précisez pas de planète particulière, une planète du système sera choisie au hasard pour cible.
+<br>Il est conseillé en général de préciser le numéro de la planète visée.
+
+

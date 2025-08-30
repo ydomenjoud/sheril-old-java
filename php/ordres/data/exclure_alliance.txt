@@ -1,0 +1,4 @@
+<?php
+$t0=base1($base,$commandant,"z_appartient_alliance_a_2");
+$t1=base1($base,$commandant,"z_appartient_alliance_c_2");
+?>

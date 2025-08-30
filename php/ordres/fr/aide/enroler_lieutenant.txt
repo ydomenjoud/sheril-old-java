@@ -1,0 +1,12 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous désirez
+tenter d'enrôler un lieutenant.
+On ne peut pas faire plus d'une offre de ce type par tour.<BR><BR>
+Chaque lieutenant demandé ira au plus offrant.<BR>
+Le détail des lieutenants disponibles aux enchères se trouve dans la rubrique des statistiques.
+
+
+
+

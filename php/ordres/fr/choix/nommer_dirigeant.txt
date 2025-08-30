@@ -1,0 +1,11 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Elire un dirigeant</FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je désire voter pour élire comme dirigeant de l'alliance 
+<?php select1("v0",$t0); ?> , 
+<?php select1("v1",$t1); ?>
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

@@ -1,0 +1,10 @@
+<?php
+$t0=fusion_tab2(base1($base,$commandant,"z_flottes"),base_flotte($base,$commandant));
+$t1=base2($base,"z_galaxies");
+$t2=base2($base,"z_directives");
+$t3=base3($base,$commandant,"z_strategies");
+if(gettype($t3)=="array"){
+ $inter_f=array("par défaut");
+ $t3=fusion_tab($inter_f,$t3);
+ }
+?>

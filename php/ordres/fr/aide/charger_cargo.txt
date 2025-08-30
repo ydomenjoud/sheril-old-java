@@ -1,0 +1,25 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous souhaitez charger des marchandises, de la population, 
+ou des bâtiments dans une de vos flotte à partir du système qu'elle survole.
+<BR><BR>
+<ul><li>
+    <p><b> Si vous ne précisez pas le numéro du transporteur, les marchandises seront réparties dans votre flotte automatiquement.
+     Il peut être utile de préciser le numéro du transporteur si vous souhaitez diviser votre flotte dans le même tour, car vous saurez alors dans quel cargo précisément se trouve votre cargaison.
+    </p></b></li>
+    <li><p><b>Si il s'agit de marchandises que vous souhaitez acheter, il est inutile de préciser le commandant du poste dans lequel vous voulez acheter dans deux cas.
+       <ol><li> Le système que vous survolez a un seul propriétaire: il est donc obligatoire d'acheter dans son poste.
+           </li><li> Vous survolez un système où vous avez un poste et vous souhaitez acheter à partir de votre poste : c'est la configuration par défaut.
+           </li>
+       </ol>
+       Dans tous les autres cas, il est nécessaire de préciser le commandant du poste dans lequel vous souhaitez acheter des marchandises pour que l'ordre soit pris en compte.
+    </b></p></li>
+    <li><p><b> Si vous voulez charger des bâtiments ou de la population à partir d'une de vos planète en particulier, vous devez préciser le numéro de la planète. Attention, vous ne pouvez charger 
+      des bâtiments ou de la population qu'à partir de vos propres planètes, et non à partir de celles appartenant à d'autres commandants. Si vous ne précisez pas le numéro de planète, les bâtiments seront prélevés sur les planètes 
+      que le programme choisira en tenant compte de leurs équipements respectifs : il utilisera <i>à priori</i> les planètes les mieux équipées.
+     </b></p></li>
+</ul>
+
+
+

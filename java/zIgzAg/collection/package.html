@@ -1,0 +1,45 @@
+<html>
+<head></head>
+<body>
+Ce package permet essentiellement de stocker directement des entiers
+(des <i>int</i>, sans passer par le biais des <i>Integer</i>) dans des classes
+dérivant de l'interface <i>java.util.Collection</i>.
+<BR><BR>
+Des gains de rapidité substantiels ainsi que des économies de mémoire non négligeables
+peuvent être réalisées par ce biais.
+<BR><BR>
+Toutes ces classes implémentent les interfaces correspondantes du package
+<i>java.util</i>. Ce choix a été fait pour des raisons de facilité de conversion
+et parce que cela procure une plus grande souplesse de programmation.
+<BR><BR>
+Cependant cela &quot;rajoute&quot; des méthodes qui <i>à priori</i>
+(il n'est pas interdit de les utiliser !)
+ne sont pas nécessaires et peuvent entrainer des erreurs de conception si on oublie que
+seuls des entiers sont stockés et pas des objets.
+<BR>
+Par exemple la méthode <i>IntHashSet.add(Object o)</i> qui descend formellement de l'interface
+<i>java.util.Set</i> ne stockera que le résultat (un entier)
+de la méthode <i>o.hashCode()</i> et aucune référence à l'objet o.
+<BR>
+De plus, de ce fait,
+deux objets ayant le même résultat par la méthode <i>hashCode()</i> seront considérés
+comme égaux en interne par ces classes de stockage.
+<BR><BR><BR>
+Le package <i>zIgzAg.collection</i> contient actuellement
+trois classes &quot;utilisables&quot; dans ce cadre,
+<i>IntHashMap</i>, <i>IntIntHashMap</i> et <i>IntHashSet</i>.
+<BR><BR>
+Une classe légèrement différente est fournie : la classe <i>HighHashSet</i>. Elle permet de
+stocker des objets comme dans la classe <i>java.util.HashSet</i>,
+mais seul le résultat de la méthode <i>hashCode()</i> sera utilisée pour classer les objets,
+et pas celui de la méthode <i>equals()</i>. Elle a quelques applications intéressantes.
+<BR><BR>
+le package n'est quasiment pas documenté (si quelqu'un veut le faire... :o) )
+vu que toutes les classes dérivent directement des classes du package <i>java.util</i>.
+Il faut donc se référer à ce package pour avoir une description plus complète
+des différentes classes et méthodes.
+<BR><BR>
+Les différentes classes ont toutes été écrites en partant des sources des classes du package
+<i>java.util</i>.
+</body>
+</html>

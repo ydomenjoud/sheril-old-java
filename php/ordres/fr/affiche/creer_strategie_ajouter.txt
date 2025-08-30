@@ -1,0 +1,8 @@
+<?php
+$inter1=$rf[1];
+$inter2=$rf[2];
+$inter3=$rf[3];
+$inter4="";
+for($j=4;$j<14;$j++) $inter4="$inter4 $rf[$j] -";
+echo("Pour les vaisseaux de type  <SPAN id=\"r\">$inter1</SPAN>, se positionner en <SPAN id=\"r\">$inter2</SPAN> - <SPAN id=\"r\">$inter3</SPAN> en visant les cibles de taille, dans l'ordre : <SPAN id=\"r\">$inter4</SPAN>. ");
+?>

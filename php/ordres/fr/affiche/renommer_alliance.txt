@@ -1,0 +1,5 @@
+<?php
+$inter1=$rf[1];
+$inter2=$rf[2];
+echo("Vous renommez l'alliance <SPAN id=\"r\">$t0[$inter2]</SPAN> : <SPAN id=\"r\">$inter1</SPAN>.");
+?>

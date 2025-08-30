@@ -1,0 +1,5 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  echo("J'affecte mon gouverneur <SPAN id=\"r\">$inter1</SPAN> sur la position : <SPAN id=\"r\">$t1[$inter2]</SPAN>.");
+?>

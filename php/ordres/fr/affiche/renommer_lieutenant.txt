@@ -1,0 +1,5 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  echo("Je donne son nouveau nom, <SPAN id=\"r\">$inter2</SPAN>,à mon lieutenant <SPAN id=\"r\">$inter1</SPAN>.");
+?>

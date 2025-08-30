@@ -1,0 +1,9 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Demande d'adhésion à une alliance existante  </FONT>
+<BR>
+Je désire adhérer à l'alliance
+<?php select1("v0",$t0); ?>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

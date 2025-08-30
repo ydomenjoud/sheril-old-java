@@ -1,0 +1,12 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Pistage de flotte</FONT>
+<BR>
+Ma flotte
+<?php select1("v0",$t0); ?>
+ doit pister la flotte 
+<?php select1("v1",$t1); ?>
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

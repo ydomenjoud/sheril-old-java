@@ -1,0 +1,9 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Faire paraître une annonce ou un article dans la gazette</FONT>
+<BR>
+Je désire faire paraître l'article suivant :
+<TEXTAREA name="v0" rows="10" cols="100" wrap="virtual" ></TEXTAREA>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

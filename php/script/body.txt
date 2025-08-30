@@ -1,0 +1,15 @@
+<HTML><HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Identification</TITLE>
+<META NAME="Author" CONTENT="zIgzAg">
+</HEAD>
+<BODY TEXT="#FFFF00" BGCOLOR="#000000" LINK="#008080" ALINK="#008080" VLINK="#008080" BACKGROUND="../images/fond.jpg">
+<DIV align="center">
+<font color="#FF0000" size="7"><b>Identification</font></b>
+<HR>
+<p>
+<b><i><font color="#OOFFFF">Entrez votre login et votre mot de passe...<BR>
+Vous les avez recu en même temps que votre premier rapport.</p>
+</font></i></b>
+
+<HR>

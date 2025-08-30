@@ -1,0 +1,14 @@
+<?php
+$result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
+$nb_lignes = mysql_num_rows($result);
+if($nb_lignes==0){
+ echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
+ echo("<P><B><FONT SIZE=\"4\" COLOR=\"#C0C0C0\">Choisir une nouvelle Capitale</FONT><BR>");
+ echo("Je désire établir ma capitale en ");
+ select1("v0",$t0); 
+ echo("</B></P>");
+ echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
+ echo("</FORM>");
+ }
+?>
+

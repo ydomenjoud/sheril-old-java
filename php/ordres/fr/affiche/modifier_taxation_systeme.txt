@@ -1,0 +1,5 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  echo("Votre système <SPAN id=\"r\">$t0[$inter1] </SPAN> va passer en taxation <SPAN id=\"r\">$inter2</SPAN>.");
+?>

@@ -1,0 +1,15 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez transférer une flotte.<BR>
+<BR>
+Votre flotte vous reviendra au bout de la durée que vous avez précisée, dans la cas bien sûr où elle n'est pas détruite...
+Entre temps, c'est le bénéficiaire du prêt qui payera son entretien. Une flotte qu'on vous a prété ne peut pas être prétée.
+<ul><li>
+ En mode normal, tout prêt de flotte a 10% de chance d'être rendu public.
+</li><li>
+ En mode discret, vous êtes assuré que votre prêt restera secret, mais il vous en coûtera un supplément de 50 centaures.
+</li><li>
+ En mode anonyme, non seulement votre prêt reste secret mais même celui qui recoit votre flotte ne saura pas qui vous êtes. Cela vous coûtera 200 centaures.
+</li></ul>

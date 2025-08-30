@@ -1,0 +1,22 @@
+<?php 
+include "../script/body.txt";
+?>
+
+<DIV align="center">
+
+<?php
+  echo("<FORM name=\"r\" action=\"$nom_page\" method=\"POST\">");
+  echo("<B> Votre login : ");
+  echo("<INPUT NAME=\"x0\" TYPE=\"text\" SIZE=\"10\" MAXLENGHT=\"10\"><BR><BR>");
+  echo(" Votre mot de passe : ");
+  echo("<INPUT NAME=\"x1\" TYPE=\"password\" SIZE=\"10\" MAXLENGHT=\"20\"><BR><BR>");
+  echo("<INPUT NAME=\"token\" TYPE=\"hidden\" VALUE=\"$token\"><BR><BR>");
+  echo("<INPUT TYPE=\"submit\" NAME=\"a\" VALUE=\"Envoyer\"></FORM>");
+?>
+</DIV>
+
+</BODY>
+</HTML>
+
+  
+

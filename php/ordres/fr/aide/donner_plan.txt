@@ -1,0 +1,16 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez donner un plan de vaisseau privé que vous avez concu.<BR>
+<BR>
+<ul><li>
+ En mode normal, tout don de plan a 5% de chance d'être rendu public.
+</li><li>
+ En mode discret, vous êtes assuré que votre don restera secret, mais il vous en coûtera un supplément de 20 centaures.
+</li><li>
+ En mode anonyme, non seulement votre don reste secret mais même celui qui recoit votre don ne saura pas qui vous êtes.
+  Ce n'est cependant pas trés intéressant car le nom du concepteur, c'est à dire vous-même est indiqué sur la description du plan...
+  Aussi cela ne vous coûtera que 20 centaures également.
+</li></ul>
+

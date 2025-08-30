@@ -1,0 +1,4 @@
+<?php
+$t0=base2($base,"z_strategie_cible");
+$t1=base2($base,"z_strategie_agressivite");
+?>

@@ -1,0 +1,13 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique pour coloniser une de vos planètes.
+<BR><BR>
+Cela vous permet de rendre habitable la planète visée pour la race de l'équipage du colonisateur, 
+si bien sûr cette race peut supporter les conditions de radiation, de température et de gravité de la planète en question.
+(cf. règles complètes).
+<br><br>
+En cas de présence de plusieurs colonisateurs dans une même flotte, le colonisateur est choisi au hasard.
+
+
+

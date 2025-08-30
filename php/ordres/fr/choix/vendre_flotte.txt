@@ -1,0 +1,11 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Vendre une flotte</FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je souhaite vendre les vaisseaux de ma flotte  
+<?php select1("v1",$t1); ?>
+ au commandant  
+<?php select1("v0",$t0); ?>
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

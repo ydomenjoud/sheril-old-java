@@ -1,0 +1,12 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez voter pour élire un dirigeant à la tête d'une de vos alliance.
+<BR><BR>
+Seules les alliances démocratiques, et anarchiques non-secrètes, peuvent élirent leurs dirigeants.
+<BR><BR>
+Un seul vote par alliance et par membre est permis.
+Si un commandant vote deux fois dans le même tour pour une même alliance, tous ses votes seront annulés.
+
+

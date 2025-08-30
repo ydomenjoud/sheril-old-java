@@ -1,0 +1,4 @@
+<?php
+  $inter1=$rf[1];
+  echo("Je fixe le taux de taxation de l'ensemble de mes postes commerciaux à <SPAN id=\"r\">$inter1</SPAN>%.");
+?>

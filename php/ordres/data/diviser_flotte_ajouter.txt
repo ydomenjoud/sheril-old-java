@@ -1,0 +1,4 @@
+<?php
+$t0=base1($base,$commandant,"z_flottes");
+$t1=base3($base,$commandant,"z_vaisseaux");
+?>

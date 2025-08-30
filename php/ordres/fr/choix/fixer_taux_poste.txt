@@ -1,0 +1,10 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Modifier le taux de taxation de vos postes commerciaux</FONT>
+<BR>
+Je désire fixe le taux de taxation de l'ensemble de mes postes commerciaux à  
+<?php select_pour_cent("v0"); ?>
+ %
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

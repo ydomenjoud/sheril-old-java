@@ -1,0 +1,4 @@
+<?php
+$t0=fusion_tab2(base1($base,$commandant,"z_flottes"),base_flotte($base,$commandant));
+$t1=base1($base,$commandant,"z_flottes_detectees");
+?>

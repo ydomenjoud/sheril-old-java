@@ -1,0 +1,6 @@
+<?php
+$inter1=$rf[1];
+$inter2=$rf[2];
+$inter3=$rf[3];
+echo("Votre nouvelle stratégie de combat aura pour nom <SPAN id=\"r\">$inter1</SPAN> ,un paramètre d'agressivité <SPAN id=\"r\">$t1[$inter2]</SPAN>, et comme cible prioritaire : <SPAN id=\"r\">$t0[$inter3]</SPAN><BR> Pour déterminer les particularités pour chaque type de vaisseau : <FORM><INPUT TYPE='button' value='Types de vaisseaux' onClick=\"a('$nom_page?table=creer_strategie_ajouter');\"></FORM>");
+?>

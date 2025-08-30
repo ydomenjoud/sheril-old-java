@@ -1,0 +1,13 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez tenter d'exclure quelqu'un d'une alliance.
+<BR><BR>
+Si vous êtes le dirigeant d'une alliance autocratique, l'ordre sera immédiatement effectif.
+<BR><BR>
+Sinon, c'est que vous êtes membre d'une alliance démocratique : pour que l'exclusion soit effective,
+ il faut que la majorité des membres votent pour cette exclusion dans le même tour.
+Si vous votez deux fois pour exclure un même commandant d'une même alliance, les deux votes seront annulés.
+
+

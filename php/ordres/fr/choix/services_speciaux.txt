@@ -1,0 +1,19 @@
+<?php
+$result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
+$nb_lignes = mysql_num_rows($result);
+if($nb_lignes<3){
+ echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
+ echo("<P><B><FONT SIZE=\"4\" COLOR=\"#C0C0C0\">Mission des services spéciaux</FONT><BR>");
+ echo("Mission spéciale ");
+ select1("v1",$t1);
+ echo(" sur le système ");  
+ select1("v0",$t0); 
+ echo(" (préciser éventuellement la planète numéro ");
+ select_planete2("v2");
+ echo(")");
+ echo("</B></P>");
+ echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
+ echo("</FORM>");
+ }
+?>
+

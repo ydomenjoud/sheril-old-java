@@ -1,0 +1,4 @@
+<?php
+$t0=base1($base,$commandant,"z_commandants_adhesion");
+$t1=base1($base,$commandant,"z_alliance_dirigeant");
+?>

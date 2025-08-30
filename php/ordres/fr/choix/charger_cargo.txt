@@ -1,0 +1,24 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Charger des cargos</FONT>
+<BR>
+Charger ma flotte
+<?php select1("v0",$t0); ?>
+ avec
+<input type="text" size="4" maxlength="4" name="v2">
+ unité(s) de type 
+<?php select1("v1",$t1); ?>
+<BR> 
+( optionnel : dans le transporteur numéro
+<?php select1("v3",$t2); ?>
+<BR>
+  à partir du poste du commandant
+<?php select1("v4",$t3); ?>
+<BR>
+  à partir de la planète numéro
+<?php select_planete2("v5"); ?>
+ )
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

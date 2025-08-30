@@ -1,0 +1,5 @@
+<?php
+$inter_g=array("0_0_0" => "En réserve");
+$t0=base3($base,$commandant,"z_gouverneurs");
+$t1=fusion_tab2(base1($base,$commandant,"z_systemes"),$inter_g);
+?>

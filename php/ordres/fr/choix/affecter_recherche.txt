@@ -1,0 +1,12 @@
+<?php
+ echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
+ echo("<P><B><FONT SIZE=\"4\" COLOR=\"#C0C0C0\">Affecter des crédits pour la recherche</FONT><BR>");
+ echo("Dépenser ");
+ select_pour_cent("v1");
+ echo("% de crédits de recherche pour chercher la technologie ");
+ select1("v0",$t0); 
+ echo("</B></P>");
+ echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
+ echo("</FORM>");
+?>
+

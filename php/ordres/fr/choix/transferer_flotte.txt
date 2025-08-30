@@ -1,0 +1,16 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Préter une flotte</FONT>
+<FONT SIZE="2" COLOR="#008080"></FONT><BR>
+Je prète ma flotte 
+<?php select1("v1",$t1); ?>
+ au commandant  
+<?php select1("v0",$t0); ?>
+ en mode de transfert
+<?php select1("v3",$t2); ?>
+ et pour une durée de 
+<select name="v2" size="1"><option selected value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select>
+tours.
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

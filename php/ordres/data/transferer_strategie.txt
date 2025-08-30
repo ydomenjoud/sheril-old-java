@@ -1,0 +1,5 @@
+<?php
+$t0=base1($base,$commandant,"z_commandants_transfert");
+$t1=base3($base,$commandant,"z_strategies");
+$t2=base2($base,"z_mode_transfert");
+?>

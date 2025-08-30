@@ -1,0 +1,4 @@
+<?php
+$t0=base1($base,$commandant,"z_commandants_transfert");
+$t1=base1($base,$commandant,"z_flottes");
+?>

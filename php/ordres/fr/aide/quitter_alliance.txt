@@ -1,0 +1,10 @@
+
+<H3><FONT COLOR="#FF0000">Aide</FONT></H3>
+
+<P><FONT COLOR="#FFFF00"><STRONG>Utilisez cette rubrique si vous
+voulez quitter une alliance dont vous faites partie.<BR>
+<BR>
+Il vous suffit de choisir dans le cadre le nom de l'alliance
+que vous quittez. <BR>
+Seules les alliances dont vous êtes membre vous seront proposées.
+

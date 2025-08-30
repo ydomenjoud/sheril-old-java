@@ -1,0 +1,15 @@
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<P><B><FONT SIZE="4" COLOR="#C0C0C0">Modifier le budget d'un syst&egrave;me </FONT>
+<BR>
+ Sur mon syst&egrave;me 
+<?php select1("v0",$t0); ?>
+ faire passer le budget
+<?php select1("v1",$t1); ?>
+ à 
+<?php select_pour_cent("v2"); ?>
+ %
+
+</B></P>
+<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+</FORM>
+

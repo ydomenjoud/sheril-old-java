@@ -1,0 +1,6 @@
+<?php
+$t0=base1($base,$commandant,"z_flottes_cargo");
+$t1=base1($base,$commandant,"z_cargaison_chargement");
+$t2=base1($base,$commandant,"z_vaisseaux_cargo");
+$t3=base1($base,$commandant,"z_proprios_poste");
+?>

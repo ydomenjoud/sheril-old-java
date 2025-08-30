@@ -1,0 +1,3 @@
+<?php 
+$t0=fusion_tab(base3($base,$commandant,"z_heros"),base3($base,$commandant,"z_gouverneurs"));
+?>

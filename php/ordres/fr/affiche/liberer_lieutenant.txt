@@ -1,0 +1,4 @@
+<?php
+  $inter1=$rf[1];
+  echo("Je me sépare du lieutenant <SPAN id=\"r\">$inter1</SPAN>.");
+?>

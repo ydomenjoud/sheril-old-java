@@ -1,0 +1,4 @@
+<?php
+$t0=base2($base,"z_alliance_secrete");
+$t1=base2($base,"z_alliance_type");
+?>

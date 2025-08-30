@@ -1,0 +1,6 @@
+<?php
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  $inter3=$rf[3]+1;
+  echo("Je donne son nouveau nom, <SPAN id=\"r\">$inter2</SPAN>, à la planète numéro <SPAN id=\"r\">$inter3</SPAN> du système <SPAN id=\"r\">$t0[$inter1]</SPAN>.");
+?>

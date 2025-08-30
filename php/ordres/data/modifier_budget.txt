@@ -1,0 +1,4 @@
+<?php
+$t0=base1($base,$commandant,"z_systemes");
+$t1=base2($base,"z_budgets");
+?>
