@@ -1,0 +1,295 @@
+Quand je connais le vrai nom des contributeurs au code, c'est lui que j'indique,
+ sinon j'indique le nom du commandant du joueur. 
+Si certains veulent rectifier, ils savent ce qu'il leur reste à faire :o).
+Quand il n'y a pas de contributeur signalé, c'est que ca vient de moi :o).
+
+Julien
+
+*********
+24-02-01:
+*********
+
+- zIgzAg.jeu.oceane.Systeme : modification de la méthode public void evolutionStabilite(int,Position,Gouverneur,Possession)
+  --> la stabilité n'évoluait pas correctement en fonction de la distance à la capitale. 
+      (bug corrigé grace au joueur d'Ashura(36) ) 
+    
+- La classe zIgzAg.jeu.oceane.RapportCombat a été rajoutée dans le but de permettre un rapport automatique des combats 
+   pour la gazette.
+
+  -->De plus la classe zIgzAg.jeu.oceane.Univers a été modifiée en conséquence avec rajout de deux méthodes:
+     - public static void ajouterRapportCombat(RapportCombat);
+     - public static RapportCombat[] getRapportsCombat(int,int);
+    et d'un champ : private static IntMap RAPPORTS_COMBAT;
+
+  -->De même trois méthodes de la classe zIgzAg.jeu.oceane.Combat ont été modifiées :
+    - public static void resolutionAttaquePlanete(Systeme,int[],int);
+    - public static void resolutionAttaqueSysteme(Systeme,int[]);
+    - public static boolean attaqueFlotte(int[],int[]);
+
+  -->Dans la classe zIgzAg.jeu.oceane.Rapport, la méthode public static void ecrireRapportCombat(Locale) a été rajoutée.
+
+  -->Dans la classe zIgzAg.jeu.oceane.MessagesRapport, le champ RAPPORT_COMBAT a été rajouté.
+
+- Dans la classe zIgzAg.utile.Fiche, une méthode public static StringBuffer lectureBuffer(String) a été rajoutée.
+
+- Les fichiers php/ordres/fr/affiche/charger_cargo.txt et php/ordres/fr/affiche/decharger_cargo.txt ont été modifiés :
+  ils ne prenaient pas bien en compte le fait de ne pas choisir de numéro de transport ou un numéro de commandant.
+
+- zIgzAg.jeu.oceane.Commandant : les méthodes suivantes ont été corrigées par Roland Trouville d'un bug sur l'influence
+                                   du héros sur les prix :
+  - public ObjetTransporte vendreMarchandises(Commandant,int,Position,String,int);
+  - public ObjetTransporte acheterMarchandises(Commandant,int,Position,String,int);
+
+- Pour remplacer la compétence intragalactique des héros par des "passages":
+
+  - zIgzAg.jeu.oceane.Const : 
+     - le champ CHANCE_TROUVER_COMPETENCE_HEROS a été modifié.
+     - le champ PORTES a été rajouté.
+     - le champ NOMS_TABLES_ORDRES a été modifié.
+     - un grand nombre de champs "ordres particuliers" ont été modifiés.
+     - le champ TABLE_FLOTTE_INTRAGALACTIQUE a été rajouté.
+     - le champ BUDGET_COMMANDANT_FRANCHISSEMENT_PORTE_INTRAGALACTIQUE a été rajouté.
+      
+  - zIgzAg.jeu.oceane.Flotte : 3 méthodes en plus :
+     - public int[] numeroPorteIntraGalactique();
+     - public boolean estSurPorteIntraGalactique();
+     - public void marquerDeplacement();
+
+  - zIgzAg.jeu.oceane.ProductionOrdres : la méthode public boolean utiliser_porte_intragalactique() a été rajoutée.
+
+  - zIgzAg.jeu.oceane.ReceptionOrdres : la méthode public void utiliser_porte_intragalactique(String[]) a été rajoutée.
+
+  - zIgzAg.jeu.oceane.Commandant : 
+     - la méthode public boolean utiliserPorteIntraGalactique(int) a été rajoutée.
+     - la méthode public void resolutionGestionFlottes() a été modifiée.
+    
+  - zIgzAg.jeu.oceane.Messages : le champ CHAMPS_BUDGET a été modifié.
+
+  - zIgzAg.jeu.oceane.MessagesInfo : champs rajoutés :
+    -  ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000;
+    -  EV_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000;
+    -  EV_COMMANDANT_GESTION_FLOTTE_0005;
+
+  - zIgzAg.jeu.oceane.MessagesSystemes : champs rajoutés :
+    - ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000;
+    - ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0001; 
+
+  - les fichiers suivants ont été rajoutés : 
+      php/ordres/data/utiliser_porte_intragalactique.txt, php/ordres/fr/choix/utiliser_porte_intragalactique.txt,
+      php/ordres/fr/affiche/utiliser_porte_intragalactique.txt,php/ordres/fr/aide/utiliser_porte_intragalactique.txt.
+    -->  Par ailleurs le fichier php/divers/creer_tables.php3 a été modifié, ainsi que php/ordres/liste/menu.php3.
+
+
+*********
+06-02-01:
+*********
+
+- zIgzAg.jeu.oceane.Possession : correction d'un bug signalé par Blablator sur l'évolution des prix.
+
+
+*********
+03-02-01:
+*********
+
+Attention les yeux, nombreux changements répertoriés ! :o)
+Tout d'abord, je viens d'ajouter deux package, zIgzAg.sql et zIgzAg.collection.
+Ensuite les changements suivants ont eu lieu:
+
+***Pour mettre en place un seuil minimal de puissance nécessaire pour l'attaque d'une planète -->
+
+- zIgzAg.jeu.oceane.MessageInfo : le champ suivant a été rajouté
+  public static final String COMBAT_SYSTEME_0015=
+  "Votre flotte {0} n'a pu combattre car elle n'a pas la puissance minimale requise pour attaquer une planète.";
+
+- zIgzAg.jeu.oceane.Combat : Roland Trouville a modifié la méthode
+  public static int combatFlottePlanete(Commandant,int,Commandant,Systeme,int,int,int[]);
+
+***Pour corriger un bug empéchant une flotte de participer à plusieurs combats -->
+
+- zIgzAg.jeu.oceane.Combat : modification de la méthode
+  public static boolean combatFlotteFlotte(Commandant c1,Commandant c2,int numFlotte1,int numFlotte2)
+
+***Pour que les stats de Surcouf soient cachées -->
+
+- nombreuses mais légères modifications dans la classe zIgzAg.jeu.oceane.Stats
+
+***Correction d'un bug pour renommer les planètes par Roland Trouville -->
+
+- zIgzAg.jeu.oceane.Commandant : modification de la méthode
+     public boolean renommerSysteme(Position,String)
+
+***Utilisation du package zIgzAg.sql -->
+
+- Une classe zIgzAg.jeu.oceane.SessionUnivers a été rajouté pour tourner les champs statiques de la classe Univers.
+
+- Des constructeurs sans argument "private" ou "protected" ont été rajouté pour permettre l'instantiation
+   pour les classes suivantes :
+
+    -  zIgzAg.jeu.oceane.Arme
+    -  zIgzAg.jeu.oceane.Batiment
+    -  zIgzAg.jeu.oceane.ComposantDeVaisseau
+    -  zIgzAg.jeu.oceane.Produit
+    -  zIgzAg.jeu.oceane.Technologie
+
+- Une classe Essai.java est fournie dans le répertoire "divers" avec la base de donnée résultat ("base_oceane.sql").
+
+- Enfin les classes zIgzAg.jeu.oceane.ProductionOrdres et zIgzAg.jeu.oceane.ReceptionOrdres ont été adaptées
+    à la nouvelle classe zIgzAg.sql.SessionMysql
+
+***Modifications nécessaires pour permettre de diriger plusieurs alliances 
+***Modifications dues en grande partie à Roland Trouville :o) -->
+
+- zIgzAg.jeu.oceane.ReceptionOrdres , méthodes modifiées :
+    
+    - public void adherer_alliance(String[] );
+    - public void renommer_alliance(String[]);
+    - public void ecrire_adresse_alliance(String[]);
+
+- zIgzAg.jeu.oceane.ProductionOrdres , méthode modifiée : public boolean valider_adhesion_alliance();
+
+- zIgzAg.jeu.oceane.Const , champ rajouté : public static final String TABLE_DIRIGEANT="z_alliance_dirigeant";
+
+- zIgzAg.jeu.oceane.Commandant, méthodes modifiées :
+
+    - public int[] getAllianceDirigee();
+    - public boolean estDirigeantAlliance();
+    - public boolean creerAlliance(int,String,int,boolean);
+    - public boolean voterExclusionCommandant(int,int);
+    - public boolean renommerAlliance(String,int);
+    - public boolean ecrireAdresseAlliance(String,int);
+    
+- zIgzAg.jeu.oceane.MessagesInfo , champs modifiés :
+
+    - public static final String ER_COMMANDANT_ALLIANCE_0006=
+        "Vous ne pouvez renommer l'alliance {0} car vous ne la dirigez pas.";
+    - public static final String ER_COMMANDANT_ALLIANCE_0007=
+        "Vous ne pouvez changer l'adresse electronique de l'alliance {0} car vous ne la dirigez pas.";
+
+- zIgzAg.jeu.oceane.MessagesSystemes , champs ajoutés :
+
+    - public static final String ER_COMMANDANT_ALLIANCE_0012=
+        "Impossible de renommer l'alliance {0} : elle n'existe pas.";
+    - public static final String ER_COMMANDANT_ALLIANCE_0013=
+        "Impossible de changer le site de l'alliance {0} : elle n'existe pas.";
+
+- zIgzAg.jeu.oceane.Alliance , méthode modifiée : public void traiterVoteDirigeant();
+
+- au niveau des fichiers "php" :
+
+    - php/divers/creer_tables.php3:
+      - table créée: CREATE TABLE z_alliance_dirigeant(NUMERO int PRIMARY KEY, CODE TEXT, PARAM TEXT)
+      - tables modifiées:
+          - CREATE TABLE renommer_alliance(NUMERO int, NOM varchar(100), ALLIANCE int)
+          - CREATE TABLE ecrire_adresse_alliance(NUMERO int, ADRESSE varchar(100), ALLIANCE int)
+          - CREATE TABLE valider_adhesion_alliance(NUMERO int, POSTULANT int,ALLIANCE int)
+
+    -  modification répertoires php/ordres/data, php/ordres/fr/aide, php/ordres/fr/affiche, php/ordres/fr/choix :
+       - valider_adhesion_alliance.php3
+       - ecrire_adresse_alliance.php3
+       - renommer_alliance.php3
+    
+ -------> Enfin je viens de rajouter dans la racine deux fichiers "vite bidouillés" ;o) de visualisation
+            des fichiers en ligne.
+
+ -------> et c'est tout pour aujourd'hui ;o)
+
+
+*********
+25-01-01:
+*********
+
+- zIgzAg.jeu.oceane.MessageInfo : le champ EV_COMMANDANT_ALLIANCE_0003 a été corrigée d'une coquille
+                                    signalée par Shog(130).
+
+
+
+*********
+24-01-01:
+*********
+
+- zIgzAg.jeu.oceane.Commandant : public boolean fusionnerFlotte(int,int,int,int);
+                                 le numéro le moins élevé ne transmettait pas forcément à la nouvelle flotte
+                                 la directive, le nom ou la construction en cours. Bug détecté par Aldazor(83).
+
+- zIgzAg.jeu.oceane.Planete : private int modificateurOccupationPopulation(int,int);
+                              Un bug important empéchait la diminution de 10% par race présente sur une 
+                                même planète de la poulation maximale. Correction Roland Trouville & votre serviteur.
+
+- zIgzAg.jeu.oceane.PlanDeVaisseau : public static float determinerPrix(Commandant,String[],int);
+                                    les royalties n'étaient pas comprises dans le prix. Correction Roland Trouville.
+                                     Bug signalé par Claude Linger.
+
+- zIgzAg.jeu.oceane.Commandant : public boolean creerPlanDeVaisseau(String,String,String,int,String[],int[]);
+                                 la modification de la méthode au-dessus nécessite de modifier cette méthode.
+
+
+*********
+23-01-01:
+*********
+
+- zIgzAg.jeu.oceane.MessagesInfo : plus de "." après les liens sur une remarque du joueur de vega(248) :o)
+
+*********
+22-01-01:
+*********
+
+- zIgzAg.jeu.oceane.Flotte : public void retourLocation(Commandant,int,int); a été modifiée car il y a avait un bug 
+                              sur le retour de prêt.
+
+
+
+*********
+21-01-01:
+*********
+
+- zIgzAg.jeu.oceane.Commandant : public int getPlaceAlliance(int); a été rajoutée car nécessaire pour limiter les revenus
+                                   des alliances au deux premières.
+
+- zIgzAg.jeu.oceane.Alliance : public static void gererAlliances1(); a été modifiée, toujours pour limiter les revenus
+                                  des alliances au deux premières (chronologiquement au niveau de l'adhésion).
+
+- zIgzAg.jeu.oceane.EnvoyerRapport : public static void zipper(Commandant);
+                                     Cette méthode a été légèrement modifiée pour réduire le nombre de fichier
+                                     à "ftpiser". 
+
+- php/divers/creer_tables.php3 et php/script/aut.txt ont été modifiées au niveau de la table aa_clone
+                                              qui code les dates en int maintenant.
+
+
+*********
+20-01-01:
+*********
+
+- zIgzAg.jeu.oceane.Vaisseau : private void effectuerDommages(Vaisseau,Arme,Heros,Heros);
+                               Toujours Roland qui sévit :o). Pour le calcul de l'expérience du vaisseau cible,
+                                j'utilisai la caractéristique Maitrise du savoir du héros attaquant !!! Arghh!!!  :o)
+                               C'est le joueur de Jaïbath(14) qui a détecté le problème.
+
+*********
+19-01-01:
+*********
+
+- zIgzAg.jeu.oceane.Systeme : public float getRevenuTechnologique(int,Gouverneur,Possession);
+                              public float getRevenu(int,Gouverneur,Possession);
+                              Ces deux méthodes ont été corrigées d'un bug corrigé par Roland Trouville 
+                              et signalé par la joueuse de Lady Deirde Skye(23).
+
+- php/ordres/menu.php3 : un header forcant la réactualisation du cache a été rajouté, de nouveau sur
+                         une suggestion de Roland. (en forme Leym bravo ;) )
+
+*********
+18-01-01:
+*********
+
+- un fichier php/divers/creer_tables.php3 a été rajouté pour montrer les différentes tables MYSQL disponibles.
+
+- des .htaccess "deny for all" ont également été rajoutés dans chaque répertoire où il y en a sur le site :o)
+
+*********
+17-01-01:
+*********
+
+- zIgzAg.jeu.oceane.PlanDeVaisseau : public int capaciteNavireUsine(); corrigée
+
+- zIgzAg.jeu.oceane.Planete : public void testerRevolte(); les planètes non-habitées ne se mettent plus en révolte.
+
