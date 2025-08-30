@@ -535,10 +535,14 @@ public class Commandant extends Joueur implements Serializable {
         for (int i = 0; i < liste.length; i++) {
             Possession p = getPossession(liste[i]);
             float t = 0F;
-            if (typeBudget == Const.DOMAINES_BUDGET_TECHNOLOGIQUE)
+            if (typeBudget == Const.DOMAINES_BUDGET_TECHNOLOGIQUE) {
                 t = Univers.getSysteme(liste[i]).getRevenuTechnologique(numero,
                         getGouverneurSurPossession(liste[i]), p)
                         * p.getBudget(typeBudget);
+
+                // bonus commandant
+                t *= (float) (1 + Const.RACES_CARACTERISTIQUES[getRace()][Const.RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE]) / 100;
+            }
             else
                 t = Univers.getSysteme(liste[i]).getRevenu(numero,
                         getGouverneurSurPossession(liste[i]), p)

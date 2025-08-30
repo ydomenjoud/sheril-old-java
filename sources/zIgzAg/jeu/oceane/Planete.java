@@ -952,10 +952,7 @@ public class Planete implements Serializable {
 		for (int i = 0; i < populations.size(); i++) {
 			Population p = (Population) populations.get(i);
 			int potentiel = (p.getPopActuelle() * taxation) / 10;
-			retour = retour
-					+ potentiel
-					+ (potentiel * Const.RACES_CARACTERISTIQUES[p.getRace()][Const.RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE])
-					/ 100;
+			retour = retour + potentiel;
 		}
 		return retour;
 	}
