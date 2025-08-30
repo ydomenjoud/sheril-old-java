@@ -76,6 +76,13 @@
             color: var(--help);
         }
 
+        table {
+            padding-left: 0;
+            width: 100%;
+        }
+        table tr:hover td {
+            background-color: rgba(90,90,90,0.8);
+        }
         .delete {
             margin-right: 10px;
             color: #c54646;
@@ -175,7 +182,7 @@
             filter: brightness(150%);
         }
 
-        h1+*:not(h1) {
+        h1+*:not(h1):not(table) {
             padding-left: 20px;
         }
         h1+h2 {
