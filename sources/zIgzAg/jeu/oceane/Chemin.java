@@ -42,11 +42,11 @@ public class Chemin {
 
 	public static final String CARNET_DE_BORD = RACINE + "carnet.txt";
 
-	public static final String RACINE_SITE = "http://sheril.pbem-france.net/";
+	public static final String RACINE_SITE = "https://sheril.pbem-france.net/";
 	public static final String SITE = RACINE_SITE + "principal.htm";
 	public static final String SITE_REGISTRE = RACINE_SITE + "info/reg.htm";
 
-	public static final String MJ = RACINE + "mj/";
+	public static String MJ = RACINE + "mj/";
 	// Le repertoire où est stocké les informations nécessaires au mj.
 
 	public static final String IMAGES_RESERVE = RACINE + "images/";

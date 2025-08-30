@@ -73,9 +73,6 @@ public class Start {
         int numTour = Univers.getTour();
         int nextTour = numTour + 1;
 
-        // Chargement du bot
-        System.out.println("Connexion du bot");
-
         // Première phrase
         Univers.notify("Bonjour!");
 
@@ -89,7 +86,7 @@ public class Start {
         }
 
         try {
-            Univers.notify("Démarrage du nouveau tour: " + nextTour);
+            Univers.notify("Démarrage du nouveau tour: " + nextTour + " FAKE : " + Const.FAKE_TURN + " NOTIFY : " + Const.NOTIFY_BOT);
 
             // On déroule le tour
             DeroulementDuTour.main(null);
