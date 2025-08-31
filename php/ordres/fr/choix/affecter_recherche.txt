@@ -2,7 +2,7 @@
 
  // calcul de la somme actuelle
 //var_dump($t0);
-$result = mysql($base, "SELECT SUM(AFFECTATION) as total FROM affecter_recherche WHERE NUMERO=1");
+$result = mysql($base, "SELECT SUM(AFFECTATION) as total FROM affecter_recherche WHERE NUMERO=$commandant");
 $row = mysql_fetch_row($result);
  echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
  echo("<h1>Affecter des crédits pour la recherche (" .  $row[0] . "%)</h1>");
