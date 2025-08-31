@@ -811,7 +811,9 @@ public class Combat {
         Combat.logln("RESOLUTION COMBAT " + combatEnCours);
 
         System.out.print("FF( " + c1.getNomNumerobis() + " F" + numFlotte1 + "," + c2.getNomNumerobis() + " F" + numFlotte2 + " ) - ");
-        Univers.notify("Combat entre " + c1.getNomNumerobis() + " et " + c2.getNomNumerobis());
+        if(!c1.estJoueurNeutre() && !c2.estJoueurNeutre()) {
+            Univers.notify("Combat entre " + c1.getNomNumerobis() + " et " + c2.getNomNumerobis());
+        }
         Univers.phaseSuivante();
 
         // phase d'initialisation.

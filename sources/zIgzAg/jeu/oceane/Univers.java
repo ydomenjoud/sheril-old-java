@@ -1704,7 +1704,7 @@ public class Univers {
 
         // Ajouter une nouvelle ligne
         if (currentContent.isEmpty()) {
-            currentContent = "TOUR " + (Univers.NUMERO_DU_TOUR+1);
+            currentContent = "TOUR " + (Univers.NUMERO_DU_TOUR+1) + "\n";
         } else {
             currentContent += "\n";
         }
