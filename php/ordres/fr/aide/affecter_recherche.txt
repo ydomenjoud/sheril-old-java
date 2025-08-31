@@ -1,9 +1,18 @@
-
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique quand vous
-voulez affecter des crédits à vos domaines de recherche.<BR>
-Le total des affectations passées et à venir ne doit pas dépasser 100%,
-sinon vos ordres d'affectation de ce tour seront annulés.
+<div>
+    <P>
+        Utilisez cette rubrique quand vous
+        voulez affecter des crédits à vos domaines de recherche.<BR>
+        Le total des affectations passées et à venir ne doit pas dépasser 100%,
+        sinon vos ordres d'affectation de ce tour seront annulés.
+    </P>
+    <P>
+        ATTENTION, le pourcentage reste de tour en tour, donc si il vous reste 19% attribué le tour précédent qui
+        n'ont pas
+        abouti, les 19% resteront à prendre en compte dans votre répartition et il ne faudra affecter que 81% ce
+        tour ci. Ou
+        alors remettre à 0 les recherches pour pouvoir les réorienter vers d'autres technologies
+    </P>
 
-
+</div>

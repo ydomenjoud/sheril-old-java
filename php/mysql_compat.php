@@ -32,6 +32,7 @@ if (!function_exists('mysql_connect')) {
 
     function mysql_connect($server = null, $username = null, $password = null, $new_link = false, $client_flags = 0) {
         $link = mysqli_connect($server, $username, $password);
+        mysql_set_charset("utf8", $link);
         if ($link) {
             $GLOBALS['___mysql_default_link'] = $link;
         }
