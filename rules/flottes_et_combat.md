@@ -123,6 +123,8 @@ Il est en général suffisant de s'en tenir aux principes généraux et de consi
 Le combat entre deux flottes se résout dans un espace à 3 dimensions.
 Les positions de départ des vaisseaux des deux flottes sont indiquées par le plan de coupe suivant:
 
+![image](figure2.gif)
+
 Les vaisseaux de chaque flotte sont donc placés au hasard par défaut(voir 5.6.1.2.) dans leurs camps respectifs (la coordonnée de la troisième dimension est égale à 0).
 Ensuite chacune des positions des vaisseaux varie d'un nombre au hasard entre -5 et 5 pour les directions x et y, et d'un nombre entre -10 et 10 pour la troisième dimension. Si un héros est présent, sa compétence "Maîtrise du savoir" permet de diminuer ce dernier facteur de hasard d'un nombre égal à son niveau de compétence.
 
