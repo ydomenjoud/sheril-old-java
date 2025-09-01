@@ -1,16 +1,92 @@
-
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez créer un plan de vaisseau.<BR>
-La procédure à suivre est la suivante : <BR>
-<ul>
-<li> Choisissez votre plan
- puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
-</li>
-<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les
-composants de ce plan.
-</li>
-</ul>
-Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
+<div>
+    <P>Utilisez cette rubrique si vous
+        voulez créer un plan de vaisseau.<BR>
+        La procédure à suivre est la suivante : <BR>
+    <ul>
+        <li> Choisissez votre plan
+            puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
+        </li>
+        <li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les
+            composants de ce plan.
+        </li>
+    </ul>
+    Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
 
+    <table>
+        <caption>Liste des tailles de vaisseaux</caption>
+        <thead>
+        <tr>
+            <th>Taille</th>
+            <th>Nombre de composant min</th>
+            <th>Nombre de composant max</th>
+            <th>Vitesse de base</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>3</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>4</td>
+            <td>9</td>
+            <td>13</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>10</td>
+            <td>17</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>18</td>
+            <td>33</td>
+            <td>11</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>34</td>
+            <td>65</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>66</td>
+            <td>129</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>130</td>
+            <td>257</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>258</td>
+            <td>512</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>513</td>
+            <td>1025</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>1026</td>
+            <td>1000000</td>
+            <td>0</td>
+        </tr>
+        </tbody>
+    </table>
+    {513, 1025, 2},
+    {1026, 1000000, 0}};
+</div>

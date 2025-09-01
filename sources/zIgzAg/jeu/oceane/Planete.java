@@ -571,7 +571,7 @@ public class Planete implements Serializable {
 		if (productionMarchandise == mar)
 			retour = retour + nombreProductionMarchandise;
 		if (mar == 1) {
-			retour = retour + sommeNiveauBatiment();
+			retour = retour + sommeNiveauBatiment()/10;
 		} else {
 			retour = retour + 5 * sommeNiveauBatimentParCaracEtValeur( Const.BATIMENT_CAPACITE_PRODUCTION_MARCHANDISE, mar + 1);
 		}

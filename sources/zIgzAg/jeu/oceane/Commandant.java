@@ -2428,7 +2428,7 @@ public class Commandant extends Joueur implements Serializable {
 		Univers.ajouterRelationRaces(cible.getCapitale(), getRace(),
 				cible.getRace(),
 				5 * Vaisseau.retournerNiveauPuissance(f.getPuissance()));
-		Univers.ajouterTransfert(this, cible, "prÃªt flotte puissance : "
+		Univers.ajouterTransfert(this, cible, "prêt flotte puissance : "
 				+ Integer.toString(f.getPuissance()));
 
 		ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0000", cible.getNomNumero(),

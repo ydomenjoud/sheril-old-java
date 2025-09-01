@@ -31,10 +31,10 @@
 
 
         .important {
-            color: #1de9b6;
+            color: var(--important);
         }
         .item {
-            color: #1de9b6;
+            color: var(--important);
             font-style: italic;
             text-shadow: #000 1px 1px 1px;
             text-decoration-style: wavy
@@ -42,6 +42,38 @@
         * {
             box-sizing: border-box;
             font-size: inherit;
+        }
+
+       table {
+            border: 1px solid #CCC;
+            border-collapse: collapse;
+
+        }
+
+        table td, table th {
+            padding: 5px;
+            border: 1px solid var(--important);
+        }
+
+        table caption {
+            color: var(--header);
+            padding: 5px;
+            font-size: 1.2em;
+        }
+        table thead th {
+            color: var(--important);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .directives tbody tr td:nth-child(2) {
+            color: var(--help);
+        }
+
+        .directives tbody tr td:nth-child(1) {
+            /*color: var(--help);*/
+            font-weight: bold;
+            text-align: center;
         }
 
         h1 {

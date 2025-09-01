@@ -8,18 +8,20 @@ public class Test {
 
     public static void main(String[] args) {
         // Récupération du numéro du tour
-        Univers.chargerNumeroTour();
+//        Univers.chargerNumeroTour();
+        new Univers(true, "TEST ");
         Const.NOTIFY_BOT = false;
         Const.FAKE_TURN = true;
-        new Univers(true, "Déroulement du tour...");
 
-        Commandant c1 = Commandant.creerCommandant("P1", "p1@test.com", 4, new HashMap());
-        Commandant c2 = Commandant.creerCommandant("P2", "p2@test.com", 1, new HashMap());
+        Commandant c1 = Univers.getCommandant(1);
+        Commandant c2 = Univers.getCommandant(2);
 
-        c1.initialiserListesMessages();
-        c2.initialiserListesMessages();
-        ReceptionOrdres ro = new ReceptionOrdres();
-        Univers.phaseSuivante();
+
+//        Commandant c1 = Commandant.creerCommandant("P1", "p1@test.com", 4, new HashMap());
+//        Commandant c2 = Commandant.creerCommandant("P2", "p2@test.com", 1, new HashMap());
+//
+//        c1.initialiserListesMessages();
+//        c2.initialiserListesMessages();
         Position pos = new Position(0, 10, 10);
 
 //         String n, int[][] comp, int vit, int att, int def, int mor, int march, int rac, int tour
@@ -42,8 +44,9 @@ public class Test {
         int[] n2 = { 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         creerFlotte(c2, pos, v2, n2);
 
-        // "FA;CA;FB;CB;TOUR;CATT;PLANA;RACEA;POSA;PLANB;POSB;DIST;ARME;CHANCE;MODIFIER;RESULT;SHIELDED;DEGAT"
         Combat.resolutionCombats();
+
+
 
 
     }
