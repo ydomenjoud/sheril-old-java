@@ -68,17 +68,18 @@ Pour concevoir vos vaisseaux, vous devez remplir les cases du formulaire d'ordre
 
 De plus, il faut garder à l'esprit ce tableau:
 
-| Taille | Nombre maximum de cases | Vitesse de base |
-| :--- | :--- | :--- |
-| 1 | 2 | 10 |
-| 2 | 4 | 9 |
-| 3 | 8 | 8 |
-| 4 | 20 | 7 |
-| 5 | 50 | 6 |
-| 6 | 100 | 5 |
-| 7 | 200 | 4 |
-| 8 | 500 | 3 |
-| 9 | ??? | 2 |
+| Taille | Nombre minimum de cases | Nombre maximum de cases | Vitesse de base |
+| :--- | :--- | :--- | :--- |
+| 1 | 1 | 3 | 14 |
+| 2 | 4 | 9 | 13 |
+| 3 | 10 | 17 | 12 |
+| 4 | 18 | 33 | 11 |
+| 5 | 34 | 65 | 10 |
+| 6 | 66 | 129 | 8 |
+| 7 | 130 | 257 | 6 |
+| 8 | 258 | 512 | 4 |
+| 9 | 513 | 1025 | 2 |
+| 10 | 1026 | 1000000 | 0 |
 
 Vous pouvez ensuite remplir les cases du vaisseau selon vos désirs, en sachant que certains composants peuvent prendre plusieurs cases.. De plus, il n'est pas possible de mettre plus de 10 boucliers ou plus d'un composant "Module usine".(il est possible de ne pas mettre de moteur, mais dans ce cas la vitesse du vaisseau est nulle).
 
