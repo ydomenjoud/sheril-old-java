@@ -55,6 +55,22 @@ Dans le cas de l'attaque d'un système partagé entre plusieurs commandants par 
 
 La puissance d'une flotte est égale à la somme de la puissance spatiale de tous les vaisseaux de cette flotte, plus la somme de la puissance planétaire divisée par deux de tous les vaisseaux de cette flotte.
 
+Description puissance de flotte 
+
+| Niveau | Intervalle d’entrée (`entree`)                 | Désignation       |
+|--------|-----------------------------------------------|-------------------|
+| 0      | `< 25`                                        | insignifiante     |
+| 1      | `25 – 49`                                     | ridicule          |
+| 2      | `50 – 99`                                     | très petite       |
+| 3      | `100 – 199`                                   | petite            |
+| 4      | `200 – 499`                                   | moyenne           |
+| 5      | `500 – 999`                                   | assez grande      |
+| 6      | `1000 – 1999`                                 | grande            |
+| 7      | `2000 – 4999`                                 | très grande       |
+| 8      | `5000 – 9999`                                 | gigantesque       |
+| 9      | `10000 – 17999`                               | titanesque        |
+| 10     | `≥ 18000`                                     | inimaginable      |
+
 
 ## 5.5. Engagement du combat
 
