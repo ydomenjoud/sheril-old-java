@@ -1291,10 +1291,10 @@ public class Rapport {
 
 		ajouterLienPrincipal(getALienE(PRINCIPAL + "#PLAN")
 				.ajout(getText(t[0])));
-		BaliseHTML lien = getABorne("PLAN");
+		BaliseHTML lien = getTitreSection().ajout(getABorne("PLAN").ajout(t[0]));
 
 		BaliseHTML racine = getDiv().ajout(lien);
-		ajouterLienPrincipal(getALienE("http://sheril.pbem-france.net/stats/vapub.htm")
+		ajouterLienPrincipal(getALienE("https://sheril.pbem-france.net/stats/vapub.htm")
 				.ajout(getText("Vaisseaux Publics")));
 
 		PlanDeVaisseau[] p = c.listePlansConnusNonPublics();

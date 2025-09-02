@@ -213,16 +213,16 @@ public interface ListeCaracSpeciales{
  public static final int[][] boucplaIX={{Const.BATIMENT_CAPACITE_BOUCLIER,9},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
  public static final int[][] boucplaX={{Const.BATIMENT_CAPACITE_BOUCLIER,10},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
 
- public static final int[][] radarI={{Const.BATIMENT_PORTEE_RADAR,1},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarII={{Const.BATIMENT_PORTEE_RADAR,2},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarIII={{Const.BATIMENT_PORTEE_RADAR,3},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarIV={{Const.BATIMENT_PORTEE_RADAR,4},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarV={{Const.BATIMENT_PORTEE_RADAR,5},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarVI={{Const.BATIMENT_PORTEE_RADAR,6},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarVII={{Const.BATIMENT_PORTEE_RADAR,7},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarVIII={{Const.BATIMENT_PORTEE_RADAR,8},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarIX={{Const.BATIMENT_PORTEE_RADAR,9},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
- public static final int[][] radarX={{Const.BATIMENT_PORTEE_RADAR,10},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarI={{Const.BATIMENT_PORTEE_RADAR,2},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarII={{Const.BATIMENT_PORTEE_RADAR,3},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarIII={{Const.BATIMENT_PORTEE_RADAR,4},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarIV={{Const.BATIMENT_PORTEE_RADAR,5},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarV={{Const.BATIMENT_PORTEE_RADAR,6},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarVI={{Const.BATIMENT_PORTEE_RADAR,7},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarVII={{Const.BATIMENT_PORTEE_RADAR,8},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarVIII={{Const.BATIMENT_PORTEE_RADAR,9},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarIX={{Const.BATIMENT_PORTEE_RADAR,10},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
+ public static final int[][] radarX={{Const.BATIMENT_PORTEE_RADAR,11},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
 
  public static final int[][] extraI={{Const.BATIMENT_CAPACITE_EXTRACTION_AVANCE,1}};
  public static final int[][] extraII={{Const.BATIMENT_CAPACITE_EXTRACTION_AVANCE,2}};

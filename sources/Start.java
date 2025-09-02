@@ -86,7 +86,7 @@ public class Start {
         }
 
         try {
-            Univers.notify("Démarrage du nouveau tour: " + nextTour + " FAKE : " + Const.FAKE_TURN + " NOTIFY : " + Const.NOTIFY_BOT);
+            Univers.notify("Démarrage du nouveau tour");
 
             // On déroule le tour
             DeroulementDuTour.main(null);

@@ -164,6 +164,10 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	}
 
 	public String getDescriptionDomaine(Locale l) {
+        if(estDAlliance()){
+            Alliance a = Univers.getAlliance(precisionAcces);
+            return a!=null ? a.getNom() : "alliance";
+        }
 		if ((estPublic()) || (estPrive()))
 			return Utile.maj(Univers.getMessage("DOMAINES_PLAN_DE_VAISSEAU",
 					acces, l));

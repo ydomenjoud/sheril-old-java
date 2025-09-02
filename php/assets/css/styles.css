@@ -44,6 +44,15 @@ table {
 *:focus {
   outline: none; }
 
+.race0 { color: #CC00FF; }
+.race1 { color: #0066CC; }
+.race2 { color: #FFCC00; }
+.race3 { color: #CC0033; }
+.race4 { color: #009933; }
+.race5 { color: #777777; }
+.race6 { color: #CC6600; }
+
+
 .race-koro {
   font-weight: bold;
   color: #da1e01; }
