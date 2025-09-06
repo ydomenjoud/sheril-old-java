@@ -32,11 +32,11 @@ public class RapportXML {
 	private Document documentG;
 
 	public Element creerNode(String nom, String[] attribut, String[] valeur) {
-		return creerNode(nom, documentG, attribut, valeur);
+		return creerNode(nom.toLowerCase(), documentG, attribut, valeur);
 	}
 
 	public Element creerNode(String nom, Element parent, String[] attribut, String[] valeur) {
-		return creerNode(nom, parent, attribut, valeur, null);
+		return creerNode(nom.toLowerCase(), parent, attribut, valeur, null);
 
 	}
 
@@ -53,7 +53,7 @@ public class RapportXML {
 			System.exit(0);
 		}
 
-		Element retour = (Element) (documentG.createElement(nom));
+		Element retour = (Element) (documentG.createElement(nom.toLowerCase()));
 		for (int i = 0; i < attribut.length; i++)
 			retour.setAttribute(attribut[i], valeur[i]);
 		if (textContent != null)
@@ -66,7 +66,7 @@ public class RapportXML {
 
 	public Element creerNode(String nom, Element parent) {
 
-		Element retour = (Element) (documentG.createElement(nom));
+		Element retour = (Element) (documentG.createElement(nom.toLowerCase()));
 		parent.appendChild(retour);
 
 		return retour;
@@ -86,7 +86,7 @@ public class RapportXML {
 			System.exit(0);
 		}
 
-		Element retour = (Element) documentG.createElement(nom);
+		Element retour = (Element) documentG.createElement(nom.toLowerCase());
 		for (int i = 0; i < attribut.length; i++)
 			retour.setAttribute(attribut[i], valeur[i]);
 
@@ -101,6 +101,7 @@ public class RapportXML {
 
 		c = commandant;
 		chemin = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour() + "/";
+        Locale locale = Locale.FRENCH;
 
 		try {
 
@@ -110,12 +111,6 @@ public class RapportXML {
 			// ------------------------construction du fichier general
 			// xml--------------------------
 			documentG = builder.newDocument();
-			
-			//////////////////////////////rajout du xsl pour l'affichage /////////////////
-			Node pi = documentG.createProcessingInstruction("xml-stylesheet", "href=\"mep.xsl\" type=\"text/xsl\""); 
-			documentG.appendChild(pi);
-			/////////////////////////////////////////////////////
-
 
 			// Element racine <corps>
 			Element corps = creerNode("RAPPORT", new String[] { "numTour",
@@ -142,14 +137,15 @@ public class RapportXML {
 			
 			for (int i = 1; i < Const.BUDGET_COMMANDANT_TOTAL_DEPENSE; i++){
 				if ( i != Const.BUDGET_COMMANDANT_TOTAL_RECETTE &&  c.getBudget(i) != 0F) {
-					creerNode("BUDGET",budget, new String[] { "type", "valeur" }, new String[] { Utile.maj(budgetListe[i]),Float.toString(Utile.a1D(c.getBudget(i))) });
+					creerNode("B",budget, new String[] { "type", "valeur" }, new String[] { Utile.maj(budgetListe[i]),Float.toString(Utile.a1D(c.getBudget(i))) });
 				}
 			}
 			
 			// PNA //
+            Element pna = creerNode("PNA", com);
 			int[] lpna = c.listePactesDeNonAgression();
 			for (int i = 0; i < lpna.length; i++)
-				creerNode("PNA", com, new String[] { "com" }, new String[] { ""
+				creerNode("P", pna, new String[] { "com" }, new String[] { ""
 						+ lpna[i] });
 
 			// ALLIANCE
@@ -186,16 +182,17 @@ public class RapportXML {
 			}
 			
 			// Element Systeme
+            Element systems = creerNode("SYSTEMES", com);
 			Systeme[] listeS = Univers.listeSystemes(c.listePossession());
 			for (int i = 0; i < listeS.length; i++) {
 				Systeme s = listeS[i];
 				Possession poss = c.getPossession(s.getPosition());
-				Element sys = creerNode("SYSTEME",
-						com,
+				Element sys = creerNode("S",
+                        systems,
 						new String[] { "pos", "nom", "typeEtoile", "nombrePla", "politique", "btech", "besp", "bcont","hscan","revenu","entretien","pdc"},
 						new String[] {
 								"" + s.getPosition(),
-								"" + s.getNom(),
+								s.getNom(),
 								"" + s.getTypeEtoile(),
 								"" + s.getNombrePlanetes(),
 								"" + poss.getPolitique(),
@@ -220,13 +217,14 @@ public class RapportXML {
 				}
 
 				// Les planêtes
+                Element planetes = creerNode("PLANETES", sys);
 				Planete[] listeP = s.getPlanetes();
 				for (int a = 0; a < listeP.length; a++) {
 					Planete p = listeP[a];
 
 					Element pla = creerNode(
-							"PLANETE",
-							sys,
+							"P",
+                            planetes,
 							new String[] { "num", "type", "prop", "tai", "atm",
 									"grav", "temp", "rad", "prod", "revenumin", "stockmin","pdc","terra",
 									"tax", "stab", "revolt" },
@@ -295,6 +293,7 @@ public class RapportXML {
 			} // fin System
 			
 			// Element Flotte
+            Element flottes = creerNode("FLOTTES", com);
 			Flotte[] listeF = c.listeFlottes();
 			for (int i = 0; i < listeF.length; i++) {
 				Flotte f = listeF[i];
@@ -304,19 +303,20 @@ public class RapportXML {
 				if (d == null)
 					d = new Position(-1, -1, -1);
 				Element flotte = creerNode(
-						"FLOTTE",
-						com,
-						new String[] { "num", "pos", "direction", "vit", "spa",
-								"pla", "nom", "dir", "nbVso","hscan" },
+						"F",
+                        flottes,
+						new String[] { "num", "pos", "direction", "vitesse", "AS",
+								"AP", "puissance", "nom", "directive", "directive_precision", "hscan" },
 						new String[] { "" + num, 
 								"" + f.getPosition(), 
 								"" + ( d.equals(f.getPosition()) ? "" : d),
 								"" + f.getCapaciteMouvement(false, h, c),
 								"" + f.getForceSpatiale(),
-								"" + f.getForcePlanetaire(), 
+								"" + f.getForcePlanetaire(),
+                                "" + f.getPuissance(),
 								"" + f.getNom(),
-								"" + Messages.DIRECTIVES[f.getDirective()],
-								"" + f.getNombreDeVaisseaux() ,
+                                "" + f.getDirective(),
+                                "" + f.getDirectivePrecision(),
 								"" + f.getPorteeScannerFlotte()
 								});
 
@@ -405,7 +405,7 @@ public class RapportXML {
 			
 			// Pour chaque possession on va récupérer le poste commercial
 			for(PosteCommercial posteCommercial:listePossessionsPosteCommerciaux){
-				Element posteElement = creerNode("POSTE", postesCommerciaux, 
+				Element posteElement = creerNode("P", postesCommerciaux,
 						new String[] { "pos", "proprio"},
 						new String[] {posteCommercial.position+"", posteCommercial.commandant.getNumero()+""  });
 				
@@ -421,9 +421,9 @@ public class RapportXML {
 				}
 			}
 			
-			
-			
+
 			// Lieutenants
+            Element lieutenants = creerNode("LIEUTENANTS", com, new String[] {}, new String[] {});
 			Leader[] l = c.listeLieutenants();
 			for (int i = 0; i < l.length; i++) {
 
@@ -437,8 +437,8 @@ public class RapportXML {
 					position_leader = "-1";
 
 				Element leader = creerNode(
-						"LEADER",
-						com,
+						"L",
+                        lieutenants,
 						new String[] { "type", "pos", "niv", "race", "vit",
 								"att", "def", "mor", "mar", "exp", "valeur","nom" },
 						new String[] { "" + (l[i].estHeros() ? 0 : 1),
@@ -505,90 +505,7 @@ public class RapportXML {
 			for(String nomTech:(String[])c.listeEquipementArray().toArray(new String[]{})){
 				if( !tech.contains(nomTech)){ tech.add(nomTech); }
 			}
-			
-			// Transformation String[] -> Technologie[] triÃ©e
-			Technologie[] tab = Univers.trierAlphabetiquementTechnologies(Technologie.transformationCode(tech.toArray(new String[]{})));
 
-			// Const.TECHNOLOGIE_TYPE_BATIMENT
-			for (int i = 0; i < tab.length; i++) {
-				Technologie t = tab[i];
-                if(t == null) {
-//                    System.out.println(String.join(",", tech));
-//                    System.out.println(i);
-                    continue;
-                }
-				Element technor = creerNode(
-						"TECHNOLOGIE",
-						corps,
-						new String[] { "base", "code", "niv", "type", "recherche", "nom", "connue" },
-						new String[] {
-								t.getCodeBase(),
-								t.getCode(), 
-								"" + t.getNiveau(),
-								"" + t.getTypeDeTechno(),
-								"" + t.getPointsDeRecherche(),
-								t.getNom(Locale.FRENCH),
-								c.estTechnologieConnue(t.getCode())?"1":"0"
-								});
-
-				int type = t.getTypeDeTechno();
-				String[] el = new String[] { "plop" };
-				String[] va = new String[] { "hehe" };
-				Batiment t1;
-				ComposantDeVaisseau t2;
-				if (type == Const.TECHNOLOGIE_TYPE_BATIMENT) {
-					t1 = (Batiment) t;
-					Element addtech = creerNode(
-							"SPECIFICATION",
-							technor,
-							new String[] { "prix", "structure", "pc","min", "arme" },
-							new String[] {
-									"" + t1.getPrix(),
-									t1.getPointsDeStructure() + "",
-									t1.getPointsDeConstruction() + "",
-									t1.getMineraiNecessaire()+"",
-									(t1.getCodeArme() != null ? t1
-											.getCodeArme() : "") });
-				} else if (type == Const.TECHNOLOGIE_TYPE_COMPOSANT_DE_VAISSEAU) {
-					t2 = (ComposantDeVaisseau) t;
-					Element addtech = creerNode("SPECIFICATION", technor,
-							new String[] { "prix", "type", "case", "min" },
-							new String[] { "" + t2.getPrix(), t2.getTypeArme(),
-									t2.getNombreDeCases() + "",t2.getMineraiNecessaire()+"" });
-				}
-
-
-				int[][] carac = t.getCaracteristiquesSpeciales();
-				if (carac != null)
-					for (int a = 0; a < carac.length; a++) {
-						int ele = carac[a][0];
-						int val = carac[a][1];
-						Element addcarac = creerNode("CARACTERISTIQUE",
-								technor, new String[] { "code", "value" },
-								new String[] { "" + ele, "" + val });
-					}
-
-				if (type != Const.TECHNOLOGIE_TYPE_SIMPLE) {
-					Produit p = (Produit) t;
-					int[][] march = p.getMarchandises();
-					if (march != null)
-						for (int a = 0; a < march.length; a++) {
-							Element produit = creerNode("MARCHANDISE", technor,
-									new String[] { "code", "nb" },
-									new String[] { "" + march[a][0], "" + march[a][1] });
-
-						}
-				}
-				Element adddesc = creerNode("DESCRIPTION", technor, new String[] {}, new String[] {}, t.getDescription(Locale.FRENCH));
-				
-				String[] parents = t.getParents();
-				if( parents != null ){
-					for(String parent:t.getParents()){
-						Element addParent = creerNode("PARENT", technor, new String[] {"code"}, new String[] {Univers.getTechnologie(parent).getCode()});
-					}
-				}
-			}
-			
 			
 			// Messages
 			Element messages = creerNode("MESSAGES",com, new String[] {}, new String[] { });
@@ -609,63 +526,51 @@ public class RapportXML {
 					for (int i = 0; i < liste.length; i++) {
 						StringBuffer sb = new StringBuffer();
 						for (int j = 0; j < liste[i].size(); j++) {
-							Element message = creerNode("MESSAGE",messages, new String[] {"type"}, new String[] {type}, liste[i].get(j).toString() );
+							Element message = creerNode("M",messages, new String[] {"type"}, new String[] {type}, liste[i].get(j).toString() );
 //							sb.append(liste[i].get(j));
 						}
 //						Element message = creerNode(type,messages, new String[] {"description"}, new String[] { sb.toString() });
 					}
 				}
 			}
-			
-			// LISTES
-			Element data = creerNode("DATAS",corps, new String[] {}, new String[] { });
 
-			Element marchandises = creerNode("MARCHANDISES",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.MARCHANDISES.length; i++){
-				String name = Messages.MARCHANDISES[i];
-				Element marchandiseElt = creerNode("M", marchandises, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
-			
-			Element politiques = creerNode("POLITIQUES",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.POLITIQUES.length; i++){
-				String name = Messages.POLITIQUES[i];
-				Element politiquesElt = creerNode("P", politiques, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
+            // vaisseaux connus ( sans les publiques )
+            PlanDeVaisseau[] vlist = c.listePlansConnusNonPublics();
+            Element vlistNode = creerNode("PLANS", com, new String[]{}, new String[]{});
+            for (int i = 0; i < vlist.length; i++) {
+                PlanDeVaisseau pdv = vlist[i];
+                Element p = creerNode("P", vlistNode,
+                        new String[]{"nom", "concepteur", "marque", "tour", "taille", "vitesse", "pc", "centaures", "minerai", "as", "ap", "royalties"},
+                        new String[]{pdv.getNom(), pdv.getNomConcepteurBis(locale), pdv.getMarque(locale), pdv.getTourDeCration() + "",
+                                pdv.getTaille() + "", pdv.getCapaciteMouvement(false) + "", pdv.getPointsDeConstructions() + "", pdv.getPrix() + "",
+                                pdv.getMineraiNecessaire() + "", pdv.getForceSpatiale() + "", pdv.getForcePlanetaire() + "",
+                                pdv.getRoyalties() + ""
+                        });
+                ComposantDeVaisseau[] c = pdv.getComposants();
+                HashMap<ComposantDeVaisseau, Integer> hm = new HashMap<>(c.length);
+                for (int x = 0; x < c.length; x++) {
+                    Integer o = hm.get(c[x]);
+                    if (o == null)
+                        hm.put(c[x], 1);
+                    else
+                        hm.put(c[x], o + 1);
+                }
+                Map.Entry<ComposantDeVaisseau, Integer>[] m = hm.entrySet().toArray(new Map.Entry[0]);
 
-			Element caractsBatiments = creerNode("CARACTERISTIQUES_BATIMENT",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.CARAC_SPECIALES_BATIMENTS.length; i++){
-				String name = Messages.CARAC_SPECIALES_BATIMENTS[i];
-				Element caractsBatimentsElt = creerNode("C", caractsBatiments, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
+                for (int z = 0; z < m.length; z++) {
+                    int nb = m[z].getValue();
+                    ComposantDeVaisseau co = m[z].getKey();
+                    creerNode("comp", p,
+                            new String[]{"nb", "code"},
+                            new String[]{
+                                    Integer.toString(nb),
+                                    co.getCode()
+                            }
+                    );
+                }
 
-			Element caractsComposants = creerNode("CARACTERISTIQUES_COMPOSANT",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.CARAC_SPECIALES_COMPOSANTS.length; i++){
-				String name = Messages.CARAC_SPECIALES_COMPOSANTS[i];
-				Element caractsComposantsElt = creerNode("C", caractsComposants, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
+            }
 
-			Element competences = creerNode("LEADER_COMPETENCES",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.COMPETENCES_LEADER.length; i++){
-				String name = Messages.COMPETENCES_LEADER[i];
-				Element caractsComposantsElt = creerNode("C", competences, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
-			
-			Element races = creerNode("RACES",data, new String[] {}, new String[] { });
-			for(int i=0; i<Messages.RACES.length; i++){
-				String name = Messages.RACES[i];
-				Element racesElt = creerNode("C", races, new String[] {"code","nom"}, new String[] {i+"",name});
-			}
-			
-			Element listeJoueurs = creerNode("JOUEURS",data, new String[] {}, new String[] { });
-			Commandant[] cl = Univers.getListeCommandantsHumains();
-			for(int i=0; i<cl.length; i++){
-				Commandant joueur = cl[i];
-				Element joueurElt = creerNode("C", listeJoueurs, 
-						new String[] {"num","nom","race","pui","pla","rep"}, 
-						new String[] { joueur.numero+"", joueur.nom, joueur.race+"",joueur.getPuissance()+"", joueur.getNombrePlanetesPossedees()+"", joueur.getReputation()+"" }
-				);
-			}
-			
 
 		} // Fin try
 		catch (Exception e) {

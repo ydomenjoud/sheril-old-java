@@ -2,8 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Scanner;
 
 import zIgzAg.jeu.oceane.*;
@@ -107,11 +105,12 @@ public class Start {
                 Start.uploadBySSH(rapportsDir, "rapports");
                 Univers.notify("Rapports disponibles");
 
+
                 // Déplacements des statistiques
                 Copie.copieRepertoire(Chemin.STATS, Chemin.PATH_STATS);
                 Univers.notify("Mise en place des stats");
-
                 Start.uploadBySSH(Chemin.PATH_STATS, "");
+
             }
 
             Univers.notify("Fin du tour");
@@ -128,9 +127,9 @@ public class Start {
     public static boolean isToday() {
         String test = "";
         try {
-            test = getRemoteFileContent("http://sheril.pbem-france.net/autres/next-turn.php");
+            test = getRemoteFileContent("https://sheril.pbem-france.net/autres/next-turn.php");
         } catch (Exception e) {
-            System.out.println("Erreur dans le chargement de http://sheril.pbem-france.net/autres/next-turn.php");
+            System.out.println("Erreur dans le chargement de https://sheril.pbem-france.net/autres/next-turn.php");
             e.printStackTrace();
             System.exit(-1);
         }

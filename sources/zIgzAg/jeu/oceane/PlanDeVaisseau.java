@@ -172,7 +172,7 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 			return Utile.maj(Univers.getMessage("DOMAINES_PLAN_DE_VAISSEAU",
 					acces, l));
 		if (estRacial())
-			return Utile.maj(Univers.getMessage("RACES", precisionAcces, l));
+			return "<span class='race"+precisionAcces+"'>"+Utile.maj(Univers.getMessage("RACES", precisionAcces, l))+"</span>";
 		return "public";
 	}
 

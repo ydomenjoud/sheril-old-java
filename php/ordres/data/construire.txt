@@ -1,6 +1,16 @@
 <?php
 $t0=base1($base,$commandant,"z_systemes");
 $t1=base1($base,$commandant,"z_constructions_possibles");
+$t1 = array_map(function($val) {
+    return preg_replace_callback(
+        '/(.*?)(\s?[IVX]+)$/i',
+        function($matches) {
+            return strtolower($matches[1]) . strtoupper($matches[2]);
+        },
+        $val
+    );
+}, $t1);
+asort($t1, SORT_NATURAL | SORT_FLAG_CASE);
 ?>
 
 

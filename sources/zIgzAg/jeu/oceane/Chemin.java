@@ -119,7 +119,7 @@ public class Chemin {
 	}
 
 	public static void initialiserChemins(int numeroTour) {
-		String rep = RACINE + "tour" + Integer.toString(numeroTour) + "/";
+		String rep = RACINE + "tour" + numeroTour + "/";
 
 		DONNEES = c(rep + "donnees/", true);
 

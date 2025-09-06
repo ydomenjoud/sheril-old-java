@@ -1,6 +1,7 @@
+package zIgzAg.jeu.oceane;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import zIgzAg.jeu.oceane.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,15 +16,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ExtractParameters {
+public class DataXML {
     private static Document documentG;
 
     public static Element creerNode(String nom, String[] attribut, String[] valeur) {
-        return creerNode(nom, documentG, attribut, valeur);
+        return creerNode(nom.toLowerCase(), documentG, attribut, valeur);
     }
 
     public static Element creerNode(String nom, Element parent, String[] attribut, String[] valeur) {
-        return creerNode(nom, parent, attribut, valeur, null);
+        return creerNode(nom.toLowerCase(), parent, attribut, valeur, null);
 
     }
 
@@ -40,7 +41,7 @@ public class ExtractParameters {
             System.exit(0);
         }
 
-        Element retour = (Element) (documentG.createElement(nom));
+        Element retour = (Element) (documentG.createElement(nom.toLowerCase()));
         for (int i = 0; i < attribut.length; i++)
             retour.setAttribute(attribut[i], valeur[i]);
         if (textContent != null)
@@ -53,7 +54,7 @@ public class ExtractParameters {
 
     public static Element creerNode(String nom, Element parent) {
 
-        Element retour = (Element) (documentG.createElement(nom));
+        Element retour = (Element) (documentG.createElement(nom.toLowerCase()));
         parent.appendChild(retour);
 
         return retour;
@@ -73,7 +74,7 @@ public class ExtractParameters {
             System.exit(0);
         }
 
-        Element retour = (Element) documentG.createElement(nom);
+        Element retour = (Element) documentG.createElement(nom.toLowerCase());
         for (int i = 0; i < attribut.length; i++)
             retour.setAttribute(attribut[i], valeur[i]);
 
@@ -85,10 +86,6 @@ public class ExtractParameters {
 
 
     public static void main(String[] args) {
-        // Récupération du numéro du tour
-        Univers.chargerNumeroTour();
-        Univers univers = new Univers(true, "Déroulement du tour...");
-
         Locale l = Locale.FRENCH;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
@@ -102,7 +99,7 @@ public class ExtractParameters {
             Element corps = creerNode("DATA", new String[]{}, new String[]{});
 
 
-            Element tech = creerNode("TECHNOLOGIES",corps, new String[]{}, new String[]{});
+            Element tech = creerNode("TECHNOLOGIES", corps, new String[]{}, new String[]{});
 
             Technologie[] tab = Univers.trierAlphabetiquementTechnologies(Univers.getListeTechnologies());
 
@@ -210,22 +207,22 @@ public class ExtractParameters {
                 creerNode("C", caractsComposants, new String[]{"code", "nom"}, new String[]{i + "", name});
             }
 
-            Element competences = creerNode("LEADER_COMPETENCES", corps, new String[]{}, new String[]{});
+            Element competences = creerNode("leader_competences", corps, new String[]{}, new String[]{});
             for (int i = 0; i < Messages.COMPETENCES_LEADER.length; i++) {
                 String name = Messages.COMPETENCES_LEADER[i];
                 creerNode("C", competences, new String[]{"code", "nom"}, new String[]{i + "", name});
             }
 
-            Element races = creerNode("RACES", corps, new String[]{}, new String[]{});
+            Element races = creerNode("races", corps, new String[]{}, new String[]{});
             for (int i = 0; i < Messages.RACES.length; i++) {
                 String name = Messages.RACES[i];
-                creerNode("C", races,
-                        new String[]{"code", "nom", "rad_min", "rad_max", "temp_min","temp_max","grav_min","grav_max"},
-                        new String[]{i + "", name,
-                                Const.HABITAT_RADIATION[i][0]+"",Const.HABITAT_RADIATION[i][1]+"",
-                                Const.HABITAT_TEMPERATURE[i][0]+"",Const.HABITAT_TEMPERATURE[i][1]+"",
-                                Const.HABITAT_GRAVITE[i][0]+"",Const.HABITAT_GRAVITE[i][1]+"",
-                });
+                creerNode("r", races,
+                        new String[]{"code", "nom", "couleur", "rad_min", "rad_max", "temp_min", "temp_max", "grav_min", "grav_max"},
+                        new String[]{i + "", name, Rapport.COULEURS_RACES[i],
+                                Const.HABITAT_RADIATION[i][0] + "", Const.HABITAT_RADIATION[i][1] + "",
+                                Const.HABITAT_TEMPERATURE[i][0] + "", Const.HABITAT_TEMPERATURE[i][1] + "",
+                                Const.HABITAT_GRAVITE[i][0] + "", Const.HABITAT_GRAVITE[i][1] + "",
+                        });
             }
 
             // vaisseaux publiques
@@ -259,8 +256,8 @@ public class ExtractParameters {
                             new String[]{
                                     Integer.toString(nb),
                                     co.getCode()
-                                }
-                            );
+                            }
+                    );
                 }
 
             }
@@ -272,7 +269,7 @@ public class ExtractParameters {
                 int[] m = Const.MODIFICATEUR_STABILITE_CAPITALE[i];
                 creerNode("M", stabDistanceNode,
                         new String[]{"distance", "modif"},
-                        new String[]{m[0]+"", m[1]+""});
+                        new String[]{m[0] + "", m[1] + ""});
 
             }
             Element stabTaxationNode = creerNode("MODIFICATEUR_STABILITE_TAXATION", corps, new String[]{}, new String[]{});
@@ -280,7 +277,7 @@ public class ExtractParameters {
                 int m = Const.MODIFICATEUR_STABILITE_TAXATION[i];
                 creerNode("M", stabTaxationNode,
                         new String[]{"taxation", "modif"},
-                        new String[]{(i+1)+"", m+""});
+                        new String[]{(i + 1) + "", m + ""});
 
             }
 
@@ -291,13 +288,22 @@ public class ExtractParameters {
                 int[] m = Const.TAILLE_VAISSEAUX[i];
                 creerNode("T", stabTailleVaisseauNode,
                         new String[]{"taille", "min", "max", "vitesse"},
-                        new String[]{(i+1)+"", m[0]+"", m[1]+"", m[2]+""});
+                        new String[]{(i + 1) + "", m[0] + "", m[1] + "", m[2] + ""});
 
             }
 
+            Element listeJoueurs = creerNode("COMMANDANTS", corps, new String[]{}, new String[]{});
+            Commandant[] cl = Univers.getListeCommandantsHumains();
+            for (int i = 0; i < cl.length; i++) {
+                Commandant joueur = cl[i];
+                creerNode("C", listeJoueurs,
+                        new String[]{"num", "nom", "race", "pui", "pla", "rep"},
+                        new String[]{joueur.getNumero() + "", joueur.getNom(), joueur.getRace() + "", joueur.getPuissance() + "", joueur.getNombrePlanetesPossedees() + "", joueur.getReputation() + ""}
+                );
+            }
 
 
-            ecrireRapportXML();
+            ecrireDataXML();
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
@@ -305,7 +311,7 @@ public class ExtractParameters {
 
     }
 
-    public static void ecrireRapportXML() {
+    public static void ecrireDataXML() {
 
         try {
 
@@ -316,8 +322,9 @@ public class ExtractParameters {
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 
             // Rapport general
-            File baseDir = new File("./");
+            File baseDir = new File(Chemin.STATS);
             File fg = new File(baseDir, "data.xml");
+            System.out.println("Ecriture du fichier data.xml dans " + fg.getAbsolutePath());
             StreamResult resultG = new StreamResult(fg);
             DOMSource sourceG = new DOMSource(documentG);
             transformer.transform(sourceG, resultG);
@@ -328,5 +335,5 @@ public class ExtractParameters {
             e.printStackTrace();
         }
 
-    } // Fin Ã©crire rapportXML
+    } // Fin écrire data.xml
 }

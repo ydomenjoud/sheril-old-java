@@ -4,7 +4,6 @@
 
 package zIgzAg.jeu.oceane;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -153,6 +152,9 @@ public class DeroulementDuTour {
 			cL2[i].initialiserChampsTransients();
 			tran.remove(new Integer(cL2[i].getNumero()));
 		}
+
+        // génération des data publiques dans /tourX/stats
+        DataXML.main(null);
 
 		// zippage des rapports
 		System.out.println("zippage");

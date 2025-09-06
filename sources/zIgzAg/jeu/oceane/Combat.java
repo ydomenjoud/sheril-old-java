@@ -42,7 +42,7 @@ public class Combat {
     private static void log(String message, boolean newLine, Object... parameters) {
         try {
             if(writer == null) {
-                Path dir = Paths.get(Chemin.RACINE, "tour" + Univers.getTour(), "combats");
+                Path dir = Paths.get(Chemin.RACINE, "tour" + (Univers.getTour()+1), "combats");
                 if (Files.notExists(dir)) {
                     Files.createDirectories(dir);
                 }

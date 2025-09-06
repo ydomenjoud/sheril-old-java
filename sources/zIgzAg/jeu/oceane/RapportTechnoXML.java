@@ -28,12 +28,12 @@ public class RapportTechnoXML {
 	private Document document;
 
 	public Element creerNode(String nom, String[] attribut, String[] valeur) {
-		return creerNode(nom, document, attribut, valeur);
+		return creerNode(nom.toLowerCase(), document, attribut, valeur);
 	}
 
 	public Element creerNode(String nom, Element parent, String[] attribut,
 			String[] valeur) {
-		return creerNode(nom, parent, attribut, valeur, null);
+		return creerNode(nom.toLowerCase(), parent, attribut, valeur, null);
 
 	}
 
@@ -52,7 +52,7 @@ public class RapportTechnoXML {
 			System.exit(0);
 		}
 
-		Element retour = (Element) (document.createElement(nom));
+		Element retour = (Element) (document.createElement(nom.toLowerCase()));
 		for (int i = 0; i < attribut.length; i++)
 			retour.setAttribute(attribut[i], valeur[i]);
 		if (textContent != null)
@@ -65,7 +65,7 @@ public class RapportTechnoXML {
 
 	public Element creerNode(String nom, Element parent) {
 
-		Element retour = (Element) (document.createElement(nom));
+		Element retour = (Element) (document.createElement(nom.toLowerCase()));
 		parent.appendChild(retour);
 
 		return retour;
@@ -85,7 +85,7 @@ public class RapportTechnoXML {
 			System.exit(0);
 		}
 
-		Element retour = (Element) document.createElement(nom);
+		Element retour = (Element) document.createElement(nom.toLowerCase());
 		for (int i = 0; i < attribut.length; i++)
 			retour.setAttribute(attribut[i], valeur[i]);
 

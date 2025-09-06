@@ -11,7 +11,7 @@
 <?php select_planete2("v3"); ?>
 )
 
-</B></P>
+</P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
 
