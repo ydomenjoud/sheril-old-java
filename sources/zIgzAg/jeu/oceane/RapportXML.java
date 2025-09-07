@@ -189,7 +189,7 @@ public class RapportXML {
 				Possession poss = c.getPossession(s.getPosition());
 				Element sys = creerNode("S",
                         systems,
-						new String[] { "pos", "nom", "typeEtoile", "nombrePla", "politique", "btech", "besp", "bcont","hscan","revenu","entretien","pdc"},
+						new String[] { "pos", "nom", "typeEtoile", "nbpla", "politique", "btech", "besp", "bcont","hscan","revenu","entretien","pdc"},
 						new String[] {
 								"" + s.getPosition(),
 								s.getNom(),
@@ -305,8 +305,8 @@ public class RapportXML {
 				Element flotte = creerNode(
 						"F",
                         flottes,
-						new String[] { "num", "pos", "direction", "vitesse", "AS",
-								"AP", "puissance", "nom", "directive", "directive_precision", "hscan" },
+						new String[] { "num", "pos", "direction", "vitesse", "as",
+								"ap", "puissance", "nom", "directive", "directive_precision", "hscan" },
 						new String[] { "" + num, 
 								"" + f.getPosition(), 
 								"" + ( d.equals(f.getPosition()) ? "" : d),
@@ -488,7 +488,7 @@ public class RapportXML {
 				Element detecStyst = creerNode(
 						"SYSTEME",
 						detections,
-						new String[] { "pos", "nom", "nbPla", "pop", "popMax","typeEtoile" },
+						new String[] { "pos", "nom", "nbpla", "pop", "popMax","typeEtoile" },
 						new String[] { "" + s.getPosition(), s.getNom(),
 								s.getNombrePlanetes() + "",
 								s.getPopulation(-1) + "",
@@ -592,7 +592,7 @@ public class RapportXML {
 
 			// Rapport general
 			File baseDir = new File(chemin);
-			File fg = new File(baseDir, "Rapport.xml");
+			File fg = new File(baseDir, "rapport.xml");
 			StreamResult resultG = new StreamResult(fg);
 			DOMSource sourceG = new DOMSource(documentG);
 			transformer.transform(sourceG, resultG);

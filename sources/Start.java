@@ -85,6 +85,7 @@ public class Start {
 
         try {
             Univers.notify("Démarrage du nouveau tour");
+            System.out.println(" FAKE " + (Const.FAKE_TURN ? "OUI" : "NON" ) + ", NOTIFY " + (Const.NOTIFY_BOT ? "OUI" : "NON" ) );
 
             // On déroule le tour
             DeroulementDuTour.main(null);
