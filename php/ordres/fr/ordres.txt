@@ -97,7 +97,7 @@ $description_ordres = array(
     "Modifier la taxation d'une planète",
     "Terraformer un système",
     "Terraformer une planète",
-    "Dztruire des bâtiments",
+    "Détruire des bâtiments",
     "Décharger des cargos",
     "Transfert inter-systèmes",
     "Coloniser",

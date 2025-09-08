@@ -961,7 +961,7 @@ public class Commandant extends Joueur implements Serializable {
 
     public String[] listeTechnologiesPouvantEtreCherchees() {
         return Technologie
-                .listeDesTechnologiesAtteignables(technologiesConnues);
+                .listeDesTechnologiesAtteignables(listeTechnologiesConnues());
     }
 
     public boolean peutChercherTechnologie(String code) {

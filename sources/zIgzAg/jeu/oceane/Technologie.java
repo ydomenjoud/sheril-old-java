@@ -225,7 +225,12 @@ public class Technologie implements Serializable {
 		return retour;
 	}
 
-	public static String[] listeDesTechnologiesAtteignables(
+    public static String[] listeDesTechnologiesAtteignables(String[] technologiesConnues) {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(technologiesConnues));
+        return listeDesTechnologiesAtteignables(list);
+    }
+
+    public static String[] listeDesTechnologiesAtteignables(
 			ArrayList<String> technologiesConnues) {
 		ArrayList<String> liste = new ArrayList<>();
 		Technologie[] t = Univers.getListeTechnologies();
