@@ -71,17 +71,15 @@ public class Start {
         int numTour = Univers.getTour();
         int nextTour = numTour + 1;
 
+        // si le dossier du prochain tour existe déjà, on stop
+        // car les données risquent de se mélanger ( comme la production des ordres )
+        if (new File(Chemin.RACINE + "tour" + nextTour).exists()) {
+            System.out.println("Le dossier du prochain tour existe déjà, on fait quoi ?");
+            System.exit(0);
+        }
+
         // Première phrase
         Univers.notify("Bonjour!");
-
-        // On va supprimer le tour courant si il existe
-        if (Const.FAKE_TURN) {
-            File f = new File(Chemin.RACINE + "tour" + nextTour);
-            if (f.exists()) {
-                System.out.println("delete turn");
-                f.delete();
-            }
-        }
 
         try {
             Univers.notify("Démarrage du nouveau tour");

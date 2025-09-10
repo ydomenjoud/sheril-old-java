@@ -45,7 +45,7 @@
             </LI>
             <LI><A href="./?a=terraformer_systeme" target="fenetre">Terraformer un syst&#232;me</A></LI>
             <LI><A href="./?a=terraformer_planete" target="fenetre">Terraformer une plan&#232;te</A></LI>
-            <LI><A href="./?a=mettre_au_rebus" target="fenetre">D&#233;truire des b&#226;timents</A></LI>
+            <LI><A href="./?a=mettre_au_rebus" target="fenetre">Détruire des b&#226;timents</A></LI>
             <LI><FONT class="important">D&#233;placement</FONT></LI>
             <LI><A href="./?a=decharger_cargo" target="fenetre">D&#233;charger des cargos</A></LI>
             <LI><A href="./?a=charger_cargo" target="fenetre">Charger des cargos</A></LI>

@@ -232,7 +232,7 @@ public class DataXML {
                 PlanDeVaisseau pdv = vlist[i];
                 Element p = creerNode("P", vlistNode,
                         new String[]{"nom", "concepteur", "marque", "tour", "taille", "vitesse", "pc", "centaures", "minerai", "as", "ap", "royalties"},
-                        new String[]{pdv.getNom(), pdv.getNomConcepteurBis(l), pdv.getMarque(l), pdv.getTourDeCration() + "",
+                        new String[]{pdv.getNom(), pdv.getNumeroConcepteur() + "", pdv.getMarque(l), pdv.getTourDeCration() + "",
                                 pdv.getTaille() + "", pdv.getCapaciteMouvement(false) + "", pdv.getPointsDeConstructions() + "", pdv.getPrix() + "",
                                 pdv.getMineraiNecessaire() + "", pdv.getForceSpatiale() + "", pdv.getForcePlanetaire() + "",
                                 pdv.getRoyalties() + ""
