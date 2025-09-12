@@ -5,16 +5,8 @@
 package zIgzAg.jeu.oceane;
 
 import zIgzAg.utile.Mdt;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.TreeMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.List;
-import java.util.Collections;
+
+import java.util.*;
 import java.io.Serializable;
 
 public class Commandant extends Joueur implements Serializable {
@@ -993,9 +985,11 @@ public class Commandant extends Joueur implements Serializable {
     }
 
     public String[] listeTechnologiesConnues() {
-        return Mdt.fusion(
+        String[] liste = Mdt.fusion(
                 Univers.getListeCodeTechnologiePubliques(),
                 technologiesConnues.toArray(new String[0]));
+        Arrays.sort(liste, Comparator.comparing(n -> Univers.getTechnologie(n).getNom(Locale.FRANCE)));
+        return liste;
     }
 
     public int nombreTechnologiesNonPubliquesConnues() {
@@ -1030,7 +1024,9 @@ public class Commandant extends Joueur implements Serializable {
         for (int i = 0; i < p.length; i++)
             if ((!p[i].estPublic()) && (estPlanDeVaisseauConnu(p[i])))
                 a.add(p[i]);
-        return a.toArray(new PlanDeVaisseau[0]);
+        PlanDeVaisseau[] liste = a.toArray(new PlanDeVaisseau[0]);
+        Arrays.sort(liste);
+        return liste;
     }
 
     public String[] listePlansConnus() {
@@ -1038,8 +1034,10 @@ public class Commandant extends Joueur implements Serializable {
         ArrayList<String> retour = new ArrayList<>(p.length);
         for (int i = 0; i < p.length; i++)
             if (estPlanDeVaisseauConnu(p[i]))
-                retour.add(p[i].getNom());
-        return retour.toArray(new String[0]);
+                retour.add(p[i].getNom() + " - T"+ (p[i].getTaille()+1)+";PC" + (p[i].getPointsDeConstructions()));
+        String[] liste = retour.toArray(new String[0]);
+        Arrays.sort(liste);
+        return liste;
     }
 
     public boolean estPlanDeVaisseauConnu(PlanDeVaisseau p) {
@@ -1074,7 +1072,6 @@ public class Commandant extends Joueur implements Serializable {
 			if (Univers.getTechnologie(listeTechno[i]).estBatiment())
 				retour.add(listeTechno[i]);
 		String[] liste = retour.toArray(new String[0]);
-		Arrays.sort(liste);
 		return liste;
 	}
 

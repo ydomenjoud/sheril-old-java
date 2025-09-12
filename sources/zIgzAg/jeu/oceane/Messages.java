@@ -28,7 +28,8 @@ public class Messages extends MessagesAbstraits {
 			"métaux précieux", // 12
 			"tixium", // 13
 			"lixiam", // 14
-			"oxole" }; // 15
+			"oxole"
+    }; // 15
 
 	// les noms des marchandises.
 
