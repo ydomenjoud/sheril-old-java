@@ -1025,7 +1025,7 @@ public class Commandant extends Joueur implements Serializable {
             if ((!p[i].estPublic()) && (estPlanDeVaisseauConnu(p[i])))
                 a.add(p[i]);
         PlanDeVaisseau[] liste = a.toArray(new PlanDeVaisseau[0]);
-        Arrays.sort(liste);
+        Arrays.sort(liste, Comparator.comparing(PlanDeVaisseau::getNom));
         return liste;
     }
 
@@ -1034,7 +1034,7 @@ public class Commandant extends Joueur implements Serializable {
         ArrayList<String> retour = new ArrayList<>(p.length);
         for (int i = 0; i < p.length; i++)
             if (estPlanDeVaisseauConnu(p[i]))
-                retour.add(p[i].getNom() + " - T"+ (p[i].getTaille()+1)+";PC" + (p[i].getPointsDeConstructions()));
+                retour.add(p[i].getNom());
         String[] liste = retour.toArray(new String[0]);
         Arrays.sort(liste);
         return liste;

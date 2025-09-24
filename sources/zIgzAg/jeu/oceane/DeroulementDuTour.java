@@ -18,6 +18,13 @@ public class DeroulementDuTour {
 		Univers univers = new Univers(true, "Déroulement du tour...");
 		System.out.println(" Debut du tour " + Univers.getTour());
 
+        if(Univers.getTour() == 0){
+            Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", "mineI");
+            Univers.ajouterTechnologieAuDomainePublic("mineI");
+            Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", "chantierI");
+            Univers.ajouterTechnologieAuDomainePublic("chantierI");
+        }
+
 		//Univers.corrigerPlanDeVaisseau();
 
 		Commandant[] cL = Univers.getListeCommandants();

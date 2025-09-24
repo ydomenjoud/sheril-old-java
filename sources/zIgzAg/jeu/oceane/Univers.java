@@ -407,7 +407,7 @@ public class Univers {
 			NUMERO_DU_TOUR = 0;
 		else
 			NUMERO_DU_TOUR = Integer.parseInt(s);
-        Chemin.MJ = Chemin.RACINE + "tour"+(NUMERO_DU_TOUR+1)+"/mj/";
+        Chemin.MJ = Chemin.RACINE + "tour"+(NUMERO_DU_TOUR)+"/mj/";
         System.out.println("charger tour " + Chemin.MJ);
 		Chemin.initialiserChemins(NUMERO_DU_TOUR);
 	}

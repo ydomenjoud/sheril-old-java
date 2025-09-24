@@ -222,8 +222,42 @@
             margin-bottom: 10px;
         }
 
+    </STYLE>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/base.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <style>
+        @media (prefers-color-scheme: light) {
+            :root {
+                /* couleurs principales */
+                --choices-primary-color: #38daff;
+                --choices-item-color: black;
+                --choices-bg-color: #101010;
+                --choices-bg-color-dropdown: #101010;
+                --choices-keyline-color: #3b3e40;
+                --choices-bg-color-disabled: #181a1b;
+                --choices-item-disabled-color: #eee;
+                --choices-disabled-color: #2d2d2d;
+                --choices-highlighted-color: #16292d;
+                --choices-icon-cross: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yLjU5Mi4wNDRsMTguMzY0IDE4LjM2NC0yLjU0OCAyLjU0OEwuMDQ0IDIuNTkyeiIvPjxwYXRoIGQ9Ik0wIDE4LjM2NEwxOC4zNjQgMGwyLjU0OCAyLjU0OEwyLjU0OCAyMC45MTJ6Ii8+PC9nPjwvc3ZnPg==");
+                --choices-icon-cross-inverse: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjRkZGIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yLjU5Mi4wNDRsMTguMzY0IDE4LjM2NC0yLjU0OCAyLjU0OEwuMDQ0IDIuNTkyeiIvPjxwYXRoIGQ9Ik0wIDE4LjM2NEwxOC4zNjQgMGwyLjU0OCAyLjU0OEwyLjU0OCAyMC45MTJ6Ii8+PC9nPjwvc3ZnPg==");
+
+            }
+        }
+
+        /*.choices {*/
+        /*    display: inline-block; !* reste inline *!*/
+        /*    width: auto;*/
+        /*    min-width: 150px;      !* pour ne pas trop rétrécir *!*/
+        /*}*/
 
     </STYLE>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script Language="JavaScript"><!--
         function a(fe) {
             po = open(fe, "a", "innerHeight=400,innerWidth=800,screenX=1,scrollbars,resizable");
@@ -235,12 +269,18 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const form = document.querySelector('form');
-            console.log(form);
             if (form) {
                 const firstInput = form.querySelector('input, select, textarea, button');
-                console.log(firstInput);
                 if (firstInput) firstInput.focus();
             }
+            // document.querySelectorAll("select").forEach(select => {
+            //     new Choices(select, {
+            //         searchEnabled: true,
+            //         itemSelectText: '',
+            //         placeholderValue: 'Rechercher...',
+            //         shouldSort: false
+            //     });
+            // });
         });
     </script>
     <?php } ?>

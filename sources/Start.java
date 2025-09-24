@@ -51,10 +51,6 @@ public class Start {
         System.out.println("Univers init");
         Univers.initialisation();
         addNewGalaxy("0");
-        Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", "mineI");
-        Univers.ajouterTechnologieAuDomainePublic("mineI");
-        Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", "chantierI");
-        Univers.ajouterTechnologieAuDomainePublic("chantierI");
         Rapport.ecrireMessagesSystemes();
 
     }
