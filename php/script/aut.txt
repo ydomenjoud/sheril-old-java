@@ -50,6 +50,7 @@ if ((isset($x0)) and (isset($x1))) {
         fclose($fd);
 
         $_SESSION['commandant_num'] = $rf[0];
+        $_SESSION['commandant_email'] = $rf[4];
 
         $nom_cookie2 = "r_$nom_cookie";
         $inter = "b$token";
