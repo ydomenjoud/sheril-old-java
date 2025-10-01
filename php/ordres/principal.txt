@@ -13,22 +13,22 @@ if ($table === "list_ordres") {
     include "./data/$table.txt";
     include "insert.txt";
 
-if(array_key_exists('previous',$_GET)){
-    $tableau = unserialize(urldecode($_GET['previous']));
-    for ($i = 1; $i < sizeof($tableau); $i++) {
-        $_POST['v'.($i-1)] = $tableau[$i];
-    }
+    if (array_key_exists('previous', $_GET)) {
+        $tableau = unserialize(urldecode($_GET['previous']));
+        for ($i = 1; $i < sizeof($tableau); $i++) {
+            $_POST['v' . ($i - 1)] = $tableau[$i];
+        }
 
-}
+    }
 
     include "./$langue/choix/$table.txt";
 
-if(array_key_exists('previous',$_GET)){
-    $tableau = unserialize(urldecode($_GET['previous']));
-    for ($i = 1; $i < sizeof($tableau); $i++) {
-        $_POST['v'.($i-1)] = null;
+    if (array_key_exists('previous', $_GET)) {
+        $tableau = unserialize(urldecode($_GET['previous']));
+        for ($i = 1; $i < sizeof($tableau); $i++) {
+            $_POST['v' . ($i - 1)] = null;
+        }
     }
-}
 
 
     include "elimine.txt";
