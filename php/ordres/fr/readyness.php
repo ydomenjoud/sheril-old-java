@@ -11,7 +11,8 @@ $result = mysql($base, "SELECT
    a.NOM,
    a.RACE
    FROM _player_ready pr 
-   JOIN aa_registre a ON pr.num=a.NUMERO");
+   JOIN aa_registre a ON pr.num=a.NUMERO
+   WHERE pr.tour=$tour");
 $nb_lignes = mysql_num_rows($result);
 for ($i = 0; $i < $nb_lignes; $i++) {
     $rf = mysql_fetch_row($result);
@@ -48,7 +49,8 @@ if (isset($_GET[ACTION_NAME])) {
    a.NOM,
    a.RACE
    FROM _player_ready pr 
-   JOIN aa_registre a ON pr.num=a.NUMERO");
+   JOIN aa_registre a ON pr.num=a.NUMERO
+   WHERE pr.tour=$tour");
     $nb_lignes = mysql_num_rows($result);
     for ($i = 0; $i < $nb_lignes; $i++) {
         $rf = mysql_fetch_row($result);

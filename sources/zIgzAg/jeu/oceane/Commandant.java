@@ -3476,7 +3476,9 @@ public class Commandant extends Joueur implements Serializable {
 					sys.getNomNumeroPlanete(numPlanete),
 					Univers.getMessage("RACES", numRace, getLocale()));
 		}
-		
+
+        boolean eradication = false;
+
 		// Si ya déjà de la population sur le système
 		if (pla.getNombreDeTypeDePopulationsPresentes() > 0) {
 
@@ -3485,6 +3487,9 @@ public class Commandant extends Joueur implements Serializable {
 
 			// Si il y'a plus d'une race, on la supprime
 			if (racesPresentes.length > 0 ){
+                eradication = true;
+                pla.setStabilite(pla.getStabilite()-10);
+                ajouterReputation(-300);
 				pla.initialiserPopulation();
 			}
 
@@ -3499,22 +3504,24 @@ public class Commandant extends Joueur implements Serializable {
 			ajouterReputation(Const.REPUTATION_COLONISER_PLANETE);
 		}
 
-		if (reussite)
-			return ajouterEvenement(
-					"EV_COMMANDANT_COLONISER_PLANETE_0000",
-					f.getPosition(),
-					f.getNomNumero(numFlotte),
-					sys.getNomNumeroPlanete(numPlanete),
-					"<span class=\"race"
-							+ numRace
-							+ "\">"
-							+ Utile.maj(Univers.getMessage("RACES", numRace,
-									getLocale())) + "</span>");
-		else
+		if (reussite) {
+            return ajouterEvenement(
+                    eradication ? "EV_COMMANDANT_COLONISER_PLANETE_0002" : "EV_COMMANDANT_COLONISER_PLANETE_0000",
+                    f.getPosition(),
+                    f.getNomNumero(numFlotte),
+                    sys.getNomNumeroPlanete(numPlanete),
+                    "<span class=\"race"
+                            + numRace
+                            + "\">"
+                            + Utile.maj(Univers.getMessage("RACES", numRace,
+                            getLocale())) + "</span>");
+        }
+		else {
 			return ajouterEvenement("EV_COMMANDANT_COLONISER_PLANETE_0001",
 					f.getPosition(), f.getNomNumero(numFlotte),
 					sys.getNomNumeroPlanete(numPlanete),
 					Univers.getMessage("RACES", numRace, getLocale()));
+            }
 	}
 
 	public boolean affecterHeros(String nomHeros, int numFlotte) {

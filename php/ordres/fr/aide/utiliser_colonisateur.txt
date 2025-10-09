@@ -1,13 +1,21 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique pour coloniser une de vos planètes.
+<P>
+    <STRONG>Utilisez cette rubrique pour coloniser une de vos planètes.
+    </STRONG>
 <BR><BR>
 Cela vous permet de rendre habitable la planète visée pour la race de l'équiipage du colonisateur,
 si bien sûr cette race peut supporter les conditions de radiation, de température et de gravité de la planète en question.
 (cf. règles complêtes).
+
+            <br><br>
+
+            Si une population est déjà présente elle sera violemment exterminée. La stabilité de la planète diminuera de 10 points et votre réputation de 300 points.
+
 <br><br>
 En cas de présence de plusieurs colonisateurs dans une même flotte, le colonisateur est choisi au hasard.
+</P>
 
 
 

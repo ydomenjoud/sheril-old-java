@@ -286,8 +286,9 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_COLONISER_PLANETE_0001 = "Impossible de coloniser la planète {2} du système {0} avec la flotte numéro {1} : cette planète n'existe pas.";
 	public static final String ER_COMMANDANT_COLONISER_PLANETE_0002 = "Impossible de coloniser la planète {2} du système {0} avec la flotte numéro {1} : Il n'y a pas assez de place pour leur developpement.";
 
-	public static final String EV_COMMANDANT_COLONISER_PLANETE_0000 = "Des {3} de {1} viennent de coloniser la planète {2} de {0}.";
+    public static final String EV_COMMANDANT_COLONISER_PLANETE_0000 = "Des {3} de {1} viennent de coloniser la planète {2} de {0}.";
 	public static final String EV_COMMANDANT_COLONISER_PLANETE_0001 = "Votre flotte {1} n'a pu coloniser la planète {2} du système {0} pour les {3} : la planète est inhabitable pour eux ou est déjà colonisée.";
+    public static final String EV_COMMANDANT_COLONISER_PLANETE_0002 = "Des {3} de {1} viennent de coloniser la planète {2} de {0}. Suite au génocide de la population présente, la stabilité a été réduite de 10 points et votre réputation de 300 points";
 
 	public static final String EV_COMMANDANT_AFFECTER_HEROS_0000 = "Votre héros {0} vient d'être nommé sur votre flotte {1}.";
 

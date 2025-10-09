@@ -332,7 +332,7 @@ public class Possession implements Serializable {
 		if (possedeStockImportantPoste(Const.PRODUIT_HOLOFILM))
 			mod_post = mod_post + 1;
 
-		// Position Ã  la capitale
+		// Position à la capitale
 		if (c.getCapitale() == null)
 			mod_pos = Const.MODIFICATEUR_STABILITE_CAPITALE[Const.MODIFICATEUR_STABILITE_CAPITALE.length - 1][1];
 		else {
