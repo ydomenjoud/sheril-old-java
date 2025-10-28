@@ -64,6 +64,8 @@ Le niveau de terraformation du système est la moyenne du niveau de terraformati
 
 La politique s'applique à toutes les planètes du système(en cas de système partagé, seules les planètes possédées par le commandant qui lit son rapport sont concernées).
 Il existe 5 formes de politique possibles:
+
+*   **0. Loisir** : les revenus des impôts de chaque planète du système sont diminués de 5%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de point de réputation par tour égal au double du nombre de planètes.
 *   **1. Impôts** : les revenus des impôts de chaque planète du système sont augmentés de 10%
 *   **2. Commerce** : le système produit 2 unités en plus pour les marchandises qui possèdent déjà une production sur le système dans le poste commercial du système
 *   **3. Construction** : le nombre de points de construction du système est augmenté de 50%.
@@ -71,8 +73,8 @@ Il existe 5 formes de politique possibles:
 *   **5. Expansion** : La population augmente dans toutes les planètes 5% plus vite.
 *   **6. Intégriste** : La population augmente dans toutes les planètes 10% plus vite. Le commandant perd un nombre de points de réputation par tour égal au nombre de planètes du système. La stabilité du système diminue de 2% par tour.
 *   **7. Totalitaire** : Le système a un bonus de stabilité de 2% par tour. Le commandant perd un nombre de points de réputation par tour égal au nombre de planètes du système. La production du poste commercial baisse de une unité par type de produit (production minimum 0).
-*   **8. Esclavagiste** : Le nombre de points de construction du système est multiplié par deux. Le commandant perd un nombre de points de réputation par tour égal au nombre de planètes du système au carré. La population ne peut pas augmenter de plus de 10 millions par tours.
-*   **9. Anti-Humains** : Le nombre d'humains sur les différentes planètes du système est divisé par deux. Si la population humaine sur une planète est infèrieure à 30, la population humaine est éradiquée: sa population maximale est réduite à 0, et il faudra éventuellement attendre qu'un colonisateur recolonise cette planète pour que des humains puissent de nouveau s'y installer. Cette politique rapporte en centaures un nombre égal à la population diminuée. Le système a un malus de stabilité de 5% par tour. Le commandant perd 300 points de réputation par tour.
+*   **8. Esclavagiste** : Le nombre de points de construction du système est multiplié par deux. La stabilité du système diminue de 2% par tour. Le commandant perd un nombre de points de réputation par tour égal au double du nombre de planètes du système. La population ne peut pas augmenter de plus de 10 millions par tours. 
+*   **9. Anti-Fremen** : Le nombre d'humains sur les différentes planètes du système est divisé par deux. Si la population humaine sur une planète est infèrieure à 30, la population fremen est éradiquée: sa population maximale est réduite à 0, et il faudra éventuellement attendre qu'un colonisateur recolonise cette planète pour que des humains puissent de nouveau s'y installer. Cette politique rapporte en centaures un nombre égal à la population diminuée. Le système a un malus de stabilité de 5% par tour. Le commandant perd 300 points de réputation par tour.
 *   **10 et suivantes ...** Des politiques similaires à la politique anti-Humains sont disponibles concernant les autres races.
 
 Bien entendu, cette politique n'est pas définitive et vous avez le droit d'en changer quand bon vous semble. Sachez cependant que le changement de politique d'un système vous coûtera 10 Centaures afin de symboliser le coût de la réorganisation de l'utilisation des ressources.
