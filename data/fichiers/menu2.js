@@ -46,56 +46,20 @@ function initIt(){
 
 function expandIt(el) {
   if (!capable) return;
-  if (IE4) {
-    expandIE(el);
-  } else if(NS4) {
-    expandNS(el);
-  } else if(DOM) {
-    expandDOM(el);
-  }
+  expandDOM(el);
 }
-
-function expandIE(el) {
-  whichEl = eval(el + "Child");
-        whichIm = eval(el+"Img");
-
-  if (whichEl.style.display == "none") {
-    whichEl.style.display = "block";
-    whichIm.src = "../images/minus.gif";
-  }
-  else {
-    whichEl.style.display = "none";
-    whichIm.src = "../images/plus.gif";
-  }
-    window.event.cancelBubble = true ;
-}
-
-function expandNS(el) {
-  whichEl = eval("document." + el + "Child");
-  whichIm = eval("document." + el + "Parent.document.images['imEx']");
-  if (whichEl.visibility == "hide") {
-    whichEl.visibility = "show";
-    whichIm.src = "../images/minus.gif";
-  }
-  else {
-    whichEl.visibility = "hide";
-    whichIm.src = "../images/plus.gif";
-  }
-  arrange();
-}
-
 function expandDOM(el) {
 
   whichEl = document.getElementById(el + "Child");
     whichIm = document.getElementById(el + "Img");
 
-  if (whichEl.style.visibility != "visible") {
-    whichEl.style.visibility = "visible";
-    whichIm.src = "../images/minus.gif";
-  } else {
-    whichEl.style.visibility = "hidden";
-    whichIm.src = "../images/plus.gif";
-  }
+    if (whichEl.style.display === "block") {
+        whichEl.style.display = "none";
+        whichIm.src = "../images/plus.gif";
+    } else {
+        whichEl.style.display = "block";
+        whichIm.src = "../images/minus.gif";
+    }
 
 }
 
@@ -154,7 +118,7 @@ function expandAll(isBot) {
 with (document) {
   if(DOM) {
     var lstyle = "<style type='text/css'>";
-    lstyle += ".child {font-family: Verdana, Arial, Helvetica, sans-serif; color: #FA8072; text-decoration:none; visibility:hidden}";
+    lstyle += ".child {font-family: Verdana, Arial, Helvetica, sans-serif; color: #FA8072; text-decoration:none; display:none}";
     lstyle += ".parent {font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000; text-decoration:none;}";
     lstyle += ".item { color: yellow; text-decoration:none; font-size: 8pt;}";
     lstyle += ".highlight { color: red; font-size: 8pt;}";

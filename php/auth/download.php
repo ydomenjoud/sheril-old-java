@@ -7,7 +7,9 @@ if($num <= 0){
     die("non num");
 }
 
-$tour = intval(file_get_contents("../tour.txt"));
+$currentTurn = intval(file_get_contents("../tour.txt"));
+$givenTurn = intval($_GET['turn']);
+$tour = ($givenTurn > 0 & $givenTurn <= $currentTurn) ? $givenTurn : $currentTurn;
 if($tour <= 0){
     die("non tour");
 }

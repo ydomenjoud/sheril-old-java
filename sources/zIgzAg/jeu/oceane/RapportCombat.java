@@ -76,7 +76,7 @@ public class RapportCombat {
 					Rapport.getText("spatial"));
 		else
 			retour[2] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
-					Rapport.getText("planÃ©taire"));
+					Rapport.getText("planétaire"));
 
 		retour[3] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getText(nomFlotteAttaquante));

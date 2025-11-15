@@ -112,18 +112,18 @@ public class SecteursAtlas {
 		b[0][0] = Rapport.getTD(BaliseHTML.CENTER, "2").ajout(
 				Rapport.getFont(Rapport.cC[4], "4").ajout(
 						Rapport.getP().ajout(
-								u.ajout(Rapport.getText("LÃ©gende")))));
+								u.ajout(Rapport.getText("Légende")))));
 		b[1][0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getImage("../images/etoile1.gif", 0, 0));
 		b[1][1] = Rapport.getTD("left", null).ajout(
-				Rapport.getText("Ãtoile bleue"));
+				Rapport.getText("étoile bleue"));
 		b[2][0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getImage("../images/etoile2.gif", 0, 0));
 		b[2][1] = Rapport.getTD("left", null).ajout(Rapport.getText("Nova"));
 		b[3][0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getImage("../images/etoile3.gif", 0, 0));
 		b[3][1] = Rapport.getTD("left", null).ajout(
-				Rapport.getText("Ãtoile blanche"));
+				Rapport.getText("étoile blanche"));
 		b[4][0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getImage("../images/etoile4.gif", 0, 0));
 		b[4][1] = Rapport.getTD("left", null).ajout(

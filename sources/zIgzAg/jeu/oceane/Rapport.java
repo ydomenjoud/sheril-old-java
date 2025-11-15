@@ -145,7 +145,40 @@ public class Rapport {
 			BaliseHTML meta3 = new BaliseHTML(BaliseHTML.LINK,
 					attributsBaseHeadMeta3);
 
-			HEAD.ajout(meta1).ajout(meta2).ajout(meta3);
+            BaliseHTML style = new BaliseHTML(
+                    BaliseHTML.STYLE,
+                    "table input {display: block; background-color: #000; color: #FFF; padding: 2px 5px; margin: 5px 2px; border: 1px solid #CCCCCC;display: inline;vertical-align: top;}",
+                    "type",
+                    "text/css"
+                    );
+
+            BaliseHTML script = new BaliseHTML(
+                    "script",
+                    """
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    document.querySelectorAll("table").forEach(table => {
+                                        const input = document.createElement("input");
+                                        input.setAttribute("placeholder", "Rechercher...");
+                                        input.addEventListener("input", e => {
+                                            const filter = e.target.value.toLowerCase();
+                                            table.querySelectorAll("tr:not(:first-child)").forEach(row => {
+                                                const text = row.textContent.toLowerCase();
+                                                const rowContentHTML = row.innerHTML.toLowerCase();
+                                                const isTitle = ['titre_table','titre_caption'].some(l => rowContentHTML.indexOf(l) > -1);
+                                                if(isTitle) {
+                                                    row.style.display = "";
+                                                } else {
+                                                    row.style.display = text.includes(filter) ? "" : "none";
+                                                }
+                                            });
+                                        });
+                                        table.querySelector("tr:first-child td").append(input);
+                                    });
+                                });
+                            """
+            );
+
+			HEAD.ajout(meta1).ajout(meta2).ajout(meta3).ajout(style).ajout(script);
 		}
 		return (BaliseHTML) HEAD.clone();
 	}
@@ -214,7 +247,7 @@ public class Rapport {
 	}
 
 	public static BaliseHTML getImage(String chemin, int hauteur, int largeur) {
-		BaliseHTML image = new BaliseHTML(BaliseHTML.IMG, BaliseHTML.SRC, "http://sheril.pbem-france.net/media/img/radiation2.png" /**chemin**/);
+		BaliseHTML image = new BaliseHTML(BaliseHTML.IMG, BaliseHTML.SRC, chemin);
 		if (hauteur != 0)
 			image.ajout(BaliseHTML.HEIGHT, Integer.toString(hauteur));
 		if (largeur != 0)

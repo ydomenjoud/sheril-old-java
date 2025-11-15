@@ -572,7 +572,8 @@ public class Const {
             {-5, 20, 5, -5},
             {10, -10, 10, 10},
             {0, -5, 5, 5},
-            {100, 100, 100, 100}};
+            {100, 100, 100, 100}
+    };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;
     public static final int RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE = 1;
