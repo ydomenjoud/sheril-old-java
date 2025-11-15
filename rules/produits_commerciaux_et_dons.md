@@ -42,14 +42,13 @@ Les produits qui confèrent des bonus ou des malus sont repris ci-dessous. Il es
 | Produits alimentaires | Un stock de 100 ou plus fait bénéficier le système d'un avantage de 5% sur le taux d'augmentation de la population. |
 | Logiciels | Un stock de 100 ou plus vous fait bénéficier d'un bonus de 25% en recherche technologique pour ce système. |
 | Robots | Un stock de 100 ou plus vous fait bénéficier d'un bonus de 5 points de construction supplémentaires pour ce système |
-| Matériel agricole | Un stock de 100 ou plus vous fait bénéficier de la production d'une unité supplémentaire de produits alimentaires par planète habitée. |
+| Médicaments | Un stock de 100 ou plus fait bénéficier le système d'un avantage de 10% sur le taux d'augmentation de la population. |
 | Armement et explosifs | Un stock de 100 ou plus fait diminuer le taux de stabilité de chaque planète du système de 1% par tour mais augmente la mobilisation des milices de défense planétaires du système jusqu'à 50% |
 | Unités énergétiques | Un stock de 100 ou plus permet à toutes vos flottes présentes dans le système (c'est-à-dire sur la même case) de ne nécessiter que 50% de frais d'entretien habituels. |
 | Pièces industrielles | Un stock de 100 ou plus vous permet de réduire de 10% la facture d'entretien des bâtiments planétaires du système |
 | Composants électroniques | Un stock de 100 ou plus vous fait bénéficier d'un bonus de 25% dans les budgets services spéciaux et contre-espionnage de ce système |
 | Articles de luxe | Un stock de 100 ou plus vous fait bénéficier d'un bonus de 10% sur le montant des impôts récoltés. |
 | Holofilms et hololivres | Un stock de 100 ou plus vous fait bénéficier d'un bonus de 1% à la stabilité chaque tour |
-| Alcools et drogues | Tout stock supérieur ou égal à 100 de cette marchandise fait diminuer le taux de stabilité du système de 1% par tour. |
 | Systèmes de Guidage | Un stock de 100 ou plus ne fait bénéficier le système d'aucun bonus ou malus particulier |
 | Métaux précieux | Augmente les revenus du système de 5% si le stock est supérieur ou égal à 100 |
 
