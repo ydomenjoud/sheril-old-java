@@ -1,4 +1,5 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+
 <P><h1>Pistage de flotte</h1>
 <BR>
 Ma flotte

@@ -100,9 +100,9 @@ function V($name) {
     return array_key_exists($name,$_POST) ? $_POST[$name] : '';
 }
 
-function select1($nv, $t)
+function select1($nv, $t, $class='select')
 {
-    echo("<SELECT SIZE=\"1\" NAME=\"$nv\" style='max-width: 200px; display: inline-block;'>");
+    echo("<SELECT SIZE=\"1\" NAME=\"$nv\" style='max-width: 200px; display: inline-flex;' class='$class'>");
     $k = array_keys($t);
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];

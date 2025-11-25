@@ -905,14 +905,8 @@ public class ProductionOrdres {
             String[] k2 = new String[b.length];
             for (int i = 0; i < b.length; i++) {
                 Commandant commandant = Univers.getCommandant(b[i][0]);
-                k2[i] = Integer.toString(b[i][0]) + ":"
-                        + Integer.toString(b[i][1]);
-//				v2[i] = Univers
-//						.getMessage("DESCRIPTION_FLOTTE1", c.getLocale())
-//						+ Integer.toString(b[i][1] + 1)
-//						+ Univers.getMessage("DESCRIPTION_FLOTTE2",
-//								c.getLocale()) + commandant.getNomNumero();
-                v2[i] = Integer.toString(b[i][1] + 1) + "de" + commandant.getNomNumerobis();
+                k2[i] = b[i][0] + ":"+ b[i][1];
+                v2[i] = (b[i][1] + 1) + " de " + commandant.getNomNumerobis();
             }
             ecrire(afficherA(Const.TABLE_FLOTTES_DETECTEES, k2, v2));
             return true;

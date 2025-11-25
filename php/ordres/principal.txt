@@ -37,7 +37,7 @@ if ($table === "list_ordres") {
     include "affiche.txt";
     $content = ob_get_clean();
     if (strpos($content, "TABLE") !== false) {
-        echo "<h1>Ordres déjà passé</h1>";
+        echo "<h1 class='searchable'>Ordres déjà passé <input placeholder='rechercher' id='search' style='font-size: 16px'/> </h1>";
         echo $content;
     }
 

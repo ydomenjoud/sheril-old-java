@@ -10,7 +10,7 @@ include "./fr/ordres.txt";
 
 //phpinfo();
 
-echo "<h1> Liste des ordres déjà passés</h1>";
+echo "<h1 class='searchable'> Liste des ordres déjà passés <input placeholder='rechercher' id='search' style='font-size: 16px'/></h1>";
 for ($i = 0; $i < count($code_ordres); $i++) {
     $table = $code_ordres[$i];
     if(in_array($table,["diviser_flotte_ajouter", "creer_plan_ajouter", "creer_strategie_ajouter"])){
