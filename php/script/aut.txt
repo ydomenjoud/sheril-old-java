@@ -70,7 +70,7 @@ if ((isset($x0)) and (isset($x1))) {
             for ($i = 0; $i < sizeof($tab_c); $i++)
                 if ($tab_c[$i] == $rf[0]) $nouveau_c = "ok";
             if ($nouveau_c != "ok") {
-                $num_clone = "$num_clone$rf[0]-";
+                $num_clone = $_SESSION['commandant_num']."/$num_clone$rf[0]-";
                 unlink($filename);
                 $fd = fopen($filename, "w");
                 fwrite($fd, "$num_clone");
