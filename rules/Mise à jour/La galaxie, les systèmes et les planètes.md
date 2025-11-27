@@ -50,6 +50,8 @@ La race qui a le plus de population est la race majoritaire. Conséquences :
 * Les colonisateurs produits pourront coloniser une planète avec cette race.
 
 **Exemple**
+
+
 ![](./img/tableau%20population.PNG)
 
 Dans cet exemple, la race majoritaire est Fergok.
