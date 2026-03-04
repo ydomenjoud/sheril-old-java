@@ -986,9 +986,10 @@ public class Flotte implements Serializable {
 				vulnerable = false;
 			if (vulnerable) {
 				// O2 transition --> division par 10 ->
-				int dommages = Univers.getInt(Math.max(1,
-						(tailleDebris / (Univers.getInt(500) + 1))
-								/ (11 - v.getTaille()))) / 10;
+				int dommages = Univers.getInt(
+						Math.max(1,
+								(tailleDebris / (Univers.getInt(500) + 1))/ (11 - v.getTaille()))
+				) / 10;
 				if (!v.ajouterDommagesAuHasard(dommages))
 					supprimerVaisseau(numV);
 				retour = retour + dommages;

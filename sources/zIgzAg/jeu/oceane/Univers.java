@@ -959,6 +959,7 @@ public class Univers {
 	public static void ajouterRapportCombat(RapportCombat r) {
 		int galaxie = r.getPosition().getNumeroGalaxie();
 		int secteur = r.getPosition().getNumeroSecteur();
+        System.out.println("ajout rapport combat g:" + galaxie+", s:" + secteur + ",p:" + r.getPosition().toString() + ",t:"+(r.estSpatial() ? "spatial":"planétaire")+",a:"+r.getAttaquant().getNomNumerobis()+",d"+r.getDefenseur().getNomNumerobis());
 		int cle = secteur + (Const.NB_SECTEURS * galaxie);
 		Collection<RapportCombat> c = RAPPORTS_COMBAT.get(cle);
 		if (c == null) {

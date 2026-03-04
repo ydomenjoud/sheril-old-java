@@ -3243,7 +3243,7 @@ public class Rapport {
 		a[ligne++][4] = getTD(BaliseHTML.CENTER, null).ajout(
 				getFont(cC[8], null).ajout(getText(t[4])));
 		for (int i = 0; i < Const.NB_GALAXIES; i++)
-			for (int j = 0; j < Const.NB_SECTEURS - 1; j++) {
+			for (int j = 0; j < Const.NB_SECTEURS; j++) {
 				RapportCombat[] r = Univers.getRapportsCombat(i, j + 1);
 				if (r.length != 0)
 					a[ligne++][0] = getTD(BaliseHTML.CENTER, "5").ajout(
