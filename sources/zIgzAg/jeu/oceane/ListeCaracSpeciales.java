@@ -40,7 +40,7 @@ public interface ListeCaracSpeciales{
  public static final int[][] bouclierIII={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,6}};
  public static final int[][] bouclierIV={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,8}};
  public static final int[][] bouclierV={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,10}};
- public static final int[][] bouclierVI={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,12}};
+ public static final int[][] bouclierVI={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,14}};
  public static final int[][] bouclierVII={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,16}};
  public static final int[][] bouclierVIII={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,20}};
  public static final int[][] bouclierIX={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,26}};
