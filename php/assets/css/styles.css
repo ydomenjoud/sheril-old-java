@@ -179,7 +179,11 @@ header {
   background-color: black;
   padding: 10px;
   font-size: 2rem;
-  line-height: 80px;
+}
+header small {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.5em;
 }
 
 body > nav > a {

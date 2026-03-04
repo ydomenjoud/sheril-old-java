@@ -38,6 +38,10 @@ public class RapportCombat {
 		nomFlotteDefensive = flotteDef.getNom();
 	}
 
+    public boolean estSpatial() {
+        return typeCombat == TYPE_COMBAT_SPATIAL;
+    }
+
 	public void setCombatPlanetaire(Flotte flotteAtt, Systeme s,
 			int[] numPlanetes) {
 		nomFlotteAttaquante = flotteAtt.getNom();
@@ -60,6 +64,12 @@ public class RapportCombat {
 	public Position getPosition() {
 		return position;
 	}
+    public Commandant getAttaquant() {
+        return attaquant;
+    }
+    public Commandant getDefenseur() {
+        return defenseur;
+    }
 
 	public BaliseHTML[] getDescription() {
 		int raceSecteur = Utile.getRaceDeDepart(position);

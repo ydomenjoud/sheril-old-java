@@ -1428,8 +1428,8 @@ public class Combat {
         Position3D att = (Position3D) pos1.get(cle);
         Commandant com = Univers.getCommandantFromFlotte(f1);
         boolean vaisseau_a_tire = false;
-        Combat.log(combatEnCours + " C{0} , tir vaisseau N°{1}/{2} ({3}, race: {4}) , attP: {5} ",
-                com.getNumero(), numTir, nbCibleMax, v.getPlan().getNom(), v.getRaceEquipage(), att);
+        Combat.log(combatEnCours + " C{0} , tir vaisseau {6} N°{1}/{2} ({3}, race: {4}) , attP: {5} ",
+                com.getNumero(), numTir, nbCibleMax, v.getPlan().getNom(), v.getRaceEquipage(), att, cle);
         if ((numTir <= nbCibleMax) && (estCombatif) && (estVivant)) {
             Integer cle2 = new Integer(((int[]) cible.get(cle))[numTir]);
             if (cle2.intValue() != -1) {
