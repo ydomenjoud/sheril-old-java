@@ -549,12 +549,12 @@ public class Const {
     // "Atalante","Ylaytite","Valhalla","Zergor","vide","Plouche","Vétarien","Automates","Autre","neutre"
 
     public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
-            {10, 165}, {50, 150}, {50, 200}, {0, 200}, {0, 200}};
+            {10, 165}, {30, 150}, {50, 200}, {0, 180}, {0, 200}};
     public static final int[][] HABITAT_TEMPERATURE = {{0, 200},
-            {-50, 180}, {-150, 70}, {-100, 160}, {-140, 190},
-            {0, 200}, {-150, 200}};
-    public static final int[][] HABITAT_GRAVITE = {{0, 80}, {40, 100},
-            {20, 80}, {30, 90}, {0, 80}, {0, 20}, {0, 100}};
+            {-50, 180}, {-150, 70}, {-100, 160}, {-140, 150},
+            {-120, 110}, {-150, 200}};
+    public static final int[][] HABITAT_GRAVITE = {{20, 90}, {30, 100},
+            {10, 80}, {30, 100}, {0, 70}, {0, 70}, {0, 100}};
     // Les conditions supportées par les différentes races(min et max).
 
     public static final int[][] RACES_ATMOSPHERES = {{3, 2, 2, 2, 2},
