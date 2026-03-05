@@ -138,12 +138,27 @@ public class Position implements Serializable, Comparable, Cloneable {
 		retour.setPos(Univers.getTabInt(Const.BORNE_MAX, 1, 2));
 		return retour;
 	}
-    public static Position auHasardInSector(int galaxie, int sector){
-        Position retour = new Position();
-        retour.setNumeroGalaxie(galaxie);
-        retour.setPos(Univers.getTabInt(Const.BORNE_MAX, 1, 2));
-        return retour;
-    }
+		public static Position auHasardInSector(int galaxie, int sector) {
+		    int ratio = (int) Math.sqrt(Const.NB_SECTEURS); // 3
+		    int sectorSize = Const.BORNE_MAX / ratio;       // 10
+		
+		    // Calcul des offsets
+		    int column = (sector - 1) % ratio; // 0, 1, 2
+		    int row = (sector - 1) / ratio;    // 0, 1, 2
+		
+		    int minX = (column * sectorSize) + 1;
+		    int minY = (row * sectorSize) + 1;
+		
+		    Position retour = new Position();
+		    retour.setNumeroGalaxie(galaxie);
+		    
+		    // Génère X et Y spécifiquement dans les bornes du secteur
+		    int y = Univers.getInt(sectorSize) + minY;
+		    int x = Univers.getInt(sectorSize) + minX;
+		    
+		    retour.setPos(new int[]{y, x});
+		    return retour;
+		}
 
 	// methode pour vÃ©rifier si une position est dans les bornes prÃ©vues.
 
