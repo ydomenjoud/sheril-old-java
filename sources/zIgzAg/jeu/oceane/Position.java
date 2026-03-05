@@ -99,13 +99,31 @@ public class Position implements Serializable, Comparable, Cloneable {
 		pos = e;
 	}
 
+	//méthode originelle hardcoded for 40*40 grid with 20-tile sector
+	// public int getNumeroSecteur() {
+	//      int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
+	// 	if (1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20) > Const.NB_SECTEURS) {
+	// 		return Const.NB_SECTEURS;
+	// 	} else {
+	// 		return 1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20);
+	// 	}
+	// }
+	
+	//replace the previous method 
 	public int getNumeroSecteur() {
-        int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
-		if (1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20) > Const.NB_SECTEURS) {
-			return Const.NB_SECTEURS;
-		} else {
-			return 1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20);
-		}
+	    // ratio is the number of sectors per side (e.g., sqrt(9) = 3)
+	    int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
+	    
+	    // sectorSize is the width/height of one sector (e.g., 30 / 3 = 10)
+	    int sectorSize = Const.BORNE_MAX / ratio;
+	
+	    int column = (pos[1] - 1) / sectorSize; // 0, 1, or 2
+	    int row = (pos[0] - 1) / sectorSize;    // 0, 1, or 2
+	
+	    int result = 1 + column + (ratio * row);
+	
+	    // Safety check to ensure we don't exceed the defined number of sectors
+	    return Math.min(result, Const.NB_SECTEURS);
 	}
 	
 	public boolean estValide(){
