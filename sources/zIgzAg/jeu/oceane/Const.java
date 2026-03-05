@@ -79,18 +79,18 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int BORNE_MAX = 40;
+    public static final int BORNE_MAX = 30;
     // Les bornes pour chaque galaxie(multiple de 20 de preference).Les
     // coordonnées vont de 1 à BORNE_MAX.
 
     // un nombre que l'on peut réduire par racine carrée à un entier
-    public static final int NB_SECTEURS = 4;
+    public static final int NB_SECTEURS = 9;
     // Le nombre de secteurs par galaxie.
 
-    public static final int NB_SYSTEME = NB_SECTEURS * 40;
+    public static final int NB_SYSTEME = 99;
     // le nombre de systéme par galaxie
 
-    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;
+    public static final int NB_FLOTTE_NEUTRE = 99;
     // le nombre de flotte neutre par galaxie
 
     public static final int NB_SECTEUR_VIDE = 0;
@@ -116,13 +116,10 @@ public class Const {
     // localisation des passages intragalactiques
 
     public static final int[] REPARTITION_DES_RACES = {
-            1, 1, 1, 0, 0,
-            0, 1, 1, 1, 0,
-            0, 1, 2, 2, 4,
-            4, 4, 4, 2, 2,
-            3, 3, 3, 4, 2,
-            2, 3, 3, 3, 2,
-            5, 5, 5, 5, 3, 1};
+          0, 1, 2, 
+          3, 4, 0, 
+          1, 2, 3
+      };
     // Les répartitions initiales des races( indice i = race secteur i).
     // La répartition se fait en surfaces rectangulaires homogènes.
 
