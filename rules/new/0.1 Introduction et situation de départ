@@ -1,0 +1,35 @@
+# Introduction et situation de départ
+
+Shéril est un jeu 4X (ou aux quatre [X](https://fr.wikipedia.org/wiki/X_(lettre) "X (lettre)")). Un 4X est un [genre de jeu vidéo](https://fr.wikipedia.org/wiki/Genre_de_jeu_vidéo "Genre de jeu vidéo") de [stratégie](https://fr.wikipedia.org/wiki/Jeu_vidéo_de_stratégie "Jeu vidéo de stratégie") et de gestion dans lequel le joueur contrôle un [domaine](https://fr.wikipedia.org/wiki/Empire "Empire") et dont le [gameplay](https://fr.wikipedia.org/wiki/Gameplay "Gameplay") est fondé sur les quatre principes suivants : l'exploration, l'expansion, l'exploitation et l'extermination (« eXplore, eXpand, eXploit and eXterminate » en [anglais](https://fr.wikipedia.org/wiki/Anglais "Anglais")).
+
+Chaque joueur incarne un commandant d’une certaine race, à la tête d’un domaine.
+
+Shéril est un jeu qui se joue tour par tour. Chaque joueur a accès à :
+
+
+* Un rapport collectif
+* Un rapport individuel
+* Une console d’ordre
+
+Le rapport collectif est diffusé à l’ensemble des joueurs. Il donne entre autres des informations sur l’état de la galaxie et sur les possessions de chaque commandant.
+
+Un rapport individuel est diffusé à chaque commandant. Il donne l’état des possessions du commandant, les événements qui viennent de se produire, les technologies qui lui sont accessibles et ses alliances/pactes de non-agression.
+
+Une console d’ordre lui permet d’agir. Les ordres sont enregistrés et une fois par semaine, le jeu passe au tour suivant. Ce n’est qu’à ce moment-là que l’ensemble des ordres passés sont pris en compte.
+
+Dans Shéril, les commandants  évoluent dans une galaxie et commencent avec :
+
+* Un domaine de 2 systèmes de planètes pour un total de 30 planètes.
+* Une flotte de vaisseaux
+* 21000 centaures (monnaie du jeu)
+* 2 lieutenants.
+
+Chaque commandant commence le jeu avec 2 systèmes avec un total de 30 planètes. Pour l’un, les planètes sont colonisées par la race la mieux adaptée privilégiant la race du commandant. Et pour l’autre, les planètes sont colonisées par la race la mieux adaptée tout court. Tous les autres systèmes de la galaxie sont neutres, c’est-à-dire qu’ils ne sont contrôlés par aucun autre joueur. Au début du jeu, chaque système neutre est colonisé par une seule race déterminée aléatoirement.
+
+La flotte contient des vaisseaux armés, des colonisateurs et des éclaireurs.
+
+Au début du jeu, les commandants chercheront à découvrir les systèmes neutres autour de lui. Pour les trouver, le commandant dispose d’un radar sur chacun de ses systèmes et de vaisseaux éclaireurs. Par ailleurs, quelques systèmes possédants des ressources particulières sont signalés par le jeu dans les évènements publics.
+
+Des flottes neutres défendent les systèmes neutres. Elles stationnent au-dessus de chaque système. Pour prendre le système, il faut d’abord détruire la flotte neutre qui la défend avec ses vaisseaux équipés de lasers, plasmas, missiles et torpilles. Et attaquer le système avec les vaisseaux équipés de bombes. Cela peut être fait en un seul et même tour (Cf. 4.4 directives de rencontre).
+
+Enfin, une flotte neutre est placée au-dessus de chaque capitale des joueurs. Elles sont à l’avantage du commandant puisqu’elle défend le système qu’elle survole.
