@@ -598,10 +598,6 @@ public class Stats {
 		Alliance[] a = Univers.getListeAlliancesNonSecretes();
 		STATS_DERNIER_TOUR = Univers.getStatsDernierTour();
 
-		// --- NOUVEAUTÉ : Calcul des totaux pour les pourcentages ---
-	    int totalPop = getTotalPopulationUniverse();
-	    int totalPlanetes = getTotalPlanetesUniverse();
-
 		ecrire(FICHIER_PUISSANCE,
 				definirParametresPuissance(
 						getListe(trierParPuissance(c), FICHIER_PUISSANCE), l),
