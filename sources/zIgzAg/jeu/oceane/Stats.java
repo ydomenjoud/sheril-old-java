@@ -126,6 +126,28 @@ public class Stats {
 		return retour;
 	}
 
+	//on calcule la population totale de l'univers, quelque soit le propriétaire
+	public static int getTotalPopulationUniverse() {
+	    // On récupère tous les systèmes de l'univers sous forme de tableau
+	    Systeme[] tousLesSystemes = Univers.listeSystemes(Univers.listePositionsSystemes());
+	    
+	    // On utilise la méthode statique de Systeme.java qui est faite pour ça
+	    return Systeme.getPopulationTotale(tousLesSystemes);
+	}
+
+	//on calcule le nb de planètes total de l'univers, quelque soit le propriétaire
+	public static int getTotalPlanetesUniverse() {
+	    int total = 0;
+	    Position[] all = Univers.listePositionsSystemes();
+	    for (Position p : all) {
+	        Systeme s = Univers.getSysteme(p);
+	        if (s != null) {
+	            total += s.getNombrePlanetes(); // Totalité des planètes, qu'elles soient neutres ou non
+	        }
+	    }
+	    return total;
+	}
+
 	public static Object getModif(Object o, int modif) {
 		String retour = null;
 		if (o instanceof Float)
@@ -158,9 +180,14 @@ public class Stats {
 
 	public static SortedMap<Integer, Commandant> trierParPlanetes(Commandant[] c) {
 		SortedMap<Integer, Commandant> st = mapDuPlusGrandAuPlusPetit();
+		//1. on ajoute les joueurs
 		for (int i = 0; i < c.length; i++)
 			ajouterDonnee(st, c[i].getNombrePlanetesPossedees(),
 					c[i]);
+		//2. On injecte le seuil Empire Galactique (66%)
+		int seuilEmpire = (int)Math.round(getTotalPlanetesUniverse() * 0.66);
+   		ajouterDonnee(st, seuilEmpire, "SEUIL_EMPIRE");
+		
 		return st;
 	}
 
@@ -180,8 +207,13 @@ public class Stats {
 
 	public static SortedMap<Integer, Commandant> trierParPopulation(Commandant[] c) {
 		SortedMap<Integer, Commandant> st = mapDuPlusGrandAuPlusPetit();
+		// 1. On ajoute les joueurs
 		for (int i = 0; i < c.length; i++)
 			ajouterDonnee(st, c[i].getPopulationTotale(), c[i]);
+		// 2. On injecte le seuil Age d'Or (66%)
+		int seuilAgeDor = (int)Math.round(getTotalPopulationUniverse() * 0.66);
+  		ajouterDonnee(st, seuilAgeDor, "SEUIL_AGE_DOR");
+		
 		return st;
 	}
 
@@ -219,12 +251,26 @@ public class Stats {
 		Object[] p = null;
 		for (int i = 0; i < l[0].size(); i++) {
 			p = new Object[4];
-			Commandant c = (Commandant) l[1].get(i);
-			p[0] = c.getNom();
-			p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
-					Integer.toString(c.getNumero()));
-			p[2] = Rapport.getRace(c.getRace(), loc);
-			p[3] = l[0].get(i);
+
+			// --- CHANGEMENT MAJEUR : Vérification du type d'objet ---
+        	// On vérifie si l'objet est un Commandant (joueur) ou une String (notre seuil)
+			Object objetEnCours = l[1].get(i);
+
+			if (objetEnCours instanceof Commandant) {
+				// Comportement classique pour un joueur
+				Commandant c = (Commandant) l[1].get(i);
+				p[0] = c.getNom();
+				p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+						Integer.toString(c.getNumero()));
+				p[2] = Rapport.getRace(c.getRace(), loc);
+				p[3] = l[0].get(i);
+			} else {
+	            // --- NOUVEAUTÉ : Affichage de la ligne AGE D'OR ---
+	            p[0] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu("--- AGE D'OR (66%) ---");
+	            p[1] = "-";
+	            p[2] = "-";
+	            p[3] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu(l[0].get(i).toString());
+	        }
 			retour.add(p);
 		}
 		return retour;
@@ -270,13 +316,29 @@ public class Stats {
 		Object[] p = null;
 		for (int i = 0; i < l[0].size(); i++) {
 			p = new Object[5];
-			Commandant c = (Commandant) l[1].get(i);
-			p[0] = c.getNom();
-			p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
-					Integer.toString(c.getNumero()));
-			p[2] = Rapport.getRace(c.getRace(), loc);
-			p[3] = l[0].get(i);
-			p[4] = Utile.maj(c.getGrade());
+			
+			// --- CHANGEMENT MAJEUR : Vérification du type d'objet ---
+	        // On vérifie si l'objet est un Commandant (joueur) ou une String (notre seuil)
+	        Object objetEnCours = l[1].get(i);
+
+			if (objetEnCours instanceof Commandant) {
+				// Comportement classique pour un joueur
+				Commandant c = (Commandant) l[1].get(i);
+				p[0] = c.getNom();
+				p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+						Integer.toString(c.getNumero()));
+				p[2] = Rapport.getRace(c.getRace(), loc);
+				p[3] = l[0].get(i);
+				p[4] = Utile.maj(c.getGrade());
+			} else {
+	            // --- NOUVEAUTÉ : Affichage de la ligne EMPIRE GALACTIQUE ---
+	            // On utilise du gras (BaliseHTML.B) pour faire ressortir la ligne
+	            p[0] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu("--- EMPIRE GALACTIQUE (66%) ---");
+	            p[1] = "-"; // Pas de numéro
+	            p[2] = "-"; // Pas de race
+	            p[3] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu(l[0].get(i).toString());
+	            p[4] = "OBJECTIF";
+	        }
 			retour.add(p);
 		}
 		return retour;
@@ -540,6 +602,8 @@ public class Stats {
 				definirParametresPuissance(
 						getListe(trierParPuissance(c), FICHIER_PUISSANCE), l),
 				Univers.getMessageRapport("STATS_PUISSANCE", l));
+		
+		// Rapport Planètes (CONTIENT LA LIGNE EMPIRE GALACTIQUE)
 		ecrire(FICHIER_PLANETES,
 				definirParametresPlanetes(
 						getListe(trierParPlanetes(c), FICHIER_PLANETES), l),
@@ -556,6 +620,8 @@ public class Stats {
 				definirParametresCentaures(
 						getListe(trierParCentaures(c), FICHIER_CENTAURES), l),
 				Univers.getMessageRapport("STATS_CENTAURES", l));
+		
+		// Rapport Population (CONTIENT LA LIGNE AGE D'OR)-
 		ecrire(FICHIER_POPULATION,
 				definirParametresPopulation(
 						getListe(trierParPopulation(c), FICHIER_POPULATION), l),
