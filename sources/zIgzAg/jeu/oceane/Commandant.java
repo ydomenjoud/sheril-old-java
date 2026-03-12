@@ -3971,17 +3971,18 @@ public class Commandant extends Joueur implements Serializable {
 	public Object[] getInfosMeilleurRayonnement() {
 	    float maxRayonnement = -1f;
 	    String nomSysteme = "N/A";
-	    // On récupère toutes les positions où le joueur possède au moins une planète
-	    Position[] possessions = getListePossessions(); 
-	
-	    // Sécurité si le joueur n'a plus rien
-	    if (possessions == null || possessions.length == 0) {
-	        return new Object[]{0f, "Aucun"};
+	    // Sécurité : Vérifier si le domaine est prêt
+	    if (domaine == null || domaine.isEmpty()) {
+	        return new Object[]{new Float(0f), "Aucun"};
 	    }
 	
-	    for (int i = 0; i < possessions.length; i++) {
-	        // On récupère l'objet Systeme correspondant à la position
-	        Systeme s = Univers.getSysteme(possessions[i]);
+
+	
+	    // On itère sur les clés du TreeMap (les objets Position du domaine)
+		java.util.Iterator it = domaine.keySet().iterator();
+	    while (it.hasNext()) {
+	        Position pos = (Position) it.next();
+	        Systeme s = Univers.getSysteme(pos);
 	        
 	        if (s != null) {
 	            // On appelle la méthode créée dans Systeme.java pour calculer l'influence
@@ -3998,7 +3999,7 @@ public class Commandant extends Joueur implements Serializable {
    		 if (maxRayonnement < 0) maxRayonnement = 0f;
 		
 	    // Retourne un tableau d'objets : [Score, Nom]
-    	return new Object[]{maxRayonnement, nomSysteme};
+    	return new Object[]{new Float(maxRayonnement), nomSysteme};
 	}
 
 }
