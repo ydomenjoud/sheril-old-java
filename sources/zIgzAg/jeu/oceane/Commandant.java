@@ -3968,4 +3968,37 @@ public class Commandant extends Joueur implements Serializable {
 		return Const.EFFETS_MAITRISE_SPATIALE[getNiveauMaxMaitriseSpatiale()];
 	}
 
+	public Object[] getInfosMeilleurRayonnement() {
+	    float maxRayonnement = -1f;
+	    String nomSysteme = "N/A";
+	    // On récupère toutes les positions où le joueur possède au moins une planète
+	    Position[] possessions = getListePossessions(); 
+	
+	    // Sécurité si le joueur n'a plus rien
+	    if (possessions == null || possessions.length == 0) {
+	        return new Object[]{0f, "Aucun"};
+	    }
+	
+	    for (int i = 0; i < possessions.length; i++) {
+	        // On récupère l'objet Systeme correspondant à la position
+	        Systeme s = Univers.getSysteme(possessions[i]);
+	        
+	        if (s != null) {
+	            // On appelle la méthode créée dans Systeme.java pour calculer l'influence
+	            float influence = s.getInfluenceRayonnement(this.getNumero());
+	            
+	            // On ne garde que le score le plus élevé
+	            if (influence > maxRayonnement) {
+	                maxRayonnement = influence;
+					nomSysteme = s.getNom();
+	            }
+	        }
+	    }
+		// Si après la boucle le score est toujours -1 (ex: systèmes vides)
+   		 if (maxRayonnement < 0) maxRayonnement = 0f;
+		
+	    // Retourne un tableau d'objets : [Score, Nom]
+    	return new Object[]{maxRayonnement, nomSysteme};
+	}
+
 }
