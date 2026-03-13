@@ -599,4 +599,53 @@ public class Stats {
 
 	}
 
+	public Object[][] getTop3SystemesGalactiques() {
+	    // 1. Récupérer toutes les positions de systèmes existants
+	    Position[] toutesLesPos = Univers.listePositionsSystemes();
+	    java.util.ArrayList listeGlobale = new java.util.ArrayList();
+	
+	    for (int i = 0; i < toutesLesPos.length; i++) {
+	        Systeme s = Univers.getSysteme(toutesLesPos[i]);
+	        if (s != null) {
+	            int[] proprios = s.getProprios();
+	            // On calcule le rayonnement pour CHAQUE propriétaire présent dans ce système
+	            for (int j = 0; j < proprios.length; j++) {
+	                int idProprio = proprios[j];
+	                // On ignore le joueur neutre (souvent ID 0 ou -1 selon ton moteur)
+	                if (idProprio != 0) { 
+	                    float score = s.getInfluenceRayonnement(idProprio);
+	                    
+	                    if (score > 0) {
+	                        Commandant c = Univers.getCommandant(idProprio);
+	                        String nomProprio = (c != null) ? c.getNom() : "Inconnu";
+	                        
+	                        // [Score, Nom Système, Nom Propriétaire]
+	                        listeGlobale.add(new Object[]{new Float(score), s.getNom(), nomProprio});
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    // 2. Tri personnalisé (Décroissant)
+	    java.util.Collections.sort(listeGlobale, new java.util.Comparator() {
+	        public int compare(Object o1, Object o2) {
+	            Float s1 = (Float) ((Object[]) o1)[0];
+	            Float s2 = (Float) ((Object[]) o2)[0];
+	            return s2.compareTo(s1);
+	        }
+	    });
+	
+	    // 3. Extraction des 3 meilleurs
+	    int taille = Math.min(3, listeGlobale.size());
+	    Object[][] top3 = new Object[taille][3];
+	    for (int i = 0; i < taille; i++) {
+	        top3[i] = (Object[]) listeGlobale.get(i);
+	    }
+	
+	    return top3;
+	}
+
+	
+
 }
