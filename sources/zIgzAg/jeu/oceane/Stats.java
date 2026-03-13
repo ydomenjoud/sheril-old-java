@@ -392,7 +392,7 @@ public class Stats {
 	public static SortedMap<Float, Commandant> trierParRayonnement(Commandant[] c) {
 	    SortedMap<Float, Commandant> st = mapDuPlusGrandAuPlusPetit();
 	    for (int i = 0; i < c.length; i++) {
-	        Object[] infos = c.getInfosMeilleurRayonnement(); 
+   		 	Object[] infos = c[i].getInfosMeilleurRayonnement(); // Correction : ajout des index [i]
 	        // infos[0] contient le score (Float), infos[1] le nom du système
 	        ajouterDonnee(st, (Float)infos[0], c[i]);
 	    }
@@ -448,7 +448,7 @@ public class Stats {
 	            Object o = msdt.get(new Integer(hashCle));
 	            if (o instanceof Number) modif = Math.round(scoreActuel) - ((Number) o).intValue();
 	        }
-	        p[4] = getModif(new Float(scoreActuel), modif);
+	        p[4] = getModif(scoreActuel, modif);
 	        
 	        // Sauvegarde historique pour le tour prochain
 	        Map h = (Map) Univers.getStats().get(FICHIER_RAYONNEMENT + "_TOP3");
@@ -740,7 +740,7 @@ public class Stats {
 	                        String nomProprio = (c != null) ? c.getNom() : "Inconnu";
 	                        
 	                        // [Score (Float), Nom Système (String), ID Proprio (Integer)]
-	                        listeGlobale.add(new Object[]{new Float(score), s.getNom(), new Integer(idProprio)});
+	                        listeGlobale.add(new Object[]{score, s.getNom(), new Integer(idProprio)});
 	                    }
 	                }
 	            }
