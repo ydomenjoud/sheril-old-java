@@ -3968,4 +3968,38 @@ public class Commandant extends Joueur implements Serializable {
 		return Const.EFFETS_MAITRISE_SPATIALE[getNiveauMaxMaitriseSpatiale()];
 	}
 
+	public Object[] getInfosMeilleurRayonnement() {
+	    float maxRayonnement = -1f;
+	    String nomSysteme = "N/A";
+	    // Sécurité : Vérifier si le domaine est prêt
+	    if (domaine == null || domaine.isEmpty()) {
+	        return new Object[]{new Float(0f), "Aucun"};
+	    }
+	
+
+	
+	    // On itère sur les clés du TreeMap (les objets Position du domaine)
+		java.util.Iterator it = domaine.keySet().iterator();
+	    while (it.hasNext()) {
+	        Position pos = (Position) it.next();
+	        Systeme s = Univers.getSysteme(pos);
+	        
+	        if (s != null) {
+	            // On appelle la méthode créée dans Systeme.java pour calculer l'influence
+	            float influence = s.getInfluenceRayonnement(this.getNumero());
+	            
+	            // On ne garde que le score le plus élevé
+	            if (influence > maxRayonnement) {
+	                maxRayonnement = influence;
+					nomSysteme = s.getNom();
+	            }
+	        }
+	    }
+		// Si après la boucle le score est toujours -1 (ex: systèmes vides)
+   		 if (maxRayonnement < 0) maxRayonnement = 0f;
+		
+	    // Retourne un tableau d'objets : [Score, Nom]
+    	return new Object[]{new Float(maxRayonnement), nomSysteme};
+	}
+
 }
