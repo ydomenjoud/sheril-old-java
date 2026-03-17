@@ -79,7 +79,7 @@ public static final Description absorb=new Description("absorbeur","absorbeurs",
  public static final Description battla=new Description("batterie de lasers","batteries de lasers","Une batterie laser permet de mieux défendre la planète sur laquelle elle est construite.");
  public static final Description battpla=new Description("batterie de plasmas","batteries de plasmas","Une batterie plasma permet de mieux défendre la planète sur laquelle elle est construite.");
  public static final Description rampemis=new Description("rampe de missiles","rampes de missiles","Une rampe de missile permet de mieux défendre la planète sur laquelle elle est construite.");
- public static final Description lancetor=new Description("lance-torpilles","lances-torpilles","Un lance-torpilles permet de mieux défendre la planète sur laquelle il est construit.");
+ public static final Description lancetor=new Description("batterie de lance-torpilles","batterie de lances-torpilles","Une batterie de lance-torpilles permet de mieux défendre la planète sur laquelle il est construit.");
 
     //technologies simples -->
 
