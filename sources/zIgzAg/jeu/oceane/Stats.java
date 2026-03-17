@@ -32,6 +32,7 @@ public class Stats {
 	public static final String FICHIER_UNIVERS = "univers.htm";
 	public static final String FICHIER_HEROS = "hero.htm";
 	public static final String FICHIER_FLOTTES = "flotte.htm";
+	public static final String FICHIER_RAYONNEMENT = "rayonnement.htm";
 
 	public static Map STATS_DERNIER_TOUR;
 
@@ -388,6 +389,80 @@ public class Stats {
 		return retour;
 	}
 
+	public static SortedMap<Float, Commandant> trierParRayonnement(Commandant[] c) {
+	    SortedMap<Float, Commandant> st = mapDuPlusGrandAuPlusPetit();
+	    for (int i = 0; i < c.length; i++) {
+   		 	Object[] infos = c[i].getInfosMeilleurRayonnement(); // Correction : ajout des index [i]
+	        // infos[0] contient le score (Float), infos[1] le nom du système
+	        ajouterDonnee(st, (Float)infos[0], c[i]);
+	    }
+	    return st;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresRayonnement(List[] l, Locale loc) {
+	    List retour = new ArrayList(l[0].size());
+	    for (int i = 0; i < l[0].size(); i++) {
+	        // Nous avons 5 colonnes de données (p[0] à p[4])
+	        Object[] p = new Object[5];
+	        Commandant c = (Commandant) l[1].get(i);
+	        Object[] infos = c.getInfosMeilleurRayonnement();
+	        
+	        p[0] = c.getNom();
+	        // Harmonisation : Numéro en couleur via Rapport.cC[6]
+	        p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+	                Integer.toString(c.getNumero()));
+	        p[2] = Rapport.getRace(c.getRace(), loc);
+	        p[3] = infos[1];    // Nom du système
+	        p[4] = l[0].get(i); // Score Influence (déjà formaté avec l'évolution par getListe)
+	        
+	        retour.add(p);
+	    }
+	    return retour;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresTop3(Object[][] top3, Locale loc) {
+	    List retour = new ArrayList();
+	    Map msdt = (Map) STATS_DERNIER_TOUR.get(FICHIER_RAYONNEMENT + "_TOP3");
+	    
+	    for (int i = 0; i < top3.length; i++) {
+	        Object[] p = new Object[5];
+	        float scoreActuel = ((Float) top3[i][0]).floatValue();
+	        String nomSysteme = (String) top3[i][1];
+	        int idProprio = ((Integer) top3[i][2]).intValue();
+	        
+	        Commandant c = Univers.getCommandant(idProprio);
+	
+	        p[0] = (c != null) ? c.getNom() : "Inconnu";
+	        // Harmonisation : Numéro en couleur
+	        p[1] = (c != null) ? Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+	                Integer.toString(idProprio)) : "N/A";
+	        p[2] = (c != null) ? Rapport.getRace(c.getRace(), loc) : "N/A";
+	        p[3] = nomSysteme;
+	        
+	        // Calcul de l'évolution (Modif)
+	        int hashCle = (nomSysteme + idProprio).hashCode();
+	        int modif = 0;
+	        if (msdt != null) {
+	            Object o = msdt.get(new Integer(hashCle));
+	            if (o instanceof Number) modif = Math.round(scoreActuel) - ((Number) o).intValue();
+	        }
+	        p[4] = getModif(scoreActuel, modif);
+	        
+	        // Sauvegarde historique pour le tour prochain
+	        Map h = (Map) Univers.getStats().get(FICHIER_RAYONNEMENT + "_TOP3");
+	        if (h == null) {
+	            h = new HashMap();
+	            Univers.getStats().put(FICHIER_RAYONNEMENT + "_TOP3", h);
+	        }
+	        h.put(new Integer(hashCle), new Integer(Math.round(scoreActuel)));
+	        
+	        retour.add(p);
+	    }
+	    return retour;
+	}
+
 	public static void ecrireHeros(Heros[] heros, Locale loc) {
 		String[] t = (String[]) Univers.getMessageRapport("STATS_HEROS", loc);
 		BaliseHTML racine = Rapport.getDiv();
@@ -503,6 +578,40 @@ public class Stats {
 		d.ecrire();
 	}
 
+	public static void ecrireRayonnement(List l, List lTop3, Locale loc) {
+	    String[] t = (String[]) Univers.getMessageRapport("STATS_RAYONNEMENT", loc);
+	    BaliseHTML div = Rapport.getDiv();
+	
+	    div.ajout(Rapport.getFont(Rapport.cC[3], "6").ajout(Rapport.getText(t[0]))).ajout(Rapport.sautP());
+	
+	    // --- TABLEAU 1 : TOP 3 GALACTIQUE ---
+	    div.ajout(Rapport.getFont(Rapport.cC[3], "5").ajout(Rapport.getText("Top 3 des Systemes de la Galaxie"))).ajout(Rapport.sautP());
+	    div.ajout(genererTableauStat(lTop3, t));
+	    div.ajout(Rapport.sautP());
+	
+	    // --- TABLEAU 2 : CLASSEMENT DES EMPIRES ---
+	    div.ajout(Rapport.getFont(Rapport.cC[3], "5").ajout(Rapport.getText("Classement des Empires (Meilleur Systeme)"))).ajout(Rapport.sautP());
+	    div.ajout(genererTableauStat(l, t));
+	
+	    DocumentHTML d = Rapport.getDocument(Chemin.STATS + FICHIER_RAYONNEMENT, t[0], Rapport.getBody().ajout(div));
+	    d.ecrire();
+	}
+
+	private static BaliseHTML genererTableauStat(List l, String[] t) {
+	    BaliseHTML[][] a = new BaliseHTML[l.size() + 1][t.length]; 
+	    a[0][0] = Rapport.getTD("center", null).ajout(Rapport.getFont(Rapport.cC[4], null).ajout(Rapport.getText("Rang")));
+	    for (int i = 1; i < t.length; i++)
+	        a[0][i] = Rapport.getTD("center", null).ajout(Rapport.getFont(Rapport.cC[4], null).ajout(Rapport.getText(t[i])));
+	    
+	    for (int i = 0; i < l.size(); i++) {
+	        a[i + 1][0] = Rapport.getTD("center", null).ajout(Rapport.getFont(Rapport.cC[3], null).ajout(Rapport.getText(Integer.toString(i + 1))));
+	        Object[] ligne = (Object[]) l.get(i);
+	        for (int j = 0; j < ligne.length; j++)
+	            a[i + 1][j + 1] = Rapport.getTD("center", null).ajout(Rapport.getText(ligne[j].toString()));
+	    }
+	    return DocumentHTML.creerTable(Rapport.getTable().ajout(BaliseHTML.WIDTH, "95%"), a);
+	}
+
 	public static void ecrire(String fichier, List l, Object o) {
 		String[] t = (String[]) o;
 		BaliseHTML[][] a = new BaliseHTML[l.size() + 1][t.length - 1];
@@ -578,6 +687,17 @@ public class Stats {
 		ecrireUnivers(l);
 		Rapport.ecrireLiensSites(l);
 
+		// Calcul du Top 3 (données brutes -> paramètres formatés)
+		Object[][] rawTop3 = new Stats().getTop3SystemesGalactiques(); // Utilisation de ton code
+		List top3Final = definirParametresTop3(rawTop3, l);
+		
+		// Calcul du classement général
+		List classementGeneral = definirParametresRayonnement(
+		    getListe(trierParRayonnement(c), FICHIER_RAYONNEMENT), l);
+		
+		// Génération du fichier HTML
+		ecrireRayonnement(classementGeneral, top3Final, l);
+
 	}
 
 	public static class ComparateurInverse implements Comparator<Object> {
@@ -598,5 +718,54 @@ public class Stats {
 		}
 
 	}
+
+	public Object[][] getTop3SystemesGalactiques() {
+	    // 1. Récupérer toutes les positions de systèmes existants
+	    Position[] toutesLesPos = Univers.listePositionsSystemes();
+	    java.util.ArrayList listeGlobale = new java.util.ArrayList();
+	
+	    for (int i = 0; i < toutesLesPos.length; i++) {
+	        Systeme s = Univers.getSysteme(toutesLesPos[i]);
+	        if (s != null) {
+	            int[] proprios = s.getProprios();
+	            // On calcule le rayonnement pour CHAQUE propriétaire présent dans ce système
+	            for (int j = 0; j < proprios.length; j++) {
+	                int idProprio = proprios[j];
+	                // On ignore le joueur neutre (souvent ID 0 ou -1 selon ton moteur)
+	                if (idProprio != 0) { 
+	                    float score = s.getInfluenceRayonnement(idProprio);
+	                    
+	                    if (score > 0) {
+	                        Commandant c = Univers.getCommandant(idProprio);
+	                        String nomProprio = (c != null) ? c.getNom() : "Inconnu";
+	                        
+	                        // [Score (Float), Nom Système (String), ID Proprio (Integer)]
+	                        listeGlobale.add(new Object[]{score, s.getNom(), new Integer(idProprio)});
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    // 2. Tri personnalisé (Décroissant)
+	    java.util.Collections.sort(listeGlobale, new java.util.Comparator() {
+	        public int compare(Object o1, Object o2) {
+	            Float s1 = (Float) ((Object[]) o1)[0];
+	            Float s2 = (Float) ((Object[]) o2)[0];
+	            return s2.compareTo(s1);
+	        }
+	    });
+	
+	    // 3. Extraction des 3 meilleurs
+	    int taille = Math.min(3, listeGlobale.size());
+	    Object[][] top3 = new Object[taille][3];
+	    for (int i = 0; i < taille; i++) {
+	        top3[i] = (Object[]) listeGlobale.get(i);
+	    }
+	
+	    return top3;
+	}
+
+	
 
 }
