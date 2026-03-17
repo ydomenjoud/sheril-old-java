@@ -357,7 +357,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_CONSTRUCTION_0002 = "Votre système {0} n'a construit que {1} {2} en raison d'un manque de {3}";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0003 = "Votre système {0} n'a construit aucun des {1} {2} en raison d'un manque de {3}";
 
-	public static final String EV_COMMANDANT_CONSTRUCTION_0005 = "Votre flotte {0} vient de produire {2} vaisseau(x) de type {1}. Ces vaisseaux sont maintenant dans cette flotte";
+	public static final String EV_COMMANDANT_CONSTRUCTION_0005 = "Votre flotte {0} vient de produire {2} vaisseau(x) de type {1} pour {3} centaures. Ces vaisseaux sont maintenant dans cette flotte";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0006 = "Votre flotte {0} ne peut produire des constructions de type {1} : vous n'avez pas assez de centaures en ce moment.";
 
 	public static final String EV_COMMANDANT_CONSTRUCTION_0007 = "Votre système {0} ne peut réaliser ce tour-ci le projet de construction de {2} construction(s) de type {1} car ce système ne possède pas le chantier naval nécessaire à la production de vaisseaux.";
