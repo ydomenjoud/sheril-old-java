@@ -266,10 +266,10 @@ public class Stats {
 				p[3] = l[0].get(i);
 			} else {
 	            // --- NOUVEAUTÉ : Affichage de la ligne AGE D'OR ---
-	            p[0] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu("--- AGE D'OR (66%) ---");
+	            p[0] = new BaliseHTML("B","--- AGE D'OR (66%) ---");
 	            p[1] = "-";
 	            p[2] = "-";
-	            p[3] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu(l[0].get(i).toString());
+	            p[3] = new BaliseHTML("B",l[0].get(i).toString());
 	        }
 			retour.add(p);
 		}
@@ -333,10 +333,10 @@ public class Stats {
 			} else {
 	            // --- NOUVEAUTÉ : Affichage de la ligne EMPIRE GALACTIQUE ---
 	            // On utilise du gras (BaliseHTML.B) pour faire ressortir la ligne
-	            p[0] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu("--- EMPIRE GALACTIQUE (66%) ---");
+	            p[0] = new BaliseHTML("B","--- EMPIRE GALACTIQUE (66%) ---");
 	            p[1] = "-"; // Pas de numéro
 	            p[2] = "-"; // Pas de race
-	            p[3] = BaliseHTML.getModele(BaliseHTML.B).setTexteContenu(l[0].get(i).toString());
+	            p[3] = new BaliseHTML("B",l[0].get(i).toString());
 	            p[4] = "OBJECTIF";
 	        }
 			retour.add(p);
