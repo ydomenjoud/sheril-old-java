@@ -250,11 +250,14 @@ public class Stats {
 		List retour = new ArrayList(l[0].size());
 		Object[] p = null;
 		for (int i = 0; i < l[0].size(); i++) {
-			p = new Object[4];
+			p = new Object[5];
 
 			// --- CHANGEMENT MAJEUR : Vérification du type d'objet ---
         	// On vérifie si l'objet est un Commandant (joueur) ou une String (notre seuil)
 			Object objetEnCours = l[1].get(i);
+
+			int totalPop = getTotalPopulationUniverse();
+			int seuil = (int)Math.round(totalPop * 0.66);
 
 			if (objetEnCours instanceof Commandant) {
 				// Comportement classique pour un joueur
@@ -264,12 +267,17 @@ public class Stats {
 						Integer.toString(c.getNumero()));
 				p[2] = Rapport.getRace(c.getRace(), loc);
 				p[3] = l[0].get(i);
+				p[4] = Math.round(((float) c.getPopulationTotale() / (float) seuil) * 100.0f) + "%";
+				if (p[4].equals("0%") && c.getPopulationTotale() > 0) {
+					p[4] = "< 1%";
+				}
 			} else {
 	            // --- NOUVEAUTÉ : Affichage de la ligne AGE D'OR ---
 	            p[0] = new BaliseHTML("B","--- AGE D'OR (66%) ---");
 	            p[1] = "-";
 	            p[2] = "-";
 	            p[3] = new BaliseHTML("B",l[0].get(i).toString());
+	            p[4] = "-";
 	        }
 			retour.add(p);
 		}
@@ -315,11 +323,16 @@ public class Stats {
 		List retour = new ArrayList(l[0].size());
 		Object[] p = null;
 		for (int i = 0; i < l[0].size(); i++) {
-			p = new Object[5];
+			p = new Object[6];
 			
 			// --- CHANGEMENT MAJEUR : Vérification du type d'objet ---
 	        // On vérifie si l'objet est un Commandant (joueur) ou une String (notre seuil)
 	        Object objetEnCours = l[1].get(i);
+
+
+			int totalPlanete = getTotalPlanetesUniverse();
+			int seuil = (int)Math.round(totalPlanete * 0.66);
+
 
 			if (objetEnCours instanceof Commandant) {
 				// Comportement classique pour un joueur
@@ -330,6 +343,10 @@ public class Stats {
 				p[2] = Rapport.getRace(c.getRace(), loc);
 				p[3] = l[0].get(i);
 				p[4] = Utile.maj(c.getGrade());
+				p[5] = Math.round(((float) c.getNombrePlanetesPossedees() / (float) seuil) * 100.0f) + "%";
+				if (p[5].equals("0%") && c.getNombrePlanetesPossedees() > 0) {
+					p[5] = "< 1%";
+				}
 			} else {
 	            // --- NOUVEAUTÉ : Affichage de la ligne EMPIRE GALACTIQUE ---
 	            // On utilise du gras (BaliseHTML.B) pour faire ressortir la ligne
@@ -337,7 +354,8 @@ public class Stats {
 	            p[1] = "-"; // Pas de numéro
 	            p[2] = "-"; // Pas de race
 	            p[3] = new BaliseHTML("B",l[0].get(i).toString());
-	            p[4] = "OBJECTIF";
+				p[4] = "-";
+				p[5] = "-";
 	        }
 			retour.add(p);
 		}
