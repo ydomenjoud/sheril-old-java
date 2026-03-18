@@ -1157,7 +1157,7 @@ public class Systeme implements Serializable {
 	
 	    // 1. Revenus, Encombrement et Entretien
 	    // Note : getEntretien retourne une valeur positive qu'on ajoute ici comme poids de développement
-	    float score = getRevenu(numero, g, p) 
+	    float score = (getRevenu(numero, g, p)*0.1f) 
 	                + (float)getEncombrement(numero) 
 	                + getEntretien(numero, g, p);
 	
