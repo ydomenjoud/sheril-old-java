@@ -751,16 +751,27 @@ public class Combat {
                                                ArrayList strato, ArrayList sol, Gouverneur g, Heros h,
                                                boolean boutPortant) {
         ArrayList inter = null;
+
+        // On récupère le commandant qui possède les défenses
+        Commandant com = Univers.getCommandant(g.getProprietaire());
+        
         if (strato.size() > 0)
             inter = strato;
         else
             inter = sol;
-        for (int i = 0; i < listeC.length; i++)
+        for (int i = 0; i < listeC.length; i++){
             for (int j = 0; j < Const.NOMBRE_SALVE_BATTERIE; j++) {
-                listeC[i].tir(
-                        (Vaisseau) inter.get(Univers.getInt(inter.size())), g,
-                        h, boutPortant);
+                Vaisseau cible = (Vaisseau) inter.get(Univers.getInt(inter.size()));
+                // --- CAPTURE DES DEGATS ---
+                int dommagesAvant = listeC[i].getDommagesEffectues();
+                listeC[i].tir(cible, g, h, boutPortant);
+                int degatsDuTir = listeC[i].getDommagesEffectues() - dommagesAvant;
+
+                if (degatsDuTir > 0 && com != null) {
+                com.ajouterDegats((float)degatsDuTir);
+                }
             }
+        }
     }
 
     private static void tirMilicesPlanetaires(int nbPopDefensives,
@@ -793,12 +804,27 @@ public class Combat {
 
         for (int i = 0; i < strato.size(); i++) {
             Vaisseau v = (Vaisseau) strato.get(i);
-            if (!v.estDetruit())
-                if ((cibles != null)
-                        && ((construCible) || (listeBoucliers.size() > 0)))
+            if (!v.estDetruit()) {
+                // On récupère le commandant du vaisseau attaquant
+                Commandant com = Univers.getCommandant(v.getProprietaire());
+                int dommagesAvant = v.getDommagesEffectues();
+    
+                if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
-                else
-                    retour = retour - v.tirSurMilices(h, g, construCible);
+                } else {
+                    // Pour les milices, le calcul est différent car la méthode renvoie les morts
+                    int morts = v.tirSurMilices(h, g, construCible);
+                    retour = retour - morts;
+                    // Note : Si tirSurMilices n'incrémente pas dommagesEffectues, 
+                    // les dégâts sur la population ne seront pas dans le classement.
+                }
+    
+                // Mise à jour du classement
+                int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
+                if (degatsDuTir > 0 && com != null) {
+                    com.ajouterDegats((float)degatsDuTir);
+                }
+            }
         }
 
         return retour;
