@@ -33,6 +33,7 @@ public class Stats {
 	public static final String FICHIER_HEROS = "hero.htm";
 	public static final String FICHIER_FLOTTES = "flotte.htm";
 	public static final String FICHIER_RAYONNEMENT = "rayonnement.htm";
+	public static final String FICHIER_OFFENSIVE = "offensive.htm";
 
 	public static Map STATS_DERNIER_TOUR;
 
