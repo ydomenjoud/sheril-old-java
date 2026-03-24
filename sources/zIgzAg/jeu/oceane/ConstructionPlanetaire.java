@@ -117,8 +117,8 @@ public class ConstructionPlanetaire implements Serializable {
                     this.dommagesEffectues += dommageBouc;
 				}
 				else {
-					// AJOUT : On compte les dégâts sur coque (limités aux points restants du vaisseau)
-                    this.dommagesEffectues += Math.min(dommageCoque, v.getPointsDeStructureRestants());
+					// AJOUT : On compte les dégâts sur coque (pas limités aux points restants du vaisseau)
+                    this.dommagesEffectues += dommageCoque;
 				
 					if (!v.ajouterDommagesAuHasard(dommageCoque))
 						v.notifierDestruction();
