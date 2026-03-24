@@ -457,10 +457,10 @@ public class Combat {
                     .getAgressivite());
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
-            tirDefensesPlanetaires(listeC, strato, sol, g, h, true);
+            tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
             nbPopDefensive = tirAirSol(strato, listeC, nbPopDefensive, true, g,
                     h);
-            tirMilicesPlanetaires(nbPopDefensive, sol, g, h);
+            tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
 
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
@@ -749,11 +749,9 @@ public class Combat {
 
     private static void tirDefensesPlanetaires(ConstructionPlanetaire[] listeC,
                                                ArrayList strato, ArrayList sol, Gouverneur g, Heros h,
-                                               boolean boutPortant) {
+                                               boolean boutPortant, Commandant defenseur) { // On utilise defenseur passé en paramètre
         ArrayList inter = null;
 
-        // On récupère le commandant qui possède les défenses
-        Commandant com = Univers.getCommandant(g.getProprietaire());
         
         if (strato.size() > 0)
             inter = strato;
@@ -767,15 +765,15 @@ public class Combat {
                 listeC[i].tir(cible, g, h, boutPortant);
                 int degatsDuTir = listeC[i].getDommagesEffectues() - dommagesAvant;
 
-                if (degatsDuTir > 0 && com != null) {
-                com.ajouterDegats((float)degatsDuTir);
+                if (degatsDuTir > 0 && defenseur != null) {
+                defenseur.ajouterDegats((float)degatsDuTir);
                 }
             }
         }
     }
 
     private static void tirMilicesPlanetaires(int nbPopDefensives,
-                                              ArrayList sol, Gouverneur g, Heros h) {
+                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur) { // On utilise defenseur passé en paramètre
         ConstructionPlanetaire[] c = new ConstructionPlanetaire[1];
         c[0] = new ConstructionPlanetaire("battlaI");
         int nbTirs = 0;
@@ -783,7 +781,7 @@ public class Combat {
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (sol.size() > 0)
             for (int i = 0; i < nbTirs; i++)
-                tirDefensesPlanetaires(c, sol, sol, g, h, false);
+                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
     }
 
     private static int tirAirSol(ArrayList strato,
