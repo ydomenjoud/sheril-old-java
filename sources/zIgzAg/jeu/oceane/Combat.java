@@ -1437,9 +1437,19 @@ public class Combat {
                 if (!c.estDetruit()) {
                     Position3D def = (Position3D) pos2.get(cle2);
                     int distance = Position3D.distance(att, def);
+
+                    // --- CAPTURE DES DEGATS ---
+                    int dommagesAvant = v.getDommagesEffectues();
+                    v.tir(c, distance, h1, h2);
+                    int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
+                    if (degatsDuTir > 0) {
+                        com.ajouterDegats((float)degatsDuTir);
+                    }
+                    // --------------------------
+                    
                     Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
-                    v.tir(c, distance, h1, h2);
+                    
                 }
             } else {
                 Combat.log("pas de cible");
