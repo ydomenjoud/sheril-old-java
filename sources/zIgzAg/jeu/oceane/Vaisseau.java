@@ -45,9 +45,7 @@ public class Vaisseau implements Serializable {
 
 	// les mÃ©thodes d'accÃšs
 
-	public int getDommagesEffectues() {
-	    return dommagesEffectues;
-	}
+
 	public void setType(String entree) {
 		type = entree;
 	}
