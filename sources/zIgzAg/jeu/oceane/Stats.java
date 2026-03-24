@@ -597,6 +597,31 @@ public class Stats {
 	    d.ecrire();
 	}
 
+	public static SortedMap<Float, Commandant> trierParOffensive(Commandant[] c) {
+	    SortedMap<Float, Commandant> st = mapDuPlusGrandAuPlusPetit();
+	    for (int i = 0; i < c.length; i++) {
+	        if (c[i].getDegatsInfligesCeTour() > 0) {
+	            ajouterDonnee(st, Float.valueOf(c[i].getDegatsInfligesCeTour()), c[i]);
+	        }
+	    }
+	    return st;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresOffensive(List[] l, Locale loc) {
+	    List retour = new ArrayList(l[0].size());
+	    for (int i = 0; i < l[0].size(); i++) {
+	        Object[] p = new Object[4];
+	        Commandant c = (Commandant) l[1].get(i);
+	        p[0] = c.getNom();
+	        p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(Integer.toString(c.getNumero()));
+	        p[2] = Rapport.getRace(c.getRace(), loc);
+	        p[3] = l[0].get(i);
+	        retour.add(p);
+	    }
+	    return retour;
+	}
+
 	private static BaliseHTML genererTableauStat(List l, String[] t) {
 	    BaliseHTML[][] a = new BaliseHTML[l.size() + 1][t.length]; 
 	    a[0][0] = Rapport.getTD("center", null).ajout(Rapport.getFont(Rapport.cC[4], null).ajout(Rapport.getText("Rang")));
@@ -681,6 +706,10 @@ public class Stats {
 				definirParametresFlottes(
 						getListe(trierParFlottes(c), FICHIER_FLOTTES), l),
 				Univers.getMessageRapport("STATS_FLOTTES", l));
+
+		ecrire(FICHIER_OFFENSIVE,
+		        definirParametresOffensive(getListe(trierParOffensive(c), FICHIER_OFFENSIVE), l),
+		        Univers.getMessageRapport("STATS_OFFENSIVE", l));
 
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);
