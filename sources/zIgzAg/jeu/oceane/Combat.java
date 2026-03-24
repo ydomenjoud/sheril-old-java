@@ -806,7 +806,7 @@ public class Combat {
             Vaisseau v = (Vaisseau) strato.get(i);
             if (!v.estDetruit()) {
                 // On récupère le commandant du vaisseau attaquant
-                Commandant com = Univers.getCommandant(v.getProprietaire());
+                Commandant com = Univers.getCommandant(v.getVeritableProprietaire());
                 int dommagesAvant = v.getDommagesEffectues();
     
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
