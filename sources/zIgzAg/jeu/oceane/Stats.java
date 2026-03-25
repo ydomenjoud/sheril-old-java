@@ -33,6 +33,7 @@ public class Stats {
 	public static final String FICHIER_HEROS = "hero.htm";
 	public static final String FICHIER_FLOTTES = "flotte.htm";
 	public static final String FICHIER_RAYONNEMENT = "rayonnement.htm";
+	public static final String FICHIER_TECHNOLOGIE = "technologie.htm";
 
 	public static Map STATS_DERNIER_TOUR;
 
@@ -212,6 +213,33 @@ public class Stats {
 		}
 
 		return st2;
+	}
+
+	public static SortedMap<Integer, Commandant> trierParTechnologie(Commandant[] c) {
+	    SortedMap<Integer, Commandant> st = mapDuPlusGrandAuPlusPetit();
+	    for (int i = 0; i < c.length; i++) {
+	        int score = c[i].getScoreTechnologique();
+	        if (score > 0) {
+	            ajouterDonnee(st, new Integer(score), c[i]);
+	        }
+	    }
+	    return st;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresTechnologie(List[] l, Locale loc) {
+	    List retour = new ArrayList(l[0].size());
+	    for (int i = 0; i < l[0].size(); i++) {
+	        Object[] p = new Object[4];
+	        Commandant c = (Commandant) l[1].get(i);
+	        p[0] = c.getNom();
+	        p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+	                Integer.toString(c.getNumero()));
+	        p[2] = Rapport.getRace(c.getRace(), loc);
+	        p[3] = l[0].get(i); // Score avec évolution (+/-)
+	        retour.add(p);
+	    }
+	    return retour;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -681,6 +709,10 @@ public class Stats {
 				definirParametresFlottes(
 						getListe(trierParFlottes(c), FICHIER_FLOTTES), l),
 				Univers.getMessageRapport("STATS_FLOTTES", l));
+		ecrire(FICHIER_TECHNOLOGIE,
+        definirParametresTechnologie(
+                getListe(trierParTechnologie(c), FICHIER_TECHNOLOGIE), l),
+        Univers.getMessageRapport("STATS_TECHNOLOGIE", l));
 
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);

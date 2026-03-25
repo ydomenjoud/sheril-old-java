@@ -4001,5 +4001,19 @@ public class Commandant extends Joueur implements Serializable {
 	    // Retourne un tableau d'objets : [Score, Nom]
     	return new Object[]{new Float(maxRayonnement), nomSysteme};
 	}
+	
+	public int getScoreTechnologique() {
+	    int total = 0;
+	    String[] techs = listeTechnologiesConnues();
+	    if (techs != null) {
+	        for (int i = 0; i < techs.length; i++) {
+	            Technologie t = Univers.getTechnologie(techs[i]);
+	            if (t != null) {
+	                total += t.getPointsDeRecherche();
+	            }
+	        }
+	    }
+	    return total;
+	}
 
 }
