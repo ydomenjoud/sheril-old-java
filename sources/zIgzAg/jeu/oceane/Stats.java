@@ -33,6 +33,7 @@ public class Stats {
 	public static final String FICHIER_HEROS = "hero.htm";
 	public static final String FICHIER_FLOTTES = "flotte.htm";
 	public static final String FICHIER_RAYONNEMENT = "rayonnement.htm";
+	public static final String FICHIER_POP_VS = "pop_vs.htm";
 
 	public static Map STATS_DERNIER_TOUR;
 
@@ -186,6 +187,17 @@ public class Stats {
 		return st;
 	}
 
+	public static SortedMap trierParPopulationVS(Commandant[] c) {
+	    SortedMap st = mapDuPlusGrandAuPlusPetit();
+	    for (int i = 0; i < c.length; i++) {
+	        int pop = c[i].getTotalPopulationVS();
+	        if (pop > 0) {
+	            ajouterDonnee(st, new Float(pop), c[i]);
+	        }
+	    }
+	    return st;
+	}
+
 	public static SortedMap<Integer, Commandant> trierParFlottes(Commandant[] c) {
 		SortedMap<Integer, Commandant> st1 = mapDuPlusGrandAuPlusPetit();
 		SortedMap<Integer, Commandant> st2 = mapDuPlusGrandAuPlusPetit();
@@ -229,6 +241,24 @@ public class Stats {
 			retour.add(p);
 		}
 		return retour;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresPopulationVS(List[] l, Locale loc) {
+	    List retour = new ArrayList(l[0].size());
+	    Object[] p = null;
+	    for (int i = 0; i < l[0].size(); i++) {
+	        p = new Object[4];
+	        Commandant c = (Commandant) l[1].get(i);
+	        p[0] = c.getNom();
+	        p[1] = Rapport.getFont(Rapport.cC[6], null).setTexteContenu(
+	                Integer.toString(c.getNumero()));
+	        p[2] = Rapport.getRace(c.getRace(), loc);
+	        // l[0].get(i) contient la population formatée avec l'évolution (+/-)
+	        p[3] = l[0].get(i); 
+	        retour.add(p);
+	    }
+	    return retour;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -681,6 +711,10 @@ public class Stats {
 				definirParametresFlottes(
 						getListe(trierParFlottes(c), FICHIER_FLOTTES), l),
 				Univers.getMessageRapport("STATS_FLOTTES", l));
+		ecrire(FICHIER_POP_VS,
+		        definirParametresPopulationVS(
+		                getListe(trierParPopulationVS(c), FICHIER_POP_VS), l),
+		        Univers.getMessageRapport("STATS_POP_VS", l));
 
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);
