@@ -86,21 +86,41 @@ public class AjoutDeGalaxie {
 //        }
 
 
-        for (int i = 0; i < nbSys; i++) {
-            pos = Position.auHasard(numero);
-            int sectorIndexAt0 = pos.getNumeroSecteur() - 1;
-            if (presenceSys[pos.getY() - 1][pos.getX() - 1]
-                    || systemsBySector[sectorIndexAt0] >= nbSystemBySectorMax) {
-//                System.out.println("sector" + sectorIndexAt0 + " full ( " + systemsBySector[sectorIndexAt0] + "), no place for " + pos.toString());
-                i--;
-            } else {
-                System.out.print("S" + i + "-");
-                Univers.setSysteme(Systeme.creerAuHasard(pos));
-                commandantNeutre.ajouterPossession(pos, Possession.creerAuHasard());
-                presenceSys[pos.getY() - 1][pos.getX() - 1] = true;
-                systemsBySector[sectorIndexAt0]++;
+//         for (int i = 0; i < nbSys; i++) {
+//             pos = Position.auHasard(numero);
+//             int sectorIndexAt0 = pos.getNumeroSecteur() - 1;
+//             if (presenceSys[pos.getY() - 1][pos.getX() - 1]
+//                     || systemsBySector[sectorIndexAt0] >= nbSystemBySectorMax) {
+// //                System.out.println("sector" + sectorIndexAt0 + " full ( " + systemsBySector[sectorIndexAt0] + "), no place for " + pos.toString());
+//                 i--;
+//             } else {
+//                 System.out.print("S" + i + "-");
+//                 Univers.setSysteme(Systeme.creerAuHasard(pos));
+//                 commandantNeutre.ajouterPossession(pos, Possession.creerAuHasard());
+//                 presenceSys[pos.getY() - 1][pos.getX() - 1] = true;
+//                 systemsBySector[sectorIndexAt0]++;
+//             }
+//         }
+
+            int systemsPerSector = Const.NB_SYSTEME / Const.NB_SECTEURS;
+            int currentSystemCount = 0;
+            
+            for (int sector = 1; sector <= Const.NB_SECTEURS; sector++) {
+                for (int i = 0; i < systemsPerSector; i++) {
+                    pos = Position.auHasardInSector(numero, sector);
+                    if (presenceSys[pos.getY() - 1][pos.getX() - 1]) {
+                        i--; 
+                    } else {
+                        System.out.print("S" + currentSystemCount + "-");
+                        Univers.setSysteme(Systeme.creerAuHasard(pos));
+                        commandantNeutre.ajouterPossession(pos, Possession.creerAuHasard());
+                        presenceSys[pos.getY() - 1][pos.getX() - 1] = true;
+                        currentSystemCount++;
+                    }
+                }
             }
-        }
+
+        
         System.out.println();
         System.out.println(Univers.listePositionsSystemes().length + " systèmes");
 
