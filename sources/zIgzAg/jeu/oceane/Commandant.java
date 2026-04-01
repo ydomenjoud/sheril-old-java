@@ -93,6 +93,22 @@ public class Commandant extends Joueur implements Serializable {
         return s.contains(numeroMarchandise);
     }
 
+	// --- STATS OFFENSIVES ---
+	private float degatsInfligesCeTour = 0f;
+	
+	public void ajouterDegats(float d) {
+	    this.degatsInfligesCeTour += d;
+	}
+	
+	public float getDegatsInfligesCeTour() {
+	    return degatsInfligesCeTour;
+	}
+	
+	public void resetDegatsTour() {
+	    this.degatsInfligesCeTour = 0f;
+	}
+	// ------------------------
+
     // les méthodes d'accés.
 
     public void setCapitale(Position pos) {
@@ -4010,6 +4026,24 @@ public class Commandant extends Joueur implements Serializable {
 	            Technologie t = Univers.getTechnologie(techs[i]);
 	            if (t != null) {
 	                total += t.getPointsDeRecherche();
+	            }
+	        }
+	    }
+	    return total;
+	}
+
+	public int getTotalPopulationVS() {
+	    int total = 0;
+	    Flotte[] f = listeFlottes();
+	    if (f != null) {
+	        for (int i = 0; i < f.length; i++) {
+	            Vaisseau[] v = f[i].listeVaisseaux();
+	            if (v != null) {
+	                for (int j = 0; j < v.length; j++) {
+	                    if (v[j] != null && !v[j].estDetruit()) {
+	                        total += v[j].getPopulationVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
+	                    }
+	                }
 	            }
 	        }
 	    }
