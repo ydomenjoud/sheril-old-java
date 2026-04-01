@@ -136,13 +136,13 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] STATS_REPUTATION={"Réputation des commandants du tour "+tour,"Place","Nom","Numéro",
    "Race","Réputation","Statut"};
  public static final String[] STATS_PLANETES={"Possessions des commandants du tour "+tour,"Place","Nom","Numéro",
-   "Race","Nombre de planètes","Grade"};
+   "Race","Nombre de planètes","Grade","Objectif"};
  public static final String[] STATS_TAUX_POSTE={"Taxation des postes commerciaux du tour "+tour,
   "Place","Nom","Numéro","Race","Taxation"};
  public static final String[] STATS_CENTAURES={"Etats des comptes à la Banque Galactique du tour "+tour,
   "Place","Nom","Numéro","Race","Centaures"};
  public static final String[] STATS_POPULATION={"Recensement (en millions d'habitants) du tour "+tour,
-  "Place","Nom","Numéro","Race","Population totale"};
+  "Place","Nom","Numéro","Race","Population totale","Objectif"};
  public static final String[] STATS_FLOTTES={"Liste des plus grosses flottes du tour "+tour,
   "Place","Nom","Numéro","Race","Puissance"};
  public static final String[] STATS_VAISSEAUX={"Nombre d'exemplaires en circulation du tour "+tour,
