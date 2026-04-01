@@ -4018,4 +4018,22 @@ public class Commandant extends Joueur implements Serializable {
     	return new Object[]{new Float(maxRayonnement), nomSysteme};
 	}
 
+	public int getTotalPopulationVS() {
+	    int total = 0;
+	    Flotte[] f = listeFlottes();
+	    if (f != null) {
+	        for (int i = 0; i < f.length; i++) {
+	            Vaisseau[] v = f[i].listeVaisseaux();
+	            if (v != null) {
+	                for (int j = 0; j < v.length; j++) {
+	                    if (v[j] != null && !v[j].estDetruit()) {
+	                        total += v[j].getPopulationVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return total;
+	}
+
 }

@@ -161,6 +161,11 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] STATS_RAYONNEMENT = {"Rayonnement Galactique du tour "+tour, "Propriétaire", "N°", "Race", "Système", "Influence"};
  public static final String[] STATS_OFFENSIVE={"Tableau de Chasse Galactique du tour "+tour,
   "Place","Nom","Numéro","Race","Dégâts"};
+ public static final String[] STATS_POP_VS = {
+    "Recensement des cités spatiales du tour " + tour,
+    "Place", "Nom", "N°", "Race", "Population"
+};
+
 
 
  }
