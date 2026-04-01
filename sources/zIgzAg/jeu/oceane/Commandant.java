@@ -93,6 +93,22 @@ public class Commandant extends Joueur implements Serializable {
         return s.contains(numeroMarchandise);
     }
 
+	// --- STATS OFFENSIVES ---
+	private float degatsInfligesCeTour = 0f;
+	
+	public void ajouterDegats(float d) {
+	    this.degatsInfligesCeTour += d;
+	}
+	
+	public float getDegatsInfligesCeTour() {
+	    return degatsInfligesCeTour;
+	}
+	
+	public void resetDegatsTour() {
+	    this.degatsInfligesCeTour = 0f;
+	}
+	// ------------------------
+
     // les méthodes d'accés.
 
     public void setCapitale(Position pos) {
