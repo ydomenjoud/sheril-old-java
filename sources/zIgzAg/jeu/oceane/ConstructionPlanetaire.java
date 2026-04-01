@@ -17,7 +17,7 @@ public class ConstructionPlanetaire implements Serializable {
 	private int experience;
 
 	// --- AJOUT POUR LES STATISTIQUES ---
-    private transient int dommagesEffectues; 
+    private int dommagesEffectues; 
 
     public int getDommagesEffectues() {
         return dommagesEffectues;
