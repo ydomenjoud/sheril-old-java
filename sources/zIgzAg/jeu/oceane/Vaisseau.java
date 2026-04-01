@@ -45,6 +45,7 @@ public class Vaisseau implements Serializable {
 
 	// les mÃ©thodes d'accÃšs
 
+
 	public void setType(String entree) {
 		type = entree;
 	}
