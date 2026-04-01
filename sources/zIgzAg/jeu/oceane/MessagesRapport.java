@@ -165,6 +165,10 @@ public class MessagesRapport extends MessagesAbstraits{
     "Recensement des cités spatiales du tour " + tour,
     "Place", "Nom", "N°", "Race", "Population"
 };
+ public static final String[] STATS_TECHNOLOGIE = {
+    "Classement de l'Avancée Scientifique",
+    "Rang", "Nom", "N°", "Race", "Points de Recherche"
+};
 
 
 
