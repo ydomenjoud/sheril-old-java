@@ -15,7 +15,7 @@ $inter4=$rf[4];
 $inter5=$rf[5];
 $inter6=$rf[6];
 
-echo "Transfert de <span class='item'>$inter3 {$t1[$inter2]}</span> 
+echo "Transfert de <span class='item'><span style='color: var(--header); font-weight: bold'>$inter3</span> {$t1[$inter2]}</span> 
 du système <span class='item'>${t0[$inter1]}</span> ";
 echo display_planete($inter4);
 echo "

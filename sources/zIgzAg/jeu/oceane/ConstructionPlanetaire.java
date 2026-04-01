@@ -16,6 +16,14 @@ public class ConstructionPlanetaire implements Serializable {
 
 	private int experience;
 
+	// --- AJOUT POUR LES STATISTIQUES ---
+    private transient int dommagesEffectues; 
+
+    public int getDommagesEffectues() {
+        return dommagesEffectues;
+    }
+    // ------------------------------------
+
 	private transient boolean detruit;
 
 	private transient Batiment batiment;
@@ -103,9 +111,15 @@ public class ConstructionPlanetaire implements Serializable {
 			if (reussiteTir(chanceDeToucher, v, g, h)) {
 				v.diminuerMoral();
 				int b = v.getNumeroBouclierValide();
-				if (b != -1)
+				if (b != -1){
 					v.ajouterDommagesBouclier(b, dommageBouc);
+					// AJOUT : On compte les dégâts sur bouclier
+                    this.dommagesEffectues += dommageBouc;
+				}
 				else {
+					// AJOUT : On compte les dégâts sur coque (pas limités aux points restants du vaisseau)
+                    this.dommagesEffectues += dommageCoque;
+				
 					if (!v.ajouterDommagesAuHasard(dommageCoque))
 						v.notifierDestruction();
 					augmenterExperience(1 + g

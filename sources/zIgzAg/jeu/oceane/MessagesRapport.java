@@ -158,7 +158,17 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] STATS_UNIVERS_POSTE={"Marchandises du tour "+tour,"Type","Nombre en circulation","Prix moyen constaté"};
  public static final String[] STATS_UNIVERS_RELATIONS={"Relations entres les différentes races du tour "+tour};
  public static final String[] STATS_UNIVERS_SITES={"Sites des commandants du tour "+tour,"Sites des alliances","Sites d'Océane"};
-
+ public static final String[] STATS_RAYONNEMENT = {"Rayonnement Galactique du tour "+tour, "Propriétaire", "N°", "Race", "Système", "Influence"};
+ public static final String[] STATS_OFFENSIVE={"Tableau de Chasse Galactique du tour "+tour,
+  "Place","Nom","Numéro","Race","Dégâts"};
+ public static final String[] STATS_POP_VS = {
+    "Recensement des cités spatiales du tour " + tour,
+    "Place", "Nom", "N°", "Race", "Population"
+};
+ public static final String[] STATS_TECHNOLOGIE = {
+    "Classement de l'Avancée Scientifique",
+    "Rang", "Nom", "N°", "Race", "Points de Recherche"
+};
 
 
 

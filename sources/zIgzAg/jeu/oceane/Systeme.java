@@ -1148,4 +1148,42 @@ public class Systeme implements Serializable {
 		return espace;
 	}
 
+	public float getInfluenceRayonnement(int numero) {
+	    Commandant c = Univers.getCommandant(numero);
+	    Possession p = c.getPossession(position);
+		// Sécurité : si le commandant n'a pas de possession ici, return influence nulle
+  		  if (p == null) return 0f;
+	    Gouverneur g = c.getGouverneurSurPossession(position);
+	
+	    // 1. Revenus, Encombrement et Entretien
+	    // Note : getEntretien retourne une valeur positive qu'on ajoute ici comme poids de développement
+	    float score = (getRevenu(numero, g, p)*0.1f) 
+	                + (float)getEncombrement(numero) 
+	                + getEntretien(numero, g, p);
+	
+	    // 2. Expérience du Gouverneur
+	    if (g != null) {
+	        score += (float)g.getExperience();
+	    }
+	
+	    // 3. Stocks de produits spécifiques (Luxe, Holos, Métaux, Lixiam)
+	    
+	    // On utilise directement les index définis dans Const.java
+	    int[] produitsCibles = {
+	        Const.PRODUIT_LUXE,            // 2
+	        Const.PRODUIT_HOLOFILM,        // 3
+	        Const.PRODUIT_METAUX_PRECIEUX, // 12
+	    };
+		
+		// Nous récupérons les quantités directement depuis l'objet Possession
+	    // Marchandises standards (coefficient 1)
+		for (int i = 0; i < produitsCibles.length; i++) {
+	        score += (float)p.getQuantiteMarchandise(produitsCibles[i]);
+	    }
+		// Marchandise d'exception : Lixiam (coefficient 10)
+		score += (float)(p.getQuantiteMarchandise(Const.PRODUIT_LIXIAM) * 10);
+	    
+		return score;
+	}
+
 }

@@ -457,10 +457,10 @@ public class Combat {
                     .getAgressivite());
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
-            tirDefensesPlanetaires(listeC, strato, sol, g, h, true);
+            tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
             nbPopDefensive = tirAirSol(strato, listeC, nbPopDefensive, true, g,
                     h);
-            tirMilicesPlanetaires(nbPopDefensive, sol, g, h);
+            tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
 
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
@@ -749,22 +749,31 @@ public class Combat {
 
     private static void tirDefensesPlanetaires(ConstructionPlanetaire[] listeC,
                                                ArrayList strato, ArrayList sol, Gouverneur g, Heros h,
-                                               boolean boutPortant) {
+                                               boolean boutPortant, Commandant defenseur) { // On utilise defenseur passé en paramètre
         ArrayList inter = null;
+
+        
         if (strato.size() > 0)
             inter = strato;
         else
             inter = sol;
-        for (int i = 0; i < listeC.length; i++)
+        for (int i = 0; i < listeC.length; i++){
             for (int j = 0; j < Const.NOMBRE_SALVE_BATTERIE; j++) {
-                listeC[i].tir(
-                        (Vaisseau) inter.get(Univers.getInt(inter.size())), g,
-                        h, boutPortant);
+                Vaisseau cible = (Vaisseau) inter.get(Univers.getInt(inter.size()));
+                // --- CAPTURE DES DEGATS ---
+                int dommagesAvant = listeC[i].getDommagesEffectues();
+                listeC[i].tir(cible, g, h, boutPortant);
+                int degatsDuTir = listeC[i].getDommagesEffectues() - dommagesAvant;
+
+                if (degatsDuTir > 0 && defenseur != null) {
+                defenseur.ajouterDegats((float)degatsDuTir);
+                }
             }
+        }
     }
 
     private static void tirMilicesPlanetaires(int nbPopDefensives,
-                                              ArrayList sol, Gouverneur g, Heros h) {
+                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur) { // On utilise defenseur passé en paramètre
         ConstructionPlanetaire[] c = new ConstructionPlanetaire[1];
         c[0] = new ConstructionPlanetaire("battlaI");
         int nbTirs = 0;
@@ -772,7 +781,7 @@ public class Combat {
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (sol.size() > 0)
             for (int i = 0; i < nbTirs; i++)
-                tirDefensesPlanetaires(c, sol, sol, g, h, false);
+                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
     }
 
     private static int tirAirSol(ArrayList strato,
@@ -793,12 +802,27 @@ public class Combat {
 
         for (int i = 0; i < strato.size(); i++) {
             Vaisseau v = (Vaisseau) strato.get(i);
-            if (!v.estDetruit())
-                if ((cibles != null)
-                        && ((construCible) || (listeBoucliers.size() > 0)))
+            if (!v.estDetruit()) {
+                // On récupère le commandant du vaisseau attaquant
+                Commandant com = Univers.getCommandant(v.getVeritableProprietaire());
+                int dommagesAvant = v.getDommagesEffectues();
+    
+                if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
-                else
-                    retour = retour - v.tirSurMilices(h, g, construCible);
+                } else {
+                    // Pour les milices, le calcul est différent car la méthode renvoie les morts
+                    int morts = v.tirSurMilices(h, g, construCible);
+                    retour = retour - morts;
+                    // Note : Si tirSurMilices n'incrémente pas dommagesEffectues, 
+                    // les dégâts sur la population ne seront pas dans le classement.
+                }
+    
+                // Mise à jour du classement
+                int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
+                if (degatsDuTir > 0 && com != null) {
+                    com.ajouterDegats((float)degatsDuTir);
+                }
+            }
         }
 
         return retour;
@@ -1437,9 +1461,19 @@ public class Combat {
                 if (!c.estDetruit()) {
                     Position3D def = (Position3D) pos2.get(cle2);
                     int distance = Position3D.distance(att, def);
+
+                    // --- CAPTURE DES DEGATS ---
+                    int dommagesAvant = v.getDommagesEffectues();
+                    v.tir(c, distance, h1, h2);
+                    int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
+                    if (degatsDuTir > 0) {
+                        com.ajouterDegats((float)degatsDuTir);
+                    }
+                    // --------------------------
+                    
                     Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
-                    v.tir(c, distance, h1, h2);
+                    
                 }
             } else {
                 Combat.log("pas de cible");
