@@ -99,13 +99,31 @@ public class Position implements Serializable, Comparable, Cloneable {
 		pos = e;
 	}
 
+	//méthode originelle hardcoded for 40*40 grid with 20-tile sector
+	// public int getNumeroSecteur() {
+	//      int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
+	// 	if (1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20) > Const.NB_SECTEURS) {
+	// 		return Const.NB_SECTEURS;
+	// 	} else {
+	// 		return 1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20);
+	// 	}
+	// }
+	
+	//replace the previous method 
 	public int getNumeroSecteur() {
-        int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
-		if (1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20) > Const.NB_SECTEURS) {
-			return Const.NB_SECTEURS;
-		} else {
-			return 1 + ((pos[1] - 1) / 20) + ratio * ((pos[0] - 1) / 20);
-		}
+	    // ratio is the number of sectors per side (e.g., sqrt(9) = 3)
+	    int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
+	    
+	    // sectorSize is the width/height of one sector (e.g., 30 / 3 = 10)
+	    int sectorSize = Const.BORNE_MAX / ratio;
+	
+	    int column = (pos[1] - 1) / sectorSize; // 0, 1, or 2
+	    int row = (pos[0] - 1) / sectorSize;    // 0, 1, or 2
+	
+	    int result = 1 + column + (ratio * row);
+	
+	    // Safety check to ensure we don't exceed the defined number of sectors
+	    return Math.min(result, Const.NB_SECTEURS);
 	}
 	
 	public boolean estValide(){
@@ -120,12 +138,27 @@ public class Position implements Serializable, Comparable, Cloneable {
 		retour.setPos(Univers.getTabInt(Const.BORNE_MAX, 1, 2));
 		return retour;
 	}
-    public static Position auHasardInSector(int galaxie, int sector){
-        Position retour = new Position();
-        retour.setNumeroGalaxie(galaxie);
-        retour.setPos(Univers.getTabInt(Const.BORNE_MAX, 1, 2));
-        return retour;
-    }
+		public static Position auHasardInSector(int galaxie, int sector) {
+		    int ratio = (int) Math.sqrt(Const.NB_SECTEURS); // 3
+		    int sectorSize = Const.BORNE_MAX / ratio;       // 10
+		
+		    // Calcul des offsets
+		    int column = (sector - 1) % ratio; // 0, 1, 2
+		    int row = (sector - 1) / ratio;    // 0, 1, 2
+		
+		    int minX = (column * sectorSize) + 1;
+		    int minY = (row * sectorSize) + 1;
+		
+		    Position retour = new Position();
+		    retour.setNumeroGalaxie(galaxie);
+		    
+		    // Génère X et Y spécifiquement dans les bornes du secteur
+		    int y = Univers.getInt(sectorSize) + minY;
+		    int x = Univers.getInt(sectorSize) + minX;
+		    
+		    retour.setPos(new int[]{y, x});
+		    return retour;
+		}
 
 	// methode pour vÃ©rifier si une position est dans les bornes prÃ©vues.
 

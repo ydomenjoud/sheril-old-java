@@ -79,22 +79,17 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int BORNE_MAX = 40;
-    // Les bornes pour chaque galaxie(multiple de 20 de preference).Les
-    // coordonnées vont de 1 à BORNE_MAX.
+    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne 
+    public static final int BORNE_SECTEUR_X = 10;
+    public static final int NB_SYSTEMES_PAR_SECTEUR = 11; // nombre de systèmes par secteur
+ 
+    public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.  
+    public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
+    public static final int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
 
-    // un nombre que l'on peut réduire par racine carrée à un entier
-    public static final int NB_SECTEURS = 4;
-    // Le nombre de secteurs par galaxie.
+    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;     // le nombre de flotte neutre par galaxie
 
-    public static final int NB_SYSTEME = NB_SECTEURS * 40;
-    // le nombre de systéme par galaxie
-
-    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;
-    // le nombre de flotte neutre par galaxie
-
-    public static final int NB_SECTEUR_VIDE = 0;
-    // le nombre de secteurs vides
+    public static final int NB_SECTEUR_VIDE = 0;     // le nombre de secteurs vides
 
     public static final int NB_PORTES = 0;
     // nombre de portes galactiques par galaxie.
@@ -115,14 +110,11 @@ public class Const {
     };
     // localisation des passages intragalactiques
 
-    public static final int[] REPARTITION_DES_RACES = {
-            1, 1, 1, 0, 0,
-            0, 1, 1, 1, 0,
-            0, 1, 2, 2, 4,
-            4, 4, 4, 2, 2,
-            3, 3, 3, 4, 2,
-            2, 3, 3, 3, 2,
-            5, 5, 5, 5, 3, 1};
+    // public static final int[] REPARTITION_DES_RACES = {
+    //       0, 1, 2, 
+    //       3, 4, 0, 
+    //       1, 2, 3
+    //   };
     // Les répartitions initiales des races( indice i = race secteur i).
     // La répartition se fait en surfaces rectangulaires homogènes.
 
