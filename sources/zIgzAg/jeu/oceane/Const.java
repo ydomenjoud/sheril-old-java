@@ -620,9 +620,9 @@ public class Const {
 
     // Les dimensions des deux camps lors d'un combat au départ.
 
-    public static final int[][] TAILLE_VAISSEAUX = {{1, 3, 14},
-            {4, 9, 13}, {10, 17, 12}, {18, 33, 11}, {34, 65, 10},
-            {66, 129, 8}, {130, 257, 6}, {258, 512, 4}, {513, 1025, 2},
+    public static final int[][] TAILLE_VAISSEAUX = {{1, 3, 9},
+            {4, 9, 8}, {10, 17, 7}, {18, 33, 6}, {34, 65, 5},
+            {66, 129, 4}, {130, 257, 3}, {258, 512, 2}, {513, 1025, 1},
             {1026, 1000000, 0}};
     // Les paramétrages de la taille des vaisseaux(min nb cases,max nb
     // cases,vitesse de base)
