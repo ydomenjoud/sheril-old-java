@@ -24,11 +24,11 @@ public interface ListeCaracSpeciales{
  public static final int[][] moteurIII={{Const.COMPOSANT_CAPACITE_PROPULSION,3}};
  public static final int[][] moteurIV={{Const.COMPOSANT_CAPACITE_PROPULSION,4}};
  public static final int[][] moteurV={{Const.COMPOSANT_CAPACITE_PROPULSION,5}};
- public static final int[][] moteurVI={{Const.COMPOSANT_CAPACITE_PROPULSION,7}};
- public static final int[][] moteurVII={{Const.COMPOSANT_CAPACITE_PROPULSION,9}};
- public static final int[][] moteurVIII={{Const.COMPOSANT_CAPACITE_PROPULSION,12}};
- public static final int[][] moteurIX={{Const.COMPOSANT_CAPACITE_PROPULSION,14}};
- public static final int[][] moteurX={{Const.COMPOSANT_CAPACITE_PROPULSION,16}};
+ public static final int[][] moteurVI={{Const.COMPOSANT_CAPACITE_PROPULSION,6}};
+ public static final int[][] moteurVII={{Const.COMPOSANT_CAPACITE_PROPULSION,7}};
+ public static final int[][] moteurVIII={{Const.COMPOSANT_CAPACITE_PROPULSION,8}};
+ public static final int[][] moteurIX={{Const.COMPOSANT_CAPACITE_PROPULSION,9}};
+ public static final int[][] moteurX={{Const.COMPOSANT_CAPACITE_PROPULSION,10}};
 
  public static final int[][] intraI={{Const.COMPOSANT_CAPACITE_PROPULSION_INTRAGALACTIQUE,1}};
 
