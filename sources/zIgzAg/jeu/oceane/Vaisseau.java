@@ -35,7 +35,7 @@ public class Vaisseau implements Serializable {
 	// fin abosbeur
 
 	private transient int[] boucliers;
-	private transient int dommagesEffectues;
+	private int dommagesEffectues;
 
 	private transient PlanDeVaisseau plan;
 	private transient ArrayList<Integer> listeComposantsValides;
@@ -44,6 +44,7 @@ public class Vaisseau implements Serializable {
 	private boolean detruit;
 
 	// les mÃ©thodes d'accÃšs
+
 
 	public void setType(String entree) {
 		type = entree;

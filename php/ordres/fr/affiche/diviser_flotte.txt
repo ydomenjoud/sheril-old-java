@@ -2,5 +2,11 @@
 $inter1=$rf[1];
 $inter2=$rf[2];
 $inter3=$rf[3];
-echo("Votre flotte  <SPAN class=\"item\">$t0[$inter1]</SPAN> va être divisée pour donner une nouvelle flotte de nom <SPAN class=\"item\">$inter2</SPAN>.<BR> Pour déterminer les vaisseaux de la nouvelle flotte : <FORM><INPUT TYPE='button' value='Choisir les vaisseaux' onClick=\"a('$nom_page?table=diviser_flotte_ajouter&num_f=$inter1&nb_div=$inter3');\"></FORM>");
+
+$result126 = mysql($base, "SELECT SUM(NOMBRE) FROM diviser_flotte_ajouter WHERE FLOTTE=".$inter1." AND NB_DIVISION=".$inter3." AND NUMERO=$commandant");
+$row126 = mysql_fetch_row($result126);
+
+$nbVSO = intval($row126[0]);
+
+echo("<span style='".($nbVSO===0 ? 'color:red' : '')."'>Votre flotte  <SPAN class=\"item\">$t0[$inter1]</SPAN> va être divisée pour donner une nouvelle flotte de nom <SPAN class=\"item\">$inter2</SPAN> avec ".$nbVSO." vaisseaux. </span><FORM style='margin: 0'><INPUT TYPE='button' value='Choisir les vaisseaux' onClick=\"a('$nom_page?table=diviser_flotte_ajouter&num_f=$inter1&nb_div=$inter3');\"></FORM>");
 ?>

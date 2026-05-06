@@ -93,6 +93,22 @@ public class Commandant extends Joueur implements Serializable {
         return s.contains(numeroMarchandise);
     }
 
+	// --- STATS OFFENSIVES ---
+	private float degatsInfligesCeTour = 0f;
+	
+	public void ajouterDegats(float d) {
+	    this.degatsInfligesCeTour += d;
+	}
+	
+	public float getDegatsInfligesCeTour() {
+	    return degatsInfligesCeTour;
+	}
+	
+	public void resetDegatsTour() {
+	    this.degatsInfligesCeTour = 0f;
+	}
+	// ------------------------
+
     // les méthodes d'accés.
 
     public void setCapitale(Position pos) {
@@ -3966,6 +3982,72 @@ public class Commandant extends Joueur implements Serializable {
 
 	public int getDebitMaximalPorteSpatiale(){
 		return Const.EFFETS_MAITRISE_SPATIALE[getNiveauMaxMaitriseSpatiale()];
+	}
+
+	public Object[] getInfosMeilleurRayonnement() {
+	    float maxRayonnement = -1f;
+	    String nomSysteme = "N/A";
+	    // Sécurité : Vérifier si le domaine est prêt
+	    if (domaine == null || domaine.isEmpty()) {
+	        return new Object[]{new Float(0f), "Aucun"};
+	    }
+	
+
+	
+	    // On itère sur les clés du TreeMap (les objets Position du domaine)
+		java.util.Iterator it = domaine.keySet().iterator();
+	    while (it.hasNext()) {
+	        Position pos = (Position) it.next();
+	        Systeme s = Univers.getSysteme(pos);
+	        
+	        if (s != null) {
+	            // On appelle la méthode créée dans Systeme.java pour calculer l'influence
+	            float influence = s.getInfluenceRayonnement(this.getNumero());
+	            
+	            // On ne garde que le score le plus élevé
+	            if (influence > maxRayonnement) {
+	                maxRayonnement = influence;
+					nomSysteme = s.getNom();
+	            }
+	        }
+	    }
+		// Si après la boucle le score est toujours -1 (ex: systèmes vides)
+   		 if (maxRayonnement < 0) maxRayonnement = 0f;
+		
+	    // Retourne un tableau d'objets : [Score, Nom]
+    	return new Object[]{new Float(maxRayonnement), nomSysteme};
+	}
+	
+	public int getScoreTechnologique() {
+	    int total = 0;
+	    String[] techs = listeTechnologiesConnues();
+	    if (techs != null) {
+	        for (int i = 0; i < techs.length; i++) {
+	            Technologie t = Univers.getTechnologie(techs[i]);
+	            if (t != null) {
+	                total += t.getPointsDeRecherche();
+	            }
+	        }
+	    }
+	    return total;
+	}
+
+	public int getTotalPopulationVS() {
+	    int total = 0;
+	    Flotte[] f = listeFlottes();
+	    if (f != null) {
+	        for (int i = 0; i < f.length; i++) {
+	            Vaisseau[] v = f[i].listeVaisseaux();
+	            if (v != null) {
+	                for (int j = 0; j < v.length; j++) {
+	                    if (v[j] != null && !v[j].estDetruit()) {
+	                        total += v[j].getPopulationVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return total;
 	}
 
 }

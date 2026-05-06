@@ -79,11 +79,11 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne 
+    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne
     public static final int BORNE_SECTEUR_X = 10;
     public static final int NB_SYSTEMES_PAR_SECTEUR = 11; // nombre de systèmes par secteur
- 
-    public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.  
+
+    public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
     public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
     public static final int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
 
@@ -532,12 +532,12 @@ public class Const {
     // "Atalante","Ylaytite","Valhalla","Zergor","vide","Plouche","Vétarien","Automates","Autre","neutre"
 
     public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
-            {10, 165}, {50, 150}, {50, 200}, {0, 200}};
+            {10, 165}, {30, 150}, {50, 200}, {0, 180}};
     public static final int[][] HABITAT_TEMPERATURE = {{0, 200},
-            {-50, 180}, {-150, 70}, {-100, 160}, {-140, 190},
-            {0, 200}};
-    public static final int[][] HABITAT_GRAVITE = {{0, 80}, {40, 100},
-            {20, 80}, {30, 90}, {0, 80}, {0, 20}};
+            {-50, 180}, {-150, 70}, {-100, 160}, {-140, 150},
+            {-120, 110}};
+    public static final int[][] HABITAT_GRAVITE = {{20, 90}, {30, 100},
+            {10, 80}, {30, 100}, {0, 70}, {0, 70}};
     // Les conditions supportées par les différentes races(min et max).
 
     public static final int[][] RACES_ATMOSPHERES = {{3, 2, 2, 2, 2},
@@ -548,12 +548,12 @@ public class Const {
     // d'atmosphére.
     // { AUGMENTATION_POPULATION, RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE, RACE_CARACTERISTIQUE_COMBAT_SPATIAL, RACE_CARACTERISTIQUE_COMBAT_PLANETAIRE }
     public static final int[][] RACES_CARACTERISTIQUES = {
-            {0, -5, 0, 5},
-            {10, 0, 0, 0},
-            {10, 0, 5, 0},
-            {-5, 20, 5, -5},
-            {10, -10, 10, 10},
-            {0, -5, 5, 5},
+            {1, 0, 0, 0},
+            {1, 0, 0, 0},
+            {1, 0, 0, 0},
+            {-1, 2, 0, 0},
+            {-1, 0, 1, 1},
+            {0, 0, 0, 0},
     };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;
@@ -601,9 +601,9 @@ public class Const {
 
     // Les dimensions des deux camps lors d'un combat au départ.
 
-    public static final int[][] TAILLE_VAISSEAUX = {{1, 3, 14},
-            {4, 9, 13}, {10, 17, 12}, {18, 33, 11}, {34, 65, 10},
-            {66, 129, 8}, {130, 257, 6}, {258, 512, 4}, {513, 1025, 2},
+    public static final int[][] TAILLE_VAISSEAUX = {{1, 3, 9},
+            {4, 9, 8}, {10, 17, 7}, {18, 33, 6}, {34, 65, 5},
+            {66, 129, 4}, {130, 257, 3}, {258, 512, 2}, {513, 1025, 1},
             {1026, 1000000, 0}};
     // Les paramétrages de la taille des vaisseaux(min nb cases,max nb
     // cases,vitesse de base)

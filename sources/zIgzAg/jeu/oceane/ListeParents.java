@@ -358,7 +358,7 @@ public interface ListeParents{
  public static final String[] maitstargateX    = {"maitstargateIX"};
 
     // -- > Usines
-public static final String[] agroI    = {"boucplaI"};
+public static final String[] agroI    = null;
 public static final String[] agroII   = {"agroI","maitdeI"};
 public static final String[] agroIII  = {"agroII"};
 public static final String[] agroIV   = {"agroIII"};
@@ -435,7 +435,7 @@ public static final String[] infoVIII ={"infoVII"};
 public static final String[] infoIX ={"infoVIII","maitdeIII"};
 public static final String[] infoX ={"infoIX"};
 
-public static final String[] robotI = {"boucplaII"};
+public static final String[] robotI = null;
 public static final String[] robotII ={"robotI","maitdeI"};
 public static final String[] robotIII ={"robotII"};
 public static final String[] robotIV ={"robotIII"};

@@ -587,6 +587,7 @@ public class Flotte implements Serializable {
 				int ptUniteIntercepteur = Construction.getPointsNecessaires("Chasseur standard");
 				int ptUniteAutre = Construction.getPointsNecessaires(constructionEnCours);
 				float coutcritik;
+				float coutTotal = 0;
 
 				boolean pasArgent = false;
 				Vaisseau[] v = listeVaisseaux();
@@ -604,6 +605,7 @@ public class Flotte implements Serializable {
 									* nbConstru
 									* Construction
 											.getPrixConstructionEspace(constructionEnCours);
+							coutTotal+= cout;
 							
 
 							if (c.getCentaures() < cout)
@@ -665,6 +667,7 @@ public class Flotte implements Serializable {
 							if (c.getCentaures() < cout)
 								pasArgent = true;
 							else {
+								coutTotal+= cout;
 								for (int j = 0; j < nbConstru; j++)
 									ajouterVaisseau(Vaisseau.creer(
 											"Chasseur standard", race));
@@ -682,12 +685,18 @@ public class Flotte implements Serializable {
 				if (nbConstruIntercepteur == 0)
 					c.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0005",
 							getNomNumero(c.numeroFlotte(this)),
-							constructionEnCours, nbConstruAutre);
+							constructionEnCours,
+							nbConstruAutre,
+							coutTotal
+					);
 				else
 					c.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0008",
 							getNomNumero(c.numeroFlotte(this)),
-							constructionEnCours, "Chasseur standard",
-							nbConstruAutre, nbConstruIntercepteur);
+							constructionEnCours,
+							"Chasseur standard",
+							nbConstruAutre,
+							nbConstruIntercepteur
+					);
 				if (pasArgent)
 					c.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0009");
 
