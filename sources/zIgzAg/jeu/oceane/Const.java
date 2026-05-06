@@ -509,6 +509,7 @@ public class Const {
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
+    };
     // les différentes possibilités de répartition de compétence pour un héros
     // par rapport é sa race.
 
