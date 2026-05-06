@@ -8,18 +8,6 @@ package zIgzAg.jeu.oceane;
 
 public interface ListeTechnologique{
 //SECTION SPECIALE
- public static final Arme mystI=new Arme("myst",0,ListeParents.mystI,50,null,1,1F,null,1,Const.CV_ARME_CS);
- public static final ComposantDeVaisseau mystII=new ComposantDeVaisseau("myst",1,ListeParents.mystI,100,ListeCaracSpeciales.mystII,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystIII=new ComposantDeVaisseau("myst",2,ListeParents.mystI,100,ListeCaracSpeciales.mystIII,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystIV=new ComposantDeVaisseau("myst",3,ListeParents.mystI,100,ListeCaracSpeciales.mystIV,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystV=new ComposantDeVaisseau("myst",4,ListeParents.mystI,100,ListeCaracSpeciales.mystV,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystVI=new ComposantDeVaisseau("myst",5,ListeParents.mystI,100,ListeCaracSpeciales.mystVI,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystVII=new ComposantDeVaisseau("myst",6,ListeParents.mystI,100,ListeCaracSpeciales.mystVII,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystVIII=new ComposantDeVaisseau("myst",7,ListeParents.mystI,100,ListeCaracSpeciales.mystVIII,1,1F,null,Const.CV_AUTRE,1);
- public static final ComposantDeVaisseau mystIX=new ComposantDeVaisseau("myst",8,ListeParents.mystI,100,ListeCaracSpeciales.mystIX,1,1F,null,Const.CV_AUTRE,1);
- public static final Batiment mystX=new Batiment("myst",9,ListeParents.mystI,100,ListeCaracSpeciales.mystX,1,1F,null,20000,1,null);
-
-
 
  public static final Arme laserI=new Arme("laser",0,ListeParents.laserI,50,null,			7, 6F,ListeMarchandises.laserI,1,Const.CV_ARME_CS);
  public static final Arme laserII=new Arme("laser",1,ListeParents.laserII,100,null,			6, 7F,ListeMarchandises.laserII,1,Const.CV_ARME_CS);
@@ -112,10 +100,6 @@ public interface ListeTechnologique{
  public static final ComposantDeVaisseau moteurVIII=new ComposantDeVaisseau("moteur",7,ListeParents.moteurVIII,7500,ListeCaracSpeciales.moteurVIII,250,250F,ListeMarchandises.moteurVIII,Const.CV_MOTEUR,250);
  public static final ComposantDeVaisseau moteurIX=new ComposantDeVaisseau("moteur",8,ListeParents.moteurIX,15000,ListeCaracSpeciales.moteurIX,500,500F,ListeMarchandises.moteurIX,Const.CV_MOTEUR,500);
  public static final ComposantDeVaisseau moteurX=new ComposantDeVaisseau("moteur",9,ListeParents.moteurX,30000,ListeCaracSpeciales.moteurX,1000,1000F,ListeMarchandises.moteurX,Const.CV_MOTEUR,1000);
-
- public static final ComposantDeVaisseau intraI=new ComposantDeVaisseau("intra",0,ListeParents.intraI,500000,ListeCaracSpeciales.intraI,10,25F,ListeMarchandises.intraI,Const.CV_MOTEUR,1);
-
- public static final ComposantDeVaisseau interI=new ComposantDeVaisseau("inter",0,ListeParents.interI,200000,ListeCaracSpeciales.interI,20,50F,ListeMarchandises.interI,Const.CV_MOTEUR,2);
 
  public static final ComposantDeVaisseau scanI=new ComposantDeVaisseau("scan",0,null,100,ListeCaracSpeciales.scanI,5,10F,null,Const.CV_AUTRE,3);
  public static final ComposantDeVaisseau scanII=new ComposantDeVaisseau("scan",1,ListeParents.scanII,200,ListeCaracSpeciales.scanII,10,15F,ListeMarchandises.scanII,Const.CV_AUTRE,5);

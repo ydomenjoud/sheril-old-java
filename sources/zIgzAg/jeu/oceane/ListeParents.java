@@ -8,17 +8,6 @@ package zIgzAg.jeu.oceane;
 
 public interface ListeParents{
 
- public static final String[] mystI={"mystI"};
- public static final String[] mystII={"mystI"};
- public static final String[] mystIII={"mystI"};
- public static final String[] mystIV={"mystI"};
- public static final String[] mystV={"mystI"};
- public static final String[] mystVI={"mystI"};
- public static final String[] mystVII={"mystI"};
- public static final String[] mystVIII={"mystI"};
- public static final String[] mystIX={"mystI"};
- public static final String[] mystX={"mystI"};
-
  public static final String[] maityokI = {"maityokI"};
 
  public static final String[] laserI={"moteurI"};
@@ -99,10 +88,6 @@ public interface ListeParents{
  public static final String[] moteurVIII={"moteurVII"};
  public static final String[] moteurIX={"moteurVIII"};
  public static final String[] moteurX={"moteurIX"};
-
- public static final String[] intraI={"mystI"};
-
- public static final String[] interI={"mystI"};
 
  public static final String[] scanII={"scanI","moteurI"};
  public static final String[] scanIII={"scanII","moteurII"};

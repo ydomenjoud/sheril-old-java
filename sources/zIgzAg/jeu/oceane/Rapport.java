@@ -449,7 +449,7 @@ public class Rapport {
 				Systeme[] sys = Univers.listeSystemes(Univers
 						.listePositionsSystemesParSecteur(i, j));
 
-				BaliseHTML[][] a = new BaliseHTML[sys.length + 1][7];
+				BaliseHTML[][] a = new BaliseHTML[sys.length + 1][8];
 				a[0][0] = new BaliseHTML(N_TD_1, "Secteur "
 						+ Integer.toString(j) + " de la galaxie "
 						+ Messages.NOMS_GALAXIES[i], true);
@@ -474,12 +474,16 @@ public class Rapport {
 							true);
 
 					String racesPresentes = null;
-					for (int k = 0; k < Const.NB_RACES; k++)
-						if (sys[m].populationPresente(-1, k))
-							if (racesPresentes == null)
-								racesPresentes = races_d[k];
-							else
-								racesPresentes = racesPresentes + races_d[k];
+					for (int k = 0; k < Const.NB_RACES; k++) {
+						if (sys[m].populationPresente(-1, k)) {
+							String d = races_d[k] +  "( "  + sys[m].getPopulationDeRace(-1, k) + ')';
+							if (racesPresentes == null) {
+								racesPresentes = d;
+							} else {
+								racesPresentes += d;
+							}
+						}
+					}
 					a[m + 1][5] = new BaliseHTML(N_TD_5, racesPresentes, true);
 					a[m + 1][6] = new BaliseHTML(N_TD_6,
 							Integer.toString(sys[m].getNombrePlanetes()), true);
