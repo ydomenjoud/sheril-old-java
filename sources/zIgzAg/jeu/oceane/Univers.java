@@ -4,29 +4,21 @@
 
 package zIgzAg.jeu.oceane;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import zIgzAg.utile.Fiche;
 import zIgzAg.utile.Mdt;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import java.io.*;
+import java.util.regex.Pattern;
 
 
 public class Univers {
@@ -1032,7 +1024,7 @@ public class Univers {
 					new int[] { 1, 4 }, "Bombardier standard", "Dune" },
 			{ "Inconnu",
 					new String[] { "moteurI", "bombeI" },
-					new int[] { 1, 7 }, "Grand Bombardier standard", "Galaxia" },
+					new int[] { 1, 7 }, "Grand Bombardier standard", "Dune" },
 			{ "Inconnu",
 					new String[] { "moteurI", "laserI" },
 					new int[] { 1, 1 }, "Intercepteur standard", "Dune" },
@@ -1094,22 +1086,14 @@ public class Univers {
 					new int[] { 1, 1 }, "A-M loe", "Cybtech", new Integer(5) },
 			{ "Inconnu", new String[] { "moteurII", "cyb_vs_te_I" },
 					new int[] { 1, 1 }, "SpyFlight", "Cybtech", new Integer(5) }
-	/**
-	 * ,{"Inconnu",new String[]{"moteurIII","cyb_mdc_t1_V",
-	 * "cyb_vs_tc_IV","cyb_vs_tt_IV"
-	 * ,"cyb_vs_te_IV","villeV","bouclierVIII","scanI"},new
-	 * int[]{1,1,1,1,1,1,5,1},"Nexus","Cybtech",new Integer(5)} *
-	 */
+
 
 	};
 
 	public static String supprimerAccent(String nom){
-		nom = nom.replaceAll("[èéêë]","e");
-	    nom = nom.replaceAll("[ûù]","u");
-	    nom = nom.replaceAll("[ïî]","i");
-	    nom = nom.replaceAll("[àâ]","a");
-	    nom = nom.replaceAll("Ô","o");
-	    return nom;
+		String normalized = Normalizer.normalize(nom, Normalizer.Form.NFD);
+		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		return pattern.matcher(normalized).replaceAll("");
 	}
 
 	public static void corrigerPlanDeVaisseau(){

@@ -80,7 +80,7 @@ public class Messages extends MessagesAbstraits {
 	// Les différentes possibilités pour le choix du budget d'un système.
 
 	public static final String[] RACES = { "Fremens", "Atalantes", "Zwaias",
-			"Yoksor", "Fergok", "Cyborg", "Koros" };
+			"Yoksor", "Fergok", "Cyborg" };
 	// Les différentes races.
 
 	public static final String[] COMPETENCES_LEADER = {

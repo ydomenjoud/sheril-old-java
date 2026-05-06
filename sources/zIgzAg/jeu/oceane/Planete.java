@@ -604,8 +604,11 @@ public class Planete implements Serializable {
 		planete.initialiserPopulation();
 		planete.initialiserBatiments();
 
-		planete.explorerPlanete(raceDeDepart);
-		planete.ajouterPopulation(raceDeDepart, Univers.getInt(50) + 50);
+		int meilleurPop = planete.meilleurPop();
+		if( meilleurPop > 0) {
+			planete.explorerPlanete(meilleurPop);
+			planete.ajouterPopulation(meilleurPop, Univers.getInt(50) + 50);
+		}
 
 		planete.initialiserBatiments();
 

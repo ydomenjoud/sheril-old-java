@@ -110,15 +110,7 @@ public class Const {
     };
     // localisation des passages intragalactiques
 
-    // public static final int[] REPARTITION_DES_RACES = {
-    //       0, 1, 2, 
-    //       3, 4, 0, 
-    //       1, 2, 3
-    //   };
-    // Les répartitions initiales des races( indice i = race secteur i).
-    // La répartition se fait en surfaces rectangulaires homogènes.
 
-    public static final int NB_RACES_PAR_GALAXIE = 6;
     // Il y a obligatoirement 6 races différentes par galaxie.
 
     public static final int NB_RACES = Messages.RACES.length;
@@ -517,7 +509,6 @@ public class Const {
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
-            {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0}};
     // les différentes possibilités de répartition de compétence pour un héros
     // par rapport é sa race.
 
@@ -528,7 +519,7 @@ public class Const {
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
-            {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7}};
+    };
     // les différentes possibilités de répartition de compétence pour un
     // gouverneur par rapport é sa race.
 
@@ -541,18 +532,17 @@ public class Const {
     // "Atalante","Ylaytite","Valhalla","Zergor","vide","Plouche","Vétarien","Automates","Autre","neutre"
 
     public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
-            {10, 165}, {50, 150}, {50, 200}, {0, 200}, {0, 200}};
+            {10, 165}, {50, 150}, {50, 200}, {0, 200}};
     public static final int[][] HABITAT_TEMPERATURE = {{0, 200},
             {-50, 180}, {-150, 70}, {-100, 160}, {-140, 190},
-            {0, 200}, {-150, 200}};
+            {0, 200}};
     public static final int[][] HABITAT_GRAVITE = {{0, 80}, {40, 100},
-            {20, 80}, {30, 90}, {0, 80}, {0, 20}, {0, 100}};
+            {20, 80}, {30, 90}, {0, 80}, {0, 20}};
     // Les conditions supportées par les différentes races(min et max).
 
     public static final int[][] RACES_ATMOSPHERES = {{3, 2, 2, 2, 2},
             {2, 2, 1, 1, 0}, {0, 0, 0, 1, 2}, {2, 2, 1, 2, 2},
             {-1, 0, 2, -1, -1}, {-1, 0, 2, -1, -1}
-
     };
     // Le modificateur de progression de population suivant la race et le type
     // d'atmosphére.
@@ -564,7 +554,6 @@ public class Const {
             {-5, 20, 5, -5},
             {10, -10, 10, 10},
             {0, -5, 5, 5},
-            {100, 100, 100, 100}
     };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;
