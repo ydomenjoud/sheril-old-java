@@ -806,22 +806,36 @@ public class Combat {
                 // On récupère le commandant du vaisseau attaquant
                 Commandant com = Univers.getCommandant(v.getVeritableProprietaire());
                 int dommagesAvant = v.getDommagesEffectues();
-    
+                
+                // --- AJOUT : Mémoire de la population avant le tir ---
+                int popAvantCeVaisseau = retour; 
+                int morts = 0;
+                
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
                 } else {
                     // Pour les milices, le calcul est différent car la méthode renvoie les morts
-                    int morts = v.tirSurMilices(h, g, construCible);
+                    morts = v.tirSurMilices(h, g, construCible);
                     retour = retour - morts;
                     // Note : Si tirSurMilices n'incrémente pas dommagesEffectues, 
                     // les dégâts sur la population ne seront pas dans le classement.
                 }
+
+                // --- AJOUT : Définition de impactPop ---
+                int impactPop = popAvantCeVaisseau - retour;
     
                 // Mise à jour du classement
                 int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
                 if (degatsDuTir > 0 && com != null) {
                     com.ajouterDegats((float)degatsDuTir);
                 }
+
+                //LOG
+                System.out.println(String.format(
+                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s (ID:%d) | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        v.getPlan().getNom(), v.getNumero(), degatsDuTir, impactPop, 
+                        com.getNomNumero(), com.getDegatsInfligesCeTour()
+                    ));
             }
         }
 
