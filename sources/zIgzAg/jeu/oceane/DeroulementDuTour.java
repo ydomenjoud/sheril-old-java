@@ -76,11 +76,10 @@ public class DeroulementDuTour {
 		// --- VERIFICATION FINALE AVANT AFFICHAGE ---
 		System.out.println("---------------------------------------------------------");
 		System.out.println("[DEB-FIN] BILAN DES SCORES AVANT ECRITURE DU RAPPORT");
-		for (int i = 0; i < Univers.getCommandants().size(); i++) {
-		    Commandant c = (Commandant) Univers.getCommandants().get(i);
-		    if (c.getDegatsInfligesCeTour() > 0) {
+		for (int i = 0; i < cL.length; i++) {
+		    if (cL[i].getDegatsInfligesCeTour() > 0) {
 		        System.out.println(String.format("   > Commandant %s : %.2f points enregistrés", 
-		                           c.getNomNumero(), c.getDegatsInfligesCeTour()));
+		                           cL[i].getNomNumero(), cL[i].getDegatsInfligesCeTour()));
 		    }
 		}
 		System.out.println("---------------------------------------------------------");
