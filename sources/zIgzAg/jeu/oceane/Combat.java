@@ -831,10 +831,13 @@ public class Combat {
                 }
 
                 //LOG
-                System.out.println(String.format(
-                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s (ID:%d) | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
-                        v.getPlan().getNom(), v.getNumero(), degatsDuTir, impactPop, 
-                        com.getNomNumero(), com.getDegatsInfligesCeTour()
+                    System.out.println(String.format(
+                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        v.getPlan().getNom(), 
+                        degatsDuTir, 
+                        impactPop, 
+                        com.getNomNumero(), 
+                        com.getDegatsInfligesCeTour()
                     ));
             }
         }
