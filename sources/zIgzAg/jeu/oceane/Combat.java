@@ -771,8 +771,7 @@ public class Combat {
 
                 //LOG
                 System.out.println(String.format(
-                    "[DEB-2.4] BATTERIES -> FLOTTE | Construction: %s | Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
-                    listeC[i].getBatiment().getNom(), 
+                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
                     cible.getPlan().getNom(), 
                     degatsDuTir, 
                     defenseur.getNomNumero(), 
@@ -790,8 +789,10 @@ public class Combat {
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (sol.size() > 0)
+             System.out.println("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
             for (int i = 0; i < nbTirs; i++)
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
+               
     }
 
     private static int tirAirSol(ArrayList strato,
