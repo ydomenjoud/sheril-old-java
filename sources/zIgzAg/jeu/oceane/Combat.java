@@ -768,6 +768,15 @@ public class Combat {
                 if (degatsDuTir > 0 && defenseur != null) {
                 defenseur.ajouterDegats((float)degatsDuTir);
                 }
+
+                //LOG
+                System.out.println(String.format(
+                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    cible.getPlan().getNom(), 
+                    degatsDuTir, 
+                    defenseur.getNomNumero(), 
+                    defenseur.getDegatsInfligesCeTour()
+                ));
             }
         }
     }
@@ -780,8 +789,10 @@ public class Combat {
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (sol.size() > 0)
+             System.out.println("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
             for (int i = 0; i < nbTirs; i++)
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
+               
     }
 
     private static int tirAirSol(ArrayList strato,
@@ -806,22 +817,39 @@ public class Combat {
                 // On récupère le commandant du vaisseau attaquant
                 Commandant com = Univers.getCommandant(v.getVeritableProprietaire());
                 int dommagesAvant = v.getDommagesEffectues();
-    
+                
+                // --- AJOUT : Mémoire de la population avant le tir ---
+                int popAvantCeVaisseau = retour; 
+                int morts = 0;
+                
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
                 } else {
                     // Pour les milices, le calcul est différent car la méthode renvoie les morts
-                    int morts = v.tirSurMilices(h, g, construCible);
+                    morts = v.tirSurMilices(h, g, construCible);
                     retour = retour - morts;
                     // Note : Si tirSurMilices n'incrémente pas dommagesEffectues, 
                     // les dégâts sur la population ne seront pas dans le classement.
                 }
+
+                // --- AJOUT : Définition de impactPop ---
+                int impactPop = popAvantCeVaisseau - retour;
     
                 // Mise à jour du classement
                 int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
                 if (degatsDuTir > 0 && com != null) {
                     com.ajouterDegats((float)degatsDuTir);
                 }
+
+                //LOG
+                    System.out.println(String.format(
+                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        v.getPlan().getNom(), 
+                        degatsDuTir, 
+                        impactPop, 
+                        com.getNomNumero(), 
+                        com.getDegatsInfligesCeTour()
+                    ));
             }
         }
 
@@ -1470,6 +1498,18 @@ public class Combat {
                         com.ajouterDegats((float)degatsDuTir);
                     }
                     // --------------------------
+
+                    // Log exhaustif pour traçabilité
+                        System.out.println(String.format(
+                            "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
+                            v.getPlan().getNom(), 
+                            cle.toString(), 
+                            c.getPlan().getNom(), 
+                            degatsDuTir, 
+                            com.getNomNumero(), 
+                            com.getDegatsInfligesCeTour()
+                        ));
+                    //--------------
                     
                     Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
