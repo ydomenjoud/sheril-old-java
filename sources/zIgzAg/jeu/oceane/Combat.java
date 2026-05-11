@@ -768,6 +768,16 @@ public class Combat {
                 if (degatsDuTir > 0 && defenseur != null) {
                 defenseur.ajouterDegats((float)degatsDuTir);
                 }
+
+                //LOG
+                System.out.println(String.format(
+                    "[DEB-2.4] BATTERIES -> FLOTTE | Construction: %s | Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    listeC[i].getBatiment().getNom(), 
+                    cible.getPlan().getNom(), 
+                    degatsDuTir, 
+                    defenseur.getNomNumero(), 
+                    defenseur.getDegatsInfligesCeTour()
+                ));
             }
         }
     }
