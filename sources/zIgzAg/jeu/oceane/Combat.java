@@ -1470,6 +1470,18 @@ public class Combat {
                         com.ajouterDegats((float)degatsDuTir);
                     }
                     // --------------------------
+
+                    // Log exhaustif pour traçabilité
+                        System.out.println(String.format(
+                            "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
+                            v.getPlan().getNom(), 
+                            cle.toString(), 
+                            c.getPlan().getNom(), 
+                            degatsDuTir, 
+                            com.getNomNumero(), 
+                            com.getDegatsInfligesCeTour()
+                        ));
+                    //--------------
                     
                     Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
