@@ -900,7 +900,7 @@ public class Stats {
 				definirParametresPointsDeVictoire(l),
 		        Univers.getMessageRapport("STATS_POINTS_DE_VICTOIRE", l));
 
-		genererStatsPointDeVictoireDetail();
+		genererStatsPointDeVictoireDetail(l);
 
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);
@@ -920,7 +920,7 @@ public class Stats {
 
 	}
 
-	public static void genererStatsPointDeVictoireDetail() {
+	public static void genererStatsPointDeVictoireDetail(Locale l) {
 		Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> donnees = PointDeVictoire.genererSyntheseCommandants();
 
 		java.util.function.Function<StatCategorie, String> formater = (s) -> {
@@ -933,13 +933,7 @@ public class Stats {
 			return "<strong>" + pos + "</strong><sup>" + suffixe + "</sup> (" + s.getValeur() + ")";
 		};
 
-		String[] entetes = {
-				"Détail des points de victoire du tour " + Univers.getTour(), // t[0] : Titre
-				"Position",
-				"Commandant",
-				"Territorial", "Bataille", "Culturel", "Scientifique", "Merveille", "Colonial",
-				"Total"
-		};
+		String[] entetes = (String[]) Univers.getMessageRapport("STATS_POINTS_DE_VICTOIRE_DETAIL", l);
 
 		List<Object[]> lignes = new ArrayList<>();
 
