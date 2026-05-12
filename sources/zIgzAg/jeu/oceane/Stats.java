@@ -36,6 +36,8 @@ public class Stats {
 	public static final String FICHIER_POP_VS = "pop_vs.htm";
 	public static final String FICHIER_OFFENSIVE = "offensive.htm";
 	public static final String FICHIER_TECHNOLOGIE = "technologie.htm";
+	public static final String FICHIER_POINT_DE_VICTOIRE = "points_victoire.htm";
+	public static final String FICHIER_POINT_DE_VICTOIRE_DETAIL = "points_victoire_detail.htm";
 
 	public static Map STATS_DERNIER_TOUR;
 
@@ -746,6 +748,37 @@ public class Stats {
 	    return st;
 	}
 
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List definirParametresPointsDeVictoire(Locale loc) {
+		List<Commandant> l = PointDeVictoire.classementGeneral;
+		List<Object[]> retour = new ArrayList(l.size());
+		l.forEach(c -> retour.add(new Object[]{
+				c.getNom(),
+				Rapport.getFont(Rapport.cC[6], null).setTexteContenu(Integer.toString(c.getNumero())),
+				Rapport.getRace(c.getRace(), loc),
+				c.getPointsDeVictoire(),
+				String.format("%05.2f%%", ((double) c.getPopulationTotale() / (getTotalPopulationUniverse() * 0.66)) * 100),
+				String.format("%05.2f%%", ((double) c.getNombrePlanetesPossedees() / (getTotalPlanetesUniverse() * 0.66)) * 100)
+		}));
+
+		// TRI de la liste retour sur la 4ème colonne (index 3 : les points)
+		retour.sort((o1, o2) -> {
+			int pts1 = (int) o1[3];
+			int pts2 = (int) o2[3];
+
+			// Comparaison décroissante
+			if (pts1 != pts2) {
+				return Integer.compare(pts2, pts1);
+			}
+
+			// Optionnel : Tri secondaire sur le nom (index 0) en cas d'égalité
+			return ((String) o1[0]).compareTo((String) o2[0]);
+		});
+
+		return retour;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List definirParametresOffensive(List[] l, Locale loc) {
 	    List retour = new ArrayList(l[0].size());
@@ -858,9 +891,15 @@ public class Stats {
 		        definirParametresOffensive(getListe(trierParOffensive(c), FICHIER_OFFENSIVE), l),
 		        Univers.getMessageRapport("STATS_OFFENSIVE", l));
 		ecrire(FICHIER_TECHNOLOGIE,
-        definirParametresTechnologie(
-                getListe(trierParTechnologie(c), FICHIER_TECHNOLOGIE), l),
-        Univers.getMessageRapport("STATS_TECHNOLOGIE", l));
+			definirParametresTechnologie(
+					getListe(trierParTechnologie(c), FICHIER_TECHNOLOGIE), l),
+				Univers.getMessageRapport("STATS_TECHNOLOGIE", l));
+
+		ecrire(FICHIER_POINT_DE_VICTOIRE,
+				definirParametresPointsDeVictoire(l),
+		        Univers.getMessageRapport("STATS_POINTS_DE_VICTOIRE", l));
+
+		genererStatsPointDeVictoireDetail();
 
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);
@@ -878,6 +917,75 @@ public class Stats {
 		// Génération du fichier HTML
 		ecrireRayonnement(classementGeneral, top3Final, l);
 
+	}
+
+	public static void genererStatsPointDeVictoireDetail() {
+		Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> donnees = PointDeVictoire.genererSyntheseCommandants();
+
+		java.util.function.Function<StatCategorie, String> formater = (s) -> {
+			if (s == null) return "-";
+
+			int pos = s.getPosition();
+			// Gestion du suffixe : "er" pour 1, "ème" pour le reste
+			String suffixe = (pos == 1) ? "er" : "ème";
+
+			return "<strong>" + pos + "</strong><sup>" + suffixe + "</sup> (" + s.getValeur() + ")";
+		};
+
+		String[] entetes = {
+				"Détail des points de victoire du tour " + Univers.getTour(), // t[0] : Titre
+				"Position",
+				"Commandant",
+				"Territorial", "Bataille", "Culturel", "Scientifique", "Merveille", "Colonial",
+				"Total"
+		};
+
+		List<Object[]> lignes = new ArrayList<>();
+
+		for (var entry : donnees.entrySet()) {
+			Commandant cmd = entry.getKey();
+			Map<PointDeVictoireCategorie, StatCategorie> stats = entry.getValue();
+			int totalPointsDeVictoire = 0;
+			for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
+				StatCategorie stat = stats.get(cat);
+				if (stat != null) {
+					int position = stat.getPosition(); // 1-based index
+					List<Integer> pointsAttribues = PointDeVictoire.config.get(cat);
+
+					// Si la position est dans la liste de config (ex: 1er, 2ème, 3ème)
+					if (position <= pointsAttribues.size()) {
+						totalPointsDeVictoire += pointsAttribues.get(position - 1);
+					}
+				}
+			}
+			Object[] ligne = new Object[] {
+					cmd.getNomNumero(),
+					formater.apply(stats.get(PointDeVictoireCategorie.PLANETES)),
+					formater.apply(stats.get(PointDeVictoireCategorie.COMBATS)),
+					formater.apply(stats.get(PointDeVictoireCategorie.POPULATION)),
+					formater.apply(stats.get(PointDeVictoireCategorie.RECHERCHE)),
+					formater.apply(stats.get(PointDeVictoireCategorie.MERVEILLE)),
+					formater.apply(stats.get(PointDeVictoireCategorie.POPULATION_VS)),
+					String.valueOf(totalPointsDeVictoire)
+			};
+
+			lignes.add(ligne);
+		}
+
+		// --- TRI DES LIGNES PAR TOTAL (INDEX 7) ---
+		lignes.sort((a, b) -> {
+			int totalA = Integer.parseInt((String) a[7]);
+			int totalB = Integer.parseInt((String) b[7]);
+
+			// Tri décroissant
+			if (totalA != totalB) {
+				return Integer.compare(totalB, totalA);
+			}
+			// Tri secondaire par nom (index 0) si égalité de points
+			return ((String) a[0]).compareTo((String) b[0]);
+		});
+
+		ecrire(FICHIER_POINT_DE_VICTOIRE_DETAIL, lignes, entetes);
 	}
 
 	public static class ComparateurInverse implements Comparator<Object> {

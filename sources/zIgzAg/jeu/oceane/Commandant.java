@@ -9,7 +9,20 @@ import zIgzAg.utile.Mdt;
 import java.util.*;
 import java.io.Serializable;
 
+record HistoriquePV(
+        int tour,
+        int position,
+        int points,
+        PointDeVictoireCategorie type
+) implements Serializable {}
+
 public class Commandant extends Joueur implements Serializable {
+
+    // previous data
+    transient Map<PointDeVictoireCategorie, Integer> pointDeVictoireData;
+
+    private int pointsDeVictoire = 0;
+    List<HistoriquePV> pointDeVictoireHistory = new ArrayList<>();
 
     static final long serialVersionUID = -5043427151493459788L;
 
@@ -67,6 +80,18 @@ public class Commandant extends Joueur implements Serializable {
     // pour contrer la "spéculation"
     private transient Map<Position, Map<Integer, Set<Integer>>> speculation;
 
+    public void ajouterPointsDeVictoire(int amount, int position, PointDeVictoireCategorie categorie) {
+        pointsDeVictoire += amount;
+        if (pointDeVictoireData == null) {
+            initialiserDataPointDeVictoire();
+        }
+        pointDeVictoireHistory.add(new HistoriquePV(pointDeVictoireHistory.size(), position, amount, categorie));
+    }
+
+    public int getPointsDeVictoire(){
+        return pointsDeVictoire;
+    }
+
     private void ajouterVisaDechargement(Position p, int numeroCommandant,
                                          int numeroMarchandise) {
         if (speculation == null)
@@ -79,6 +104,8 @@ public class Commandant extends Joueur implements Serializable {
     public static boolean testNeutre(Commandant c) {
         return c.estJoueurNeutre();
     }
+
+
 
     private boolean existenceVisaDechargement(Position p, int numeroCommandant,
                                               int numeroMarchandise) {
@@ -1270,6 +1297,31 @@ public class Commandant extends Joueur implements Serializable {
 		transfertsEnAttentes = new ArrayList<>();
 	}
 
+    public void initialiserDataPointDeVictoire() {
+        pointDeVictoireData = new HashMap<>();
+        pointDeVictoireData.put(PointDeVictoireCategorie.PLANETES, getNombrePlanetesPossedees());
+        pointDeVictoireData.put(PointDeVictoireCategorie.COMBATS, 0);
+        pointDeVictoireData.put(PointDeVictoireCategorie.POPULATION, getPopulationTotale());
+        pointDeVictoireData.put(PointDeVictoireCategorie.RECHERCHE, (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE));
+        pointDeVictoireData.put(PointDeVictoireCategorie.POPULATION_VS, getTotalPopulationVS());
+        pointDeVictoireData.put(PointDeVictoireCategorie.MERVEILLE, getMeilleurSystemeScore());
+    }
+
+    public int getMeilleurSystemeScore() {
+        Systeme[] systemesList = Univers.listeSystemes(listePossession());
+        int scoreMax = Integer.MIN_VALUE; // Initialisé à une valeur très basse
+        for (Systeme s : systemesList){
+            int entretien = (int) s.getEntretien(numero,getGouverneurSurPossession(s.getPosition()), getPossession(s.getPosition()));
+            int encombrement = s.getEncombrement(numero);
+            int scoreActuel = entretien + encombrement;
+            // Comparaison avec le maximum trouvé jusqu'ici
+            if (scoreActuel > scoreMax) {
+                scoreMax = scoreActuel;
+            }
+        }
+        return scoreMax;
+    }
+
 	public void initialiserChampsTransients() {
 		initialiserListesMessages();
 		initialiserSystemesDetectes();
@@ -1278,7 +1330,27 @@ public class Commandant extends Joueur implements Serializable {
 		initialiserPositionsEspionnees();
 		initialiserCorrespondanceFlotteDivisee();
 		initialiserTransfertEntreSysteme();
+        initialiserDataPointDeVictoire();
 	}
+
+    private int getScoreCategorie(PointDeVictoireCategorie categorie) {
+        if (pointDeVictoireData == null) {
+            initialiserDataPointDeVictoire();
+        }
+        return pointDeVictoireData.getOrDefault(categorie, 0);
+    }
+
+    public int getEvolutionPopulationFlotte(){
+        return getScoreCategorie(PointDeVictoireCategorie.POPULATION_VS) - getTotalPopulationVS();
+    }
+
+    public int getEvolutionPossession(){
+        return getScoreCategorie(PointDeVictoireCategorie.PLANETES) - getNombrePlanetesPossedees();
+    }
+
+    public int getEvolutionScientifique() {
+        return (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE) - getScoreCategorie(PointDeVictoireCategorie.RECHERCHE);
+    }
 
 	// Champs transients --->
 
@@ -3989,7 +4061,7 @@ public class Commandant extends Joueur implements Serializable {
 	    String nomSysteme = "N/A";
 	    // Sécurité : Vérifier si le domaine est prêt
 	    if (domaine == null || domaine.isEmpty()) {
-	        return new Object[]{new Float(0f), "Aucun"};
+	        return new Object[]{0f, "Aucun"};
 	    }
 	
 
@@ -4015,7 +4087,7 @@ public class Commandant extends Joueur implements Serializable {
    		 if (maxRayonnement < 0) maxRayonnement = 0f;
 		
 	    // Retourne un tableau d'objets : [Score, Nom]
-    	return new Object[]{new Float(maxRayonnement), nomSysteme};
+    	return new Object[]{maxRayonnement, nomSysteme};
 	}
 	
 	public int getScoreTechnologique() {
