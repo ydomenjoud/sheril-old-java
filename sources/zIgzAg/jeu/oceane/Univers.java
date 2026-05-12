@@ -1068,7 +1068,7 @@ public class Univers {
 	};
 
 	private static final Object[][] PLAN_RACIAUX = {
-			{ "Inconnu", new String[] { "moteurI", "scanII" },
+			{ "Inconnu", new String[] { "moteurI", "scanIII" },
 					new int[] { 1, 1, 1 }, "Sidjin", "FreeTech", new Integer(0) },
 			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "plasmaIII" },
 					new int[] { 1, 1, 12 }, "Gardien", "Atatech", new Integer(1) },
