@@ -162,10 +162,10 @@ public class Stats {
 			retour = o.toString();
 		if (modif != 0)
 			if (modif > 0)
-				retour = retour + " <FONT color=\"red\" size=\"2\"> (+"
+				retour = retour + " <FONT color=\"#2bd849\" size=\"2\"> (+"
 						+ Integer.toString(modif) + ")</FONT>";
 			else
-				retour = retour + " <FONT color=\"#008000\" size=\"2\">("
+				retour = retour + " <FONT color=\"#f98888\" size=\"2\">("
 						+ Integer.toString(modif) + ")</FONT>";
 		return retour;
 	}
@@ -749,31 +749,32 @@ public class Stats {
 	}
 
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	public static List definirParametresPointsDeVictoire(Locale loc) {
 		List<Commandant> l = PointDeVictoire.classementGeneral;
-		List<Object[]> retour = new ArrayList(l.size());
-		l.forEach(c -> retour.add(new Object[]{
-				c.getNom(),
-				Rapport.getFont(Rapport.cC[6], null).setTexteContenu(Integer.toString(c.getNumero())),
-				Rapport.getRace(c.getRace(), loc),
-				c.getPointsDeVictoire(),
-				String.format("%05.2f%%", ((double) c.getPopulationTotale() / (getTotalPopulationUniverse() * 0.66)) * 100),
-				String.format("%05.2f%%", ((double) c.getNombrePlanetesPossedees() / (getTotalPlanetesUniverse() * 0.66)) * 100)
-		}));
+		List<Object[]> retour = new ArrayList<>(l.size());
 
-		// TRI de la liste retour sur la 4ème colonne (index 3 : les points)
+		l.forEach(c -> {
+			int progressionCeTour = c.calculerProgressionPV();
+
+			retour.add(new Object[]{
+					c.getNomNumero(),
+					c.getPointsDeVictoire(),
+					String.format("%05.2f%%", ((double) c.getPopulationTotale() / (getTotalPopulationUniverse() * 0.66)) * 100),
+					String.format("%05.2f%%", ((double) c.getNombrePlanetesPossedees() / (getTotalPlanetesUniverse() * 0.66)) * 100),
+					progressionCeTour
+			});
+		});
+
 		retour.sort((o1, o2) -> {
-			int pts1 = (int) o1[3];
-			int pts2 = (int) o2[3];
-
-			// Comparaison décroissante
-			if (pts1 != pts2) {
-				return Integer.compare(pts2, pts1);
-			}
-
-			// Optionnel : Tri secondaire sur le nom (index 0) en cas d'égalité
+			int pts1 = (int) o1[1];
+			int pts2 = (int) o2[1];
+			if (pts1 != pts2) return Integer.compare(pts2, pts1);
 			return ((String) o1[0]).compareTo((String) o2[0]);
+		});
+
+		retour.forEach(row -> {
+			row[1] = getModif(row[1], (int)row[4]);
 		});
 
 		return retour;

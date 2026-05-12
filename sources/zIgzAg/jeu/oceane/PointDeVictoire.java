@@ -35,11 +35,11 @@ public class PointDeVictoire {
     static void calculerPointDeVictoire() {
         // configuration
         config.put(PointDeVictoireCategorie.PLANETES, List.of(4, 2, 1));
-        config.put(PointDeVictoireCategorie.COMBATS, List.of(4, 2, 1));
-        config.put(PointDeVictoireCategorie.POPULATION, List.of(4, 2, 1));
-        config.put(PointDeVictoireCategorie.RECHERCHE, List.of(4, 2, 1));
-        config.put(PointDeVictoireCategorie.MERVEILLE, List.of(4, 2, 1));
-        config.put(PointDeVictoireCategorie.POPULATION_VS, List.of(4, 2, 1));
+        config.put(PointDeVictoireCategorie.COMBATS, List.of(5, 3, 1));
+        config.put(PointDeVictoireCategorie.POPULATION, List.of(2, 1));
+        config.put(PointDeVictoireCategorie.RECHERCHE, List.of(3, 2, 1));
+        config.put(PointDeVictoireCategorie.MERVEILLE, List.of(2, 1));
+        config.put(PointDeVictoireCategorie.POPULATION_VS, List.of(3, 2, 1));
 
         // classement
         List<Commandant> baseList = Arrays.asList(Univers.getListeCommandantsHumains());

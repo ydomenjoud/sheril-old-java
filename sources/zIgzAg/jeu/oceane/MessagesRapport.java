@@ -171,7 +171,7 @@ public class MessagesRapport extends MessagesAbstraits{
 };
 
  public static final String[] STATS_POINTS_DE_VICTOIRE={"Tableau des points de victoires du tour "+tour,
-         "Place","Nom","Numéro","Race", "Points", "Age d'or", "Empire Galactique"};
+         "Place","Commandant", "Points", "Age d'or", "Empire Galactique"};
 
 
  }

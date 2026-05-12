@@ -80,12 +80,27 @@ public class Commandant extends Joueur implements Serializable {
     // pour contrer la "spéculation"
     private transient Map<Position, Map<Integer, Set<Integer>>> speculation;
 
+    int calculerProgressionPV() {
+        int tourActuel = Univers.getTour();
+        int tourPrecedent = tourActuel - 1;
+
+        // On somme tous les points de l'historique qui concernent le tour précédent
+        int pointsTourPrecedent = pointDeVictoireHistory.stream()
+                .filter(h -> h.tour() == tourPrecedent)
+                .mapToInt(HistoriquePV::points)
+                .sum();
+
+        // Le delta est la différence entre ses points totaux actuels et ceux du tour d'avant
+        // Note : getPointsDeVictoire() doit bien retourner le cumul total (tous les tours)
+        return getPointsDeVictoire() - pointsTourPrecedent;
+    }
+
     public void ajouterPointsDeVictoire(int amount, int position, PointDeVictoireCategorie categorie) {
         pointsDeVictoire += amount;
         if (pointDeVictoireData == null) {
             initialiserDataPointDeVictoire();
         }
-        pointDeVictoireHistory.add(new HistoriquePV(pointDeVictoireHistory.size(), position, amount, categorie));
+        pointDeVictoireHistory.add(new HistoriquePV(Univers.getTour(), position, amount, categorie));
     }
 
     public int getPointsDeVictoire(){
