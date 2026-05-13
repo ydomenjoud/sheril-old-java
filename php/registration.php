@@ -115,7 +115,7 @@
     <a href="index.html">Accueil</a>
     <a href="presentation.html">Présentation</a>
     <a href="races.html">Les races</a>
-    <a href="/stats/">Statistiques</a>
+    <a href="/stats.html">Statistiques</a>
     <a href="/ordres/ordres.php3">Console d'ordre</a>
 </nav>
 <style>
@@ -132,7 +132,6 @@
         <a href="/registration.php">Inscriptions en attente</a>
     </nav>
     <main>
-        <h1>Liste des inscriptions en attente</h1>
 
         <?php
         @require_once './secure/connect.txt';
@@ -148,12 +147,14 @@
                 5 => "Cyborg"
         ];
         // 2. Requête pour récupérer les données
-        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription ORDER BY NOM ASC";
+        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription ORDER BY date_insertion ASC";
         $result = @mysql($base, $sql);
         if (!$result) {
             echo "Erreur" . mysql_error();
         }
+        $count = @mysql_num_rows($result);
         ?>
+        <h1>Liste des inscriptions en attente <?=$count?></h1>
 
         <table>
             <thead>

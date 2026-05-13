@@ -378,7 +378,6 @@ public class Joueur implements Serializable {
 				trouve = true;
 			}
 		}
-        System.out.println("2e système position " + pos);
 
 		// On en prend un au hasard
 		Position pos2 = pos;

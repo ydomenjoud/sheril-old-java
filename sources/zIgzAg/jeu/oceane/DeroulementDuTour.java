@@ -113,6 +113,11 @@ public class DeroulementDuTour {
 		cL2 = Univers.getListeCommandantsHumains();
 
 		Rapport.ecrireMessagesSystemes();
+
+
+		// gestion des points de victoire
+		PointDeVictoire.calculerPointDeVictoire();
+
 		Stats.afficher(Locale.FRENCH);
 		ProductionOrdres.produireOrdresGeneraux();
 		ProductionOrdres.productionDonneeRaces(Locale.FRENCH);
@@ -145,7 +150,7 @@ public class DeroulementDuTour {
 			cL2[i].determinerFlottesDetectesParAlliance();
 			cL2[i].determinerSystemesDetectesParAlliance();
 		}
-		
+
 		
 		System.out.print("Rapport: ");
 		for (int i = cL2.length - 1; i >= 0; i--) {

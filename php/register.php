@@ -119,7 +119,7 @@
     <a href="index.html">Accueil</a>
     <a href="presentation.html">Présentation</a>
     <a href="races.html">Les races</a>
-    <a href="/stats/">Statistiques</a>
+    <a href="/stats.html">Statistiques</a>
     <a href="/ordres/ordres.php3">Console d'ordre</a>
 </nav>
 
