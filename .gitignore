@@ -2,10 +2,11 @@
 php/secure/connect.txt
 config.properties
 mysql
-data/tour*
-data/carnet.txt
-data/commun/tour.txt
-data/mj
-data/stats
+data*/tour*
+data*/carnet.txt
+data*/commun/tour.txt
+data*/mj
+data*/stats
+data_v1
 rapports/
 /classes/
