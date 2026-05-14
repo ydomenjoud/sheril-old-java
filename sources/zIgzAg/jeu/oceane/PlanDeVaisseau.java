@@ -417,6 +417,18 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 		super(null, 0, null, 0, null, 0, 0F, null);
 	}
 
+	public String getInfoBulle(Locale l) {
+		var data = new String[]{
+				"Taille: " + getTaille() + " / Vitesse: " + getCapaciteMouvement(false),
+				"AS: " + getForceSpatiale() +" / AP : " + getForcePlanetaire() ,
+				"PDC: " + getPointsDeConstructions() + " / Prix: " + Utile.formatNumber((int) getPrix(), 0) + " / Minerai: " + getMineraiNecessaire(),
+				"Marchandises: " + getListeMarchandises(l, " "),
+				"Composants : " + descriptionComposants(l).replaceAll("<BR>",",")
+		};
+		String infoBulle = String.join("&#10;", data);
+		return infoBulle.replaceAll("\"", "&quot;");
+	}
+
 	public PlanDeVaisseau(int conceptNum, String conceptNom, String[] comp,
 			String n, String m, String d, int a, int typeA, int roy,
 			int[][] capSpe, int min, float p, int[][] marchand, int nbC,

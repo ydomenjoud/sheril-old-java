@@ -68,7 +68,7 @@ public class MessagesRapport extends MessagesAbstraits{
 
  public static final String[] PLANS_DE_VAISSEAUX={"Plans de vaisseaux","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
    "Points de construction nécessaires","Coût en centaures","Côut en minerai","Matériaux spéciaux nécessaires",
-   "Capacité d'attaque spatiale","Capacité d'attaque planétaire","Soutes à cargo",
+   "Capacité d'attaque spatiale","Capacité d'attaque planétaire",
    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
    "Royalties","Domaine"};
 

@@ -33,6 +33,41 @@
 	background: black;
 }
 
+
+.pdv:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+[data-tooltip] {
+	position: relative;
+	border-bottom: 1px dotted black;
+	cursor: help;
+}
+
+[data-tooltip]::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 125%;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #333;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.1s ease-in-out;
+	z-index: 10;
+	white-space: pre-wrap;
+	min-width: 250px;
+	text-align: left;
+}
+[data-tooltip]:hover::after {
+	opacity: 1;
+	visibility: visible;
+}
+
 body{
 font-size:10pt;
 Background-attachment:fixed;

@@ -331,7 +331,9 @@ public class ReceptionOrdres {
 
     public Map deroulementOrdres() {
 
-        dumpDatabase();
+		if(!Const.FAKE_TURN) {
+			dumpDatabase();
+		}
 
 		for (index = 0; index < Const.BORNE_ORDRES_VISIBLES; index++) {
 			resoudreMethode();

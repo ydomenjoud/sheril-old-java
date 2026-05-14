@@ -1340,9 +1340,9 @@ public class Rapport {
 
 	public static BaliseHTML getPlansDeVaisseaux(PlanDeVaisseau[] p,
 			String[] t, Locale loc) {
-		BaliseHTML[][] a = new BaliseHTML[p.length + 1][17];
+		BaliseHTML[][] a = new BaliseHTML[p.length + 1][16];
 
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 15; i++)
 			a[0][i] = getTD(BaliseHTML.CENTER, null).ajout(
 					getTitreCaption().ajout(getText(t[i + 1])));
 		for (int i = 0; i < p.length; i++) {
@@ -1389,16 +1389,13 @@ public class Rapport {
 							.ajout(getText(Integer.toString(p[i]
 									.getForcePlanetaire()))));
 			a[i + 1][12] = getTD(BaliseHTML.CENTER, null).ajout(
-					getFont(null, BaliseHTML.T_2).ajout(
-							getText(Integer.toString(p[i].capaciteCargo()))));
-			a[i + 1][13] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(cC[3], BaliseHTML.T_2).ajout(
 							getText(p[i].descriptionComposants(loc))));
-			a[i + 1][14] = getTD(BaliseHTML.CENTER, null)
+			a[i + 1][13] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getFont(null, BaliseHTML.T_2)
 							.ajout(getText(Integer.toString(p[i].getRoyalties())
 									+ "%")));
-			a[i + 1][15] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][14] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(p[i].getDescriptionDomaine(loc))));
 		}
@@ -1554,8 +1551,8 @@ public class Rapport {
 
 			racine.ajout(lien);
 
-			racine.ajout(getTitreCaption().ajout(
-					getABorne(LIEN_HEROS).ajout(getText(t))).ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t))).ajout(
+					getABorne(LIEN_HEROS).ajout(sautP()));
 			racine.ajout(getListeLeaders(h, c.getLocale())).ajout(sautP());
 		}
 		if (g.length > 0) {
@@ -1568,9 +1565,8 @@ public class Rapport {
 
 			racine.ajout(lien);
 
-			racine.ajout(getFont(cC[3], "4").ajout(
-					getABorne(LIEN_GOUVERNEURS).ajout(getText(t))).ajout(
-					sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t))).ajout(
+					sautP());
 			racine.ajout(getListeLeaders(g, c.getLocale())).ajout(sautP());
 		}
 		return racine;
@@ -1687,8 +1683,9 @@ public class Rapport {
 				infos.add(f.getNom());
 				infos.add(Utile.maj("<font color=" + cC[4] + ">"
 						+ f.getNombreDeVaisseaux() + "</font>"));
-				infos.add(Utile.maj(f.getDescriptionVersionMab(b[i][1],
-						commandant, c.getLocale())));
+				
+				String desc = f.getDescriptionVersionMab(b[i][1], commandant, c.getLocale());
+				infos.add(Utile.maj(desc));
 				infos.add(Utile.maj(f.getDescriptionPuissance(c.getLocale())));
 				orderDetect.put(clef, infos);
 			}
@@ -2210,7 +2207,7 @@ public class Rapport {
 		Possession[] po = c.listeVraiePossession();
 		racine.ajout(getPostes(p, po, null, t));
 
-		racine.ajout(sautP()).ajout(getTitreCaption().ajout(getText(t[2]))).ajout(sautP());
+		racine.ajout(sautP()).ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
 		ArrayList pE = new ArrayList();
 		ArrayList poE = new ArrayList();
 		ArrayList nE = new ArrayList();
@@ -2538,8 +2535,15 @@ public class Rapport {
 		Map.Entry[] hm = f.listeVaisseauxParType();
 		int i = 0;
 		for (i = 0; i < hm.length; i++) {
-			a[ligne][2 * (i % 2)] = getTD(null, null).ajout(
-					getText((String) hm[i].getKey()));
+				String nomVso = (String) hm[i].getKey();
+				PlanDeVaisseau pV = Univers.getPlanDeVaisseau(nomVso);
+				String infoBulle = "nothing";
+				if (pV != null) {
+					infoBulle = pV.getInfoBulle(c.getLocale());
+				}
+
+				a[ligne][2 * (i % 2)] = getTD(null, null).ajout(
+						new BaliseHTML("span", nomVso).ajout("data-tooltip", infoBulle).ajout("class", "pdv"));
 			a[ligne][1 + 2 * (i % 2)] = getTD(null, null).ajout(
 					getText(((Integer) hm[i].getValue()).toString()));
 			if (i % 2 == 1)
@@ -2586,8 +2590,15 @@ public class Rapport {
 				b[j + 1][0] = getTD(BaliseHTML.CENTER, null).ajout(
 						getFont(cC[4], null).ajout(
 								getText(Integer.toString(j + 1))));
+				String nomVso = v[j].getType();
+				PlanDeVaisseau pV = Univers.getPlanDeVaisseau(nomVso);
+				String infoBulle = "";
+				if (pV != null) {
+					infoBulle = pV.getInfoBulle(c.getLocale());
+				}
+
 				b[j + 1][1] = getTD(BaliseHTML.CENTER, null).ajout(
-						getText(v[j].getType()));
+						getText(nomVso).ajout("data-tooltip", infoBulle));
 				if (oT.length > 0)
 					b[j + 1][2] = getTD(BaliseHTML.CENTER, null).ajout(
 							getFont(cC[6], BaliseHTML.T_2).ajout(
