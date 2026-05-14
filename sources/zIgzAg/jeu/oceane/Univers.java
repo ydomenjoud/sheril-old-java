@@ -579,6 +579,71 @@ public class Univers {
 		return secteur;
 	}
 
+	public static Position[] choisirPositionsDepartEquitables(int n) {
+		Position[] disponibles = listePositionsSystemesDisponibles(-1);
+		if (disponibles.length == 0 || n <= 0) {
+			return new Position[0];
+		}
+
+		ArrayList selection = new ArrayList();
+		ArrayList restants = new ArrayList(Arrays.asList(disponibles));
+		Collections.shuffle(restants);
+
+		// On cherche à maximiser la distance entre les points de départ.
+		// Pour chaque nouveau point, on choisit celui qui est le plus loin des points déjà sélectionnés.
+		if (n > 0 && !restants.isEmpty()) {
+			selection.add(restants.remove(getInt(restants.size())));
+		}
+
+		while (selection.size() < n && !restants.isEmpty()) {
+			Position meilleurCandidat = null;
+			double maxDistanceMin = -1;
+
+			// On échantillonne un sous-ensemble de candidats pour les performances si restants est trop grand
+			int nbCandidatsATester = Math.min(restants.size(), 100); 
+			
+			for (int i = 0; i < nbCandidatsATester; i++) {
+				Position candidat = (Position) restants.get(i);
+				double distanceMin = Double.MAX_VALUE;
+
+				for (int j = 0; j < selection.size(); j++) {
+					Position dejaChoisi = (Position) selection.get(j);
+					// Distance Euclidienne sur un tore (bords jointifs)
+					double dx = Math.abs(candidat.getX() - dejaChoisi.getX());
+					double dy = Math.abs(candidat.getY() - dejaChoisi.getY());
+					
+					if (dx > Const.BORNE_MAX / 2.0) dx = Const.BORNE_MAX - dx;
+					if (dy > Const.BORNE_MAX / 2.0) dy = Const.BORNE_MAX - dy;
+					
+					double d = Math.sqrt(dx * dx + dy * dy);
+					
+					// Préférence forte pour l'étalement intergalactique
+					if (candidat.getNumeroGalaxie() != dejaChoisi.getNumeroGalaxie()) {
+						d += 2000; 
+					}
+
+					if (d < distanceMin) {
+						distanceMin = d;
+					}
+				}
+
+				if (distanceMin > maxDistanceMin) {
+					maxDistanceMin = distanceMin;
+					meilleurCandidat = candidat;
+				}
+			}
+
+			if (meilleurCandidat != null) {
+				selection.add(meilleurCandidat);
+				restants.remove(meilleurCandidat);
+			} else {
+				break;
+			}
+		}
+
+		return (Position[]) selection.toArray(new Position[0]);
+	}
+
 	public static Position[] listePositionsSystemesParSecteur(int galaxie,
 			int secteur) {
 		Position[] p = listePositionsSystemes();

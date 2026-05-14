@@ -328,104 +328,123 @@ public class ProductionOrdres {
                 Univers.getTableauMessage("TYPE_ALLIANCE", l)));
     }
 
-    public static void produireRegistre(int[] listeC) {
-        SessionMysql mySQL = new SessionMysql();
-        Univers.phaseSuivante();
-        Commandant[] c = Univers.getListeCommandantsHumains();
-        for (int i = 0; i < c.length; i++) {
-            if (Mdt.estPresent(listeC, c[i].getNumero()))
-                c[i].setDernierTourRendu(Univers.getTour());
-            boolean elimine = false;
-            // - 6 au lieu de -3 -->
-            if (c[i].getDernierTourRendu() < Univers.getTour() - 4)
-                elimine = true;
-            else
-                try {
-                    Connection connection = mySQL.getConnection(
-                            Const.DATABASE_HOST, Const.DATABASE_NAME,
-                            Const.DATABASE_LOGIN, Const.DATABASE_PASSWORD);
-                    Statement s = connection.createStatement();
-                    String[] i1 = new String[1];
-                    i1[0] = "NUMERO";
-                    String[] i2 = new String[1];
-                    i2[0] = Integer.toString(c[i].getNumero());
-                    ResultSet r = mySQL.selectionner(s, Const.TABLE_REGISTRE,
-                            i1, i2);
-                    elimine = true;
-                    while (r.next()) {
-                        elimine = false;
-                        c[i].setNom(r.getString("NOM").replace('#', '\'')
-                                .replace(',', ' '));
-                        c[i].setAdresseElectronique(r.getString("ADRESSE"));
-                        c[i].setMotDePasse(r.getString("MOT_DE_PASSE"));
-                    }
-                } catch (SQLException e) {
-                    System.out.println("SQLException: " + e.getMessage());
-                    System.out.println("SQLState:     " + e.getSQLState());
-                    System.out.println("VendorError:  " + e.getErrorCode());
-                }
+	public static void produireRegistre(int[] listeC) {
+		SessionMysql mySQL = new SessionMysql();
+		Univers.phaseSuivante();
+		Commandant[] c = Univers.getListeCommandantsHumains();
+		for (int i = 0; i < c.length; i++) {
+			if (Mdt.estPresent(listeC, c[i].getNumero()))
+				c[i].setDernierTourRendu(Univers.getTour());
+			boolean elimine = false;
+			// - 6 au lieu de -3 -->
+			if (c[i].getDernierTourRendu() < Univers.getTour() - 4)
+				elimine = true;
+			else
+				try {
+					Connection connection = mySQL.getConnection(
+							Const.DATABASE_HOST, Const.DATABASE_NAME,
+							Const.DATABASE_LOGIN, Const.DATABASE_PASSWORD);
+					Statement s = connection.createStatement();
+					String[] i1 = new String[1];
+					i1[0] = "NUMERO";
+					String[] i2 = new String[1];
+					i2[0] = Integer.toString(c[i].getNumero());
+					ResultSet r = mySQL.selectionner(s, Const.TABLE_REGISTRE,
+							i1, i2);
+					elimine = true;
+					while (r.next()) {
+						elimine = false;
+						c[i].setNom(r.getString("NOM").replace('#', '\'')
+								.replace(',', ' '));
+						c[i].setAdresseElectronique(r.getString("ADRESSE"));
+						c[i].setMotDePasse(r.getString("MOT_DE_PASSE"));
+					}
+				} catch (SQLException e) {
+					System.out.println("SQLException: " + e.getMessage());
+					System.out.println("SQLState:     " + e.getSQLState());
+					System.out.println("VendorError:  " + e.getErrorCode());
+				}
 
-            if (Univers.getTour() == 84) {
-                elimine = false;
-            }
-            if (elimine) {
-                System.out.println("Supression du commandant "
-                        + c[i].getNomNumerobis());
-                Joueur.supprimerCommandant(c[i]);
-                ecrire(supprimerCommandant(Const.TABLE_REGISTRE,
-                        c[i].getNumero()));
-            }
-        }
-        Univers.phaseSuivante();
+			if (Univers.getTour() == 84) {
+				elimine = false;
+			}
+			if (elimine) {
+				System.out.println("Supression du commandant "
+						+ c[i].getNomNumerobis());
+				Joueur.supprimerCommandant(c[i]);
+				ecrire(supprimerCommandant(Const.TABLE_REGISTRE,
+						c[i].getNumero()));
+			}
+		}
+		Univers.phaseSuivante();
 
-        try {
-            Connection connection = mySQL.getConnection(Const.DATABASE_HOST,
-                    Const.DATABASE_NAME, Const.DATABASE_LOGIN,
-                    Const.DATABASE_PASSWORD);
-            Statement s = connection.createStatement();
-            ResultSet r = mySQL.selectionnerTout(s, Const.TABLE_INSCRIPTION);
-            Statement s2 = connection.createStatement();
-            ResultSet r2 = mySQL.selectionnerTout(s2,
-                    Const.TABLE_INSCRIPTION_VAISSEAUX);
+		try {
+			Connection connection = mySQL.getConnection(Const.DATABASE_HOST,
+					Const.DATABASE_NAME, Const.DATABASE_LOGIN,
+					Const.DATABASE_PASSWORD);
+			Statement s = connection.createStatement();
+			ResultSet r = mySQL.selectionnerTout(s, Const.TABLE_INSCRIPTION);
 
-            while (r.next()) {
-                String adresse = r.getString("ADRESSE");
-                try {
-                    InternetAddress.parse(adresse);
-                    // pour vérifier que l'adresse est correcte.
-                    String nom = r.getString("NOM").replace('#', '\'')
-                            .replace(',', ' ');
-                    int race = r.getInt("RACE");
-                    r2.first();
-                    HashMap h = new HashMap();
-                    while (r2.next())
-                        if (r2.getString("ADRESSE").equals(adresse))
-                            h.put(r2.getString("VAISSEAU"),
-                                    r2.getString("NOMBRE"));
-                    System.out.println("Creation du commandant " + nom);
+			ArrayList inscriptions = new ArrayList();
+			while (r.next()) {
+				String adresse = r.getString("ADRESSE");
+				try {
+					InternetAddress.parse(adresse);
+					String nom = r.getString("NOM").replace('#', '\'')
+							.replace(',', ' ');
+					int race = r.getInt("RACE");
+					Object[] inscription = new Object[]{nom, adresse, new Integer(race)};
+					inscriptions.add(inscription);
+				} catch (AddressException e) {
+					System.out.println("Adresse " + adresse + " non valide.");
+				}
+			}
 
-                    Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h);
+			if (!inscriptions.isEmpty()) {
+				int nbNouveaux = inscriptions.size();
+				Position[] positionsInitiales = Univers.choisirPositionsDepartEquitables(nbNouveaux);
 
-                    String[] o = new String[7];
-                    o[0] = Integer.toString(nouveau.getNumero());
-                    o[1] = nouveau.getLogin();
-                    o[2] = nouveau.getMotDePasse();
-                    o[3] = nouveau.getNom();
-                    o[4] = nouveau.getAdresseElectronique();
-                    o[5] = Integer.toString(nouveau.getRace());
-                    o[6] = Integer.toString(nouveau.getTourArrivee());
-                    ecrire(afficherCommandant(Const.TABLE_REGISTRE, o));
-                } catch (AddressException e) {
-                    System.out.println("Adresse " + adresse + " non valide.");
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState:     " + e.getSQLState());
-            System.out.println("VendorError:  " + e.getErrorCode());
-        }
+				Statement s2 = connection.createStatement();
+				ResultSet r2 = mySQL.selectionnerTout(s2,
+						Const.TABLE_INSCRIPTION_VAISSEAUX);
 
-    }
+				for (int i = 0; i < inscriptions.size(); i++) {
+					Object[] ins = (Object[]) inscriptions.get(i);
+					String nom = (String) ins[0];
+					String adresse = (String) ins[1];
+					int race = ((Integer) ins[2]).intValue();
+
+					r2.first();
+					HashMap h = new HashMap();
+					while (r2.next())
+						if (r2.getString("ADRESSE").equals(adresse))
+							h.put(r2.getString("VAISSEAU"),
+									r2.getString("NOMBRE"));
+
+					System.out.println("Creation du commandant " + nom);
+					Position posDepart = (i < positionsInitiales.length) ? positionsInitiales[i] : null;
+
+					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, posDepart);
+
+					String[] o = new String[7];
+					o[0] = Integer.toString(nouveau.getNumero());
+					o[1] = nouveau.getLogin();
+					o[2] = nouveau.getMotDePasse();
+					o[3] = nouveau.getNom();
+					o[4] = nouveau.getAdresseElectronique();
+					o[5] = Integer.toString(nouveau.getRace());
+					o[6] = Integer.toString(nouveau.getTourArrivee());
+					ecrire(afficherCommandant(Const.TABLE_REGISTRE, o));
+				}
+				VisualisationUnivers.genererCarteHTML("data/commun/carte.html");
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLState:     " + e.getSQLState());
+			System.out.println("VendorError:  " + e.getErrorCode());
+		}
+
+	}
 
     public ProductionOrdres(Commandant commandant) {
         c = commandant;
