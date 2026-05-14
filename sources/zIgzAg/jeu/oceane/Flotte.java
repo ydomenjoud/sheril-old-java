@@ -249,45 +249,54 @@ public class Flotte implements Serializable {
 	}
 
 	public static void choixFlotteDeDepart(Commandant c, Map m) {
-		String[] v = { "Intercepteur standard", "Chasseur standard",
-				"Torpilleur standard", "Bombardier standard",
-				"Grand Bombardier standard", "Destroyer standard",
-				"Fregate standard", "Croiseur standard",
-				"Supercroiseur standard", "Eclaireur standard", "Colonisateur" };
-		for (int i = 0; i < v.length; i++)
-			if (!Univers.existencePlanDeVaisseau(v[i]))
-				System.out.println(v[i]);
-		int[] n = { 10, 20, 20, 20, 20 + Univers.getTour() * 2, 10, 10, 5, 3, 3, c.getRace() == 5 ? 0 : 10};
-		int[] u = (int[]) n.clone();
-		if (m.size() != 0) {
-			u = new int[n.length];
-			Map.Entry[] inter = (Map.Entry[]) m.entrySet().toArray(
-					new Map.Entry[0]);
-			for (int i = 0; i < inter.length; i++)
-				u[Integer.parseInt((String) inter[i].getKey()) - 1] = Integer
-						.parseInt((String) inter[i].getValue());
+		Map<String, Integer> quotas = new java.util.LinkedHashMap<>();
+		quotas.put("Intercepteur standard", 10);
+		quotas.put("Chasseur standard", 20);
+		quotas.put("Fregate standard", 20);
+		quotas.put("Eclaireur standard", 8);
+		quotas.put("Grand Bombardier standard", 20);
+
+		String[] noms = quotas.keySet().toArray(new String[0]);
+		int[] n = new int[quotas.size()];
+		int index = 0;
+		for (Integer q : quotas.values()) {
+			n[index++] = q + Univers.getTour() * 5;
 		}
 
-		Flotte flotte = new Flotte(Univers.getMessage(
-				"DENOMINATION_FLOTTE_DE_DEPART", c.getLocale()), c
-				.getCapitale());
+		for (String nom : noms) {
+			if (!Univers.existencePlanDeVaisseau(nom)) {
+				System.out.println("Plan inexistant : " + nom);
+			}
+		}
 
-		// Cyborg
+		int[] u = n.clone();
+		if (!m.isEmpty()) {
+			u = new int[n.length];
+			for (Object obj : m.entrySet()) {
+				Map.Entry entry = (Map.Entry) obj;
+				int idx = Integer.parseInt((String) entry.getKey()) - 1;
+				if (idx >= 0 && idx < u.length) {
+					u[idx] = Integer.parseInt((String) entry.getValue());
+				}
+			}
+		}
+
+		Flotte flotte = new Flotte(Univers.getMessage("DENOMINATION_FLOTTE_DE_DEPART", c.getLocale()), c.getCapitale());
+
 		if (c.getRace() == 5 && false) {
 			for (int d = 0; d < 5; d++) {
-				PlanDeVaisseau p = Univers.getPlanDeVaisseau("Nexus");
-				Vaisseau vai = Vaisseau.creer(p.getNom(), c.getRace());
+				Vaisseau vai = Vaisseau.creer("Nexus", c.getRace());
 				flotte.ajouterVaisseau(vai);
 			}
 		}
 
-		for (int i = 0; i < v.length; i++) {
-			PlanDeVaisseau p = Univers.getPlanDeVaisseau(v[i]);
+		for (int i = 0; i < noms.length; i++) {
+			PlanDeVaisseau p = Univers.getPlanDeVaisseau(noms[i]);
+			if (p == null) {
+				System.out.println("Erreur : Plan null pour " + noms[i]);
+				continue;
+			}
 			for (int j = 0; j < u[i]; j++) {
-				// centaures=centaures-p.getPrix();
-				if (p == null) {
-					System.out.println("p : "+v[i]);
-				}
 				Vaisseau vai = Vaisseau.creer(p.getNom(), c.getRace());
 				flotte.ajouterVaisseau(vai);
 			}
@@ -295,7 +304,6 @@ public class Flotte implements Serializable {
 
 		c.ajouterFlotte(flotte);
 	}
-
 	public static boolean directiveExistante(int d, int p) {
 		if ((d < 0) || (d >= Const.NB_DIRECTIVES))
 			return false;

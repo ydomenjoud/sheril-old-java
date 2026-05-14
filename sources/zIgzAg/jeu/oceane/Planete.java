@@ -860,9 +860,10 @@ public class Planete implements Serializable {
 					/ ((int) Math.pow(Const.HABITAT_GRAVITE[race][0]
 							- Const.HABITAT_GRAVITE[race][1], 2));
 
+//			return Math.max(((r+t+g)*taille+Const.RACES_ATMOSPHERES[race][atmosphere]*100*taille),10);
 			return Math.max(
 				(
-						( (r + t + g) * 2 * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille ) * 9 / 10
+						( (r + t + g) * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille ) * 9 / 10
 				)
 					, 10);
 		}
