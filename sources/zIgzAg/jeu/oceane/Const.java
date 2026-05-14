@@ -530,7 +530,7 @@ public class Const {
     public static final int DEBRIS_MINES_CLASSIQUES = -4;
     // les types de débris(les mines intelligentes sont désignées par le numéro
     // de leur joueur).
-    // "Atalante","Ylaytite","Valhalla","Zergor","vide","Plouche","Vétarien","Automates","Autre","neutre"
+    //  "Fremens", "Atalantes", "Zwaias","Yoksor", "Fergok", "Cyborg"
 
     public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
             {10, 165}, {30, 150}, {70, 200}, {0, 180}};
@@ -565,7 +565,7 @@ public class Const {
             {"maitr0_I", "agroI"}, {"maitr1_I", "metauxI"},
             {"maitr2_I", "technoII"}, {"maitr3_I", "radarIII"},
             {"maitr4_I", "armeI", "maitmilII"},
-            {"maitr4_I", "armeI", "maitmilII"}, {"maitr5_I", "creplanI"}};
+            {}};
     // les modificateurs propres é chaque race.
 
     public static final int STRATEGIE_AGRESSIVITE_RAGE = 5;
