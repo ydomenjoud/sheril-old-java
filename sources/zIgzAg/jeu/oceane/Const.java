@@ -79,25 +79,15 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int BORNE_MAX = 40;
-    // Les bornes pour chaque galaxie(multiple de 20 de preference).Les
-    // coordonnées vont de 1 à BORNE_MAX.
+    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne
+    public static final int BORNE_SECTEUR_X = 10;
+    public static final int NB_SYSTEMES_PAR_SECTEUR = 22; // nombre de systèmes par secteur
 
-    // un nombre que l'on peut réduire par racine carrée à un entier
-    public static final int NB_SECTEURS = 4;
-    // Le nombre de secteurs par galaxie.
+    public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
+    public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
+    public static final int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
 
-    public static final int NB_SYSTEME = NB_SECTEURS * 40;
-    // le nombre de systéme par galaxie
-
-    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;
-    // le nombre de flotte neutre par galaxie
-
-    public static final int NB_SECTEUR_VIDE = 0;
-    // le nombre de secteurs vides
-
-    public static final int NB_PORTES = 0;
-    // nombre de portes galactiques par galaxie.
+    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;     // le nombre de flotte neutre par galaxie
 
     public static final int NB_PLANETES_PAR_SYSTEMES = 29;
     // Le nombre maximal de planètes par système.
@@ -115,18 +105,7 @@ public class Const {
     };
     // localisation des passages intragalactiques
 
-    public static final int[] REPARTITION_DES_RACES = {
-            1, 1, 1, 0, 0,
-            0, 1, 1, 1, 0,
-            0, 1, 2, 2, 4,
-            4, 4, 4, 2, 2,
-            3, 3, 3, 4, 2,
-            2, 3, 3, 3, 2,
-            5, 5, 5, 5, 3, 1};
-    // Les répartitions initiales des races( indice i = race secteur i).
-    // La répartition se fait en surfaces rectangulaires homogènes.
 
-    public static final int NB_RACES_PAR_GALAXIE = 6;
     // Il y a obligatoirement 6 races différentes par galaxie.
 
     public static final int NB_RACES = Messages.RACES.length;
@@ -525,7 +504,7 @@ public class Const {
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
             {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0},
-            {8, 5, 5, 15, 0, 12, 8, 5, 15, 5, 0, 0, 7, 0, 0}};
+    };
     // les différentes possibilités de répartition de compétence pour un héros
     // par rapport é sa race.
 
@@ -536,7 +515,7 @@ public class Const {
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
             {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7},
-            {8, 5, 5, 15, 0, 12, 0, 5, 15, 0, 0, 0, 5, 8, 7}};
+    };
     // les différentes possibilités de répartition de compétence pour un
     // gouverneur par rapport é sa race.
 
@@ -546,21 +525,24 @@ public class Const {
     public static final int DEBRIS_MINES_CLASSIQUES = -4;
     // les types de débris(les mines intelligentes sont désignées par le numéro
     // de leur joueur).
-    // "Atalante","Ylaytite","Valhalla","Zergor","vide","Plouche","Vétarien","Automates","Autre","neutre"
+    //  "Fremens", "Atalantes", "Zwaias","Yoksor", "Fergok", "Cyborg"
 
-    public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
-            {10, 165}, {30, 150}, {50, 200}, {0, 180}, {0, 200}};
-    public static final int[][] HABITAT_TEMPERATURE = {{0, 200},
-            {-50, 180}, {-150, 70}, {-100, 160}, {-140, 150},
-            {-120, 110}, {-150, 200}};
-    public static final int[][] HABITAT_GRAVITE = {{20, 90}, {30, 100},
-            {10, 80}, {30, 100}, {0, 70}, {0, 70}, {0, 100}};
+    public static final int[][] HABITAT_RADIATION = {{0, 200}, {10, 200},
+            {20, 150}, {20, 180}, {0, 180}, {0, 180}};
+    public static final int[][] HABITAT_TEMPERATURE = {{-110, 140},
+            {-80, 200}, {-150, 150}, {-150, 180}, {-150, 180},
+            {-100, 100}};
+    public static final int[][] HABITAT_GRAVITE = {{10, 100}, {0, 100},
+            {0, 100}, {0, 100}, {0, 100}, {0, 80}};
     // Les conditions supportées par les différentes races(min et max).
 
-    public static final int[][] RACES_ATMOSPHERES = {{3, 2, 2, 2, 2},
-            {2, 2, 1, 1, 0}, {0, 0, 0, 1, 2}, {2, 2, 1, 2, 2},
-            {-1, 0, 2, -1, -1}, {-1, 0, 2, -1, -1}
-
+    public static final int[][] RACES_ATMOSPHERES = {
+            {15, 12, 10, 8, 5},   // Fremens : Préfèrent les atmosphères pures (0)
+            {5, 15, 12, 10, 8},   // Atalantes : Préfèrent l'atmosphère 1
+            {8, 5, 15, 12, 10},   // Zwaias : Préfèrent l'atmosphère 2
+            {10, 8, 5, 15, 12},   // Yoksor : Préfèrent l'atmosphère 3
+            {12, 10, 8, 5, 15},   // Fergok : Préfèrent l'atmosphère 4
+            {5, 5, 5, 5, 5}       // Cyborg : Neutres mais stables
     };
     // Le modificateur de progression de population suivant la race et le type
     // d'atmosphére.
@@ -569,10 +551,9 @@ public class Const {
             {1, 0, 0, 0},
             {1, 0, 0, 0},
             {1, 0, 0, 0},
-            {-1, 2, 0, 0},
-            {-1, 0, 1, 1},
-            {0, 0, 0, 0},
-            {100, 100, 100, 100}
+            {0, 2, 0, 0},
+            {0, 0, 1, 1},
+            {1, 0, 0, 0},
     };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;
@@ -583,7 +564,7 @@ public class Const {
             {"maitr0_I", "agroI"}, {"maitr1_I", "metauxI"},
             {"maitr2_I", "technoII"}, {"maitr3_I", "radarIII"},
             {"maitr4_I", "armeI", "maitmilII"},
-            {"maitr4_I", "armeI", "maitmilII"}, {"maitr5_I", "creplanI"}};
+            {}};
     // les modificateurs propres é chaque race.
 
     public static final int STRATEGIE_AGRESSIVITE_RAGE = 5;

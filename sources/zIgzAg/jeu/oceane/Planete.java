@@ -153,7 +153,7 @@ public class Planete implements Serializable {
 			mod = 1.1f;
 		}
 
-		int rtr = 1000 + (taille * taille * 50) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
+		int rtr = 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
 		rtr = (int)(rtr * mod);
 		
 		return rtr;
@@ -604,8 +604,14 @@ public class Planete implements Serializable {
 		planete.initialiserPopulation();
 		planete.initialiserBatiments();
 
-		planete.explorerPlanete(raceDeDepart);
-		planete.ajouterPopulation(raceDeDepart, Univers.getInt(50) + 50);
+//		planete.explorerPlanete(raceDeDepart);
+//		planete.ajouterPopulation(raceDeDepart, Univers.getInt(50) + 50);
+
+		int meilleurRace = planete.meilleurPop();
+		if( meilleurRace >= 0) {
+			planete.explorerPlanete(meilleurRace);
+			planete.ajouterPopulation(meilleurRace, Univers.getInt(50) + 50);
+		}
 
 		planete.initialiserBatiments();
 
@@ -854,9 +860,10 @@ public class Planete implements Serializable {
 					/ ((int) Math.pow(Const.HABITAT_GRAVITE[race][0]
 							- Const.HABITAT_GRAVITE[race][1], 2));
 
+//			return Math.max(((r+t+g)*taille+Const.RACES_ATMOSPHERES[race][atmosphere]*100*taille),10);
 			return Math.max(
 				(
-						( (r + t + g) * 2 * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille ) * 9 / 10
+						( (r + t + g) * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille ) * 9 / 10
 				)
 					, 10);
 		}

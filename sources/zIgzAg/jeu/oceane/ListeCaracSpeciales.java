@@ -8,17 +8,6 @@ package zIgzAg.jeu.oceane;
 
 public interface ListeCaracSpeciales{
 
- public static final int[][] mystII={{Const.COMPOSANT_PORTEE_SCANNER_SYSTEME,100},{Const.COMPOSANT_PORTEE_SCANNER_FLOTTE,100}};
- public static final int[][] mystIII={{Const.COMPOSANT_PORTEE_SCANNER_FLOTTE,100},{Const.COMPOSANT_PORTEE_SCANNER_SYSTEME,100}};
- public static final int[][] mystIV={{Const.COMPOSANT_CAPACITE_BOUCLIER_MAGNETIQUE,1000}};
- public static final int[][] mystV={{Const.COMPOSANT_CAPACITE_NAVIRE_USINE,2004}};
- public static final int[][] mystVI={{Const.COMPOSANT_CAPACITE_PROPULSION,40},{Const.COMPOSANT_CAPACITE_PROPULSION_INTRAGALACTIQUE,1},{Const.COMPOSANT_CAPACITE_PROPULSION_INTERGALACTIQUE,1}};
- public static final int[][] mystVII={{Const.COMPOSANT_CAPACITE_DETECTION_MINES,100}};
- public static final int[][] mystVIII={{Const.COMPOSANT_BROUILLAGE_RADAR,100}};
- public static final int[][] mystIX={{Const.COMPOSANT_CAPACITE_VILLE_SPATIALE,100000}};
- public static final int[][] mystX={{Const.BATIMENT_CAPACITE_BOUCLIER,1},{Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE,1}};
-
-
  public static final int[][] moteurI={{Const.COMPOSANT_CAPACITE_PROPULSION,1}};
  public static final int[][] moteurII={{Const.COMPOSANT_CAPACITE_PROPULSION,2}};
  public static final int[][] moteurIII={{Const.COMPOSANT_CAPACITE_PROPULSION,3}};

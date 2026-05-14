@@ -13,7 +13,6 @@ public interface ListeCaracArmes {
  public static final int[] torp={3,1,2,2,20,25};
  public static final int[] miss={5,0,1,1,15,30};
  public static final int[] bombe={0,0,0,5,0,20};
- public static final int[] myst={50,20,20,20,50,0};
 // 2e rang d'arme
 
 

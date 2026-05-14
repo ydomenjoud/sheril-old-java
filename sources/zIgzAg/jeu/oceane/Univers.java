@@ -4,29 +4,21 @@
 
 package zIgzAg.jeu.oceane;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import zIgzAg.utile.Fiche;
 import zIgzAg.utile.Mdt;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import java.io.*;
+import java.util.regex.Pattern;
 
 
 public class Univers {
@@ -587,6 +579,71 @@ public class Univers {
 		return secteur;
 	}
 
+	public static Position[] choisirPositionsDepartEquitables(int n) {
+		Position[] disponibles = listePositionsSystemesDisponibles(-1);
+		if (disponibles.length == 0 || n <= 0) {
+			return new Position[0];
+		}
+
+		ArrayList selection = new ArrayList();
+		ArrayList restants = new ArrayList(Arrays.asList(disponibles));
+		Collections.shuffle(restants);
+
+		// On cherche à maximiser la distance entre les points de départ.
+		// Pour chaque nouveau point, on choisit celui qui est le plus loin des points déjà sélectionnés.
+		if (n > 0 && !restants.isEmpty()) {
+			selection.add(restants.remove(getInt(restants.size())));
+		}
+
+		while (selection.size() < n && !restants.isEmpty()) {
+			Position meilleurCandidat = null;
+			double maxDistanceMin = -1;
+
+			// On échantillonne un sous-ensemble de candidats pour les performances si restants est trop grand
+			int nbCandidatsATester = Math.min(restants.size(), 100); 
+			
+			for (int i = 0; i < nbCandidatsATester; i++) {
+				Position candidat = (Position) restants.get(i);
+				double distanceMin = Double.MAX_VALUE;
+
+				for (int j = 0; j < selection.size(); j++) {
+					Position dejaChoisi = (Position) selection.get(j);
+					// Distance Euclidienne sur un tore (bords jointifs)
+					double dx = Math.abs(candidat.getX() - dejaChoisi.getX());
+					double dy = Math.abs(candidat.getY() - dejaChoisi.getY());
+					
+					if (dx > Const.BORNE_MAX / 2.0) dx = Const.BORNE_MAX - dx;
+					if (dy > Const.BORNE_MAX / 2.0) dy = Const.BORNE_MAX - dy;
+					
+					double d = Math.sqrt(dx * dx + dy * dy);
+					
+					// Préférence forte pour l'étalement intergalactique
+					if (candidat.getNumeroGalaxie() != dejaChoisi.getNumeroGalaxie()) {
+						d += 2000; 
+					}
+
+					if (d < distanceMin) {
+						distanceMin = d;
+					}
+				}
+
+				if (distanceMin > maxDistanceMin) {
+					maxDistanceMin = distanceMin;
+					meilleurCandidat = candidat;
+				}
+			}
+
+			if (meilleurCandidat != null) {
+				selection.add(meilleurCandidat);
+				restants.remove(meilleurCandidat);
+			} else {
+				break;
+			}
+		}
+
+		return (Position[]) selection.toArray(new Position[0]);
+	}
+
 	public static Position[] listePositionsSystemesParSecteur(int galaxie,
 			int secteur) {
 		Position[] p = listePositionsSystemes();
@@ -1032,7 +1089,7 @@ public class Univers {
 					new int[] { 1, 4 }, "Bombardier standard", "Dune" },
 			{ "Inconnu",
 					new String[] { "moteurI", "bombeI" },
-					new int[] { 1, 7 }, "Grand Bombardier standard", "Galaxia" },
+					new int[] { 1, 7 }, "Grand Bombardier standard", "Dune" },
 			{ "Inconnu",
 					new String[] { "moteurI", "laserI" },
 					new int[] { 1, 1 }, "Intercepteur standard", "Dune" },
@@ -1091,22 +1148,14 @@ public class Univers {
 					new int[] { 1, 1 }, "A-M loe", "Cybtech", new Integer(5) },
 			{ "Inconnu", new String[] { "moteurII", "cyb_vs_te_I" },
 					new int[] { 1, 1 }, "SpyFlight", "Cybtech", new Integer(5) }
-	/**
-	 * ,{"Inconnu",new String[]{"moteurIII","cyb_mdc_t1_V",
-	 * "cyb_vs_tc_IV","cyb_vs_tt_IV"
-	 * ,"cyb_vs_te_IV","villeV","bouclierVIII","scanI"},new
-	 * int[]{1,1,1,1,1,1,5,1},"Nexus","Cybtech",new Integer(5)} *
-	 */
+
 
 	};
 
 	public static String supprimerAccent(String nom){
-		nom = nom.replaceAll("[èéêë]","e");
-	    nom = nom.replaceAll("[ûù]","u");
-	    nom = nom.replaceAll("[ïî]","i");
-	    nom = nom.replaceAll("[àâ]","a");
-	    nom = nom.replaceAll("Ô","o");
-	    return nom;
+		String normalized = Normalizer.normalize(nom, Normalizer.Form.NFD);
+		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		return pattern.matcher(normalized).replaceAll("");
 	}
 
 	public static void corrigerPlanDeVaisseau(){

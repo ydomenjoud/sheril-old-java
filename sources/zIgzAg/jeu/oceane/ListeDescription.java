@@ -9,8 +9,6 @@ package zIgzAg.jeu.oceane;
 
 public class ListeDescription extends MessagesAbstraits{
 //SECTION SPECIALE
- public static final Description myst=new Description("techno de Myst","technos de myst","cherche pas c'est trop complexe..");
-
 
  public static final Description design=new Description("Maîtrise de l'ingenièrie","","vous ouvre les portes de l'art du design de plan de vaisseau.");
  public static final Description biolog=new Description("Maîtrise de la biologie","","vous ouvre les portes de la biologie.");

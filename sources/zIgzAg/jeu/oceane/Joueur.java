@@ -299,7 +299,7 @@ public class Joueur implements Serializable {
 				.getNomNumero());
 	}
 
-	public static Commandant creerCommandant(String n, String a, int r, Map m) {
+	public static Commandant creerCommandant(String n, String a, int r, Map m, Position posDepart) {
 		// recherche du numéro de commandant
 		int[] num = Univers.getNumerosCommandants();
 		int numF = -1;
@@ -323,14 +323,17 @@ public class Joueur implements Serializable {
 		}
 
 		// On regarde les endroit pour débarquer le joueur
-		Position[] p = Univers.listePositionsSystemesDisponibles(c.getRace());
-		if (p.length == 0) {
-			p = Univers.listePositionsSystemesDisponibles(-1);
-			System.out.println("Systeme nouveau commandant non trouvé");
-			System.exit(0);
+		Position choix = posDepart;
+		if (choix == null) {
+			Position[] p = Univers.listePositionsSystemesDisponibles(c.getRace());
+			if (p.length == 0) {
+				p = Univers.listePositionsSystemesDisponibles(-1);
+				System.out.println("Systeme nouveau commandant non trouvé");
+				System.exit(0);
+			}
+			choix = p[Univers.getInt(p.length)];
+			p = null;
 		}
-		Position choix = p[Univers.getInt(p.length)];
-		p = null;
 
 		// On en choisi un
 		Commandant neutre = Univers.getCommandant(0);
@@ -362,8 +365,15 @@ public class Joueur implements Serializable {
 		// On va créer le deuxième système
 
 		// On cherche les positions vierges à 1 case de la capitale
-		int[][] dis = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, 1 },
-				{ 1, -1 }, { -1, -1 }, { -1, 1 } };
+		int[][] dis = {{0, 2}, {0, -2}, {2, 0}, {-2, 0}, {2, 2},
+				{2, -2}, {-2, -2}, {-2, 2}};
+		// Mélanger le tableau pour randomiser l'ordre de recherche
+		for (int i = dis.length - 1; i > 0; i--) {
+			int j = Univers.getInt(i + 1);
+			int[] temp = dis[i];
+			dis[i] = dis[j];
+			dis[j] = temp;
+		}
 		Position pos = new Position(0, 0, 0);
 		boolean trouve = false;
 		for (int i = 0; i < dis.length && !trouve; i++) {
