@@ -153,7 +153,7 @@ public class Planete implements Serializable {
 			mod = 1.1f;
 		}
 
-		int rtr = 1000 + (taille * taille * 50) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
+		int rtr = 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
 		rtr = (int)(rtr * mod);
 		
 		return rtr;

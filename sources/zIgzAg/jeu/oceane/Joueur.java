@@ -365,8 +365,15 @@ public class Joueur implements Serializable {
 		// On va créer le deuxième système
 
 		// On cherche les positions vierges à 1 case de la capitale
-		int[][] dis = { { 0, 2 }, { 0, -2 }, { 2, 0 }, { -2, 0 }, { 2, 2 },
-				{ 2, -2 }, { -2, -2 }, { -2, 2 } };
+		int[][] dis = {{0, 2}, {0, -2}, {2, 0}, {-2, 0}, {2, 2},
+				{2, -2}, {-2, -2}, {-2, 2}};
+		// Mélanger le tableau pour randomiser l'ordre de recherche
+		for (int i = dis.length - 1; i > 0; i--) {
+			int j = Univers.getInt(i + 1);
+			int[] temp = dis[i];
+			dis[i] = dis[j];
+			dis[j] = temp;
+		}
 		Position pos = new Position(0, 0, 0);
 		boolean trouve = false;
 		for (int i = 0; i < dis.length && !trouve; i++) {

@@ -1691,7 +1691,7 @@ public class Commandant extends Joueur implements Serializable {
 	public static void resolutionEvenements() {
 
 		// Oxole
-		for (int a = 0; a < 1 + Univers.getInt(Math.max(2, Univers.getTour() - 1)); a++) {
+		for (int a = 0; a < 1 + Univers.getInt(2); a++) {
 			Position[] p = Univers.listePositionsSystemes();
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
@@ -1699,7 +1699,7 @@ public class Commandant extends Joueur implements Serializable {
 			int prop = proprios[Univers.getInt(proprios.length)];
 			Commandant c = Univers.getCommandant(prop);
 			Possession poss = c.getPossession(choix);
-			int nb = Univers.getInt(20) + 50;
+			int nb = Univers.getInt(8) + 2;
 			poss.ajouterMarchandise(15, nb);
 			Univers.ajouterEvenement("EVENEMENT_OXOLE", nb, choix);
 		}
@@ -1713,7 +1713,7 @@ public class Commandant extends Joueur implements Serializable {
 			int prop = proprios[Univers.getInt(proprios.length)];
 			Commandant c = Univers.getCommandant(prop);
 			Possession poss = c.getPossession(choix);
-			int nb = Univers.getInt(20) + 50;
+            int nb = Univers.getInt(8) + 2;
 			poss.ajouterMarchandise(14, nb);
 			Univers.ajouterEvenement("EVENEMENT_LIXIAM", nb, choix);
 		}
@@ -1727,7 +1727,7 @@ public class Commandant extends Joueur implements Serializable {
 			int prop = proprios[Univers.getInt(proprios.length)];
 			Commandant c = Univers.getCommandant(prop);
 			Possession poss = c.getPossession(choix);
-			int nb = Univers.getInt(20) + 50;
+            int nb = Univers.getInt(8) + 2;
 			poss.ajouterMarchandise(13, nb);
 			Univers.ajouterEvenement("EVENEMENT_TIXIUM", nb, choix);
 		}
