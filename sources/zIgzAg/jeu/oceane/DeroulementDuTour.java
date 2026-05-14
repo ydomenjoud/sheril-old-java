@@ -72,6 +72,19 @@ public class DeroulementDuTour {
 		//System.out.println("Debut des combats...");
 		Univers.notify("Debut des combats...");
 		Combat.resolutionCombats();
+
+		// --- VERIFICATION FINALE AVANT AFFICHAGE ---
+		System.out.println("---------------------------------------------------------");
+		System.out.println("[DEB-FIN] BILAN DES SCORES AVANT ECRITURE DU RAPPORT");
+		for (int i = 0; i < cL.length; i++) {
+		    if (cL[i].getDegatsInfligesCeTour() > 0) {
+		        System.out.println(String.format("   > Commandant %s : %.2f points enregistrés", 
+		                           cL[i].getNomNumero(), cL[i].getDegatsInfligesCeTour()));
+		    }
+		}
+		System.out.println("---------------------------------------------------------");
+
+		
 		System.out.println("Gestion fin du tour...");
 		//System.out.println("Progression gouverneur");
 
@@ -100,6 +113,11 @@ public class DeroulementDuTour {
 		cL2 = Univers.getListeCommandantsHumains();
 
 		Rapport.ecrireMessagesSystemes();
+
+
+		// gestion des points de victoire
+		PointDeVictoire.calculerPointDeVictoire();
+
 		Stats.afficher(Locale.FRENCH);
 		ProductionOrdres.produireOrdresGeneraux();
 		ProductionOrdres.productionDonneeRaces(Locale.FRENCH);
@@ -132,7 +150,7 @@ public class DeroulementDuTour {
 			cL2[i].determinerFlottesDetectesParAlliance();
 			cL2[i].determinerSystemesDetectesParAlliance();
 		}
-		
+
 		
 		System.out.print("Rapport: ");
 		for (int i = cL2.length - 1; i >= 0; i--) {

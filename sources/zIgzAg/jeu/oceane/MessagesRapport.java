@@ -170,8 +170,16 @@ public class MessagesRapport extends MessagesAbstraits{
     "Rang", "Nom", "N°", "Race", "Points de Recherche"
 };
 
+ public static final String[] STATS_POINTS_DE_VICTOIRE={"Tableau des points de victoires du tour "+tour,
+         "Place","Commandant", "Points", "Age d'or", "Empire Galactique"};
 
-
+ public static final String[] STATS_POINTS_DE_VICTOIRE_DETAIL={
+         "Détail des points de victoire du tour " + tour,
+         "Position",
+         "Commandant",
+         "Territorial", "Bataille", "Culturel", "Scientifique", "Merveille", "Colonial",
+         "Total"
+ };
  }
 
 
