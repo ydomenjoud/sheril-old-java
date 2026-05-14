@@ -199,6 +199,10 @@ public class Rapport {
 		return (BaliseHTML) TABLE.clone();
 	}
 
+	public static BaliseHTML getTable(String className) {
+		return ((BaliseHTML) TABLE.clone()).ajout("class", className);
+	}
+
 	public static BaliseHTML getTD(String align, String colspan) {
 		BaliseHTML retour = new BaliseHTML(BaliseHTML.TD);
 		if (align != null)
@@ -216,6 +220,13 @@ public class Rapport {
 			retour.ajout(BaliseHTML.COLSPAN, colspan);
 		if (color != null)
 			retour.ajout(BaliseHTML.BGCOLOR, color);
+		return retour;
+	}
+
+	public static BaliseHTML getSpan(String className) {
+		BaliseHTML retour = new BaliseHTML(BaliseHTML.SPAN);
+		if (className != null)
+			retour.ajout(BaliseHTML.CLASS, className);
 		return retour;
 	}
 
@@ -928,7 +939,7 @@ public class Rapport {
 						getRace(v[j].getRaceEquipage()));
 			}
 			div.ajout(
-					DocumentHTML.creerTable(getTable(), a)).ajout(sautP());
+					DocumentHTML.creerTable(getTable("detail_flotte"), a)).ajout(sautP());
 		}
 		return getBody().ajout(div);
 	}
@@ -1185,21 +1196,24 @@ public class Rapport {
 				getTitreTable().ajout(getText(t[0])));
 		for (int i = 1; i < t.length; i++)
 			a[i][0] = getTD(null, null).ajout(getText(t[i]));
-		a[1][1] = getTD(BaliseHTML.CENTER, null).ajout(
+		int j = 1;
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(
 				Integer.toString(Univers.getTour()));
-		a[2][1] = getTD(BaliseHTML.CENTER, null).ajout(
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.getDateRapport());
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(
 				Integer.toString(c.getNumero()));
-		a[3][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNom());
-		a[4][1] = getTD(BaliseHTML.CENTER, null).ajout(getRace(c.getRace()));
-		a[5][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getPuissance()));
-		a[6][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getNombrePlanetesPossedees()));
-		a[7][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getGrade()));
-		a[8][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getReputation()));
-		a[9][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getStatutReputation()));
-		a[10][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNom());
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(getRace(c.getRace()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getPuissance()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getNombrePlanetesPossedees()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getGrade()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getReputation()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getStatutReputation()));
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 
 		return getDiv().ajout(lien).ajout(
-				DocumentHTML.creerTable(getTable(), a));
+				DocumentHTML.creerTable(getTable("table_half"), a));
 	}
 
 	public BaliseHTML getVotrePeuple() {
@@ -1257,7 +1271,7 @@ public class Rapport {
 		;
 
 		return getDiv().ajout(lien).ajout(
-				DocumentHTML.creerTable(getTable(), a));
+				DocumentHTML.creerTable(getTable("table_half"), a));
 	}
 
 	public BaliseHTML getBudget() {
@@ -1318,7 +1332,7 @@ public class Rapport {
 								.getBudget(Const.BUDGET_COMMANDANT_TOTAL_DISPONIBLE))))));
 
 		return getDiv().ajout(lien).ajout(
-				DocumentHTML.creerTable(getTable(), a));
+				DocumentHTML.creerTable(getTable("table_half"), a));
 	}
 
 	public BaliseHTML getPlansDeVaisseaux() {
@@ -1327,9 +1341,10 @@ public class Rapport {
 
 		ajouterLienPrincipal(getALienE(PRINCIPAL + "#PLAN")
 				.ajout(getText(t[0])));
-		BaliseHTML lien = getTitreSection().ajout(getABorne("PLAN").ajout(t[0]));
+		BaliseHTML lien = getABorne("PLAN");
+		BaliseHTML titre = getTitreSection().ajout(getText(t[0])).ajout(sautP());
 
-		BaliseHTML racine = getDiv().ajout(lien);
+		BaliseHTML racine = getDiv().ajout(lien).ajout(titre);
 		ajouterLienPrincipal(getALienE("https://sheril.pbem-france.net/stats/vapub.htm")
 				.ajout(getText("Vaisseaux Publics")));
 
@@ -1399,7 +1414,7 @@ public class Rapport {
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(p[i].getDescriptionDomaine(loc))));
 		}
-		return DocumentHTML.creerTable(getTable(), a);
+		return DocumentHTML.creerTable(getTable("table_full"), a);
 	}
 
 	public BaliseHTML getAlliances() {
@@ -1502,7 +1517,7 @@ public class Rapport {
 				} else
 					a[i + 1][6] = getTD(null, null).setTexteContenu("&nbsp;");
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable(), a).ajout(
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
 					BaliseHTML.WIDTH, "100%"));
 		}
 
@@ -1531,7 +1546,7 @@ public class Rapport {
 				inter = inter + Univers.getCommandant(p[i]).getNomNumero()
 						+ "&nbsp;";
 			a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(inter));
-			racine.ajout(DocumentHTML.creerTable(getTable(), a).ajout(
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
 					BaliseHTML.WIDTH, "100%"));
 		}
 		return racine;
@@ -1605,7 +1620,7 @@ public class Rapport {
 			a[i + 1][11] = getTD(BaliseHTML.CENTER, null).ajout(
 					getText(Float.toString(Utile.a1D(l[i].getValeur()))));
 		}
-		return DocumentHTML.creerTable(getTable(), a);
+		return DocumentHTML.creerTable(getTable("table_full"), a);
 	}
 
 	// Dans Rapport.java
@@ -1646,9 +1661,8 @@ public class Rapport {
 			racine.ajout(lien);
 
 			// on met le titre du tableau contenu dans t[0]
-			racine.ajout(getTitreSection().ajout(
-					getABorne(LIEN_DETECTION_FLOTTES).ajout(getText(t[0])))
-					.ajout(sautP()));
+			racine.ajout(getABorne(LIEN_DETECTION_FLOTTES));
+			racine.ajout(getTitreSection().ajout(getText(t[0])).ajout(sautP()));
 
 			// on créé notre futur tableau avec une ligne en plus pour le titre
 			// des colonnes et
@@ -1707,7 +1721,7 @@ public class Rapport {
 				}
 				p1++;
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable(), a));
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
 		}
 		return racine;
 	}
@@ -1724,9 +1738,9 @@ public class Rapport {
 					getText("Détection Systèmes")));
 
 			racine.ajout(lien);
-			racine.ajout(getTitreSection().ajout(
-					getABorne(LIEN_DETECTION_SYSTEMES).ajout(getText(t[0])))
-					.ajout(sautP()));
+			racine.ajout(getABorne(LIEN_DETECTION_SYSTEMES).ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t[0])).ajout(sautP()));
+
 			BaliseHTML[][] a = new BaliseHTML[b.length + 1][6];
 			a[0][0] = getTD(null, null).setTexteContenu("&nbsp;");
 			for (int i = 0; i < 5; i++)
@@ -1752,7 +1766,7 @@ public class Rapport {
 				a[i + 1][5] = getTD(BaliseHTML.CENTER, null).setTexteContenu(
 						Commandant.getListeCommandants(s.getProprios()));
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable(), a));
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
 		}
 		return racine;
 	}
@@ -1880,7 +1894,7 @@ public class Rapport {
 						getText(resumecolons));
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
-					getDiv().ajout(DocumentHTML.creerTable(getTable(), a)));
+					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)));
 		} else
 			return vide();
 	}
@@ -2154,15 +2168,15 @@ public class Rapport {
 		Map.Entry[] listeE = s.listeEquipement(num);
 		int k;
 		for (k = 0; k < listeE.length; k++) {
+			Technologie techno = Univers.getTechnologie((String) listeE[k].getKey());
+			String infobulle = techno.getInfobulle(l);
 			a[ligne][(k % 3) * 2] = getTD(null, null)
 					.ajout(getFont(cC[6], BaliseHTML.T_2)
-							.ajout(getText(((Integer) listeE[k].getValue())
-									.intValue() == 1 ? Utile.maj(Univers
-									.getTechnologie((String) listeE[k].getKey())
-									.getNomComplet(l))
-									: Utile.maj(Univers.getTechnologie(
-											(String) listeE[k].getKey())
-											.getNomPlurielComplet(l)))));
+							.ajout(getText((Integer) listeE[k].getValue() == 1
+									? Utile.maj(techno.getNomComplet(l))
+									: Utile.maj(techno.getNomPlurielComplet(l))))
+
+							.ajout("data-tooltip", infobulle));
 			a[ligne][1 + (k % 3) * 2] = getTD(null, null).ajout(
 					getText(((Integer) listeE[k].getValue()).toString()));
 			if (k % 3 == 2)
@@ -2193,7 +2207,7 @@ public class Rapport {
 
 		return getDiv()
 				.ajout(lien)
-				.ajout(DocumentHTML.creerTable(getTable(), a).ajout(
+				.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
 						BaliseHTML.WIDTH, "90%")).ajout(sautP());
 	}
 
@@ -2310,7 +2324,7 @@ public class Rapport {
 			}
 		}
 
-		return lien.ajout(DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux"));
+		return lien.ajout(DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux table_full"));
 	}
 
 	public BaliseHTML getResumeFlottes() {
@@ -2392,7 +2406,7 @@ public class Rapport {
 								getText(f.getNombreDeVaisseaux() + "")));
 			}
 			return getABorne(LIEN_RESUME_FLOTTE).ajout(
-					getDiv().ajout(DocumentHTML.creerTable(getTable(), a)));
+					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)));
 		} else
 			return vide();
 	}
@@ -2738,7 +2752,7 @@ public class Rapport {
 						getText(Integer.toString(c
 								.nombreDePointsDeRecherche(re[i]))));
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable(), a)
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a)
 					.setTexteContenu("<BR><BR>"));
 		}
 
@@ -2757,7 +2771,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 		racine.ajout(
-				DocumentHTML.creerTable(getTable(), a)).ajout(sautP());
+				DocumentHTML.creerTable(getTable("table_full"), a)).ajout(sautP());
 
 		racine.ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
 		a = new BaliseHTML[200][8];
@@ -2771,7 +2785,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 
-		return racine.ajout(DocumentHTML.creerTable(getTable(), a));
+		return racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
 	}
 
 	public int ajoutTableauTechnologique(BaliseHTML[][] a, int ligne,
@@ -2828,18 +2842,14 @@ public class Rapport {
 
 	public BaliseHTML[] getResumeTechnologie(Technologie t) {
 		BaliseHTML[] r = new BaliseHTML[8];
+		boolean isPublic = Univers.estTechnologiePublique(t.getCode());
+		String nom = Utile.maj(t.getNomComplet(c.getLocale()));
 		r[0] = getTD(null, null).ajout(
-				getALienE(DETAIL_TECHNOLOGIES + "#" + t.getCode()).ajout(
-						(Univers.estTechnologiePublique(t.getCode()) ? getFont(
-								cC[6], null) : getFont(cC[1], null))
-								.ajout((Univers.estTechnologiePublique(t
-										.getCode()) ? getText("<i>"
-										+ Utile.maj(t.getNomComplet(c
-												.getLocale())) + "</i>")
-										: getText(Utile.maj(t.getNomComplet(c
-												.getLocale())))))));
+				getALienE(DETAIL_TECHNOLOGIES + "#" + t.getCode())
+						.ajout(getSpan("technologie"+(isPublic ? " public" : "")).ajout(getText(nom)))
+						);
 		r[1] = getTD(BaliseHTML.CENTER, null).ajout(
-				getText("(" + t.getPointsDeRecherche() + ")"));
+				getText("" + t.getPointsDeRecherche() ));
 		if (t.estBatiment()) {
 			Batiment b = (Batiment) t;
 			r[2] = getTD(BaliseHTML.CENTER, null).ajout(
@@ -2993,7 +3003,7 @@ public class Rapport {
 			a[8][0] = getTD(BaliseHTML.CENTER, "10").ajout(getTextI(cara));
 		}
 
-		return DocumentHTML.creerTable(getTable(), a)
+		return DocumentHTML.creerTable(getTable("table_full"), a)
 				.ajout(sautP());
 	}
 
@@ -3082,7 +3092,7 @@ public class Rapport {
 				counter1++;
 			}
 			
-			return racine.ajout(DocumentHTML.creerTable(getTable(), a));
+			return racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
 		} else
 			return vide();
 	}
@@ -3141,7 +3151,7 @@ public class Rapport {
 							.a1D(((float) tab[i][1]) / 10))));
 		}
 
-		return getDiv().ajout(DocumentHTML.creerTable(getTable(), a)).ajout(
+		return getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)).ajout(
 				sautP());
 	}
 

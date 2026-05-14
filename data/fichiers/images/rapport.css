@@ -1,5 +1,19 @@
-.neutre { color: #1dddc9;} 
+.neutre { color: #1dddc9;}
+:root {
+	--accent: #9c27b0;
+	--information: #00e6e6;
+	--importa
+    white-space: nowrap;nt: #1de9b6;
+}
 
+.technologie {
+	color: var(--information);
+    white-space: nowrap;
+}
+.technologie.public {
+	color: #51d85c;
+	font-style: italic;
+}
 .race0{ color: #CC00FF}
 .race1{ color: #0066CC}
 .race2{ color: #FFCC00}
@@ -33,15 +47,17 @@
 	background: black;
 }
 
-
-.pdv:hover {
-	cursor: pointer;
-	text-decoration: underline;
+.table_full{
+	width: 95vw;
+}
+.table_half {
+	width: 50vw;
+	max-width: 400px;
 }
 
 [data-tooltip] {
 	position: relative;
-	border-bottom: 1px dotted black;
+	border-bottom: 1px dashed currentColor;
 	cursor: help;
 }
 
@@ -49,7 +65,7 @@
 	content: attr(data-tooltip);
 	position: absolute;
 	bottom: 125%;
-	left: 50%;
+
 	transform: translateX(-50%);
 	background-color: #333;
 	color: #fff;
@@ -102,7 +118,7 @@ td {
 	}
 	
 .titre_section{
-	color: #ffb400;
+	color: var(--accent);
 	font-size: 14pt;
 	}
 .titre_table{

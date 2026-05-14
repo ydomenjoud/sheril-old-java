@@ -335,4 +335,16 @@ public class Technologie implements Serializable {
 		return militaire;
 	}
 
+	public String getInfobulle(Locale l) {
+		var data = new String[]{
+				getDescription(l),
+				"Caractéristiques:",
+				"",
+				getDescriptionCaracteristiquesSpeciales(l)
+		};
+		String infoBulle = String.join("&#10;", data);
+		return infoBulle
+				.replaceAll("(?i)<br\\s*/?>", "&#10;")
+				.replaceAll("\"", "&quot;");
+	}
 }

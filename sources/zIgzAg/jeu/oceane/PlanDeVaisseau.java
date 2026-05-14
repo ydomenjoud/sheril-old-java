@@ -426,7 +426,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 				"Composants : " + descriptionComposants(l).replaceAll("<BR>",",")
 		};
 		String infoBulle = String.join("&#10;", data);
-		return infoBulle.replaceAll("\"", "&quot;");
+		return infoBulle
+				.replaceAll("<br />", "&#10;")
+				.replaceAll("\"", "&quot;");
 	}
 
 	public PlanDeVaisseau(int conceptNum, String conceptNom, String[] comp,

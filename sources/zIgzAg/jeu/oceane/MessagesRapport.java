@@ -10,8 +10,8 @@ package zIgzAg.jeu.oceane;
 public class MessagesRapport extends MessagesAbstraits{
  public static int tour=Univers.getTour()+1;
 
- public static final String[] INFO_GENERALES={"Informations générales <font size=2 color=\"#FFB400\">("+Utile.getDateRapport()+")</font>","Numéro du tour","Numéro du Commandant","Nom",
-   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts"};
+ public static final String[] INFO_GENERALES={"Informations générales","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
+   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire"};
 
  public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max","Colons"};
 
@@ -56,7 +56,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Trouvée à partir de",
   "Composants de vaisseaux","Nom","Prix","Minerai","Nombre de cases","Produits nécessaires","Trouvée à partir de",
   "Autres","Nom","Description","Trouvée à partir de",
-  "Les technologies publiques sont en <i><FONT color=\"#00F1AF\">vert</FONT></i>.",
+  "Les technologies publiques sont en <span class=\"technologie public\">vert</span>.",
   "Recherches actuelles","Technologie","Pourcentage du budget technologique affecté","Points de recherche"};
 
  public static final String[] TECHNOLOGIES={"Détail des technologies","Technologies connues",
