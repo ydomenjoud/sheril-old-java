@@ -17,10 +17,10 @@ public class MessagesRapport extends MessagesAbstraits{
 
  public static final String[] RESUME_SYSTEMES={"Résumé de vos systémes","&nbsp;","Position","Nom","Pop","Pop Max",
                                                "Planètes",
-                                               "Taxe","Stabilité","PDC","R.M.","Budget T.","Budget S.","Budget C.",
+                                               "Taxe","Stabilité","PDC","R.M.","B. Tech","B. Spé","B. Contre",
                                                "Propriétaire(s)","Gouverneur","Politique","colons"};
 
- public static final String[] SYSTEMES_GENERAL={"Rapport des Systèmes","Capitale : ","Aucune"};
+ public static final String[] SYSTEMES_GENERAL={"Systèmes","Capitale : ","Aucune"};
 
  public static final String[] SYSTEME={"Nombre de planètes : ","(voir planètes)","Populations","Population max",
    "Augmentation","Population totale","Population totale max","Augmentation moyenne","Ressources","Mines",
@@ -45,12 +45,12 @@ public class MessagesRapport extends MessagesAbstraits{
 
 
  public static final String[] RESUME_FLOTTES={"Résumé de vos flottes","Nom-Numéro","Position","Direction","Directive",
-  "Vitesse","Force spatiale","Force planétaire","état","Cargaison","capa","Héros","Vso"};
+  "Vitesse","Force spatiale","Force planétaire","état","Cargaison","capa","Héros","Vaisseaux"};
 
  public static final String[] DETAIL_FLOTTES={"Description de vos flottes","Nom de la flotte","Numéro de la flotte","Nom",
   "Type de vaisseau","Dommages","Expérience","Moral","Composants détruits","équipage"};
 
- public static final String[] RESUME_TECHNOLOGIES={"Rapport des technologies","Technologies connues",
+ public static final String[] RESUME_TECHNOLOGIES={"","Technologies connues",
   "Technologies pouvant être cherchées","Bâtiments",
   "Nom","Prix","Points de construction","Minerai","Produits nécessaires","Encombrement transport",
   "Trouvée à partir de",
@@ -66,7 +66,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Produits nécessaires","Vitesse","Dommages bouclier","Dommages coque","Dommages au sol","Portée","Fiabilité",
   "Pourcentage de chance de toucher les différents types de coque","Caractéristique(s) spéciale(s)"};
 
- public static final String[] PLANS_DE_VAISSEAUX={"Plans de vaisseaux","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
+ public static final String[] PLANS_DE_VAISSEAUX={"Plans privés","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
    "Points de construction nécessaires","Coût en centaures","Côut en minerai","Matériaux spéciaux nécessaires",
    "Capacité d'attaque spatiale","Capacité d'attaque planétaire",
    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",

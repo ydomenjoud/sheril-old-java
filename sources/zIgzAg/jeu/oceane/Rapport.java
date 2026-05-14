@@ -222,7 +222,9 @@ public class Rapport {
 			retour.ajout(BaliseHTML.BGCOLOR, color);
 		return retour;
 	}
-
+	public static BaliseHTML getSpan() {
+		return new BaliseHTML(BaliseHTML.SPAN);
+	}
 	public static BaliseHTML getSpan(String className) {
 		BaliseHTML retour = new BaliseHTML(BaliseHTML.SPAN);
 		if (className != null)
@@ -777,11 +779,16 @@ public class Rapport {
 
 	public void creation() {
 		BaliseHTML body = getBody();
-		body.ajout(getInfoGenerales());
-		body.ajout(sautP());
-		body.ajout(getVotrePeuple());
-		body.ajout(sautP());
-		body.ajout(getBudget());
+
+		BaliseHTML splitter = getSpan("split");
+		splitter.ajout(getInfoGenerales());
+		ajouterLienPrincipal(
+				getALienE("https://ydomenjoud.github.io/test-interface-sheril/")
+				.ajout(getText("Cartographie")));
+		splitter.ajout(getBudget());
+		splitter.ajout(getVotrePeuple());
+		body.ajout(splitter);
+
 		body.ajout(sautP());
 		body.ajout(getResumeSystemes());
 		body.ajout(sautP());
@@ -1187,13 +1194,12 @@ public class Rapport {
 	public BaliseHTML getInfoGenerales() {
 		String[] t = (String[]) Univers.getMessageRapport("INFO_GENERALES",c.getLocale());
 
-		BaliseHTML lien = getABorne("INFO_GENERALES");
 		ajouterLienPrincipal(getALienE(PRINCIPAL + "#INFO_GENERALES").ajout(
 				getText(t[0])));
 
 		BaliseHTML[][] a = new BaliseHTML[t.length][2];
 		a[0][0] = getTD(BaliseHTML.CENTER, BaliseHTML.T_2).ajout(
-				getTitreTable().ajout(getText(t[0])));
+				getTitreTable().ajout(getText(t[0]))).ajout("id", "INFO_GENERALES");
 		for (int i = 1; i < t.length; i++)
 			a[i][0] = getTD(null, null).ajout(getText(t[i]));
 		int j = 1;
@@ -1212,7 +1218,7 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 
-		return getDiv().ajout(lien).ajout(
+		return getDiv().ajout(
 				DocumentHTML.creerTable(getTable("table_half"), a));
 	}
 
@@ -1346,7 +1352,7 @@ public class Rapport {
 
 		BaliseHTML racine = getDiv().ajout(lien).ajout(titre);
 		ajouterLienPrincipal(getALienE("https://sheril.pbem-france.net/stats/vapub.htm")
-				.ajout(getText("Vaisseaux Publics")));
+				.ajout(getText("Plans Publics")));
 
 		PlanDeVaisseau[] p = c.listePlansConnusNonPublics();
 
@@ -1404,7 +1410,7 @@ public class Rapport {
 							.ajout(getText(Integer.toString(p[i]
 									.getForcePlanetaire()))));
 			a[i + 1][12] = getTD(BaliseHTML.CENTER, null).ajout(
-					getFont(cC[3], BaliseHTML.T_2).ajout(
+					getSpan("technologie").ajout(
 							getText(p[i].descriptionComposants(loc))));
 			a[i + 1][13] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getFont(null, BaliseHTML.T_2)
@@ -1562,7 +1568,7 @@ public class Rapport {
 
 			BaliseHTML lien = getABorne("HEROS");
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#HEROS").ajout(
-					getText("héros")));
+					getText("Héros")));
 
 			racine.ajout(lien);
 
@@ -2171,7 +2177,7 @@ public class Rapport {
 			Technologie techno = Univers.getTechnologie((String) listeE[k].getKey());
 			String infobulle = techno.getInfobulle(l);
 			a[ligne][(k % 3) * 2] = getTD(null, null)
-					.ajout(getFont(cC[6], BaliseHTML.T_2)
+					.ajout(getSpan("technologie")
 							.ajout(getText((Integer) listeE[k].getValue() == 1
 									? Utile.maj(techno.getNomComplet(l))
 									: Utile.maj(techno.getNomPlurielComplet(l))))
@@ -2205,10 +2211,70 @@ public class Rapport {
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 				getText(intermediaire));
 
+		// Ajout liste des planètes
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
+				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+				getFont(cC[7], null).ajout(getText("Détail des planètes")));
+
+
+		Planete[] planetesList = s.getPlanetes();
+		BaliseHTML[][] b = new BaliseHTML[planetesList.length+1][10];
+		int bligne = 0;
+		
+		// Header du tableau des planètes
+		b[bligne][0] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Nom")));
+		b[bligne][1] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Prod. Min.")));
+		b[bligne][2] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stock Min.")));
+		b[bligne][3] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Terra.")));
+		b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
+		b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stab.")));
+		b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Rév.")));
+		b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop")));
+		b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop Max")));
+		b[bligne++][9] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
+
+		for (int i = 0; i < planetesList.length; i++) {
+			Planete pl = planetesList[i];
+			if (pl.getProprio() == num) {
+				String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
+				b[bligne][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(nomP));
+				b[bligne][1] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.calculeRevenuMinerai())));
+				b[bligne][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getStockMinerai())));
+				b[bligne][3] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getTerraformation())));
+				b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getTaxation())));
+				b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getStabilite())));
+				b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getText(pl.getRevolte() ? "Oui" : "Non"));
+
+				int[] racesPresentes = pl.racesPresentes();
+				if(racesPresentes.length == 0){
+					b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
+					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
+				} else {
+					int race = racesPresentes[0];
+					String classeRace = "race" + race;
+					b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.getPopActuelle(race)))));
+					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.calculeMaxPop(race)))));
+				}
+				String listeB = "";
+				String[] typesB = pl.listeTypeDeBatimentsPresents();
+				if (typesB != null) {
+					for (int j = 0; j < typesB.length; j++) {
+						int nbB = pl.nombreBatimentsDeType(typesB[j]);
+						Technologie techB = Univers.getTechnologie(typesB[j]);
+						listeB += nbB + " " + (techB != null ? techB.getNomComplet(l) : typesB[j]);
+						if (j < typesB.length - 1) listeB += ", ";
+					}
+				}
+				b[bligne++][9] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
+			}
+		}
+
+
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));
+		
 		return getDiv()
 				.ajout(lien)
-				.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
-						BaliseHTML.WIDTH, "90%")).ajout(sautP());
+				.ajout(DocumentHTML.creerTable(getTable("table_full"), a)).ajout(sautP());
 	}
 
 	public BaliseHTML getPostesCommerciaux() {
@@ -2256,13 +2322,8 @@ public class Rapport {
 		return racine;
 	}
 
-	public static int[] mabfoulamerde(Systeme choix) {
-		return choix.getProprios();
-	}
-
-	public BaliseHTML getPostes(Position[] p, Possession[] po, int[] n,
-			String[] t) {
-		BaliseHTML[][] a = new BaliseHTML[p.length + 1][Const.NB_MARCHANDISES + 1];
+	public BaliseHTML getPostes(Position[] p, Possession[] po, int[] n, String[] t) {
+		BaliseHTML[][] a = new BaliseHTML[p.length + 1][Const.NB_MARCHANDISES * 2 + 1];
 
 		BaliseHTML lien = getABorne("POSTE" + (n == null ? "1" : "2"));
 		ajouterLienPrincipal(getALienE(
@@ -2272,7 +2333,7 @@ public class Rapport {
 
 		a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[3], null).ajout(getTextI(t[1])));
 		for (int j = 0; j < Const.NB_MARCHANDISES; j++) {
-			a[0][j + 1] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[0][j * 2 + 1] = getTD(BaliseHTML.CENTER, "2").ajout(
 					getFont(cC[4], null)
 							.ajout(getText(Utile.maj(Univers
 									.getMessage("MARCHANDISES", j,
@@ -2282,8 +2343,6 @@ public class Rapport {
 		for (int i = 0; i < p.length; i++) {
 			Systeme s = Univers.getSysteme(p[i]);
 
-			BaliseHTML lien2 = getABorne(getLienPosteCo(p[i],
-					n == null ? c.getNumero() : n[i]));
 			ajouterLienSecondaire(getALienE(
 					PRINCIPAL
 							+ "#"
@@ -2312,15 +2371,14 @@ public class Rapport {
 				int prod = s.getProductionMarchandise(n == null ? c.getNumero() : n[i], j);
 				int stock = po[i].getQuantiteMarchandise(j);
 
-				String val = Integer.toString(stock);
+				a[i + 1][j * 2 + 1] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(stock)));
+				String valProd = "";
 				if (prod != 0) {
-					val += " (" + (prod > 0 ? "+" : "") + prod + ")";
+					valProd = "(" + (prod > 0 ? "+" : "") + prod + ")";
 				} else {
-					val += " (-) ";
+					valProd = "(-)";
 				}
-
-				a[i + 1][j + 1] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getText(val));
+				a[i + 1][j * 2 + 2] = getTD(BaliseHTML.CENTER, null).ajout(getText(valProd));
 			}
 		}
 
@@ -2757,7 +2815,7 @@ public class Rapport {
 		}
 
 		racine.ajout(getTitreSection().ajout(getText("<BR><BR>" + t[1])));
-		racine.ajout(getTitreTable().ajout(
+		racine.ajout(getTitreCaption().ajout(
 				getText("<BR><BR>" + t[22] + "<BR><BR>")));
 		a = new BaliseHTML[600][8];
 		int ligne = 0;
