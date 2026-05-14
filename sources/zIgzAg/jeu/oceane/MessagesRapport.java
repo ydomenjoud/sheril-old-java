@@ -29,7 +29,7 @@ public class MessagesRapport extends MessagesAbstraits{
    "Type","Nombre","Points constru. nécessaires","Pour la planète","Non précisé","équipement","Postes commerciaux",
    "Gouverneur","Programmation construction"};
 
- public static final String[] POSTES_COMMERCIAUX={"Rapport de vos postes commerciaux","Production","Stock","Prix",
+ public static final String[] POSTES_COMMERCIAUX={"Rapport de vos postes commerciaux","",
                                                 "Rapport des postes commerciaux étrangers"};
 
  public static final String[] DETAIL_SYSTEME={"Détail des planètes du système ","Propriétaire : ",

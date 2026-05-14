@@ -928,8 +928,7 @@ public class Rapport {
 						getRace(v[j].getRaceEquipage()));
 			}
 			div.ajout(
-					DocumentHTML.creerTable(getTable(), a).ajout(
-							BaliseHTML.BACKGROUND, cBVaisseau)).ajout(sautP());
+					DocumentHTML.creerTable(getTable(), a)).ajout(sautP());
 		}
 		return getBody().ajout(div);
 	}
@@ -1403,8 +1402,7 @@ public class Rapport {
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(p[i].getDescriptionDomaine(loc))));
 		}
-		return DocumentHTML.creerTable(getTable(), a).ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau);
+		return DocumentHTML.creerTable(getTable(), a);
 	}
 
 	public BaliseHTML getAlliances() {
@@ -2212,7 +2210,7 @@ public class Rapport {
 		Possession[] po = c.listeVraiePossession();
 		racine.ajout(getPostes(p, po, null, t));
 
-		racine.ajout(sautP()).ajout(getTitreCaption().ajout(getText(t[4]))).ajout(sautP());
+		racine.ajout(sautP()).ajout(getTitreCaption().ajout(getText(t[2]))).ajout(sautP());
 		ArrayList pE = new ArrayList();
 		ArrayList poE = new ArrayList();
 		ArrayList nE = new ArrayList();
@@ -2253,14 +2251,22 @@ public class Rapport {
 
 	public BaliseHTML getPostes(Position[] p, Possession[] po, int[] n,
 			String[] t) {
-		BaliseHTML[][] a = new BaliseHTML[p.length * Const.NB_MARCHANDISES
-				+ Const.NB_MARCHANDISES * 2 + 2][10];
+		BaliseHTML[][] a = new BaliseHTML[p.length + 1][Const.NB_MARCHANDISES + 1];
 
 		BaliseHTML lien = getABorne("POSTE" + (n == null ? "1" : "2"));
 		ajouterLienPrincipal(getALienE(
 				PRINCIPAL + "#POSTE" + (n == null ? "1" : "2"))
 				.ajout(getText("Postes commerciaux"
 						+ (n == null ? "" : " étrangers"))));
+
+		a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[3], null).ajout(getTextI(t[1])));
+		for (int j = 0; j < Const.NB_MARCHANDISES; j++) {
+			a[0][j + 1] = getTD(BaliseHTML.CENTER, null).ajout(
+					getFont(cC[4], null)
+							.ajout(getText(Utile.maj(Univers
+									.getMessage("MARCHANDISES", j,
+											c.getLocale())))));
+		}
 
 		for (int i = 0; i < p.length; i++) {
 			Systeme s = Univers.getSysteme(p[i]);
@@ -2274,24 +2280,12 @@ public class Rapport {
 									: n[i]))
 					.setTexteContenu(s.getNomPosition()));
 
-			int ligne = (i / 3) * (Const.NB_MARCHANDISES + 2);
-			if (i % 3 == 0) {
-				for (int j = 0; j < Const.NB_MARCHANDISES; j++)
-					a[ligne + j + 2][0] = getTD(null, null).ajout(
-							getFont(cC[4], null)
-									.ajout(getText(Utile.maj(Univers
-											.getMessage("MARCHANDISES", j,
-													c.getLocale())))));
-				a[ligne][0] = getTD(null, null).setTexteContenu("&nbsp;");
-				a[ligne + 1][0] = getTD(null, null).setTexteContenu("&nbsp;");
-			}
-			a[ligne++][1 + (i % 3)] = getTD(BaliseHTML.CENTER, "3")
+			a[i + 1][0] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getABorne(getLienPosteCo(p[i],
 							n == null ? c.getNumero() : n[i])))
-					.ajout(getALienI(p[i].toString()).ajout(
-							getImage(getCheminEtoile(s.getTypeEtoile()), 0, 0)))
+					.ajout(getALienI(p[i].toString()))
 					.ajout(getDiv()
-							.ajout(getFont(cC[5], "4")
+							.ajout(getFont(cC[5], "2")
 									.ajout(getText(" "
 											+ s.getNomPosition()
 											+ ((n == null) ? ""
@@ -2302,37 +2296,24 @@ public class Rapport {
 																	.getCommandant(
 																			n[i])
 																	.getNomNumero())))));
-			for (int j = 0; j < 3; j++)
-				a[ligne][1 + j + (i % 3) * 3] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getFont(cC[3], null).ajout(getTextI(t[1 + j])));
-			ligne++;
+
 			for (int j = 0; j < Const.NB_MARCHANDISES; j++) {
-				a[ligne][1 + (i % 3) * 3] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getFont(cC[6], null).ajout(
-								getText(Integer.toString(s
-										.getProductionMarchandise(
-												n == null ? c.getNumero()
-														: n[i], j)))));
-				a[ligne][2 + (i % 3) * 3] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getText(Integer.toString(po[i]
-								.getQuantiteMarchandise(j))));
-				a[ligne][3 + (i % 3) * 3] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getFont(cC[7], null).ajout(
-								getText(Float.toString(Utile.a1D(po[i]
-										.getPrixMarchandiseFloat(j))))));
-				ligne++;
+				int prod = s.getProductionMarchandise(n == null ? c.getNumero() : n[i], j);
+				int stock = po[i].getQuantiteMarchandise(j);
+
+				String val = Integer.toString(stock);
+				if (prod != 0) {
+					val += " (" + (prod > 0 ? "+" : "") + prod + ")";
+				} else {
+					val += " (-) ";
+				}
+
+				a[i + 1][j + 1] = getTD(BaliseHTML.CENTER, null)
+						.ajout(getText(val));
 			}
 		}
-		if (p.length % 3 != 0) {
-			int ligne = (p.length / 3) * (Const.NB_MARCHANDISES + 2);
-			for (int i = 0; i < Const.NB_MARCHANDISES + 2; i++)
-				a[ligne++][9] = getTD(null,
-						Integer.toString(9 - 3 * (p.length % 3)))
-						.setTexteContenu("&nbsp;");
-		}
 
-		return lien.ajout(DocumentHTML.creerTable(getTable(), a).ajout(
-				BaliseHTML.BACKGROUND, cBPoste));
+		return lien.ajout(DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux"));
 	}
 
 	public BaliseHTML getResumeFlottes() {
@@ -2765,8 +2746,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 		racine.ajout(
-				DocumentHTML.creerTable(getTable(), a).ajout(
-						BaliseHTML.BACKGROUND, cBTechno)).ajout(sautP());
+				DocumentHTML.creerTable(getTable(), a)).ajout(sautP());
 
 		racine.ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
 		a = new BaliseHTML[200][8];
@@ -2780,8 +2760,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 
-		return racine.ajout(DocumentHTML.creerTable(getTable(), a).ajout(
-				BaliseHTML.BACKGROUND, cBTechno));
+		return racine.ajout(DocumentHTML.creerTable(getTable(), a));
 	}
 
 	public int ajoutTableauTechnologique(BaliseHTML[][] a, int ligne,
@@ -3004,7 +2983,7 @@ public class Rapport {
 		}
 
 		return DocumentHTML.creerTable(getTable(), a)
-				.ajout(BaliseHTML.BACKGROUND, cBTechno).ajout(sautP());
+				.ajout(sautP());
 	}
 
 	public BaliseHTML getStrategiesDeCombat() {

@@ -6,6 +6,32 @@
 .race3{ color: #CC0033}
 .race4{ color: #009933}
 .race5{ color: #777777}
+.poste_commerciaux {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+}
+.poste_commerciaux  td:not(:first-child) {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.poste_commerciaux  td:first-child {
+	width: 200px;
+	white-space: normal;
+}
+
+.poste_commerciaux  td:not(:first-child):hover {
+	overflow: visible;      /* On montre le texte qui dépasse */
+	position: relative;     /* Permet de gérer le z-index */
+	z-index: 10;            /* Passe au-dessus des autres cellules */
+	background-color: #1a1a1a; /* Fond opaque pour que le texte soit lisible */
+	width: auto;            /* Permet de s'étendre si besoin */
+	min-width: 80px;
+}
+.poste_commerciaux  td:not(:first-child):hover font {
+	background: black;
+}
 
 body{
 font-size:10pt;
@@ -30,6 +56,7 @@ td,b,i{
 table {
 	border: 1px solid #402b03;
 	padding: 2px;
+	background: #10001d;
 	}
 td {
 	border: 0px;
@@ -52,7 +79,6 @@ font-weight: bold;
 .titre_caption{ /* #FBF7AF */
 	color:#967dff;
 	font-style: italic;
-	}
 	}
 A {
 	FONT-SIZE: 10pt; COLOR: #6F578A; FONT-FAMILY: verdana, arial, sans-serif; TEXT-DECORATION: none
