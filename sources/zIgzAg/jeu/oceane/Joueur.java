@@ -365,8 +365,8 @@ public class Joueur implements Serializable {
 		// On va créer le deuxième système
 
 		// On cherche les positions vierges à 1 case de la capitale
-		int[][] dis = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, 1 },
-				{ 1, -1 }, { -1, -1 }, { -1, 1 } };
+		int[][] dis = { { 0, 2 }, { 0, -2 }, { 2, 0 }, { -2, 0 }, { 2, 2 },
+				{ 2, -2 }, { -2, -2 }, { -2, 2 } };
 		Position pos = new Position(0, 0, 0);
 		boolean trouve = false;
 		for (int i = 0; i < dis.length && !trouve; i++) {

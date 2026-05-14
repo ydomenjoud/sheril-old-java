@@ -527,18 +527,22 @@ public class Const {
     // de leur joueur).
     //  "Fremens", "Atalantes", "Zwaias","Yoksor", "Fergok", "Cyborg"
 
-    public static final int[][] HABITAT_RADIATION = {{40, 200}, {0, 120},
-            {10, 165}, {30, 150}, {70, 200}, {0, 180}};
-    public static final int[][] HABITAT_TEMPERATURE = {{0, 200},
-            {-50, 160}, {-150, 70}, {-110, 160}, {-140, 150},
-            {-120, 110}};
-    public static final int[][] HABITAT_GRAVITE = {{50, 90}, {60, 100},
-            {10, 50}, {30, 70}, {20, 60}, {0, 70}};
+    public static final int[][] HABITAT_RADIATION = {{0, 200}, {10, 200},
+            {20, 150}, {20, 180}, {0, 180}, {0, 180}};
+    public static final int[][] HABITAT_TEMPERATURE = {{-110, 140},
+            {-80, 200}, {-150, 150}, {-150, 180}, {-150, 180},
+            {-100, 100}};
+    public static final int[][] HABITAT_GRAVITE = {{10, 100}, {0, 100},
+            {0, 100}, {0, 100}, {0, 100}, {0, 80}};
     // Les conditions supportées par les différentes races(min et max).
 
-    public static final int[][] RACES_ATMOSPHERES = {{3, 2, 2, 2, 2},
-            {2, 2, 1, 1, 0}, {0, 0, 0, 1, 2}, {2, 2, 1, 2, 2},
-            {-1, 0, 2, -1, -1}, {-1, 0, 2, -1, -1}
+    public static final int[][] RACES_ATMOSPHERES = {
+            {15, 12, 10, 8, 5},   // Fremens : Préfèrent les atmosphères pures (0)
+            {5, 15, 12, 10, 8},   // Atalantes : Préfèrent l'atmosphère 1
+            {8, 5, 15, 12, 10},   // Zwaias : Préfèrent l'atmosphère 2
+            {10, 8, 5, 15, 12},   // Yoksor : Préfèrent l'atmosphère 3
+            {12, 10, 8, 5, 15},   // Fergok : Préfèrent l'atmosphère 4
+            {5, 5, 5, 5, 5}       // Cyborg : Neutres mais stables
     };
     // Le modificateur de progression de population suivant la race et le type
     // d'atmosphére.
@@ -547,9 +551,9 @@ public class Const {
             {1, 0, 0, 0},
             {1, 0, 0, 0},
             {1, 0, 0, 0},
-            {-1, 2, 0, 0},
-            {-1, 0, 1, 1},
-            {0, 0, 0, 0},
+            {0, 2, 0, 0},
+            {0, 0, 1, 1},
+            {1, 0, 0, 0},
     };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;

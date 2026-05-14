@@ -110,6 +110,35 @@
         align-items: center;
     }
 
+    .pie {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 20px auto;
+        border: 2px solid #a7d0f6;
+    }
+
+    .legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+    }
+
 </style>
 <header>
     Sheril, le jeux de conquête galactique
@@ -157,8 +186,56 @@
             echo "Erreur" . mysql_error();
         }
         $count = @mysql_num_rows($result);
+
+        // Préparation des données pour le camembert et stockage des inscrits
+        $inscrits = [];
+        $repartition_races = [];
+        if ($count > 0) {
+            while ($row = mysql_fetch_assoc($result)) {
+                $inscrits[] = $row;
+                $race_id = $row['RACE'];
+                $repartition_races[$race_id] = (isset($repartition_races[$race_id]) ? $repartition_races[$race_id] : 0) + 1;
+            }
+        }
+
+        // Couleurs des races
+        $races_couleurs = [
+            0 => '#CC00FF',
+            1 => '#0066CC',
+            2 => '#FFCC00',
+            3 => '#CC0033',
+            4 => '#009933',
+            5 => '#777777'
+        ];
+
+        // Calcul du gradient pour le camembert CSS
+        $gradient_parts = [];
+        if ($count > 0) {
+            $current_percent = 0;
+            foreach ($repartition_races as $id => $nb) {
+                $percent = ($nb / $count) * 100;
+                $color = isset($races_couleurs[$id]) ? $races_couleurs[$id] : '#FFFFFF';
+                $next_percent = $current_percent + $percent;
+                $gradient_parts[] = $color . " " . number_format($current_percent, 2, '.', '') . "% " . number_format($next_percent, 2, '.', '') . "%";
+                $current_percent = $next_percent;
+            }
+        }
+        $conic_gradient = implode(", ", $gradient_parts);
         ?>
         <h1>Liste des inscriptions en attente <?=$count?></h1>
+
+        <?php if ($count > 0): ?>
+        <div class="pie" style="background: conic-gradient(<?php echo $conic_gradient; ?>);"></div>
+
+        <div class="legend">
+            <?php foreach ($repartition_races as $id => $nb): ?>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: <?php echo isset($races_couleurs[$id]) ? $races_couleurs[$id] : '#FFFFFF'; ?>;"></div>
+                    <span><?php echo isset($races_noms[$id]) ? $races_noms[$id] : "Inconnue"; ?> (<?php echo $nb; ?>)</span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
 
         <table>
             <thead>
@@ -168,8 +245,8 @@
             </tr>
             </thead>
             <tbody>
-            <?php if (mysql_num_rows($result) > 0): ?>
-                <?php while ($row = mysql_fetch_assoc($result)): ?>
+            <?php if ($count > 0): ?>
+                <?php foreach ($inscrits as $row): ?>
                     <tr>
                         <td <?php echo "class='race" . $row['RACE'] . "'"; ?>><?php echo ucfirst(htmlspecialchars($row['NOM'])); ?></td>
                         <td <?php echo "class='race" . $row['RACE'] . "'"; ?>>
@@ -179,7 +256,7 @@
                             ?>
                         </td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             <?php else: ?>
                 <tr>
                     <td colspan="4" class="empty">Aucun inscrit pour le moment.</td>
