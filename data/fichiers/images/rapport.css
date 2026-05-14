@@ -5,7 +5,7 @@
 :root {
     --accent: #9c27b0;
     --information: #00e6e6;
-    --important: #1de9b6;
+    --important: #83bfb0;
 }
 
 .split {
@@ -58,6 +58,7 @@
 .poste_commerciaux tr:first-child td:not(:first-child) {
     white-space: nowrap;
     overflow: hidden;
+    border-right: 1px solid #999;
     text-overflow: ellipsis;
 }
 
@@ -117,8 +118,37 @@
     visibility: visible;
 }
 
+table input {
+    width: 20px;
+    display: inline;
+    background-color: #000;
+    color: #FFF;
+    padding: 2px 5px;
+    margin: 0px 5px;
+    border: 1px solid black;
+    transition: width 0.4s ease-in-out, padding 0.2s;
+    color: transparent;
+    background-color: black;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%2383bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+    cursor: pointer;
+}
+table input:focus , table input:not(:placeholder-shown){
+    width: 80px;
+    cursor: text;
+    outline: none;
+    border-color: #007bff;
+    color: white;
+    background-image: none;
+    padding-left: 15px;
+}
+
+
 body {
     font-size: 10pt;
+    padding-top: 10px;
     Background-attachment: fixed;
     scrollbar-face-color: #000080;
     scrollbar-shadow-color: #000000;
@@ -131,7 +161,7 @@ body {
     MARGIN: 0px 0px 10px;
     COLOR: #DDDDDD;
     FONT-FAMILY: verdana, arial, sans-serif;
-    background: url(../images/fondb51.gif);
+
 }
 
 td, b, i {
@@ -140,8 +170,9 @@ td, b, i {
 }
 
 table {
+    border-radius: 2px;
     border: 1px solid var(--important);
-    padding: 2px;
+    padding: 4px;
     background: #10001d;
 }
 
@@ -163,7 +194,7 @@ table tr:not(:first-child) td:last-child {
     border-right: none;
 }
 
-table tr:first-child td{
+table tr:first-child td {
     border: none;
 }
 

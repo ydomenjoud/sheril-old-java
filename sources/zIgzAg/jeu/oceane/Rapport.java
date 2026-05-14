@@ -145,12 +145,12 @@ public class Rapport {
 			BaliseHTML meta3 = new BaliseHTML(BaliseHTML.LINK,
 					attributsBaseHeadMeta3);
 
-            BaliseHTML style = new BaliseHTML(
-                    BaliseHTML.STYLE,
-                    "table input {display: block; background-color: #000; color: #FFF; padding: 2px 5px; margin: 5px 2px; border: 1px solid #CCCCCC;display: inline;vertical-align: top;}",
-                    "type",
-                    "text/css"
-                    );
+//            BaliseHTML style = new BaliseHTML(
+//                    BaliseHTML.STYLE,
+//                    "",
+//                    "type",
+//                    "text/css"
+//                    );
 
             BaliseHTML script = new BaliseHTML(
                     "script",
@@ -158,7 +158,7 @@ public class Rapport {
                                 document.addEventListener("DOMContentLoaded", function () {
                                     document.querySelectorAll("table").forEach(table => {
                                         const input = document.createElement("input");
-                                        input.setAttribute("placeholder", "Rechercher...");
+                                        input.setAttribute("placeholder", "");
                                         input.addEventListener("input", e => {
                                             const filter = e.target.value.toLowerCase();
                                             table.querySelectorAll("tr:not(:first-child)").forEach(row => {
@@ -178,7 +178,7 @@ public class Rapport {
                             """
             );
 
-			HEAD.ajout(meta1).ajout(meta2).ajout(meta3).ajout(style).ajout(script);
+			HEAD.ajout(meta1).ajout(meta2).ajout(meta3).ajout(script);
 		}
 		return (BaliseHTML) HEAD.clone();
 	}
@@ -796,9 +796,9 @@ public class Rapport {
 		body.ajout(sautP());
 		body.ajout(getSystemes());
 		body.ajout(sautP());
-		body.ajout(getPostesCommerciaux());
-		body.ajout(sautP());
 		body.ajout(getFlottes());
+		body.ajout(sautP());
+		body.ajout(getPostesCommerciaux());
 		body.ajout(sautP());
 		body.ajout(getResumeTechnologies());
 		body.ajout(sautP());
@@ -1218,8 +1218,7 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 
-		return getDiv().ajout(
-				DocumentHTML.creerTable(getTable("table_half"), a));
+		return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
 
 	public BaliseHTML getVotrePeuple() {

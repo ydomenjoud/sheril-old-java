@@ -15,7 +15,7 @@ public class MessagesRapport extends MessagesAbstraits{
 
  public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max","Colons"};
 
- public static final String[] RESUME_SYSTEMES={"Résumé de vos systémes","&nbsp;","Position","Nom","Pop","Pop Max",
+ public static final String[] RESUME_SYSTEMES={"Résumé de vos systèmes","&nbsp;","Position","Nom","Pop","Pop Max",
                                                "Planètes",
                                                "Taxe","Stabilité","PDC","R.M.","B. Tech","B. Spé","B. Contre",
                                                "Propriétaire(s)","Gouverneur","Politique","colons"};

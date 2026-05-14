@@ -419,7 +419,7 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 
 	public String getInfoBulle(Locale l) {
 		var data = new String[]{
-				"Taille: " + getTaille() + " / Vitesse: " + getCapaciteMouvement(false),
+				"Taille: " + (getTaille()+1) + " / Vitesse: " + getCapaciteMouvement(false),
 				"AS: " + getForceSpatiale() +" / AP : " + getForcePlanetaire() ,
 				"PDC: " + getPointsDeConstructions() + " / Prix: " + Utile.formatNumber((int) getPrix(), 0) + " / Minerai: " + getMineraiNecessaire(),
 				"Marchandises: " + getListeMarchandises(l, " "),
