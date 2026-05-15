@@ -924,7 +924,7 @@ public class Stats {
 		Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> donnees = PointDeVictoire.genererSyntheseCommandants();
 
 		java.util.function.Function<StatCategorie, String> formater = (s) -> {
-			if (s == null) return "-";
+			if (s == null || s.getPosition() == 0) return "-";
 
 			int pos = s.getPosition();
 			// Gestion du suffixe : "er" pour 1, "ème" pour le reste
@@ -941,15 +941,21 @@ public class Stats {
 			Commandant cmd = entry.getKey();
 			Map<PointDeVictoireCategorie, StatCategorie> stats = entry.getValue();
 			int totalPointsDeVictoire = 0;
-			for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
-				StatCategorie stat = stats.get(cat);
-				if (stat != null) {
-					int position = stat.getPosition(); // 1-based index
-					List<Integer> pointsAttribues = PointDeVictoire.config.get(cat);
+			boolean estNouveau = cmd.getTourArrivee() == Univers.getTour();
 
-					// Si la position est dans la liste de config (ex: 1er, 2ème, 3ème)
-					if (position <= pointsAttribues.size()) {
-						totalPointsDeVictoire += pointsAttribues.get(position - 1);
+			if (!estNouveau) {
+				for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
+					StatCategorie stat = stats.get(cat);
+					if (stat != null) {
+						int position = stat.getPosition(); // 1-based index
+						if (position > 0) {
+							List<Integer> pointsAttribues = PointDeVictoire.config.get(cat);
+
+							// Si la position est dans la liste de config (ex: 1er, 2ème, 3ème)
+							if (position <= pointsAttribues.size()) {
+								totalPointsDeVictoire += pointsAttribues.get(position - 1);
+							}
+						}
 					}
 				}
 			}

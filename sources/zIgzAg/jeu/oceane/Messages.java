@@ -256,7 +256,7 @@ public class Messages extends MessagesAbstraits {
 	public static final String DESCRIPTION_FLOTTE2 = " du commandant ";
 	// les phrases nécessaires pour la description d'une flotte.
 
-	public static final String TECHNOLOGIE_AUCUN_PARENT = "aucune technologie nécessaire";
+	public static final String TECHNOLOGIE_AUCUN_PARENT = " - ";
 	// Pour les technologies "de base".
 
 	public static final String DENOMINATION_FLOTTE_DE_DEPART = "Flotte de départ";

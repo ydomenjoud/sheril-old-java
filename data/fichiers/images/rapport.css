@@ -1,71 +1,261 @@
-.neutre { color: #1dddc9;} 
-
-.race0{ color: #CC00FF}
-.race1{ color: #0066CC}
-.race2{ color: #FFCC00}
-.race3{ color: #CC0033}
-.race4{ color: #009933}
-.race5{ color: #777777}
-
-body{
-font-size:10pt;
-Background-attachment:fixed;
-scrollbar-face-color: #000080;
-scrollbar-shadow-color: #000000;
-scrollbar-highlight-color: #15E410;
-scrollbar-3dlight-color: #2E72E2;
-scrollbar-darkshadow-color: #000000;
-scrollbar-track-color: #2E72E2;
-scrollbar-arrow-color: #FFFF0D;
-BACKGROUND: #1A1A1A; 
-MARGIN: 0px 0px 10px; 
-COLOR: #DDDDDD; 
-FONT-FAMILY: verdana, arial, sans-serif;
-background: url(../images/fondb51.gif);
+.neutre {
+    color: #1dddc9;
 }
-td,b,i{
-	font-size:10pt;
-	FONT-FAMILY: verdana, arial, sans-serif;}
-	
+
+:root {
+    --accent: #9c27b0;
+    --information: #00e6e6;
+    --important: #83bfb0;
+}
+
+.split {
+    display: flex;
+    max-width: 95vw;
+    margin: auto;
+    justify-content: stretch;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.split> * {
+    flex: 1;
+}
+
+.technologie {
+    color: var(--information);
+    white-space: nowrap;
+}
+
+.technologie.public {
+    color: #6ce477;
+    font-style: italic;
+}
+
+.race0 {
+    color: #CC00FF
+}
+
+.race1 {
+    color: #0066CC
+}
+
+.race2 {
+    color: #FFCC00
+}
+
+.race3 {
+    color: #CC0033
+}
+
+.race4 {
+    color: #009933
+}
+
+.race5 {
+    color: #777777
+}
+
+.poste_commerciaux {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.poste_commerciaux tr:first-child td:not(:first-child) {
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 1px solid #999;
+    text-overflow: ellipsis;
+}
+
+.poste_commerciaux tr:first-child td:first-child {
+    width: 200px;
+    white-space: normal;
+}
+
+.poste_commerciaux tr:first-child td:not(:first-child):hover {
+    overflow: visible; /* On montre le texte qui dépasse */
+    position: relative; /* Permet de gérer le z-index */
+    z-index: 10; /* Passe au-dessus des autres cellules */
+    background-color: #1a1a1a; /* Fond opaque pour que le texte soit lisible */
+    width: auto; /* Permet de s'étendre si besoin */
+    min-width: 80px;
+}
+
+.poste_commerciaux tr:first-child td:not(:first-child):hover font {
+    background: black;
+}
+
+.table_full {
+    width: 95vw;
+}
+
+/*.table_half {*/
+/*	width: 50vw;*/
+/*	max-width: 400px;*/
+/*}*/
+
+[data-tooltip] {
+    position: relative;
+    border-bottom: 1px dashed currentColor;
+    cursor: help;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.1s ease-in-out;
+    z-index: 10;
+    white-space: pre-wrap;
+    min-width: 250px;
+    text-align: left;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+table input {
+    float: left;
+    width: 20px;
+    display: inline;
+    background-color: #000;
+    color: #FFF;
+    padding: 2px 5px;
+    margin: 0px 5px;
+    border: 1px solid black;
+    transition: width 0.4s ease-in-out, padding 0.2s;
+    color: transparent;
+    background-color: black;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%2383bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+    cursor: pointer;
+}
+table input:focus , table input:not(:placeholder-shown){
+    width: 80px;
+    left: 0;
+    position: absolute;
+    cursor: text;
+    outline: none;
+    border-color: #007bff;
+    color: white;
+    background-image: none;
+    padding-left: 15px;
+}
+
+
+body {
+    font-size: 10pt;
+    padding-top: 10px;
+    Background-attachment: fixed;
+    scrollbar-face-color: #000080;
+    scrollbar-shadow-color: #000000;
+    scrollbar-highlight-color: #15E410;
+    scrollbar-3dlight-color: #2E72E2;
+    scrollbar-darkshadow-color: #000000;
+    scrollbar-track-color: #2E72E2;
+    scrollbar-arrow-color: #FFFF0D;
+    BACKGROUND: #1A1A1A;
+    MARGIN: 0px 0px 10px;
+    COLOR: #DDDDDD;
+    FONT-FAMILY: verdana, arial, sans-serif;
+
+}
+
+td, b, i {
+    font-size: 10pt;
+    FONT-FAMILY: verdana, arial, sans-serif;
+}
+
 table {
-	border: 1px solid #402b03;
-	padding: 2px;
-	}
-td {
-	border: 0px;
-	border-top: 1px solid #555555;
-	border-left: 0px;
-	border-right: 1px solid #DDDDDD;
-	border-bottom: 0px;
-	}
-	
-.titre_section{
-	color: #ffb400;
-	font-size: 14pt;
-	}
-.titre_table{
- /** #99CC99 **/
-color: #99CC99;
-font-size: 12pt;
-font-weight: bold;
-	}
-.titre_caption{ /* #FBF7AF */
-	color:#967dff;
-	font-style: italic;
-	}
-	}
+    border-radius: 2px;
+    border: 1px solid var(--important);
+    padding: 4px;
+    background: #10001d;
+    box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3);
+}
+table tr {
+    position: relative;
+}
+
+table table {
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+
+}
+
+table tr:not(:first-child) td {
+    border: 0px;
+    border-top: 1px solid #222;
+    border-left: 0px;
+    border-right: 1px solid #999;
+    border-bottom: 0px;
+}
+
+table tr:not(:first-child) td:last-child {
+    border-right: none;
+}
+
+table tr:first-child td {
+    border: none;
+}
+
+.titre_section {
+    color: var(--accent);
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.titre_table {
+    color: var(--accent);
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.titre_caption { /* #FBF7AF */
+    color: #967dff;
+    font-style: italic;
+}
+
 A {
-	FONT-SIZE: 10pt; COLOR: #6F578A; FONT-FAMILY: verdana, arial, sans-serif; TEXT-DECORATION: none
+    FONT-SIZE: 10pt;
+    COLOR: #6F578A;
+    FONT-FAMILY: verdana, arial, sans-serif;
+    TEXT-DECORATION: none
 }
+
 A:link {
-	COLOR: #CCCCCC; FONT-SIZE: 10pt; TEXT-DECORATION: none
+    COLOR: #CCCCCC;
+    FONT-SIZE: 10pt;
+    TEXT-DECORATION: none
 }
+
 A:visited {
-	COLOR: #CCCCCC; FONT-SIZE: 10pt; TEXT-DECORATION: none
+    COLOR: #CCCCCC;
+    FONT-SIZE: 10pt;
+    TEXT-DECORATION: none
 }
+
 A:active {
-	COLOR: #64D200; FONT-SIZE: 10pt; TEXT-DECORATION: none
+    COLOR: #64D200;
+    FONT-SIZE: 10pt;
+    TEXT-DECORATION: none
 }
+
 A:hover {
-	COLOR: #64D200; FONT-SIZE: 10pt; TEXT-DECORATION: none
+    COLOR: #64D200;
+    FONT-SIZE: 10pt;
+    TEXT-DECORATION: none
 }

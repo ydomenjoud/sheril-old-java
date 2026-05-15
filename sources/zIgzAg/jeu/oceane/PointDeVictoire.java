@@ -42,7 +42,9 @@ public class PointDeVictoire {
         config.put(PointDeVictoireCategorie.POPULATION_VS, List.of(3, 2, 1));
 
         // classement
-        List<Commandant> baseList = Arrays.asList(Univers.getListeCommandantsHumains());
+        List<Commandant> baseList = Arrays.stream(Univers.getListeCommandantsHumains())
+                .filter(c -> c.getTourArrivee() != Univers.getTour())
+                .toList();
         classement.put(PointDeVictoireCategorie.PLANETES, baseList.stream()
                 .sorted(Comparator.comparing(Commandant::getEvolutionPossession).reversed())
                 .toList());
@@ -127,10 +129,16 @@ public class PointDeVictoire {
 
         for (Commandant cmd : commandants) {
             Map<PointDeVictoireCategorie, StatCategorie> statsCmd = new EnumMap<>(PointDeVictoireCategorie.class);
+            boolean estNouveau = cmd.getTourArrivee() == Univers.getTour();
+
             for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
-                int rang = rangsReels.get(cat).get(cmd);
-                int valeur = getValeurSelonCategorie(cat, cmd);
-                statsCmd.put(cat, new StatCategorie(rang, valeur));
+                if (estNouveau) {
+                    statsCmd.put(cat, new StatCategorie(0, 0));
+                } else {
+                    Integer rang = rangsReels.get(cat).get(cmd);
+                    int valeur = getValeurSelonCategorie(cat, cmd);
+                    statsCmd.put(cat, new StatCategorie(rang != null ? rang : 0, valeur));
+                }
             }
             synthese.put(cmd, statsCmd);
         }

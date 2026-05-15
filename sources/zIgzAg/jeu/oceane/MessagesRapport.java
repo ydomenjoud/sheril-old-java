@@ -10,17 +10,17 @@ package zIgzAg.jeu.oceane;
 public class MessagesRapport extends MessagesAbstraits{
  public static int tour=Univers.getTour()+1;
 
- public static final String[] INFO_GENERALES={"Informations générales <font size=2 color=\"#FFB400\">("+Utile.getDateRapport()+")</font>","Numéro du tour","Numéro du Commandant","Nom",
-   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts"};
+ public static final String[] INFO_GENERALES={"Informations générales","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
+   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire"};
 
  public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max","Colons"};
 
- public static final String[] RESUME_SYSTEMES={"Résumé de vos systémes","&nbsp;","Position","Nom","Pop","Pop Max",
+ public static final String[] RESUME_SYSTEMES={"Résumé de vos systèmes","&nbsp;","Position","Nom","Pop","Pop Max",
                                                "Planètes",
-                                               "Taxe","Stabilité","PDC","R.M.","Budget T.","Budget S.","Budget C.",
+                                               "Taxe","Stabilité","PDC","R.M.","B. Tech","B. Spé","B. Contre",
                                                "Propriétaire(s)","Gouverneur","Politique","colons"};
 
- public static final String[] SYSTEMES_GENERAL={"Rapport des Systèmes","Capitale : ","Aucune"};
+ public static final String[] SYSTEMES_GENERAL={"Systèmes","Capitale : ","Aucune"};
 
  public static final String[] SYSTEME={"Nombre de planètes : ","(voir planètes)","Populations","Population max",
    "Augmentation","Population totale","Population totale max","Augmentation moyenne","Ressources","Mines",
@@ -29,7 +29,7 @@ public class MessagesRapport extends MessagesAbstraits{
    "Type","Nombre","Points constru. nécessaires","Pour la planète","Non précisé","équipement","Postes commerciaux",
    "Gouverneur","Programmation construction"};
 
- public static final String[] POSTES_COMMERCIAUX={"Rapport de vos postes commerciaux","Production","Stock","Prix",
+ public static final String[] POSTES_COMMERCIAUX={"Rapport de vos postes commerciaux","",
                                                 "Rapport des postes commerciaux étrangers"};
 
  public static final String[] DETAIL_SYSTEME={"Détail des planètes du système ","Propriétaire : ",
@@ -45,18 +45,18 @@ public class MessagesRapport extends MessagesAbstraits{
 
 
  public static final String[] RESUME_FLOTTES={"Résumé de vos flottes","Nom-Numéro","Position","Direction","Directive",
-  "Vitesse","Force spatiale","Force planétaire","état","Cargaison","capa","Héros","Vso"};
+  "Vitesse","Force spatiale","Force planétaire","Etat","PDC","Héros","Vaisseaux", "Construction"};
 
  public static final String[] DETAIL_FLOTTES={"Description de vos flottes","Nom de la flotte","Numéro de la flotte","Nom",
   "Type de vaisseau","Dommages","Expérience","Moral","Composants détruits","équipage"};
 
- public static final String[] RESUME_TECHNOLOGIES={"Rapport des technologies","Technologies connues",
+ public static final String[] RESUME_TECHNOLOGIES={"","Technologies connues",
   "Technologies pouvant être cherchées","Bâtiments",
-  "Nom","Prix","Points de construction","Minerai","Produits nécessaires","Encombrement transport",
-  "Trouvée à partir de",
-  "Composants de vaisseaux","Nom","Prix","Minerai","Nombre de cases","Produits nécessaires","Trouvée à partir de",
-  "Autres","Nom","Description","Trouvée à partir de",
-  "Les technologies publiques sont en <i><FONT color=\"#00F1AF\">vert</FONT></i>.",
+  "Nom","Prix","PDC (structure)","Minerai","Produits nécessaires",
+  "Prérequis","",
+  "Composants de vaisseaux","Nom","Prix","Nombre de cases","Minerai","Produits nécessaires","Prérequis",
+  "Autres","Nom","Description","Prérequis",
+  "Les technologies publiques sont en <span class=\"technologie public\">vert</span>.",
   "Recherches actuelles","Technologie","Pourcentage du budget technologique affecté","Points de recherche"};
 
  public static final String[] TECHNOLOGIES={"Détail des technologies","Technologies connues",
@@ -66,9 +66,9 @@ public class MessagesRapport extends MessagesAbstraits{
   "Produits nécessaires","Vitesse","Dommages bouclier","Dommages coque","Dommages au sol","Portée","Fiabilité",
   "Pourcentage de chance de toucher les différents types de coque","Caractéristique(s) spéciale(s)"};
 
- public static final String[] PLANS_DE_VAISSEAUX={"Plans de vaisseaux","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
+ public static final String[] PLANS_DE_VAISSEAUX={"Plans privés","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
    "Points de construction nécessaires","Coût en centaures","Côut en minerai","Matériaux spéciaux nécessaires",
-   "Capacité d'attaque spatiale","Capacité d'attaque planétaire","Soutes à cargo",
+   "Capacité d'attaque spatiale","Capacité d'attaque planétaire",
    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
    "Royalties","Domaine"};
 
@@ -85,7 +85,7 @@ public class MessagesRapport extends MessagesAbstraits{
  "Type de vaisseau","Position","Taille visée 1","TV 2","TV 3","TV 4","TV 5","TV 6","TV 7","TV 8","TV 9","TV 10"};
 
  public static final String[] DETECTION_FLOTTES={"Flottes étrangères détectées par vos radars",
-  "Position","Nom","Nombre de vaisseaux","Description","Puissance estimée"};
+  "Position","Nom","Nombre de vaisseaux","Numéro","Propriétaire","Puissance estimée"};
  public static final String[] DETECTION_SYSTEMES={"Systèmes étrangers détectés par vos radars",
   "Position","Nom","Population","Nombre de planètes","Propriétaire(s)"};
 
