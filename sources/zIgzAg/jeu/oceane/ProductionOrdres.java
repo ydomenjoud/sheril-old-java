@@ -436,7 +436,7 @@ public class ProductionOrdres {
 					o[6] = Integer.toString(nouveau.getTourArrivee());
 					ecrire(afficherCommandant(Const.TABLE_REGISTRE, o));
 				}
-				VisualisationUnivers.genererCarteHTML("data/commun/carte.html");
+				VisualisationUnivers.genererCarteHTML();
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());

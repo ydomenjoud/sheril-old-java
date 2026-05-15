@@ -91,7 +91,7 @@ public class AjoutDeGalaxie {
                 System.out.print("F" + i + "-");
                 Flotte f = Flotte.creerAuHasard(pos, "Flotte neutre",
                         Univers.getInt(Messages.RACES.length),
-                        Univers.getInt(100));
+                        50 + Univers.getInt(100));
                 f.setDirective(Const.DIRECTIVE_FLOTTE_ATTAQUE_PREVENTIVE);
                 commandantNeutre.ajouterFlotte(f);
                 presenceFlo[pos.getY() - 1][pos.getX() - 1] = true;
@@ -103,7 +103,7 @@ public class AjoutDeGalaxie {
         Univers.setCommandant(commandantNeutre);
         univers.sauvegarder();
 
-        VisualisationUnivers.genererCarteHTML("data/commun/carte.html");
+        VisualisationUnivers.genererCarteHTML();
 
     }
 

@@ -5,7 +5,8 @@ import java.io.IOException;
 
 public class VisualisationUnivers {
 
-    public static void genererCarteHTML(String cheminFichier) {
+    public static void genererCarteHTML() {
+        String cheminFichier = Chemin.STATS+"carte.html";
         try {
             FileWriter writer = new FileWriter(cheminFichier);
             writer.write("<!DOCTYPE html>\n<html>\n<head>\n");
@@ -90,7 +91,7 @@ public class VisualisationUnivers {
                         }
                         
                         if (proprio != 0) {
-                            writer.write("<span class='commandant-num'>" + proprio + "</span>");
+//                            writer.write("<span class='commandant-num'>" + proprio + "</span>");
                         }
                         writer.write("</div>");
                     } else {

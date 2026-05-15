@@ -10,9 +10,15 @@
 
 .split {
     display: flex;
-    justify-content: space-between;
     max-width: 95vw;
     margin: auto;
+    justify-content: stretch;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.split> * {
+    flex: 1;
 }
 
 .technologie {
@@ -119,6 +125,7 @@
 }
 
 table input {
+    float: left;
     width: 20px;
     display: inline;
     background-color: #000;
@@ -137,6 +144,8 @@ table input {
 }
 table input:focus , table input:not(:placeholder-shown){
     width: 80px;
+    left: 0;
+    position: absolute;
     cursor: text;
     outline: none;
     border-color: #007bff;
@@ -174,11 +183,16 @@ table {
     border: 1px solid var(--important);
     padding: 4px;
     background: #10001d;
+    box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3);
+}
+table tr {
+    position: relative;
 }
 
 table table {
     border: 0;
     padding: 0;
+    box-shadow: none;
 
 }
 
