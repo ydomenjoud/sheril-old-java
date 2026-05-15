@@ -129,10 +129,16 @@ public class PointDeVictoire {
 
         for (Commandant cmd : commandants) {
             Map<PointDeVictoireCategorie, StatCategorie> statsCmd = new EnumMap<>(PointDeVictoireCategorie.class);
+            boolean estNouveau = cmd.getTourArrivee() == Univers.getTour();
+
             for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
-                int rang = rangsReels.get(cat).get(cmd);
-                int valeur = getValeurSelonCategorie(cat, cmd);
-                statsCmd.put(cat, new StatCategorie(rang, valeur));
+                if (estNouveau) {
+                    statsCmd.put(cat, new StatCategorie(0, 0));
+                } else {
+                    Integer rang = rangsReels.get(cat).get(cmd);
+                    int valeur = getValeurSelonCategorie(cat, cmd);
+                    statsCmd.put(cat, new StatCategorie(rang != null ? rang : 0, valeur));
+                }
             }
             synthese.put(cmd, statsCmd);
         }
