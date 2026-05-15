@@ -45,17 +45,17 @@ public class MessagesRapport extends MessagesAbstraits{
 
 
  public static final String[] RESUME_FLOTTES={"Résumé de vos flottes","Nom-Numéro","Position","Direction","Directive",
-  "Vitesse","Force spatiale","Force planétaire","état","Cargaison","capa","Héros","Vaisseaux"};
+  "Vitesse","Force spatiale","Force planétaire","Etat","PDC","Héros","Vaisseaux", "Construction"};
 
  public static final String[] DETAIL_FLOTTES={"Description de vos flottes","Nom de la flotte","Numéro de la flotte","Nom",
   "Type de vaisseau","Dommages","Expérience","Moral","Composants détruits","équipage"};
 
  public static final String[] RESUME_TECHNOLOGIES={"","Technologies connues",
   "Technologies pouvant être cherchées","Bâtiments",
-  "Nom","Prix","Points de construction","Minerai","Produits nécessaires","Encombrement transport",
-  "Trouvée à partir de",
-  "Composants de vaisseaux","Nom","Prix","Minerai","Nombre de cases","Produits nécessaires","Trouvée à partir de",
-  "Autres","Nom","Description","Trouvée à partir de",
+  "Nom","Prix","PDC (structure)","Minerai","Produits nécessaires",
+  "Prérequis","",
+  "Composants de vaisseaux","Nom","Prix","Nombre de cases","Minerai","Produits nécessaires","Prérequis",
+  "Autres","Nom","Description","Prérequis",
   "Les technologies publiques sont en <span class=\"technologie public\">vert</span>.",
   "Recherches actuelles","Technologie","Pourcentage du budget technologique affecté","Points de recherche"};
 
@@ -85,7 +85,7 @@ public class MessagesRapport extends MessagesAbstraits{
  "Type de vaisseau","Position","Taille visée 1","TV 2","TV 3","TV 4","TV 5","TV 6","TV 7","TV 8","TV 9","TV 10"};
 
  public static final String[] DETECTION_FLOTTES={"Flottes étrangères détectées par vos radars",
-  "Position","Nom","Nombre de vaisseaux","Description","Puissance estimée"};
+  "Position","Nom","Nombre de vaisseaux","Numéro","Propriétaire","Puissance estimée"};
  public static final String[] DETECTION_SYSTEMES={"Systèmes étrangers détectés par vos radars",
   "Position","Nom","Population","Nombre de planètes","Propriétaire(s)"};
 

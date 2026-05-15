@@ -42,7 +42,9 @@ public class PointDeVictoire {
         config.put(PointDeVictoireCategorie.POPULATION_VS, List.of(3, 2, 1));
 
         // classement
-        List<Commandant> baseList = Arrays.asList(Univers.getListeCommandantsHumains());
+        List<Commandant> baseList = Arrays.stream(Univers.getListeCommandantsHumains())
+                .filter(c -> c.getTourArrivee() != Univers.getTour())
+                .toList();
         classement.put(PointDeVictoireCategorie.PLANETES, baseList.stream()
                 .sorted(Comparator.comparing(Commandant::getEvolutionPossession).reversed())
                 .toList());
