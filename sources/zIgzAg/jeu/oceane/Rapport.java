@@ -791,9 +791,6 @@ public class Rapport {
 		BaliseHTML splitter = getSpan("split");
 		splitter.ajout(getInfoGenerales());
 		ajouterLienPrincipal(
-				getALienE("https://sheril.pbem-france.net/stats/carte.html")
-						.ajout(getText("Carte de la galaxie")));
-		ajouterLienPrincipal(
 				getALienE("https://ydomenjoud.github.io/test-interface-sheril/")
 				.ajout(getText("Cartographie")));
 		splitter.ajout(getBudget());
@@ -1788,7 +1785,7 @@ public class Rapport {
 			racine.ajout(ecrireMessages(er, Const.MESSAGE_TYPE_COMMANDANT));
 		}
 		if (ev.nbMessages() != 0) {
-			racine.ajout(getTitreSection().ajout(getABorne(LIEN_MESSAGES).ajout(getText(t[1])))).ajout(sautP());
+			racine.ajout(getTitreSection().ajout(getABorne(LIEN_MESSAGES)).ajout(getText(t[1]))).ajout(sautP());
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#EVT").ajout(getText("Evenements")));
 			racine.ajout(getABorne("EVT"));
 			racine.ajout(ecrireMessages(ev, Const.MESSAGE_TYPE_COMMANDANT));

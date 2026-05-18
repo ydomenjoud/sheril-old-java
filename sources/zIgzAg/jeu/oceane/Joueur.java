@@ -427,10 +427,6 @@ public class Joueur implements Serializable {
 
         // les soussous
         c.setCentaures(20000 + Univers.getTour() * 1000);
-        // Si Cyborg on rajoute plus d'argent à la base
-        if (c.getRace() == 5 && false)
-            c.setCentaures(30000);
-
 		c.setBudget(Const.BUDGET_COMMANDANT_TOUR_PRECEDENT, c.getCentaures());
 		c.setBudget(Const.BUDGET_COMMANDANT_TOTAL_DISPONIBLE, c.getCentaures());
 
@@ -441,9 +437,6 @@ public class Joueur implements Serializable {
 
 		c.ajouterHeros(h);
 		c.ajouterGouverneur(g);
-
-		if (c.getRace() == 5)
-			c.setReputation(-5000);
 
 		Univers.setCommandant(c);
 		Univers

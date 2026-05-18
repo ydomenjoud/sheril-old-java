@@ -427,10 +427,6 @@ public class Combat {
                 Const.PRODUIT_ARMEMENT))
             nbPopDefensive = Math.min(p.populationTotale(),
                     (nbPopDefensive * 3) / 2);
-        // Pour les atalantes et fergok bonus de défense
-        if (c2.getRace() == 1 || c2.getRace() == 4)
-            nbPopDefensive = Math.min(p.populationTotale() * 3 / 2,
-                    (nbPopDefensive * 3) / 2);
         Map.Entry[] materielPlanete = (Map.Entry[]) p
                 .listeEquipementsNombresDommages().entrySet()
                 .toArray(new Map.Entry[0]);

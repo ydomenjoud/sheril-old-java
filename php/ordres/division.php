@@ -66,12 +66,35 @@ if ($flotte_selectionnee !== null) {
 
 <h1>Division de flotte</h1>
 
+
 <style>
     table tr td:first-child {
         position: sticky;
-        left: 10px;
+        left: 0px;
         background-color: black;
         font-weight: bold;
+        white-space: nowrap;
+        z-index: 100;
+    }
+    td:has(input:not(.notempty)){
+        opacity: 0.3;
+    }
+    input:not([type=submit]) {
+        line-height: 1.5em;
+        font-size: 1.5em;
+    }
+
+    table td {
+        border: 0;
+        padding: 2px;
+        background: black;
+    }
+    tr:nth-child(even) td {
+        background: #700e91;
+    }
+
+    tr:nth-child(even) td input:not([type=submit]) {
+        background: #490560;
     }
 </style>
 
@@ -109,7 +132,7 @@ if ($flotte_selectionnee !== null) {
         <table>
             <thead>
                 <tr>
-                    <th>Vaisseau</th>
+                    <th style="width: 150px">Vaisseau</th>
                     <?php foreach ($divisions as $nb_div => $nom): ?>
                         <th><?php echo $nom; ?> </th>
                     <?php endforeach; ?>
@@ -125,7 +148,7 @@ if ($flotte_selectionnee !== null) {
                         $somme_ligne = 0;
                         foreach ($divisions as $nb_div => $nom) {
                             $val = isset($affectations[$nb_div][$type_vaisseau]) ? $affectations[$nb_div][$type_vaisseau] : 0;
-                            echo "<td><input type='number' name='qte[$nb_div][$type_vaisseau]' value='$val' min='0' style='width: 60px;'></td>";
+                            echo "<td><input type='number' name='qte[$nb_div][$type_vaisseau]' " .($val > 0 ? "value='$val'" : "")." " .($val > 0 ? "class='notempty'" : "")." min='0' style='width: 60px;'></td>";
                             $somme_ligne += $val;
                         }
                         echo "<td><strong>$somme_ligne</strong></td>";
@@ -138,6 +161,17 @@ if ($flotte_selectionnee !== null) {
         <br>
         <input type="submit" value="Enregistrer les modifications">
     </form>
+
+<script>
+
+    Array.from(document.querySelectorAll('input[type=number]')).forEach( i => {
+        i.addEventListener('keyup', function() {
+            const val = i.value;
+            i.classList.toggle('notempty', val > 0);
+        });
+    });
+</script>
+
 <?php endif; ?>
 
 </BODY>

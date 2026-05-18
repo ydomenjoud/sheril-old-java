@@ -493,13 +493,7 @@ public class Flotte implements Serializable {
 		for (int i = 0; i < v.length; i++){
 			min = Math.min(min, v[i].getCapaciteMouvementFixe(intraGalactique));
 		}
-		
-		/**
-		 * Patch zwaia sur la vitesse des vaisseaux
-		 */
-		if( commandant.getRace() == 2 ){
-			min = min + 2;
-		}
+
 		
 		if (h != null) {
 			int ajout = h.getNiveauCompetence(Const.COMPETENCE_LEADER_VOYAGEUR);

@@ -1242,16 +1242,7 @@ public class Commandant extends Joueur implements Serializable {
 
 			boolean remove = false;
 
-			// yoksor
-			if (getRace() == 3) {
-				if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-				else if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-			} else {
-				if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-			}
+            remove = true;
 
 			if (remove)
 				flottesDetectees.remove(inter);
@@ -1597,10 +1588,7 @@ public class Commandant extends Joueur implements Serializable {
 					+ f[i].getEntretien(getHerosSurFlotte(numeroFlotte(f[i])),
 							carburant);
 		}
-		
-		if( getRace() == 4 ){
-			entretien = entretien * 0.9f;
-		}
+
 		
 		modifierBudget(Const.BUDGET_COMMANDANT_ENTRETIEN_FLOTTE, -entretien);
 
@@ -1746,15 +1734,7 @@ public class Commandant extends Joueur implements Serializable {
 							getGouverneurSurPossession(s[i].getPosition()),
 							getPossession(s[i].getPosition()));
 		}
-		
-		/**
-		 * Patch Fergok
-		 */
-		
-		if( getRace() == 4 ){
-			entretien = entretien * 0.9f;
-		}
-		
+
 		// entretien=entretien+getEntretienNombrePlanete();
 		modifierBudget(Const.BUDGET_COMMANDANT_ENTRETIEN_SYSTEME, -entretien);
 		modifierBudget(Const.BUDGET_COMMANDANT_RECHERCHE,
@@ -2839,15 +2819,7 @@ public class Commandant extends Joueur implements Serializable {
 		if (sys.estDejaTerraforme(numero))
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0004", pos);
 		float cout = sys.coutTerraformation(numero);
-		
-		/**
-		 * Patch fremen
-		 * cout de terraformation: -10%
-		 */
-		if( this.getRace() == 0 ){
-			cout = cout * 0.9f;
-		}
-		
+
 		if (cout > centaures)
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0000", pos);
 
@@ -2877,14 +2849,7 @@ public class Commandant extends Joueur implements Serializable {
 		
 		float cout = sys.getPlanete(numPlanete).coutTerraformation();
 
-		/**
-		 * Patch fremen
-		 * on divise par deux le cout de terraformation.
-		 */
-		if( this.getRace() == 0 ){
-			cout = cout/2;
-		}
-		
+
 		if (cout > centaures)
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0001", pos,
 					sys.getNomNumeroPlanete(numPlanete));
@@ -4032,14 +3997,7 @@ public class Commandant extends Joueur implements Serializable {
 		
 		// Chaque niveau de la maitrise spatiale permet deux transfert
 		max += getNiveauMaxMaitriseSpatiale() * 5;
-		
-		/**
-		 * Patch Zwaia
-		 */
-		if( getRace() == 2){
-			max = (int)(max * 120/100);
-		}
-		
+
 		return max;
 	}
 	

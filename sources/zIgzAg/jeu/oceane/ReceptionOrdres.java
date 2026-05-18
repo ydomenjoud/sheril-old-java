@@ -241,8 +241,7 @@ public class ReceptionOrdres {
 			int numeroLieutenant = Integer.parseInt((String) m[i].getKey());
 			String s = (String) m[i].getValue();
 			int offre = Integer.parseInt(s.substring(0, s.indexOf('*')));
-			int numC = Integer.parseInt(s.substring(s.indexOf('*') + 1,
-					s.length()));
+			int numC = Integer.parseInt(s.substring(s.indexOf('*') + 1, s.length()));
 			Commandant c = Univers.getCommandant(numC);
 			if ((float) offre >= l[numeroLieutenant].getValeur()) {
 				if (l[numeroLieutenant] instanceof Heros)

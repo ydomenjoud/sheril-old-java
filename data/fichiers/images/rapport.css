@@ -22,7 +22,7 @@
     max-width: var(--width);
     width: 95vw;
     justify-content: stretch;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 10px;
 }
 
@@ -95,7 +95,7 @@
 }
 .flotte {
     max-width: var(--width);
-    width: 50vw;
+    width: 40vw;
 }
 
 .flotte table {
@@ -180,17 +180,17 @@ table th {
     padding: 5px 10px;
     border-radius: 4px;
     opacity: 0;
-    visibility: hidden;
     transition: opacity 0.1s ease-in-out;
     z-index: 10000;
     white-space: pre-wrap;
     min-width: 250px;
     text-align: left;
+    display: none;
 }
 
 [data-tooltip]:hover::after {
     opacity: 1;
-    visibility: visible;
+    display: block;
 }
 
 table input {
