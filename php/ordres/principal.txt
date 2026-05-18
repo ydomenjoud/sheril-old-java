@@ -6,7 +6,9 @@ $nb_div = array_key_exists('nb_div', $_GET) ? $_GET['nb_div'] : null;
 
 if ($table === "list_ordres") {
     include "./list_ordres.php";
-} else if ($table != "") {
+} else if ($table === "division") {
+    include "./division.php";
+}  else if ($table != "") {
     include "../secure/connect.txt";
     include "body.txt";
     include "../script/fonctions.txt";

@@ -50,13 +50,14 @@ public class AjoutDeGalaxie {
         // On divise la grille 30x30 en cellules de 2x2 -> 15x15 = 225 cellules.
         // On va répartir les 198 systèmes dans ces 225 cellules.
         java.util.List<int[]> cellules = new java.util.ArrayList<>();
-        for (int row = 0; row < 15; row++) {
-            for (int col = 0; col < 15; col++) {
+        for (int row = 0; row < Const.BORNE_MAX/2; row++) {
+            for (int col = 0; col < Const.BORNE_MAX/2; col++) {
                 cellules.add(new int[]{row, col});
             }
         }
         java.util.Collections.shuffle(cellules);
 
+        System.out.println("Création systèmes");
         for (int i = 0; i < nbSystemes && i < cellules.size(); i++) {
             int[] cell = cellules.get(i);
             int row = cell[0];
@@ -69,41 +70,35 @@ public class AjoutDeGalaxie {
             if (presenceSys[pos.getY() - 1][pos.getX() - 1]) {
                 // Devrait théoriquement pas arriver avec des cellules disjointes,
                 // mais on garde la sécurité.
-                i--; 
+                i--;
                 continue;
             }
 
-            System.out.print("S" + currentSystemCount + "-");
+//            System.out.print("S" + currentSystemCount + "-");
             Univers.setSysteme(Systeme.creerAuHasard(pos));
             commandantNeutre.ajouterPossession(pos, Possession.creerAuHasard());
             presenceSys[pos.getY() - 1][pos.getX() - 1] = true;
             currentSystemCount++;
         }
 
-        
-        System.out.println();
-        System.out.println(Univers.listePositionsSystemes().length + " systèmes");
 
-        for (int i = 0; i < nbFlottes; i++) {
-            pos = Position.auHasard(numero);
-            if (presenceSys[pos.getY() - 1][pos.getX() - 1]
-                    && !presenceFlo[pos.getY() - 1][pos.getX() - 1]) {
-                System.out.print("F" + i + "-");
-                Flotte f = Flotte.creerAuHasard(pos, "Flotte neutre",
-                        Univers.getInt(Messages.RACES.length),
-                        50 + Univers.getInt(100));
-                f.setDirective(Const.DIRECTIVE_FLOTTE_ATTAQUE_PREVENTIVE);
-                commandantNeutre.ajouterFlotte(f);
-                presenceFlo[pos.getY() - 1][pos.getX() - 1] = true;
-            } else
-                i--;
+        System.out.println("Création flottes");
+        var positionsList = Univers.listePositionsSystemes();
+        for (Position position : positionsList) {
+            Flotte f = Flotte.creerAuHasard(position, "Flotte neutre",
+                    Univers.getInt(Messages.RACES.length),
+                    50 + Univers.getInt(100));
+            f.setDirective(Const.DIRECTIVE_FLOTTE_ATTAQUE_PREVENTIVE);
+            commandantNeutre.ajouterFlotte(f);
         }
-        System.out.println("");
+        System.out.println("Fin création flottes");
 
         Univers.setCommandant(commandantNeutre);
+        System.out.println("Fin SET NEUTRE");
         univers.sauvegarder();
-
+        System.out.println("Fin sauvegarde");
         VisualisationUnivers.genererCarteHTML();
+        System.out.println("Fin génération carte HTML");
 
     }
 

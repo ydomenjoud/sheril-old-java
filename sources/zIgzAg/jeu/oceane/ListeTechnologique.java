@@ -71,7 +71,7 @@ public interface ListeTechnologique{
  public static final ComposantDeVaisseau balastIV=new ComposantDeVaisseau("balast",3,ListeParents.balastIV,1200,null,10,40F,null,Const.CV_AUTRE,250);
  public static final ComposantDeVaisseau balastV=new ComposantDeVaisseau("balast",4,ListeParents.balastV,2000,null,20,70F,ListeMarchandises.balastV,Const.CV_AUTRE, 600);
 
-    /* 
+    /*
  public static final ComposantDeVaisseau balastVI=new ComposantDeVaisseau("balast",5,ListeParents.balastVI,4000,null,30,120F,ListeMarchandises.balastVI,Const.CV_AUTRE,70);
  public static final ComposantDeVaisseau balastVII=new ComposantDeVaisseau("balast",6,ListeParents.balastVII,7000,null,40,160F,ListeMarchandises.balastVII,Const.CV_AUTRE,100);
  public static final ComposantDeVaisseau balastVIII=new ComposantDeVaisseau("balast",7,ListeParents.balastVIII,12000,null,50,170F,ListeMarchandises.balastVIII,Const.CV_AUTRE,140);
@@ -217,53 +217,6 @@ public interface ListeTechnologique{
 
 
 
-    // COMPOSANT CYBORGS
-
- public static final ComposantDeVaisseau cyb_mdc_t1_I   = new ComposantDeVaisseau("cyb_mdc_t1_",0,ListeParents.cyb_mdc_t1_I,600,ListeCaracSpeciales.cyb_mdc_t1_I,20,50F,ListeMarchandises.cyb_mdc_t1_I,Const.CV_AUTRE, 4);
- public static final ComposantDeVaisseau cyb_mdc_t1_II  = new ComposantDeVaisseau("cyb_mdc_t1_",1,ListeParents.cyb_mdc_t1_II,800,ListeCaracSpeciales.cyb_mdc_t1_II,40,100F,ListeMarchandises.cyb_mdc_t1_II,Const.CV_AUTRE,8);
- public static final ComposantDeVaisseau cyb_mdc_t1_III = new ComposantDeVaisseau("cyb_mdc_t1_",2,ListeParents.cyb_mdc_t1_III,1250,ListeCaracSpeciales.cyb_mdc_t1_III,70,150F,ListeMarchandises.cyb_mdc_t1_III,Const.CV_AUTRE,12);
- public static final ComposantDeVaisseau cyb_mdc_t1_IV  = new ComposantDeVaisseau("cyb_mdc_t1_",3,ListeParents.cyb_mdc_t1_IV,5000,ListeCaracSpeciales.cyb_mdc_t1_IV,150,200F,ListeMarchandises.cyb_mdc_t1_IV,Const.CV_AUTRE,16);
- public static final ComposantDeVaisseau cyb_mdc_t1_V   = new ComposantDeVaisseau("cyb_mdc_t1_",4,ListeParents.cyb_mdc_t1_V,12500,ListeCaracSpeciales.cyb_mdc_t1_V,240,1000F,ListeMarchandises.cyb_mdc_t1_V,Const.CV_AUTRE,20);
- public static final ComposantDeVaisseau cyb_mdc_t1_VI  = new ComposantDeVaisseau("cyb_mdc_t1_",5,ListeParents.cyb_mdc_t1_VI,25000,ListeCaracSpeciales.cyb_mdc_t1_VI,400,2000F,ListeMarchandises.cyb_mdc_t1_VI,Const.CV_AUTRE,30);
- public static final ComposantDeVaisseau cyb_mdc_t1_VII = new ComposantDeVaisseau("cyb_mdc_t1_",6,ListeParents.cyb_mdc_t1_VII,60000,ListeCaracSpeciales.cyb_mdc_t1_VII,700,5000F,ListeMarchandises.cyb_mdc_t1_VII,Const.CV_AUTRE,40);
-
- public static final ComposantDeVaisseau cyb_mdc_t2_I   = new ComposantDeVaisseau("cyb_mdc_t2_",0,ListeParents.cyb_mdc_t2_I,600,ListeCaracSpeciales.cyb_mdc_t2_I,20,50F,ListeMarchandises.cyb_mdc_t2_I,Const.CV_AUTRE, 5);
- public static final ComposantDeVaisseau cyb_mdc_t2_II  = new ComposantDeVaisseau("cyb_mdc_t2_",1,ListeParents.cyb_mdc_t2_II,800,ListeCaracSpeciales.cyb_mdc_t2_II,40,100F,ListeMarchandises.cyb_mdc_t2_II,Const.CV_AUTRE,10);
- public static final ComposantDeVaisseau cyb_mdc_t2_III = new ComposantDeVaisseau("cyb_mdc_t2_",2,ListeParents.cyb_mdc_t2_III,1250,ListeCaracSpeciales.cyb_mdc_t2_III,70,150F,ListeMarchandises.cyb_mdc_t2_III,Const.CV_AUTRE,15);
- public static final ComposantDeVaisseau cyb_mdc_t2_IV  = new ComposantDeVaisseau("cyb_mdc_t2_",3,ListeParents.cyb_mdc_t2_IV,5000,ListeCaracSpeciales.cyb_mdc_t2_IV,150,200F,ListeMarchandises.cyb_mdc_t2_IV,Const.CV_AUTRE, 20);
- public static final ComposantDeVaisseau cyb_mdc_t2_V   = new ComposantDeVaisseau("cyb_mdc_t2_",4,ListeParents.cyb_mdc_t2_V,12500,ListeCaracSpeciales.cyb_mdc_t2_V,240,1000F,ListeMarchandises.cyb_mdc_t2_V,Const.CV_AUTRE, 35);
- public static final ComposantDeVaisseau cyb_mdc_t2_VI  = new ComposantDeVaisseau("cyb_mdc_t2_",5,ListeParents.cyb_mdc_t2_VI,25000,ListeCaracSpeciales.cyb_mdc_t2_VI,400,2000F,ListeMarchandises.cyb_mdc_t2_VI,Const.CV_AUTRE, 60);
-
- public static final ComposantDeVaisseau cyb_mdc_t3_I   = new ComposantDeVaisseau("cyb_mdc_t3_",0,ListeParents.cyb_mdc_t3_I,600,ListeCaracSpeciales.cyb_mdc_t3_I,20,50F,ListeMarchandises.cyb_mdc_t3_I,Const.CV_AUTRE, 8);
- public static final ComposantDeVaisseau cyb_mdc_t3_II  = new ComposantDeVaisseau("cyb_mdc_t3_",1,ListeParents.cyb_mdc_t3_II,800,ListeCaracSpeciales.cyb_mdc_t3_II,40,100F,ListeMarchandises.cyb_mdc_t3_II,Const.CV_AUTRE,16);
- public static final ComposantDeVaisseau cyb_mdc_t3_III = new ComposantDeVaisseau("cyb_mdc_t3_",2,ListeParents.cyb_mdc_t3_III,1250,ListeCaracSpeciales.cyb_mdc_t3_III,70,150F,ListeMarchandises.cyb_mdc_t3_III,Const.CV_AUTRE, 24);
- public static final ComposantDeVaisseau cyb_mdc_t3_IV  = new ComposantDeVaisseau("cyb_mdc_t3_",3,ListeParents.cyb_mdc_t3_IV,5000,ListeCaracSpeciales.cyb_mdc_t3_IV,150,200F,ListeMarchandises.cyb_mdc_t3_IV,Const.CV_AUTRE, 32);
- public static final ComposantDeVaisseau cyb_mdc_t3_V   = new ComposantDeVaisseau("cyb_mdc_t3_",4,ListeParents.cyb_mdc_t3_V,12500,ListeCaracSpeciales.cyb_mdc_t3_V,240,1000F,ListeMarchandises.cyb_mdc_t3_V,Const.CV_AUTRE, 50);
- public static final ComposantDeVaisseau cyb_mdc_t3_VI  = new ComposantDeVaisseau("cyb_mdc_t3_",5,ListeParents.cyb_mdc_t3_VI,25000,ListeCaracSpeciales.cyb_mdc_t3_VI,400,2000F,ListeMarchandises.cyb_mdc_t3_VI,Const.CV_AUTRE, 90);
-
-
- public static final ComposantDeVaisseau cyb_vs_tt_I   = new ComposantDeVaisseau("cyb_vs_tt_",0,ListeParents.cyb_vs_tt_I,1000,ListeCaracSpeciales.cyb_vs_tt_I,5,10F,ListeMarchandises.cyb_vs_tt_I, Const.CV_AUTRE, 20);
- public static final ComposantDeVaisseau cyb_vs_tt_II  = new ComposantDeVaisseau("cyb_vs_tt_",1,ListeParents.cyb_vs_tt_II,2000,ListeCaracSpeciales.cyb_vs_tt_II,5,10F,ListeMarchandises.cyb_vs_tt_II, Const.CV_AUTRE, 30);
- public static final ComposantDeVaisseau cyb_vs_tt_III = new ComposantDeVaisseau("cyb_vs_tt_",2,ListeParents.cyb_vs_tt_III,4000,ListeCaracSpeciales.cyb_vs_tt_III,5,10F,ListeMarchandises.cyb_vs_tt_III, Const.CV_AUTRE, 50);
- public static final ComposantDeVaisseau cyb_vs_tt_IV  = new ComposantDeVaisseau("cyb_vs_tt_",3,ListeParents.cyb_vs_tt_IV,10000,ListeCaracSpeciales.cyb_vs_tt_IV,5,10F,ListeMarchandises.cyb_vs_tt_IV, Const.CV_AUTRE, 70);
- public static final ComposantDeVaisseau cyb_vs_tt_V   = new ComposantDeVaisseau("cyb_vs_tt_",4,ListeParents.cyb_vs_tt_V,20000,ListeCaracSpeciales.cyb_vs_tt_V,5,10F,ListeMarchandises.cyb_vs_tt_V, Const.CV_AUTRE, 100);
-
-
- public static final ComposantDeVaisseau cyb_vs_te_I   = new ComposantDeVaisseau("cyb_vs_te_",0,ListeParents.cyb_vs_te_I,1000,ListeCaracSpeciales.cyb_vs_te_I,5,10F,ListeMarchandises.cyb_vs_te_I, Const.CV_AUTRE, 20);
- public static final ComposantDeVaisseau cyb_vs_te_II  = new ComposantDeVaisseau("cyb_vs_te_",1,ListeParents.cyb_vs_te_II,2000,ListeCaracSpeciales.cyb_vs_te_II,5,10F,ListeMarchandises.cyb_vs_te_II, Const.CV_AUTRE, 30);
- public static final ComposantDeVaisseau cyb_vs_te_III = new ComposantDeVaisseau("cyb_vs_te_",2,ListeParents.cyb_vs_te_III,4000,ListeCaracSpeciales.cyb_vs_te_III,5,10F,ListeMarchandises.cyb_vs_te_III, Const.CV_AUTRE, 50);
- public static final ComposantDeVaisseau cyb_vs_te_IV  = new ComposantDeVaisseau("cyb_vs_te_",3,ListeParents.cyb_vs_te_IV,10000,ListeCaracSpeciales.cyb_vs_te_IV,5,10F,ListeMarchandises.cyb_vs_te_IV, Const.CV_AUTRE, 70);
- public static final ComposantDeVaisseau cyb_vs_te_V   = new ComposantDeVaisseau("cyb_vs_te_",4,ListeParents.cyb_vs_te_V,20000,ListeCaracSpeciales.cyb_vs_te_V,5,10F,ListeMarchandises.cyb_vs_te_V, Const.CV_AUTRE, 100);
-
-
- public static final ComposantDeVaisseau cyb_vs_tc_I   = new ComposantDeVaisseau("cyb_vs_tc_",0,ListeParents.cyb_vs_tc_I,1000,ListeCaracSpeciales.cyb_vs_tc_I,5,10F,ListeMarchandises.cyb_vs_tc_I, Const.CV_AUTRE, 20);
- public static final ComposantDeVaisseau cyb_vs_tc_II  = new ComposantDeVaisseau("cyb_vs_tc_",1,ListeParents.cyb_vs_tc_II,2000,ListeCaracSpeciales.cyb_vs_tc_II,5,10F,ListeMarchandises.cyb_vs_tc_II, Const.CV_AUTRE, 30);
- public static final ComposantDeVaisseau cyb_vs_tc_III = new ComposantDeVaisseau("cyb_vs_tc_",2,ListeParents.cyb_vs_tc_III,4000,ListeCaracSpeciales.cyb_vs_tc_III,5,10F,ListeMarchandises.cyb_vs_tc_III, Const.CV_AUTRE, 50);
- public static final ComposantDeVaisseau cyb_vs_tc_IV  = new ComposantDeVaisseau("cyb_vs_tc_",3,ListeParents.cyb_vs_tc_IV,10000,ListeCaracSpeciales.cyb_vs_tc_IV,5,10F,ListeMarchandises.cyb_vs_tc_IV, Const.CV_AUTRE, 70);
- public static final ComposantDeVaisseau cyb_vs_tc_V   = new ComposantDeVaisseau("cyb_vs_tc_",4,ListeParents.cyb_vs_tc_V,20000,ListeCaracSpeciales.cyb_vs_tc_V,5,10F,ListeMarchandises.cyb_vs_tc_V, Const.CV_AUTRE, 100);
-
-
-
 
 
  public static final Batiment mineI         = new Batiment("mine", 0, null,   25, ListeCaracSpeciales.mineI,   1, 10F, null, 20, 1, null);
@@ -286,8 +239,6 @@ public interface ListeTechnologique{
  public static final Batiment optpVIII  = new Batiment("optp", 7, ListeParents.optpVIII, 17500, ListeCaracSpeciales.optpVIII , 52, 520F, ListeMarchandises.optpVIII , 50, 5, null);
  public static final Batiment optpIX    = new Batiment("optp", 8, ListeParents.optpIX  , 30000, ListeCaracSpeciales.optpIX   , 54, 540F, ListeMarchandises.optpIX   , 50, 5, null);
  public static final Batiment optpX     = new Batiment("optp", 9, ListeParents.optpX   , 60000, ListeCaracSpeciales.optpX    , 55, 550F, ListeMarchandises.optpX    , 50, 5, null);
-
- public static final Batiment optsI=new Batiment("opts",0,ListeParents.optsI,400,ListeCaracSpeciales.optsI,5,50F,ListeMarchandises.optsI,50,5,null);
 
  public static final Batiment repareI=new Batiment("repare"  ,0, ListeParents.repareI  ,   400, ListeCaracSpeciales.repareI  , 20,  200F, ListeMarchandises.repareI  ,  100, 20, null);
  public static final Batiment repareII=new Batiment("repare" ,1, ListeParents.repareII ,  1000, ListeCaracSpeciales.repareII , 30,  400F, ListeMarchandises.repareII ,  100, 30, null);
@@ -471,22 +422,6 @@ public static final Batiment metauxX=new Batiment("metaux",9,ListeParents.metaux
 
     // Fin usines
 
-public static final Batiment poly_constI   = new Batiment("poly_const", 0, ListeParents.poly_constI,  100, ListeCaracSpeciales.poly_constI,    10,  500F, ListeMarchandises.poly_constI,   300, 25, null);
-public static final Batiment poly_constII  = new Batiment("poly_const", 1, ListeParents.poly_constII, 100, ListeCaracSpeciales.poly_constII,   10,  900F, ListeMarchandises.poly_constII,  300, 25, null);
-public static final Batiment poly_constIII = new Batiment("poly_const", 2, ListeParents.poly_constIII, 100, ListeCaracSpeciales.poly_constIII, 10, 1700F, ListeMarchandises.poly_constIII, 300, 25, null);
-public static final Batiment poly_constIV  = new Batiment("poly_const", 3, ListeParents.poly_constIV, 100, ListeCaracSpeciales.poly_constIV,   10, 3200F, ListeMarchandises.poly_constIV,  300, 25, null);
-public static final Batiment poly_constV   = new Batiment("poly_const", 4, ListeParents.poly_constV,  100, ListeCaracSpeciales.poly_constV,    10, 6000F, ListeMarchandises.poly_constV,   300, 25, null);
-
-public static final Batiment poly_popI   = new Batiment("poly_pop", 0, ListeParents.poly_popI,  100, ListeCaracSpeciales.poly_popI,    10,  500F, ListeMarchandises.poly_popI,   300, 25, null);
-public static final Batiment poly_popII  = new Batiment("poly_pop", 1, ListeParents.poly_popII, 100, ListeCaracSpeciales.poly_popII,   10,  900F, ListeMarchandises.poly_popII,  300, 25, null);
-public static final Batiment poly_popIII = new Batiment("poly_pop", 2, ListeParents.poly_popIII, 100, ListeCaracSpeciales.poly_popIII, 10, 1700F, ListeMarchandises.poly_popIII, 300, 25, null);
-public static final Batiment poly_popIV  = new Batiment("poly_pop", 3, ListeParents.poly_popIV, 100, ListeCaracSpeciales.poly_popIV,   10, 3200F, ListeMarchandises.poly_popIV,  300, 25, null);
-public static final Batiment poly_popV   = new Batiment("poly_pop", 4, ListeParents.poly_popV,  100, ListeCaracSpeciales.poly_popV,    10, 6000F, ListeMarchandises.poly_popV,   300, 25, null);
-
-    // Techno zwaias
-    
-
-
     // Debut batiments
 
  public static final Batiment battlaI=new Batiment("battla",0,null,100,null,5,80F,null,25,10,"laser");
@@ -565,13 +500,6 @@ public static final Batiment poly_popV   = new Batiment("poly_pop", 4, ListePare
  public static final Technologie maitdeII  = new Technologie("maitde",1,ListeParents.maitdeII,5000,null);
  public static final Technologie maitdeIII = new Technologie("maitde",2,ListeParents.maitdeIII,12000,null);
 
-    // Maitrise de races
-    public static final Technologie maitr0_I = new Technologie("maitr0_",0, ListeParents.maitr0_I, 50, null );
-    public static final Technologie maitr1_I = new Technologie("maitr1_",0, ListeParents.maitr1_I, 50, null );
-    public static final Technologie maitr2_I = new Technologie("maitr2_",0, ListeParents.maitr2_I, 50, null );
-    public static final Technologie maitr3_I = new Technologie("maitr3_",0, ListeParents.maitr3_I, 50, null );
-    public static final Technologie maitr4_I = new Technologie("maitr4_",0, ListeParents.maitr4_I, 50, null );
-    public static final Technologie maitr5_I = new Technologie("maitr5_",0, ListeParents.maitr5_I, 50, null );
 
 }
 

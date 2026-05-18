@@ -1356,15 +1356,17 @@ public class Commandant extends Joueur implements Serializable {
     }
 
     public int getEvolutionPopulationFlotte(){
-        return getScoreCategorie(PointDeVictoireCategorie.POPULATION_VS) - getTotalPopulationVS();
+        return getTotalPopulationVS() - getScoreCategorie(PointDeVictoireCategorie.POPULATION_VS);
     }
 
     public int getEvolutionPossession(){
-        return getScoreCategorie(PointDeVictoireCategorie.PLANETES) - getNombrePlanetesPossedees();
+        return getNombrePlanetesPossedees() - getScoreCategorie(PointDeVictoireCategorie.PLANETES);
     }
 
     public int getEvolutionScientifique() {
-        return (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE) - getScoreCategorie(PointDeVictoireCategorie.RECHERCHE);
+        // le budget est en négatif
+        int b = (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE);
+        return b < 0 ? -b : 0;
     }
 
 	// Champs transients --->

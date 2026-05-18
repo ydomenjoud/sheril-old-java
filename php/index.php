@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css?d=qsd">
     <title>Sheril, le jeu de conquête galactique</title>
     <script src="assets/js/script.js" defer></script>
 </head>
@@ -15,23 +15,25 @@
     Sheril, le jeux de conquête galactique
 </header>
 
-<nav>
-    <a href="index.html">Accueil</a>
-    <a href="presentation.html">Présentation</a>
-    <a href="races.html">Les races</a>
-    <a href="/stats/">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-</nav>
+<?php require_once './includes/nav.php'; ?>
 
 <div id="main">
     <nav>
     </nav>
     <main>
+
+        <ul>
+            <li><a href="/stats.html">Voir les stats</a></li>
+            <li><a href="/ordres/ordres.php3">Télécharger son rapport</a></li>
+            <li><a href="/ordres/ordres.php3">Passer ses ordres</a></li>
+            <li><a href="/rapports/images.zip">Télécharger les images du rapport</a></li>
+        </ul>
+
     </main>
 </div>
+
 <footer>
 
 </footer>
-
 </body>
 </html>

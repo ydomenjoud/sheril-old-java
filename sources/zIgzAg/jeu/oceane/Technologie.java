@@ -7,6 +7,7 @@ package zIgzAg.jeu.oceane;
 import zIgzAg.utile.Mdt;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.io.Serializable;
@@ -65,6 +66,13 @@ public class Technologie implements Serializable {
 					+ getRepresentationNiveau();
 	}
 
+	public String getNomHTML(Locale loc) {
+		boolean isPublic = Univers.estTechnologiePublique(getCode());
+		return "<span class=\"technologie"+(isPublic?" public":"")+ "\">"
+				+Utile.maj(getNomComplet(loc))
+				+"</span>";
+	}
+
 	public String getNomPlurielComplet(Locale loc) {
 		if ((niveau == 0)
 				&& (!Univers
@@ -102,9 +110,11 @@ public class Technologie implements Serializable {
 			return Utile.maj(Univers.getMessage("TECHNOLOGIE_AUCUN_PARENT", l));
 		String retour = "";
 		for (int i = 0; i < parents.length; i++) {
+			boolean estPublique = Univers.estTechnologiePublique(parents[i]);
 			retour = retour
-					+ Utile.maj(Univers.getTechnologie(parents[i])
-							.getNomComplet(l));
+					+  "<span class=\"technologie"+(estPublique ? " public" : "")+"\">"
+					+ Utile.maj(Univers.getTechnologie(parents[i]).getNomComplet(l))
+					+ "</span>";
 			if (i != parents.length - 1)
 				retour = retour + "<BR>";
 		}
@@ -336,13 +346,13 @@ public class Technologie implements Serializable {
 	}
 
 	public String getInfobulle(Locale l) {
-		var data = new String[]{
-				getDescription(l),
-				"Caractéristiques:",
-				"",
-				getDescriptionCaracteristiquesSpeciales(l)
-		};
-		String infoBulle = String.join("&#10;", data);
+		List<String> list = new ArrayList<>(List.of(new String[]{getDescription(l)}));
+		if(getCaracteristiquesSpeciales() != null && getCaracteristiquesSpeciales().length>0) {
+			list.add("");
+			list.add("Caractéristiques:");
+			list.add(getDescriptionCaracteristiquesSpeciales(l));
+		}
+		String infoBulle = String.join("&#10;", list.toArray(new String[0]));
 		return infoBulle
 				.replaceAll("(?i)<br\\s*/?>", "&#10;")
 				.replaceAll("\"", "&quot;");

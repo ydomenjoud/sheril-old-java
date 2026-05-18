@@ -25,14 +25,8 @@
 <header>
     Sheril, le jeux de conquête galactique
 </header>
-<nav>
-    <a href="index.html">Accueil</a>
-    <a href="presentation.html">Présentation</a>
-    <a href="races.html">Les races</a>
-    <a href="/stats.html">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-</nav>
 
+<?php require_once './includes/nav.php'; ?>
 <div id="main">
     <nav>
 
@@ -58,7 +52,7 @@
 
         <div>Divers:</div>
         <a target="stats-detail" href="./stats/alliances.htm">Liste des alliances</a>
-        <a target="stats-detail" href="./stats/carte.html">Carte de la galaxie</a>
+        <a target="stats-detail" href="./stats/carte.htm">Carte de la galaxie</a>
 
         <a target="stats-detail" href="./stats/encheres.htm">Enchères lieutenants</a>
         <a target="stats-detail" href="./stats/taux_poste.htm">Taux des posts commerciaux</a>

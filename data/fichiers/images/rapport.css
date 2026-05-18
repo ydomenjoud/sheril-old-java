@@ -1,3 +1,10 @@
+
+
+/* on cache la première cellule quand intégré dans le système*/
+.table_full .poste_commerciaux td:first-child  {
+    display: none;
+}
+
 .neutre {
     color: #1dddc9;
 }
@@ -6,12 +13,14 @@
     --accent: #9c27b0;
     --information: #00e6e6;
     --important: #83bfb0;
+    --width: 1200px;
 }
 
 .split {
     display: flex;
-    max-width: 95vw;
     margin: auto;
+    max-width: var(--width);
+    width: 95vw;
     justify-content: stretch;
     align-items: flex-start;
     gap: 10px;
@@ -55,38 +64,98 @@
     color: #777777
 }
 
-.poste_commerciaux {
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
+.plus {
+    color: #2bd849;
 }
 
-.poste_commerciaux tr:first-child td:not(:first-child) {
+.moins {
+    color: #fb5757;
+}
+
+.bold {
+    font-weight: bold;
+}
+.marchandise {
+    color: #00F1AF;
     white-space: nowrap;
     overflow: hidden;
-    border-right: 1px solid #999;
     text-overflow: ellipsis;
 }
-
-.poste_commerciaux tr:first-child td:first-child {
-    width: 200px;
-    white-space: normal;
+.poste_commerciaux {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.poste_commerciaux td:first-child {
+    width: auto;
 }
 
-.poste_commerciaux tr:first-child td:not(:first-child):hover {
-    overflow: visible; /* On montre le texte qui dépasse */
-    position: relative; /* Permet de gérer le z-index */
-    z-index: 10; /* Passe au-dessus des autres cellules */
-    background-color: #1a1a1a; /* Fond opaque pour que le texte soit lisible */
-    width: auto; /* Permet de s'étendre si besoin */
-    min-width: 80px;
+.poste_commerciaux .entete {
+    display: flex;
+    flex-direction: column;
+}
+.flotte {
+    max-width: var(--width);
+    width: 50vw;
 }
 
-.poste_commerciaux tr:first-child td:not(:first-child):hover font {
+.flotte table {
+    width: 100%;
+}
+
+.systeme {
+    color: #EE82EE;
+}
+.position {
+    color: #AC0DFE;
+}
+
+:target {
+    animation: highlight 3s ease-out forwards;
+}
+
+@keyframes highlight {
+    0%   { background-color: yellow; }
+    100% { background-color: transparent; }
+}
+
+/*.poste_commerciaux tr:first-child td:not(:first-child) {*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden;*/
+/*    border-right: 1px solid #999;*/
+/*    text-overflow: ellipsis;*/
+/*}*/
+
+/*.poste_commerciaux tr:first-child td:first-child {*/
+/*    width: 100px;*/
+/*    white-space: normal;*/
+/*}*/
+
+/*.poste_commerciaux tr:first-child td:not(:first-child):hover {*/
+/*    overflow: visible; !* On montre le texte qui dépasse *!*/
+/*    position: relative; !* Permet de gérer le z-index *!*/
+/*    z-index: 10; !* Passe au-dessus des autres cellules *!*/
+/*    background-color: #1a1a1a; !* Fond opaque pour que le texte soit lisible *!*/
+/*    width: auto; !* Permet de s'étendre si besoin *!*/
+/*    min-width: 80px;*/
+/*}*/
+
+/*.poste_commerciaux tr:first-child td:not(:first-child):hover font {*/
+/*    background: black;*/
+/*}*/
+
+table th {
+    position: sticky;
+    top: 0px;
     background: black;
+    z-index: 1000;
+    font-weight: normal;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: none;
 }
 
 .table_full {
+    max-width: var(--width);
     width: 95vw;
 }
 
@@ -113,7 +182,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.1s ease-in-out;
-    z-index: 10;
+    z-index: 10000;
     white-space: pre-wrap;
     min-width: 250px;
     text-align: left;
@@ -133,7 +202,7 @@ table input {
     padding: 2px 5px;
     margin: 0px 5px;
     border: 1px solid black;
-    transition: width 0.4s ease-in-out, padding 0.2s;
+    transition: width 0.2s ease-in-out, padding 0.1s;
     color: transparent;
     background-color: black;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%2383bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
@@ -173,7 +242,7 @@ body {
 
 }
 
-td, b, i {
+td, th, b, i {
     font-size: 10pt;
     FONT-FAMILY: verdana, arial, sans-serif;
 }
@@ -183,6 +252,12 @@ table {
     border: 1px solid var(--important);
     padding: 4px;
     background: #10001d;
+    box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3);
+}
+table:hover {
+    box-shadow: 0px 1px 10px 12px rgb(0 255 191 / 30%);
+}
+table table:hover {
     box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3);
 }
 table tr {

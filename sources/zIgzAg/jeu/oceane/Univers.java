@@ -1138,17 +1138,6 @@ public class Univers {
 			{ "Inconnu", new String[] { "moteurII", "bouclierIII", "laserIII" },
 					new int[] { 1, 1, 12 }, "Feinteur", "Fertech",
 					new Integer(4) },
-			{ "Inconnu", new String[] { "moteurII", "cyb_vs_tt_I" },
-					new int[] { 1, 1 }, "Centre de recherche", "Cybtech",
-					new Integer(5) },
-			{ "Inconnu", new String[] { "moteurII", "villeI" },
-					new int[] { 1, 1 }, "Colonie Byeril", "Cybtech",
-					new Integer(5) },
-			{ "Inconnu", new String[] { "moteurII", "cyb_vs_tc_I" },
-					new int[] { 1, 1 }, "A-M loe", "Cybtech", new Integer(5) },
-			{ "Inconnu", new String[] { "moteurII", "cyb_vs_te_I" },
-					new int[] { 1, 1 }, "SpyFlight", "Cybtech", new Integer(5) }
-
 
 	};
 

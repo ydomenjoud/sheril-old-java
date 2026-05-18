@@ -144,13 +144,8 @@
     Sheril, le jeux de conquête galactique
 </header>
 
-<nav>
-    <a href="index.html">Accueil</a>
-    <a href="presentation.html">Présentation</a>
-    <a href="races.html">Les races</a>
-    <a href="/stats.html">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-</nav>
+
+<?php require_once './includes/nav.php'; ?>
 <style>
     table { border-collapse: collapse; width: 80%; margin: 20px auto; font-family: Arial, sans-serif; }
     th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
@@ -161,8 +156,8 @@
 
 <div id="main">
     <nav>
+        <a href="/liste.php">Registre actuel</a>
         <a href="/register.php?p=new">S'inscrire</a>
-        <a href="/registration.php">Inscriptions en attente</a>
     </nav>
     <main>
 
@@ -180,86 +175,45 @@
                 5 => "Cyborg"
         ];
         // 2. Requête pour récupérer les données
-        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription ORDER BY date_insertion ASC";
+        $sql = "SELECT NOM, ADRESSE, RACE, NUMERO, TOUR_ARRIVEE FROM aa_registre ORDER BY NUMERO ASC";
         $result = @mysql($base, $sql);
         if (!$result) {
             echo "Erreur" . mysql_error();
         }
         $count = @mysql_num_rows($result);
 
-        // Préparation des données pour le camembert et stockage des inscrits
-        $inscrits = [];
-        $repartition_races = [];
-        if ($count > 0) {
-            while ($row = mysql_fetch_assoc($result)) {
-                $inscrits[] = $row;
-                $race_id = $row['RACE'];
-                $repartition_races[$race_id] = (isset($repartition_races[$race_id]) ? $repartition_races[$race_id] : 0) + 1;
-            }
-        }
-
-        // Couleurs des races
-        $races_couleurs = [
-            0 => '#CC00FF',
-            1 => '#0066CC',
-            2 => '#FFCC00',
-            3 => '#CC0033',
-            4 => '#009933',
-            5 => '#777777'
-        ];
-
-        // Calcul du gradient pour le camembert CSS
-        $gradient_parts = [];
-        if ($count > 0) {
-            $current_percent = 0;
-            foreach ($repartition_races as $id => $nb) {
-                $percent = ($nb / $count) * 100;
-                $color = isset($races_couleurs[$id]) ? $races_couleurs[$id] : '#FFFFFF';
-                $next_percent = $current_percent + $percent;
-                $gradient_parts[] = $color . " " . number_format($current_percent, 2, '.', '') . "% " . number_format($next_percent, 2, '.', '') . "%";
-                $current_percent = $next_percent;
-            }
-        }
-        $conic_gradient = implode(", ", $gradient_parts);
-        ?>
-        <h1>Liste des inscriptions en attente <?=$count?></h1>
-
-        <?php if ($count > 0): ?>
-        <div class="pie" style="background: conic-gradient(<?php echo $conic_gradient; ?>);"></div>
-
-        <div class="legend">
-            <?php foreach ($repartition_races as $id => $nb): ?>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: <?php echo isset($races_couleurs[$id]) ? $races_couleurs[$id] : '#FFFFFF'; ?>;"></div>
-                    <span><?php echo isset($races_noms[$id]) ? $races_noms[$id] : "Inconnue"; ?> (<?php echo $nb; ?>)</span>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
+?>
+        <h1>Liste des joueurs <?=$count?></h1>
 
         <table>
             <thead>
             <tr>
                 <th>Nom de Commandant</th>
                 <th>Race</th>
+                <th>Numéro</th>
+                <th>Tour d'arrivée</th>
             </tr>
             </thead>
             <tbody>
             <?php if ($count > 0): ?>
-                <?php foreach ($inscrits as $row): ?>
+                <?php while ($row = mysql_fetch_assoc($result)) { ?>
                     <tr>
-                        <td <?php echo "class='race" . $row['RACE'] . "'"; ?>><?php echo ucfirst(htmlspecialchars($row['NOM'])); ?></td>
+                        <td <?php echo "class='race" . $row['RACE'] . "'"; ?>>
+                            <?php echo ucfirst(htmlspecialchars($row['NOM'])); ?>(<?php echo $row['NUMERO']; ?>)
+                        </td>
                         <td <?php echo "class='race" . $row['RACE'] . "'"; ?>>
                             <?php
                             // Affiche le nom de la race si l'ID existe dans notre tableau, sinon affiche l'ID
                             echo isset($races_noms[$row['RACE']]) ? $races_noms[$row['RACE']] : "Inconnue (" . $row['RACE'] . ")";
                             ?>
                         </td>
+                        <td><?php echo $row['NUMERO']; ?></td>
+                        <td><?php echo $row['TOUR_ARRIVEE']; ?></td>
                     </tr>
-                <?php endforeach; ?>
+                <?php } ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4" class="empty">Aucun inscrit pour le moment.</td>
+                    <td colspan="4" class="empty">Aucun joueur pour le moment.</td>
                 </tr>
             <?php endif; ?>
             </tbody>

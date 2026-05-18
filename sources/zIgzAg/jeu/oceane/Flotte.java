@@ -1241,6 +1241,11 @@ public class Flotte implements Serializable {
 				.retournerNiveauPuissance(getPuissance()), l);
 	}
 
+	public int[] getBornesPuissance() {
+		return Vaisseau.bornesNiveauPuissance(Vaisseau
+				.retournerNiveauPuissance(getPuissance()));
+	}
+
 	public int getForceSpatiale() {
 		int retour = 0;
 		Vaisseau[] v = listeVaisseaux();

@@ -13,12 +13,12 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] INFO_GENERALES={"Informations générales","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
    "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire"};
 
- public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max","Colons"};
+ public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max"};
 
  public static final String[] RESUME_SYSTEMES={"Résumé de vos systèmes","&nbsp;","Position","Nom","Pop","Pop Max",
                                                "Planètes",
                                                "Taxe","Stabilité","PDC","R.M.","B. Tech","B. Spé","B. Contre",
-                                               "Propriétaire(s)","Gouverneur","Politique","colons"};
+                                               "Propriétaire(s)","Gouverneur","Politique","Construction"};
 
  public static final String[] SYSTEMES_GENERAL={"Systèmes","Capitale : ","Aucune"};
 
@@ -26,7 +26,7 @@ public class MessagesRapport extends MessagesAbstraits{
    "Augmentation","Population totale","Population totale max","Augmentation moyenne","Ressources","Mines",
    "Stock minerai","Points de construction","Caractéristiques","Taux d'impôts","Stabilité","Politique","Revenu",
    "Révoltes","Terraformation","Budget","Technologie","Services spéciaux","Contre-espionnage","Constructions en cours",
-   "Type","Nombre","Points constru. nécessaires","Pour la planète","Non précisé","équipement","Postes commerciaux",
+   "Type","Nombre","Points constru. nécessaires","Pour la planète","Non précisé","Bâtiments","Postes commerciaux",
    "Gouverneur","Programmation construction"};
 
  public static final String[] POSTES_COMMERCIAUX={"Rapport de vos postes commerciaux","",
@@ -67,8 +67,8 @@ public class MessagesRapport extends MessagesAbstraits{
   "Pourcentage de chance de toucher les différents types de coque","Caractéristique(s) spéciale(s)"};
 
  public static final String[] PLANS_DE_VAISSEAUX={"Plans privés","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
-   "Points de construction nécessaires","Coût en centaures","Côut en minerai","Matériaux spéciaux nécessaires",
-   "Capacité d'attaque spatiale","Capacité d'attaque planétaire",
+   "PDC","centaures","minerai","Produits",
+   "AS","AP",
    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
    "Royalties","Domaine"};
 
@@ -85,7 +85,7 @@ public class MessagesRapport extends MessagesAbstraits{
  "Type de vaisseau","Position","Taille visée 1","TV 2","TV 3","TV 4","TV 5","TV 6","TV 7","TV 8","TV 9","TV 10"};
 
  public static final String[] DETECTION_FLOTTES={"Flottes étrangères détectées par vos radars",
-  "Position","Nom","Nombre de vaisseaux","Numéro","Propriétaire","Puissance estimée"};
+  "Position","Nom","Numéro","Propriétaire","Nombre de vaisseaux","Puissance estimée"};
  public static final String[] DETECTION_SYSTEMES={"Systèmes étrangers détectés par vos radars",
   "Position","Nom","Population","Nombre de planètes","Propriétaire(s)"};
 

@@ -311,8 +311,7 @@ public class Joueur implements Serializable {
 		if (numF == -1)
 			numF = num.length;
 
-		Commandant c = new Commandant(n, r, numF, a, Utile.choisirLogin(), a
-				.substring(0, Math.min(a.length(), 5)), Univers.getTour());
+		Commandant c = new Commandant(n, r, numF, a, Utile.choisirLogin(), a.substring(0, Math.min(a.length(), 12)), Univers.getTour());
 		c.setCentaures(20000F);
 
 		String[] t = Const.RACE_TECHNOLOGIES[c.getRace()];

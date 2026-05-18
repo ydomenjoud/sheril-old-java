@@ -863,7 +863,7 @@ public class Planete implements Serializable {
 //			return Math.max(((r+t+g)*taille+Const.RACES_ATMOSPHERES[race][atmosphere]*100*taille),10);
 			return Math.max(
 				(
-						( (r + t + g) * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille )  * 2 / 10
+						( (r + t + g) * taille + Const.RACES_ATMOSPHERES[race][atmosphere] * 100 * taille )  * 4 / 10
 				)
 					, 10);
 		}

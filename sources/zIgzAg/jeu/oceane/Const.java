@@ -79,9 +79,9 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne
+    public static final int NB_SECTEURS_X = 4; // nombre de secteurs par ligne et colonne
     public static final int BORNE_SECTEUR_X = 10;
-    public static final int NB_SYSTEMES_PAR_SECTEUR = 22; // nombre de systèmes par secteur
+    public static final int NB_SYSTEMES_PAR_SECTEUR = 17; // nombre de systèmes par secteur
 
     public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
     public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
@@ -560,11 +560,17 @@ public class Const {
     public static final int RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE = 1;
     public static final int RACE_CARACTERISTIQUE_COMBAT_SPATIAL = 2;
     public static final int RACE_CARACTERISTIQUE_COMBAT_PLANETAIRE = 3;
+
     public static final String[][] RACE_TECHNOLOGIES = {
-            {"maitr0_I", "agroI"}, {"maitr1_I", "metauxI"},
-            {"maitr2_I", "technoII"}, {"maitr3_I", "radarIII"},
-            {"maitr4_I", "armeI", "maitmilII"},
-            {}};
+            {"scanI", "metauxII"}, // Fremen-scanner-metaux,
+            {"plasmaI", "raffineII"}, //  Atalante-plasma-raffinerie
+            {"bombeI","armeII"}, // zwaia-bombe-armement,
+            {"missI", "infoII"}, //  yoksor-missile-logiciel
+            {"laserI", "technoII"}, // fergok-laser-technocentre
+            {}
+    };
+
+
     // les modificateurs propres é chaque race.
 
     public static final int STRATEGIE_AGRESSIVITE_RAGE = 5;
@@ -800,7 +806,8 @@ public class Const {
     // Les différentes tables oé sont stockées les données nécessaires aux
     // ordres.
 
-    public static final int TAILLE_LOGIN = 5;
+   public static final int TAILLE_LOGIN = 20;
+   public static final int TAILLE_PASSWORD = 20;
     // le nombre de lettres du login.
 
     public static final int MESSAGE_TYPE_COMMANDANT = 0;

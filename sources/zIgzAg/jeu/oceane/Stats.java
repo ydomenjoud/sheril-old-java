@@ -165,7 +165,7 @@ public class Stats {
 				retour = retour + " <FONT color=\"#2bd849\" size=\"2\"> (+"
 						+ Integer.toString(modif) + ")</FONT>";
 			else
-				retour = retour + " <FONT color=\"#f98888\" size=\"2\">("
+				retour = retour + " <FONT color=\"#fb5757\" size=\"2\">("
 						+ Integer.toString(modif) + ")</FONT>";
 		return retour;
 	}
