@@ -19,7 +19,13 @@ if($v0!=""){
   $var_table="$var_table,$inter1";
   $var_champ="$var_champ,'$inter3'";
   }
- mysql_query("INSERT INTO $table($var_table) VALUES ($var_champ)")
-  or die("zIgzAg need HELP! Erreur insertion<BR>");
+ $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
+ $res = mysql_query($query);
+ if(!$res){
+     var_dump($_POST);
+     echo $query;
+     echo mysql_error();
+     die("Erreur insertion");
+ }
 }
 ?>

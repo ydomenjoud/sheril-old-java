@@ -1,0 +1,10 @@
+<?php
+
+  $inter1=$rf[1];
+  $inter2=$rf[2];
+  $inter3=$rf[3];
+$inter4=$rf[4];
+
+echo "Mettre en vente <span class='item'><span style='color: var(--header); font-weight: bold'>$inter3</span> {$t1[$inter2]}</span> 
+du système <span class='item'>${t0[$inter1]}</span> à ${inter4} centaures / unités";
+

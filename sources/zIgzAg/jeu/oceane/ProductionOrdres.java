@@ -104,6 +104,24 @@ public class ProductionOrdres {
         ecrire(afficherT(Const.TABLE_ORDRES, l));
     }
 
+    public static String afficherA_SQL(String table, String[] colonnes, Object[][] valeurs) {
+        StringBuilder s = new StringBuilder();
+        s.append("INSERT INTO ");
+        s.append(table);
+        s.append(" (");
+        for (int i = 0; i < colonnes.length; i++) {
+            s.append(colonnes[i]);
+            if (i != colonnes.length - 1) s.append(",");
+        }
+        s.append(") VALUES (");
+        for (int i = 0; i < valeurs.length; i++) {
+            s.append(afficherTab(valeurs[i]));
+            if (i != valeurs.length - 1) s.append(",");
+        }
+        s.append(");\r\n");
+        return s.toString();
+    }
+
     public static String afficherA_PHP(String o, Object[] k, Object[] v) {
         StringBuffer s = new StringBuffer(TAILLE_BUFFER_ECRITURE);
         s.append("<?php ");
@@ -326,6 +344,28 @@ public class ProductionOrdres {
         ecrire(afficherSA(Const.TABLE_ALLIANCE_TYPE,
                 Utile.retournerTableauEntiers(Const.NB_TYPE_ALLIANCES - 1),
                 Univers.getTableauMessage("TYPE_ALLIANCE", l)));
+
+        OffreMarche[] offres = Univers.getListeOffresMarche();
+        if (offres.length == 0) return;
+        
+        String[] ids = new String[offres.length];
+        String[] vendeurs = new String[offres.length];
+        String[] codes = new String[offres.length];
+        Integer[] quantites = new Integer[offres.length];
+        Integer[] prix = new Integer[offres.length];
+        
+        for (int i = 0; i < offres.length; i++) {
+            ids[i] = Integer.toString(offres[i].getId());
+            Commandant v = Univers.getCommandant(offres[i].getNumeroVendeur());
+            vendeurs[i] = (v != null ? v.getNumero()+"" : "???");
+            codes[i] = offres[i].getCodeMarchandise();
+            quantites[i] = new Integer(offres[i].getQuantite());
+            prix[i] = new Integer(offres[i].getPrixUnitaire());
+        }
+        
+        ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
+            new String[]{"ID_OFFRE", "VENDEUR", "CODE", "QUANTITE", "PRIX"}, 
+            new Object[][]{ids, vendeurs, codes, quantites, prix}));
     }
 
 	public static void produireRegistre(int[] listeC) {
@@ -1258,6 +1298,10 @@ public class ProductionOrdres {
     }
 
     public boolean ecrire_adresse_commandant() {
+        return true;
+    }
+    public boolean vendre_galactique() { return true; }
+    public boolean acheter_galactique() {
         return true;
     }
 

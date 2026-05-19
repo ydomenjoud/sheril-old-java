@@ -62,6 +62,7 @@ public class Univers {
 	private static HashMap TRANSFERTS;
 
 	private static ArrayList LEADERS_EN_VENTE;
+	private static ArrayList MARCHE_GALACTIQUE;
 
 	private static ArrayList TECHNOLOGIES_PUBLIQUES;
 
@@ -435,6 +436,38 @@ public class Univers {
 
 	public static void retirerLeaderEnVente(Leader l) {
 		LEADERS_EN_VENTE.remove(l);
+	}
+
+	public static void ajouterOffreMarche(OffreMarche o) {
+		MARCHE_GALACTIQUE.add(o);
+	}
+
+	public static OffreMarche[] getListeOffresMarche() {
+		if (MARCHE_GALACTIQUE == null) return new OffreMarche[0];
+		return (OffreMarche[]) MARCHE_GALACTIQUE.toArray(new OffreMarche[0]);
+	}
+
+	public static OffreMarche getOffreMarche(int id) {
+		for (int i = 0; i < MARCHE_GALACTIQUE.size(); i++) {
+			OffreMarche o = (OffreMarche) MARCHE_GALACTIQUE.get(i);
+			if (o.getId() == id)
+				return o;
+		}
+		return null;
+	}
+
+	public static void retirerOffreMarche(OffreMarche o) {
+		MARCHE_GALACTIQUE.remove(o);
+	}
+
+	public static int trouverProchainIdOffreMarche() {
+		int max = 0;
+		for (int i = 0; i < MARCHE_GALACTIQUE.size(); i++) {
+			OffreMarche o = (OffreMarche) MARCHE_GALACTIQUE.get(i);
+			if (o.getId() > max)
+				max = o.getId();
+		}
+		return max + 1;
 	}
 
 	public static void initialiserLeadersEnVente() {
@@ -1455,8 +1488,12 @@ public class Univers {
 				TRANSFERTS = new HashMap();
 			System.out.print("l");
 			LEADERS_EN_VENTE = chargerArrayList(Chemin.LEADERS_EN_VENTE);
+			if (LEADERS_EN_VENTE == null) LEADERS_EN_VENTE = new ArrayList();
+			MARCHE_GALACTIQUE = chargerArrayList(Chemin.MARCHE_GALACTIQUE);
+			if (MARCHE_GALACTIQUE == null) MARCHE_GALACTIQUE = new ArrayList();
 			System.out.print("t");
 			TECHNOLOGIES_PUBLIQUES = chargerArrayList(Chemin.TECHNOLOGIES_PUBLIQUES);
+			if (TECHNOLOGIES_PUBLIQUES == null) TECHNOLOGIES_PUBLIQUES = new ArrayList();
 		} else {
 			COMMANDANTS = (TreeMap) chargerMap(Chemin.COMMANDANTS);
 			DEBRIS = null;
@@ -1489,7 +1526,8 @@ public class Univers {
 			sauvegarderMap(Chemin.BASE_STATS, STATS);// System.out.println(STATS.size());
 			sauvegarderMap(Chemin.RELATIONS_RACES, RELATIONS_RACES);
 			// sauvegarderMap(Chemin.TRANSFERTS,TRANSFERTS);
-			sauvegarderArrayList(Chemin.LEADERS_EN_VENTE, LEADERS_EN_VENTE);
+ 		sauvegarderArrayList(Chemin.LEADERS_EN_VENTE, LEADERS_EN_VENTE);
+ 		sauvegarderArrayList(Chemin.MARCHE_GALACTIQUE, MARCHE_GALACTIQUE);
 			sauvegarderArrayList(Chemin.TECHNOLOGIES_PUBLIQUES,
 					TECHNOLOGIES_PUBLIQUES);
 		} else
@@ -1523,7 +1561,7 @@ public class Univers {
 	}
 
 	public static void phaseSuivante() {
-		PHASE = new Integer(PHASE.intValue() + 1);
+		PHASE = Integer.valueOf(PHASE.intValue() + 1);
 	}
 
 	// pour gérer les ordres non conformes(erreur de programme,répétition de

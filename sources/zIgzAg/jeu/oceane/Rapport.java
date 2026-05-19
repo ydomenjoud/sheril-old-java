@@ -174,8 +174,66 @@ public class Rapport {
                                         });
                                         table.querySelector("tr:first-child td, tr:first-child th").append(input);
                                     });
-                                });
-                            """
+
+									// On cible les en-têtes (th)
+									const headers = document.querySelectorAll("table.sortable th");
+								
+										headers.forEach((header, index) => {
+										 if(header.dataset.nosort === "1"){
+										  return;
+										 }
+								
+										header.style.cursor = "pointer";
+										header.addEventListener("click", () => {
+											const table = header.closest("table");
+											const tbody = table.querySelector("tbody");
+											const rows = Array.from(tbody.querySelectorAll("tr"));
+											// on reset le tri de toutes les autres colonnes
+										  headers.forEach(h => {
+												  if (h !== header) {
+													  delete h.dataset.sortOrder;\s
+												  }
+											  });
+											// Déterminer la direction du tri en fonction de ce qu'il y avait avant
+											// soit y'a rien ou asc , on passe à desc
+											const isAscending = header.dataset.sortOrder === "desc";
+											header.dataset.sortOrder = isAscending ? "asc" : "desc"; // on inverse
+								
+											const sortedRows = rows.sort((a, b) => {
+												// Fonction pour extraire uniquement le nombre principal
+												const extractValue = (row) => {
+													const cell = row.children[index];
+													// On clone pour ne pas toucher au DOM original
+													const temp = cell.cloneNode(true);
+													// On supprime les spans de progression pour ne garder que le texte brut
+													temp.querySelectorAll('span font div').forEach(s => s.remove());
+								
+													// On nettoie le texte : on enlève les espaces, les &nbsp; et on remplace la virgule par un point
+													let text = temp.textContent.trim()
+														.replace(/\\\\s+/g, '')       // Enlève espaces standards
+														.replace(/\\\\u00a0/g, '')    // Enlève les &nbsp;
+														.replace(',', '.');        // Séparateur décimal
+								
+													return parseFloat(text) || 0;
+												};
+								
+												const valA = extractValue(a);
+												const valB = extractValue(b);
+								
+												return isAscending ? valA - valB : valB - valA;
+											});
+								
+											// Ré-insertion des lignes triées
+											sortedRows.forEach(row => tbody.appendChild(row));
+								
+											tbody.querySelectorAll("tr").forEach((row, idx) => {
+												row.children[0].textContent = idx + 1;
+											});
+										});
+									});
+								});
+
+						"""
             );
 
 			HEAD.ajout(meta1).ajout(meta2).ajout(meta3).ajout(script);
@@ -790,9 +848,15 @@ public class Rapport {
 
 		BaliseHTML splitter = getSpan("split");
 		splitter.ajout(getInfoGenerales());
+		// la carto
 		ajouterLienPrincipal(
 				getALienE("https://ydomenjoud.github.io/test-interface-sheril/")
 				.ajout(getText("Cartographie")));
+		ajouterLienPrincipal(
+				getALienE("https://sheril.pbem-france.net/stats/general.htm")
+						.ajout("Statistiques"));
+//		ajouterLienSecondaire(getALienE(PRINCIPAL + "#SYSTEMES_GENERAL").ajout(""));
+
 		splitter.ajout(getBudget());
 		splitter.ajout(getVotrePeuple());
 		body.ajout(splitter);
@@ -1766,7 +1830,7 @@ public class Rapport {
 				a[i + 1][5] = getTD(BaliseHTML.CENTER, null).setTexteContenu(
 						Commandant.getListeCommandants(s.getProprios()));
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full sortable"), a));
 		}
 		return racine;
 	}
@@ -1840,60 +1904,63 @@ public class Rapport {
 				Systeme s = Univers.getSysteme(p[i]);
 				Possession fief = c.getPossession(p[i]);
 				BaliseHTML color = (s.getPopulation(c.getNumero()) != 0) ? getSpanRace(s.getRaceMajoritaire(c.getNumero())) : getText("");
-				String colorb = (i % 2 == 1) ? (Color_bis) : (null);
+				int plaPossedees = s.getNombrePlanetesPossedees(c.getNumero());
+				int plaTotal =  s.getNombrePlanetes();
+				String className = (plaPossedees == plaTotal) ? "plus" : (plaPossedees > plaTotal / 2) ? "half" : "less";
 
-				a[i + 2][0] = getTD(null, null, colorb).ajout(getALienI(p[i].toString()).ajout(getImage(getCheminEtoile(s.getTypeEtoile()), 15, 15)));
-				a[i + 2][1] = getTD(BaliseHTML.CENTER, null, colorb).ajout( getText(p[i].getDescription()));
-				a[i + 2][2] = getTD(BaliseHTML.CENTER, null, colorb).ajout( getFont(cC[5], null).ajout(getText(s.getNom())));
-				a[i + 2][3] = getTD(BaliseHTML.CENTER, null, colorb).ajout( color.ajout(getText(Integer.toString(s.getPopulation(c .getNumero())))));
-				a[i + 2][4] = getTD(BaliseHTML.CENTER, null, colorb) .ajout(getFont(cC[4], null) .ajout(getText(Integer.toString(s .getPopulationMaximale(c.getNumero())))));
-				a[i + 2][5] = getTD(BaliseHTML.CENTER, null, colorb).ajout( Integer.toString(s.getNombrePlanetesPossedees(c
-								.getNumero()))).ajout( getFont(cC[4], null).ajout( getText("/" + s.getNombrePlanetes())));
-				a[i + 2][6] = getTD(BaliseHTML.CENTER, null, colorb) .ajout(getText(Integer.toString(s.getTaxation(c .getNumero()))));
-				a[i + 2][7] = getTD(BaliseHTML.CENTER, null, colorb).ajout( getFont(cC[4], null).ajout( getText(Integer.toString(s.getStabilite(c .getNumero())))));
+				a[i + 2][0] = getTD(null, null).ajout(getALienI(p[i].toString()).ajout(getImage(getCheminEtoile(s.getTypeEtoile()), 15, 15)));
+				a[i + 2][1] = getTD(BaliseHTML.CENTER, null).ajout( getText(p[i].getDescription()));
+				a[i + 2][2] = getTD(BaliseHTML.CENTER, null).ajout( getFont(cC[5], null).ajout(getText(s.getNom())));
+				a[i + 2][3] = getTD(BaliseHTML.CENTER, null).ajout( color.ajout(getText(Integer.toString(s.getPopulation(c .getNumero())))));
+				a[i + 2][4] = getTD(BaliseHTML.CENTER, null) .ajout(getFont(cC[4], null) .ajout(getText(Integer.toString(s .getPopulationMaximale(c.getNumero())))));
+				a[i + 2][5] = getTD(BaliseHTML.CENTER, null).ajout(
+						new BaliseHTML("span").ajout("class", className).ajout(Integer.toString(plaPossedees))
+				).ajout( getFont(cC[4], null).ajout( getText("/" + plaTotal)));
+				a[i + 2][6] = getTD(BaliseHTML.CENTER, null) .ajout(getText(Integer.toString(s.getTaxation(c .getNumero()))));
+				a[i + 2][7] = getTD(BaliseHTML.CENTER, null).ajout( getFont(cC[4], null).ajout( getText(Integer.toString(s.getStabilite(c .getNumero())))));
 
-				a[i + 2][8] = getTD(BaliseHTML.CENTER, null, colorb).ajout(
+				a[i + 2][8] = getTD(BaliseHTML.CENTER, null).ajout(
 						getFont(cC[3], null).ajout(getText(Integer.toString(s
 								.getPointsDeConstructionModifie(c.getNumero(), c.getGouverneurSurPossession(s.getPosition()), fief,s.getPosition())))));
-				a[i + 2][9] = getTD(BaliseHTML.CENTER, null, colorb).ajout(
+				a[i + 2][9] = getTD(BaliseHTML.CENTER, null).ajout(
 						getFont(cC[3], null).ajout(
 								getText(Integer.toString(s.getRevenuMinerai(c
 										.getNumero())))));
 
-				a[i + 2][10] = getTD(BaliseHTML.CENTER, null, colorb)
+				a[i + 2][10] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getFont(cC[6], null)
 								.ajout(getText(Integer.toString(fief
 										.getBudget(Const.DOMAINES_BUDGET_TECHNOLOGIQUE)))));
-				a[i + 2][11] = getTD(BaliseHTML.CENTER, null, colorb)
+				a[i + 2][11] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getText(Integer.toString(fief
 								.getBudget(Const.DOMAINES_BUDGET_SERVICES_SPECIAUX))));
-				a[i + 2][12] = getTD(BaliseHTML.CENTER, null, colorb)
+				a[i + 2][12] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getFont(cC[4], null)
 								.ajout(getText(Integer.toString(fief
 										.getBudget(Const.DOMAINES_BUDGET_CONTRE_ESPIONNAGE)))));
-				a[i + 2][13] = getTD(BaliseHTML.CENTER, null, colorb)
+				a[i + 2][13] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getText(Commandant.getListeCommandants(s
 								.getProprios())));
 				if (c.existenceGouverneurSurPossession(p[i]))
-					a[i + 2][14] = getTD(BaliseHTML.CENTER, null, colorb)
+					a[i + 2][14] = getTD(BaliseHTML.CENTER, null)
 							.ajout(getALienI(LIEN_GOUVERNEURS)
 									.ajout(getFont(cC[3], null)
 											.ajout(getText(c
 													.getGouverneurSurPossession(
 															p[i]).getNom()))));
 				else
-					a[i + 2][14] = getTD(null, null, colorb).ajout(
+					a[i + 2][14] = getTD(null, null).ajout(
 							getText("&nbsp;"));
 
 
-				a[i + 2][15] = getTD(BaliseHTML.CENTER, null, colorb).ajout(
+				a[i + 2][15] = getTD(BaliseHTML.CENTER, null).ajout(
 						getText(Messages.POLITIQUES[(c.getPossession(p[i]))
 								.getPolitique()]));
-				a[i + 2][16] = getTD(BaliseHTML.CENTER, null, colorb).ajout(
+				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(
 						getText(c.getPossession(p[i]).getProgrammationConstruction()));
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
-					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)));
+					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme"), a)));
 		} else
 			return vide();
 	}
@@ -2269,9 +2336,10 @@ public class Rapport {
 				// stock + prod
                 int prod = s.getProductionMarchandise(c.getNumero(), marchandise);
                 int stock = c.getPossession(s.getPosition()).getQuantiteMarchandise(marchandise);
+				String className = (stock >= 100) ? "bonus" :  ((stock > 0) ? "small" : (prod == 0) ? "noprod" : "");
                 String description = "<span class=\"stock\">" + stock + "</span>" +
 						" (<span class=\"prod "+ (prod>0 ? "plus" : "")+ "\">+" + prod + "</span>)";
-				var container = getTD(BaliseHTML.CENTER, "1").ajout("class", "poste").ajout(description);
+				var container = getTD(BaliseHTML.CENTER, "1").ajout("class", "poste "+className).ajout(description);
 
                 posteTable[row+1][col*2 + 1] = container;
 			}

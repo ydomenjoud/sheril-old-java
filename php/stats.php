@@ -41,7 +41,7 @@
         <a target="stats-detail" href="./stats/rayonnement.htm">Rayonnement</a>
         <a target="stats-detail" href="./stats/technologie.htm">Technologie</a>
         <a target="stats-detail" href="./stats/pop_vs.htm">Ville Spatiale</a>
-        <a target="stats-detail" href="./stats/offensive.htm">offensive</a>
+        <a target="stats-detail" href="./stats/offensive.htm">Points de victoire</a>
 
 
         <div>Militaire:</div>
@@ -52,7 +52,7 @@
 
         <div>Divers:</div>
         <a target="stats-detail" href="./stats/alliances.htm">Liste des alliances</a>
-        <a target="stats-detail" href="./stats/carte.htm">Carte de la galaxie</a>
+        <a target="stats-detail" href="./stats/carte.html">Carte de la galaxie</a>
 
         <a target="stats-detail" href="./stats/encheres.htm">Enchères lieutenants</a>
         <a target="stats-detail" href="./stats/taux_poste.htm">Taux des posts commerciaux</a>
@@ -92,3 +92,22 @@
 </script>
 </body>
 </html>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Commandant</th>
+        <th>Puissance</th>
+        <th>Planètes</th>
+        <th>Finance</th>
+        <th>Population</th>
+        <th>Rayonnement</th>
+        <th>Technologie</th>
+        <th>Ville Spatiale</th>
+        <th>Points de victoire</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>

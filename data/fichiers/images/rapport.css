@@ -93,6 +93,30 @@
     display: flex;
     flex-direction: column;
 }
+
+/* poste */
+.poste .stock {
+    opacity: 0.6;
+}
+.poste.small{
+    background: #480f51;
+}
+.poste.bonus{
+    background: #480f51;
+}
+.poste.bonus .stock {
+    opacity: 1;
+}
+.poste.noprod .prod{
+    opacity: 0.6;
+}
+
+/* possession */
+.resume_systeme .plus{}
+.resume_systeme .half{}
+.resume_systeme .less{}
+
+
 .flotte {
     max-width: var(--width);
     width: 40vw;
@@ -148,11 +172,15 @@ table th {
     top: 0px;
     background: black;
     z-index: 1000;
-    font-weight: normal;
+    font-weight: bold;
     border-collapse: collapse;
     border-spacing: 0;
     border: none;
+    color: var(--accent);
 }
+
+th[data-sort-order="asc"]::after { content: " ▲"; }
+th[data-sort-order="desc"]::after { content: " ▼"; }
 
 .table_full {
     max-width: var(--width);

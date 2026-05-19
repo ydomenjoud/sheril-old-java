@@ -8,6 +8,8 @@ if ($table === "list_ordres") {
     include "./list_ordres.php";
 } else if ($table === "division") {
     include "./division.php";
+} else if ($table === "vendre_acheter_galactique") {
+    include "./marche_galactique.php";
 }  else if ($table != "") {
     include "../secure/connect.txt";
     include "body.txt";

@@ -161,7 +161,7 @@ public class Utile {
 				+ entree.substring(1, entree.length());
 	}
 
-	// met la premiÃšre lettre du mot en majuscule.
+	// met la première lettre du mot en majuscule.
 
 	public static float aD(float valeur, int nbDecimales) {
 		float ar = nbDecimales * 10F;
@@ -169,7 +169,7 @@ public class Utile {
 		return a.floatValue() / ar;
 	}
 
-	// arrondit Ã  nbDecimales.
+	// arrondit à nbDecimales.
 
 	public static float a1D(float valeur) {
 		return aD(valeur, 1);
@@ -179,7 +179,7 @@ public class Utile {
 		return aD(valeur, 2);
 	}
 
-	// arrondit Ã  une ou deux dÃ©cimales.
+	// arrondit à une ou deux décimales.
 
 	public static int getRaceDeDepart(Position pos) {
 		return Univers.getInt(Const.NB_RACES - 1);

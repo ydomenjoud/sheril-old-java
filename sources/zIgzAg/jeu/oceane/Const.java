@@ -707,8 +707,10 @@ public class Const {
             "ecrire_adresse_commandant", // 54
             "ecrire_adresse_alliance", "ecrire_article",
 
+            "vendre_galactique", "acheter_galactique",
+
             "diviser_flotte_ajouter", // 5628
-            "creer_plan_ajouter", "creer_strategie_ajouter"};
+            "creer_plan_ajouter", "creer_strategie_ajouter",};
 
     // le nom des tables des différents ordres.Attention! elles servent
     // également é définir les méthodes de réception d'ordre,
@@ -731,9 +733,9 @@ public class Const {
     public static final int ORDRE_DON_TECHNOLOGIE = 37;
     public static final int ORDRE_CREER_PLAN = 44;
     public static final int ORDRE_CREER_STRATEGIE = 46;
-    public static final int ORDRE_DIVISER_FLOTTE_DETAIL = 57;
-    public static final int ORDRE_CREER_PLAN_DETAIL = 58;
-    public static final int ORDRE_CREER_STRATEGIE_DETAIL = 59;
+    public static final int ORDRE_DIVISER_FLOTTE_DETAIL = 59;
+    public static final int ORDRE_CREER_PLAN_DETAIL = 60;
+    public static final int ORDRE_CREER_STRATEGIE_DETAIL = 61;
     // certains ordres particuliers.
 
     public static final int NOMBRE_LIMITE_ENROLER_LIEUTENANT = 1;
@@ -790,6 +792,7 @@ public class Const {
     public static final String TABLE_FLOTTE_USINES = "z_flottes_usines";
     public static final String TABLE_PLANS_CONSTRUCTIBLES = "z_plans_constructibles";
     public static final String TABLE_COMMANDANTS_TRANSFERT = "z_commandants_transfert";
+    public static final String TABLE_GALACTIQUE = "z_galactique";
     public static final String TABLE_MODE_TRANSFERT = "z_mode_transfert";
     public static final String TABLE_TECHNOLOGIES_TRANSFERABLES = "z_techno_transfert";
     public static final String TABLE_PLANS_TRANSFERABLES = "z_plans_transfert";

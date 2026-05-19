@@ -330,9 +330,7 @@ public class ReceptionOrdres {
 
     public Map deroulementOrdres() {
 
-		if(!Const.FAKE_TURN) {
-			dumpDatabase();
-		}
+		dumpDatabase();
 
 		for (index = 0; index < Const.BORNE_ORDRES_VISIBLES; index++) {
 			resoudreMethode();
@@ -683,6 +681,14 @@ public class ReceptionOrdres {
 
 	public void fixer_taux_poste(String[] o) {
 		c[iC].fixerTauxPostes(tInt(o[0]));
+	}
+
+	public void vendre_galactique(String[] o) {
+		c[iC].vendreGalactique(Position.traduction(o[0]), o[1], tInt(o[2]), tInt(o[3]));
+	}
+
+	public void acheter_galactique(String[] o) {
+		c[iC].acheterGalactique(tInt(o[0]), Position.traduction(o[1]));
 	}
 
 }

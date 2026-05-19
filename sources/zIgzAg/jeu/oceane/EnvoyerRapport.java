@@ -15,16 +15,10 @@ public class EnvoyerRapport {
 	public static void zipper(Commandant c) {
 		String chemin = Chemin.ZIP;
 
-		String[] f = null;
-
-		if (c.getTourArrivee() == Univers.getTour()) {
-			f = new String[2];
-			f[0] = Chemin.RAPPORTS_IMAGES;
-			f[1] = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour();
-		} else {
-			f = new String[1];
-			f[0] = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour();
-		}
+		// on met toujours les images pour avoir les MAJ
+		String[] f = new String[2];
+		f[0] = Chemin.RAPPORTS_IMAGES;
+		f[1] = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour();
 		Copie.zipper(f, chemin, Integer.toString(c.getNumero()) + "tour" + Univers.getTour() + ".zip");
 
 		ProductionOrdres.ecrireSecurite(chemin, c);
