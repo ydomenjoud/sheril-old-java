@@ -16,12 +16,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -345,22 +340,22 @@ public class ProductionOrdres {
                 Utile.retournerTableauEntiers(Const.NB_TYPE_ALLIANCES - 1),
                 Univers.getTableauMessage("TYPE_ALLIANCE", l)));
 
-        OffreMarche[] offres = Univers.getListeOffresMarche();
-        if (offres.length == 0) return;
+        List<OffreMarche> offres = Univers.getListeOffresMarche();
+        if (offres.isEmpty()) return;
         
-        String[] ids = new String[offres.length];
-        String[] vendeurs = new String[offres.length];
-        String[] codes = new String[offres.length];
-        Integer[] quantites = new Integer[offres.length];
-        Integer[] prix = new Integer[offres.length];
+        String[] ids = new String[offres.size()];
+        String[] vendeurs = new String[offres.size()];
+        String[] codes = new String[offres.size()];
+        Integer[] quantites = new Integer[offres.size()];
+        Integer[] prix = new Integer[offres.size()];
         
-        for (int i = 0; i < offres.length; i++) {
-            ids[i] = Integer.toString(offres[i].getId());
-            Commandant v = Univers.getCommandant(offres[i].getNumeroVendeur());
+        for (int i = 0; i < offres.size(); i++) {
+            ids[i] = Integer.toString(offres.get(i).getId());
+            Commandant v = Univers.getCommandant(offres.get(i).getNumeroVendeur());
             vendeurs[i] = (v != null ? v.getNumero()+"" : "???");
-            codes[i] = offres[i].getCodeMarchandise();
-            quantites[i] = new Integer(offres[i].getQuantite());
-            prix[i] = new Integer(offres[i].getPrixUnitaire());
+            codes[i] = offres.get(i).getCodeMarchandise();
+            quantites[i] = new Integer(offres.get(i).getQuantite());
+            prix[i] = new Integer(offres.get(i).getPrixUnitaire());
         }
         
         ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,

@@ -1,25 +1,38 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class OffreMarche implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int numeroVendeur;
-    private Position positionOrigine;
-    private String codeMarchandise;
-    private int quantite;
-    private int prixUnitaire;
-    private int id;
+    private final int numeroVendeur;
+    private final Position positionOrigine;
+    private final String codeMarchandise;
+    private final int quantite;
+    private final int prixUnitaire;
+    private final int id;
+    private final int tourFin;
 
-    public OffreMarche(int id, int numeroVendeur, Position positionOrigine, String codeMarchandise, int quantite, int prixUnitaire) {
+    public OffreMarche(int id, int numeroVendeur, Position positionOrigine, String codeMarchandise, int quantite, int prixUnitaire, int tourFin) {
         this.id = id;
         this.numeroVendeur = numeroVendeur;
         this.positionOrigine = positionOrigine;
         this.codeMarchandise = codeMarchandise;
         this.quantite = quantite;
         this.prixUnitaire = prixUnitaire;
+        this.tourFin = tourFin;
+    }
+
+    public static void gererEncheres() {
+        int tourActuel = Univers.getTour();
+        Univers.getListeOffresMarche()
+                .removeIf(offre -> offre.getTourFin() < tourActuel);
+    }
+
+    private int getTourFin() {
+        return tourFin;
     }
 
     public int getId() {
@@ -46,7 +59,18 @@ public class OffreMarche implements Serializable {
         return prixUnitaire;
     }
 
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
+    public ObjetSimpleTransporte getObjetTransporte() {
+        return new ObjetSimpleTransporte(codeMarchandise, quantite);
     }
+
+    public String traductionChargement(){
+        return getObjetTransporte().traductionChargement();
+    }
+
+    public String getDescription(){
+        return getObjetTransporte().getDescription();
+    }
+
 }
+
+

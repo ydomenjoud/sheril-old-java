@@ -436,21 +436,23 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ORDRE_transferer_systeme = "Transférer le système {1} pour le commandant {0} en mode {2}.";
 	public static final String ORDRE_transferer_planete = "Transférer la planète {2} du système {1} pour le commandant {0} en mode {3}.";
 	public static final String ORDRE_transferer_flotte = "Prêter la flotte {1} pour le commandant {0} et pour {2} tours.";
-	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique: Le système {0} n'existe pas ou ne vous appartient pas.";
+	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique: annulation de la vente de {0}: Le système {1} n'existe pas ou ne vous appartient pas.";
 	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique: Le prix de vente ({0}) ne peut être négatif.";
 	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0002 = "Marché galactique: Vous ne possédez pas {0} sur le système {1}.";
 
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique: L'offre {0} n'est plus disponible sur le marché.";
-	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0001 = "Marché galactique: Le système de réception {0} n'existe pas ou ne vous appartient pas.";
+	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0001 = "Marché galactique: offre {0} : Le système de réception {0} n'existe pas ou ne vous appartient pas.";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0002 = "Marché galactique: Vous n'avez pas assez d'argent pour cet achat (Prix: {0}, Solde: {1}).";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0003 = "Marché galactique: L'achat de l'offre {0} a échoué car le vendeur ne possède plus le système d'origine.";
+	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0004 = "Marché galactique: Vous ne pouvez pas vous acheter à vous même {0} ";
+	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0005 = "Marché galactique: Votre enchère pour {0} du commandant {1} n'as pas été retenue";
 
-	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique:Vous avez mis en vente {0} ({1} unités) au prix de {2} l'unité depuis le système {3}.";
-	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique:La vente de {0} ({1} unités) a été annulée car vous ne possédez plus le système {2}. Les marchandises sont perdues.";
-	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0002 = "Marché galactique:Vous avez annulé la vente de {0} ({1} unités). Les marchandises ont été remises sur le système {2}.";
-	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0003 = "Marché galactique:Le commandant {0} vous a acheté {1} ({2} unités) pour un total de {3} centaures.";
+	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique: Vous avez mis en vente {0} depuis le système {1} pour {2} centaures.";
+	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique: La vente de {0} ({1} unités) a été annulée car vous ne possédez plus le système {2}. Les marchandises sont perdues.";
+	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0002 = "Marché galactique: Vous avez annulé la vente de {0} ({1} unités). Les marchandises ont été remises sur le système {2}.";
+	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0003 = "Marché galactique: Le commandant {0} vous a acheté {1} ({2} unités) pour un total de {3} centaures.";
 
-	public static final String EV_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique:Vous avez acheté au commandant {0} {1} ({2} unités) pour un total de {3} centaures. Les marchandises ont été livrées sur le système {4}.";
+	public static final String EV_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique: Vous avez acheté au commandant {0} {1} pour un total de {2} centaures. Les marchandises ont été livrées sur le système {3}.";
 
 	public static final String ORDRE_vendre_galactique = "Mettre en vente {1} ({2} unités) au prix de {3} depuis {0}.";
 	public static final String ORDRE_acheter_galactique = "Acheter l'offre {0} et la recevoir sur {1}.";

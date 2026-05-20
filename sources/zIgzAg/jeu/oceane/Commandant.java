@@ -4001,90 +4001,64 @@ public class Commandant extends Joueur implements Serializable {
 
 		ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
 		if (o == null || o.getNombreObjets() <= 0) {
-			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", code, pos);
+            String description = ObjetTransporte.traductionChargement(code, nombre, getLocale());
+			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " " + description, pos);
 			return;
 		}
 
+        String description = ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{o});
 		int reelNombre = o.getNombreObjets();
 		int id = Univers.trouverProchainIdOffreMarche();
-		OffreMarche offre = new OffreMarche(id, numero, pos, code, reelNombre, prix);
+		OffreMarche offre = new OffreMarche(id, numero, pos, code, reelNombre, prix, Univers.getTour()+5);
 		Univers.ajouterOffreMarche(offre);
 
 		ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0000",
-				(Object)ObjetTransporte.traductionChargement(code, reelNombre, getLocale()),
-				(Object)Integer.valueOf(reelNombre), (Object)Float.valueOf((float)prix), (Object)pos);
+                description,
+                pos,
+                (float) prix);
 	}
+    public boolean acheterGalactique(int idOffre, Position destination, int montant) {
+        OffreMarche offre = Univers.getOffreMarche(idOffre);
+        return acheterGalactique(offre, destination, montant);
+    }
 
-	public void acheterGalactique(int idOffre, Position posReception) {
-		OffreMarche offre = Univers.getOffreMarche(idOffre);
+	public boolean acheterGalactique(OffreMarche offre, Position destinationPosition, int montant) {
 		if (offre == null) {
-			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", idOffre);
-			return;
+			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", "unknown");
+			return false;
 		}
+        var obj = offre.getObjetTransporte();
 
-		if (offre.getNumeroVendeur() == numero) {
-			// Annulation de la vente
-			Systeme sys = Univers.getSysteme(offre.getPositionOrigine());
-			if (sys == null || !sys.estProprio(numero)) {
-				Univers.retirerOffreMarche(offre);
-				ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0001",
-						(Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
-						(Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
-				return;
-			}
-			sys.ajouterRichesses(numero, new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
-			Univers.retirerOffreMarche(offre);
-			ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0002",
-					(Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
-					(Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
-			return;
-		}
-
-		Systeme sysReception = Univers.getSysteme(posReception);
-		if (sysReception == null || !sysReception.estProprio(numero)) {
-			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0001", posReception);
-			return;
-		}
-
-		long prixTotal = (long) offre.getQuantite() * (long) offre.getPrixUnitaire();
-		if (centaures < (float)prixTotal) {
-			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0002", (Object)Float.valueOf((float)prixTotal), (Object)Float.valueOf(centaures));
-			return;
+		Systeme destinationSys = Univers.getSysteme(destinationPosition);
+		if (destinationSys == null || !destinationSys.estProprio(numero)) {
+			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0001", offre.getDescription(), destinationPosition);
+			return false;
 		}
 
 		Commandant vendeur = Univers.getCommandant(offre.getNumeroVendeur());
-		
-		// Verifier si le vendeur a toujours le systeme d'origine
-		Systeme sysOrigine = Univers.getSysteme(offre.getPositionOrigine());
-		if (sysOrigine == null || !sysOrigine.estProprio(offre.getNumeroVendeur())) {
-			Univers.retirerOffreMarche(offre);
-			if (vendeur != null) {
-				vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0001",
-						(Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), vendeur.getLocale()),
-						(Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
-			}
-			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0003", offre.getId());
-			return;
-		}
 
 		// Transaction
-		modifierBudget(Const.BUDGET_COMMANDANT_ACHAT_MARCHANDISE, - (float)prixTotal);
-		sysReception.ajouterRichesses(numero, new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
+		modifierBudget(Const.BUDGET_COMMANDANT_ACHAT_MARCHANDISE, - (float)montant);
+		destinationSys.ajouterRichesses(numero, obj, -1);
 		
 		if (vendeur != null) {
-			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE, (float)prixTotal);
+			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE, (float)montant);
 			vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0003",
-					(Object)getNomNumero(),
-					(Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), vendeur.getLocale()),
-					(Object)Integer.valueOf(offre.getQuantite()), (Object)Float.valueOf((float)prixTotal));
+                    offre.getDescription(),
+                    offre.getPositionOrigine().getDescription(),
+                    getNomNumero(),
+                    (float) montant);
 		}
 
 		ajouterEvenement("EV_COMMANDANT_ACHAT_GALACTIQUE_0000",
-				(Object)(vendeur != null ? vendeur.getNomNumero() : "???"),
-				(Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
-				(Object)Integer.valueOf(offre.getQuantite()), (Object)Float.valueOf((float)prixTotal), (Object)posReception);
+                vendeur != null ? vendeur.getNomNumero() : "???",
+                offre.getDescription(),
+                (float) montant,
+                destinationPosition.getDescription()
+        );
 
 		Univers.retirerOffreMarche(offre);
+        return true;
 	}
 	
 

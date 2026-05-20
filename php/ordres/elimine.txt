@@ -1,24 +1,42 @@
 <?php
 
 $elimine = array_key_exists('elimine', $_GET) ? $_GET['elimine'] : null;
+$identifier = array_key_exists('identifier', $_GET) ? $_GET['identifier'] : null;
+$identifierKey = array_key_exists('key', $_GET) ? strtolower($_GET['key']) : null;
 
 if ($elimine != "") {
-    $result = mysql($base, "SELECT * FROM $table WHERE NUMERO='$commandant'");
-    for ($i = 0; $i < $elimine; $i++) mysql_fetch_row($result);
-    $rf = mysql_fetch_row($result);
-    $num_field = mysql_num_fields($result);
-    $var_table = mysql_field_name($result, 0);
-    $var_champ = "'$commandant'";
-    $var_result = "$var_table=$var_champ";
-    for ($i = 1; $i < $num_field; $i++) {
-        $var_table = mysql_field_name($result, $i);
-        $inter = addslashes($rf[$i]);
-        $var_champ = "'$inter'";
-        $var_result = "$var_result AND $var_table=$var_champ";
+    if($identifier && $identifierKey){
+        // recherche des noms valides
+        $res = mysql($base,"SHOW COLUMNS FROM $table");
+        if(!$res){
+            die(mysql_error());
+        }
+        $colonnes_valides = array();
+        while ($row = mysql_fetch_assoc($res)) { $colonnes_valides[] = $row['Field'];}
+        if (!in_array($identifierKey, $colonnes_valides)) {
+            die("Champ non autorisé !");
+        }
+        $identifier = mysql_real_escape_string($identifier);
+        $query = "DELETE FROM $table WHERE $identifierKey='$identifier' and NUMERO='$commandant'";
+        mysql_query($query) or die("zIgzAg need HELP! Erreur suppression<BR>");
+    } else {
+        $result = mysql($base, "SELECT * FROM $table WHERE NUMERO='$commandant'");
+        for ($i = 0; $i < $elimine; $i++) mysql_fetch_row($result);
+        $rf = mysql_fetch_row($result);
+        $num_field = mysql_num_fields($result);
+        $var_table = mysql_field_name($result, 0);
+        $var_champ = "'$commandant'";
+        $var_result = "$var_table=$var_champ";
+        for ($i = 1; $i < $num_field; $i++) {
+            $var_table = mysql_field_name($result, $i);
+            $inter = addslashes($rf[$i]);
+            $var_champ = "'$inter'";
+            $var_result = "$var_result AND $var_table=$var_champ";
+        }
+        mysql_query("DELETE FROM $table WHERE $var_result")
+        or die("zIgzAg need HELP! Erreur suppression<BR>");
+        if ($nb_div != "") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE COMMANDANT='$commandant' AND NB_DIVISION='nb_div'")
+        or die("zIgzAg need HELP! Erreur suppression<BR>");
     }
-    mysql_query("DELETE FROM $table WHERE $var_result")
-    or die("zIgzAg need HELP! Erreur suppression<BR>");
-    if ($nb_div != "") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE COMMANDANT='$commandant' AND NB_DIVISION='nb_div'")
-    or die("zIgzAg need HELP! Erreur suppression<BR>");
 }
 ?>

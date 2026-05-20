@@ -7,11 +7,9 @@ package zIgzAg.jeu.oceane;
 import java.io.Serializable;
 import java.util.Locale;
 
-import zIgzAg.utile.Mdt;
-
 public abstract class ObjetTransporte implements Serializable, Cloneable {
 
-	private String code;
+	protected String code;
 
 	public String getCode() {
 		return code;
@@ -20,9 +18,13 @@ public abstract class ObjetTransporte implements Serializable, Cloneable {
 	public boolean estDeType(String c) {
 		return code.equals(c);
 	}
+
+	public boolean estBatiment() {
+		return typeDeCodeChargement(code) == Const.TRANSPORT_BATIMENT;
+	}
 	
 	public String getDescription(){
-		return getDescriptionListeChargement(new ObjetTransporte[]{this}, Locale.getDefault());
+		return getDescriptionListeChargementHTML(new ObjetTransporte[]{this});
 	}
 
 	public static int typeDeCodeChargement(String code) {
@@ -80,6 +82,22 @@ public abstract class ObjetTransporte implements Serializable, Cloneable {
 				retour = retour + ",";
 		}
 		return retour;
+	}
+	public static String getDescriptionListeChargementHTML(ObjetTransporte[] o) {
+		StringBuilder retour = new StringBuilder(new String());
+		for (int i = 0; i < o.length; i++) {
+			String code = o[i].getCode();
+			boolean estBatiment = o[i].estBatiment();
+			int nbObjet = o[i].getNombreObjets();
+			retour.append("<span class=\"").append(estBatiment ? "technology" : "marchandise").append("\">")
+					.append(Utile.maj(traductionChargement(code, nbObjet, Locale.getDefault())))
+					.append(" : ")
+					.append(nbObjet)
+					.append("</span>");
+			if (i != (o.length - 1))
+				retour.append(",");
+		}
+		return retour.toString();
 	}
 
 	public abstract Object ajout(Object o);

@@ -1,4 +1,8 @@
-Le marché galactique vous permet de vendre des marchandises à l'ensemble des commandants de la galaxie.
+<h3 class="help">Aide</h3>
+
+<p>Le marché galactique vous permet de d'acheter des marchandises et bâtiments proposés par l'ensemble des commandants de la galaxie.
 <br><br>
-<b>Acheter :</b> Choisissez une offre dans la liste. Vous devez disposer des fonds nécessaires. Les marchandises seront livrées sur le système de réception choisi.
-<br><br>
+<b>Acheter :</b> Choisissez une offre dans la liste. Vous devez disposer des fonds nécessaires. Les marchandises
+seront livrées sur le système de réception choisi.
+
+</p>

@@ -1,0 +1,9 @@
+<?php
+
+$t0=base1($base,$commandant,"z_systemes");
+$t1=base1($base,$commandant,"z_commandants_transfert");
+// liste des offres
+$offresList = baseList("z_galactique","ID_OFFRE", "VENDEUR!=$commandant");
+
+// liste des enchères actives
+$encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");

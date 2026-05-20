@@ -107,6 +107,8 @@ public class DeroulementDuTour {
 		Leader.produireEncheres();
 		Alliance.gererAlliances2();
 
+		OffreMarche.gererEncheres();
+
 		cL = null;
 		m = null;
 		listeOrdresRendus = null;

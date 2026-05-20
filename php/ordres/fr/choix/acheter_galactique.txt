@@ -1,0 +1,106 @@
+<?php
+// on recalcule car l'ordre de suppression est arrivé en cours de route
+// liste des enchères actives
+$encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
+
+?>
+<h1>Faire une enchère sur le marché galactique</h1>
+<style>
+    h1 {
+        margin-top: 20px;
+    }
+    input {
+        height: 30px;
+    }
+    form label {
+    }
+    form {
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*gap: 10px;*/
+        margin: 0;
+        padding: 0;
+    }
+    /*form > * {*/
+    /*    flex: 1;*/
+    /*}*/
+</style>
+
+<table style=" width: auto " class="stylized">
+    <thead>
+    <tr>
+        <th>Commandant</th>
+        <th>Quantité</th>
+        <th>Type</th>
+        <th>Prix</th>
+        <th>Enchérir</th>
+        <th>Et déposer sur</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    foreach ($offresList as $offre) {
+        $min = intval($offre['QUANTITE']) * intval($offre['PRIX']);
+        $enchere = array_key_exists($offre['ID_OFFRE'],$encheresActives) > 0 ? $encheresActives[$offre['ID_OFFRE']] : null;
+
+        echo "<tr>";
+        echo "<td>{$t1[$offre['VENDEUR']]}</td>";
+        echo "<td>" . $offre['QUANTITE'] . "</td>";
+        echo "<td>" . $offre['CODE'] . "</td>";
+        echo "<td>" . $offre['PRIX'] . "</td>";
+        if($enchere){
+        ?>
+            <td class="item">
+                <span class="number"><?=$enchere['v1']?></span> centaures
+            </td>
+            <td class="item">
+                <?=$t0[$enchere['v2']]?>
+            </td>
+            <td>
+                <a class="delete" href="index.php3?table=<?=$table?>&elimine=1&identifier=<?=$offre['ID_OFFRE']?>&key=v0">supprimer</a>
+            </td>
+        <?php } else { ?>
+
+        <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+            <td>
+                <input type="hidden" name="v0" value="<?=$offre['ID_OFFRE']?>">
+                <input type="number" value="<?=(V('v1') || $min)?>" min="<?=$min?>" name="v1" placeholder="Montant">
+            </td>
+            <td>
+                <?php select1("v2", $t0) ?>
+            </td>
+            <td>
+                <input type='submit' name='acheter_galactique' value='Valider mon enchère'>
+            </td>
+        </form>
+    <?php
+        }
+        echo "</tr>";
+    }
+    ?>
+    </tbody>
+</table>
+    <?php
+
+//    create acheter_galactique
+//    `NUMERO` int(11) NOT NULL default '0',
+//    `v0` int(11) NOT NULL default '0', -- ID de l'offre choisie
+//    `v1` int(11) NOT NULL default '0'  -- Prix enchere
+//    `v2` text NOT NULL  -- Position du système de réception (ex: "1.1.1")
+//    )
+//
+//
+//
+//        create table z_galactique
+//    (
+//    NUMERO   int default 0 not null
+//    ID_OFFRE text          not null,
+//    VENDEUR  text          not null,
+//    CODE     text          not null,
+//    QUANTITE int default 0 not null,
+//    PRIX     int default 0 not null
+//    )
+
+
+    ?>

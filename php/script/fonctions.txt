@@ -172,3 +172,23 @@ function display_planete($nb, $title = "planète" ){
 function POST($key) {
     return array_key_exists($key,$_POST) ? $_POST[$key] : '';
 }
+
+function baseList($table, $id=null, $where=null): array
+{
+    $query = "SELECT * FROM $table";
+    if($where) {
+        $query .= " WHERE $where";
+    }
+    $resultList = mysql_query($query);
+    if (!$resultList) {
+        echo mysql_error();
+    }
+    $list = [];
+    while ($row = mysql_fetch_assoc($resultList)) {
+        if($id){
+            $list[$row[$id]] = $row;
+        }
+        else $list[] = $row;
+    }
+    return $list;
+}

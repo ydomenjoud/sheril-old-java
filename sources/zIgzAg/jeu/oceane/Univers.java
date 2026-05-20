@@ -62,7 +62,8 @@ public class Univers {
 	private static HashMap TRANSFERTS;
 
 	private static ArrayList LEADERS_EN_VENTE;
-	private static ArrayList MARCHE_GALACTIQUE;
+
+	private static ArrayList<OffreMarche> MARCHE_GALACTIQUE;
 
 	private static ArrayList TECHNOLOGIES_PUBLIQUES;
 
@@ -442,18 +443,16 @@ public class Univers {
 		MARCHE_GALACTIQUE.add(o);
 	}
 
-	public static OffreMarche[] getListeOffresMarche() {
-		if (MARCHE_GALACTIQUE == null) return new OffreMarche[0];
-		return (OffreMarche[]) MARCHE_GALACTIQUE.toArray(new OffreMarche[0]);
+	public static List<OffreMarche> getListeOffresMarche() {
+		if (MARCHE_GALACTIQUE == null) return new ArrayList<OffreMarche>();
+		return MARCHE_GALACTIQUE;
 	}
 
 	public static OffreMarche getOffreMarche(int id) {
-		for (int i = 0; i < MARCHE_GALACTIQUE.size(); i++) {
-			OffreMarche o = (OffreMarche) MARCHE_GALACTIQUE.get(i);
-			if (o.getId() == id)
-				return o;
-		}
-		return null;
+		return MARCHE_GALACTIQUE.stream()
+				.filter(o -> o.getId() == id)
+				.findFirst()
+				.orElse(null);
 	}
 
 	public static void retirerOffreMarche(OffreMarche o) {
@@ -463,7 +462,7 @@ public class Univers {
 	public static int trouverProchainIdOffreMarche() {
 		int max = 0;
 		for (int i = 0; i < MARCHE_GALACTIQUE.size(); i++) {
-			OffreMarche o = (OffreMarche) MARCHE_GALACTIQUE.get(i);
+			OffreMarche o = MARCHE_GALACTIQUE.get(i);
 			if (o.getId() > max)
 				max = o.getId();
 		}

@@ -5,6 +5,7 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public class ObjetSimpleTransporte extends ObjetTransporte implements
 		Serializable, Cloneable {
@@ -58,6 +59,9 @@ public class ObjetSimpleTransporte extends ObjetTransporte implements
 	public ObjetSimpleTransporte(String type, int nb) {
 		super(type);
 		nombre = nb;
+	}
+	public String traductionChargement(){
+        return traductionChargement(code, nombre, Locale.getDefault());
 	}
 
 }

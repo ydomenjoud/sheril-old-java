@@ -2,13 +2,13 @@
 <h1>Mettre en vente sur le marché galactique</h1>
 <BR>
 Mettre en vente
-        <input type="text" value="<?=V('v2')?>" size="4" maxlength="4" name="v2">
-        unités de type
-        <?php select1("v1",$t1); ?>
-        de mon système
-        <?php select1("v0",$t0); ?>
-        à
-        <input type="number" value="<?=(V('v3') || 1)?>" min="1" name="v3">ce / unité
+<input type="number" value="<?=(V('v2') || 1)?>" min="1" name="v2">
+unités de type
+<?php select1("v1",$t1); ?>
+de mon système
+<?php select1("v0",$t0); ?>
+à
+<input type="number" value="<?=(V('v3') || 1)?>" min="1" name="v3">ce / unité
 
 
 <!--    `NUMERO` int(11) NOT NULL default '0',-->

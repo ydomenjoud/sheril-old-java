@@ -733,6 +733,7 @@ public class Const {
     public static final int ORDRE_DON_TECHNOLOGIE = 37;
     public static final int ORDRE_CREER_PLAN = 44;
     public static final int ORDRE_CREER_STRATEGIE = 46;
+    public static final int ORDRE_ACHAT_GALACTIQUE = 58;
     public static final int ORDRE_DIVISER_FLOTTE_DETAIL = 59;
     public static final int ORDRE_CREER_PLAN_DETAIL = 60;
     public static final int ORDRE_CREER_STRATEGIE_DETAIL = 61;

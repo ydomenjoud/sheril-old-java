@@ -1107,13 +1107,12 @@ CREATE TABLE `z_galactique` (
     `VENDEUR` text NOT NULL,
     `CODE` text NOT NULL,
     `QUANTITE` int(11) NOT NULL default '0',
-    `PRIX` int(11) NOT NULL default '0',
-    PRIMARY KEY  (`NUMERO`)
+    `PRIX` int(11) NOT NULL default '0'
 ) engine=MyISAM;
 
 CREATE TABLE `vendre_galactique` (
      `NUMERO` int(11) NOT NULL default '0',
-     `v0` text NOT NULL, -- Position du système (ex: "1.1")
+     `v0` VARCHAR(20) NOT NULL, -- Position du système (ex: "1.1")
      `v1` text NOT NULL, -- Code marchandise
      `v2` int(11) NOT NULL default '0', -- Quantité
      `v3` int(11) NOT NULL default '0'  -- Prix unitaire
@@ -1122,5 +1121,6 @@ CREATE TABLE `vendre_galactique` (
 CREATE TABLE `acheter_galactique` (
   `NUMERO` int(11) NOT NULL default '0',
   `v0` int(11) NOT NULL default '0', -- ID de l'offre choisie
-  `v1` text NOT NULL  -- Position du système de réception (ex: "1.1.1")
+  `v1` int(11) NOT NULL default '0',  -- Prix enchere
+  `v2` VARCHAR(20) NOT NULL  -- Position du système de réception (ex: "1.1.1")
 ) engine=MyISAM;
