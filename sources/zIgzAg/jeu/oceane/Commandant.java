@@ -1211,15 +1211,21 @@ public class Commandant extends Joueur implements Serializable {
 		@SuppressWarnings("unchecked")
 		Map.Entry<int[], Flotte>[] m = h.entrySet().toArray(new Map.Entry[0]);
 
+        if(flottesDetectees == null){
+            flottesDetectees = new ArrayList<>();
+        }
 		Position[] p = listePossession();
 		for (int i = 0; i < p.length; i++) {
 			int portee = Univers.getSysteme(p[i]).getPorteeRadar(numero);
-			if (portee != 0)
-				for (int j = 0; j < m.length; j++)
-					if (Position.distance( ((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee)
+			if (portee != 0){
+				for (int j = 0; j < m.length; j++){
+					if (Position.distance( ((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee){
 						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0])){
 							flottesDetectees.add(m[j].getKey());
 						}
+					}
+				}
+			}
 		}
 
 		// Liste des flottes
@@ -1236,18 +1242,11 @@ public class Commandant extends Joueur implements Serializable {
 		}
 		
 		// Brouillage
-		for (int i = 0; i < flottesDetectees.size(); i++) {
-			int[] inter = (int[]) flottesDetectees.get(i);
-			Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
-
-			boolean remove = false;
-
-            remove = true;
-
-			if (remove)
-				flottesDetectees.remove(inter);
-		}
-	}
+        flottesDetectees.removeIf(inter -> {
+            Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
+            return Univers.getTest(flo.getBrouillageRadar());
+        });
+    }
 
 	public void determinerFlottesDetectesParAlliance(){
 		
@@ -4021,14 +4020,10 @@ public class Commandant extends Joueur implements Serializable {
                 pos,
                 (float) prix);
 	}
-    public boolean acheterGalactique(int idOffre, Position destination, int montant) {
-        OffreMarche offre = Univers.getOffreMarche(idOffre);
-        return acheterGalactique(offre, destination, montant);
-    }
 
 	public boolean acheterGalactique(OffreMarche offre, Position destinationPosition, int montant) {
 		if (offre == null) {
-			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", "unknown");
+			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", "unknown", "unknown");
 			return false;
 		}
         var obj = offre.getObjetTransporte();

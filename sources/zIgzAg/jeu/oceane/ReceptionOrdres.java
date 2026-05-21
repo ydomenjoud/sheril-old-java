@@ -254,6 +254,15 @@ public class ReceptionOrdres {
 				vendeur.ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0000",
 						offre.getDescription(),
 						offre.getPositionOrigine().getDescription());
+
+				// il faut indiquer à tous les encherisseurs que l'annonce n'est plus valide
+				for(Enchere e : encheresTriees){
+					Commandant c = Univers.getCommandant(e.numCommandant());
+					c.ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000",
+							offre.getDescription(),
+							offre.getPositionOrigine().getDescription());
+				}
+
 				// on passe à la suivante
 				continue;
 			}
@@ -267,7 +276,7 @@ public class ReceptionOrdres {
 					boolean valid = c.acheterGalactique(offre, e.destination(), e.montant());
 					if (valid) { dejaAchete = true; }
 				} else {
-					c.ajouterEvenement("ER_COMMANDANT_ACHAT_GALACTIQUE_0005",
+					c.ajouterEvenement("ER_COMMANDANT_ACHAT_GALACTIQUE_0000",
 							offre.getDescription(),
 							vendeur.getNomNumero()
 							);
@@ -742,7 +751,7 @@ public class ReceptionOrdres {
 		// est ce que l'offre existe réellement
 		OffreMarche offre = Univers.getOffreMarche(idOffre);
 		if(offre == null){
-			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", idOffre);
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", idOffre, "unknown");
 			return;
 		}
 

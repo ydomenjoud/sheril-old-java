@@ -440,7 +440,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique: Le prix de vente ({0}) ne peut être négatif.";
 	public static final String ER_COMMANDANT_VENTE_GALACTIQUE_0002 = "Marché galactique: Vous ne possédez pas {0} sur le système {1}.";
 
-	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique: L'offre {0} n'est plus disponible sur le marché.";
+	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique: L'offre {0} de {1} n'est plus disponible sur le marché.";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0001 = "Marché galactique: offre {0} : Le système de réception {0} n'existe pas ou ne vous appartient pas.";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0002 = "Marché galactique: Vous n'avez pas assez d'argent pour cet achat (Prix: {0}, Solde: {1}).";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0003 = "Marché galactique: L'achat de l'offre {0} a échoué car le vendeur ne possède plus le système d'origine.";

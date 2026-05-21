@@ -2,8 +2,30 @@
 
 $t0=base1($base,$commandant,"z_systemes");
 $t1=base1($base,$commandant,"z_commandants_transfert");
+$t2=base1($base,$commandant,"z_cargaison_chargement");
 // liste des offres
-$offresList = baseList("z_galactique","ID_OFFRE", "VENDEUR!=$commandant");
-
+$offresListRes = mysql_query("SELECT * FROM z_galactique");
+if (!$offresListRes) {
+    echo mysql_error();
+}
+$offresList = [];
+if($offresListRes && $row = mysql_fetch_assoc($offresListRes)) {
+    $offresIdsList = explode(',', $row['ID_OFFRE']);
+    $vendeursIdsList = explode(',', $row['VENDEUR']);
+    $quantiteList = explode(',', $row['QUANTITE']);
+    $codesList = explode(',', $row['CODE']);
+    $prixList = explode(',', $row['PRIX']);
+    for($i=0;$i<count($vendeursIdsList);$i++) {
+        if($vendeursIdsList[$i] !== $commandant) {
+            $offresList[] = [
+                'VENDEUR' => $vendeursIdsList[$i],
+                'QUANTITE' => $quantiteList[$i],
+                'CODE' => $codesList[$i],
+                'PRIX' => $prixList[$i],
+                'ID_OFFRE' => $offresIdsList[$i],
+            ];
+        }
+    }
+}
 // liste des enchères actives
 $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");

@@ -1,7 +1,6 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class OffreMarche implements Serializable {
 
@@ -25,13 +24,12 @@ public class OffreMarche implements Serializable {
         this.tourFin = tourFin;
     }
 
-    public static void gererEncheres() {
+    public static void gererFinDeVieEncheres() {
         int tourActuel = Univers.getTour();
         Univers.getListeOffresMarche()
                 .removeIf(offre -> offre.getTourFin() < tourActuel);
 
 //        TODO
-//        if (offre.getNumeroVendeur() == numero) {
 //            // Annulation de la vente
 //            Systeme sys = Univers.getSysteme(offre.getPositionOrigine());
 //            if (sys == null || !sys.estProprio(numero)) {
@@ -47,7 +45,6 @@ public class OffreMarche implements Serializable {
 //                    (Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
 //                    (Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
 //            return;
-//        }
     }
 
     private int getTourFin() {

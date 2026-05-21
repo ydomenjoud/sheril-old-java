@@ -69,8 +69,8 @@ $code_ordres = array(
     "ecrire_adresse_alliance",
     "ecrire_article",
 
-//    "vendre_galactique",
-//    "acheter_galactique",
+    "vendre_galactique",
+    "acheter_galactique",
 
     "diviser_flotte_ajouter",
     "creer_plan_ajouter",
@@ -130,11 +130,11 @@ $description_ordres = array(
     "Renommer une flotte",
     "Renommer un lieutenant",
     "Renommer une alliance",
-//    "Vendre sur le marché galactique",
-//    "Acheter sur le marché galactique",
     "Site d'un commandant",
     "Site d'une alliance",
     "Ecrire un article",
+    "Vendre sur le marché galactique",
+    "Acheter sur le marché galactique",
 
     );
 ?>

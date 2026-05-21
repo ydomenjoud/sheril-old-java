@@ -96,8 +96,8 @@ function fusion_tab2($tab1, $tab2)
     return $tab1;
 }
 
-function V($name) {
-    return array_key_exists($name,$_POST) ? $_POST[$name] : '';
+function V($name, $default="") {
+    return array_key_exists($name,$_POST) ? $_POST[$name] : $default;
 }
 
 function select1($nv, $t, $class='select')

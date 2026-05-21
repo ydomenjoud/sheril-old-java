@@ -1124,3 +1124,6 @@ CREATE TABLE `acheter_galactique` (
   `v1` int(11) NOT NULL default '0',  -- Prix enchere
   `v2` VARCHAR(20) NOT NULL  -- Position du système de réception (ex: "1.1.1")
 ) engine=MyISAM;
+
+create unique index acheter_galactique_uniq_offer
+    on acheter_galactique (NUMERO, v0);

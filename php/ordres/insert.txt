@@ -23,7 +23,7 @@ if($v0!=""){
  $res = mysql_query($query);
  if(!$res){
      echo mysql_error();
-     die("Erreur insertion");
+     die("  <br /><a href='index.php3?table=$table'>Retour</a>");
  }
 }
 ?>

@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import zIgzAg.jeu.oceane.*;
@@ -127,44 +130,37 @@ public class Start {
         System.out.println("Chargement de l'univers...");
         Univers univ = new Univers(true, "chargement_neutre");
         univ.charger();
-        Commandant neutre = Univers.getCommandant(0);
-        if (neutre == null) {
-            System.out.println("Commandant neutre non trouvé.");
-            return;
+
+        Commandant[] tousCommandants = Univers.getListeCommandants();
+        for (Commandant detecteur : tousCommandants) {
+            if (detecteur.getNumero() == 0) continue; // On ignore le neutre comme détecteur ici si on veut les joueurs
+            detecteur.determinerFlottesDetectes();
+            RapportXML xml = new RapportXML(detecteur, true);
+            try {
+                String path = "errata/" + detecteur.getNumero();
+                Path errataPath = Paths.get(path);
+                Files.createDirectories(errataPath);
+                xml.ecrireRapportXML(path);
+            } catch (IOException e) {
+                System.out.println("Erreur lors de la création du dossier errata/" + detecteur.getNumero());
+                e.printStackTrace();
+            }
+
         }
 
-        Map.Entry<Integer, Flotte>[] flottesEntry = neutre.listeFlottesEtNumeros();
-        List<Map.Entry<Integer, Flotte>> liste = new ArrayList<>();
-        for (Map.Entry<Integer, Flotte> entry : flottesEntry) {
-            liste.add(entry);
-        }
+    }
 
-        Collections.sort(liste, new Comparator<Map.Entry<Integer, Flotte>>() {
-            public int compare(Map.Entry<Integer, Flotte> e1, Map.Entry<Integer, Flotte> e2) {
-                Position p1 = e1.getValue().getPosition();
-                Position p2 = e2.getValue().getPosition();
-                int compPos = p1.compareTo(p2);
-                if (compPos != 0) return compPos;
-                return e1.getKey().compareTo(e2.getKey());
-            }
-        });
+    private static class DetectionFlotte {
+        int numDetecteur;
+        int numProprio;
+        int numFlotte;
+        Flotte flotte;
 
-        String filename = "flottes_neutre.txt";
-        try (PrintWriter writer = new PrintWriter(new File(filename))) {
-            writer.println("Liste des flottes du neutre (triées par position et numéro):");
-            writer.println("-----------------------------------------------------------");
-            for (Map.Entry<Integer, Flotte> entry : liste) {
-                Flotte f = entry.getValue();
-                writer.println("Position: " + f.getPosition().toString()
-                        + " | Numéro: " + f.getNomNumero(entry.getKey())
-                        + " | Nom: " + f.getNom()
-                        + " | Puissance: " + f.getDescriptionPuissance(Locale.getDefault())
-                );
-            }
-            System.out.println("Liste générée dans " + filename);
-        } catch (IOException e) {
-            System.out.println("Erreur lors de l'écriture du fichier.");
-            e.printStackTrace();
+        DetectionFlotte(int numDetecteur, int numProprio, int numFlotte, Flotte flotte) {
+            this.numDetecteur = numDetecteur;
+            this.numProprio = numProprio;
+            this.numFlotte = numFlotte;
+            this.flotte = flotte;
         }
     }
 

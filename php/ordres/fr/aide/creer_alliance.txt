@@ -7,3 +7,5 @@ voulez créer une alliance.
 Il est conseillé de lire le chapitre des <I>règles Complêtes</I> relatif aux alliances avant de
 créer une alliance.
 
+            COUT_CREATION_ALLIANCE_SECRETE = 2000;<br />
+            COUT_CREATION_ALLIANCE_NON_SECRETE = 1000;
