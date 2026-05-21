@@ -27,24 +27,27 @@ public class OffreMarche implements Serializable {
     public static void gererFinDeVieEncheres() {
         int tourActuel = Univers.getTour();
         Univers.getListeOffresMarche()
-                .removeIf(offre -> offre.getTourFin() < tourActuel);
-
-//        TODO
-//            // Annulation de la vente
-//            Systeme sys = Univers.getSysteme(offre.getPositionOrigine());
-//            if (sys == null || !sys.estProprio(numero)) {
-//                Univers.retirerOffreMarche(offre);
-//                ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0001",
-//                        (Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
-//                        (Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
-//                return;
-//            }
-//            sys.ajouterRichesses(numero, new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
-//            Univers.retirerOffreMarche(offre);
-//            ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0002",
-//                    (Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
-//                    (Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
-//            return;
+                .removeIf(offre -> {
+                    if (offre.getTourFin() < tourActuel) {
+                        // Annulation de la vente
+                        Systeme sys = Univers.getSysteme(offre.getPositionOrigine());
+                        Commandant vendeur = Univers.getCommandant(offre.getNumeroVendeur());
+                        if (vendeur != null) {
+                            if (sys == null || !sys.estProprio(vendeur.getNumero())) {
+                                vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0001",
+                                        offre.getDescription(),
+                                        offre.getPositionOrigine());
+                            } else {
+                                sys.ajouterRichesses(vendeur.getNumero(), new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
+                                vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0002",
+                                        offre.getDescription(),
+                                        offre.getPositionOrigine());
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
+                });
     }
 
     private int getTourFin() {
