@@ -2383,6 +2383,10 @@ public class Commandant extends Joueur implements Serializable {
 		if (!Univers.existenceCommandant(destinataire))
 			return Univers.ajouterErreur(getNomNumero(),
 					"ER_COMMANDANT_DON_CENTAURES_0000", destinataire);
+
+        if(don <= 0)
+            return ajouterErreur("ER_COMMANDANT_DON_CENTAURES_0001", Univers.getCommandant(destinataire));
+
 		float cout = (float) don;
 		if (modeTransfert == Const.DON_MODE_CACHE)
 			cout = cout + Const.SURCOUT_DON_CENTAURES_CACHE;

@@ -446,6 +446,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0003 = "Marché galactique: L'achat de l'offre {0} a échoué car le vendeur ne possède plus le système d'origine.";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0004 = "Marché galactique: Vous ne pouvez pas vous acheter à vous même {0} ";
 	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0005 = "Marché galactique: Votre enchère pour {0} du commandant {1} n'as pas été retenue";
+	public static final String ER_COMMANDANT_ACHAT_GALACTIQUE_0006 = "Marché galactique: Vous ne pouvez pas faire d'enchère négative";
 
 	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique: Vous avez mis en vente {0} depuis le système {1} pour {2} centaures.";
 	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique: La vente de {0} ({1} unités) a été annulée car vous ne possédez plus le système {2}. Les marchandises sont perdues.";

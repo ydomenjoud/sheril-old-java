@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import zIgzAg.utile.Mdt;
 import zIgzAg.html.BaliseHTML;
 import zIgzAg.html.DocumentHTML;
+import zIgzAg.utile.SherilLogger;
 
 public class Combat {
 
@@ -766,13 +767,13 @@ public class Combat {
                 }
 
                 //LOG
-//                System.out.println(String.format(
-//                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
-//                    cible.getPlan().getNom(),
-//                    degatsDuTir,
-//                    defenseur.getNomNumero(),
-//                    defenseur.getDegatsInfligesCeTour()
-//                ));
+              SherilLogger.log(String.format(
+                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    cible.getPlan().getNom(),
+                    degatsDuTir,
+                    defenseur.getNomNumero(),
+                    defenseur.getDegatsInfligesCeTour()
+                ));
             }
         }
     }
@@ -784,9 +785,9 @@ public class Combat {
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
-//        if (sol.size() > 0) {
-//            System.out.println("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
-//        }
+        if (sol.size() > 0) {
+            SherilLogger.log("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
+        }
             for (int i = 0; i < nbTirs; i++)
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
                
@@ -839,14 +840,14 @@ public class Combat {
                 }
 
                 //LOG
-//                    System.out.println(String.format(
-//                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
-//                        v.getPlan().getNom(),
-//                        degatsDuTir,
-//                        impactPop,
-//                        com.getNomNumero(),
-//                        com.getDegatsInfligesCeTour()
-//                    ));
+                    SherilLogger.log(String.format(
+                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        v.getPlan().getNom(),
+                        degatsDuTir,
+                        impactPop,
+                        com.getNomNumero(),
+                        com.getDegatsInfligesCeTour()
+                    ));
             }
         }
 
@@ -1497,15 +1498,15 @@ public class Combat {
                     // --------------------------
 
                     // Log exhaustif pour traçabilité
-//                        System.out.println(String.format(
-//                            "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
-//                            v.getPlan().getNom(),
-//                            cle.toString(),
-//                            c.getPlan().getNom(),
-//                            degatsDuTir,
-//                            com.getNomNumero(),
-//                            com.getDegatsInfligesCeTour()
-//                        ));
+                        SherilLogger.log(String.format(
+                            "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
+                            v.getPlan().getNom(),
+                            cle.toString(),
+                            c.getPlan().getNom(),
+                            degatsDuTir,
+                            com.getNomNumero(),
+                            com.getDegatsInfligesCeTour()
+                        ));
                     //--------------
                     
                     Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());

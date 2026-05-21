@@ -756,6 +756,12 @@ public class ReceptionOrdres {
 			return;
 		}
 
+		// est ce que le montant est positif
+		if(montant <= 0){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0006", Float.toString(montant));
+			return;
+		}
+
 		// est ce que le joueur possède l'argent nécessaire ?
 		if(montant > c[iC].getCentaures()){
 			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0002", Float.toString(montant), c[iC].getCentaures());

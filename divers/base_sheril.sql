@@ -1106,8 +1106,8 @@ CREATE TABLE `z_galactique` (
     `ID_OFFRE` text NOT NULL,
     `VENDEUR` text NOT NULL,
     `CODE` text NOT NULL,
-    `QUANTITE` int(11) NOT NULL default '0',
-    `PRIX` int(11) NOT NULL default '0'
+    `QUANTITE` mediumtext NOT NULL default '0',
+    `PRIX` mediumtext NOT NULL default '0'
 ) engine=MyISAM;
 
 CREATE TABLE `vendre_galactique` (

@@ -31,6 +31,7 @@ public class MessagesSystemes extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_PACTE_0001 = "Pacte déjà existant. Impossible de passer un pacte de non-agression avec le commandant numéro {0}.";
 
 	public static final String ER_COMMANDANT_DON_CENTAURES_0000 = "Impossible de donner des centaures au commandant numéro {0} : il n'existe pas.";
+	public static final String ER_COMMANDANT_DON_CENTAURES_0001 = "Impossible de donner des centaures au commandant {0} : le montant doit être positif.";
 
 	public static final String ER_COMMANDANT_DON_TECHNOLOGIE_0000 = "Impossible de donner la technologie {0} au commandant numéro {1} : ce dernier n'existe pas.";
 	public static final String ER_COMMANDANT_DON_TECHNOLOGIE_0001 = "Impossible de donner la technologie {0} au commandant numéro {1} : la technologie n'est pas connue du donneur.";

@@ -29,6 +29,25 @@ public class OffreMarche implements Serializable {
         int tourActuel = Univers.getTour();
         Univers.getListeOffresMarche()
                 .removeIf(offre -> offre.getTourFin() < tourActuel);
+
+//        TODO
+//        if (offre.getNumeroVendeur() == numero) {
+//            // Annulation de la vente
+//            Systeme sys = Univers.getSysteme(offre.getPositionOrigine());
+//            if (sys == null || !sys.estProprio(numero)) {
+//                Univers.retirerOffreMarche(offre);
+//                ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0001",
+//                        (Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
+//                        (Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
+//                return;
+//            }
+//            sys.ajouterRichesses(numero, new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
+//            Univers.retirerOffreMarche(offre);
+//            ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0002",
+//                    (Object)ObjetTransporte.traductionChargement(offre.getCodeMarchandise(), offre.getQuantite(), getLocale()),
+//                    (Object)Integer.valueOf(offre.getQuantite()), (Object)offre.getPositionOrigine());
+//            return;
+//        }
     }
 
     private int getTourFin() {
