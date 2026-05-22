@@ -788,11 +788,12 @@ public class Combat {
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
-        if (sol.size() > 0)
+        if (sol.size() > 0) {
              System.out.println("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
-            for (int i = 0; i < nbTirs; i++)
+            for (int i = 0; i < nbTirs; i++) {
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
-               
+            }
+        }
     }
 
     private static int tirAirSol(ArrayList strato,
