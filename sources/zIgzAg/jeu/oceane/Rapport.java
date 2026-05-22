@@ -888,6 +888,8 @@ public class Rapport {
 		body.ajout(sautP());
 		body.ajout(getDetectionSystemes());
 		body.ajout(sautP());
+		body.ajout(getContacts());
+		body.ajout(sautP());
 		body.ajout(getMessages());
 		body.ajout(sautP());
 
@@ -1581,6 +1583,55 @@ public class Rapport {
 					BaliseHTML.WIDTH, "100%"));
 		}
 
+		return racine;
+	}
+
+	public BaliseHTML getContacts() {
+		Map<Integer, Integer> p = c.getContacts();
+		BaliseHTML racine = getDiv();
+		if (p.size() > 0) {
+			String t = "Commandants rencontrés";
+
+			BaliseHTML lien = getABorne("CONTACTS");
+			ajouterLienPrincipal(getALienE(PRINCIPAL + "#CONTACTS").ajout(
+					getText("Contacts")));
+
+			racine.ajout(lien);
+
+			racine.ajout(getTitreTable().ajout(getText(t))
+					.ajout(sautP()));
+
+			BaliseHTML[][] a = new BaliseHTML[p.size() + 1][3];
+			a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getTitreCaption().ajout(getText("Nom/Numéro")));
+			a[0][1] = getTD(BaliseHTML.CENTER, null).ajout(getTitreCaption().ajout(getText("Tour de rencontre")));
+			a[0][2] = getTD(BaliseHTML.CENTER, null).ajout(getTitreCaption().ajout(getText("Email")));
+
+			int i = 1;
+			for (Map.Entry<Integer, Integer> entry : p.entrySet()) {
+				Integer num = entry.getKey();
+				Integer tour = entry.getValue();
+				Commandant comm = Univers.getCommandant(num.intValue());
+				if (comm != null) {
+					String mail = comm.getAdresseElectronique();
+					a[i][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(comm.getNomNumero()));
+					a[i][1] = getTD(BaliseHTML.CENTER, null).ajout(getText(tour.toString()));
+					a[i][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+							"<a href=\"mailto:" + mail + "\">" + mail + "</a>"
+					));
+					i++;
+				}
+			}
+
+			// Redimensionner le tableau si certains commandants n'existent plus
+			if (i < a.length) {
+				BaliseHTML[][] b = new BaliseHTML[i][3];
+				System.arraycopy(a, 0, b, 0, i);
+				a = b;
+			}
+
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
+					BaliseHTML.WIDTH, "100%"));
+		}
 		return racine;
 	}
 
