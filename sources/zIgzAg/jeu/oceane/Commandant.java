@@ -48,7 +48,14 @@ public class Commandant extends Joueur implements Serializable {
 
     private int tauxTaxationPoste;
 
+    private Map<Integer, Integer> contacts;
+
     private ArrayList<Integer> alliances;
+
+    public Map<Integer, Integer> getContacts() {
+        if (contacts == null) initialiserContacts();
+        return contacts;
+    }
 
     private ArrayList<Integer> pactesDeNonAgression;
 
@@ -249,6 +256,17 @@ public class Commandant extends Joueur implements Serializable {
 
     public void initialiserAlliances() {
         alliances = new ArrayList<>(2);
+    }
+
+    public void initialiserContacts() {
+        if (contacts == null) {
+            contacts = new LinkedHashMap<>();
+        }
+    }
+
+    public void nettoyerContacts() {
+        if (contacts == null) return;
+        contacts.keySet().removeIf(num -> !Univers.existenceCommandant(num.intValue()));
     }
 
     public void initialiserHeros() {
@@ -1184,44 +1202,68 @@ public class Commandant extends Joueur implements Serializable {
 	}
 
 	public void determinerSystemesDetectes() {
+		initialiserContacts();
 		Position[] l = Univers.listePositionsSystemes();
 		Position[] p = listePossession();
 		for (int i = 0; i < p.length; i++) {
 			Position[] r = Position.getPositionsADistance(p[i], l, Univers
 					.getSysteme(p[i]).getPorteeRadar(numero));
-			for (int j = 0; j < r.length; j++)
+			for (int j = 0; j < r.length; j++) {
 				if ((!systemesDetectes.contains(r[j]))
 						&& (!existencePossession(r[j])))
 					systemesDetectes.add(r[j]);
+				Systeme sys = Univers.getSysteme(r[j]);
+				int[] props = sys.getProprios();
+				for (int pr : props) {
+					ajouterContact(pr);
+				}
+			}
 		}
 		Flotte[] f = listeFlottes();
 		for (int i = 0; i < f.length; i++) {
 			Position[] r = Position.getPositionsADistance(f[i].getPosition(),
 					l, f[i].getPorteeScannerSysteme());
-			for (int j = 0; j < r.length; j++)
+			for (int j = 0; j < r.length; j++) {
 				if ((!systemesDetectes.contains(r[j]))
 						&& (!existencePossession(r[j])))
 					systemesDetectes.add(r[j]);
+				Systeme sys = Univers.getSysteme(r[j]);
+				int[] props = sys.getProprios();
+				for (int pr : props) {
+					ajouterContact(pr);
+				}
+			}
 		}
 		Collections.sort(systemesDetectes);
 	}
 
+	private void ajouterContact(int numComm) {
+		if (numComm != numero && numComm != -1 && numComm != 0) {
+			if (!contacts.containsKey(Integer.valueOf(numComm))) {
+				contacts.put(Integer.valueOf(numComm), Integer.valueOf(Univers.getTour()));
+			}
+		}
+	}
+
 	public void determinerFlottesDetectes() {
+		initialiserContacts();
 		HashMap<int[], Flotte> h = Univers.listeFlottes();
 		@SuppressWarnings("unchecked")
 		Map.Entry<int[], Flotte>[] m = h.entrySet().toArray(new Map.Entry[0]);
 
-        if(flottesDetectees == null){
-            flottesDetectees = new ArrayList<>();
-        }
+		if (flottesDetectees == null) {
+			flottesDetectees = new ArrayList<>();
+		}
 		Position[] p = listePossession();
 		for (int i = 0; i < p.length; i++) {
 			int portee = Univers.getSysteme(p[i]).getPorteeRadar(numero);
-			if (portee != 0){
-				for (int j = 0; j < m.length; j++){
-					if (Position.distance( ((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee){
-						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0])){
+			if (portee != 0) {
+				for (int j = 0; j < m.length; j++) {
+					if (Position.distance(((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee) {
+						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0])) {
 							flottesDetectees.add(m[j].getKey());
+							int numComm = ((int[]) m[j].getKey())[0];
+							ajouterContact(numComm);
 						}
 					}
 				}
@@ -1234,19 +1276,20 @@ public class Commandant extends Joueur implements Serializable {
 			int portee = f[i].getPorteeScannerFlotte();
 			if (portee != 0)
 				for (int j = 0; j < m.length; j++)
-					if (Position.distance(
-							((Flotte) m[j].getValue()).getPosition(),
-							f[i].getPosition()) <= portee)
-						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0]))
+					if (Position.distance(((Flotte) m[j].getValue()).getPosition(), f[i].getPosition()) <= portee)
+						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0])) {
 							flottesDetectees.add(m[j].getKey());
+							int numComm = ((int[]) m[j].getKey())[0];
+							ajouterContact(numComm);
+						}
 		}
-		
+
 		// Brouillage
-        flottesDetectees.removeIf(inter -> {
-            Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
-            return Univers.getTest(flo.getBrouillageRadar());
-        });
-    }
+		flottesDetectees.removeIf(inter -> {
+			Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
+			return Univers.getTest(flo.getBrouillageRadar());
+		});
+	}
 
 	public void determinerFlottesDetectesParAlliance(){
 		
@@ -1430,6 +1473,7 @@ public class Commandant extends Joueur implements Serializable {
 		initialiserDomaine();
 		initialiserDomainesDeRecherche();
 		initialiserAlliances();
+		initialiserContacts();
 		initialiserHeros();
 		initialiserGouverneurs();
 		initialiserMarchands();

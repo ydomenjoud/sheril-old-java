@@ -32,6 +32,7 @@ public class DeroulementDuTour {
 
 		for (int i = 0; i < cL.length; i++) {
 			cL[i].initialiserChampsTransients();
+			cL[i].nettoyerContacts();
 
 			if (Commandant.testNeutre(cL[i])) {
 				gestionNeutre(cL[i]);
@@ -137,7 +138,7 @@ public class DeroulementDuTour {
 			cL2[i].determinerFlottesDetectes();
 			cL2[i].determinerSystemesDetectes();
 
-			tran.put(new Integer(cL2[i].getNumero()), cL2[i].stockerChampsTransients());
+			tran.put(Integer.valueOf(cL2[i].getNumero()), cL2[i].stockerChampsTransients());
 		}
 		
 		// gestion detection alliance
@@ -162,7 +163,7 @@ public class DeroulementDuTour {
 
 			System.out.print(cL2[i].getNumero() + "-");
 
-			cL2[i].chargerChampsTransients((List) tran.get(new Integer(cL2[i].getNumero())));
+			cL2[i].chargerChampsTransients((List) tran.get(Integer.valueOf(cL2[i].getNumero())));
 
 			Rapport r = new Rapport(cL2[i]);
 			r.creation();
@@ -177,7 +178,7 @@ public class DeroulementDuTour {
 			ProductionOrdres prod = new ProductionOrdres(cL2[i]);
 			prod.creation();
 			cL2[i].initialiserChampsTransients();
-			tran.remove(new Integer(cL2[i].getNumero()));
+			tran.remove(Integer.valueOf(cL2[i].getNumero()));
 		}
 
         // génération des data publiques dans /tourX/stats
