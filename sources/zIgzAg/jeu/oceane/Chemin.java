@@ -76,6 +76,7 @@ public class Chemin {
 	public static String BASE_STATS;
 	public static String RELATIONS_RACES;
 	public static String TRANSFERTS;
+	public static String MARCHE_GALACTIQUE;
 	public static String TRANSIENTS;
 
 	public static String RAPPORTS;
@@ -135,6 +136,7 @@ public class Chemin {
 		BASE_STATS = c(DONNEES + "stats.txt", false);
 		RELATIONS_RACES = c(DONNEES + "rel.txt", false);
 		TRANSFERTS = c(DONNEES + "transfert.txt", false);
+		MARCHE_GALACTIQUE = c(DONNEES + "marche.txt", false);
 		TRANSIENTS = c(DONNEES + "trans.txt", false);
 
 		SECURITE_RAPPORT = c(rep + "secure2/", true);

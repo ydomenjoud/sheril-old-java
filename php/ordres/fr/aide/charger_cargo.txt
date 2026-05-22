@@ -1,8 +1,7 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez déplacer des marchandises, de la population,
-ou des bâtiments entre vos systèmes
+<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez déplacer des marchandises ou des bâtiments entre vos systèmes
 <BR><BR>
 
 

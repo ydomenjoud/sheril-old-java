@@ -6,7 +6,11 @@ $nb_div = array_key_exists('nb_div', $_GET) ? $_GET['nb_div'] : null;
 
 if ($table === "list_ordres") {
     include "./list_ordres.php";
-} else if ($table != "") {
+} else if ($table === "division") {
+    include "./division.php";
+} else if ($table === "vendre_acheter_galactique") {
+    include "./marche_galactique.php";
+}  else if ($table != "") {
     include "../secure/connect.txt";
     include "body.txt";
     include "../script/fonctions.txt";
@@ -20,7 +24,9 @@ if ($table === "list_ordres") {
         }
 
     }
-
+    // on élime d'abord
+    include "elimine.txt";
+    // puis on affiche le choix
     include "./$langue/choix/$table.txt";
 
     if (array_key_exists('previous', $_GET)) {
@@ -31,18 +37,18 @@ if ($table === "list_ordres") {
     }
 
 
-    include "elimine.txt";
+    if ($table !== "acheter_galactique") {
+        ob_start();
+        include "affiche.txt";
 
-    ob_start();
-    include "affiche.txt";
+        $result128 = mysql($base, "SELECT COUNT(*) as total FROM $table WHERE NUMERO=$commandant");
+        $row128 = mysql_fetch_row($result128);
 
-    $result128 = mysql($base, "SELECT COUNT(*) as total FROM $table WHERE NUMERO=$commandant");
-    $row128 = mysql_fetch_row($result128);
-
-    $content = ob_get_clean();
-    if (strpos($content, "TABLE") !== false) {
-        echo "<h1 class='searchable'>Ordres déjà passé (".$row128[0].") &nbsp;<input placeholder='rechercher' id='search' style='font-size: 16px'/> </h1>";
-        echo $content;
+        $content = ob_get_clean();
+        if (strpos($content, "TABLE") !== false) {
+            echo "<h1 class='searchable'>Ordres déjà passé (" . $row128[0] . ") &nbsp;<input placeholder='rechercher' id='search' style='font-size: 16px'/> </h1>";
+            echo $content;
+        }
     }
 
     include "./$langue/aide/$table.txt";

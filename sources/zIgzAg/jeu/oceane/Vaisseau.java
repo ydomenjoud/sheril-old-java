@@ -960,27 +960,19 @@ public class Vaisseau implements Serializable {
 	}
 
 	public static int retournerNiveauPuissance(int entree) {
-		if (entree < Const.BASE_NIVEAU_PUISSANCE)
-			return 0;
-		if (entree < 2 * Const.BASE_NIVEAU_PUISSANCE)
-			return 1;
-		if (entree < 4 * Const.BASE_NIVEAU_PUISSANCE)
-			return 2;
-		if (entree < 8 * Const.BASE_NIVEAU_PUISSANCE)
-			return 3;
-		if (entree < 20 * Const.BASE_NIVEAU_PUISSANCE)
-			return 4;
-		if (entree < 40 * Const.BASE_NIVEAU_PUISSANCE)
-			return 5;
-		if (entree < 80 * Const.BASE_NIVEAU_PUISSANCE)
-			return 6;
-		if (entree < 200 * Const.BASE_NIVEAU_PUISSANCE)
-			return 7;
-		if (entree < 400 * Const.BASE_NIVEAU_PUISSANCE)
-			return 8;
-		if (entree < 720 * Const.BASE_NIVEAU_PUISSANCE)
-			return 9;
+		int[] seuils = {0, 1, 2, 4, 8, 20, 40, 80, 200, 400, 720};
+		for (int i = 0; i < seuils.length - 1; i++) {
+			if (entree < seuils[i + 1] * Const.BASE_NIVEAU_PUISSANCE)
+				return i;
+		}
 		return 10;
+	}
+
+	public static int[] bornesNiveauPuissance(int niveau) {
+		int[] seuils = {0, 1, 2, 4, 8, 20, 40, 80, 200, 400, 720};
+		int min = seuils[Math.min(niveau, seuils.length - 1)] * Const.BASE_NIVEAU_PUISSANCE;
+		int max = (niveau >= 10) ? Integer.MAX_VALUE : seuils[niveau + 1] * Const.BASE_NIVEAU_PUISSANCE - 1;
+		return new int[]{min, max};
 	}
 
 	public int getNbCibleMax() {

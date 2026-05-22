@@ -1,2 +1,14 @@
 AddType application/x-httpd-php .php3
 DirectoryIndex index.php3 index.php index.html
+
+RewriteEngine On
+
+# Si le fichier .html demandé n'existe pas physiquement
+# mais que le même nom existe en .php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)\.html$ $1.php [L]
+
+RewriteRule ^stats.html$ stats.php [L]
+
+RewriteRule ^live/images/(.*)$ /images/$1 [R=301,L]

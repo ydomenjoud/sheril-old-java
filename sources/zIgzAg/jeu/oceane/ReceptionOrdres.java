@@ -8,15 +8,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Arrays;
+import java.util.*;
 import java.lang.reflect.Method;
-import zIgzAg.utile.Fiche;
+
 import zIgzAg.utile.Mdt;
 import zIgzAg.utile.Mds;
 import zIgzAg.sql.SessionMysql;
+
+record Enchere(int numCommandant, int montant, Position destination) {}
 
 public class ReceptionOrdres {
 
@@ -48,6 +47,8 @@ public class ReceptionOrdres {
 
 	private transient HashMap offresLieutenants;
 
+	private transient Map<OffreMarche, List<Enchere>> encheresMarche;
+
 	public ReceptionOrdres() {
 		ordresRendus = new HashMap();
 		mySQL = new SessionMysql();
@@ -57,6 +58,7 @@ public class ReceptionOrdres {
 		PARAMETRE_METHODE = new Class[1];
 		PARAMETRE_METHODE[0] = (new String[0]).getClass();
 		offresLieutenants = new HashMap();
+		encheresMarche = new HashMap<>();
 	}
 
 	public int pla(String e) {
@@ -119,10 +121,8 @@ public class ReceptionOrdres {
 			Statement s = connection.createStatement();
 			String[] param = new String[1];
 			param[0] = Integer.toString(c[iC].getNumero());
-			ResultSet r = mySQL.selectionner(s,
-					Const.NOMS_TABLES_ORDRES[index], CLE, param);
-			int nb = ((String[]) descriptionTables
-					.get(Const.NOMS_TABLES_ORDRES[index])).length;
+			ResultSet r = mySQL.selectionner(s, Const.NOMS_TABLES_ORDRES[index], CLE, param);
+			int nb = ((String[]) descriptionTables.get(Const.NOMS_TABLES_ORDRES[index])).length;
 			while (r.next()) {
 				String[] inter = new String[nb - 1];
 				for (int i = 0; i < nb - 1; i++) {
@@ -146,8 +146,7 @@ public class ReceptionOrdres {
 		if (((index == Const.ORDRE_ENROLER_LIEUTENANT) && (a.size() > Const.NOMBRE_LIMITE_ENROLER_LIEUTENANT))
 				|| ((index == Const.ORDRE_SERVICES_SPECIAUX) &&
 							(
-									a.size()>Const.NOMBRE_LIMITE_SERVICES_SPECIAUX && c[iC].getRace()!=3 ||
-									a.size()>7 && c[iC].getRace()==3 // Patch yoksor 7 missions spés
+									a.size()>Const.NOMBRE_LIMITE_SERVICES_SPECIAUX
 							)
 					)
 				|| ((index == Const.ORDRE_DON_TECHNOLOGIE) && (a.size() > Const.NOMBRE_LIMITE_DON_TECHNOLOGIE))
@@ -233,6 +232,60 @@ public class ReceptionOrdres {
 		}
 	}
 
+	public void reglerEncheresMarche(){
+		// on tri les enchères par montant décroissant
+		encheresMarche.values().forEach(liste ->
+				liste.sort(Comparator.comparingDouble(Enchere::montant).reversed())
+		);
+
+		// maintenant on regarde pour chaque offre
+		for (Map.Entry<OffreMarche, List<Enchere>> entry : encheresMarche.entrySet()) {
+			OffreMarche offre = entry.getKey();
+			List<Enchere> encheresTriees = entry.getValue();
+			// on sort si aucune enchère
+			if(encheresTriees.isEmpty()) continue;
+
+			// est ce que l'offre est toujours valide ?
+			int vendeurNum = offre.getNumeroVendeur();
+			Commandant vendeur = Univers.getCommandant(vendeurNum);
+			if(!vendeur.existencePossession(offre.getPositionOrigine())){
+				// on retire cette offre car elle n'est plus bonne
+				Univers.retirerOffreMarche(offre);
+				vendeur.ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0000",
+						offre.getDescription(),
+						offre.getPositionOrigine().getDescription());
+
+				// il faut indiquer à tous les encherisseurs que l'annonce n'est plus valide
+				for(Enchere e : encheresTriees){
+					Commandant c = Univers.getCommandant(e.numCommandant());
+					c.ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000",
+							offre.getDescription(),
+							offre.getPositionOrigine().getDescription());
+				}
+
+				// on passe à la suivante
+				continue;
+			}
+
+			// on parcourt de la plus haute à la plus basse
+			// si une enchère rate, on passe à la suivante
+			boolean dejaAchete = false;
+			for (Enchere e : encheresTriees) {
+				Commandant c = Univers.getCommandant(e.numCommandant());
+				if(!dejaAchete){
+					boolean valid = c.acheterGalactique(offre, e.destination(), e.montant());
+					if (valid) { dejaAchete = true; }
+				} else {
+					c.ajouterEvenement("ER_COMMANDANT_ACHAT_GALACTIQUE_0000",
+							offre.getDescription(),
+							vendeur.getNomNumero()
+							);
+
+				}
+			}
+		}
+	}
+
 	public void reglerEncheres() {
 		Leader[] l = Univers.listeLeadersEnVente();
 		Map.Entry[] m = (Map.Entry[]) offresLieutenants.entrySet().toArray(
@@ -241,8 +294,7 @@ public class ReceptionOrdres {
 			int numeroLieutenant = Integer.parseInt((String) m[i].getKey());
 			String s = (String) m[i].getValue();
 			int offre = Integer.parseInt(s.substring(0, s.indexOf('*')));
-			int numC = Integer.parseInt(s.substring(s.indexOf('*') + 1,
-					s.length()));
+			int numC = Integer.parseInt(s.substring(s.indexOf('*') + 1, s.length()));
 			Commandant c = Univers.getCommandant(numC);
 			if ((float) offre >= l[numeroLieutenant].getValeur()) {
 				if (l[numeroLieutenant] instanceof Heros)
@@ -331,9 +383,7 @@ public class ReceptionOrdres {
 
     public Map deroulementOrdres() {
 
-		if(!Const.FAKE_TURN) {
-			dumpDatabase();
-		}
+		dumpDatabase();
 
 		for (index = 0; index < Const.BORNE_ORDRES_VISIBLES; index++) {
 			resoudreMethode();
@@ -343,6 +393,8 @@ public class ReceptionOrdres {
 				reglerEncheres();
 			if (index == Const.ORDRE_DEPLACEMENT_FLOTTE)
 				Flotte.deplacerVersBut();
+			if(index == Const.ORDRE_ACHAT_GALACTIQUE)
+				reglerEncheresMarche();
 		}
 		mySQL.fermerConnection(connection);
 		return ordresRendus;
@@ -425,8 +477,7 @@ public class ReceptionOrdres {
 	public void enroler_lieutenant(String[] o) {
 		if ((float) tInt(o[0]) <= c[iC].getCentaures())
 			if (!offresLieutenants.containsKey(o[1]))
-				offresLieutenants.put(o[1],
-						o[0] + "*" + Integer.toString(c[iC].getNumero()));
+				offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
 			else {
 				String r1 = (String) offresLieutenants.get(o[1]);
 				String s = r1.substring(0, r1.indexOf('*'));
@@ -436,8 +487,9 @@ public class ReceptionOrdres {
 				int modif2 = (c[iC].listeLieutenants().length > 0 ? 1 : 2);
 
 				if (tInt(s) * modif1 < tInt(o[0]) * modif2)
-					offresLieutenants.put(o[1],
-							o[0] + "*" + Integer.toString(c[iC].getNumero()));
+					offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
+				else
+					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", o[1]);
 			}
 		else
 			c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", o[1]);
@@ -684,6 +736,56 @@ public class ReceptionOrdres {
 
 	public void fixer_taux_poste(String[] o) {
 		c[iC].fixerTauxPostes(tInt(o[0]));
+	}
+
+	public void vendre_galactique(String[] o) {
+		c[iC].vendreGalactique(Position.traduction(o[0]), o[1], tInt(o[2]), tInt(o[3]));
+	}
+
+	public void acheter_galactique(String[] o) {
+		/* on va vérifier que tout est bon */
+		int idOffre = tInt(o[0]);
+		int montant = tInt(o[1]);
+		Position destination = Position.traduction(o[2]);
+
+		// est ce que l'offre existe réellement
+		OffreMarche offre = Univers.getOffreMarche(idOffre);
+		if(offre == null){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", idOffre, "unknown");
+			return;
+		}
+
+		// est ce qu'il essaye d'acheter sa propre annonce
+		if(offre.getNumeroVendeur() == c[iC].getNumero()){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0004",
+					idOffre,
+					offre.getQuantite(),
+					offre.traductionChargement()
+			);
+			return;
+		}
+
+		// est ce que le montant est positif
+		if(montant <= 0){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0006", Float.toString(montant));
+			return;
+		}
+
+		// est ce que le joueur possède l'argent nécessaire ?
+		if(montant > c[iC].getCentaures()){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0002", Float.toString(montant), c[iC].getCentaures());
+			return;
+		}
+
+		// est ce qu'il possède le système de destination
+		if(!c[iC].existencePossession(destination)){
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0001", destination);
+			return;
+		}
+		// sinon on peut ajouter l'enchère
+		encheresMarche
+				.computeIfAbsent(offre, k -> new ArrayList<>())
+				.add(new Enchere(c[iC].getNumero(), montant, destination));
 	}
 
 }

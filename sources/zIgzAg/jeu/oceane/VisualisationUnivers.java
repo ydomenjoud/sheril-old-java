@@ -23,7 +23,7 @@ public class VisualisationUnivers {
             writer.write("</style>\n");
             writer.write("</head>\n<body>\n");
             writer.write("<div class='grid-container'>\n");
-            writer.write("<h1>Carte de la Galaxie (Grille 30x30)</h1>\n");
+            writer.write("<h1>Carte de la Galaxie (Grille "+Const.BORNE_MAX+"x"+Const.BORNE_MAX+")</h1>\n");
             writer.write("<table>\n");
             
             int nbRacesTotal = Messages.RACES.length;
@@ -31,9 +31,9 @@ public class VisualisationUnivers {
             int[] sommePopMaximale = new int[nbRacesTotal];
             int[] sommeNbPlanetes = new int[nbRacesTotal];
 
-            for (int y = 1; y <= 30; y++) {
+            for (int y = 1; y <= Const.BORNE_MAX; y++) {
                 writer.write("<tr>\n");
-                for (int x = 1; x <= 30; x++) {
+                for (int x = 1; x <= Const.BORNE_MAX; x++) {
                     Position pos = new Position(0, y, x);
                     Systeme sys = Univers.getSysteme(pos);
                     writer.write("<td>");

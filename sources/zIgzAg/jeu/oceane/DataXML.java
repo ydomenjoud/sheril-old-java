@@ -302,6 +302,16 @@ public class DataXML {
                 );
             }
 
+            Element listeSystemes = creerNode("SYSTEMES", corps, new String[]{}, new String[]{});
+            Position[] positionsList = Univers.listePositionsSystemes();
+            for (Position p:positionsList) {
+                Systeme systeme = Univers.getSysteme(p);
+                creerNode("S", listeSystemes,
+                        new String[]{ "nom", "position"},
+                        new String[]{systeme.getNom(), systeme.getPosition() + ""}
+                );
+            }
+
 
             ecrireDataXML();
 

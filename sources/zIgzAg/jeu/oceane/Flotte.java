@@ -284,13 +284,6 @@ public class Flotte implements Serializable {
 
 		Flotte flotte = new Flotte(Univers.getMessage("DENOMINATION_FLOTTE_DE_DEPART", c.getLocale()), c.getCapitale());
 
-		if (c.getRace() == 5 && false) {
-			for (int d = 0; d < 5; d++) {
-				Vaisseau vai = Vaisseau.creer("Nexus", c.getRace());
-				flotte.ajouterVaisseau(vai);
-			}
-		}
-
 		for (int i = 0; i < noms.length; i++) {
 			PlanDeVaisseau p = Univers.getPlanDeVaisseau(noms[i]);
 			if (p == null) {
@@ -493,13 +486,7 @@ public class Flotte implements Serializable {
 		for (int i = 0; i < v.length; i++){
 			min = Math.min(min, v[i].getCapaciteMouvementFixe(intraGalactique));
 		}
-		
-		/**
-		 * Patch zwaia sur la vitesse des vaisseaux
-		 */
-		if( commandant.getRace() == 2 ){
-			min = min + 2;
-		}
+
 		
 		if (h != null) {
 			int ajout = h.getNiveauCompetence(Const.COMPETENCE_LEADER_VOYAGEUR);
@@ -1239,6 +1226,11 @@ public class Flotte implements Serializable {
 	public String getDescriptionPuissance(Locale l) {
 		return Univers.getMessage("PUISSANCE", Vaisseau
 				.retournerNiveauPuissance(getPuissance()), l);
+	}
+
+	public int[] getBornesPuissance() {
+		return Vaisseau.bornesNiveauPuissance(Vaisseau
+				.retournerNiveauPuissance(getPuissance()));
 	}
 
 	public int getForceSpatiale() {

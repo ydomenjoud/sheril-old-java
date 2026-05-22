@@ -1211,15 +1211,21 @@ public class Commandant extends Joueur implements Serializable {
 		@SuppressWarnings("unchecked")
 		Map.Entry<int[], Flotte>[] m = h.entrySet().toArray(new Map.Entry[0]);
 
+        if(flottesDetectees == null){
+            flottesDetectees = new ArrayList<>();
+        }
 		Position[] p = listePossession();
 		for (int i = 0; i < p.length; i++) {
 			int portee = Univers.getSysteme(p[i]).getPorteeRadar(numero);
-			if (portee != 0)
-				for (int j = 0; j < m.length; j++)
-					if (Position.distance( ((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee)
+			if (portee != 0){
+				for (int j = 0; j < m.length; j++){
+					if (Position.distance( ((Flotte) m[j].getValue()).getPosition(), p[i]) <= portee){
 						if ((!flottesDetectees.contains(m[j].getKey())) && (numero != ((int[]) m[j].getKey())[0])){
 							flottesDetectees.add(m[j].getKey());
 						}
+					}
+				}
+			}
 		}
 
 		// Liste des flottes
@@ -1236,27 +1242,11 @@ public class Commandant extends Joueur implements Serializable {
 		}
 		
 		// Brouillage
-		for (int i = 0; i < flottesDetectees.size(); i++) {
-			int[] inter = (int[]) flottesDetectees.get(i);
-			Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
-
-			boolean remove = false;
-
-			// yoksor
-			if (getRace() == 3) {
-				if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-				else if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-			} else {
-				if (Univers.getTest(flo.getBrouillageRadar()))
-					remove = true;
-			}
-
-			if (remove)
-				flottesDetectees.remove(inter);
-		}
-	}
+        flottesDetectees.removeIf(inter -> {
+            Flotte flo = Univers.getCommandant(inter[0]).getFlotte(inter[1]);
+            return Univers.getTest(flo.getBrouillageRadar());
+        });
+    }
 
 	public void determinerFlottesDetectesParAlliance(){
 		
@@ -1356,15 +1346,11 @@ public class Commandant extends Joueur implements Serializable {
     }
 
     public int getEvolutionPopulationFlotte(){
-        return getScoreCategorie(PointDeVictoireCategorie.POPULATION_VS) - getTotalPopulationVS();
+        return getTotalPopulationVS() - getScoreCategorie(PointDeVictoireCategorie.POPULATION_VS);
     }
 
     public int getEvolutionPossession(){
-        return getScoreCategorie(PointDeVictoireCategorie.PLANETES) - getNombrePlanetesPossedees();
-    }
-
-    public int getEvolutionScientifique() {
-        return (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE) - getScoreCategorie(PointDeVictoireCategorie.RECHERCHE);
+        return getNombrePlanetesPossedees() - getScoreCategorie(PointDeVictoireCategorie.PLANETES);
     }
 
 	// Champs transients --->
@@ -1595,10 +1581,7 @@ public class Commandant extends Joueur implements Serializable {
 					+ f[i].getEntretien(getHerosSurFlotte(numeroFlotte(f[i])),
 							carburant);
 		}
-		
-		if( getRace() == 4 ){
-			entretien = entretien * 0.9f;
-		}
+
 		
 		modifierBudget(Const.BUDGET_COMMANDANT_ENTRETIEN_FLOTTE, -entretien);
 
@@ -1744,15 +1727,7 @@ public class Commandant extends Joueur implements Serializable {
 							getGouverneurSurPossession(s[i].getPosition()),
 							getPossession(s[i].getPosition()));
 		}
-		
-		/**
-		 * Patch Fergok
-		 */
-		
-		if( getRace() == 4 ){
-			entretien = entretien * 0.9f;
-		}
-		
+
 		// entretien=entretien+getEntretienNombrePlanete();
 		modifierBudget(Const.BUDGET_COMMANDANT_ENTRETIEN_SYSTEME, -entretien);
 		modifierBudget(Const.BUDGET_COMMANDANT_RECHERCHE,
@@ -1943,8 +1918,14 @@ public class Commandant extends Joueur implements Serializable {
 	}
 
 	public boolean ajouterEvenement(String message, Object var1, Object var2,
-			Object var3, Object var4, int var5) {
+			Object var3, Object var4, Object var5) {
 		evenement.ajouter(message, var1, var2, var3, var4, var5);
+		return true;
+	}
+
+	public boolean ajouterEvenement(String message, Object var1, Object var2,
+			Object var3, Object var4, int var5) {
+		evenement.ajouter(message, var1, var2, var3, var4, Integer.valueOf(var5));
 		return true;
 	}
 
@@ -2395,6 +2376,10 @@ public class Commandant extends Joueur implements Serializable {
 		if (!Univers.existenceCommandant(destinataire))
 			return Univers.ajouterErreur(getNomNumero(),
 					"ER_COMMANDANT_DON_CENTAURES_0000", destinataire);
+
+        if(don <= 0)
+            return ajouterErreur("ER_COMMANDANT_DON_CENTAURES_0001", Univers.getCommandant(destinataire));
+
 		float cout = (float) don;
 		if (modeTransfert == Const.DON_MODE_CACHE)
 			cout = cout + Const.SURCOUT_DON_CENTAURES_CACHE;
@@ -2837,15 +2822,7 @@ public class Commandant extends Joueur implements Serializable {
 		if (sys.estDejaTerraforme(numero))
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0004", pos);
 		float cout = sys.coutTerraformation(numero);
-		
-		/**
-		 * Patch fremen
-		 * cout de terraformation: -10%
-		 */
-		if( this.getRace() == 0 ){
-			cout = cout * 0.9f;
-		}
-		
+
 		if (cout > centaures)
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0000", pos);
 
@@ -2875,14 +2852,7 @@ public class Commandant extends Joueur implements Serializable {
 		
 		float cout = sys.getPlanete(numPlanete).coutTerraformation();
 
-		/**
-		 * Patch fremen
-		 * on divise par deux le cout de terraformation.
-		 */
-		if( this.getRace() == 0 ){
-			cout = cout/2;
-		}
-		
+
 		if (cout > centaures)
 			return ajouterErreur("ER_COMMANDANT_TERRAFORMER_0001", pos,
 					sys.getNomNumeroPlanete(numPlanete));
@@ -4014,6 +3984,74 @@ public class Commandant extends Joueur implements Serializable {
 
 		return ajouterEvenement("EV_COMMANDANT_TAUX_POSTE_0000", taux);
 	}
+
+	public void vendreGalactique(Position pos, String code, int nombre, int prix) {
+		Systeme sys = Univers.getSysteme(pos);
+		if (sys == null || !sys.estProprio(numero)) {
+			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0000", pos);
+			return;
+		}
+		if (prix < 0) {
+			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0001", prix);
+			return;
+		}
+
+		ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
+		if (o == null || o.getNombreObjets() <= 0) {
+            String description = ObjetTransporte.traductionChargement(code, nombre, getLocale());
+			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " " + description, pos);
+			return;
+		}
+
+        String description = ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{o});
+		int reelNombre = o.getNombreObjets();
+		int id = Univers.trouverProchainIdOffreMarche();
+		OffreMarche offre = new OffreMarche(id, numero, pos, code, reelNombre, prix, Univers.getTour()+5);
+		Univers.ajouterOffreMarche(offre);
+
+		ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0000",
+                description,
+                pos,
+                (float) prix);
+	}
+
+	public boolean acheterGalactique(OffreMarche offre, Position destinationPosition, int montant) {
+		if (offre == null) {
+			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0000", "unknown", "unknown");
+			return false;
+		}
+        var obj = offre.getObjetTransporte();
+
+		Systeme destinationSys = Univers.getSysteme(destinationPosition);
+		if (destinationSys == null || !destinationSys.estProprio(numero)) {
+			ajouterErreur("ER_COMMANDANT_ACHAT_GALACTIQUE_0001", offre.getDescription(), destinationPosition);
+			return false;
+		}
+
+		Commandant vendeur = Univers.getCommandant(offre.getNumeroVendeur());
+
+		// Transaction
+		modifierBudget(Const.BUDGET_COMMANDANT_ACHAT_MARCHANDISE, - (float)montant);
+		destinationSys.ajouterRichesses(numero, obj, -1);
+		
+		if (vendeur != null) {
+			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE, (float)montant);
+			vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0003",
+                    getNomNumero(),
+                    offre.getDescription(),
+                    (float) montant);
+		}
+
+		ajouterEvenement("EV_COMMANDANT_ACHAT_GALACTIQUE_0000",
+                vendeur != null ? vendeur.getNomNumero() : "???",
+                offre.getDescription(),
+                (float) montant,
+                destinationPosition.getDescription()
+        );
+
+		Univers.retirerOffreMarche(offre);
+        return true;
+	}
 	
 
 	public int getNombreMaximalDeTransfertEntreSysteme(){
@@ -4029,15 +4067,8 @@ public class Commandant extends Joueur implements Serializable {
 		}
 		
 		// Chaque niveau de la maitrise spatiale permet deux transfert
-		max += getNiveauMaxMaitriseSpatiale() * 5;
-		
-		/**
-		 * Patch Zwaia
-		 */
-		if( getRace() == 2){
-			max = (int)(max * 120/100);
-		}
-		
+		max += getNiveauMaxMaitriseSpatiale() * 2;
+
 		return max;
 	}
 	

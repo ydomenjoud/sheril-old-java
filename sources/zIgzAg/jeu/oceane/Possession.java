@@ -350,10 +350,6 @@ public class Possession implements Serializable {
 		// Taxation
 		mod_tax = Const.MODIFICATEUR_STABILITE_TAXATION[s.getTaxation(c.getNumero())];
 
-		// Bonus racial Fremen
-		if (c.getRace() == 0)
-			mod_race = 1;
-
 		return new int[] { mod_gou, mod_pol, mod_post, mod_pos, mod_tax, mod_race };
 
 	}
@@ -528,11 +524,6 @@ public class Possession implements Serializable {
 			// Sinon on résout la Construction
 			}else if (nbbis > 0) {
 
-				/**
-				 * Patch Fergok
-				 */
-				if( com.getRace() == 4 && isVaisseaux ){ prix = prix * 0.9f; }
-				
 				// Deduction du prix des constructions
 				com.modifierBudget(Const.BUDGET_COMMANDANT_REALISATION_CONSTRUCTION, -prix * nbbis);
 				// Suppression du minerai utilisé

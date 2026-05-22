@@ -14,13 +14,8 @@
 <header>
     Sheril, le jeux de conquête galactique
 </header>
-<nav>
-    <a href="index.html">Accueil</a>
-    <a href="presentation.html">Présentation</a>
-    <a href="races.html">Les races</a>
-    <a href="/stats.html">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-</nav>
+
+<?php require_once './includes/nav.php'; ?>
 
 <div id="main">
     <nav>
@@ -28,7 +23,7 @@
     <main>
 
         <ul>
-            <li><a href="/stats.html">Voir les stats</a></li>
+            <li><a href="/stats.php">Voir les stats</a></li>
             <li><a href="/ordres/ordres.php3">Télécharger son rapport</a></li>
             <li><a href="/ordres/ordres.php3">Passer ses ordres</a></li>
             <li><a href="/rapports/images.zip">Télécharger les images du rapport</a></li>

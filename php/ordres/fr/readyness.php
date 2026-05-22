@@ -12,7 +12,7 @@ $result = mysql($base, "SELECT
    a.RACE
    FROM _player_ready pr 
    JOIN aa_registre a ON pr.num=a.NUMERO
-   WHERE pr.tour=$tour");
+   WHERE pr.tour=$tour ORDER BY a.NUMERO ASC");
 $nb_lignes = mysql_num_rows($result);
 for ($i = 0; $i < $nb_lignes; $i++) {
     $rf = mysql_fetch_row($result);
@@ -71,16 +71,17 @@ if (isset($_GET[ACTION_NAME])) {
     }
 }
 
-
+$ctRes = mysql($base, "SELECT COUNT(*) FROM aa_registre");
+$ct = mysql_result($ctRes, 0);
 // --- afficher lien ---
 if ($deja_pret) {
-    echo '<a href="/ordres/?' . ACTION_NAME . '=off">Je ne suis pas prêt</a><br />';
+    echo '<a href="/ordres/?' . ACTION_NAME . '=off" class="button">Je ne suis pas prêt</a><br />';
 } else {
-    echo '<a href="/ordres/?' . ACTION_NAME . '=on">Je suis prêt !</a><br />';
+    echo '<a href="/ordres/?' . ACTION_NAME . '=on" class="button">Je suis prêt !</a><br />';
 }
 
 // --- afficher la liste ---
-echo "Déjà prêt : ";
+echo "Déjà prêt (".count($commandants)."/$ct): ";
 foreach ($commandants as $c) {
     echo "<span class='commandant race{$c['race']}'>{$c['nom']} ({$c['num']})</span> ";
 }

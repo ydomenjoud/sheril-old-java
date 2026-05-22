@@ -25,14 +25,8 @@
 <header>
     Sheril, le jeux de conquête galactique
 </header>
-<nav>
-    <a href="index.html">Accueil</a>
-    <a href="presentation.html">Présentation</a>
-    <a href="races.html">Les races</a>
-    <a href="/stats.html">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-</nav>
 
+<?php require_once './includes/nav.php'; ?>
 <div id="main">
     <nav>
 
@@ -47,7 +41,7 @@
         <a target="stats-detail" href="./stats/rayonnement.htm">Rayonnement</a>
         <a target="stats-detail" href="./stats/technologie.htm">Technologie</a>
         <a target="stats-detail" href="./stats/pop_vs.htm">Ville Spatiale</a>
-        <a target="stats-detail" href="./stats/offensive.htm">offensive</a>
+        <a target="stats-detail" href="./stats/offensive.htm">Points de victoire</a>
 
 
         <div>Militaire:</div>
@@ -71,7 +65,7 @@
     </nav>
     <main>
 
-        <iframe name="stats-detail" width="100%" style="min-height: 600px"></iframe>
+        <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%"></iframe>
 
     </main>
 </div>

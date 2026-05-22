@@ -1027,7 +1027,7 @@ public class Systeme implements Serializable {
 
 	public ObjetTransporte supprimerRichesses(int numero, String code, int nb,
 			int numPlanete) {
-		if (numPlanete != Integer.MIN_VALUE)
+		if (numPlanete >= 0 && numPlanete < pla.length)
 			return pla[numPlanete].supprimerRichesse(code, nb);
 		if (ObjetTransporte.typeDeCodeChargement(code) == Const.TRANSPORT_BATIMENT) {
 			Batiment b = (Batiment) Univers.getTechnologie(code);
@@ -1068,7 +1068,7 @@ public class Systeme implements Serializable {
 	}
 
 	public void ajouterRichesses(int numero, ObjetTransporte o, int numPlanete) {
-		if (numPlanete != Integer.MIN_VALUE){
+		if (numPlanete >= 0 && numPlanete < pla.length){
 			pla[numPlanete].ajouterRichesse(o);
 		} else if (ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_BATIMENT) {
 			Batiment b = (Batiment) Univers.getTechnologie(o.getCode());

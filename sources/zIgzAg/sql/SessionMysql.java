@@ -26,9 +26,9 @@ public class SessionMysql extends SessionSQL {
 			System.exit(0);
 		}
 
-		String inter = "jdbc:mysql://" + host + "/" + base;
+		String inter = "jdbc:mysql://" + host + "/" + base + "?useUnicode=true&characterEncoding=UTF-8";;
 		if (login != null)
-			inter = inter + "?user=" + login + "&password=" + motDePasse;
+			inter = inter + "&user=" + login + "&password=" + motDePasse;
 		try {
 			c = DriverManager.getConnection(inter);
 		} catch (SQLException e) {
@@ -40,7 +40,7 @@ public class SessionMysql extends SessionSQL {
 		return c;
 	}
 
-	// mÃ©thodes temporaires "spÃ©cial mysql" --->
+	// méthodes temporaires "spécial mysql" --->
 
 	public String[] listeTables(Connection c) {
 		ArrayList a = new ArrayList();

@@ -69,6 +69,9 @@ public class Joueur implements Serializable {
 			return nom;
 	}
 
+	/**
+	 * retourn nom(numero) en HTML
+	 */
 	public String getNomNumero() {
 		if (numero != 0)
 			return "<span class=\"race" + getRace() + "\">" + nom + "&nbsp;("
@@ -311,8 +314,7 @@ public class Joueur implements Serializable {
 		if (numF == -1)
 			numF = num.length;
 
-		Commandant c = new Commandant(n, r, numF, a, Utile.choisirLogin(), a
-				.substring(0, Math.min(a.length(), 5)), Univers.getTour());
+		Commandant c = new Commandant(n, r, numF, a, Utile.choisirLogin(), a.substring(0, Math.min(a.length(), 12)), Univers.getTour());
 		c.setCentaures(20000F);
 
 		String[] t = Const.RACE_TECHNOLOGIES[c.getRace()];
@@ -428,10 +430,6 @@ public class Joueur implements Serializable {
 
         // les soussous
         c.setCentaures(20000 + Univers.getTour() * 1000);
-        // Si Cyborg on rajoute plus d'argent à la base
-        if (c.getRace() == 5 && false)
-            c.setCentaures(30000);
-
 		c.setBudget(Const.BUDGET_COMMANDANT_TOUR_PRECEDENT, c.getCentaures());
 		c.setBudget(Const.BUDGET_COMMANDANT_TOTAL_DISPONIBLE, c.getCentaures());
 
@@ -442,9 +440,6 @@ public class Joueur implements Serializable {
 
 		c.ajouterHeros(h);
 		c.ajouterGouverneur(g);
-
-		if (c.getRace() == 5)
-			c.setReputation(-5000);
 
 		Univers.setCommandant(c);
 		Univers

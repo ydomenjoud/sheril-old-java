@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import zIgzAg.utile.Mdt;
 import zIgzAg.html.BaliseHTML;
 import zIgzAg.html.DocumentHTML;
+import zIgzAg.utile.SherilLogger;
 
 public class Combat {
 
@@ -414,11 +415,11 @@ public class Combat {
         int nbTourMax = f.calculeCombativiteMoyenne(h);
         StrategieDeCombatSpatial strategie = c1.getStrategie(f.getStrategie());
 
-        int division = 1 + Math.max(0,
-                10 - (Univers.getTour() - c1.getTourArrivee()));
-        int nbPopDefensive = ((c2.estJoueurNeutre()) ? ((p.populationTotale()
-                * p.getStabilite() / 100) / division)
-                : ((p.populationTotale() * p.getStabilite()) / 100));
+        int nbPopDefensive = (p.populationTotale() * p.getStabilite()) / 100;
+        if (c2.estJoueurNeutre()) {
+            // si le joueur est Neutre, on le nerf les 10 premiers tours de l'arrivée d'un joueur pour faciliter les prises de planetes
+            nbPopDefensive = (int) (nbPopDefensive * Math.min(1.0,  0.1 * (1+Univers.getTour() - c1.getTourArrivee())));
+        }
 
         if (c2.getPossession(s.getPosition()).getPolitique() == Const.POLITIQUE_DEFENSE)
             nbPopDefensive = Math.min(p.populationTotale(), nbPopDefensive
@@ -426,10 +427,6 @@ public class Combat {
         if (c2.getPossession(s.getPosition()).possedeStockImportantPoste(
                 Const.PRODUIT_ARMEMENT))
             nbPopDefensive = Math.min(p.populationTotale(),
-                    (nbPopDefensive * 3) / 2);
-        // Pour les atalantes et fergok bonus de défense
-        if (c2.getRace() == 1 || c2.getRace() == 4)
-            nbPopDefensive = Math.min(p.populationTotale() * 3 / 2,
                     (nbPopDefensive * 3) / 2);
         Map.Entry[] materielPlanete = (Map.Entry[]) p
                 .listeEquipementsNombresDommages().entrySet()
@@ -770,11 +767,11 @@ public class Combat {
                 }
 
                 //LOG
-                System.out.println(String.format(
+              SherilLogger.log(String.format(
                     "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
-                    cible.getPlan().getNom(), 
-                    degatsDuTir, 
-                    defenseur.getNomNumero(), 
+                    cible.getPlan().getNom(),
+                    degatsDuTir,
+                    defenseur.getNomNumero(),
                     defenseur.getDegatsInfligesCeTour()
                 ));
             }
@@ -788,8 +785,9 @@ public class Combat {
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
-        if (sol.size() > 0)
-             System.out.println("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
+        if (sol.size() > 0) {
+            SherilLogger.log("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
+        }
             for (int i = 0; i < nbTirs; i++)
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
                
@@ -842,12 +840,12 @@ public class Combat {
                 }
 
                 //LOG
-                    System.out.println(String.format(
+                    SherilLogger.log(String.format(
                         "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
-                        v.getPlan().getNom(), 
-                        degatsDuTir, 
-                        impactPop, 
-                        com.getNomNumero(), 
+                        v.getPlan().getNom(),
+                        degatsDuTir,
+                        impactPop,
+                        com.getNomNumero(),
                         com.getDegatsInfligesCeTour()
                     ));
             }
@@ -1500,13 +1498,13 @@ public class Combat {
                     // --------------------------
 
                     // Log exhaustif pour traçabilité
-                        System.out.println(String.format(
+                        SherilLogger.log(String.format(
                             "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
-                            v.getPlan().getNom(), 
-                            cle.toString(), 
-                            c.getPlan().getNom(), 
-                            degatsDuTir, 
-                            com.getNomNumero(), 
+                            v.getPlan().getNom(),
+                            cle.toString(),
+                            c.getPlan().getNom(),
+                            degatsDuTir,
+                            com.getNomNumero(),
                             com.getDegatsInfligesCeTour()
                         ));
                     //--------------

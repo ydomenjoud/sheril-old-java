@@ -66,6 +66,7 @@
             <LI><A href="./?a=transferer_planete" target="fenetre">Donner une plan&#232;te</A></LI>
             <LI><A href="./?a=transferer_flotte" target="fenetre">Pr&#233;ter une flotte</A></LI>
             <LI><A href="./?a=vendre_flotte" target="fenetre">Vendre une flotte</A></LI>
+            <LI><A href="./?a=vendre_acheter_galactique" target="fenetre">Marché Galactique</A></LI>
             <LI><A href="./?a=transferer_strategie" target="fenetre">Donner une strat&#233;gie de combat</A></LI>
             <LI><A href="./?a=donner_plan" target="fenetre">Donner un plan de vaisseau</A></LI>
             <LI><FONT class="important">Divers</FONT></LI>

@@ -16,12 +16,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -102,6 +97,24 @@ public class ProductionOrdres {
     public void productionMenu() {
         Integer[] l = (Integer[]) listeMenu.toArray(new Integer[0]);
         ecrire(afficherT(Const.TABLE_ORDRES, l));
+    }
+
+    public static String afficherA_SQL(String table, String[] colonnes, Object[][] valeurs) {
+        StringBuilder s = new StringBuilder();
+        s.append("INSERT INTO ");
+        s.append(table);
+        s.append(" (");
+        for (int i = 0; i < colonnes.length; i++) {
+            s.append(colonnes[i]);
+            if (i != colonnes.length - 1) s.append(",");
+        }
+        s.append(") VALUES (");
+        for (int i = 0; i < valeurs.length; i++) {
+            s.append(afficherTab(valeurs[i]));
+            if (i != valeurs.length - 1) s.append(",");
+        }
+        s.append(");\r\n");
+        return s.toString();
     }
 
     public static String afficherA_PHP(String o, Object[] k, Object[] v) {
@@ -326,6 +339,28 @@ public class ProductionOrdres {
         ecrire(afficherSA(Const.TABLE_ALLIANCE_TYPE,
                 Utile.retournerTableauEntiers(Const.NB_TYPE_ALLIANCES - 1),
                 Univers.getTableauMessage("TYPE_ALLIANCE", l)));
+
+        List<OffreMarche> offres = Univers.getListeOffresMarche();
+        if (offres.isEmpty()) return;
+        
+        String[] ids = new String[offres.size()];
+        String[] vendeurs = new String[offres.size()];
+        String[] codes = new String[offres.size()];
+        Integer[] quantites = new Integer[offres.size()];
+        Integer[] prix = new Integer[offres.size()];
+        
+        for (int i = 0; i < offres.size(); i++) {
+            ids[i] = Integer.toString(offres.get(i).getId());
+            Commandant v = Univers.getCommandant(offres.get(i).getNumeroVendeur());
+            vendeurs[i] = (v != null ? v.getNumero()+"" : "???");
+            codes[i] = offres.get(i).getCodeMarchandise();
+            quantites[i] = new Integer(offres.get(i).getQuantite());
+            prix[i] = new Integer(offres.get(i).getPrixUnitaire());
+        }
+        
+        ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
+            new String[]{"ID_OFFRE", "VENDEUR", "CODE", "QUANTITE", "PRIX"}, 
+            new Object[][]{ids, vendeurs, codes, quantites, prix}));
     }
 
 	public static void produireRegistre(int[] listeC) {
@@ -1260,6 +1295,10 @@ public class ProductionOrdres {
     public boolean ecrire_adresse_commandant() {
         return true;
     }
+    public boolean vendre_galactique() { return true; }
+    public boolean acheter_galactique() {
+        return true;
+    }
 
     public boolean ecrire_adresse_alliance() {
         if (c.estDirigeantAlliance())
@@ -1314,7 +1353,7 @@ public class ProductionOrdres {
      */
     public static void viderAnciensOrdres() {
 
-        String listTruncat = "TRUNCATE `aa_clone`;TRUNCATE `aa_inscription`;TRUNCATE `aa_vaisseaux`;TRUNCATE `abandonner_technologie`;TRUNCATE `adherer_alliance`;TRUNCATE `affecter_gouverneur`;TRUNCATE `affecter_heros`;TRUNCATE `affecter_recherche`;TRUNCATE `annuler_construction`;TRUNCATE `changer_capitale`;TRUNCATE `charger_cargo`;TRUNCATE `construire`;TRUNCATE `construire_flotte`;TRUNCATE `creer_alliance`;TRUNCATE `creer_plan`;TRUNCATE `creer_plan_ajouter`;TRUNCATE `creer_strategie`;TRUNCATE `creer_strategie_ajouter`;TRUNCATE `decharger_cargo`;TRUNCATE `deplacer_flotte`;TRUNCATE `deprogrammer_construction`;TRUNCATE `diviser_flotte`;TRUNCATE `diviser_flotte_ajouter`;TRUNCATE `donner_plan`;TRUNCATE `ecrire_adresse_alliance`;TRUNCATE `ecrire_adresse_commandant`;TRUNCATE `ecrire_article`;TRUNCATE `enroler_lieutenant`;TRUNCATE `exclure_alliance`;TRUNCATE `fixer_taux_poste`;TRUNCATE `fusionner_flotte`;TRUNCATE `larguer_mines`;TRUNCATE `liberer_lieutenant`;TRUNCATE `mettre_au_rebus`;TRUNCATE `modifier_budget`;TRUNCATE `modifier_politique`;TRUNCATE `modifier_taxation_planete`;TRUNCATE `modifier_taxation_systeme`;TRUNCATE `nommer_dirigeant`;TRUNCATE `pister`;TRUNCATE `programmer_construction`;TRUNCATE `quitter_alliance`;TRUNCATE `renommer_alliance`;TRUNCATE `renommer_flotte`;TRUNCATE `renommer_lieutenant`;TRUNCATE `renommer_planete`;TRUNCATE `renommer_systeme`;TRUNCATE `rompre_pacte`;TRUNCATE `services_speciaux`;TRUNCATE `signer_pacte`;TRUNCATE `terraformer_planete`;TRUNCATE `terraformer_systeme`;TRUNCATE `transferer_centaures`;TRUNCATE `transferer_flotte`;TRUNCATE `transferer_planete`;TRUNCATE `transferer_strategie`;TRUNCATE `transferer_systeme`;TRUNCATE `transferer_technologie`;TRUNCATE `utiliser_colonisateur`;TRUNCATE `utiliser_porte_galactique`;TRUNCATE `utiliser_porte_intragalactique`;TRUNCATE `valider_adhesion_alliance`;TRUNCATE `vendre_flotte`;TRUNCATE `z_alliances_adhesion`;TRUNCATE `z_alliance_dirigeant`;TRUNCATE `z_alliance_secrete`;TRUNCATE `z_alliance_type`;TRUNCATE `z_appartient_alliance_a_1`;TRUNCATE `z_appartient_alliance_a_2`;TRUNCATE `z_appartient_alliance_a_3`;TRUNCATE `z_appartient_alliance_c_1`;TRUNCATE `z_appartient_alliance_c_2`;TRUNCATE `z_budgets`;TRUNCATE `z_cargaison_chargement`;TRUNCATE `z_cargaison_dechargement`;TRUNCATE `z_commandants_adhesion`;TRUNCATE `z_commandants_transfert`;TRUNCATE `z_composants`;TRUNCATE `z_constructions_possibles`;TRUNCATE `z_directives`;TRUNCATE `z_domaine_plan`;TRUNCATE `z_flottes`;TRUNCATE `z_flottes_cargo`;TRUNCATE `z_flottes_colonisateur`;TRUNCATE `z_flottes_detectees`;TRUNCATE `z_flottes_galactiques`;TRUNCATE `z_flottes_intragalactiques`;TRUNCATE `z_flottes_mines`;TRUNCATE `z_flottes_usines`;TRUNCATE `z_galaxies`;TRUNCATE `z_gouverneurs`;TRUNCATE `z_heros`;TRUNCATE `z_leaders`;TRUNCATE `z_lieutenant_renommer`;TRUNCATE `z_missions`;TRUNCATE `z_mode_transfert`;TRUNCATE `z_ordres`;TRUNCATE `z_plans_cibles`;TRUNCATE `z_plans_constructibles`;TRUNCATE `z_plans_transfert`;TRUNCATE `z_politiques`;TRUNCATE `z_programmation_construction`;TRUNCATE `z_proprios_poste`;TRUNCATE `z_rebus_materiel`;TRUNCATE `z_rebus_systemes`;TRUNCATE `z_rompre_pacte`;TRUNCATE `z_signer_pacte`;TRUNCATE `z_strategies`;TRUNCATE `z_strategie_agressivite`;TRUNCATE `z_strategie_cible`;TRUNCATE `z_systemes`;TRUNCATE `z_systemes_construction`;TRUNCATE `z_systemes_detectes`;TRUNCATE `z_systeme_renommer`;TRUNCATE `z_taxation`;TRUNCATE `z_technologies_cherchees`;TRUNCATE `z_technologies_connues`;TRUNCATE `z_techno_transfert`;TRUNCATE `z_vaisseaux`;TRUNCATE `z_vaisseaux_cargo`;";
+        String listTruncat = "TRUNCATE `aa_clone`;TRUNCATE `aa_inscription`;TRUNCATE `aa_vaisseaux`;TRUNCATE `abandonner_technologie`;TRUNCATE `adherer_alliance`;TRUNCATE `affecter_gouverneur`;TRUNCATE `affecter_heros`;TRUNCATE `affecter_recherche`;TRUNCATE `annuler_construction`;TRUNCATE `changer_capitale`;TRUNCATE `charger_cargo`;TRUNCATE `construire`;TRUNCATE `construire_flotte`;TRUNCATE `creer_alliance`;TRUNCATE `creer_plan`;TRUNCATE `creer_plan_ajouter`;TRUNCATE `creer_strategie`;TRUNCATE `creer_strategie_ajouter`;TRUNCATE `decharger_cargo`;TRUNCATE `deplacer_flotte`;TRUNCATE `deprogrammer_construction`;TRUNCATE `diviser_flotte`;TRUNCATE `diviser_flotte_ajouter`;TRUNCATE `donner_plan`;TRUNCATE `ecrire_adresse_alliance`;TRUNCATE `ecrire_adresse_commandant`;TRUNCATE `ecrire_article`;TRUNCATE `enroler_lieutenant`;TRUNCATE `exclure_alliance`;TRUNCATE `fixer_taux_poste`;TRUNCATE `fusionner_flotte`;TRUNCATE `larguer_mines`;TRUNCATE `liberer_lieutenant`;TRUNCATE `mettre_au_rebus`;TRUNCATE `modifier_budget`;TRUNCATE `modifier_politique`;TRUNCATE `modifier_taxation_planete`;TRUNCATE `modifier_taxation_systeme`;TRUNCATE `nommer_dirigeant`;TRUNCATE `pister`;TRUNCATE `programmer_construction`;TRUNCATE `quitter_alliance`;TRUNCATE `renommer_alliance`;TRUNCATE `renommer_flotte`;TRUNCATE `renommer_lieutenant`;TRUNCATE `renommer_planete`;TRUNCATE `renommer_systeme`;TRUNCATE `rompre_pacte`;TRUNCATE `services_speciaux`;TRUNCATE `signer_pacte`;TRUNCATE `terraformer_planete`;TRUNCATE `terraformer_systeme`;TRUNCATE `transferer_centaures`;TRUNCATE `transferer_flotte`;TRUNCATE `transferer_planete`;TRUNCATE `transferer_strategie`;TRUNCATE `transferer_systeme`;TRUNCATE `transferer_technologie`;TRUNCATE `utiliser_colonisateur`;TRUNCATE `utiliser_porte_galactique`;TRUNCATE `utiliser_porte_intragalactique`;TRUNCATE `valider_adhesion_alliance`;TRUNCATE `vendre_flotte`; TRUNCATE `vendre_galactique`; TRUNCATE `acheter_galactique`; TRUNCATE `z_galactique`; TRUNCATE `z_alliances_adhesion`;TRUNCATE `z_alliance_dirigeant`;TRUNCATE `z_alliance_secrete`;TRUNCATE `z_alliance_type`;TRUNCATE `z_appartient_alliance_a_1`;TRUNCATE `z_appartient_alliance_a_2`;TRUNCATE `z_appartient_alliance_a_3`;TRUNCATE `z_appartient_alliance_c_1`;TRUNCATE `z_appartient_alliance_c_2`;TRUNCATE `z_budgets`;TRUNCATE `z_cargaison_chargement`;TRUNCATE `z_cargaison_dechargement`;TRUNCATE `z_commandants_adhesion`;TRUNCATE `z_commandants_transfert`;TRUNCATE `z_composants`;TRUNCATE `z_constructions_possibles`;TRUNCATE `z_directives`;TRUNCATE `z_domaine_plan`;TRUNCATE `z_flottes`;TRUNCATE `z_flottes_cargo`;TRUNCATE `z_flottes_colonisateur`;TRUNCATE `z_flottes_detectees`;TRUNCATE `z_flottes_galactiques`;TRUNCATE `z_flottes_intragalactiques`;TRUNCATE `z_flottes_mines`;TRUNCATE `z_flottes_usines`;TRUNCATE `z_galaxies`;TRUNCATE `z_gouverneurs`;TRUNCATE `z_heros`;TRUNCATE `z_leaders`;TRUNCATE `z_lieutenant_renommer`;TRUNCATE `z_missions`;TRUNCATE `z_mode_transfert`;TRUNCATE `z_ordres`;TRUNCATE `z_plans_cibles`;TRUNCATE `z_plans_constructibles`;TRUNCATE `z_plans_transfert`;TRUNCATE `z_politiques`;TRUNCATE `z_programmation_construction`;TRUNCATE `z_proprios_poste`;TRUNCATE `z_rebus_materiel`;TRUNCATE `z_rebus_systemes`;TRUNCATE `z_rompre_pacte`;TRUNCATE `z_signer_pacte`;TRUNCATE `z_strategies`;TRUNCATE `z_strategie_agressivite`;TRUNCATE `z_strategie_cible`;TRUNCATE `z_systemes`;TRUNCATE `z_systemes_construction`;TRUNCATE `z_systemes_detectes`;TRUNCATE `z_systeme_renommer`;TRUNCATE `z_taxation`;TRUNCATE `z_technologies_cherchees`;TRUNCATE `z_technologies_connues`;TRUNCATE `z_techno_transfert`;TRUNCATE `z_vaisseaux`;TRUNCATE `z_vaisseaux_cargo`;";
 
         try {
             SessionMysql mySQL = new SessionMysql();

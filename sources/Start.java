@@ -1,8 +1,12 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import zIgzAg.jeu.oceane.*;
 import zIgzAg.utile.Copie;
@@ -15,6 +19,7 @@ public class Start {
         System.out.println("init: initialisation de l'Univers");
         System.out.println("addNewGalaxy <num>: Ajoute une galaxy à l'Univers, deuxième");
         System.out.println("newRound: passe le tour");
+        System.out.println("listNeutralFleets: affiche la liste des flottes du neutre");
     }
 
     public static void main(String[] args) {
@@ -37,6 +42,8 @@ public class Start {
             addNewGalaxy(args[1]);
         } else if (args[0].equals("newRound")) {
             newRound();
+        } else if (args[0].equals("listFleet")) {
+            listNeutralFleets();
         } else if (args[0].equals("help")) {
             displayHelp();
         } else {
@@ -116,6 +123,44 @@ public class Start {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void listNeutralFleets() {
+        System.out.println("Chargement de l'univers...");
+        Univers univ = new Univers(true, "chargement_neutre");
+        univ.charger();
+
+        Commandant[] tousCommandants = Univers.getListeCommandants();
+        for (Commandant detecteur : tousCommandants) {
+            if (detecteur.getNumero() == 0) continue; // On ignore le neutre comme détecteur ici si on veut les joueurs
+            detecteur.determinerFlottesDetectes();
+            RapportXML xml = new RapportXML(detecteur, true);
+            try {
+                String path = "errata/" + detecteur.getNumero();
+                Path errataPath = Paths.get(path);
+                Files.createDirectories(errataPath);
+                xml.ecrireRapportXML(path);
+            } catch (IOException e) {
+                System.out.println("Erreur lors de la création du dossier errata/" + detecteur.getNumero());
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    private static class DetectionFlotte {
+        int numDetecteur;
+        int numProprio;
+        int numFlotte;
+        Flotte flotte;
+
+        DetectionFlotte(int numDetecteur, int numProprio, int numFlotte, Flotte flotte) {
+            this.numDetecteur = numDetecteur;
+            this.numProprio = numProprio;
+            this.numFlotte = numFlotte;
+            this.flotte = flotte;
         }
     }
 

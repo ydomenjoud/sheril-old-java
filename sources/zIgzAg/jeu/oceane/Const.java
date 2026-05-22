@@ -79,9 +79,9 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int NB_SECTEURS_X = 3; // nombre de secteurs par ligne et colonne
+    public static final int NB_SECTEURS_X = 4; // nombre de secteurs par ligne et colonne
     public static final int BORNE_SECTEUR_X = 10;
-    public static final int NB_SYSTEMES_PAR_SECTEUR = 22; // nombre de systèmes par secteur
+    public static final int NB_SYSTEMES_PAR_SECTEUR = 17; // nombre de systèmes par secteur
 
     public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
     public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
@@ -560,11 +560,17 @@ public class Const {
     public static final int RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE = 1;
     public static final int RACE_CARACTERISTIQUE_COMBAT_SPATIAL = 2;
     public static final int RACE_CARACTERISTIQUE_COMBAT_PLANETAIRE = 3;
+
     public static final String[][] RACE_TECHNOLOGIES = {
-            {"maitr0_I", "agroI"}, {"maitr1_I", "metauxI"},
-            {"maitr2_I", "technoII"}, {"maitr3_I", "radarIII"},
-            {"maitr4_I", "armeI", "maitmilII"},
-            {}};
+            {"scanI", "metauxII"}, // Fremen-scanner-metaux,
+            {"plasmaI", "raffineII"}, //  Atalante-plasma-raffinerie
+            {"bombeI","armeII"}, // zwaia-bombe-armement,
+            {"missI", "infoII"}, //  yoksor-missile-logiciel
+            {"laserI", "technoII"}, // fergok-laser-technocentre
+            {}
+    };
+
+
     // les modificateurs propres é chaque race.
 
     public static final int STRATEGIE_AGRESSIVITE_RAGE = 5;
@@ -701,8 +707,10 @@ public class Const {
             "ecrire_adresse_commandant", // 54
             "ecrire_adresse_alliance", "ecrire_article",
 
+            "vendre_galactique", "acheter_galactique",
+
             "diviser_flotte_ajouter", // 5628
-            "creer_plan_ajouter", "creer_strategie_ajouter"};
+            "creer_plan_ajouter", "creer_strategie_ajouter",};
 
     // le nom des tables des différents ordres.Attention! elles servent
     // également é définir les méthodes de réception d'ordre,
@@ -725,9 +733,10 @@ public class Const {
     public static final int ORDRE_DON_TECHNOLOGIE = 37;
     public static final int ORDRE_CREER_PLAN = 44;
     public static final int ORDRE_CREER_STRATEGIE = 46;
-    public static final int ORDRE_DIVISER_FLOTTE_DETAIL = 57;
-    public static final int ORDRE_CREER_PLAN_DETAIL = 58;
-    public static final int ORDRE_CREER_STRATEGIE_DETAIL = 59;
+    public static final int ORDRE_ACHAT_GALACTIQUE = 58;
+    public static final int ORDRE_DIVISER_FLOTTE_DETAIL = 59;
+    public static final int ORDRE_CREER_PLAN_DETAIL = 60;
+    public static final int ORDRE_CREER_STRATEGIE_DETAIL = 61;
     // certains ordres particuliers.
 
     public static final int NOMBRE_LIMITE_ENROLER_LIEUTENANT = 1;
@@ -784,6 +793,7 @@ public class Const {
     public static final String TABLE_FLOTTE_USINES = "z_flottes_usines";
     public static final String TABLE_PLANS_CONSTRUCTIBLES = "z_plans_constructibles";
     public static final String TABLE_COMMANDANTS_TRANSFERT = "z_commandants_transfert";
+    public static final String TABLE_GALACTIQUE = "z_galactique";
     public static final String TABLE_MODE_TRANSFERT = "z_mode_transfert";
     public static final String TABLE_TECHNOLOGIES_TRANSFERABLES = "z_techno_transfert";
     public static final String TABLE_PLANS_TRANSFERABLES = "z_plans_transfert";
@@ -800,7 +810,8 @@ public class Const {
     // Les différentes tables oé sont stockées les données nécessaires aux
     // ordres.
 
-    public static final int TAILLE_LOGIN = 5;
+   public static final int TAILLE_LOGIN = 20;
+   public static final int TAILLE_PASSWORD = 20;
     // le nombre de lettres du login.
 
     public static final int MESSAGE_TYPE_COMMANDANT = 0;

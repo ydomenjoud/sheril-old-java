@@ -496,71 +496,8 @@ public static final String[] maitdeIII = {"maitdeII","agroVIII","modeVIII","cult
  public static final String[] maitr2_I = {"maitr2_I"};
  public static final String[] maitr3_I = {"maitr3_I"};
  public static final String[] maitr4_I = {"maitr4_I"};
- public static final String[] maitr5_I = {"maitr5_I"};
 
     public static final String[] creplanI = {"armeI"};
-
-
-    // COMPOSANT CYBORG
-  
- public static final String[] cyb_mdc_t1_I   = {"cyb_vs_tt_I"};
- public static final String[] cyb_mdc_t1_II  = {"cyb_mdc_t1_I"};
- public static final String[] cyb_mdc_t1_III = {"cyb_mdc_t1_II"};
- public static final String[] cyb_mdc_t1_IV  = {"cyb_mdc_t1_V"};
- public static final String[] cyb_mdc_t1_V   = {"cyb_mdc_t1_IV"};
- public static final String[] cyb_mdc_t1_VI  = {"cyb_mdc_t1_V"};
- public static final String[] cyb_mdc_t1_VII = {"cyb_mdc_t1_VI"};
-
- public static final String[] cyb_mdc_t2_I   = {"cyb_mdc_t1_IV"};
- public static final String[] cyb_mdc_t2_II  = {"cyb_mdc_t2_I"};
- public static final String[] cyb_mdc_t2_III = {"cyb_mdc_t2_II"};
- public static final String[] cyb_mdc_t2_IV  = {"cyb_mdc_t2_V"};
- public static final String[] cyb_mdc_t2_V   = {"cyb_mdc_t2_IV"};
- public static final String[] cyb_mdc_t2_VI  = {"cyb_mdc_t2_V"};
- public static final String[] cyb_mdc_t2_VII = {"cyb_mdc_t2_VI"};
-  
- public static final String[] cyb_mdc_t3_I   = {"cyb_mdc_t2_IV"};
- public static final String[] cyb_mdc_t3_II  = {"cyb_mdc_t3_I"};
- public static final String[] cyb_mdc_t3_III = {"cyb_mdc_t3_II"};
- public static final String[] cyb_mdc_t3_IV  = {"cyb_mdc_t3_V"};
- public static final String[] cyb_mdc_t3_V   = {"cyb_mdc_t3_IV"};
- public static final String[] cyb_mdc_t3_VI  = {"cyb_mdc_t3_V"};
- public static final String[] cyb_mdc_t3_VII = {"cyb_mdc_t3_VI"};
-
-    public static final String[] cyb_vs_tt_I   = {"maitr5_I","moteurI"};
-    public static final String[] cyb_vs_tt_II  = {"cyb_vs_tt_I"};
-    public static final String[] cyb_vs_tt_III = {"cyb_vs_tt_II"};
-    public static final String[] cyb_vs_tt_IV  = {"cyb_vs_tt_III"};
-    public static final String[] cyb_vs_tt_V   = {"cyb_vs_tt_IV"};
-
-    public static final String[] cyb_vs_te_I   = {"maitr5_I","moteurI"};
-    public static final String[] cyb_vs_te_II  = {"cyb_vs_te_I"};
-    public static final String[] cyb_vs_te_III = {"cyb_vs_te_II"};
-    public static final String[] cyb_vs_te_IV  = {"cyb_vs_te_III"};
-    public static final String[] cyb_vs_te_V   = {"cyb_vs_te_IV"};
-
-    public static final String[] cyb_vs_tc_I   = {"maitr5_I","moteurI"};
-    public static final String[] cyb_vs_tc_II  = {"cyb_vs_tc_I"};
-    public static final String[] cyb_vs_tc_III = {"cyb_vs_tc_II"};
-    public static final String[] cyb_vs_tc_IV  = {"cyb_vs_tc_III"};
-    public static final String[] cyb_vs_tc_V   = {"cyb_vs_tc_IV"};
-
-
-    // Techno Zwaias
-
-    public static final String[] poly_constI   = {"maitr2_I","moteurI"};
-    public static final String[] poly_constII  = {"poly_constI"};
-    public static final String[] poly_constIII = {"poly_constII"};
-    public static final String[] poly_constIV  = {"poly_constIII"};
-    public static final String[] poly_constV   = {"poly_constIV"};
-
-    public static final String[] poly_popI   = {"maitr2_I","moteurI"};
-    public static final String[] poly_popII  = {"poly_popI"};
-    public static final String[] poly_popIII = {"poly_popII"};
-    public static final String[] poly_popIV  = {"poly_popIII"};
-    public static final String[] poly_popV   = {"poly_popIV"};
-
-
 
 }
        	 
