@@ -1353,12 +1353,6 @@ public class Commandant extends Joueur implements Serializable {
         return getNombrePlanetesPossedees() - getScoreCategorie(PointDeVictoireCategorie.PLANETES);
     }
 
-    public int getEvolutionScientifique() {
-        // le budget est en négatif
-        int b = (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE);
-        return b < 0 ? -b : 0;
-    }
-
 	// Champs transients --->
 
 	public List<Object> stockerChampsTransients() {
@@ -4043,9 +4037,8 @@ public class Commandant extends Joueur implements Serializable {
 		if (vendeur != null) {
 			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE, (float)montant);
 			vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0003",
-                    offre.getDescription(),
-                    offre.getPositionOrigine().getDescription(),
                     getNomNumero(),
+                    offre.getDescription(),
                     (float) montant);
 		}
 

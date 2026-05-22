@@ -69,6 +69,9 @@ public class Joueur implements Serializable {
 			return nom;
 	}
 
+	/**
+	 * retourn nom(numero) en HTML
+	 */
 	public String getNomNumero() {
 		if (numero != 0)
 			return "<span class=\"race" + getRace() + "\">" + nom + "&nbsp;("

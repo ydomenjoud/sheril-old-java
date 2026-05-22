@@ -2259,7 +2259,7 @@ public class Rapport {
 
 
 		Planete[] planetesList = s.getPlanetes();
-		BaliseHTML[][] b = new BaliseHTML[planetesList.length+1][10];
+		BaliseHTML[][] b = new BaliseHTML[planetesList.length+1][11];
 		int bligne = 0;
 
 		// Header du tableau des planètes
@@ -2270,9 +2270,10 @@ public class Rapport {
 		b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
 		b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stab.")));
 		b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Rév.")));
-		b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop")));
-		b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop Max")));
-		b[bligne++][9] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
+		b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Proprio.")));
+		b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop")));
+		b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop Max")));
+		b[bligne++][10] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
 
 		for (int i = 0; i < planetesList.length; i++) {
 			Planete pl = planetesList[i];
@@ -2285,16 +2286,17 @@ public class Rapport {
 				b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getTaxation())));
 				b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getStabilite())));
 				b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getText(pl.getRevolte() ? "<span class=\"moins\">Oui</span>" : "Non"));
+				b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(Univers.getCommandant(pl.getProprio()).getNomNumero());
 
 				int[] racesPresentes = pl.racesPresentes();
 				if(racesPresentes.length == 0){
-					b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
 					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
+					b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
 				} else {
 					int race = racesPresentes[0];
 					String classeRace = "race" + race;
-					b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.getPopActuelle(race)))));
-					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.calculeMaxPop(race)))));
+					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.getPopActuelle(race)))));
+					b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.calculeMaxPop(race)))));
 				}
 				String listeB = "";
 				String[] typesB = pl.listeTypeDeBatimentsPresents();
@@ -2306,7 +2308,7 @@ public class Rapport {
 						if (j < typesB.length - 1) listeB += ", ";
 					}
 				}
-				b[bligne++][9] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
+				b[bligne++][10] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
 			}
 		}
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));

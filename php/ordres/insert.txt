@@ -6,24 +6,35 @@ for ($j = 0; $j < 8; $j++) {
 }
 
 if($v0!=""){
- $result=mysql($base,"SELECT * FROM $table");
- $num_field=mysql_num_fields($result);
- $var_table=mysql_field_name($result,0);
- $var_champ="'$commandant'";
- for($i=1;$i<$num_field;$i++){
-  $inter1=mysql_field_name($result,$i);
-  $inter4=$i-1;
-  $inter2="v$inter4";
-  $inter3=mysql_real_escape_string($$inter2);
-  if($table=="ecrire_article") $inter3=nl2br($inter3);
-  $var_table="$var_table,$inter1";
-  $var_champ="$var_champ,'$inter3'";
-  }
- $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
- $res = mysql_query($query);
- if(!$res){
-     echo mysql_error();
-     die("  <br /><a href='index.php3?table=$table'>Retour</a>");
+ if($table=="fusionner_flotte" && is_array($v0) && count($v0)>1 && $v1!=null){
+     sort($v0, SORT_NUMERIC);
+     for($i=1;$i<count($v0);$i++){
+         $f1 = intval($v0[0]);
+         $f2 = intval($v0[$i]);
+         $query = "INSERT INTO fusionner_flotte (NUMERO, FLOTTE_1, FLOTTE_2, DIRECTIVE)
+              VALUES ($commandant, '{$f1}', '{$f2}', '{$v1}')";
+//             echo $query."<br />";
+         mysql_query($query) or die(mysql_error());
+     }
+ } else {
+     $result = mysql($base, "SELECT * FROM $table");
+     $num_field = mysql_num_fields($result);
+     $var_table = mysql_field_name($result, 0);
+     $var_champ = "'$commandant'";
+     for ($i = 1; $i < $num_field; $i++) {
+         $inter1 = mysql_field_name($result, $i);
+         $inter4 = $i - 1;
+         $inter2 = "v$inter4";
+         $inter3 = mysql_real_escape_string($$inter2);
+         if ($table == "ecrire_article") $inter3 = nl2br($inter3);
+         $var_table = "$var_table,$inter1";
+         $var_champ = "$var_champ,'$inter3'";
+     }
+     $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
+     $res = mysql_query($query);
+     if (!$res) {
+         echo mysql_error();
+         die("  <br /><a href='index.php3?table=$table'>Retour</a>");
+     }
  }
 }
-?>

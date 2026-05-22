@@ -284,13 +284,6 @@ public class Flotte implements Serializable {
 
 		Flotte flotte = new Flotte(Univers.getMessage("DENOMINATION_FLOTTE_DE_DEPART", c.getLocale()), c.getCapitale());
 
-		if (c.getRace() == 5 && false) {
-			for (int d = 0; d < 5; d++) {
-				Vaisseau vai = Vaisseau.creer("Nexus", c.getRace());
-				flotte.ajouterVaisseau(vai);
-			}
-		}
-
 		for (int i = 0; i < noms.length; i++) {
 			PlanDeVaisseau p = Univers.getPlanDeVaisseau(noms[i]);
 			if (p == null) {

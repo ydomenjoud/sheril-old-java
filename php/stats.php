@@ -65,7 +65,7 @@
     </nav>
     <main>
 
-        <iframe name="stats-detail" width="100%" style="min-height: 600px"></iframe>
+        <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%"></iframe>
 
     </main>
 </div>
@@ -92,22 +92,3 @@
 </script>
 </body>
 </html>
-
-
-<table>
-    <thead>
-    <tr>
-        <th>Commandant</th>
-        <th>Puissance</th>
-        <th>Planètes</th>
-        <th>Finance</th>
-        <th>Population</th>
-        <th>Rayonnement</th>
-        <th>Technologie</th>
-        <th>Ville Spatiale</th>
-        <th>Points de victoire</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>

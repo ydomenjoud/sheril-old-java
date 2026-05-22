@@ -55,7 +55,7 @@ public class PointDeVictoire {
                 .sorted(Comparator.comparing(Commandant::getPopulationTotale).reversed())
                 .toList());
         classement.put(PointDeVictoireCategorie.RECHERCHE, baseList.stream()
-                .sorted(Comparator.comparing(Commandant::getEvolutionScientifique).reversed())
+                .sorted(Comparator.comparing(Commandant::getScoreTechnologique).reversed())
                 .toList());
         classement.put(PointDeVictoireCategorie.MERVEILLE, baseList.stream()
                 .sorted(Comparator.comparing(Commandant::getMeilleurSystemeScore).reversed())
@@ -152,7 +152,7 @@ public class PointDeVictoire {
             case PLANETES -> cmd.getEvolutionPossession();
             case COMBATS -> (int)cmd.getDegatsInfligesCeTour();
             case POPULATION -> cmd.getPopulationTotale();
-            case RECHERCHE -> cmd.getEvolutionScientifique();
+            case RECHERCHE -> cmd.getScoreTechnologique();
             case MERVEILLE -> cmd.getMeilleurSystemeScore();
             case POPULATION_VS -> cmd.getEvolutionPopulationFlotte();
         };

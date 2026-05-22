@@ -1,12 +1,10 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>Fusionner deux flottes</h1>
+<P><h1>Fusionner mes flottes</h1>
 <BR>
-Ma flotte
-<?php select1("v0",$t0); ?>
- et ma flotte
-<?php select1("v1",$t0); ?>
- doivent fusionner en directive
-<?php select1("v2",$t1); ?>
+Fusionner mes flottes
+<?php select1("v0",$t0, 'select', true); ?>
+ avec la directive
+<?php select1("v1",$t1); ?>
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

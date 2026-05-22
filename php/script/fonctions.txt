@@ -100,13 +100,25 @@ function V($name, $default="") {
     return array_key_exists($name,$_POST) ? $_POST[$name] : $default;
 }
 
-function select1($nv, $t, $class='select')
+function select1($nv, $t, $class='select', $multiple=false)
 {
-    echo("<SELECT SIZE=\"1\" NAME=\"$nv\" style='max-width: 200px; display: inline-flex;' class='$class'>");
+    echo("<SELECT SIZE=\"".($multiple ? 10 : 1)."\" NAME=\"$nv".($multiple ? '[]' : '')."\" style='max-width: 200px; display: inline-flex;' class='$class' ".($multiple ? 'multiple' : ''). ">");
     $k = array_keys($t);
+    // Récupération de la valeur postée une seule fois pour plus de clarté
+    $postedValue = isset($_POST[$nv]) ? $_POST[$nv] : null;
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];
-        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $j) ? 'selected ' : ''));
+        $selected = '';
+
+        if ($multiple && is_array($postedValue)) {
+            // Cas multiple : on vérifie si la clé appartient au tableau
+            if (in_array($j, $postedValue)) $selected = 'selected ';
+        } else {
+            // Cas simple : comparaison classique
+            if ($postedValue == $j) $selected = 'selected ';
+        }
+
+        echo("<OPTION ".$selected." ");
         echo("VALUE=\"$j\">$t[$j]");
     }
     echo("</SELECT>");

@@ -111,7 +111,7 @@ $description_ordres = array(
     "Diviser une flotte",
     "Déplacer une flotte",
     "Pister une flotte",
-    "Fusionner une flotte",
+    "Fusionner des flottes",
     "Donner des centaures",
     "Donner une technologie",
     "Donner un système",

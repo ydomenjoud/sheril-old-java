@@ -451,7 +451,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0000 = "Marché galactique: Vous avez mis en vente {0} depuis le système {1} pour {2} centaures.";
 	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0001 = "Marché galactique: La vente de {0} a été annulée car vous ne possédez plus le système {1}. Les marchandises sont perdues.";
 	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0002 = "Marché galactique: La vente de {0} a été annulée. Les marchandises ont été remises sur le système {1}.";
-	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0003 = "Marché galactique: Le commandant {0} vous a acheté {1} ({2} unités) pour un total de {3} centaures.";
+	public static final String EV_COMMANDANT_VENTE_GALACTIQUE_0003 = "Marché galactique: Le commandant {0} vous a acheté {1} pour un total de {2} centaures.";
 
 	public static final String EV_COMMANDANT_ACHAT_GALACTIQUE_0000 = "Marché galactique: Vous avez acheté au commandant {0} {1} pour un total de {2} centaures. Les marchandises ont été livrées sur le système {3}.";
 
