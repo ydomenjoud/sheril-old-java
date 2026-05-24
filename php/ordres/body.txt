@@ -19,7 +19,7 @@
             --ss-main-height: 30px;
             --ss-search-height: 30px;
             --ss-option-height: auto;
-            --ss-content-height: 300px;
+            --ss-content-height: 600px;
 
             /* Spacing */
             --ss-spacing-l: 6px;

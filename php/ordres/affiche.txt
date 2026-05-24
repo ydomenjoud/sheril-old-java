@@ -11,7 +11,12 @@ if($nb_lignes!=0){
   $zo=0;
   if($nb_div!="") if($rf[2]!=$nb_div) $zo=1;
   if($zo==0){
-   echo("<TR><TD><A HREF=\"$nom_page?table=$table&elimine=$i\" class='delete'>$suppression</A>");
+      $idPosition = get_id_column_index($table);
+      if($idPosition >= 0){
+          echo("<TR><TD><A HREF=\"$nom_page?table=$table&elimine=$i&identifierKey=id&identifier={$rf[$idPosition]}\" class='delete'>$suppression</A>");
+      } else {
+          echo("<TR><TD><A HREF=\"$nom_page?table=$table&elimine=$i\" class='delete'>$suppression</A>");
+      }
    include "./$langue/affiche/$table.txt";
    $encode = urlencode(serialize($rf));
    echo("</TD><td><a href='$nom_page?table=$table&previous={$encode}'>copy</td></TR>");

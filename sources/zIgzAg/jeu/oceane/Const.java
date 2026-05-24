@@ -129,7 +129,7 @@ public class Const {
     public static final int TEMP_MIN = -150;
     public static final int GRA_MAX = 100;
     public static final int GRA_MIN = 0;
-    // Les max et min de radiations(mR),temperatures(Â°C) et gravites(g)
+    // Les max et min de radiations(mR),temperatures(°C) et gravites(g)
     // possibles.
 
     public static final int NB_POLITIQUES = Messages.POLITIQUES.length;

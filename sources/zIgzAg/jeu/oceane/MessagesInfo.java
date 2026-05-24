@@ -297,6 +297,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_LICENCIER_LIEUTENANT_0000 = "Licensiement: Vous venez de vous séparer de votre lieutenant {0}, ce qui vous a rapporté la somme de {1} centaures.";
 
 	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Impossible d'acheter le lieutenant {0}, vous n'avez pas assez de centaures actuellement!";
+	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Impossible d'acheter le lieutenant {0}, votre enchère a été surpassée";
 	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Le lieutenant {0} est maintenant sous vos ordres, ce qui vous a couté la somme de {1} centaures.";
 	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Vous n'avez pas pu acheter le lieutenant {0}, pour la somme de {1} centaures, car ce lieutenant demande plus de centaures.";
 

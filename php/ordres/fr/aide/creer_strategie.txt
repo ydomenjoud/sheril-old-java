@@ -1,16 +1,18 @@
 
 <h3 class="help">Aide</h3>
+<P class="important">
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
+    Attention, ne créez pas plus d'une stratégie de combat par tour, cela génèrerait des erreurs. <br /><br />
+    Utilisez cette rubrique si vous
 voulez créer une stratégie de combat.<BR>
 La procédure à suivre est la suivante : <BR>
-<ul>
-<li> Choisissez votre stratégie
- puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
-</li>
-<li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les
-les différentes cibles et le positionnement suivant le type de vaisseau.
-</li>
-</ul>
-Attention, ne créez pas plus d'une stratégie de combat par tour, cela génèrerait des erreurs.
 
+<ul>
+    <li> Choisissez votre stratégie
+        puis appuyez sur le bouton &quot;Envoyer cet ordre&quot;!
+    </li>
+    <li> Votre ordre s'affiche, et un lien est alors disponible pour que vous puissiez déterminer les
+        les différentes cibles et le positionnement suivant le type de vaisseau.
+    </li>
+</ul>
+</P>

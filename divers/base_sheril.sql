@@ -63,8 +63,8 @@ create table aa_registre
 (
     NUMERO             int          default 0  not null
         primary key,
-    LOGIN              varchar(10)             null,
-    MOT_DE_PASSE       varchar(20)             null,
+    LOGIN              varchar(50)             null,
+    MOT_DE_PASSE       varchar(50)             null,
     NOM                varchar(100)            null,
     ADRESSE            varchar(100)            null,
     RACE               int                     null,
@@ -1127,3 +1127,7 @@ CREATE TABLE `acheter_galactique` (
 
 create unique index acheter_galactique_uniq_offer
     on acheter_galactique (NUMERO, v0);
+
+-- path pour identification ordre
+ALTER TABLE transferer_centaures ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE diviser_flotte ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;

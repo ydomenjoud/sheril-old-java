@@ -795,51 +795,6 @@ public class Systeme implements Serializable {
 		return rtr;
 	}
 
-	public int[] AppartiensAquelleZone(Position pos) {
-		int[] zone = new int[Const.NOMBRE_DE_ZONES];
-		int a = 0;
-		for (int i = 0; i < Const.NOMBRE_DE_ZONES; i++) {
-			if ((pos.getY() > Const.REPARTITION_DES_ZONES[i][0])
-					&& (pos.getY() <= Const.REPARTITION_DES_ZONES[i][1])
-					&& (pos.getX() > Const.REPARTITION_DES_ZONES[i][2])
-					&& (pos.getX() <= Const.REPARTITION_DES_ZONES[i][3])) {
-				zone[a] = i;
-				a++;
-			}
-		}
-		return zone;
-	}
-
-	public String getNomZone(int[] a) {
-		String nomZone = "";
-		for (int j = 0; j < a.length; j++) {
-			int zone = 0;
-			zone = a[j];
-			nomZone = nomZone + Const.NOM_DES_ZONES[zone];
-		}
-		return nomZone;
-	}
-
-	public int getPointsDeConstruction(int numero, Gouverneur g, Possession p) {
-		int retour = 0;
-		for (int i = 0; i < pla.length; i++)
-			if ((numero == -1) || (pla[i].estProprio(numero)))
-				retour = retour + pla[i].getPointsDeConstruction();
-
-		if (g != null)
-			retour = retour + g.getVitesseModifie();
-
-		if (p.getPolitique() == Const.POLITIQUE_CONSTRUCTION)
-			retour = retour + retour / 2;
-		if (p.getPolitique() == Const.POLITIQUE_ESCLAVAGISTE)
-			retour = retour * 2;
-
-		if (p.possedeStockImportantPoste(Const.PRODUIT_ROBOT))
-			retour = retour + 5;
-
-		return retour;
-	}
-
 	public int getPointsDeConstructionModifie(int numero, Gouverneur g, Possession p, Position pos) {
 		int retour = 0;
 		for (int i = 0; i < pla.length; i++)
@@ -943,10 +898,10 @@ public class Systeme implements Serializable {
 		if (p.getPolitique() == Const.POLITIQUE_LOISIR)
 			retour = retour - retour / 5;
 
-		if (p.possedeStockImportantPoste(Const.PRODUIT_LUXE))
-			retour = retour + retour / 10;
-		if (p.possedeStockImportantPoste(Const.PRODUIT_METAUX_PRECIEUX))
-			retour = retour + retour / 10;
+//		if (p.possedeStockImportantPoste(Const.PRODUIT_LUXE))
+//			retour = retour + retour / 10;
+//		if (p.possedeStockImportantPoste(Const.PRODUIT_METAUX_PRECIEUX))
+//			retour = retour + retour / 10;
 
 		return retour;
 	}

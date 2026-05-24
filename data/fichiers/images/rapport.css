@@ -97,14 +97,18 @@
 /* poste */
 .poste .stock {
     opacity: 0.6;
+    margin-right: 5px;
 }
 .poste.small{
-    background: #480f51;
+    background: #36033e;
 }
 .poste.bonus{
-    background: #480f51;
+    background: #03412f;
 }
 .poste.bonus .stock {
+    opacity: 1;
+}
+.poste.small .stock {
     opacity: 1;
 }
 .poste.noprod .prod{

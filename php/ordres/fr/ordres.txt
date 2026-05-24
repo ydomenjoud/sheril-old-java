@@ -4,14 +4,14 @@ $code_ordres = array(
     "valider_adhesion_alliance",
     "nommer_dirigeant",
     "exclure_alliance",
-    "quitter_alliance",
+    "quitter_alliance", //5
 
     "signer_pacte",
     "rompre_pacte",
     "affecter_heros",
     "affecter_gouverneur",
     "liberer_lieutenant",
-    "enroler_lieutenant",
+    "enroler_lieutenant", // 11
 
     "changer_capitale",
     "affecter_recherche",
@@ -20,19 +20,19 @@ $code_ordres = array(
     "annuler_construction",
     "construire",
     "programmer_construction",
-    "deprogrammer_construction",
+    "deprogrammer_construction", //18
 
     "modifier_politique",
     "modifier_budget",
     "modifier_taxation_systeme",
-    "modifier_taxation_planete",
+    "modifier_taxation_planete", //22
 
     "terraformer_systeme",
     "terraformer_planete",
     "mettre_au_rebus",
 
     "decharger_cargo",
-    "charger_cargo",
+    "charger_cargo", // 27
 
     "utiliser_colonisateur",
     "larguer_mines",
@@ -137,4 +137,3 @@ $description_ordres = array(
     "Acheter sur le marché galactique",
 
     );
-?>
