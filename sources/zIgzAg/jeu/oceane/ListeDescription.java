@@ -90,7 +90,7 @@ public static final Description absorb=new Description("absorbeur","absorbeurs",
 
 
 
- public static final Description maitmil = new Description("Maîtrise militaire","","Permet de pousser le niveau d'étude de vos chasseurs d'un niveau de maitrise supplémentaire");
+ public static final Description maitmil = new Description("Maîtrise militaire","","Permet de diminuer le risque de collision entre vos vaisseaux. Dégats collision = ((N / ( 45 + 5*R)) - 2*M)² , où N=nombre de vaisseaux, R=nombre aléatoire entre 0 et 5, M=Niveau de maîtrise militaire");
  public static final Description maitde = new Description("Maîtrise du développement","","Permet principalement l'amélioration des usines de productions");
  public static final Description maitstargate = new Description("Maîtrise des étoiles","","Permet d'accroître le débit de vos portes spatiales");
 
