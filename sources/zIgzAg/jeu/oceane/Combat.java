@@ -455,14 +455,14 @@ public class Combat {
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
             tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
-            nbPopDefensive = tirAirSol(strato, listeC, nbPopDefensive, true, g,
+            nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
                     h);
             tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
 
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
 
-            nbPopDefensive = tirAirSol(sol, listeC, nbPopDefensive, false, g, h);
+            nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h);
 
             f.eliminerPertesVaisseaux();
             p.eliminerPertesBatiments();
@@ -793,7 +793,7 @@ public class Combat {
                
     }
 
-    private static int tirAirSol(ArrayList strato,
+    private static int tirAirSol(Commandant c1, ArrayList strato,
                                  ConstructionPlanetaire[] listeC, int nbPopDefensive,
                                  boolean construCible, Gouverneur g, Heros h) {
         int retour = nbPopDefensive;
@@ -812,42 +812,31 @@ public class Combat {
         for (int i = 0; i < strato.size(); i++) {
             Vaisseau v = (Vaisseau) strato.get(i);
             if (!v.estDetruit()) {
-                // On récupère le commandant du vaisseau attaquant
-                Commandant com = Univers.getCommandant(v.getVeritableProprietaire());
                 int dommagesAvant = v.getDommagesEffectues();
-                
-                // --- AJOUT : Mémoire de la population avant le tir ---
-                int popAvantCeVaisseau = retour; 
+                int popAvantCeVaisseau = retour;
                 int morts = 0;
-                
+
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
                 } else {
-                    // Pour les milices, le calcul est différent car la méthode renvoie les morts
                     morts = v.tirSurMilices(h, g, construCible);
                     retour = retour - morts;
-                    // Note : Si tirSurMilices n'incrémente pas dommagesEffectues, 
-                    // les dégâts sur la population ne seront pas dans le classement.
                 }
 
-                // --- AJOUT : Définition de impactPop ---
                 int impactPop = popAvantCeVaisseau - retour;
-    
-                // Mise à jour du classement
                 int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
-                if (degatsDuTir > 0 && com != null) {
-                    com.ajouterDegats((float)degatsDuTir);
+                if (degatsDuTir > 0) {
+                    c1.ajouterDegats((float) degatsDuTir);
                 }
 
-                //LOG
-                    SherilLogger.log(String.format(
+                SherilLogger.log(String.format(
                         "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
                         v.getPlan().getNom(),
                         degatsDuTir,
                         impactPop,
-                        com.getNomNumero(),
-                        com.getDegatsInfligesCeTour()
-                    ));
+                        c1.getNomNumero(),
+                        c1.getDegatsInfligesCeTour()
+                ));
             }
         }
 
