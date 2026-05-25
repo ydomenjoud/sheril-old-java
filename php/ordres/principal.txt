@@ -6,13 +6,10 @@ $nb_div = array_key_exists('nb_div', $_GET) ? $_GET['nb_div'] : null;
 
 if ($table === "list_ordres") {
     include "./list_ordres.php";
-} else if ($table === "division") {
+} else if ($table === "diviser_flotte") {
     include "./division.php";
-} else if ($table === "vendre_acheter_galactique") {
-    include "./marche_galactique.php";
 }  else if ($table != "") {
     include "../secure/connect.txt";
-    include "body.txt";
     include "../script/fonctions.txt";
     include "./data/$table.txt";
     include "insert.txt";
@@ -28,7 +25,6 @@ if ($table === "list_ordres") {
     include "elimine.txt";
     // puis on affiche le choix
     include "./$langue/choix/$table.txt";
-
     if (array_key_exists('previous', $_GET)) {
         $tableau = unserialize(urldecode($_GET['previous']));
         for ($i = 1; $i < sizeof($tableau); $i++) {
@@ -37,6 +33,7 @@ if ($table === "list_ordres") {
     }
 
 
+    include "body.txt";
     if ($table !== "acheter_galactique") {
         ob_start();
         include "affiche.txt";

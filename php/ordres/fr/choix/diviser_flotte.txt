@@ -1,3 +1,4 @@
+
 <FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
 <P><h1>Diviser une flotte</h1>
 <BR>

@@ -320,7 +320,7 @@ public class Technologie implements Serializable {
 
 	// les autres mÃ©thodes
 
-	public static int possedeMaitriseMilitaire(Commandant c) {
+	public static int getNiveauMaitriseMilitaire(Commandant c) {
 		int militaire = Const.EFFETS_MAITRISE_MILITAIRE[0];
 		if (c.estTechnologieConnue("maitmilI"))
 			militaire = Const.EFFETS_MAITRISE_MILITAIRE[1];

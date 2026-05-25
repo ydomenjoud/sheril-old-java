@@ -35,7 +35,7 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] DETAIL_SYSTEME={"Détail des planètes du système ","Propriétaire : ",
    "Caractéristiques de la planète","Atmosphére","Marchandise Produite",
    "Radiations","Température","Gravité","Caractéristiques d'exploitation",
-   "Révolte","NON DISPONIBLES","Production de minerai"};
+   "Révolte","NON DISPONIBLES","Potentiel extraction de minerai"};
 
  public static final String[] FLOTTES={"Rapport des flottes"," (Pour voir le détail des flottes)","Nom de la flotte",
   "Numéro de la flotte","Position","Direction","Héros présent","Directive","Puissance","Attaque spatiale",

@@ -23,6 +23,10 @@ if($v0!=""){
      $var_champ = "'$commandant'";
      for ($i = 1; $i < $num_field; $i++) {
          $inter1 = mysql_field_name($result, $i);
+         // patch pour les champs id
+         if($inter1==="id"){
+             continue;
+         }
          $inter4 = $i - 1;
          $inter2 = "v$inter4";
          $inter3 = mysql_real_escape_string($$inter2);
@@ -33,6 +37,7 @@ if($v0!=""){
      $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
      $res = mysql_query($query);
      if (!$res) {
+//         echo $query;
          echo mysql_error();
          die("  <br /><a href='index.php3?table=$table'>Retour</a>");
      }

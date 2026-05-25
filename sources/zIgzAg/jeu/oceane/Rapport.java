@@ -155,7 +155,29 @@ public class Rapport {
             BaliseHTML script = new BaliseHTML(
                     "script",
                     """
+						const marchandisesBonusList = [
+						/* "produits alimentaires" */		"+5% sur le taux d'augmentation de la population.",
+						/* "dechets" */					 	" - ",
+						/* "articles de luxe" */			"+10% sur les revenus.",
+						/* "holofilms et hololivres" */		"+1% de stabilité.",
+						/* "Systèmes de guidage" */			" - ",
+						/* "médicaments" */				 	"+10% sur le taux d'augmentation de la population.",
+						/* "logiciels" */				 	"+25% en recherche technologique.",
+						/* "robots" */				 		"+5 points de construction.",
+						/* "composants électroniques" */	"+25% en service spéciaux et contre-espionnage",
+						/* "armement et explosifs" */		"-1% de stab , +50% de défense (sans toutefois dépasser la population)",
+						/* "unité energétique" */			"-50% entretien flottes stationnées sur le système",
+						/* "pièces industrielles" */		"-10% entretien système",
+						/* "métaux précieux" */			 	"+5% sur les revenus.",
+						/* "tixium" */			 			"Ni bonus ni malus",
+						/* "lixiam" */			 			"Ni bonus ni malus",
+						/* "oxole" */			 			"Ni bonus ni malus",
+						];
+
+                                
                                 document.addEventListener("DOMContentLoaded", function () {
+
+                                
                                     document.querySelectorAll("table").forEach(table => {
                                         const input = document.createElement("input");
                                         input.setAttribute("placeholder", "");
@@ -1158,7 +1180,7 @@ public class Rapport {
 			a[ligne][2] = getTD(null, null).ajout(
 					getFont(cC[4], null).ajout(getText(t2[6])));
 			a[ligne][3] = getTD(null, null).ajout(
-					getText(p.getTemperature() + "Â°C"));
+					getText(p.getTemperature() + "°C"));
 			a[ligne][4] = getTD(null, null).ajout(
 					getFont(cC[4], null).ajout(getText(t2[7])));
 			a[ligne++][5] = getTD(null, null)
@@ -2007,8 +2029,14 @@ public class Rapport {
 				a[i + 2][15] = getTD(BaliseHTML.CENTER, null).ajout(
 						getText(Messages.POLITIQUES[(c.getPossession(p[i]))
 								.getPolitique()]));
-				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(
-						getText(c.getPossession(p[i]).getProgrammationConstruction()));
+				String constructionEnCoursCode = c.getPossession(p[i]).getProgrammationConstruction();
+				String constructionEnCours = "";
+				if(constructionEnCoursCode != null){
+					constructionEnCours = "<span class='technology'>"
+					+ Univers.getTechnologie(constructionEnCoursCode).getNomComplet(Locale.getDefault())
+					+ "</span>";
+				}
+				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
 					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme"), a)));
@@ -2314,54 +2342,63 @@ public class Rapport {
 		int bligne = 0;
 
 		// Header du tableau des planètes
-		b[bligne][0] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Nom")));
-		b[bligne][1] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Prod. Min.")));
-		b[bligne][2] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stock Min.")));
-		b[bligne][3] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Terra.")));
-		b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
-		b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stab.")));
-		b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Rév.")));
-		b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Proprio.")));
-		b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop")));
-		b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Pop Max")));
-		b[bligne++][10] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
+		int bcol = 0;
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Nom")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Minerai")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Terra.")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Stab.")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Rév.")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Proprio.")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Population")));
+		b[bligne++][bcol] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
 
 		for (int i = 0; i < planetesList.length; i++) {
 			Planete pl = planetesList[i];
-			if (pl.getProprio() == num) {
-				String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
-				b[bligne][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(nomP));
-				b[bligne][1] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.calculeRevenuMinerai())));
-				b[bligne][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getStockMinerai())));
-				b[bligne][3] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getTerraformation())));
-				b[bligne][4] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getTaxation())));
-				b[bligne][5] = getTD(BaliseHTML.CENTER, null).ajout(getText(Integer.toString(pl.getStabilite())));
-				b[bligne][6] = getTD(BaliseHTML.CENTER, null).ajout(getText(pl.getRevolte() ? "<span class=\"moins\">Oui</span>" : "Non"));
-				b[bligne][7] = getTD(BaliseHTML.CENTER, null).ajout(Univers.getCommandant(pl.getProprio()).getNomNumero());
+			boolean proprio = pl.getProprio() == num;
+			bcol = 0;
+			String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(nomP));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+				proprio ? (pl.getStockMinerai() + "(+" + pl.calculeRevenuMinerai() + ")") : "??"
+			));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+					proprio ? Integer.toString(pl.getTerraformation()) : "??"
+			));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+					proprio ? Integer.toString(pl.getTaxation()) : "??"
+			));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+					proprio ? pl.getStabilite() +"%" : "??"
+			));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
+					proprio ? (pl.getRevolte() ? "<span class=\"moins\">Oui</span>" : "Non") : "??"
+			));
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(Univers.getCommandant(pl.getProprio()).getNomNumero());
 
-				int[] racesPresentes = pl.racesPresentes();
-				if(racesPresentes.length == 0){
-					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
-					b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0")));
-				} else {
-					int race = racesPresentes[0];
-					String classeRace = "race" + race;
-					b[bligne][8] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.getPopActuelle(race)))));
-					b[bligne][9] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(getText(Integer.toString(pl.calculeMaxPop(race)))));
-				}
-				String listeB = "";
-				String[] typesB = pl.listeTypeDeBatimentsPresents();
-				if (typesB != null) {
-					for (int j = 0; j < typesB.length; j++) {
-						int nbB = pl.nombreBatimentsDeType(typesB[j]);
-						Technologie techB = Univers.getTechnologie(typesB[j]);
-						listeB += nbB + " " + (techB != null ? techB.getNomComplet(l) : typesB[j]);
-						if (j < typesB.length - 1) listeB += ", ";
-					}
-				}
-				b[bligne++][10] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
+			int[] racesPresentes = pl.racesPresentes();
+			if(racesPresentes.length == 0){
+				b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getSpan().ajout(getText("0/0")));
+			} else {
+				int race = racesPresentes[0];
+				String classeRace = "race" + race;
+				b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getSpan(classeRace).ajout(
+						pl.getPopActuelle(race)+ "/" + pl.calculeMaxPop(race)
+				));
 			}
+			String listeB = "";
+			String[] typesB = pl.listeTypeDeBatimentsPresents();
+			if (typesB != null) {
+				for (int j = 0; j < typesB.length; j++) {
+					int nbB = pl.nombreBatimentsDeType(typesB[j]);
+					Technologie techB = Univers.getTechnologie(typesB[j]);
+					listeB += nbB + " " + (techB != null ? techB.getNomComplet(l) : typesB[j]);
+					if (j < typesB.length - 1) listeB += ", ";
+				}
+			}
+			b[bligne++][bcol] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
 		}
+
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));
 
 		// poste  commercial
@@ -2389,12 +2426,7 @@ public class Rapport {
 				// stock + prod
                 int prod = s.getProductionMarchandise(c.getNumero(), marchandise);
                 int stock = c.getPossession(s.getPosition()).getQuantiteMarchandise(marchandise);
-				String className = (stock >= 100) ? "bonus" :  ((stock > 0) ? "small" : (prod == 0) ? "noprod" : "");
-                String description = "<span class=\"stock\">" + stock + "</span>" +
-						" (<span class=\"prod "+ (prod>0 ? "plus" : "")+ "\">+" + prod + "</span>)";
-				var container = getTD(BaliseHTML.CENTER, "1").ajout("class", "poste "+className).ajout(description);
-
-                posteTable[row+1][col*2 + 1] = container;
+                posteTable[row+1][col*2 + 1] = getPosteCell(stock, prod, marchandise);
 			}
 		}
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), posteTable));
@@ -2448,6 +2480,24 @@ public class Rapport {
 				Utile.transformer((Integer[]) nE.toArray(new Integer[0])), t, true));
 
 		return racine;
+	}
+
+	/**
+	 * permet de créer une cellule de tableau pour un poste avec les classes en fonction du stock et de la production
+	 */
+	public BaliseHTML getPosteCell(int stock, int prod, int marchandise) {
+		List<String> classes = new ArrayList<>(List.of("poste", "marchandise"+marchandise));
+		if(stock >= 100) classes.add("bonus");
+		else if(stock>0) classes.add("small");
+		if(prod == 0) classes.add("noprod");
+		String description = "<span class='stock'>%d</span><span class='prod %s'>(+%d)</span>".formatted(
+				stock, prod>0 ? "plus": "", prod
+		);
+
+		return getTD(BaliseHTML.CENTER, null)
+				.ajout("class", String.join(" ", classes))
+				.ajout("data-marchandise", marchandise+"")
+				.ajout(getText(description));
 	}
 
 	public BaliseHTML getPostes(Position[] p, Possession[] po, int[] n, String[] t, boolean addLink) {
@@ -2504,12 +2554,7 @@ public class Rapport {
 				Systeme s = Univers.getSysteme(p[i]);
 				int prod = s.getProductionMarchandise(n == null ? c.getNumero() : n[i], j);
 				int stock = po[i].getQuantiteMarchandise(j);
-
-				String description = "<span class=\"stock\">" + stock + "</span>" +
-						" (<span class=\"prod "+ (prod>0 ? "plus" : "")+ "\">+" + prod + "</span>)";
-
-				a[j + 1][i + 1] = getTD(BaliseHTML.CENTER, null)
-						.ajout(getText(description));
+				a[j + 1][i + 1] = getPosteCell(stock, prod, j);
 			}
 		}
 

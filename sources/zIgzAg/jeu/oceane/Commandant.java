@@ -1594,21 +1594,19 @@ public class Commandant extends Joueur implements Serializable {
 				}
 
 		// collision interne hehe :)
-		int militaire = Technologie.possedeMaitriseMilitaire(this);
+		int militaire = Technologie.getNiveauMaitriseMilitaire(this);
 
 		for (int i = 0; i < f.length; i++) {
-			int dommages = 0;
-			int degat_t = (int) (f[i].getNombreDeVaisseaux() / (45 + 5 * Univers.getInt(5)) - 2 * (militaire + 1));
+            int divider = 45 + 5 * Univers.getInt(5);
+            int degat_t = (int) Math.ceil(f[i].getNombreDeVaisseaux() * 1.0 / divider) - 2 * militaire;
 
 			if (degat_t > 0) { 
-				dommages = f[i].gererCollisionVaisseaux(Math.abs(degat_t * degat_t));
+				int dommages = f[i].gererCollisionVaisseaux(Math.abs(degat_t * degat_t));
 
 				if (dommages > 0) {
 					ajouterEvenement("EV_COMMANDANT_GESTION_FLOTTE_0006",
 							f[i].getNomNumero(numeroFlotte(f[i])),
 							f[i].getPosition(), dommages);
-					// System.out.println("collision effective : "+
-					// dommages+"/"+Math.abs(degat_t * degat_t));
 				}
 			}
 		}

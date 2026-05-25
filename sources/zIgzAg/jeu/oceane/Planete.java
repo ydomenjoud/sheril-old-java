@@ -508,13 +508,7 @@ public class Planete implements Serializable {
 			return 0;
 		}
 		
-		/**
-		 * Patch atalante +1 en production de minerai
-		 */
-		Commandant commandant = Univers.getCommandant(proprietaire);
-		int bonus = commandant.getRace() == 1 ? 1 : 0;
-		
-		int c = capaciteProductionMinerai() + bonus;
+		int c = capaciteProductionMinerai();
 		int e = capaciteExtractionMinerai();
 		int retour = 0;
 		for (int i = 0; i < c; i++)

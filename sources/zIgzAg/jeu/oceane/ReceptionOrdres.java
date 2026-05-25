@@ -475,10 +475,10 @@ public class ReceptionOrdres {
 	}
 
 	public void enroler_lieutenant(String[] o) {
-		if ((float) tInt(o[0]) <= c[iC].getCentaures())
-			if (!offresLieutenants.containsKey(o[1]))
+		if ((float) tInt(o[0]) <= c[iC].getCentaures()) {
+			if (!offresLieutenants.containsKey(o[1])) {
 				offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
-			else {
+			} else {
 				String r1 = (String) offresLieutenants.get(o[1]);
 				String s = r1.substring(0, r1.indexOf('*'));
 				String numC = r1.substring(r1.indexOf('*') + 1, r1.length());
@@ -489,10 +489,12 @@ public class ReceptionOrdres {
 				if (tInt(s) * modif1 < tInt(o[0]) * modif2)
 					offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
 				else
-					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", o[1]);
+					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", o[1]);
 			}
-		else
+		}
+		else {
 			c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", o[1]);
+		}
 	}
 
 	public void renommer_lieutenant(String[] o) {

@@ -41,30 +41,6 @@
     </nav>
 </div>
 
-<h1>Détections à jour</h1>
-<p class="important">Suite aux beugs sur les détections du tour suivant, voici les vraies détections à jour
-    <a class="button" target="_blank" href="https://sheril.pbem-france.net/fix.php">TELECHARGER DETECTION A JOUR </a>
-</p>
-<?php
-    $file = "../errata/$commandant.csv";
-    if (file_exists($file)) {
-        if (($handle = fopen($file, "r")) !== FALSE) {
-            echo '<table border="1" style="border-collapse: collapse; width: 100%;">';
-            while (($line = fgets($handle)) !== FALSE) {
-                echo '<tr>';
-                $cleanLine = str_replace('&nbsp;', ' ', $line);
-                $cols = str_getcsv($cleanLine, ";");
-                echo '<tr>';
-                foreach ($cols as $cell) {
-                    echo '<td>' . (trim($cell)) . '</td>';
-                }
-                echo '</tr>';
-            }
-            echo '</table>';
-            fclose($handle);
-        }
-    }
-?>
 <P><B><BR><BR> Les différents ordres qui vous sont accessibles sont indiqués dans la fenêtre de gauche.
 <BR><BR>
  Ils sont énumérés <FONT class="important"><i> dans l'ordre de résolution du tour</font></i>.

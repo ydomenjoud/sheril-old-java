@@ -213,19 +213,19 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
         $j++;
     }
     ?>
-    <LI><FONT class="important">Gestion des syst&#232;mes</FONT></LI>
+    <LI><FONT class="important">Syst&#232;mes</FONT></LI>
 
     <?php
-    while ($t0[$j] < 25) {
+    while ($t0[$j] < 27) {
         affiche_ordre($t0[$j], $code_ordres, $description_ordres);
         $j++;
     }
     ?>
 
-    <LI><FONT class="important">D&#233;placement</FONT></LI>
+    <LI><FONT class="important">Flottes</FONT></LI>
 
     <?php
-    while ($t0[$j] < 35) {
+    while ($t0[$j] < 36) {
         affiche_ordre($t0[$j], $code_ordres, $description_ordres);
         $j++;
     }
@@ -240,6 +240,14 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
     ?>
     <LI><FONT class="important">Divers</FONT></LI>
 
+    <?php
+    while ($j < sizeof($t0)-2) {
+        affiche_ordre($t0[$j], $code_ordres, $description_ordres);
+        $j++;
+    }
+    ?>
+
+    <LI><FONT class="important">Marché galactique</FONT></LI>
     <?php
     while ($j < sizeof($t0)) {
         affiche_ordre($t0[$j], $code_ordres, $description_ordres);
