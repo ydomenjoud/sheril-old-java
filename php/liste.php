@@ -1,151 +1,134 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/styles.css?v2">
-    <title>Sheril, le jeu de conquête galactique</title>
-    <script src="assets/js/script.js" defer></script>
-</head>
-<body>
+<?php require_once './includes/top.php'; ?>
 
-<style>
+    <style>
 
-    blockquote {
-        border-left: 2px solid #003963;
-        padding: 20px;
-    }
+        blockquote {
+            border-left: 2px solid #003963;
+            padding: 20px;
+        }
 
-    label {
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
+        label {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
 
-    form {
-        max-width: 400px;
-        margin: 0 auto;
-    }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
 
-    input[type="text"], input[type="email"], select {
-        width: 50%;
-    }
+        input[type="text"], input[type="email"], select {
+            width: 50%;
+        }
 
-    button, select, input:not([type="checkbox"]), textarea {
-        background: #001021;
-        color: #dedede;
-        border: 1px solid #a7d0f6;
-        box-shadow: 0px 1px 4px #003963;
-        cursor: pointer;
-        border-radius: 1px;
-        padding: 2px 5px;
-    }
+        button, select, input:not([type="checkbox"]), textarea {
+            background: #001021;
+            color: #dedede;
+            border: 1px solid #a7d0f6;
+            box-shadow: 0px 1px 4px #003963;
+            cursor: pointer;
+            border-radius: 1px;
+            padding: 2px 5px;
+        }
 
-    input[type=submit] {
-        background: #dedede;
-        color: black;
-        border: 1px solid #999;
-        font-weight: bold;
-        margin: 0 5px;
-    }
+        input[type=submit] {
+            background: #dedede;
+            color: black;
+            border: 1px solid #999;
+            font-weight: bold;
+            margin: 0 5px;
+        }
 
-    input[type=submit]:hover {
-        filter: brightness(150%);
-    }
+        input[type=submit]:hover {
+            filter: brightness(150%);
+        }
 
 
-    input:not([type="checkbox"]):focus,
-    select:focus,
-    textarea:focus {
-        outline: none; /* supprime le contour par défaut */
-        box-shadow: 0px 0px 16px 12px #003963;
-        transition: box-shadow 0.2s ease;
-    }
+        input:not([type="checkbox"]):focus,
+        select:focus,
+        textarea:focus {
+            outline: none; /* supprime le contour par défaut */
+            box-shadow: 0px 0px 16px 12px #003963;
+            transition: box-shadow 0.2s ease;
+        }
 
-    .race0{ color: #CC00FF;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
-    .race1 {
-        color: #0066CC;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
+        .race0{ color: #CC00FF;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        .race1 {
+            color: #0066CC;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-    .race2 {
-        color: #FFCC00;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
+        .race2 {
+            color: #FFCC00;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-    .race3 {
-        color: #CC0033;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
+        .race3 {
+            color: #CC0033;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-    .race4 {
-        color: #009933;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
+        .race4 {
+            color: #009933;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-    .race5 {
-        color: #777777;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
+        .race5 {
+            color: #777777;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-    .info {
-        display: inline-flex;
-        width: 20px;
-        height: 20px;
-        background: #EEEE;
-        border-radius: 50%;
-        color: black;
-        font-weight: bold;
-        justify-content: center;
-        align-items: center;
-    }
+        .info {
+            display: inline-flex;
+            width: 20px;
+            height: 20px;
+            background: #EEEE;
+            border-radius: 50%;
+            color: black;
+            font-weight: bold;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .pie {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        margin: 20px auto;
-        border: 2px solid #a7d0f6;
-    }
+        .pie {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 2px solid #a7d0f6;
+        }
 
-    .legend {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
-        font-size: 14px;
-    }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
 
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-    .legend-color {
-        width: 12px;
-        height: 12px;
-        border-radius: 2px;
-    }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
 
-</style>
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
-
-
-<?php require_once './includes/nav.php'; ?>
+    </style>
 <style>
     table { border-collapse: collapse; width: 80%; margin: 20px auto; font-family: Arial, sans-serif; }
     th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
@@ -154,13 +137,11 @@
     .empty { text-align: center; font-style: italic; color: #777; }
 </style>
 
-<div id="main">
     <nav>
         <a href="/liste.php">Registre actuel</a>
         <a href="/register.php?p=new">S'inscrire</a>
     </nav>
     <main>
-
         <?php
         @require_once './secure/connect.txt';
 
@@ -183,7 +164,7 @@
         $count = @mysql_num_rows($result);
 
 ?>
-        <h1>Liste des joueurs <?=$count?></h1>
+        <h1>Liste des <?=$count?> joueurs</h1>
 
         <table>
             <thead>
@@ -219,10 +200,4 @@
             </tbody>
         </table>
     </main>
-</div>
-<footer>
-
-</footer>
-
-</body>
-</html>
+<?php require_once './includes/bot.php'; ?>

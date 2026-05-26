@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <title>Sheril, les races</title>
-    <script src="assets/js/script.js" defer></script>
-</head>
-<body>
+<?php require_once './includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
-
-<?php require_once './includes/nav.php'; ?>
-<div id="main">
-    <!--    <nav>-->
-    <!--        <a href="koros.html" class="race-koro">Koros</a>-->
-    <!--        <a href="cyborg.html" class="race-cyborg"> Cyborgs</a>-->
-    <!--&lt;!&ndash;        <a href="races.html" class="race-hargon"> Hargons</a>&ndash;&gt;-->
-    <!--        <a href="races.html" class="race-atalante"> Atalantes</a>-->
-    <!--        <a href="races.html" class="race-yoksor"> Yoksors</a>-->
-    <!--        <a href="races.html" class="race-zwaia"> Zwaïas</a>-->
-    <!--        <a href="races.html" class="race-fergok"> Fergoks</a>-->
-    <!--&lt;!&ndash;        <a href="races.html" class="race-wyti"> Wytis</a>&ndash;&gt;-->
-    <!--    </nav>-->
     <main>
         <h1> Les races </h1>
 
@@ -84,10 +57,4 @@
 
 
     </main>
-</div>
-<footer>
-
-</footer>
-
-</body>
-</html>
+<?php require_once './includes/bot.php'; ?>

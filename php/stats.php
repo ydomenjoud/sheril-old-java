@@ -1,34 +1,6 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <title>Sheril, le jeu de conquête galactique</title>
-    <style>
-        #statsLink {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-            gap: 3px;
-        }
-        #main > nav div {
-            margin-top: 10px;
-        }
-    </style>
-    <script src="assets/js/script.js" defer></script>
-</head>
-<body>
+<?php require_once './includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
-
-<?php require_once './includes/nav.php'; ?>
-<div id="main">
-    <nav>
+<nav>
 
         <div>Points de victoire</div>
         <a target="stats-detail" href="./stats/general.htm">Général</a>
@@ -71,12 +43,6 @@
         <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%" src="./stats/general.htm"></iframe>
 
     </main>
-</div>
-
-<footer>
-
-</footer>
-
 <script>
     fetch('/tour.txt')
         .then(res => res.text())
@@ -93,5 +59,4 @@
         })
         .catch(err => console.error('Erreur lecture tour.txt:', err));
 </script>
-</body>
-</html>
+<?php require_once './includes/bot.php'; ?>
