@@ -1,30 +1,7 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <title>Sheril, le jeu de conquête galactique</title>
-    <script src="assets/js/script.js" defer></script>
-</head>
-<body>
+<?php require_once './includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
-
-<?php require_once './includes/nav.php'; ?>
-<div id="main">
     <nav>
     </nav>
     <main>
     </main>
-</div>
-<footer>
-
-</footer>
-
-</body>
-</html>
+<?php require_once './includes/bot.php'; ?>
