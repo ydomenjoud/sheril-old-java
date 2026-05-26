@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     async function getTourComplet() {
-        const response = await fetch('tour.txt');
+        const response = await fetch('/tour.txt');
 
         // Récupérer le contenu
         const numeroTour = await response.text();

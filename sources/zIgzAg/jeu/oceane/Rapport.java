@@ -157,10 +157,10 @@ public class Rapport {
                     """
 						const marchandisesBonusList = [
 						/* "produits alimentaires" */		"+5% sur le taux d'augmentation de la population.",
-						/* "dechets" */					 	" - ",
+						/* "dechets" */					 	"Ni bonus ni malus",
 						/* "articles de luxe" */			"+10% sur les revenus.",
 						/* "holofilms et hololivres" */		"+1% de stabilité.",
-						/* "Systèmes de guidage" */			" - ",
+						/* "Systèmes de guidage" */			"Ni bonus ni malus",
 						/* "médicaments" */				 	"+10% sur le taux d'augmentation de la population.",
 						/* "logiciels" */				 	"+25% en recherche technologique.",
 						/* "robots" */				 		"+5 points de construction.",
@@ -176,7 +176,9 @@ public class Rapport {
 
                                 
                                 document.addEventListener("DOMContentLoaded", function () {
-
+									document.querySelectorAll('[data-marchandise]').forEach(el =>
+										el.dataset.tooltip = marchandisesBonusList[el.dataset.marchandise]
+									);
                                 
                                     document.querySelectorAll("table").forEach(table => {
                                         const input = document.createElement("input");
@@ -2421,6 +2423,7 @@ public class Rapport {
 				// entête
 				posteTable[row+1][col*2] = getTD(null, null)
                         .ajout("class", "marchandise")
+						.ajout("data-marchandise", marchandise+"")
                         .ajout(getText(Utile.maj(Univers.getMessage("MARCHANDISES", marchandise,c.getLocale()))));
 
 				// stock + prod
@@ -2486,7 +2489,7 @@ public class Rapport {
 	 * permet de créer une cellule de tableau pour un poste avec les classes en fonction du stock et de la production
 	 */
 	public BaliseHTML getPosteCell(int stock, int prod, int marchandise) {
-		List<String> classes = new ArrayList<>(List.of("poste", "marchandise"+marchandise));
+		List<String> classes = new ArrayList<>(List.of("poste"));
 		if(stock >= 100) classes.add("bonus");
 		else if(stock>0) classes.add("small");
 		if(prod == 0) classes.add("noprod");
@@ -2496,7 +2499,6 @@ public class Rapport {
 
 		return getTD(BaliseHTML.CENTER, null)
 				.ajout("class", String.join(" ", classes))
-				.ajout("data-marchandise", marchandise+"")
 				.ajout(getText(description));
 	}
 
@@ -2547,6 +2549,7 @@ public class Rapport {
 			// Colonne 0 : nom de la marchandise
 			a[j + 1][0] = getTD("left", null)
 					.ajout("class", "marchandise")
+					.ajout("data-marchandise", j+"")
 					.ajout(getText(Utile.maj(Univers.getMessage("MARCHANDISES", j, c.getLocale()))));
 
 			// Une cellule par système : stock (production)
