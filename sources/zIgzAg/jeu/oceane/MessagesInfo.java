@@ -127,7 +127,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_PACTE_0000 = "{0} vient de rompre son pacte de non-agression avec vous.";
 	public static final String EV_COMMANDANT_PACTE_0001 = "Vous venez de rompre le pacte de non-agression avec le commandant {0}.";
 	public static final String EV_COMMANDANT_PACTE_0002 = "Vous venez de signer un pacte de non-agression avec le commandant numéro {0}.";
-	public static final String EV_COMMANDANT_PACTE_0003 = "Vous n'avez pas pu signer un pacte de non-agression avec le commandant numéro {0} car il ne l'a pas demanDé de son coté.";
+	public static final String EV_COMMANDANT_PACTE_0003 = "Vous n'avez pas pu signer un pacte de non-agression avec le commandant numéro {0} car il ne l'a pas demandé de son coté.";
 
 	public static final String ER_COMMANDANT_DON_CENTAURES_0000 = "Vous n'avez pas pu transmettre {0} centaures au commandant numéro {1} : vous n'êtes pas assez riche en ce moment!";
 	public static final String EV_COMMANDANT_DON_CENTAURES_0000 = "Le commandant {0} a transmis {2} centaures au commandant {1} cette semaine.";
