@@ -2,6 +2,7 @@
 require_once '../includes/top.php';
 require_once 'functions.php';
 $commandant = check_auth();
+global $base;
 
 $id_forum = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -13,7 +14,7 @@ if (!$forum) {
     die("Forum introuvable.");
 }
 
-$sql_topics = "SELECT p.*, r.NUMERO, r.RACE, r.NOM FROM _post p LEFT JOIN aa_registre r ON (r.NUMERO=p.id_author) WHERE id_forum = $id_forum AND id_parent IS NULL ORDER BY record DESC";
+$sql_topics = "SELECT p.*, r.NUMERO, r.RACE, r.NOM FROM _post p LEFT JOIN aa_registre r ON (r.NUMERO=p.id_author) WHERE id_forum = $id_forum AND (id_parent IS NULL OR id_parent = 0) ORDER BY record DESC";
 $res_topics = mysql($base, $sql_topics);
 ?>
 <style>
@@ -67,13 +68,13 @@ $res_topics = mysql($base, $sql_topics);
                                 <?php echo htmlspecialchars($topic['title']); ?>
                             </a>
                         </td>
-                        <td><?=display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE'])?></td>
-                        <td><?php echo $topic['record']; ?></td>
+                        <td><?php echo display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE']); ?></td>
+                        <td><?php echo format_date($topic['record']); ?></td>
                         <td><?php echo $count['nb']; ?></td>
                         <td>
                             <?php if ($last_topic): ?>
                                 Par <?php echo display_author($last_topic['NOM'], $last_topic['NUMERO'], $last_topic['RACE']); ?><br>
-                                Le <?php echo $last_topic['record']; ?>
+                                Le <?php echo format_date($last_topic['record']); ?>
                             <?php endif; ?>
                         </td>
                     </tr>

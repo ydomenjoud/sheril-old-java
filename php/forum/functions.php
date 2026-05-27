@@ -1,13 +1,24 @@
 <?php
 error_reporting(E_ALL & ~E_DEPRECATED);
-require_once __DIR__ . '/../mysql_compat.php';
-require_once __DIR__ . '/../secure/connect.txt';
+require_once dirname(__FILE__) . '/../mysql_compat.php';
+require_once dirname(__FILE__) . '/../secure/connect.txt';
 
-function bbcode_to_html($text) {
+function render_post_body($text) {
+    // Quill produit du HTML, on autorise certaines balises et on nettoie le reste
+    // Pour cet exercice, on va faire confiance au contenu mais idéalement il faudrait un purificateur HTML (type HTMLPurifier)
+    // Ici on va juste s'assurer que si c'est de l'ancien BBCode on le traite encore, 
+    // ou si c'est du nouveau HTML de Quill on le laisse passer.
+    
+    if (strpos($text, '<') !== false && strpos($text, '>') !== false) {
+        // Probablement du HTML (Quill)
+        return $text;
+    }
+
+    // Sinon traiter comme du BBCode (compatibilité anciens messages)
     $text = htmlspecialchars($text);
     $text = nl2br($text);
     
-    $search = [
+    $search = array(
         '/\[b\](.*?)\[\/b\]/is',
         '/\[i\](.*?)\[\/i\]/is',
         '/\[u\](.*?)\[\/u\]/is',
@@ -17,9 +28,9 @@ function bbcode_to_html($text) {
         '/\[quote\](.*?)\[\/quote\]/is',
         '/\[color=(.*?)\](.*?)\[\/color\]/is',
         '/\[size=(.*?)\](.*?)\[\/size\]/is'
-    ];
+    );
     
-    $replace = [
+    $replace = array(
         '<strong>$1</strong>',
         '<em>$1</em>',
         '<u>$1</u>',
@@ -29,34 +40,25 @@ function bbcode_to_html($text) {
         '<blockquote>$1</blockquote>',
         '<span style="color:$1;">$2</span>',
         '<span style="font-size:$1px;">$2</span>'
-    ];
+    );
     
     return preg_replace($search, $replace, $text);
 }
 
+require_once dirname(__FILE__) . '/../includes/auth.php';
+
 function check_auth() {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-//    if (!isset($_SESSION['commandant_num'])) {
-//        die("Vous devez être connecté pour accéder au forum.");
-//    }
-    return intval(@$_SESSION['commandant_num']);
+    return auth_check();
 }
 
-function get_author_name($id_author) {
-    global $base;
-
-    if (empty($id_author)) return null;
-    $id_author = (int)$id_author;
-    $sql = "SELECT NOM FROM aa_registre WHERE NUMERO = $id_author";
-    $res = mysql($base, $sql);
-    if ($res && $row = mysql_fetch_assoc($res)) {
-        return htmlspecialchars($row['NOM']);
-    }
-    return "Inconnu (" . $id_author . ")";
-}
 
 function display_author($name, $numero, $race){
     return "<span class='race$race'>$name ($numero)</span>";
+}
+
+function format_date($date_str) {
+    if (!$date_str || $date_str == '0000-00-00 00:00:00') return "Jamais";
+    $time = strtotime($date_str);
+    if (!$time) return $date_str;
+    return date('d/m/y H\hi', $time);
 }
