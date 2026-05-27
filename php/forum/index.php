@@ -35,7 +35,7 @@
                         $count = mysql_fetch_assoc($res_count);
 
                         // Dernier message du forum
-                        $sql_last = "SELECT p.record, r.NOM, r.NUMERO, r.RACE 
+                        $sql_last = "SELECT p.id_post, p.id_parent, p.record, r.NOM, r.NUMERO, r.RACE 
                                      FROM _post p 
                                      LEFT JOIN aa_registre r ON (r.NUMERO = p.id_author) 
                                      WHERE p.id_forum = $id_f 
@@ -52,9 +52,13 @@
                             </td>
                             <td><?php echo $count['nb']; ?></td>
                             <td>
-                                <?php if ($last): ?>
-                                    Par <?php echo display_author($last['NOM'], $last['NUMERO'], $last['RACE']); ?><br>
-                                    Le <?php echo format_date($last['record']); ?>
+                                <?php if ($last): 
+                                    $target_topic = $last['id_parent'] ? $last['id_parent'] : $last['id_post'];
+                                ?>
+                                    <a href="view_topic.php?id=<?php echo $target_topic; ?>#post-<?php echo $last['id_post']; ?>" style="text-decoration: none; color: inherit;">
+                                        Par <?php echo display_author($last['NOM'], $last['NUMERO'], $last['RACE']); ?><br>
+                                        Le <?php echo format_date($last['record']); ?>
+                                    </a>
                                 <?php else: ?>
                                     Aucun message
                                 <?php endif; ?>
