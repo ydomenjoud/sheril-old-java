@@ -12,6 +12,7 @@
         <?php
         require_once 'functions.php';
         $commandant = check_auth();
+        global $base;
 
         $sql_cat = "SELECT * FROM _category ORDER BY id_category ASC";
         $res_cat = mysql($base, $sql_cat);
@@ -29,7 +30,7 @@
                     $res_forum = mysql($base, $sql_forum);
                     while ($forum = mysql_fetch_assoc($res_forum)):
                         $id_f = (int)$forum['id_forum'];
-                        $sql_count = "SELECT COUNT(*) as nb FROM _post WHERE id_forum = $id_f AND id_parent IS NULL";
+                        $sql_count = "SELECT COUNT(*) as nb FROM _post WHERE id_forum = $id_f AND (id_parent IS NULL OR id_parent = 0)";
                         $res_count = mysql($base, $sql_count);
                         $count = mysql_fetch_assoc($res_count);
 
@@ -53,7 +54,7 @@
                             <td>
                                 <?php if ($last): ?>
                                     Par <?php echo display_author($last['NOM'], $last['NUMERO'], $last['RACE']); ?><br>
-                                    Le <?php echo $last['record']; ?>
+                                    Le <?php echo format_date($last['record']); ?>
                                 <?php else: ?>
                                     Aucun message
                                 <?php endif; ?>
