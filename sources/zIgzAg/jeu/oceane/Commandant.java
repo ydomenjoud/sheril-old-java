@@ -1666,7 +1666,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// gestion transfert
-		if( transfertsEnAttentes.size()>0 ){
+		if(!transfertsEnAttentes.isEmpty()){
 			int maxNbTransfert = getNombreMaximalDeTransfertEntreSysteme();
 			int max = Math.min(maxNbTransfert, transfertsEnAttentes.size());
 			
@@ -4103,7 +4103,7 @@ public class Commandant extends Joueur implements Serializable {
 		Systeme[] listeSystemes = Univers.listeSystemes(listePossession());
 		for(Systeme s:listeSystemes){
 			int nombreDePlanetePossedee = s.getNombrePlanetesPossedees(getNumero());
-			if( nombreDePlanetePossedee/s.getNombrePlanetes() > 0.75 ){
+			if( (double) nombreDePlanetePossedee /s.getNombrePlanetes() > 0.75 ){
 				max++;
 			}
 		}

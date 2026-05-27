@@ -16,7 +16,7 @@
         <a target="stats-detail" href="./stats/rayonnement.htm">Rayonnement</a>
         <a target="stats-detail" href="./stats/technologie.htm">Technologie</a>
         <a target="stats-detail" href="./stats/pop_vs.htm">Ville Spatiale</a>
-        <a target="stats-detail" href="./stats/offensive.htm">Points de victoire</a>
+        <a target="stats-detail" href="./stats/offensive.htm">Tableau de chasse</a>
 
 
         <div>Militaire:</div>
