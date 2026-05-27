@@ -46,8 +46,9 @@ if (file_exists($file_path)) {
         $numero = intval(@$_SESSION['commandant_num']);
         if ($numero) {
             echo "Connecté en tant que " . getCommandantHTML($numero);
+            echo ' | <a href="/deconnexion.php" style="color: #ccc;">Déconnexion</a>';
         } else {
-            echo "non connecté";
+            echo '<a href="/connexion.php" style="color: #ccc;">Se connecter</a>';
         }
         ?>
     </div>

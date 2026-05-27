@@ -45,14 +45,10 @@ function render_post_body($text) {
     return preg_replace($search, $replace, $text);
 }
 
+require_once dirname(__FILE__) . '/../includes/auth.php';
+
 function check_auth() {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-//    if (!isset($_SESSION['commandant_num'])) {
-//        die("Vous devez être connecté pour accéder au forum.");
-//    }
-    return intval(@$_SESSION['commandant_num']);
+    return auth_check();
 }
 
 

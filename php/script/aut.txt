@@ -1,9 +1,10 @@
 <?php
-session_start();
+require_once dirname(__FILE__) . '/../includes/auth.php';
+
 $base_registre = "aa_registre";
-$rep_temp = "../script/tmp/";
-$rep_temp2 = "../script/tmp2/";
-$nom_acces = "../script/acces.txt";
+$rep_temp = dirname(__FILE__) . "/tmp/";
+$rep_temp2 = dirname(__FILE__) . "/tmp2/";
+$nom_acces = dirname(__FILE__) . "/acces.txt";
 
 if (!isset($_COOKIE[$nom_cookie])) {
     $token = md5(uniqid(rand()));
@@ -43,6 +44,11 @@ if ((isset($x0)) and (isset($x1))) {
         exit();
     } else {
         $rf = mysql_fetch_row($result);
+        
+        // Mise à jour de la session via la nouvelle méthode
+        $_SESSION['commandant_num'] = $rf[0];
+        $_SESSION['commandant_email'] = $rf[4];
+
         $inter = "a$token";
         $filename = "$rep_temp$inter";
         $fd = fopen($filename, "w");
