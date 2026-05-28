@@ -7,9 +7,11 @@ data*/carnet.txt
 data*/commun/tour.txt
 data*/mj
 data*/stats
+data/logs
 data_v1
 rapports/
 /classes/
 /flottes_neutre.txt
 /sources/zIgzAg/jeu/oceane/TestEquilibreFinal.java
 errata
+/data/aa_inscription.sql

@@ -369,31 +369,36 @@ public class ProductionOrdres {
 
     public static void produireStatistiques() {
         int tour = Univers.getTour();
-        List<Commandant> commandants = List.of(Univers.getListeCommandantsHumains());
+        Commandant[] commandants = Univers.getListeCommandantsHumains();
+
+        // Si le tableau est vide ou nul, on s'arrête
+        if (commandants.length == 0) return;
+
+        // On prépare un seul StringBuilder pour tout le traitement
+        StringBuilder sql = new StringBuilder(512);
+        String entete = "INSERT INTO statistiques (tour, numero, puissance, centaure, planetes, pop_syst, pop_vs, reputation, rayonnement, technologie, offensif, pv) VALUES (";
 
         for (Commandant c : commandants) {
+            if (c == null) continue; // Sécurité au cas où une case du tableau serait vide
 
-            // Construction de la requête pour ce commandant
-            String sql = "INSERT INTO statistiques (" +
-                    "tour, numero, puissance, centaure, planetes, pop_syst, " +
-                    "pop_vs, reputation, rayonnement, technologie, offensif, pv" +
-                    ") VALUES (" +
-                    tour + ", " +
-                    c.getNumero() + ", " +
-                    c.getPuissance() + ", " +
-                    (int) c.getCentaures() + ", " +
-                    c.getNombrePlanetesPossedees() + ", " +
-                    c.getPopulationTotale() + ", " +
-                    c.getTotalPopulationVS() + ", " +
-                    c.getReputation() + ", " +
-                    (int) c.getMeilleurRayonnement() + ", " +
-                    c.getScoreTechnologique() + ", " +
-                    (int) c.getDegatsInfligesCeTour() + ", " +
-                    c.getPointsDeVictoire() +
-                    ");\r\n";
+            sql.setLength(0); // On vide le buffer sans réallouer de mémoire
+            sql.append(entete)
+                    .append(tour).append(", ")
+                    .append(c.getNumero()).append(", ")
+                    .append(c.getPuissance()).append(", ")
+                    .append((int) c.getCentaures()).append(", ")
+                    .append(c.getNombrePlanetesPossedees()).append(", ")
+                    .append(c.getPopulationTotale()).append(", ")
+                    .append(c.getTotalPopulationVS()).append(", ")
+                    .append(c.getReputation()).append(", ")
+                    .append((int) c.getMeilleurRayonnement()).append(", ")
+                    .append(c.getScoreTechnologique()).append(", ")
+                    .append((int) c.getDegatsInfligesCeTour()).append(", ")
+                    .append(c.getPointsDeVictoire())
+                    .append(");\r\n");
 
-            // Écriture immédiate de la ligne
-            ecrire(sql);
+            // Écriture de la ligne générée
+            ecrire(sql.toString());
         }
     }
 
