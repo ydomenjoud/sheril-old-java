@@ -140,6 +140,7 @@ body
       &:hover
         background-color: #202020
   #main
+    height: calc(100vh - 170px)
     @extend .container
     background-color: transparent
     display: flex
@@ -169,11 +170,164 @@ body
 .race5
   color: #777777
 
+.avatar
+  width: 200px
+  height: 200px
+  background-image: url('/assets/img/avatar/spriteC1.png')
+  background-repeat: no-repeat
+  display: inline-block
+  border-radius: 8px
+  &.race0
+    background-position: 0px 0px
+  &.race1
+    background-position: -200px 0px
+  &.race2
+    background-position: -400px 0px
+  &.race3
+    background-position: -600px 0px
+  &.race4
+    background-position: -800px 0px
+  &.race5
+    background-position: -1000px 0px
+
 em
   font-style: italic
 
 strong
   font-weight: bold
+
+#editor
+  height: 300px
+  background-color: #001021
+  color: #FFF
+
+.ql-toolbar
+  background-color: #eee
+
+.preview-box
+  border: 1px solid #444
+  padding: 20px
+  background-color: #1a1a1a
+  margin-top: 20px
+  display: none
+
+.btn-preview
+  background-color: #6c757d
+
+[name=title]
+  line-height: 2em
+  background-color: #001021
+  color: #FFF
+
+// Variables (en complément des précédentes)
+$color-border: #444
+$color-header-bg: #333
+$color-body-bg: #001021
+$color-text-muted: #aaa
+$color-toolbar: #eee
+
+.post-container
+  border: 1px solid $color-border
+  margin-bottom: 20px
+  display: flex
+
+  .post-header
+    background-color: $color-header-bg
+    padding: 10px
+    border-bottom: 1px solid $color-border
+    display: flex
+    flex-direction: column
+    flex: 0 0 150px
+
+  .post-body
+    padding: 20px
+    background-color: $color-body-bg
+    min-height: 100px
+    flex: 1
+
+  .post-author
+    font-weight: bold
+
+  .post-date
+    font-size: 0.8em
+    color: $color-text-muted
+
+.breadcrumb
+  margin-bottom: 20px
+
+.ql-editor
+  font-size: 16px
+  min-height: 150px
+
+.ql-toolbar
+  background-color: $color-toolbar
+
+// TABLE
+table.stylized
+  width: 100%
+  border-radius: 2px
+  border: 1px solid var(--important)
+  padding: 4px
+  background: #10001d
+  box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3)
+  font-size: 14px
+
+  &:hover
+    box-shadow: 0px 1px 10px 12px rgb(0 255 191 / 30%)
+
+  tr
+    position: relative
+
+    td,th
+      border-top: 1px solid #222
+      border-right: 1px solid #999
+      border-bottom-width: 0
+      border-left-width: 0
+
+      &:last-child
+        border-right: none
+
+
+  th
+    padding: 3px
+    position: sticky
+    top: 0px
+    background: black
+    z-index: 1000
+    font-weight: bold
+    border-collapse: collapse
+    border-spacing: 0
+    border: none
+    color: var(--accent)
+
+    // Pseudo-éléments pour le tri
+    &[data-sort-order="asc"] a::after
+      content: " ▲"
+
+    &[data-sort-order="desc"] a::after
+      content: " ▼"
+
+  td, th
+    padding: 3px
+    font-family: verdana, arial, sans-serif
+
+
+.statistiques
+  th a
+    white-space: nowrap
+    color: var(--accent)
+  td
+    white-space: nowrap
+  td.score
+    text-align: right
+    border-right: none
+
+.plus
+  color: #2bd849
+.moins
+  color: #fb5757
+
+
 
 @media screen and (max-width: 768px)
   body
@@ -192,3 +346,11 @@ strong
 
         section
           clear: both
+      .post-container
+        flex-direction: column
+        .post-header
+          flex: 0 0 auto
+          flex-direction: row
+          justify-content: space-between
+          .avatar
+            display: none

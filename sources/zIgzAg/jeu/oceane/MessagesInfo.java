@@ -90,7 +90,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String COMBAT_SYSTEME_0012 = "Votre flotte {0} vient d'éradiquer la planète {1} du système {2} appartenant au commandant {3}.";
 	public static final String COMBAT_SYSTEME_0013 = "La flotte {0} du commandant {3} vient d'éradiquer votre planète {1} du système {2}.";
 	public static final String COMBAT_SYSTEME_0014 = "Votre flotte {0} n'a pu combattre car la planètes cible appartient à un commandant présent dans vos alliances ou avec lesquel vous avez un pacte de non-agression.";
-	public static final String COMBAT_SYSTEME_0015 = "Votre flotte {0} n'a pu combattre car elle n'a pas la puissance minimale requise pour attaquer une planète.";
+	public static final String COMBAT_SYSTEME_0015 = "Votre flotte {0} (puissance: {1}) n'a pas pu combattre car elle n'a pas la puissance minimale ({2}) requise pour attaquer une planète.";
 
 	public static final String ER_COMMANDANT_ALLIANCE_0000 = "Impossible de créer l'alliance {0}. Vous ne disposez que de {1} centaures en ce moment : ce n'est pas suffisant!";
 	public static final String ER_COMMANDANT_ALLIANCE_0001 = "Impossible de créer l'alliance {0}. Vous êtes déjà membre du nombre maximal d'alliances permis.";
@@ -217,6 +217,7 @@ public class MessagesInfo extends MessagesAbstraits {
 
 	public static final String ER_COMMANDANT_MISSION_SPECIALE_0000 = "Impossible pour vos services secrets d'effectuer une mission spéciale à la position {0} : il n'y a pas de système ici.";
 	public static final String ER_COMMANDANT_MISSION_SPECIALE_0001 = "Impossible pour vos services secrets d'effectuer une mission spéciale sur la planète numéro {1} du système {0} : cette planète n'existe pas.";
+	public static final String ER_COMMANDANT_MISSION_SPECIALE_0002 = "Impossible pour vos services secrets d'effectuer plus que trois missions spéciales par tour";
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0000 = "Vos services secrets viennent d'échouer dans leur mission {2} sur la planète {1} du système {0}.";
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0001 = "Un rapport de vos services de contre-espionnage : les services secrets du commandant {3} viennent d'échouer dans leur mission {2} sur votre planète {1} du système {0}.";
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0002 = "Vos services secrets vous informent que le commandant {0} ne possède pas de technologie inconnues de vos scientifiques ( Possiblité non exclue de trop faibles moyens employés).";
@@ -298,6 +299,7 @@ public class MessagesInfo extends MessagesAbstraits {
 
 	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Impossible d'acheter le lieutenant {0}, vous n'avez pas assez de centaures actuellement!";
 	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Impossible d'acheter le lieutenant {0}, votre enchère a été surpassée";
+	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0002 = "Impossible d'acheter plusieurs lieutenants par tour";
 	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Le lieutenant {0} est maintenant sous vos ordres, ce qui vous a couté la somme de {1} centaures.";
 	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Vous n'avez pas pu acheter le lieutenant {0}, pour la somme de {1} centaures, car ce lieutenant demande plus de centaures.";
 
@@ -318,6 +320,8 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_CREER_PLAN_0001 = "Vous venez de supprimer votre plan de vaisseau {0}.";
 
 	public static final String ER_COMMANDANT_CREER_STRATEGIE_0000 = "Impossible de créer la stratégie de nom {0} : Vous avez déjà une stratégie de ce nom!";
+	public static final String ER_COMMANDANT_CREER_STRATEGIE_0001 = "Impossible de créer la stratégie de nom {0} : Vous ne connaissez pas la technologie {1} !";
+	public static final String ER_COMMANDANT_CREER_STRATEGIE_0002 = "Impossible de créer une autre stratégie : Vous ne pouvez pas créer plus d'une stratégie par tour";
 	public static final String EV_COMMANDANT_CREER_STRATEGIE_0000 = "Vous venez de créer la stratégie de combat de nom {0}.";
 
 	public static final String ER_COMMANDANT_DON_STRATEGIE_0000 = "Impossible de donner la stratégie de combat {1} au commandant {0} : ce commandant possède déjà une stratégie de ce nom!";

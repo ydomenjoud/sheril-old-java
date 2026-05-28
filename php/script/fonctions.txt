@@ -248,3 +248,6 @@ function getCommandantHTML($num) {
     }
     return "Inconnu (" . $num . ")";
 }
+function display_author($name, $numero, $race){
+    return "<span class='race$race'>$name ($numero)</span>";
+}

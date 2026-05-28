@@ -1666,7 +1666,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// gestion transfert
-		if( transfertsEnAttentes.size()>0 ){
+		if(!transfertsEnAttentes.isEmpty()){
 			int maxNbTransfert = getNombreMaximalDeTransfertEntreSysteme();
 			int max = Math.min(maxNbTransfert, transfertsEnAttentes.size());
 			
@@ -3821,6 +3821,13 @@ public class Commandant extends Joueur implements Serializable {
 			int ciblePrincipale, String[] vaisseau, int[][] pos,
 			int[][] tailleCible) {
 
+        // est ce que le commandant connait la maitrise nécessaire ?
+        if(!estTechnologieConnue("stratcoI")){
+            return ajouterErreur("ER_COMMANDANT_CREER_STRATEGIE_0001",
+                    Univers.getTechnologie("stratcoI").getNomHTML(getLocale())
+            );
+        }
+
 		code = Univers.supprimerAccent(code);
 		
 		if (connaitStrategie(code))
@@ -4103,7 +4110,7 @@ public class Commandant extends Joueur implements Serializable {
 		Systeme[] listeSystemes = Univers.listeSystemes(listePossession());
 		for(Systeme s:listeSystemes){
 			int nombreDePlanetePossedee = s.getNombrePlanetesPossedees(getNumero());
-			if( nombreDePlanetePossedee/s.getNombrePlanetes() > 0.75 ){
+			if( (double) nombreDePlanetePossedee /s.getNombrePlanetes() > 0.75 ){
 				max++;
 			}
 		}
@@ -4144,6 +4151,15 @@ public class Commandant extends Joueur implements Serializable {
 		return Const.EFFETS_MAITRISE_SPATIALE[getNiveauMaxMaitriseSpatiale()];
 	}
 
+    public float getMeilleurRayonnement(){
+        return domaine.keySet().stream()
+                .map(pos -> Univers.getSysteme(pos))     // Transforme la position en Système
+                .filter(Objects::nonNull)                // Sécurité : ignore les systèmes nuls
+                .map(s -> s.getInfluenceRayonnement(numero)) // Récupère l'influence
+                .max(Float::compare)                     // Trouve le max
+                .orElse(0.0f);                           // Valeur par défaut si la liste est vide
+    }
+
 	public Object[] getInfosMeilleurRayonnement() {
 	    float maxRayonnement = -1f;
 	    String nomSysteme = "N/A";
@@ -4167,7 +4183,8 @@ public class Commandant extends Joueur implements Serializable {
 	            // On ne garde que le score le plus élevé
 	            if (influence > maxRayonnement) {
 	                maxRayonnement = influence;
-					nomSysteme = s.getNom();
+                    // on n'affiche pas le nom dans la liste générale
+//					nomSysteme = s.getNom();
 	            }
 	        }
 	    }

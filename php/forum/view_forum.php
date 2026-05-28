@@ -28,8 +28,7 @@ $res_topics = mysql($base, $sql_topics);
         <div class="breadcrumb">
             <a href="index.php">Accueil Forum</a> &raquo; <?php echo htmlspecialchars($forum['name']); ?>
         </div>
-        
-        <h1><?php echo htmlspecialchars($forum['name']); ?></h1>
+
         <p><?php echo htmlspecialchars($forum['description']); ?></p>
 
         <?php if(check_auth()> 0){ ?>
@@ -54,7 +53,7 @@ $res_topics = mysql($base, $sql_topics);
                     $count = mysql_fetch_assoc($res_count);
 
                     // Dernier message du sujet
-                    $sql_last_topic = "SELECT p.record, r.NOM, r.NUMERO, r.RACE 
+                    $sql_last_topic = "SELECT p.id_post, p.id_parent, p.record, r.NOM, r.NUMERO, r.RACE 
                                        FROM _post p 
                                        LEFT JOIN aa_registre r ON (r.NUMERO = p.id_author) 
                                        WHERE p.id_post = $id_t OR p.id_parent = $id_t 
@@ -72,9 +71,13 @@ $res_topics = mysql($base, $sql_topics);
                         <td><?php echo format_date($topic['record']); ?></td>
                         <td><?php echo $count['nb']; ?></td>
                         <td>
-                            <?php if ($last_topic): ?>
-                                Par <?php echo display_author($last_topic['NOM'], $last_topic['NUMERO'], $last_topic['RACE']); ?><br>
-                                Le <?php echo format_date($last_topic['record']); ?>
+                            <?php if ($last_topic): 
+                                $target_topic = $last_topic['id_parent'] ? $last_topic['id_parent'] : $last_topic['id_post'];
+                            ?>
+                                <a href="view_topic.php?id=<?php echo $target_topic; ?>#post-<?php echo $last_topic['id_post']; ?>" style="text-decoration: none; color: inherit;">
+                                    Par <?php echo display_author($last_topic['NOM'], $last_topic['NUMERO'], $last_topic['RACE']); ?><br>
+                                    Le <?php echo format_date($last_topic['record']); ?>
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>

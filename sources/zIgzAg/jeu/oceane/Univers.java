@@ -1453,7 +1453,7 @@ public class Univers {
 
 	public void charger() {
 		ecrireDansCarnetDeBord("Ouverture session  : " + descriptionSession);
-		chargerNumeroTour();
+		// chargerNumeroTour();
 		if (descriptionSession.equals(SESSION_MYSQL))
 			chargerMysql();
 		else if (complet) {

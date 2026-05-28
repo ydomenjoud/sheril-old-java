@@ -37,11 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Mode Création
         $sql = "INSERT INTO _post (id_forum, id_parent, id_author, title, body, record) 
                 VALUES ($id_forum, $id_parent, $id_author, '$title', '$body', '$record')";
-        
         $res = mysql($base, $sql);
         
         if ($res) {
-            $id_new = mysql_insert_id($GLOBALS['___mysql_default_link']);
+            $id_new = mysql_insert_id();
             if ($id_parent_val === "NULL" || (int)$id_parent_val === 0) {
                 header("Location: view_topic.php?id=" . $id_new);
             } else {
@@ -85,13 +84,6 @@ if (!$forum) {
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
-<style>
-    #editor { height: 300px; background-color: #fff; color: #000; }
-    .ql-toolbar { background-color: #eee; }
-    .preview-box { border: 1px solid #444; padding: 20px; background-color: #1a1a1a; margin-top: 20px; display: none; }
-    .btn-preview { background-color: #6c757d; }
-</style>
-
 <main style="max-width: 100%">
     <div id="container">
         <div class="breadcrumb">
@@ -100,8 +92,7 @@ if (!$forum) {
             <?php echo $post_to_edit ? "Editer un post" : ($id_parent ? "Répondre" : "Nouveau sujet"); ?>
         </div>
         
-        <h1><?php echo $post_to_edit ? "Editer" : ($id_parent ? "Répondre" : "Nouveau sujet dans " . htmlspecialchars($forum['name'])); ?></h1>
-        
+
         <form id="post-form" action="post.php" method="post">
             <input type="hidden" name="id_forum" value="<?php echo $id_forum; ?>">
             <input type="hidden" name="id_parent" value="<?php echo $id_parent; ?>">
@@ -146,7 +137,7 @@ if (!$forum) {
             toolbar: [
                 [{ 'header': [1, 2, 3, false] }],
                 ['bold', 'italic', 'underline', 'strike'],
-                ['link', 'blockquote', 'code-block', 'image'],
+                ['link', 'blockquote', 'code-block'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                 [{ 'color': [] }, { 'background': [] }],
                 ['clean']

@@ -400,7 +400,10 @@ public class Combat {
 
         if (f.getPuissance() < Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE) {
             c1.ajouterEvenement("COMBAT_SYSTEME_0015",
-                    f.getNomNumero(numFlotte));
+                    f.getNomNumero(numFlotte),
+                    f.getPuissance(),
+                    Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE
+                    );
             return -1;
         }
 
@@ -771,8 +774,8 @@ public class Combat {
                     "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
                     cible.getPlan().getNom(),
                     degatsDuTir,
-                    defenseur.getNomNumero(),
-                    defenseur.getDegatsInfligesCeTour()
+                      defenseur != null ? defenseur.getNomNumerobis() : "",
+                      defenseur != null ? defenseur.getDegatsInfligesCeTour() : 0
                 ));
             }
         }
@@ -785,11 +788,11 @@ public class Combat {
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
-        if (sol.size() > 0) {
+        if (!sol.isEmpty()) {
             SherilLogger.log("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
-        }
             for (int i = 0; i < nbTirs; i++)
                 tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
+        }
                
     }
 
@@ -834,7 +837,7 @@ public class Combat {
                         v.getPlan().getNom(),
                         degatsDuTir,
                         impactPop,
-                        c1.getNomNumero(),
+                        c1.getNomNumerobis(),
                         c1.getDegatsInfligesCeTour()
                 ));
             }
@@ -1493,7 +1496,7 @@ public class Combat {
                             cle.toString(),
                             c.getPlan().getNom(),
                             degatsDuTir,
-                            com.getNomNumero(),
+                            com.getNomNumerobis(),
                             com.getDegatsInfligesCeTour()
                         ));
                     //--------------

@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.stream.Stream;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -195,13 +196,13 @@ public class ProductionOrdres {
     }
 
     public static void ecrire(String entree) {
-
-        // Integer num = new Integer((c == null ? 0 : c.getNumero() / 100));
+        String file = Chemin.DONNEES_ORDRES + ".txt";
         try {
-            BufferedWriter fluxE = new BufferedWriter(new FileWriter(Chemin.DONNEES_ORDRES + ".txt", true));
+            BufferedWriter fluxE = new BufferedWriter(new FileWriter(file, true));
             fluxE.write(entree, 0, entree.length());
             fluxE.close();
         } catch (IOException e) {
+            System.err.println("Erreur d'écriture dans " + file);
             e.printStackTrace();
         }
     }
@@ -361,6 +362,47 @@ public class ProductionOrdres {
         ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
             new String[]{"ID_OFFRE", "VENDEUR", "CODE", "QUANTITE", "PRIX"}, 
             new Object[][]{ids, vendeurs, codes, quantites, prix}));
+
+
+        produireStatistiques();
+    }
+
+    public static void produireStatistiques() {
+        int tour = Univers.getTour();
+        Commandant[] commandants = Univers.getListeCommandantsHumains();
+
+        // Si le tableau est vide ou nul, on s'arrête
+        if (commandants.length == 0) return;
+
+        // On prépare un seul StringBuilder pour tout le traitement
+        StringBuilder sql = new StringBuilder(512);
+        String entete = "INSERT INTO _statistiques (" +
+                "tour, numero, puissance, centaure, planetes, pop_syst, pop_vs, reputation, " +
+                "rayonnement, technologie, offensif, pv" +
+                ") VALUES (";
+
+        for (Commandant c : commandants) {
+            if (c == null) continue; // Sécurité au cas où une case du tableau serait vide
+
+            sql.setLength(0); // On vide le buffer sans réallouer de mémoire
+            sql.append(entete)
+                    .append(tour).append(", ")
+                    .append(c.getNumero()).append(", ")
+                    .append(c.getPuissance()).append(", ")
+                    .append((int) c.getCentaures()).append(", ")
+                    .append(c.getNombrePlanetesPossedees()).append(", ")
+                    .append(c.getPopulationTotale()).append(", ")
+                    .append(c.getTotalPopulationVS()).append(", ")
+                    .append(c.getReputation()).append(", ")
+                    .append((int) c.getMeilleurRayonnement()).append(", ")
+                    .append(c.getScoreTechnologique()).append(", ")
+                    .append((int) c.getDegatsInfligesCeTour()).append(", ")
+                    .append(c.getPointsDeVictoire())
+                    .append(");\r\n");
+
+            // Écriture de la ligne générée
+            ecrire(sql.toString());
+        }
     }
 
 	public static void produireRegistre(int[] listeC) {

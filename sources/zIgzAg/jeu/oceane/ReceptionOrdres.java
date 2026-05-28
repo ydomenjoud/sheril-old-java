@@ -192,12 +192,28 @@ public class ReceptionOrdres {
 			for (iC = 0; iC < c.length; iC++) {
 				String[][] r = getOrdres();
 				if (r.length != 0) {
-					if (index == Const.ORDRE_AFFECTER_RECHERCHE)
-						affectationRecherches = new HashMap();
-					if (index == Const.ORDRE_MODIFIER_BUDGET)
-						budget = new HashMap();
+					// initialisation
+					if (index == Const.ORDRE_AFFECTER_RECHERCHE) { affectationRecherches = new HashMap(); }
+					if (index == Const.ORDRE_MODIFIER_BUDGET) { budget = new HashMap(); }
+
+					// traitements individuels
 					Object[] inter = new Object[1];
 					for (int j = 0; j < r.length; j++) {
+						// on va vérifier les ordres limités
+						if(index == Const.ORDRE_ENROLER_LIEUTENANT && j > 0){
+							c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0002");
+							continue;
+						}
+						if(index == Const.ORDRE_CREER_STRATEGIE && j > 0){
+							c[iC].ajouterErreur("ER_COMMANDANT_CREER_STRATEGIE_0002");
+							continue;
+						}
+						if(index == Const.ORDRE_SERVICES_SPECIAUX && j > 2){
+							c[iC].ajouterErreur("ER_COMMANDANT_MISSION_SPECIALE_0002");
+							continue;
+						}
+
+						// traitement individuel de l'ordre
 						inter[0] = r[j];
 						if (c[iC].getModeDetailOrdresPasses())
 							c[iC].ajouterOrdres("ORDRE_"
@@ -205,12 +221,14 @@ public class ReceptionOrdres {
 						m.invoke(this, inter);
 						ordresRendus.put(new Integer(c[iC].getNumero()), "");
 					}
-					if (index == Const.ORDRE_AFFECTER_RECHERCHE)
+
+					if (index == Const.ORDRE_AFFECTER_RECHERCHE){
 						c[iC].affecterDomainesDeRecherche(
 								(String[]) affectationRecherches.keySet()
 										.toArray(new String[0]),
 								Utile.transformer((Integer[]) affectationRecherches
 										.values().toArray(new Integer[0])));
+					}
 					if (index == Const.ORDRE_MODIFIER_BUDGET) {
 						String[] po = (String[]) budget.keySet().toArray(
 								new String[0]);
@@ -482,14 +500,17 @@ public class ReceptionOrdres {
 				String r1 = (String) offresLieutenants.get(o[1]);
 				String s = r1.substring(0, r1.indexOf('*'));
 				String numC = r1.substring(r1.indexOf('*') + 1, r1.length());
-				int modif1 = (Univers.getCommandant(tInt(numC))
-						.listeLieutenants().length > 0 ? 1 : 2);
+				Commandant ancienEncherisseur = Univers.getCommandant(tInt(numC));
+				int modif1 = ancienEncherisseur.listeLieutenants().length > 0 ? 1 : 2;
 				int modif2 = (c[iC].listeLieutenants().length > 0 ? 1 : 2);
 
-				if (tInt(s) * modif1 < tInt(o[0]) * modif2)
+				if (tInt(s) * modif1 < tInt(o[0]) * modif2) {
 					offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
-				else
+					ancienEncherisseur.ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", o[1]);
+				}
+				else {
 					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", o[1]);
+				}
 			}
 		}
 		else {

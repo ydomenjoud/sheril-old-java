@@ -24,16 +24,7 @@ $forum = mysql_fetch_assoc($res_forum);
 $sql_replies = "SELECT p.*, r.NUMERO, r.RACE, r.NOM FROM _post p LEFT JOIN aa_registre r ON (r.NUMERO=p.id_author) WHERE id_parent = $id_topic ORDER BY record ASC";
 $res_replies = mysql($base, $sql_replies);
 ?>
-<style>
-    .post-container { border: 1px solid #444; margin-bottom: 20px; }
-    .post-header { background-color: #333; padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; }
-    .post-body { padding: 20px; background-color: #1a1a1a; min-height: 100px; }
-    .post-author { font-weight: bold; }
-    .post-date { font-size: 0.8em; color: #aaa; }
-    .breadcrumb { margin-bottom: 20px; }
-    .ql-editor { font-size: 16px; min-height: 150px; }
-    .ql-toolbar { background-color: #eee; }
-</style>
+
 <main style="max-width: 100%">
         <div class="breadcrumb">
             <a href="index.php">Accueil Forum</a> &raquo; 
@@ -44,9 +35,12 @@ $res_replies = mysql($base, $sql_replies);
         <h1><?php echo htmlspecialchars($topic['title']); ?></h1>
         
         <!-- Post initial -->
-        <div class="post-container">
+        <div class="post-container" id="post-<?php echo $topic['id_post']; ?>">
             <div class="post-header">
-                <span class="post-author"><?php echo display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE']); ?></span>
+                <span class="post-author">
+                    <?php echo display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE']); ?>
+                    <div class="avatar race<?=$topic['RACE']?>"></div>
+                </span>
                 <span class="post-date">
                     <?php if ((int)$topic['id_author'] === (int)$commandant): ?>
                         <a href="post.php?edit=<?php echo $topic['id_post']; ?>" style="color: #007bff; margin-right: 10px;">Editer</a>
@@ -61,7 +55,7 @@ $res_replies = mysql($base, $sql_replies);
         
         <!-- Réponses -->
         <?php while ($reply = mysql_fetch_assoc($res_replies)): ?>
-            <div class="post-container">
+            <div class="post-container" id="post-<?php echo $reply['id_post']; ?>">
                 <div class="post-header">
                     <span class="post-author"><?php echo display_author($reply['NOM'], $reply['NUMERO'], $reply['RACE']); ?></span>
                     <span class="post-date">
@@ -85,10 +79,7 @@ $res_replies = mysql($base, $sql_replies);
         <!-- Quill 2.0.3 resources -->
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-        <style>
-            #editor { height: 200px; background-color: #fff; color: #000; }
-            .preview-box { border: 1px solid #444; padding: 20px; background-color: #1a1a1a; margin-top: 20px; display: none; }
-        </style>
+
 
         <form id="post-form" action="post.php" method="post">
             <input type="hidden" name="id_parent" value="<?php echo $id_topic; ?>">
