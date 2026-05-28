@@ -3821,6 +3821,13 @@ public class Commandant extends Joueur implements Serializable {
 			int ciblePrincipale, String[] vaisseau, int[][] pos,
 			int[][] tailleCible) {
 
+        // est ce que le commandant connait la maitrise nécessaire ?
+        if(!estTechnologieConnue("stratcoI")){
+            return ajouterErreur("ER_COMMANDANT_CREER_STRATEGIE_0001",
+                    Univers.getTechnologie("stratcoI").getNomHTML(getLocale())
+            );
+        }
+
 		code = Univers.supprimerAccent(code);
 		
 		if (connaitStrategie(code))

@@ -400,7 +400,10 @@ public class Combat {
 
         if (f.getPuissance() < Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE) {
             c1.ajouterEvenement("COMBAT_SYSTEME_0015",
-                    f.getNomNumero(numFlotte));
+                    f.getNomNumero(numFlotte),
+                    f.getPuissance(),
+                    Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE
+                    );
             return -1;
         }
 
