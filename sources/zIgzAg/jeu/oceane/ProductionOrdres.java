@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.stream.Stream;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -361,6 +362,39 @@ public class ProductionOrdres {
         ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
             new String[]{"ID_OFFRE", "VENDEUR", "CODE", "QUANTITE", "PRIX"}, 
             new Object[][]{ids, vendeurs, codes, quantites, prix}));
+
+
+        produireStatistiques();
+    }
+
+    public static void produireStatistiques() {
+        int tour = Univers.getTour();
+        List<Commandant> commandants = List.of(Univers.getListeCommandantsHumains());
+
+        for (Commandant c : commandants) {
+
+            // Construction de la requête pour ce commandant
+            String sql = "INSERT INTO statistiques (" +
+                    "tour, numero, puissance, centaure, planetes, pop_syst, " +
+                    "pop_vs, reputation, rayonnement, technologie, offensif, pv" +
+                    ") VALUES (" +
+                    tour + ", " +
+                    c.getNumero() + ", " +
+                    c.getPuissance() + ", " +
+                    (int) c.getCentaures() + ", " +
+                    c.getNombrePlanetesPossedees() + ", " +
+                    c.getPopulationTotale() + ", " +
+                    c.getTotalPopulationVS() + ", " +
+                    c.getReputation() + ", " +
+                    (int) c.getMeilleurRayonnement() + ", " +
+                    c.getScoreTechnologique() + ", " +
+                    (int) c.getDegatsInfligesCeTour() + ", " +
+                    c.getPointsDeVictoire() +
+                    ");\r\n";
+
+            // Écriture immédiate de la ligne
+            ecrire(sql);
+        }
     }
 
 	public static void produireRegistre(int[] listeC) {

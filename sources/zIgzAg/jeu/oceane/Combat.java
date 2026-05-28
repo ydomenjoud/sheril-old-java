@@ -774,8 +774,8 @@ public class Combat {
                     "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
                     cible.getPlan().getNom(),
                     degatsDuTir,
-                    defenseur.getNomNumero(),
-                    defenseur.getDegatsInfligesCeTour()
+                      defenseur != null ? defenseur.getNomNumerobis() : "",
+                      defenseur != null ? defenseur.getDegatsInfligesCeTour() : 0
                 ));
             }
         }
@@ -837,7 +837,7 @@ public class Combat {
                         v.getPlan().getNom(),
                         degatsDuTir,
                         impactPop,
-                        c1.getNomNumero(),
+                        c1.getNomNumerobis(),
                         c1.getDegatsInfligesCeTour()
                 ));
             }
@@ -1496,7 +1496,7 @@ public class Combat {
                             cle.toString(),
                             c.getPlan().getNom(),
                             degatsDuTir,
-                            com.getNomNumero(),
+                            com.getNomNumerobis(),
                             com.getDegatsInfligesCeTour()
                         ));
                     //--------------

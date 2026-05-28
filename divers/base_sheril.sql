@@ -1128,6 +1128,38 @@ CREATE TABLE `acheter_galactique` (
 create unique index acheter_galactique_uniq_offer
     on acheter_galactique (NUMERO, v0);
 
--- path pour identification ordre
+-- id pour identification ordre
 ALTER TABLE transferer_centaures ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
 ALTER TABLE diviser_flotte ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+
+-- gestion des statistiques
+CREATE TABLE IF NOT EXISTS statistiques (
+                                            id_stat BIGINT NOT NULL AUTO_INCREMENT,
+                                            tour INT NOT NULL,
+                                            numero INT NOT NULL,
+                                            puissance INT NOT NULL DEFAULT 0,
+                                            centaure INT NOT NULL DEFAULT 0,
+                                            planetes INT NOT NULL DEFAULT 0,
+                                            pop_syst INT NOT NULL DEFAULT 0,
+                                            pop_vs INT NOT NULL DEFAULT 0,
+                                            reputation INT NOT NULL DEFAULT 0,
+                                            rayonnement INT NOT NULL DEFAULT 0,
+                                            technologie INT NOT NULL DEFAULT 0,
+                                            offensif INT NOT NULL DEFAULT 0,
+                                            pv INT NOT NULL DEFAULT 0,
+                                            PRIMARY KEY (id_stat),
+    -- Empêche les doublons si le script est relancé
+    UNIQUE KEY unq_tour_commandant (tour, numero)
+    ) ENGINE=InnoDB;
+
+---
+--- INDEX POUR LES CALCULS ET CLASSEMENTS
+---
+
+-- Accélère la comparaison entre deux tours pour un même commandant
+CREATE INDEX idx_progression ON statistiques (numero, tour);
+
+-- Accélère les classements par tour (le tour en premier est crucial)
+CREATE INDEX idx_classement_puissance ON statistiques (tour, puissance);
+CREATE INDEX idx_classement_pv ON statistiques (tour, pv);
+CREATE INDEX idx_classement_techno ON statistiques (tour, technologie);

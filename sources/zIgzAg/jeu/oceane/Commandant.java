@@ -4151,6 +4151,15 @@ public class Commandant extends Joueur implements Serializable {
 		return Const.EFFETS_MAITRISE_SPATIALE[getNiveauMaxMaitriseSpatiale()];
 	}
 
+    public float getMeilleurRayonnement(){
+        return domaine.keySet().stream()
+                .map(pos -> Univers.getSysteme(pos))     // Transforme la position en Système
+                .filter(Objects::nonNull)                // Sécurité : ignore les systèmes nuls
+                .map(s -> s.getInfluenceRayonnement(numero)) // Récupère l'influence
+                .max(Float::compare)                     // Trouve le max
+                .orElse(0.0f);                           // Valeur par défaut si la liste est vide
+    }
+
 	public Object[] getInfosMeilleurRayonnement() {
 	    float maxRayonnement = -1f;
 	    String nomSysteme = "N/A";
@@ -4174,7 +4183,8 @@ public class Commandant extends Joueur implements Serializable {
 	            // On ne garde que le score le plus élevé
 	            if (influence > maxRayonnement) {
 	                maxRayonnement = influence;
-					nomSysteme = s.getNom();
+                    // on n'affiche pas le nom dans la liste générale
+//					nomSysteme = s.getNom();
 	            }
 	        }
 	    }
