@@ -2,21 +2,11 @@
 
 <nav>
 
+        <div>Statistiques</div>
+        <a target="stats-detail" href="./stats_general.php">Classement Général</a>
         <div>Points de victoire</div>
-        <a target="stats-detail" href="./stats/general.htm">Général</a>
         <a target="stats-detail" href="./stats/points_victoire.htm">Point de victoire</a>
         <a target="stats-detail" href="./stats/points_victoire_detail.htm">Point de victoire ( détail )</a>
-
-        <div>Classements:</div>
-        <a target="stats-detail" href="./stats/puissance.htm">Puissance</a>
-        <a target="stats-detail" href="./stats/centaures.htm">Finance</a>
-        <a target="stats-detail" href="./stats/planetes.htm">Possession</a>
-        <a target="stats-detail" href="./stats/pop.htm">Population</a>
-        <a target="stats-detail" href="./stats/reputation.htm">Réputation</a>
-        <a target="stats-detail" href="./stats/rayonnement.htm">Rayonnement</a>
-        <a target="stats-detail" href="./stats/technologie.htm">Technologie</a>
-        <a target="stats-detail" href="./stats/pop_vs.htm">Ville Spatiale</a>
-        <a target="stats-detail" href="./stats/offensive.htm">Tableau de chasse</a>
 
 
         <div>Militaire:</div>
@@ -40,7 +30,7 @@
     </nav>
     <main>
 
-        <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%" src="./stats/general.htm"></iframe>
+        <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%" src="./stats_general.php"></iframe>
 
     </main>
 <script>

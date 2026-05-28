@@ -4,18 +4,11 @@
 
 package zIgzAg.jeu.oceane;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import zIgzAg.html.BaliseHTML;
 import zIgzAg.html.DocumentHTML;
+import zIgzAg.utile.Copie;
 
 public class Stats {
 
@@ -1035,24 +1028,33 @@ public class Stats {
 		// Génération du fichier HTML
 		ecrireRayonnement(classementGeneral, top3Final, l);
 
+		// copie du répertoire des images pour voir bien les stats
+		 Copie.copieRepertoire(Chemin.RAPPORTS_IMAGES,Chemin.REPERTOIRE_DU_TOUR+"images/");
+
+	}
+
+	private static String formater(
+			Map<PointDeVictoireCategorie, StatCategorie> stats,
+			PointDeVictoireCategorie categorie
+	) {
+		var s = stats.get(categorie);
+		if (s == null || s.getPosition() == 0) return "-";
+
+		int pos = s.getPosition();
+		// Gestion du suffixe : "er" pour 1, "ème" pour le reste
+		String suffixe = (pos == 1) ? "er" : "ème";
+
+		// liste des points
+		List<Integer> points = PointDeVictoire.config.get(categorie);
+		String gain = pos <= points.size() ? "<span class='plus'>(+" + points.get(pos-1).toString() + "PV)</span>" : "";
+
+		return  String.format(Locale.getDefault(), "%, d", s.getValeur()) + " <span style='color: #967DFF'>" + pos + "<sup>" + suffixe + "</sup></span>" + " " + gain;
 	}
 
 	public static void genererStatsPointDeVictoireDetail(Locale l) {
 		Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> donnees = PointDeVictoire.genererSyntheseCommandants();
 
-		java.util.function.Function<StatCategorie, String> formater = (s) -> {
-			if (s == null || s.getPosition() == 0) return "-";
-
-			int pos = s.getPosition();
-			// Gestion du suffixe : "er" pour 1, "ème" pour le reste
-			String suffixe = (pos == 1) ? "er" : "ème";
-
-			return "<strong>" + pos + "</strong><sup>" + suffixe + "</sup> (" + s.getValeur() + ")";
-		};
-
-		String[] entetes = (String[]) Univers.getMessageRapport("STATS_POINTS_DE_VICTOIRE_DETAIL", l);
-
-		List<Object[]> lignes = new ArrayList<>();
+		List<String[]> lignes = new ArrayList<>();
 
 		for (var entry : donnees.entrySet()) {
 			Commandant cmd = entry.getKey();
@@ -1076,14 +1078,14 @@ public class Stats {
 					}
 				}
 			}
-			Object[] ligne = new Object[] {
+			String[] ligne = new String[] {
 					cmd.getNomNumero(),
-					formater.apply(stats.get(PointDeVictoireCategorie.PLANETES)),
-					formater.apply(stats.get(PointDeVictoireCategorie.COMBATS)),
-					formater.apply(stats.get(PointDeVictoireCategorie.POPULATION)),
-					formater.apply(stats.get(PointDeVictoireCategorie.RECHERCHE)),
-					formater.apply(stats.get(PointDeVictoireCategorie.MERVEILLE)),
-					formater.apply(stats.get(PointDeVictoireCategorie.POPULATION_VS)),
+					formater(stats, PointDeVictoireCategorie.PLANETES),
+					formater(stats, PointDeVictoireCategorie.COMBATS),
+					formater(stats, PointDeVictoireCategorie.POPULATION),
+					formater(stats, PointDeVictoireCategorie.RECHERCHE),
+					formater(stats, PointDeVictoireCategorie.MERVEILLE),
+					formater(stats, PointDeVictoireCategorie.POPULATION_VS),
 					String.valueOf(totalPointsDeVictoire)
 			};
 
@@ -1092,18 +1094,58 @@ public class Stats {
 
 		// --- TRI DES LIGNES PAR TOTAL (INDEX 7) ---
 		lignes.sort((a, b) -> {
-			int totalA = Integer.parseInt((String) a[7]);
-			int totalB = Integer.parseInt((String) b[7]);
+			int totalA = Integer.parseInt(a[7]);
+			int totalB = Integer.parseInt(b[7]);
 
 			// Tri décroissant
 			if (totalA != totalB) {
 				return Integer.compare(totalB, totalA);
 			}
 			// Tri secondaire par nom (index 0) si égalité de points
-			return ((String) a[0]).compareTo((String) b[0]);
+			return (a[0]).compareTo(b[0]);
 		});
 
-		ecrire(FICHIER_POINT_DE_VICTOIRE_DETAIL, lignes, entetes);
+		// ajout des entetes
+		StringBuilder sb = new StringBuilder("""
+				<font color="#FBF7AF" size="6">Détail des points de victoire du tour %d </font>
+				<table class="table_full sortable stripped">
+				<thead>
+					<tr>
+						<th data-nosort="1">Commandant</th>
+						<th>Territorial</th>
+						<th>Bataille</th>
+						<th>Culturel</th>
+						<th>Scientifique</th>
+						<th>Merveille</th>
+						<th>Colonial</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+				""".formatted(Univers.getTour()));
+
+        for (String[] ligne : lignes) {
+            sb.append("<tr>");
+            sb.append("<td>")
+                    .append(String.join("</td><td>", ligne))
+                    .append("</td>");
+            sb.append("</tr>");
+        }
+		sb.append("</tbody></table>");
+
+
+		BaliseHTML div = Rapport.getDiv();
+		div
+				.ajout(Rapport.sautP())
+				.ajout(sb.toString());
+
+		DocumentHTML d = Rapport.getDocument(
+				Chemin.STATS + FICHIER_POINT_DE_VICTOIRE_DETAIL,
+				"Détail points de victoire",
+				Rapport.getBody().ajout(div)
+		);
+		d.ecrire();
+
 	}
 
 	public static class ComparateurInverse implements Comparator<Object> {

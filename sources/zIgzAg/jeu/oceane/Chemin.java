@@ -13,6 +13,7 @@ import zIgzAg.utile.Copie;
 
 public class Chemin {
 
+	 public static String REPERTOIRE_DU_TOUR = "";
 	 public static String RACINE = "";
 	 public static String RACINE_ZIP = "";
 	 public static String NUMERO_DU_TOUR = "";
@@ -122,6 +123,7 @@ public class Chemin {
 	public static void initialiserChemins(int numeroTour) {
 		String rep = RACINE + "tour" + numeroTour + "/";
 
+		REPERTOIRE_DU_TOUR = rep;
 		DONNEES = c(rep + "donnees/", true);
 
 		COMMANDANTS = c(DONNEES + "comm.txt", false);

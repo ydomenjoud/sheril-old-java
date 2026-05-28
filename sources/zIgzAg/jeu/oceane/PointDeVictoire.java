@@ -61,6 +61,7 @@ public class PointDeVictoire {
                 .sorted(Comparator.comparing(Commandant::getMeilleurSystemeScore).reversed())
                 .toList());
         classement.put(PointDeVictoireCategorie.POPULATION_VS, baseList.stream()
+                .filter(c -> c.getTotalPopulationVS() > 0)
                 .sorted(Comparator.comparing(Commandant::getEvolutionPopulationFlotte).reversed())
                 .toList());
 

@@ -140,6 +140,7 @@ body
       &:hover
         background-color: #202020
   #main
+    height: calc(100vh - 170px)
     @extend .container
     background-color: transparent
     display: flex
@@ -260,6 +261,73 @@ $color-toolbar: #eee
 
 .ql-toolbar
   background-color: $color-toolbar
+
+// TABLE
+table.stylized
+  width: 100%
+  border-radius: 2px
+  border: 1px solid var(--important)
+  padding: 4px
+  background: #10001d
+  box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3)
+  font-size: 14px
+
+  &:hover
+    box-shadow: 0px 1px 10px 12px rgb(0 255 191 / 30%)
+
+  tr
+    position: relative
+
+    td,th
+      border-top: 1px solid #222
+      border-right: 1px solid #999
+      border-bottom-width: 0
+      border-left-width: 0
+
+      &:last-child
+        border-right: none
+
+
+  th
+    padding: 3px
+    position: sticky
+    top: 0px
+    background: black
+    z-index: 1000
+    font-weight: bold
+    border-collapse: collapse
+    border-spacing: 0
+    border: none
+    color: var(--accent)
+
+    // Pseudo-éléments pour le tri
+    &[data-sort-order="asc"] a::after
+      content: " ▲"
+
+    &[data-sort-order="desc"] a::after
+      content: " ▼"
+
+  td, th
+    padding: 3px
+    font-family: verdana, arial, sans-serif
+
+
+.statistiques
+  th a
+    white-space: nowrap
+    color: var(--accent)
+  td
+    white-space: nowrap
+  td.score
+    text-align: right
+    border-right: none
+
+.plus
+  color: #2bd849
+.moins
+  color: #fb5757
+
+
 
 @media screen and (max-width: 768px)
   body

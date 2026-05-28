@@ -196,13 +196,13 @@ public class ProductionOrdres {
     }
 
     public static void ecrire(String entree) {
-
-        // Integer num = new Integer((c == null ? 0 : c.getNumero() / 100));
+        String file = Chemin.DONNEES_ORDRES + ".txt";
         try {
-            BufferedWriter fluxE = new BufferedWriter(new FileWriter(Chemin.DONNEES_ORDRES + ".txt", true));
+            BufferedWriter fluxE = new BufferedWriter(new FileWriter(file, true));
             fluxE.write(entree, 0, entree.length());
             fluxE.close();
         } catch (IOException e) {
+            System.err.println("Erreur d'écriture dans " + file);
             e.printStackTrace();
         }
     }
@@ -376,7 +376,10 @@ public class ProductionOrdres {
 
         // On prépare un seul StringBuilder pour tout le traitement
         StringBuilder sql = new StringBuilder(512);
-        String entete = "INSERT INTO statistiques (tour, numero, puissance, centaure, planetes, pop_syst, pop_vs, reputation, rayonnement, technologie, offensif, pv) VALUES (";
+        String entete = "INSERT INTO _statistiques (" +
+                "tour, numero, puissance, centaure, planetes, pop_syst, pop_vs, reputation, " +
+                "rayonnement, technologie, offensif, pv" +
+                ") VALUES (";
 
         for (Commandant c : commandants) {
             if (c == null) continue; // Sécurité au cas où une case du tableau serait vide

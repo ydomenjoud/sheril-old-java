@@ -185,7 +185,7 @@ public class Rapport {
                                         input.setAttribute("placeholder", "");
                                         input.addEventListener("input", e => {
                                             const filter = e.target.value.toLowerCase();
-                                            table.querySelectorAll("tr:not(:first-child)").forEach(row => {
+                                            table.querySelectorAll("tbody tr").forEach(row => {
                                                 const text = row.textContent.toLowerCase();
                                                 const rowContentHTML = row.innerHTML.toLowerCase();
                                                 const isTitle = ['titre_table','titre_caption'].some(l => rowContentHTML.indexOf(l) > -1);
@@ -215,7 +215,7 @@ public class Rapport {
 											// on reset le tri de toutes les autres colonnes
 										  headers.forEach(h => {
 												  if (h !== header) {
-													  delete h.dataset.sortOrder;\s
+													  delete h.dataset.sortOrder;
 												  }
 											  });
 											// Déterminer la direction du tri en fonction de ce qu'il y avait avant
@@ -230,12 +230,13 @@ public class Rapport {
 													// On clone pour ne pas toucher au DOM original
 													const temp = cell.cloneNode(true);
 													// On supprime les spans de progression pour ne garder que le texte brut
-													temp.querySelectorAll('span font div').forEach(s => s.remove());
+													temp.querySelectorAll('span, font, div, sup').forEach(s => s.remove());
 								
 													// On nettoie le texte : on enlève les espaces, les &nbsp; et on remplace la virgule par un point
 													let text = temp.textContent.trim()
-														.replace(/\\\\s+/g, '')       // Enlève espaces standards
-														.replace(/\\\\u00a0/g, '')    // Enlève les &nbsp;
+														.replace(/[^0-9]/g, '')      // Enlève espaces standards
+														.replace(/\\s+/g, '')       // Enlève espaces standards
+														.replace(/\\u00a0/g, '')    // Enlève les &nbsp;
 														.replace(',', '.');        // Séparateur décimal
 								
 													return parseFloat(text) || 0;
@@ -250,9 +251,6 @@ public class Rapport {
 											// Ré-insertion des lignes triées
 											sortedRows.forEach(row => tbody.appendChild(row));
 								
-											tbody.querySelectorAll("tr").forEach((row, idx) => {
-												row.children[0].textContent = idx + 1;
-											});
 										});
 									});
 								});
@@ -877,7 +875,7 @@ public class Rapport {
 				getALienE("https://ydomenjoud.github.io/test-interface-sheril/")
 				.ajout(getText("Cartographie")));
 		ajouterLienPrincipal(
-				getALienE("https://sheril.pbem-france.net/stats/general.htm")
+				getALienE("https://sheril.pbem-france.net/stats_general.php")
 						.ajout("Statistiques"));
 //		ajouterLienSecondaire(getALienE(PRINCIPAL + "#SYSTEMES_GENERAL").ajout(""));
 

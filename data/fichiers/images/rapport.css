@@ -191,6 +191,14 @@ th[data-sort-order="desc"]::after { content: " ▼"; }
     width: 95vw;
 }
 
+table.stripped tbody tr:nth-child(even) {
+    background-color: #2e064e;
+}
+
+table.stripped tbody tr:hover {
+    background-color: #4c015c;
+}
+
 /*.table_half {*/
 /*	width: 50vw;*/
 /*	max-width: 400px;*/
@@ -303,7 +311,7 @@ table table {
 
 }
 
-table tr:not(:first-child) td {
+table tr:not(:first-child) td, table tbody tr td   {
     border: 0px;
     border-top: 1px solid #222;
     border-left: 0px;
@@ -311,7 +319,7 @@ table tr:not(:first-child) td {
     border-bottom: 0px;
 }
 
-table tr:not(:first-child) td:last-child {
+table tr:not(:first-child) td:last-child, table tbody tr td:last-child {
     border-right: none;
 }
 

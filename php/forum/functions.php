@@ -52,9 +52,6 @@ function check_auth() {
 }
 
 
-function display_author($name, $numero, $race){
-    return "<span class='race$race'>$name ($numero)</span>";
-}
 
 function format_date($date_str) {
     if (!$date_str || $date_str == '0000-00-00 00:00:00') return "Jamais";

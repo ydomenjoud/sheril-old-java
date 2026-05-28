@@ -9,7 +9,7 @@ $file_path = __DIR__ . '/../tour.txt';
 $tour_information = "";
 if (file_exists($file_path)) {
     // 2. Récupérer le contenu (le numéro du tour)
-    $numeroTour = trim(file_get_contents($file_path));
+    $numeroTour = intval(trim(file_get_contents($file_path)));
 
     // 3. Récupérer la date de modification (timestamp)
     $timestamp = filemtime($file_path);
@@ -37,7 +37,9 @@ if (file_exists($file_path)) {
     <title>Sheril, le jeu de conquête galactique</title>
 </head>
 <body>
-
+<?php
+    if(!defined('EMBED') || EMBED === false ) {
+?>
 <header>
     Sheril, le jeux de conquête galactique
     <?=$tour_information?>
@@ -66,3 +68,4 @@ if (file_exists($file_path)) {
 
 
 <div id="main">
+    <?php } ?>
