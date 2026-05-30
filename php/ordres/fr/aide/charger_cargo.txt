@@ -3,7 +3,9 @@
 
 <P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez déplacer des marchandises ou des bâtiments entre vos systèmes
 <BR><BR>
-
-
+Le nombre de transferts autorisés par tour est : nombre systèmes possédés  (à plus de 75% ) + 2 * niveau maitrise "Maîtrise des étoiles"
+<BR><BR>
+<b>/!\</b> Les transferts sont résolus AVANT la production du système.
+</p>
 
 

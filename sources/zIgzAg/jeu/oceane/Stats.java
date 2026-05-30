@@ -866,7 +866,7 @@ public class Stats {
 			Object valRayonnement = c.getScoreTechnologique();
 			if (mRayonnement != null && mRayonnement.containsKey(hc))
 				valRayonnement = getModif(valRayonnement,
-						c.getScoreTechnologique() - ((Number) mRayonnement.get(hc)).intValue());
+						c.getMeilleurSystemeScore() - ((Number) mRayonnement.get(hc)).intValue());
 
 			Object valTech = c.getScoreTechnologique();
 			if (mTech != null && mTech.containsKey(hc))

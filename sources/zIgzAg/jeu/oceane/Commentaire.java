@@ -160,12 +160,12 @@ public class Commentaire implements Serializable {
 				if (!Univers.existenceSysteme(p))
 					return p.getDescription();
 				else
-					return Univers.getSysteme(p).getNomPosition();
+					return "<a href='"+Rapport.PRINCIPAL+"#"+ p + "' class='systeme'>" + Univers.getSysteme(p).getNomPosition() + "</a>";
 			}
 			if (o instanceof Float)
 				return Float.toString(Utile.a1D(((Float) o).floatValue()));
 			if (o instanceof Technologie)
-				return ((Technologie) o).getNomComplet(l);
+				return ((Technologie) o).getNomHTML(l, false);
 			return o.toString();
 		}
 

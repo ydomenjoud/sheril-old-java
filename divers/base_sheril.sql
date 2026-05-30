@@ -26,17 +26,18 @@ create table _player_ready
     created_at datetime default current_timestamp() not null
 );
 
-create table _post
+CREATE TABLE _post
 (
-    id_post   int auto_increment
-        primary key,
-    id_forum  int          not null,
-    id_parent int          null,
-    id_author int          null,
-    title     varchar(255) not null,
-    body      mediumtext   not null,
-    record    datetime     not null
-);
+    id_post   INT AUTO_INCREMENT PRIMARY KEY,
+    id_forum  INT          NOT NULL,
+    id_parent INT          NULL,
+    id_author INT          NULL,
+    title     VARCHAR(255) NOT NULL,
+    body      MEDIUMTEXT   NOT NULL,
+    record    DATETIME     NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE INDEX idx_forum ON _post(id_forum);
+CREATE INDEX idx_parent ON _post(id_parent);
 
 create index id_forum
     on _post (id_forum, id_parent);

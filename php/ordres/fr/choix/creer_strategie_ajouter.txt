@@ -1,4 +1,4 @@
-<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" id="<?=$table?>" >
 <P><h1>Paramêtrer des types de vaisseau</h1>
 <BR>
 Positionner tous les vaisseaux de type 
@@ -10,19 +10,98 @@ Positionner tous les vaisseaux de type
 <BR> 
  avec comme cibles prioritaires les vaisseaux de taille : <BR><BR>
 <DIV ALIGN="center">
-<TABLE cellspacing="0" border="1"><TR>
+    <div style="border: 1px solid #FFDEAD; padding: 5px">
+        Remplir le tableau:
+        de <input type="number" min="1" max="10" id="from" value="10">
+        à <input type="number" min="1" max="10" id="to" value="1">
+        <button type="button" onclick="fill()">Go</button> ( exemple de 1 à 10 , de 10 à 1, de 7 à 6, ... )
+    </div>
+
+<TABLE cellspacing="0" border="1"><TR><td>Priorité</td>
 <?php
  for($i=1;$i<11;$i++) {echo("<TD align=\"center\"><B>$i</B></TD>");}
- echo("</TR><TR>");
+ echo("<td>Statut</td></TR><TR id='values'><td>Taille visée</td>");
  for($i=3;$i<13;$i++) {
   echo("<TD align=\"center\">");
-  select_nb("v$i",1,11);
+  select_nb("v$i",1,11, $i-2);
   echo("</TD>");
   }
+ echo "<td id='validation'></td>";
 ?>
 </TR></TABLE></DIV>
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
+
+<style>
+    input[type=submit]:disabled {
+        background-color: #555;
+    }
+    input[type=submit]:disabled:hover {
+        background-color: #555;
+    }
+    #values:not(.invalid), #values:not(.invalid) select {
+        background-color: #056805;
+    }
+    #values.invalid, #values.invalid select {
+        background-color: #680505;
+    }
+</style>
+
+<script>
+
+    function fill() {
+        const from = Number(document.querySelector('#from').value);
+        const to = Number(document.querySelector('#to').value);
+        const reversed = from > to;
+
+        const values = [];
+        let i = from;
+
+        while (values.length < 10) {
+            let normalizedValue = (( (i - 1) % 10) + 10) % 10 + 1;
+
+            values.push(normalizedValue);
+
+            if (reversed) {
+                i--;
+            } else {
+                i++;
+            }
+        }
+        console.log({from, to,reversed, values})
+
+        for(let i=3;i<13;i++) {
+            const offset = i - 3;
+            const selector = 'select[name=v'+i+']';
+            const value = values[offset];
+
+            document.querySelector(selector).value = value;
+        }
+        checkValidity();
+    }
+
+    const form = document.getElementById('<?=$table?>');
+
+    function checkValidity() {
+        const values = [];
+        form.querySelectorAll('#values select').forEach(select => {
+            values.push(select.value);
+        })
+        const valid = [...new Set(values)].length === 10;
+        const missingValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(
+            (num) => !values.includes(num+"")
+        );
+        // console.log(valid, document.getElementById('values'));
+        document.getElementById('values').classList.toggle('invalid', !valid);
+        document.getElementById('validation').innerHTML = valid ? 'OK' : `manque: ${missingValues.join(', ')}`;
+        form.querySelector('input[type="submit"]').disabled = !valid;
+    }
+
+    form?.addEventListener('change', function(event) {
+        // récupération de toutes les valeurs des select
+        checkValidity();
+    })
+</script>
 

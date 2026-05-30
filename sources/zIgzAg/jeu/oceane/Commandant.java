@@ -330,6 +330,12 @@ public class Commandant extends Joueur implements Serializable {
         centaures = centaures + somme;
     }
 
+    public StrategieDeCombatSpatial getStrategieConnue(String code) {
+        if(connaitStrategie(code)){
+            return getStrategie(code);
+        }
+        return null;
+    }
     public StrategieDeCombatSpatial getStrategie(String code) {
         StrategieDeCombatSpatial o = strategies.get(code);
         if (StrategieDeCombatSpatial.estStrategieParDefaut(code) || (o == null))
@@ -3238,10 +3244,9 @@ public class Commandant extends Joueur implements Serializable {
 			// "+quantite1b+", #2: "+quantite2a+" "+quantite2b+" )");
 			return ajouterEvenement(
 					"EV_COMMANDANT_TRANSFERER_0000",
-					"<font color=\"#00f1af\">"
-							+ ObjetTransporte.getDescriptionListeChargement(
-									new ObjetTransporte[] { o }, getLocale())
-							+ "</font>", pos1, pos2);
+							ObjetTransporte.getDescriptionListeChargementHTML(
+									new ObjetTransporte[] { o })
+							, pos1, pos2);
 		}
 
 		// System.out.println(" - "+numero+" de "+pos1+"("+pla1+") "+nb+"
@@ -3829,33 +3834,48 @@ public class Commandant extends Joueur implements Serializable {
         }
 
 		code = Univers.supprimerAccent(code);
-		
-		if (connaitStrategie(code))
-			return ajouterErreur("ER_COMMANDANT_CREER_STRATEGIE_0000", code);
-		boolean[] b = null;
+
+        // si la stratégie existe déjà on ne fais plus d'erreur, on va simplement la remplacer
+//		if (connaitStrategie(code))
+//			return ajouterErreur("ER_COMMANDANT_CREER_STRATEGIE_0000", code);
+		boolean[] b;
 		if ((b = StrategieDeCombatSpatial.estStrategieValide(this, agressivite,
 				ciblePrincipale, vaisseau, pos, tailleCible)) == null)
 			return false;
 
 		int nb = 0;
-		for (int i = 0; i < b.length; i++)
-			if (b[i])
-				nb++;
+        for (boolean value : b){
+            if (value) {
+                nb++;
+            }
+        }
 		String[] v = new String[nb];
 		int[][] p = new int[nb][2];
 		int[][] t = new int[nb][10];
 		nb = 0;
-		for (int i = 0; i < b.length; i++)
-			if (b[i]) {
-				v[nb] = vaisseau[i];
-				p[nb] = pos[i];
-				t[nb++] = tailleCible[i];
-			}
-		StrategieDeCombatSpatial s = new StrategieDeCombatSpatial(code,
-				agressivite, ciblePrincipale, v, p, t);
-		ajouterStrategie(s);
+		for (int i = 0; i < b.length; i++) {
+            if (b[i]) {
+                v[nb] = vaisseau[i];
+                p[nb] = pos[i];
+                t[nb++] = tailleCible[i];
+            }
+        }
 
-		return ajouterEvenement("EV_COMMANDANT_CREER_STRATEGIE_0000", code);
+        // On cherche si la stratégie existe déjà
+        StrategieDeCombatSpatial existante = getStrategieConnue(code);
+        // On prépare l'objet une seule fois, qu'il serve à la fusion ou à la création
+        StrategieDeCombatSpatial s = new StrategieDeCombatSpatial(code, agressivite, ciblePrincipale, v, p, t);
+
+        if (existante != null) {
+            // Mise à jour de l'existant
+            existante.fusionner(s);
+            return ajouterEvenement("EV_COMMANDANT_MODIFIER_STRATEGIE_0000", code);
+        } else {
+            // Nouvel ajout
+            ajouterStrategie(s);
+            return ajouterEvenement("EV_COMMANDANT_CREER_STRATEGIE_0000", code);
+        }
+
 	}
 
 	public boolean donnerStrategie(String code, int destinataire,
@@ -4048,7 +4068,7 @@ public class Commandant extends Joueur implements Serializable {
 		ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
 		if (o == null || o.getNombreObjets() <= 0) {
             String description = ObjetTransporte.traductionChargement(code, nombre, getLocale());
-			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " " + description, pos);
+			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
 			return;
 		}
 

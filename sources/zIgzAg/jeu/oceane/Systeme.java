@@ -58,6 +58,9 @@ public class Systeme implements Serializable {
 	public String getNomPosition(Locale loc) {
 		return nom + " : " + position.getDescription(loc);
 	}
+	public String getNomPositionHTML(Locale loc) {
+		return "<span class='systeme'>" + nom + " : " + position.getDescription(loc) + "</span>";
+	}
 
 	public String getNomPositionSimple(Locale loc) {
 		return nom + " : " + position.getDescriptionSimple(loc);

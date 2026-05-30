@@ -2,8 +2,8 @@
 <h3 class="help">Aide</h3>
 <P class="important">
 
-    Attention, ne créez pas plus d'une stratégie de combat par tour, cela génèrerait des erreurs. <br /><br />
-    Utilisez cette rubrique si vous
+Attention, ne créez pas plus d'une stratégie de combat par tour, cela génèrerait des erreurs. <br /><br />
+Utilisez cette rubrique si vous
 voulez créer une stratégie de combat.<BR>
 La procédure à suivre est la suivante : <BR>
 

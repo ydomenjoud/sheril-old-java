@@ -448,9 +448,9 @@ public class Possession implements Serializable {
 			boolean isVaisseaux = !isBatiment;
 			
 			// Description de la technologie
-			String descriptionTechno = null;
+			Object descriptionTechno = null;
 			if (isBatiment){
-				descriptionTechno = Univers.getTechnologie(c[i].getCode()).getNomComplet(com.getLocale());
+				descriptionTechno = Univers.getTechnologie(c[i].getCode());
 			} else {
 				descriptionTechno = c[i].getCode();
 			}

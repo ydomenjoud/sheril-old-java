@@ -347,12 +347,12 @@ public abstract class Leader implements Serializable {
 		if (sorte.equals("heros"))
 			l = new Heros(nom, new int[0][0], Univers.getInt(3),
 					Univers.getInt(3), Univers.getInt(3), Univers.getInt(3),
-					Univers.getInt(3), Univers.getInt(Const.NB_RACES),
+					Univers.getInt(3), Univers.getInt(Const.NB_RACES - 1),
 					Univers.getTour());
 		else
 			l = new Gouverneur(nom, new int[0][0], Univers.getInt(3),
 					Univers.getInt(3), Univers.getInt(3), Univers.getInt(3),
-					Univers.getInt(3), Univers.getInt(Const.NB_RACES),
+					Univers.getInt(3), Univers.getInt(Const.NB_RACES - 1),
 					Univers.getTour());
 		l.ajouterCompetenceAuHasard();
 		return l;

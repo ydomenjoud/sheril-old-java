@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "a.php";
 // rapport.php
 $commandant = $_SESSION['commandant_num'];
 $email = $_SESSION['commandant_email'];
@@ -17,7 +18,6 @@ if (!$email || !$tour || !$commandant) {
 
 
 // clé secrète stockée dans config ou env
-$secret = 'e65c065b-2620-4147-84d7-f0be7d2fd476';
 if (!$secret) {
     http_response_code(500);
     echo "Clé secrète manquante";

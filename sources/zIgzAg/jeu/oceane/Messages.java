@@ -177,7 +177,9 @@ public class Messages extends MessagesAbstraits {
 	// les différents modes pour les transferts.
 
 	public static final String[] STRATEGIE_CIBLE = { "aucune", "chasseur",
-			"bombardier", "cargo" };
+			"bombardier",
+			"cargo"
+	};
 	// les différentes cible préférentielles dans les stratégies.
 
 	public static final String[] STRATEGIE_AGRESSIVITE = { "pillage", "fuyard",

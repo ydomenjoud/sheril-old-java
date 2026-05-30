@@ -1,26 +1,37 @@
 <?php
 $max = 1;
-$result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
+$result = mysql($base, "SELECT * FROM $table WHERE NUMERO='$commandant'");
 $nb_lignes = mysql_num_rows($result);
-if($nb_lignes<$max){
-?>
-<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>créer une stratégie de combat</h1>
-<BR>
-<NOSCRIPT><H1><FONT COLOR="red">Cet ordre ne peut fonctionner si Javascript n'est pas activé dans votre navigateur</FONT></H1></NOSCRIPT>
-Je crée une stratégie de nom
-<INPUT TYPE="text" NAME="v0" VALUE="<?=V('v0')?>" SIZE=30 MAXLENGTH=80>
- dont je sélectionne la cible prioritaire :
-<?php select1("v2",$t0); ?>
- et le paramêtre d'agressivité :
-<?php select1("v1",$t1); ?>
+if ($nb_lignes < $max) {
+    ?>
+    <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST">
+        <P>
+        <h1>créer une stratégie de combat</h1>
+        <BR>
+        <div class="important">ATTENTION! Si vous mettez le même nom qu'une stratégie actuelle, celà va modifier votre
+            stratégie au lieu d'en créer une nouvelle. <br />
+            Liste de vos stratégies actuelles:
+            <?php
+                foreach($t2 as $name){
+                    echo "<a href='$nom_page?table=$table&v0=$name'>".$name."</a>";
+                }
+            ?>
 
+        </div>
+        <BR>
 
-</B></P>
-<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
-</FORM>
+        Je crée une stratégie de nom
+        <INPUT TYPE="text" NAME="v0" VALUE="<?= V('v0') ?>" SIZE=30 MAXLENGTH=80>
+        dont je sélectionne la cible prioritaire :
+        <?php select1("v2", $t0); ?>
+        et le paramêtre d'agressivité :
+        <?php select1("v1", $t1); ?>
+
+        </P>
+        <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+    </FORM>
 <?php } else { ?>
 
-Vous avez déjà passé le maximum d'ordre de ce type
+    Vous avez déjà passé le maximum d'ordre de ce type
 
 <?php } ?>

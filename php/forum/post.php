@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_forum = (int)$_POST['id_forum'];
     $id_parent_val = isset($_POST['id_parent']) && $_POST['id_parent'] !== "" && $_POST['id_parent'] !== "0" ? (int)$_POST['id_parent'] : "NULL";
     $id_parent = $id_parent_val;
-    $title = mysql_real_escape_string($_POST['title']);
+    $title = mysql_real_escape_string(mb_substr($_POST['title'], 0, 255, 'UTF-8'));
     $body = mysql_real_escape_string($_POST['body']);
     $id_author = (int)$commandant_num;
     global $base;
@@ -100,8 +100,8 @@ if (!$forum) {
             <input type="hidden" name="body" id="body-input">
             
             <p>
-                <label>Titre :</label><br>
-                <input type="text" name="title" style="width: 100%;" required value="<?php 
+                <label for="titre">Titre :</label><br>
+                <input type="text" id="titre" name="title" style="width: 100%;" maxlength="255" required value="<?php
                     if ($post_to_edit) {
                         echo htmlspecialchars($post_to_edit['title']);
                     } elseif ($id_parent) {

@@ -12,6 +12,10 @@
 )
 
 </P>
+    <label>
+        Sur tous mes systèmes :
+        <input type="checkbox" name="multiple" value="v0_t0">
+    </label>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
 
