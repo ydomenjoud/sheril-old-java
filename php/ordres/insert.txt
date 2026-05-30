@@ -16,6 +16,38 @@ if($v0!=""){
 //             echo $query."<br />";
          mysql_query($query) or die(mysql_error());
      }
+ } elseif (array_key_exists('multiple', $_POST) && $_POST['multiple'] !== '') {
+     $data = explode("_", $_POST['multiple']);
+     $fieldNameToReplace = $data[0];
+     $fieldDatasetName = $data[1];
+
+     $result = mysql($base, "SELECT * FROM $table");
+     $num_field = mysql_num_fields($result);
+
+     foreach($$fieldDatasetName as $id=>$datasetValue) {
+         $var_table = mysql_field_name($result, 0);
+         $var_champ = "'$commandant'";
+         for ($i = 1; $i < $num_field; $i++) {
+             $inter1 = mysql_field_name($result, $i);
+             // patch pour les champs id
+             if ($inter1 === "id") {
+                 continue;
+             }
+             $inter4 = $i - 1;
+             $inter2 = "v$inter4";
+             $value = $inter2===$fieldNameToReplace ? $id : $$inter2;
+             $inter3 = mysql_real_escape_string($value);
+             $var_table = "$var_table,$inter1";
+             $var_champ = "$var_champ,'$inter3'";
+         }
+         $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
+         $res = mysql_query($query);
+         if (!$res) {
+             echo mysql_error();
+             die("  <br /><a href='index.php3?table=$table'>Retour</a>");
+         }
+     }
+
  } else {
      $result = mysql($base, "SELECT * FROM $table");
      $num_field = mysql_num_fields($result);

@@ -1,5 +1,6 @@
 .idea
 php/secure/connect.txt
+php/live/a.php
 config.properties
 mysql
 data*/tour*

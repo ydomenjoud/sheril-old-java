@@ -328,7 +328,7 @@ public class ProductionOrdres {
                 Univers.getTableauMessage("MODE_TRANSFERT", l)));
         ecrire(afficherSA(
                 Const.TABLE_STRATEGIE_CIBLE,
-                Utile.retournerTableauEntiers(Messages.STRATEGIE_CIBLE.length - 1),
+                Utile.retournerTableauEntiers(Univers.getTableauMessage("STRATEGIE_CIBLE", l).length - 1),
                 Univers.getTableauMessage("STRATEGIE_CIBLE", l)));
         ecrire(afficherSA(
                 Const.TABLE_STRATEGIE_AGRESSIVITE,

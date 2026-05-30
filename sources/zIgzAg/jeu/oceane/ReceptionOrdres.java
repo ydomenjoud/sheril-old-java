@@ -493,6 +493,16 @@ public class ReceptionOrdres {
 	}
 
 	public void enroler_lieutenant(String[] o) {
+		Leader[] leadersList = Univers.listeLeadersEnVente();
+		int index = tInt(o[1]);
+		Leader l;
+		if (index >= 0 && index < leadersList.length) {
+			l = leadersList[index];
+		} else {
+			System.out.println("ERREUR: enchère en dehors des clous : " + index);
+			return;
+		}
+		String leaderName = l.getNom();
 		if ((float) tInt(o[0]) <= c[iC].getCentaures()) {
 			if (!offresLieutenants.containsKey(o[1])) {
 				offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
@@ -506,15 +516,15 @@ public class ReceptionOrdres {
 
 				if (tInt(s) * modif1 < tInt(o[0]) * modif2) {
 					offresLieutenants.put(o[1], o[0] + "*" + c[iC].getNumero());
-					ancienEncherisseur.ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", o[1]);
+					ancienEncherisseur.ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", leaderName);
 				}
 				else {
-					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", o[1]);
+					c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0001", leaderName);
 				}
 			}
 		}
 		else {
-			c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", o[1]);
+			c[iC].ajouterErreur("ER_COMMANDANT_ACHETER_LIEUTENANT_0000", leaderName);
 		}
 	}
 

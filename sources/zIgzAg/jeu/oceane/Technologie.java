@@ -66,11 +66,15 @@ public class Technologie implements Serializable {
 					+ getRepresentationNiveau();
 	}
 
-	public String getNomHTML(Locale loc) {
-		boolean isPublic = Univers.estTechnologiePublique(getCode());
+	public String getNomHTML(Locale loc, boolean showPublic) {
+		boolean isPublic = showPublic && Univers.estTechnologiePublique(getCode());
 		return "<span class=\"technologie"+(isPublic?" public":"")+ "\">"
 				+Utile.maj(getNomComplet(loc))
 				+"</span>";
+	}
+
+	public String getNomHTML(Locale loc) {
+		return getNomHTML(loc, true);
 	}
 
 	public String getNomPlurielComplet(Locale loc) {

@@ -83,6 +83,7 @@ public abstract class ObjetTransporte implements Serializable, Cloneable {
 		}
 		return retour;
 	}
+
 	public static String getDescriptionListeChargementHTML(ObjetTransporte[] o) {
 		StringBuilder retour = new StringBuilder(new String());
 		for (int i = 0; i < o.length; i++) {

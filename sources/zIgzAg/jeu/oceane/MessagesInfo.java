@@ -323,6 +323,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_CREER_STRATEGIE_0001 = "Impossible de créer la stratégie de nom {0} : Vous ne connaissez pas la technologie {1} !";
 	public static final String ER_COMMANDANT_CREER_STRATEGIE_0002 = "Impossible de créer une autre stratégie : Vous ne pouvez pas créer plus d'une stratégie par tour";
 	public static final String EV_COMMANDANT_CREER_STRATEGIE_0000 = "Vous venez de créer la stratégie de combat de nom {0}.";
+	public static final String EV_COMMANDANT_MODIFIER_STRATEGIE_0000 = "Vous venez de modifier la stratégie de combat de nom {0}.";
 
 	public static final String ER_COMMANDANT_DON_STRATEGIE_0000 = "Impossible de donner la stratégie de combat {1} au commandant {0} : ce commandant possède déjà une stratégie de ce nom!";
 	public static final String ER_COMMANDANT_DON_STRATEGIE_0001 = "Impossible de donner la stratégie de combat {1} au commandant {0} : vous n'avez pas assez de centaures actuellement!";

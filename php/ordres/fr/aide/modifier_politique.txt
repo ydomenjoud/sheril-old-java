@@ -4,4 +4,72 @@
 <P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez modifier les politiques suivie par vos systèmes.<BR><BR>
 Chaque modification de politique coûte 10 centaures.
+</STRONG></FONT></P>
 
+            <table>
+                <caption>Liste des politiques</caption>
+                <thead>
+                <tr>
+                    <th>Nom de la politique</th>
+                    <th>Effet de la politique</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Impôts</td>
+                    <td>Les revenus du système sont augmentés de 10%.</td>
+                </tr>
+                <tr>
+                    <td>Commerce</td>
+                    <td>Le système produit 2 unités de marchandises supplémentaires pour chaque type de marchandise déjà produite.</td>
+                </tr>
+                <tr>
+                    <td>Construction</td>
+                    <td>Le nombre de points de construction du système est augmenté de 50%.</td>
+                </tr>
+                <tr>
+                    <td>Défense</td>
+                    <td>Les miliciens sont augmentés de 50% sans pour autant dépasser le maximum de 100% de la population. Cette politique est utile pour les systèmes à stabilité faible.</td>
+                </tr>
+                <tr>
+                    <td>Expansion</td>
+                    <td>La population augmente 5% plus vite.</td>
+                </tr>
+                <tr>
+                    <td>Intégriste</td>
+                    <td>La population augmente 10% plus vite mais perte d’un point de réputation par tour et par planète.  En plus, la stabilité diminue de 2% par tour.</td>
+                </tr>
+                <tr>
+                    <td>Totalitaire</td>
+                    <td>+ 2% en stabilité par tour mais perte d’un point de réputation par tour et par planète. Diminution d’une unité de marchandise pour chaque type de marchandise déjà produite.</td>
+                </tr>
+                <tr>
+                    <td>Esclavagiste</td>
+                    <td>Points de construction x2 mais perte d’un point de réputation par tour et par planète au carré. De plus, la population ne peut pas augmenter de plus de 10 millions par tours et -2% en stabilité.</td>
+                </tr>
+                <tr>
+                    <td>Anti-fremens</td>
+                    <td>Le nombre de fremens est divisé par deux. Si la population fremen sur une planète est inférieure à 30, elle est éradiquée. Gain en centaures égal à la population éliminée. - 5% de stabilité et- 300 de réputation par tour.</td>
+                </tr>
+                <tr>
+                    <td>Anti-atalantes</td>
+                    <td>Idem pour les Atalantes.</td>
+                </tr>
+                <tr>
+                    <td>Anti-zwaias</td>
+                    <td>Idem pour les Zwaias</td>
+                </tr>
+                <tr>
+                    <td>Anti-Yorksors</td>
+                    <td>Idem pour les yorksors</td>
+                </tr>
+                <tr>
+                    <td>Anti-Fergoks</td>
+                    <td>Idem pour les fergoks</td>
+                </tr>
+                <tr>
+                    <td>Anti-Cyborgs</td>
+                    <td>Idem pour les cyborgs</td>
+                </tr>
+                </tbody>
+            </table>

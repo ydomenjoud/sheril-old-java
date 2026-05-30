@@ -151,9 +151,9 @@ public class MessagesSystemes extends MessagesAbstraits {
 
 	public static final String ER_COMMANDANT_TAUX_POSTE_0000 = "Impossible fixer les taux des postes : taux trop élevé : {0}.";
 
-	public static final String ER_STRATEGIE_COMBAT_0000 = "Impossible de créer une stratégie. Taux d'agressivité non dans les bornes admises : {0}.";
-	public static final String ER_STRATEGIE_COMBAT_0001 = "Impossible de créer une stratégie.  Cible principale non dans les bornes admises : {0}.";
+	public static final String ER_STRATEGIE_COMBAT_0000 = "Impossible de créer une stratégie. Taux d'agressivité en dehors des bornes admises : {0}.";
+	public static final String ER_STRATEGIE_COMBAT_0001 = "Impossible de créer une stratégie.  Cible principale en dehors des bornes admises : {0}.";
 	public static final String ER_STRATEGIE_COMBAT_0002 = "Impossible de spécifier un vaisseau lors d'une création de stratégie.  Vaisseau non connu par le commandant : {0}.";
-	public static final String ER_STRATEGIE_COMBAT_0003 = "Impossible de spécifier un vaisseau lors d'une création de stratégie.  Pour le vaisseau {0}, position non dans les bornes admises : {1}-{2}.";
+	public static final String ER_STRATEGIE_COMBAT_0003 = "Impossible de spécifier un vaisseau lors d'une création de stratégie.  Pour le vaisseau {0}, position en dehors des bornes admises : {1}-{2}.";
 
 }

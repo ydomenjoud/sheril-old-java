@@ -36,7 +36,7 @@
 }
 
 .technologie.public {
-    color: #6ce477;
+    color: #80ffb2;
     font-style: italic;
 }
 
@@ -130,11 +130,18 @@
     width: 100%;
 }
 
-.systeme {
-    color: #EE82EE;
+.flotte_desc {
+    color: #efb261;
+    font-weight: bold;
+}
+
+.systeme, a.systeme, a.systeme:visited, a.systeme:link {
+    color: #709bfc;
+    font-weight: bold;
 }
 .position {
     color: #AC0DFE;
+    font-weight: bold;
 }
 
 :target {
@@ -192,9 +199,17 @@ th[data-sort-order="desc"]::after { content: " ▼"; }
 }
 
 table.stripped tbody tr:nth-child(even) {
-    background-color: #2e064e;
+    background-color: #0a1324;
+}
+table.stripped tbody tr td {
+    border-bottom: 1px solid transparent
 }
 
+table.stripped tbody tr:hover td {
+    background-color: #012620;
+    border-top: 1px dashed #555;
+    border-bottom: 1px dashed #555;
+}
 table.stripped tbody tr:hover {
     background-color: #4c015c;
 }

@@ -97,7 +97,7 @@ function fusion_tab2($tab1, $tab2)
 }
 
 function V($name, $default="") {
-    return array_key_exists($name,$_POST) ? $_POST[$name] : $default;
+    return array_key_exists($name,$_POST) ? $_POST[$name] : (array_key_exists($name,$_GET) ? $_GET[$name] : $default);
 }
 
 function select1($nv, $t, $class='select', $multiple=false)
@@ -134,11 +134,11 @@ function select3($nv, $t)
     echo("</SELECT>");
 }
 
-function select_nb($nv, $a, $b)
+function select_nb($nv, $a, $b, $selectValue=null)
 {
     echo("<SELECT NAME=\"$nv\">");
     for ($i = $a; $i < $b; $i++) {
-        echo("<OPTION ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $i) ? 'selected ' : ''));
+        echo("<OPTION ".(((array_key_exists($nv,$_POST) && $_POST[$nv] == $i) || ($selectValue !== null && $selectValue === $i)) ? 'selected ' : ''));
         echo("VALUE=\"$i\">$i");
     }
     echo("</SELECT>");
@@ -146,7 +146,8 @@ function select_nb($nv, $a, $b)
 
 function select_pos($nv)
 {
-    select_nb($nv, 1, 41);
+     echo "<input name='$nv' min=0 max=40 required style='width: 50px;' type='number' value='".(array_key_exists($nv,$_POST) ? $_POST[$nv] : '')."' maxlength=2 />";
+//    select_nb($nv, 1, 41);
 }
 
 function select_pour_cent($nv)

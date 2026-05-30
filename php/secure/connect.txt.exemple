@@ -15,7 +15,7 @@ if(defined('USE_PDO') && USE_PDO === true) {
 
 } else {
     $DB_RES = @mysql_connect($host, $user, $pass);
-    mysql_set_charset("utf8", $DB_RES);
+    mysql_set_charset("utf8mb4", $DB_RES);
     if (!$DB_RES) {
         echo mysql_error();
     }

@@ -56,7 +56,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Prérequis","",
   "Composants de vaisseaux","Nom","Prix","Nombre de cases","Minerai","Produits nécessaires","Prérequis",
   "Autres","Nom","Description","Prérequis",
-  "Les technologies publiques sont en <span class=\"technologie public\">vert</span>.",
+  "Les technologies publiques sont symbolisées comme ceci <span class=\"technologie public\">chantier naval</span>.",
   "Recherches actuelles","Technologie","Pourcentage du budget technologique affecté","Points de recherche"};
 
  public static final String[] TECHNOLOGIES={"Détail des technologies","Technologies connues",

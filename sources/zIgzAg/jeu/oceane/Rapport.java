@@ -52,9 +52,9 @@ public class Rapport {
 
 	public static final String Color_bis = "#0f0f0f";
 
-	public static final String[] COULEURS_GALAXIES = { "#AC0DFE" };
+	public static final String[] COULEURS_GALAXIES = { "#be43fe" };
 
-	private static final String PRINCIPAL = "principal.htm";
+	public static final String PRINCIPAL = "principal.htm";
 
 	private static final String EXPOSE = "expose.htm";
 
@@ -211,7 +211,7 @@ public class Rapport {
 										header.addEventListener("click", () => {
 											const table = header.closest("table");
 											const tbody = table.querySelector("tbody");
-											const rows = Array.from(tbody.querySelectorAll("tr"));
+											const rows = Array.from(tbody.querySelectorAll("tr:not(:has(th))"));
 											// on reset le tri de toutes les autres colonnes
 										  headers.forEach(h => {
 												  if (h !== header) {
@@ -1498,7 +1498,7 @@ public class Rapport {
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(p[i].getDescriptionDomaine(loc))));
 		}
-		return DocumentHTML.creerTable(getTable("table_full"), a);
+		return DocumentHTML.creerTable(getTable("table_full stripped"), a);
 	}
 
 	public BaliseHTML getAlliances() {
@@ -1601,7 +1601,7 @@ public class Rapport {
 				} else
 					a[i + 1][6] = getTD(null, null).setTexteContenu("&nbsp;");
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a).ajout(
 					BaliseHTML.WIDTH, "100%"));
 		}
 
@@ -1651,7 +1651,7 @@ public class Rapport {
 				a = b;
 			}
 
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a).ajout(
 					BaliseHTML.WIDTH, "100%"));
 		}
 		return racine;
@@ -1679,7 +1679,7 @@ public class Rapport {
 				inter = inter + Univers.getCommandant(p[i]).getNomNumero()
 						+ "&nbsp;";
 			a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(inter));
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a).ajout(
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a).ajout(
 					BaliseHTML.WIDTH, "100%"));
 		}
 		return racine;
@@ -1753,7 +1753,7 @@ public class Rapport {
 			a[i + 1][11] = getTD(BaliseHTML.CENTER, null).ajout(
 					getText(Float.toString(Utile.a1D(l[i].getValeur()))));
 		}
-		return DocumentHTML.creerTable(getTable("table_full"), a);
+		return DocumentHTML.creerTable(getTable("table_full stripped"), a);
 	}
 
 	// Dans Rapport.java
@@ -1858,7 +1858,7 @@ public class Rapport {
 				}
 				p1++;
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full sortable stripped"), a));
 		}
 		return racine;
 	}
@@ -1903,7 +1903,7 @@ public class Rapport {
 				a[i + 1][5] = getTD(BaliseHTML.CENTER, null).setTexteContenu(
 						Commandant.getListeCommandants(s.getProprios()));
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full sortable"), a));
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full sortable stripped"), a));
 		}
 		return racine;
 	}
@@ -1983,7 +1983,7 @@ public class Rapport {
 
 				a[i + 2][0] = getTD(null, null).ajout(getALienI(p[i].toString()).ajout(getImage(getCheminEtoile(s.getTypeEtoile()), 15, 15)));
 				a[i + 2][1] = getTD(BaliseHTML.CENTER, null).ajout( getText(p[i].getDescription()));
-				a[i + 2][2] = getTD(BaliseHTML.CENTER, null).ajout( getFont(cC[5], null).ajout(getText(s.getNom())));
+				a[i + 2][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(s.getNomPositionHTML(Locale.getDefault())));
 				a[i + 2][3] = getTD(BaliseHTML.CENTER, null).ajout( color.ajout(getText(Integer.toString(s.getPopulation(c .getNumero())))));
 				a[i + 2][4] = getTD(BaliseHTML.CENTER, null) .ajout(getFont(cC[4], null) .ajout(getText(Integer.toString(s .getPopulationMaximale(c.getNumero())))));
 				a[i + 2][5] = getTD(BaliseHTML.CENTER, null).ajout(
@@ -2058,7 +2058,7 @@ public class Rapport {
 			racine.ajout(getP().ajout(getFont(null, "4").ajout(getText(t[1])))
 					.ajout(getFont(cC[5], "4").ajout(
 							getText(Univers.getSysteme(c.getCapitale())
-									.getNomPosition(c.getLocale())))));
+									.getNomPositionHTML(c.getLocale())))));
 		else
 			racine.ajout(getP().ajout(getFont(null, "4").ajout(getText(t[1])))
 					.ajout(getFont(cC[5], "4").ajout(getText(t[2]))));
@@ -2420,9 +2420,8 @@ public class Rapport {
 				int marchandise = col*4 + row;
 				// entête
 				posteTable[row+1][col*2] = getTD(null, null)
-                        .ajout("class", "marchandise")
 						.ajout("data-marchandise", marchandise+"")
-                        .ajout(getText(Utile.maj(Univers.getMessage("MARCHANDISES", marchandise,c.getLocale()))));
+                        .ajout("<div class='marchandise'>" + getText(Utile.maj(Univers.getMessage("MARCHANDISES", marchandise,c.getLocale()))) + "</div>");
 
 				// stock + prod
                 int prod = s.getProductionMarchandise(c.getNumero(), marchandise);
@@ -2546,9 +2545,8 @@ public class Rapport {
 		for (int j = 0; j < Const.NB_MARCHANDISES; j++) {
 			// Colonne 0 : nom de la marchandise
 			a[j + 1][0] = getTD("left", null)
-					.ajout("class", "marchandise")
 					.ajout("data-marchandise", j+"")
-					.ajout(getText(Utile.maj(Univers.getMessage("MARCHANDISES", j, c.getLocale()))));
+					.ajout("<div class='marchandise'>" + getText(Utile.maj(Univers.getMessage("MARCHANDISES", j, c.getLocale())))+ "</div>");
 
 			// Une cellule par système : stock (production)
 			for (int i = 0; i < p.length; i++) {

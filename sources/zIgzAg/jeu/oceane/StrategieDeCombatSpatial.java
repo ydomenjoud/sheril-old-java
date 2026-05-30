@@ -4,8 +4,11 @@
 
 package zIgzAg.jeu.oceane;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import zIgzAg.utile.Mdt;
 
@@ -14,10 +17,25 @@ public class StrategieDeCombatSpatial implements Serializable {
 	static final long serialVersionUID = -5672522962514066266L;
 
 	String nom;
-	HashMap positionnement;
-	HashMap comportement;
+	Map<String, int[]> positionnement;
+	Map<String, int[]> comportement;
 	int agressivite;
 	int typeCible;
+
+	@Serial
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+		// 1. Lit les données normalement (remplit les champs tels qu'ils sont dans le fichier)
+		in.defaultReadObject();
+
+		// 2. Transition : Si c'est une HashMap, on la transforme en TreeMap
+		if (comportement != null && !(comportement instanceof java.util.TreeMap)) {
+			comportement = new java.util.TreeMap(comportement);
+		}
+
+		if (positionnement != null && !(positionnement instanceof java.util.TreeMap)) {
+			positionnement = new java.util.TreeMap(positionnement);
+		}
+	}
 
 	// les mÃ©thodes d'accÃšs
 
@@ -105,6 +123,14 @@ public class StrategieDeCombatSpatial implements Serializable {
 		return retour;
 	}
 
+	public void fusionner(StrategieDeCombatSpatial autreStrategie) {
+		this.nom = autreStrategie.nom;
+		this.agressivite = autreStrategie.agressivite;
+		this.typeCible = autreStrategie.typeCible;
+		this.comportement.putAll(autreStrategie.comportement);
+		this.positionnement.putAll(autreStrategie.positionnement);
+	}
+
 	// Le constructeur
 
 	private StrategieDeCombatSpatial() {
@@ -115,8 +141,8 @@ public class StrategieDeCombatSpatial implements Serializable {
 		nom = n;
 		agressivite = agress;
 		typeCible = typeCib;
-		comportement = new HashMap(typeDeVaisseau.length, 1F);
-		positionnement = new HashMap(typeDeVaisseau.length, 1F);
+		comportement = new TreeMap<>();
+		positionnement = new TreeMap<>();
 		for (int i = 0; i < typeDeVaisseau.length; i++) {
 			comportement.put(typeDeVaisseau[i], cibles[i]);
 			int[] inter = new int[3];

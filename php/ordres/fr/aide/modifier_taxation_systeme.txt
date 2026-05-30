@@ -3,38 +3,45 @@
 
 <P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez modifier la taxation d'un de vos systèmes.<BR>
-
-<table class="table_help">
+        </STRONG></FONT></P>
+<table>
     <thead>
     <tr>
-        <th>Niveau de taxation</th>
-        <th>Modification de stabilité</th>
+        <th align="center">Niveau d'imposition</th>
+        <th align="center">Revenus</th>
+        <th align="center">Effet sur la stabilité de la planète</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>0</td>
-        <td>+6</td>
+        <td align="center">0</td>
+        <td align="center">pas de revenu</td>
+        <td align="center">+6% par tour</td>
     </tr>
     <tr>
-        <td>1</td>
-        <td>+3</td>
+        <td align="center">1</td>
+        <td align="center">revenu normal</td>
+        <td align="center">+3% par tour</td>
     </tr>
     <tr>
-        <td>2</td>
-        <td>+1</td>
+        <td align="center">2</td>
+        <td align="center">revenu x 2</td>
+        <td align="center">+1% par tour</td>
     </tr>
     <tr>
-        <td>3</td>
-        <td>-3</td>
+        <td align="center">3</td>
+        <td align="center">revenu x 3</td>
+        <td align="center">-3% par tour</td>
     </tr>
     <tr>
-        <td>4</td>
-        <td>-7</td>
+        <td align="center">4</td>
+        <td align="center">revenu x 4</td>
+        <td align="center">-7% par tour</td>
     </tr>
     <tr>
-        <td>5</td>
-        <td>-12</td>
+        <td align="center">5</td>
+        <td align="center">revenu x 5</td>
+        <td align="center">-12% par tour</td>
     </tr>
     </tbody>
 </table>

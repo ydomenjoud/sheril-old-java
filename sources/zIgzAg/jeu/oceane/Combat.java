@@ -1045,8 +1045,11 @@ public class Combat {
                                           Flotte f1, Flotte f2, int numF1, int numF2, boolean vC1,
                                           boolean vC2, int nbD1, int nbD2, int nbP1, int nbP2,
                                           Map.Entry[] d1, Map.Entry[] d2, Map n1, Map n2) {
-        c1.ajouterEvenement("COMBAT_FLOTTE_0000", f1.getNomNumero(numF1),
-                f2.getNomNumero(numF2), c2.getNomNumero(), f1.getPosition());
+        c1.ajouterEvenement("COMBAT_FLOTTE_0000",
+                f1.getNomNumero(numF1),
+                f2.getNomNumero(numF2),
+                c2.getNomNumero(),
+                f1.getPosition());
         if (vC2)
             c1.ajouterEvenement("COMBAT_FLOTTE_0001");
         else

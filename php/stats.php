@@ -5,8 +5,8 @@
         <div>Statistiques</div>
         <a target="stats-detail" href="./stats_general.php">Classement Général</a>
         <div>Points de victoire</div>
-        <a target="stats-detail" href="./stats/points_victoire.htm">Point de victoire</a>
-        <a target="stats-detail" href="./stats/points_victoire_detail.htm">Point de victoire ( détail )</a>
+        <a target="stats-detail" href="./stats/points_victoire.htm">Classement des PV</a>
+        <a target="stats-detail" href="./stats/points_victoire_detail.htm">Détail des PV</a>
 
 
         <div>Militaire:</div>
@@ -30,7 +30,7 @@
     </nav>
     <main>
 
-        <iframe name="stats-detail" width="100%" style="min-height: 600px; height:100%" src="./stats_general.php"></iframe>
+        <iframe name="stats-detail" width="100%" style="min-height: 200px; height:99%" src="./stats_general.php"></iframe>
 
     </main>
 <script>

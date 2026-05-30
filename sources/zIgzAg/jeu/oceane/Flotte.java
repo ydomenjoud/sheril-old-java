@@ -124,9 +124,8 @@ public class Flotte implements Serializable {
 	}
 
 	public String getNomNumero(int num) {
-		return nom + "(" + Integer.toString(num + 1) + ")";
+		return "<span class='flotte_desc'>" + nom + "(" + Integer.toString(num + 1) + ")</span>";
 	}
-
 	public String getDescriptionVersionMab(int numF, Commandant c, Locale l) {
 		return Univers.getMessage("DESCRIPTION_FLOTTE1", l)
 				+ Integer.toString(numF + 1)
