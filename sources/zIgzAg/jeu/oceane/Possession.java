@@ -6,6 +6,7 @@ package zIgzAg.jeu.oceane;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 
@@ -480,7 +481,7 @@ public class Possession implements Serializable {
 			int l_minerai = (int) (s.getStockMinerai(com.getNumero()) / minerai); // Limite de Minerai
 			int l_espace = nbPointsDeStructure>0 ? (int) (espaceLibreSurSysteme / nbPointsDeStructure) : Integer.MAX_VALUE; // limite d'espace
 			int l_marchan = nb; // Limite de Marchandises
-			StringBuffer marchandises_manquantes = new StringBuffer("");
+			List<String> marchandises_manquantes = new ArrayList<>();
 			
 			 // marchandise de la construction
 			int[][] m1 = Construction.getMarchandises(code);
@@ -493,7 +494,7 @@ public class Possession implements Serializable {
 					
 					if (lim_locale < l_marchan) {
 						l_marchan = lim_locale;
-						marchandises_manquantes.append(Univers.getMessage( "MARCHANDISES", m1[j][0], com.getLocale()) + ",");
+						marchandises_manquantes.add("<span class='marchandise'>" + Univers.getMessage( "MARCHANDISES", m1[j][0], com.getLocale()) + "</span>");
 					}
 				}
 			}
@@ -608,14 +609,17 @@ public class Possession implements Serializable {
 				// On envoi le log de la construction
 				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
 					String nombreConstruit = nbbis + "/" + nb;
-					StringBuffer manque = new StringBuffer();
-					if (pasAssezDeCentaure) manque.append(" centaure, ");
-					if (pasAssezDeMinerai) manque.append(" " + Messages.MINERAI + ", ");
-					if (pasAssezDeMarchandises) manque.append(" marchandise (" + marchandises_manquantes.toString() + ")");
+					List<String> manqueL = new ArrayList<>();
+					if (pasAssezDeCentaure) manqueL.add("centaure");
+					if (pasAssezDeMinerai) manqueL.add(Messages.MINERAI);
+					if (pasAssezDeMarchandises) manqueL.add("marchandise (" + String.join(", ", marchandises_manquantes)+")");
+					if (pasAssezDePlace) manqueL.add("d'espace libre");
 
 					com.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0002",
 							s.getPosition(), nombreConstruit,
-							descriptionTechno, manque);
+							descriptionTechno,
+							String.join(", ", manqueL)
+					);
 
 				} else { // Sinon la construction est OKAY
 					com.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0001",
@@ -626,13 +630,16 @@ public class Possession implements Serializable {
 				
 				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
 					String nombreConstruit = ""+nb;
-					StringBuffer manque = new StringBuffer();
-					if (pasAssezDeCentaure) manque.append(" centaure, ");
-					if (pasAssezDeMinerai) manque.append(" " + Messages.MINERAI + ", ");
-					if (pasAssezDeMarchandises) manque.append(" marchandise (" + marchandises_manquantes.toString() + "),");
-					if (pasAssezDePlace) manque.append(" d'espace libre ");
+					List<String> manqueL = new ArrayList<>();
+					if (pasAssezDeCentaure) manqueL.add("centaure");
+					if (pasAssezDeMinerai) manqueL.add(Messages.MINERAI);
+					if (pasAssezDeMarchandises) manqueL.add("marchandise (" + String.join(", ", marchandises_manquantes)+")");
+					if (pasAssezDePlace) manqueL.add("d'espace libre");
 
-					com.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0003", s.getPosition(), nombreConstruit, descriptionTechno, manque);
+					com.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0003",
+							s.getPosition(), nombreConstruit, descriptionTechno,
+							String.join(", ", manqueL)
+					);
 
 				} 
 			}

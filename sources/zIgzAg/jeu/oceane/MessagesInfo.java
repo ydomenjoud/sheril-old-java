@@ -56,7 +56,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String COMBAT_FLOTTE_0002 = "Suite au {0} dommage(s) infligés votre flotte a perdu {1} vaisseau(x).";
 	public static final String COMBAT_FLOTTE_0003 = "La flotte ennemie est détruite.";
 	public static final String COMBAT_FLOTTE_0004 = "La flotte ennemie a subit {0} dommage(s) et a perdu {1} vaisseau(x).";
-	public static final String COMBAT_FLOTTE_0005 = "<HR><BIG>Round {3} entre votre flotte {2} et la flotte {1} du commandant {0}</BIG><BR>";
+	public static final String COMBAT_FLOTTE_0005 = "<HR><BIG>Tour de combat numéro {3} entre votre flotte {2} et la flotte {1} du commandant {0}</BIG><BR>";
 	public static final String COMBAT_FLOTTE_0006 = "Pour voir le Détail du combat";
 	public static final String COMBAT_FLOTTE_0007 = "Résultat du combat:<BR>";
 

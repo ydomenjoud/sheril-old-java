@@ -130,7 +130,7 @@ public class Flotte implements Serializable {
 		return Univers.getMessage("DESCRIPTION_FLOTTE1", l)
 				+ Integer.toString(numF + 1)
 				+ Univers.getMessage("DESCRIPTION_FLOTTE2", l)
-				+ c.getNomNumero();
+				+ c.getNomNumeroHtml();
 	}
 
 	public String getDescription(int numF, String nomC, Locale l) {
@@ -323,7 +323,7 @@ public class Flotte implements Serializable {
 			inter = inter + Integer.toString(p + 1);
 		else if (d == Const.DIRECTIVE_FLOTTE_ATTAQUE_JOUEUR)
 			if (Univers.existenceCommandant(p))
-				inter = inter + Univers.getCommandant(p).getNomNumero();
+				inter = inter + Univers.getCommandant(p).getNomNumeroHtml();
 		return inter;
 	}
 
@@ -439,9 +439,9 @@ public class Flotte implements Serializable {
 				}
 				retour.ajouterFlotte(f);
 				retour.ajouterEvenement("RETOUR_PRET_FLOTTE_0000", c
-						.getNomNumero());
+						.getNomNumeroHtml());
 				c.ajouterEvenement("RETOUR_PRET_FLOTTE_0001", retour
-						.getNomNumero());
+						.getNomNumeroHtml());
 			}
 		}
 

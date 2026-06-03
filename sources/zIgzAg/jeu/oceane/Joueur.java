@@ -5,6 +5,7 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public class Joueur implements Serializable {
 		return nom;
 	}
 
-	public String getNomNumerobis() {
+	public String getNomNumeroText() {
 		if (numero != 0)
 			return nom + " (" + Integer.toString(numero) + ") ";
 		else
@@ -72,7 +73,7 @@ public class Joueur implements Serializable {
 	/**
 	 * retourn nom(numero) en HTML
 	 */
-	public String getNomNumero() {
+	public String getNomNumeroHtml() {
 		if (numero != 0)
 			return "<span class=\"race" + getRace() + "\">" + nom + "&nbsp;("
 					+ Integer.toString(numero) + ")</span>";
@@ -81,7 +82,7 @@ public class Joueur implements Serializable {
 	}
 
 	public String toString() {
-		return getNomNumero();
+		return getNomNumeroHtml();
 	}
 
 	public String getAdresseElectronique() {
@@ -299,7 +300,29 @@ public class Joueur implements Serializable {
 		
 		Univers.supprimerCommandant(c.getNumero());
 		Univers.ajouterEvenement("ELIMINATION_COMMANDANT_0000", c
-				.getNomNumero());
+				.getNomNumeroHtml());
+	}
+
+	private static void upgradeSystemForNewPlayer(Systeme s, Commandant c, boolean second) {
+
+		ObjetSimpleTransporte ost = new ObjetSimpleTransporte(Messages.MINERAI,300);
+		s.ajouterRichesses(c.getNumero(), ost, Integer.MIN_VALUE);
+
+		Planete[] pla = s.getPlanetes();
+		for (int i = 0; i < pla.length; i++) {
+			pla[i].ajouterBatiment(new ConstructionPlanetaire("mineI"));
+			if (!pla[i].estHabite() && pla[i].meilleurPop() != -1) {
+				pla[i].explorerPlanete(pla[i].meilleurPop());
+				pla[i].ajouterPopulation(pla[i].meilleurPop(), Univers.getInt(50) + 300);
+			}
+		}
+
+		pla[Univers.getInt(pla.length)].ajouterBatiment(new ConstructionPlanetaire("chantierI"));
+		pla[Univers.getInt(pla.length)].ajouterBatiment(new ConstructionPlanetaire("radarII"));
+
+		if(second){
+			pla[Univers.getInt(pla.length)].ajouterBatiment(new ConstructionPlanetaire("optpI"));
+		}
 	}
 
 	public static Commandant creerCommandant(String n, String a, int r, Map m, Position posDepart) {
@@ -444,7 +467,7 @@ public class Joueur implements Serializable {
 		Univers.setCommandant(c);
 		Univers
 				.ajouterEvenement("APPARITION_COMMANDANT_0000", c
-						.getNomNumero());
+						.getNomNumeroHtml());
 
 		return c;
 	}

@@ -702,7 +702,7 @@ public class Rapport {
 					.getJoueur(((Integer) me[i].getKey()).intValue());
 			racine.ajout(getFont(cC[3], "4").ajout(
 					getText((jou instanceof Joueur ? ((Joueur) jou)
-							.getNomNumero() : (String) jou))));
+							.getNomNumeroHtml() : (String) jou))));
 			racine.ajout(sautP());
 			List l = (List) me[i].getValue();
 			BaliseHTML[][] a = new BaliseHTML[l.size()][2];
@@ -721,7 +721,7 @@ public class Rapport {
 				a[j][0] = getTD(null, null)
 						.ajout(getFont(couleur, null)
 								.ajout(getText((jou2 instanceof Joueur ? ((Joueur) jou2)
-										.getNomNumero() : (String) jou2))));
+										.getNomNumeroHtml() : (String) jou2))));
 				a[j][1] = getTD(null, null).ajout(
 						getFont(couleur, null).ajout(getText(s[2])));
 			}
@@ -919,7 +919,7 @@ public class Rapport {
 				chemin + PRINCIPAL,
 				Univers.getMessageRapport("TITRE_RAPPORT",
 						c.getLocale())
-						+ c.getNomNumero(), body));
+						+ c.getNomNumeroHtml(), body));
 		listeDocuments.add(getDocument(
 				chemin + DETAIL_FLOTTE,
 				(String) Univers.getMessageRapport("TITRE_DETAIL_FLOTTES",
@@ -1099,7 +1099,7 @@ public class Rapport {
 			a[ligne++][2] = getTD(BaliseHTML.CENTER, "3").ajout(
 					getFont(cC[4], null).ajout(getText(t2[1]))).ajout(
 					getText(Univers.getCommandant(p.getProprio())
-							.getNomNumero()));
+							.getNomNumeroHtml()));
 
 			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
@@ -1635,7 +1635,7 @@ public class Rapport {
 				Commandant comm = Univers.getCommandant(num.intValue());
 				if (comm != null) {
 					String mail = comm.getAdresseElectronique();
-					a[i][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(comm.getNomNumero()));
+					a[i][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(comm.getNomNumeroHtml()));
 					a[i][1] = getTD(BaliseHTML.CENTER, null).ajout(getText(tour.toString()));
 					a[i][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(
 							"<a href=\"mailto:" + mail + "\">" + mail + "</a>"
@@ -1676,7 +1676,7 @@ public class Rapport {
 			BaliseHTML[][] a = new BaliseHTML[1][1];
 			String inter = "";
 			for (int i = 0; i < p.length; i++)
-				inter = inter + Univers.getCommandant(p[i]).getNomNumero()
+				inter = inter + Univers.getCommandant(p[i]).getNomNumeroHtml()
 						+ "&nbsp;";
 			a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getText(inter));
 			racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a).ajout(
@@ -1829,7 +1829,7 @@ public class Rapport {
 				infos.add(f.getPosition().getDescription());
 				infos.add(f.getNom());
 				infos.add((b[i][1] + 1) + "");
-				infos.add(commandant.getNomNumero());
+				infos.add(commandant.getNomNumeroHtml());
 				infos.add(Utile.maj("<font color=" + cC[4] + ">"
 						+ f.getNombreDeVaisseaux() + "</font>"));
 				int[] bornes = f.getBornesPuissance();
@@ -1983,7 +1983,7 @@ public class Rapport {
 
 				a[i + 2][0] = getTD(null, null).ajout(getALienI(p[i].toString()).ajout(getImage(getCheminEtoile(s.getTypeEtoile()), 15, 15)));
 				a[i + 2][1] = getTD(BaliseHTML.CENTER, null).ajout( getText(p[i].getDescription()));
-				a[i + 2][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(s.getNomPositionHTML(Locale.getDefault())));
+				a[i + 2][2] = getTD(BaliseHTML.CENTER, null).ajout(getText(s.getNomHTML()));
 				a[i + 2][3] = getTD(BaliseHTML.CENTER, null).ajout( color.ajout(getText(Integer.toString(s.getPopulation(c .getNumero())))));
 				a[i + 2][4] = getTD(BaliseHTML.CENTER, null) .ajout(getFont(cC[4], null) .ajout(getText(Integer.toString(s .getPopulationMaximale(c.getNumero())))));
 				a[i + 2][5] = getTD(BaliseHTML.CENTER, null).ajout(
@@ -2037,9 +2037,10 @@ public class Rapport {
 					+ "</span>";
 				}
 				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
+				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(getText(s.getInfluenceRayonnement(c.getNumero())+""));
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
-					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme"), a)));
+					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme stripped"), a)));
 		} else
 			return vide();
 	}
@@ -2232,6 +2233,12 @@ public class Rapport {
 		String b_open = "<font color=" + cC[6] + ">";
 		String b_close = "</font>";
 
+		a[ligne][0] = getTD(null, null).ajout(getFont(cC[4], null).ajout(getText("Rayonnement"))
+				.ajout("data-tooltip", " revenu/10  + encombrement + entretien + (expérience gouverneur ) " +
+						"+ (nb produit de luxe) + ( nb holofilm) " +
+						"+ (nb metaux précieux ) + (nb LIXIAM) * 10"));
+		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(getText(s.getInfluenceRayonnement(num)+""));
+
 		a[ligne][0] = getTD(null, null)
 				.ajout(getFont(cC[4], null)
 						.ajout(getText("Evolution de la stabilité &nbsp; &nbsp; &nbsp; ( "
@@ -2374,7 +2381,7 @@ public class Rapport {
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
 					proprio ? (pl.getRevolte() ? "<span class=\"moins\">Oui</span>" : "Non") : "??"
 			));
-			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(Univers.getCommandant(pl.getProprio()).getNomNumero());
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(Univers.getCommandant(pl.getProprio()).getNomNumeroHtml());
 
 			int[] racesPresentes = pl.racesPresentes();
 			if(racesPresentes.length == 0){
@@ -2399,7 +2406,7 @@ public class Rapport {
 			b[bligne++][bcol] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b));
 
 		// poste  commercial
 		int[] proprios = s.getProprios();
@@ -2407,7 +2414,7 @@ public class Rapport {
 		for (int j = 0; j < proprios.length; j++) {
 			liens.add(getALienI(getLienPosteCo(s.getPosition(), proprios[j]))
 					.ajout(getFont(cC[5], null)
-							.ajout(getText(Univers.getCommandant(proprios[j]).getNomNumero())))
+							.ajout(getText(Univers.getCommandant(proprios[j]).getNomNumeroHtml())))
 					.toString());
 		}
 
@@ -2429,11 +2436,11 @@ public class Rapport {
                 posteTable[row+1][col*2 + 1] = getPosteCell(stock, prod, marchandise);
 			}
 		}
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), posteTable));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), posteTable));
 
 		return getDiv()
 				.ajout(lien)
-				.ajout(DocumentHTML.creerTable(getTable("table_full"), a)).ajout(sautP());
+				.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(sautP());
 	}
 
 	public BaliseHTML getPostesCommerciaux() {
@@ -2532,7 +2539,7 @@ public class Rapport {
             String description = "<span class=\"systeme\">" + s.getNom() + "</span>";
             description += "<span class=\"position\">" + s.getPosition() .getDescription()+ "</span>";
             if(n != null){
-                description += Univers.getCommandant(n[i]).getNomNumero();
+                description += Univers.getCommandant(n[i]).getNomNumeroHtml();
             }
 			a[0][i + 1] = getTD(BaliseHTML.CENTER, null)
 					.ajout(
@@ -2557,7 +2564,7 @@ public class Rapport {
 			}
 		}
 
-		return DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux table_full");
+		return DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux table_full stripped");
 	}
 
 	public BaliseHTML getResumeFlottes() {
@@ -2631,7 +2638,7 @@ public class Rapport {
 
 			}
 			return getABorne(LIEN_RESUME_FLOTTE).ajout(
-					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)));
+					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a)));
 		} else
 			return vide();
 	}
@@ -2805,7 +2812,7 @@ public class Rapport {
 								getLienPosteCo(s.getPosition(), proprios[j]))
 								.ajout(getFont(cC[5], null).ajout(
 										getText(Univers.getCommandant(
-												proprios[j]).getNomNumero())))
+												proprios[j]).getNomNumeroHtml())))
 								.toString();
 				if (j != proprios.length - 1)
 					intermediaire = intermediaire + " - ";
@@ -2976,7 +2983,7 @@ public class Rapport {
 						getText(Integer.toString(c
 								.nombreDePointsDeRecherche(re[i]))));
 			}
-			racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a)
+			racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a)
 					.setTexteContenu("<BR><BR>"));
 		}
 
@@ -2995,7 +3002,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 		racine.ajout(
-				DocumentHTML.creerTable(getTable("table_full"), a)).ajout(sautP());
+				DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(sautP());
 
 		racine.ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
 		a = new BaliseHTML[200][8];
@@ -3009,7 +3016,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 
-		return racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
+		return racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a));
 	}
 
 	public int ajoutTableauTechnologique(BaliseHTML[][] a, int ligne,
@@ -3224,7 +3231,7 @@ public class Rapport {
 			a[8][0] = getTD(BaliseHTML.CENTER, "10").ajout(getTextI(cara));
 		}
 
-		return DocumentHTML.creerTable(getTable("table_full"), a)
+		return DocumentHTML.creerTable(getTable("table_full stripped"), a)
 				.ajout(sautP());
 	}
 
@@ -3313,7 +3320,7 @@ public class Rapport {
 				counter1++;
 			}
 
-			return racine.ajout(DocumentHTML.creerTable(getTable("table_full"), a));
+			return racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a));
 		} else
 			return vide();
 	}
@@ -3372,7 +3379,7 @@ public class Rapport {
 							.a1D(((float) tab[i][1]) / 10))));
 		}
 
-		return getDiv().ajout(DocumentHTML.creerTable(getTable("table_full"), a)).ajout(
+		return getDiv().ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(
 				sautP());
 	}
 
@@ -3423,7 +3430,7 @@ public class Rapport {
 		Commandant[] co = Univers.getListeCommandantsHumains();
 		for (int i = 0; i < co.length; i++)
 			if (co[i].aUnSite())
-				commandants.put(co[i].getNomNumero(), co[i].getSite());
+				commandants.put(co[i].getNomNumeroHtml(), co[i].getSite());
 		Map.Entry[] ma = (Map.Entry[]) alliances.entrySet().toArray(
 				new Map.Entry[0]);
 		Map.Entry[] mc = (Map.Entry[]) commandants.entrySet().toArray(

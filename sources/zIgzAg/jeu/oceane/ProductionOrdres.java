@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.stream.Stream;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -77,7 +76,7 @@ public class ProductionOrdres {
                 chemin + NOM_PAGE_PRINCIPALE_ORDRES,
                 (String) Univers.getMessageRapport("TITRE_ORDRES",
                         c.getLocale())
-                        + c.getNomNumero(), fs).ecrire();
+                        + c.getNomNumeroHtml(), fs).ecrire();
     }
 
     public void productionIndex() {
@@ -447,7 +446,7 @@ public class ProductionOrdres {
 			}
 			if (elimine) {
 				System.out.println("Supression du commandant "
-						+ c[i].getNomNumerobis());
+						+ c[i].getNomNumeroText());
 				Joueur.supprimerCommandant(c[i]);
 				ecrire(supprimerCommandant(Const.TABLE_REGISTRE,
 						c[i].getNumero()));
@@ -1002,7 +1001,7 @@ public class ProductionOrdres {
             for (int i = 0; i < b.length; i++) {
                 Commandant commandant = Univers.getCommandant(b[i][0]);
                 k2[i] = b[i][0] + ":"+ b[i][1];
-                v2[i] = (b[i][1] + 1) + " de " + commandant.getNomNumerobis();
+                v2[i] = (b[i][1] + 1) + " de " + commandant.getNomNumeroText();
             }
             ecrire(afficherA(Const.TABLE_FLOTTES_DETECTEES, k2, v2));
             return true;

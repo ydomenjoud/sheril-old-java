@@ -120,6 +120,9 @@
 .resume_systeme .half{}
 .resume_systeme .less{}
 
+.resume_systeme .systeme font {
+    display: none;
+}
 
 .flotte {
     max-width: var(--width);

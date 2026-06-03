@@ -6,7 +6,6 @@ package zIgzAg.jeu.oceane;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -84,12 +83,12 @@ public class StrategieDeCombatSpatial implements Serializable {
 	public static boolean[] estStrategieValide(Commandant c, int agress,
 			int typeC, String[] vaisseau, int[][] pos, int[][] tC) {
 		if (agress > Const.STRATEGIE_AGRESSIVITE_NB_MAXIMAL) {
-			Univers.ajouterErreur(c.getNomNumero(), "ER_STRATEGIE_COMBAT_0000",
+			Univers.ajouterErreur(c.getNomNumeroHtml(), "ER_STRATEGIE_COMBAT_0000",
 					agress);
 			return null;
 		}
 		if (typeC > Const.STRATEGIE_AGRESSIVITE_NB_MAXIMAL) {
-			Univers.ajouterErreur(c.getNomNumero(), "ER_STRATEGIE_COMBAT_0001",
+			Univers.ajouterErreur(c.getNomNumeroHtml(), "ER_STRATEGIE_COMBAT_0001",
 					typeC);
 			return null;
 		}
@@ -97,13 +96,13 @@ public class StrategieDeCombatSpatial implements Serializable {
 		for (int i = 0; i < vaisseau.length; i++) {
 			boolean ok = true;
 			if (!Univers.existencePlanDeVaisseau(vaisseau[i])) {
-				Univers.ajouterErreur(c.getNomNumero(),
+				Univers.ajouterErreur(c.getNomNumeroHtml(),
 						"ER_STRATEGIE_COMBAT_0002", vaisseau[i]);
 				ok = false;
 			}
 			if ((pos[i][0] > Const.COMBAT_X_MAX)
 					|| (pos[i][1] > Const.COMBAT_Y_MAX)) {
-				Univers.ajouterErreur(c.getNomNumero(),
+				Univers.ajouterErreur(c.getNomNumeroHtml(),
 						"ER_STRATEGIE_COMBAT_0003", vaisseau[i], pos[i][0],
 						pos[i][1]);
 				ok = false;

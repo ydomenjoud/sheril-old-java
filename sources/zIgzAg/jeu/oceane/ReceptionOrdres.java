@@ -80,7 +80,7 @@ public class ReceptionOrdres {
 
 	public int tInt(int e) {
 		if (e < 0) {
-			Univers.ajouterErreur(c[iC].getNomNumero(), "ER_ORDRE_0000",
+			Univers.ajouterErreur(c[iC].getNomNumeroHtml(), "ER_ORDRE_0000",
 					Const.NOMS_TABLES_ORDRES[index], e);
 			return 0;
 		} else
@@ -91,7 +91,7 @@ public class ReceptionOrdres {
 		try {
 			return tInt(Integer.parseInt(e));
 		} catch (NumberFormatException exception) {
-			Univers.ajouterErreur(c[iC].getNomNumero(), "ER_ORDRE_0001",
+			Univers.ajouterErreur(c[iC].getNomNumeroHtml(), "ER_ORDRE_0001",
 					Const.NOMS_TABLES_ORDRES[index], e);
 			return 0;
 		}
@@ -153,7 +153,7 @@ public class ReceptionOrdres {
 				|| ((index == Const.ORDRE_CREER_PLAN) && (a.size() > Const.NOMBRE_LIMITE_CREATION_PLAN))
 				|| ((index == Const.ORDRE_CREER_STRATEGIE) && (a.size() > Const.NOMBRE_LIMITE_CREATION_STRATEGIE))) {
 			a = new ArrayList();
-			Univers.ajouterErreur(c[iC].getNomNumero(), "ER_ORDRE_0002",
+			Univers.ajouterErreur(c[iC].getNomNumeroHtml(), "ER_ORDRE_0002",
 					Const.NOMS_TABLES_ORDRES[index]);
 		}
 
@@ -246,7 +246,7 @@ public class ReceptionOrdres {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage() + "com:" + c[iC].getNomNumero());
+			System.out.println(e.getMessage() + "com:" + c[iC].getNomNumeroHtml());
 		}
 	}
 
@@ -296,7 +296,7 @@ public class ReceptionOrdres {
 				} else {
 					c.ajouterEvenement("ER_COMMANDANT_ACHAT_GALACTIQUE_0000",
 							offre.getDescription(),
-							vendeur.getNomNumero()
+							vendeur.getNomNumeroHtml()
 							);
 
 				}
@@ -324,7 +324,7 @@ public class ReceptionOrdres {
 				c.ajouterEvenement("EV_COMMANDANT_ACHETER_LIEUTENANT_0000",
 						l[numeroLieutenant].getNom(), (float) offre);
 				Univers.ajouterEvenement("PUBLIC_ACHETER_COMMANDANT_0000",
-						c.getNomNumero(), l[numeroLieutenant].getNom(),
+						c.getNomNumeroHtml(), l[numeroLieutenant].getNom(),
 						(float) offre);
 				Univers.retirerLeaderEnVente(l[numeroLieutenant]);
 			} else

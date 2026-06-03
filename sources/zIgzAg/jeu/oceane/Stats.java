@@ -751,7 +751,7 @@ public class Stats {
 			int progressionCeTour = c.calculerProgressionPV();
 
 			retour.add(new Object[]{
-					c.getNomNumero(),
+					c.getNomNumeroHtml(),
 					c.getPointsDeVictoire(),
 					String.format("%05.2f%%", ((double) c.getPopulationTotale() / (getTotalPopulationUniverse() * 0.66)) * 100),
 					String.format("%05.2f%%", ((double) c.getNombrePlanetesPossedees() / (getTotalPlanetesUniverse() * 0.66)) * 100),
@@ -895,7 +895,7 @@ public class Stats {
 						    </tr>
 					""".formatted(
 					a++,
-					c.getNomNumero(),
+					c.getNomNumeroHtml(),
 					valPuissance,
 					valPlanetes,
 					valCentaures,
@@ -1079,7 +1079,7 @@ public class Stats {
 				}
 			}
 			String[] ligne = new String[] {
-					cmd.getNomNumero(),
+					cmd.getNomNumeroHtml(),
 					formater(stats, PointDeVictoireCategorie.PLANETES),
 					formater(stats, PointDeVictoireCategorie.COMBATS),
 					formater(stats, PointDeVictoireCategorie.POPULATION),
