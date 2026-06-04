@@ -4,7 +4,9 @@
 <P><FONT ><STRONG>Utilisez cette rubrique si vous
 voulez modifier la taxation d'un de vos systèmes.<BR>
         </STRONG></FONT></P>
+<div style="display:flex; gap: 10px;">
 <table>
+    <caption>Modificateur de stabilité par niveau de taxation</caption>
     <thead>
     <tr>
         <th align="center">Niveau d'imposition</th>
@@ -45,3 +47,51 @@ voulez modifier la taxation d'un de vos systèmes.<BR>
     </tr>
     </tbody>
 </table>
+    <table>
+        <caption>Modificateur de stabilité par distance à la capitale</caption>
+        <thead>
+        <tr>
+            <th align="center">Distance à la capitale</th>
+            <th align="center">Effet sur la stabilité de la planète</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="center">0 case</td>
+            <td align="center">+3% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">1 à 2 cases</td>
+            <td align="center">+2% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">de 3 à 4 case</td>
+            <td align="center">+1% par tour</td>
+        </tr>
+        <tr>
+            <td align="center"> 5 cases</td>
+            <td align="center">+0% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">6 cases</td>
+            <td align="center">-1% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">7 cases</td>
+            <td align="center">-3% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">8 à 9 cases</td>
+            <td align="center">-6% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">10 cases</td>
+            <td align="center">-9% par tour</td>
+        </tr>
+        <tr>
+            <td align="center">plus de 10 cases</td>
+            <td align="center">-16% par tour</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -156,7 +156,7 @@ public class Messages extends MessagesAbstraits {
 			"achat de marchandises", "achat de lieutenant",
 			"changement de capitale", "changement de politique", "prêt flotte",
 			"don plan de vaisseau", "création plan de vaisseau",
-			"don stratéie de combat", "réalisation construction",
+			"don stratégie de combat", "réalisation construction",
 			"entretien flotte", "entretien système", "budget technologique",
 			"budget services spéciaux", "budget contre-espionnage",
 			"entretien des lieutenants", "entretien des technologies",

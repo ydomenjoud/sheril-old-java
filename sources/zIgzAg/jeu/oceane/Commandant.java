@@ -1459,7 +1459,7 @@ public class Commandant extends Joueur implements Serializable {
 	public static String getListeCommandants(Commandant[] l) {
 		String retour = new String();
 		for (int i = 0; i < l.length; i++) {
-			retour = retour + l[i].getNomNumero();
+			retour = retour + l[i].getNomNumeroHtml();
 			if (i != l.length - 1)
 				retour = retour + ", ";
 		}
@@ -1575,14 +1575,14 @@ public class Commandant extends Joueur implements Serializable {
 													"EV_COMMANDANT_GESTION_FLOTTE_0002",
 													f[i].getNomNumero(numeroFlotte(f[i])),
 													s.getPosition(), commandant
-															.getNomNumero(),
+															.getNomNumeroHtml(),
 													nbRepare);
 											commandant
 													.ajouterEvenement(
 															"EV_COMMANDANT_GESTION_FLOTTE_0003",
 															f[i].getNomNumero(numeroFlotte(f[i])),
 															s.getPosition(),
-															getNomNumero(),
+															getNomNumeroHtml(),
 															nbRepare);
 											fait = true;
 											s.setPointsRepare(
@@ -1592,7 +1592,7 @@ public class Commandant extends Joueur implements Serializable {
 											ajouterEvenement(
 													"EV_COMMANDANT_GESTION_FLOTTE_0004",
 													f[i].getNomNumero(numeroFlotte(f[i])),
-													commandant.getNomNumero());
+													commandant.getNomNumeroHtml());
 								}
 							}
 					}
@@ -1801,7 +1801,7 @@ public class Commandant extends Joueur implements Serializable {
 	public static void resolutionEvenements() {
 
 		// Oxole
-		for (int a = 0; a < 1 + Univers.getInt(2); a++) {
+		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
 			Position[] p = Univers.listePositionsSystemes();
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
@@ -1815,7 +1815,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// Lixiam
-		for (int a = 0; a < 1 + Univers.getInt(2); a++) {
+		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
 			Position[] p = Univers.listePositionsSystemes();
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
@@ -1829,7 +1829,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// Tixium
-		for (int a = 0; a < 1 + Univers.getInt(2); a++) {
+		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
 			Position[] p = Univers.listePositionsSystemes();
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
@@ -2117,7 +2117,7 @@ public class Commandant extends Joueur implements Serializable {
 			acheteur.ajouterErreur(
 					"ER_COMMANDANT_VENTE_MARCHANDISE_0001",
 					ObjetTransporte.traductionChargement(code, nombre,
-							acheteur.getLocale()), pos, this.getNomNumero(),
+							acheteur.getLocale()), pos, this.getNomNumeroHtml(),
 					nombre);
 			return null;
 		}
@@ -2134,7 +2134,7 @@ public class Commandant extends Joueur implements Serializable {
 				acheteur.ajouterErreur("ER_COMMANDANT_VENTE_MARCHANDISE_0002",
 						ObjetTransporte.traductionChargement(code, nombre,
 								acheteur.getLocale()), pos, acheteur
-								.getNomNumero(), nombre);
+								.getNomNumeroHtml(), nombre);
 				return null;
 			}
 			modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE,
@@ -2142,11 +2142,11 @@ public class Commandant extends Joueur implements Serializable {
 			acheteur.modifierBudget(Const.BUDGET_COMMANDANT_ACHAT_MARCHANDISE,
 					-prixEffectif);
 			ajouterEvenement("EV_COMMANDANT_VENTE_MARCHANDISE_0000",
-					acheteur.getNomNumero(),
+					acheteur.getNomNumeroHtml(),
 					ObjetTransporte.traductionChargement(code, nombreVendu,
 							getLocale()), pos, nombreVendu, prixEffectif);
 			acheteur.ajouterEvenement("EV_COMMANDANT_VENTE_MARCHANDISE_0001",
-					getNomNumero(), ObjetTransporte.traductionChargement(code,
+					getNomNumeroHtml(), ObjetTransporte.traductionChargement(code,
 							nombreVendu, acheteur.getLocale()), pos,
 					nombreVendu, prixEffectif);
 		} else
@@ -2203,12 +2203,12 @@ public class Commandant extends Joueur implements Serializable {
 			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE,
 					prixEffectif);
 			ajouterEvenement("EV_COMMANDANT_ACHAT_MARCHANDISE_0000",
-					vendeur.getNomNumero(),
+					vendeur.getNomNumeroHtml(),
 					ObjetTransporte.traductionChargement(code, nombre,
 							getLocale()), pos, nombre, prixEffectif);
 			vendeur.ajouterEvenement(
 					"EV_COMMANDANT_ACHAT_MARCHANDISE_0001",
-					getNomNumero(),
+					getNomNumeroHtml(),
 					ObjetTransporte.traductionChargement(code, nombre,
 							vendeur.getLocale()), pos, nombre, prixEffectif);
 		} else
@@ -2258,7 +2258,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean dechirerPacteDeNonAgression(int numeroCible) {
 		if (!existencePacteDeNonAgression(numeroCible))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PACTE_0000", numeroCible);
 
 		romprePacteDeNonAgression(numeroCible);
@@ -2266,14 +2266,14 @@ public class Commandant extends Joueur implements Serializable {
 		cible.romprePacteDeNonAgression(numero);
 		reputation = reputation + Const.REPUTATION_RUPTURE_DE_PACTE;
 
-		cible.ajouterEvenement("EV_COMMANDANT_PACTE_0000", getNomNumero());
+		cible.ajouterEvenement("EV_COMMANDANT_PACTE_0000", getNomNumeroHtml());
 		return ajouterEvenement("EV_COMMANDANT_PACTE_0001",
-				cible.getNomNumero());
+				cible.getNomNumeroHtml());
 	}
 
 	public boolean signerPacteDeNonAgression(int numeroCible) {
 		if (existencePacteDeNonAgression(numeroCible))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PACTE_0001", numeroCible);
 
 		ajouterPacteDeNonAgression(numeroCible);
@@ -2285,7 +2285,7 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean creerAlliance(int droitsEntree, String titre, int type,
 			boolean secrete) {
 		if (!estTechnologieConnue("diploI"))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0011");
 		// if(nombreAlliancesTropGrand()) return
 		// ajouterErreur("ER_COMMANDANT_ALLIANCE_0001",titre);
@@ -2312,7 +2312,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean adhererAlliance(int num) {
 		if (!Univers.allianceExistante(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0002", num);
 		// if(nombreAlliancesTropGrand()) return
 		// ajouterErreur("ER_COMMANDANT_ALLIANCE_0003",num);
@@ -2326,60 +2326,60 @@ public class Commandant extends Joueur implements Serializable {
 		repartirDroitsEntreeAlliance(a);
 		ajouterAlliance(a.getNumero());
 
-		a.ajouterEvenement("EV_ALLIANCE_0000", getNomNumero());
+		a.ajouterEvenement("EV_ALLIANCE_0000", getNomNumeroHtml());
 		return ajouterEvenement("EV_COMMANDANT_ALLIANCE_0001", a.getNom(),
 				a.getDroitsEntree());
 	}
 
 	public boolean voterElectionDirigeant(int num, int dirigeant) {
 		if (!Univers.existenceCommandant(dirigeant))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0003", dirigeant);
 		if (!Univers.getCommandant(dirigeant).appartientAAlliance(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0004", dirigeant, num);
 		if (!appartientAAlliance(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0000", num);
 		Alliance a = Univers.getAlliance(num);
 		if ((!a.estDemocratique())
 				&& ((!a.estAnarchique()) || (a.estSecrete())))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0001", num);
 
 		a.ajouterVoteDirigeant(dirigeant);
 
 		return ajouterEvenement("EV_COMMANDANT_ALLIANCE_0004", a.getNom(),
-				Univers.getCommandant(dirigeant).getNomNumero());
+				Univers.getCommandant(dirigeant).getNomNumeroHtml());
 	}
 
 	public boolean voterExclusionCommandant(int num, int cible) {
 		if (!Univers.existenceCommandant(cible))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0008", cible);
 		if (!Univers.getCommandant(cible).appartientAAlliance(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0009", cible, num);
 		if (!appartientAAlliance(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0005", num);
 		Alliance a = Univers.getAlliance(num);
 		if (a.estAnarchique())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0010", num);
 		if ((a.estAutocratique()) && (!a.estDirigeePar(numero)))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0011", num);
 
 		a.ajouterVoteExclusion(cible);
 
 		return ajouterEvenement("EV_COMMANDANT_ALLIANCE_0006", a.getNom(),
-				Univers.getCommandant(cible).getNomNumero());
+				Univers.getCommandant(cible).getNomNumeroHtml());
 	}
 
 	public boolean quitterAlliance(int num) {
 		if (!Univers.allianceExistante(num))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0006", num);
 		Alliance a = Univers.getAlliance(num);
 		if (!appartientAAlliance(a.getNumero()))
@@ -2387,13 +2387,13 @@ public class Commandant extends Joueur implements Serializable {
 
 		enleverAlliance(a.getNumero());
 
-		a.ajouterEvenement("EV_ALLIANCE_0001", getNomNumero());
+		a.ajouterEvenement("EV_ALLIANCE_0001", getNomNumeroHtml());
 		return ajouterEvenement("EV_COMMANDANT_ALLIANCE_0002", a.getNom());
 	}
 
 	public boolean renommerAlliance(String titre, int numeroAlliance) {
 		if (!Univers.allianceExistante(numeroAlliance))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0012", numeroAlliance);
 		Alliance a = Univers.getAlliance(numeroAlliance);
 		if (!a.estDirigeePar(numero))
@@ -2407,7 +2407,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean ecrireAdresseAlliance(String titre, int numeroAlliance) {
 		if (!Univers.allianceExistante(numeroAlliance))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ALLIANCE_0013", numeroAlliance);
 		Alliance a = Univers.getAlliance(numeroAlliance);
 		if (!a.estDirigeePar(numero))
@@ -2422,7 +2422,7 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean transfertCentaures(int destinataire, int don,
 			int modeTransfert) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_CENTAURES_0000", destinataire);
 
         if(don <= 0)
@@ -2449,22 +2449,22 @@ public class Commandant extends Joueur implements Serializable {
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (don > Const.DON_MAXIMUM_SECRET))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_CENTAURES_0000",
-					getNomNumero(), cible.getNomNumero(),
+					getNomNumeroHtml(), cible.getNomNumeroHtml(),
 					"<font color=\"#FBF7AF\">" + don + "</font>");
 		ajouterEvenement("EV_COMMANDANT_DON_CENTAURES_0001",
-				cible.getNomNumero(), don);
+				cible.getNomNumeroHtml(), don);
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_CENTAURES_0002",
 					"<font color=\"#FBF7AF\">" + don + "</font>");
 		else
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_CENTAURES_0003",
-					getNomNumero(), "<font color=\"#FBF7AF\">" + don
+					getNomNumeroHtml(), "<font color=\"#FBF7AF\">" + don
 							+ "</font>");
 	}
 
 	public boolean abandonnerTechnologie(String codeTechno) {
 		if (!estTechnologieConnue(codeTechno))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ELIMINER_TECHNOLOGIE_0000",
 					"<font color=\"#00F1AF\">" + codeTechno + "</font>");
 
@@ -2478,11 +2478,11 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean transfertTechnologie(int destinataire, String codeTechno,
 			int modeTransfert) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_TECHNOLOGIE_0000", codeTechno,
 					destinataire);
 		if (!estTechnologieConnue(codeTechno))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_TECHNOLOGIE_0001",
 					"<font color=\"#00F1AF\">" + codeTechno + "</font>",
 					destinataire);
@@ -2515,25 +2515,25 @@ public class Commandant extends Joueur implements Serializable {
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_TECHNO_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_TECHNOLOGIE_0002",
-					getNomNumero(), cible.getNomNumero(), t);
+					getNomNumeroHtml(), cible.getNomNumeroHtml(), t);
 		ajouterEvenement("EV_COMMANDANT_DON_TECHNOLOGIE_0000",
-				cible.getNomNumero(), t);
+				cible.getNomNumeroHtml(), t);
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_TECHNOLOGIE_0003",
 					t);
 		else
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_TECHNOLOGIE_0001",
-					getNomNumero(), t);
+					getNomNumeroHtml(), t);
 	}
 
 	public boolean transfertFlotte(int destinataire, int numeroFlotte,
 			int nbTours, int modeTransfert) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_FLOTTE_0000", numeroFlotte + 1,
 					destinataire);
 		if (!existenceFlotte(numeroFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_FLOTTE_0001", numeroFlotte + 1,
 					destinataire);
 		Flotte f = getFlotte(numeroFlotte);
@@ -2542,7 +2542,7 @@ public class Commandant extends Joueur implements Serializable {
 					numeroFlotte + 1, destinataire);
 		Commandant cible = Univers.getCommandant(destinataire);
 		if (!cible.estJoueurHumain())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_FLOTTE_0002", numeroFlotte + 1,
 					destinataire);
 		float cout = 0F;
@@ -2564,27 +2564,27 @@ public class Commandant extends Joueur implements Serializable {
 		Univers.ajouterTransfert(this, cible, "prêt flotte puissance : "
 				+ Integer.toString(f.getPuissance()));
 
-		ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0000", cible.getNomNumero(),
+		ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0000", cible.getNomNumeroHtml(),
 				numeroFlotte + 1, nbTours);
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_FLOTTE_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0003",
-					getNomNumero(), cible.getNomNumero());
+					getNomNumeroHtml(), cible.getNomNumeroHtml());
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0002",
 					numeroFlotte + 1, nbTours);
 		else
 			return cible.ajouterEvenement("EV_COMMANDANT_DON_FLOTTE_0001",
-					getNomNumero(), numeroFlotte + 1, nbTours);
+					getNomNumeroHtml(), numeroFlotte + 1, nbTours);
 	}
 
 	public boolean venteFlotte(int destinataire, int numeroFlotte) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_VENTE_FLOTTE_0000", numeroFlotte + 1,
 					destinataire);
 		if (!existenceFlotte(numeroFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_VENTE_FLOTTE_0001", numeroFlotte + 1,
 					destinataire);
 		Flotte f = getFlotte(numeroFlotte);
@@ -2610,20 +2610,20 @@ public class Commandant extends Joueur implements Serializable {
 				+ Integer.toString(f.getPuissance()));
 
 		Univers.ajouterEvenement("EV_COMMANDANT_VENTE_FLOTTE_0003",
-				getNomNumero(), cible.getNomNumero());
+				getNomNumeroHtml(), cible.getNomNumeroHtml());
 		ajouterEvenement("EV_COMMANDANT_VENTE_FLOTTE_0000",
-				cible.getNomNumero(), numeroFlotte + 1);
+				cible.getNomNumeroHtml(), numeroFlotte + 1);
 		return cible.ajouterEvenement("EV_COMMANDANT_VENTE_FLOTTE_0001",
-				getNomNumero(), Flotte.getNomOut(f), cout, numeroFlotte + 1);
+				getNomNumeroHtml(), Flotte.getNomOut(f), cout, numeroFlotte + 1);
 	}
 
 	public boolean transfertSysteme(int destinataire, Position pos,
 			int modeTransfert) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_SYSTEME_0000", destinataire);
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_SYSTEME_0001", pos);
 		Systeme sys = Univers.getSysteme(pos);
 		float cout = 0F;
@@ -2651,14 +2651,14 @@ public class Commandant extends Joueur implements Serializable {
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_SYSTEME_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_SYSTEME_0002",
-					getNomNumero(), cible.getNomNumero(), pos);
+					getNomNumeroHtml(), cible.getNomNumeroHtml(), pos);
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			cible.ajouterEvenement("EV_COMMANDANT_DON_SYSTEME_0003", pos);
 		else
 			cible.ajouterEvenement("EV_COMMANDANT_DON_SYSTEME_0001",
-					getNomNumero(), pos);
+					getNomNumeroHtml(), pos);
 		return ajouterEvenement("EV_COMMANDANT_DON_SYSTEME_0000",
-				cible.getNomNumero(), pos);
+				cible.getNomNumeroHtml(), pos);
 	}
 
 	// fonction necessaire
@@ -2666,10 +2666,10 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean transfertPlanete(int destinataire, Position pos,
 			int numPlanete, int modeTransfert) {
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_PLANETE_0000", destinataire);
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_PLANETE_0001", pos);
 		Systeme sys = Univers.getSysteme(pos);
 		if (numPlanete >= sys.getNombrePlanetes())
@@ -2697,26 +2697,26 @@ public class Commandant extends Joueur implements Serializable {
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_PLANETE_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_PLANETE_0002",
-					getNomNumero(), cible.getNomNumero(), pos);
+					getNomNumeroHtml(), cible.getNomNumeroHtml(), pos);
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			cible.ajouterEvenement("EV_COMMANDANT_DON_PLANETE_0003", pos,
 					sys.getNomNumeroPlanete(numPlanete));
 		else
 			cible.ajouterEvenement("EV_COMMANDANT_DON_PLANETE_0001",
-					getNomNumero(), pos, sys.getNomNumeroPlanete(numPlanete));
+					getNomNumeroHtml(), pos, sys.getNomNumeroPlanete(numPlanete));
 		return ajouterEvenement("EV_COMMANDANT_DON_PLANETE_0000",
-				cible.getNomNumero(), pos, sys.getNomNumeroPlanete(numPlanete));
+				cible.getNomNumeroHtml(), pos, sys.getNomNumeroPlanete(numPlanete));
 	}
 
 	public boolean mettreEnChantier(Position pos, int nombre, String codeConstruction, int numPlanete) {
 		
 		if (!existencePossession(pos)) {
-            return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_MISE_EN_CHANTIER_0000", pos);
+            return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_MISE_EN_CHANTIER_0000", pos);
         }
 		
 		if (!peutMettreEnChantier(codeConstruction)) {
             ajouterErreur("ER_COMMANDANT_MISE_EN_CHANTIER_0001", pos, codeConstruction, nombre);
-            return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_MISE_EN_CHANTIER_0001", codeConstruction);
+            return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_MISE_EN_CHANTIER_0001", codeConstruction);
         }
 
 		Systeme sys = Univers.getSysteme(pos);
@@ -2745,7 +2745,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean annulerConstruction(Position pos) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ANNULER_CONSTRUCTION_0000", pos);
 
 		getPossession(pos).initialiserConstructions();
@@ -2755,14 +2755,14 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean programmerConstruction(Position pos, String codeConstruction) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PROGRAMMER_CONSTRUCTION_0000", pos);
 		if (!peutMettreEnChantier(codeConstruction))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PROGRAMMER_CONSTRUCTION_0001",
 					codeConstruction);
 		if (!estTechnologieConnue("progcoI"))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PROGRAMMER_CONSTRUCTION_0002");
 
 		getPossession(pos).programmerConstruction(codeConstruction);
@@ -2779,7 +2779,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean annulerProgramationConstruction(Position pos) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_ANNULER_PROGRAMME_CONSTRUCTION_0000", pos);
 
 		getPossession(pos).initialiserProgrammationConstruction();
@@ -2790,10 +2790,10 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean modifierPolitique(Position pos, int politique) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_POLITIQUE_0000", pos);
 		if (politique > Const.NB_POLITIQUES)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_POLITIQUE_0001", pos);
 
 		getPossession(pos).setPolitique(politique);
@@ -2806,15 +2806,15 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean modifierBudget(Position pos, int[] domaine, int[] valeur) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_BUDGET_0000", pos);
 		for (int i = 0; i < domaine.length; i++)
 			if (domaine[i] > Const.NB_DOMAINES_BUDGET)
-				return Univers.ajouterErreur(getNomNumero(),
+				return Univers.ajouterErreur(getNomNumeroHtml(),
 						"ER_COMMANDANT_MODIFIER_BUDGET_0001", pos);
 
 		if (!getPossession(pos).modifierBudget(domaine, valeur))
-			return ajouterErreur(getNomNumero(),
+			return ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_BUDGET_0000", pos);
 
 		return ajouterEvenement("EV_COMMANDANT_MODIFIER_BUDGET_0000", pos);
@@ -2822,10 +2822,10 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean modifierTaxation(Position pos, int taxation) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_TAXATION_0000", pos);
 		if (taxation > Const.TAXATION_MAXIMALE)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_TAXATION_0001", pos);
 
 		Systeme sys = Univers.getSysteme(pos);
@@ -2839,13 +2839,13 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean modifierTaxationPlanete(Position pos, int taxation,
 			int numPlanete) {
 		if (!estTechnologieConnue("gestplaI"))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_TAXATION_0004");
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_TAXATION_0002", pos);
 		if (taxation > Const.TAXATION_MAXIMALE)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MODIFIER_TAXATION_0003", pos);
 		Systeme sys = Univers.getSysteme(pos);
 		if (numPlanete >= sys.getNombrePlanetes())
@@ -2864,7 +2864,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean terraformer(Position pos) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_TERRAFORMER_0000", pos);
 		Systeme sys = Univers.getSysteme(pos);
 		if (sys.estDejaTerraforme(numero))
@@ -2883,9 +2883,9 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean terraformerPlanete(Position pos, int numPlanete) {
 		if (!estTechnologieConnue("gestplaI"))
-			return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_TERRAFORMER_0002");
+			return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_TERRAFORMER_0002");
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_TERRAFORMER_0001", pos);
+			return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_TERRAFORMER_0001", pos);
 		
 		Systeme sys = Univers.getSysteme(pos);
 		if (numPlanete >= sys.getNombrePlanetes())
@@ -2917,14 +2917,14 @@ public class Commandant extends Joueur implements Serializable {
 			int numPlanete) {
 
 		if (!estTechnologieConnue("gestplaI"))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DETRUIRE_BATIMENT_0002");
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DETRUIRE_BATIMENT_0000", pos);
 		if ((!Univers.existenceTechnologie(code))
 				|| (!Univers.getTechnologie(code).estBatiment()))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DETRUIRE_BATIMENT_0001", pos, code);
 		Technologie t = Univers.getTechnologie(code);
 		Systeme sys = Univers.getSysteme(pos);
@@ -2976,7 +2976,7 @@ public class Commandant extends Joueur implements Serializable {
 			if ((!existenceDomaineDeRecherche(codeTechno[i]))
 					&& (!peutChercherTechnologie(codeTechno[i]))) {
 				recherches = inter;
-				Univers.ajouterErreur(getNomNumero(),
+				Univers.ajouterErreur(getNomNumeroHtml(),
 						"ER_COMMANDANT_AFFECTER_RECHERCHE_0000", codeTechno[i]);
 			} else if (!ajouterDomaineDeRecherche(codeTechno[i], pourcentage[i])) {
 				recherches = inter;
@@ -3004,7 +3004,7 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean effectuerMissionSpeciale(Position pos, int typeMission, int numPlanete) {
 		float attaque = getBudgetServiceSpeciaux();
 		if (typeMission > Const.NB_MISSIONS)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_MISSION_SPECIALE_0000");
 		if (!Univers.existenceSysteme(pos))
 			return ajouterErreur("ER_COMMANDANT_MISSION_SPECIALE_0000", pos);
@@ -3045,10 +3045,10 @@ public class Commandant extends Joueur implements Serializable {
 			c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0001", pos,
 					sys.getNomNumeroPlanete(nPlanete),
 					Univers.getMessage("MISSIONS", typeMission, c.getLocale()),
-					getNomNumero());
+					getNomNumeroHtml());
 			if (typeMission == Const.MISSION_VOL_TECHNOLOGIE) {
 				Univers.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0015",
-						getNomNumero(), c.getNomNumero());
+						getNomNumeroHtml(), c.getNomNumeroHtml());
 			}
 
 			return false;
@@ -3058,14 +3058,14 @@ public class Commandant extends Joueur implements Serializable {
 			String technoVolee = trouverTechnoAVoler(c, reussite);
 			if (technoVolee == null)
 				ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0002",
-						c.getNomNumero());
+						c.getNomNumeroHtml());
 			else {
 				ajouterTechnologieConnue(technoVolee);
 				ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0003",
-						Univers.getTechnologie(technoVolee), c.getNomNumero());
+						Univers.getTechnologie(technoVolee), c.getNomNumeroHtml());
 				if (reussite < 15)
 					c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0004",
-							Univers.getTechnologie(technoVolee), getNomNumero());
+							Univers.getTechnologie(technoVolee), getNomNumeroHtml());
 			}
 		}
 
@@ -3083,7 +3083,7 @@ public class Commandant extends Joueur implements Serializable {
 					sys.getNomNumeroPlanete(nPlanete));
 			if (reussite < 10)
 				c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0007", pos,
-						sys.getNomNumeroPlanete(nPlanete), getNomNumero());
+						sys.getNomNumeroPlanete(nPlanete), getNomNumeroHtml());
 			else
 				c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0008", pos,
 						sys.getNomNumeroPlanete(nPlanete));
@@ -3106,7 +3106,7 @@ public class Commandant extends Joueur implements Serializable {
 				if (reussite < 10)
 					c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0011",
 							pos, sys.getNomNumeroPlanete(nPlanete),
-							getNomNumero(), stab
+							getNomNumeroHtml(), stab
 									- sys.getPlanete(nPlanete).getStabilite());
 				else
 					c.ajouterEvenement("EV_COMMANDANT_MISSION_SPECIALE_0012",
@@ -3142,11 +3142,11 @@ public class Commandant extends Joueur implements Serializable {
 		int numFlotte = getCorrespondanceFlotte(nFlotte);
 		
 		if (!Flotte.directiveExistante(directive, directivePrecision))
-			return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_DEPLACER_FLOTTE_0000", directive, directivePrecision);
+			return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_DEPLACER_FLOTTE_0000", directive, directivePrecision);
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_DEPLACER_FLOTTE_0001", numFlotte + 1);
+			return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_DEPLACER_FLOTTE_0001", numFlotte + 1);
 		if ( !direction.estValide() )
-			return Univers.ajouterErreur(getNomNumero(), "ER_COMMANDANT_DEPLACER_FLOTTE_0002", numFlotte + 1, direction);
+			return Univers.ajouterErreur(getNomNumeroHtml(), "ER_COMMANDANT_DEPLACER_FLOTTE_0002", numFlotte + 1, direction);
 		
 		Flotte f = getFlotte(numFlotte);
 		if (f.nonDeplacee()) {
@@ -3190,10 +3190,9 @@ public class Commandant extends Joueur implements Serializable {
 		if (!existencePossession(pos1))
 			return ajouterErreur("ER_COMMANDANT_TRANSFERER_0002", pos1); // Position
 																			// depart
-		/** if (!existencePossession(pos2))
+		if (!existencePossession(pos2))
 			return ajouterErreur("ER_COMMANDANT_TRANSFERER_0003", pos2); // Position
 																			// arrivee
-		**/
 		
 		Systeme s1 = Univers.getSysteme(pos1);
 		Systeme s2 = Univers.getSysteme(pos2);
@@ -3278,18 +3277,18 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean chargerCargo(int numFlotte, int numTransport, int nombre,
 			String code, int joueur, int numPlanete) {
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CHARGER_CARGO_0000", numFlotte + 1);
 		if ((joueur != Integer.MIN_VALUE)
 				&& (!Univers.existenceCommandant(joueur)))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CHARGER_CARGO_0001", joueur);
 		if (!ObjetTransporte.existenceCodeChargement(code))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CHARGER_CARGO_0004", code);
 		Flotte f = getFlotte(numFlotte);
 		if (!Univers.existenceSysteme(f.getPosition()))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CHARGER_CARGO_0002", f.getPosition());
 		Systeme sys = Univers.getSysteme(f.getPosition());
 		if (numPlanete >= sys.getNombrePlanetes())
@@ -3312,7 +3311,7 @@ public class Commandant extends Joueur implements Serializable {
 		Commandant c = Univers.getCommandant(numJou);
 		if (!c.existencePossession(f.getPosition()))
 			return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0002",
-					f.getPosition(), c.getNomNumero());
+					f.getPosition(), c.getNomNumeroHtml());
 		if ((numJou != numero)
 				&& (ObjetTransporte.typeDeCodeChargement(code) != Const.TRANSPORT_MARCHANDISE))
 			return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0003",
@@ -3362,18 +3361,18 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean dechargerCargo(int numFlotte, int numTransport, int nombre,
 			String code, int joueur, int numPlanete) {
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DECHARGER_CARGO_0000", numFlotte);
 		if ((joueur != Integer.MIN_VALUE)
 				&& (!Univers.existenceCommandant(joueur)))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DECHARGER_CARGO_0001", joueur);
 		if (!ObjetTransporte.existenceCodeChargement(code))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DECHARGER_CARGO_0004", code);
 		Flotte f = getFlotte(numFlotte);
 		if (!Univers.existenceSysteme(f.getPosition()))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DECHARGER_CARGO_0002", f.getPosition());
 		Systeme sys = Univers.getSysteme(f.getPosition());
 		if (numPlanete >= sys.getNombrePlanetes())
@@ -3396,7 +3395,7 @@ public class Commandant extends Joueur implements Serializable {
 					f.getNomNumero(numFlotte), numTransport + 1);
 		if (!c.existencePossession(f.getPosition()))
 			return ajouterErreur("ER_COMMANDANT_DECHARGER_CARGO_0002",
-					f.getPosition(), c.getNomNumero());
+					f.getPosition(), c.getNomNumeroHtml());
 
 		int transportMax = f.nombreChargementTransporte(code, numTransport);
 		ObjetTransporte o1 = f.dechargerChargement(code,
@@ -3428,7 +3427,7 @@ public class Commandant extends Joueur implements Serializable {
 							.getPosition(), ObjetTransporte
 							.traductionChargement(code, nombreCharge,
 									c.getLocale()), f.getNomNumero(numFlotte),
-							getNomNumero(), nombreCharge);
+							getNomNumeroHtml(), nombreCharge);
 			} else
 				ajouterEvenement("EV_COMMANDANT_DECHARGER_CARGO_0001",
 						f.getPosition(), ObjetTransporte.traductionChargement(
@@ -3445,7 +3444,7 @@ public class Commandant extends Joueur implements Serializable {
 			return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0000", numFlotte);
 		for (int i = 0; i < code.length; i++)
 			if ((!Univers.existencePlanDeVaisseau(code[i])) || (nb[i] < 0))
-				return Univers.ajouterErreur(getNomNumero(),
+				return Univers.ajouterErreur(getNomNumeroHtml(),
 						"ER_COMMANDANT_DIVISER_FLOTTE_0000", code[i], nb[i]);
 
 		Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
@@ -3466,7 +3465,7 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean fusionnerFlotte(int nFlotte1, int nFlotte2, int directive,
 			int directivePrecision) {
 		if (!Flotte.directiveExistante(directive, directivePrecision))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_FUSIONNER_FLOTTE_0000", directive,
 					directivePrecision);
 		int numFlotte1 = getCorrespondanceFlotte(nFlotte1);
@@ -3515,15 +3514,15 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean pisterFlotte(int nFlotte, int numFlotteVisee, int joueurVise) {
 		int numFlotte = getCorrespondanceFlotte(nFlotte);
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PISTER_FLOTTE_0000", numFlotte + 1);
 		if (!Univers.existenceCommandant(joueurVise))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_PISTER_FLOTTE_0001", joueurVise);
 		Commandant c = Univers.getCommandant(joueurVise);
 		if (!c.existenceFlotte(numFlotteVisee))
 			return ajouterErreur("ER_COMMANDANT_PISTER_FLOTTE_0000",
-					c.getNomNumero(), numFlotteVisee + 1);
+					c.getNomNumeroHtml(), numFlotteVisee + 1);
 
 		Flotte f = getFlotte(numFlotte);
 		boolean reussite = f.pister(c.getFlotte(numFlotteVisee), joueurVise,
@@ -3531,21 +3530,21 @@ public class Commandant extends Joueur implements Serializable {
 
 		if (reussite)
 			return ajouterEvenement("EV_COMMANDANT_PISTER_FLOTTE_0000",
-					f.getNomNumero(numFlotte), c.getNomNumero(),
+					f.getNomNumero(numFlotte), c.getNomNumeroHtml(),
 					numFlotteVisee + 1);
 		else
 			return ajouterEvenement("EV_COMMANDANT_PISTER_FLOTTE_0001",
-					f.getNomNumero(numFlotte), c.getNomNumero(),
+					f.getNomNumero(numFlotte), c.getNomNumeroHtml(),
 					numFlotteVisee + 1);
 	}
 
 	public boolean lancerMines(int numFlotte) {
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_LANCER_MINES_0000", numFlotte + 1);
 		Flotte f = getFlotte(numFlotte);
 		if (!f.estLanceurDeMines())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_LANCER_MINES_0001", numFlotte + 1);
 
 		int nbMines = f.lancerMines(numero);
@@ -3558,19 +3557,19 @@ public class Commandant extends Joueur implements Serializable {
 
 		// si la flotte n'existe pas
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_COLONISER_PLANETE_0000", numFlotte + 1);
 
 		Flotte f = getFlotte(numFlotte);
 
 		// Si la flotte ne contient pas de colo
 		if (!f.contientColonisateur())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_COLONISER_PLANETE_0003", numFlotte + 1);
 
 		// SI le system n'existe pas
 		if (!Univers.existenceSysteme(f.getPosition()))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_COLONISER_PLANETE_0001", numFlotte + 1);
 
 		Systeme sys = Univers.getSysteme(f.getPosition());
@@ -3647,10 +3646,10 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean affecterHeros(String nomHeros, int numFlotte) {
 		if ((!existenceFlotte(numFlotte))
 				&& (numFlotte != ProductionOrdres.VALEUR_DEFAUT.intValue()))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_AFFECTER_HEROS_0000", numFlotte + 1);
 		if (!existenceHeros(nomHeros))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_AFFECTER_HEROS_0001", nomHeros);
 
 		if (numFlotte == ProductionOrdres.VALEUR_DEFAUT.intValue()) {
@@ -3669,10 +3668,10 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean affecterGouverneur(String nomGouverneur, Position pos) {
 		if ((!existencePossession(pos))
 				&& (!pos.equals(ProductionOrdres.POSITION_DEFAUT)))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_AFFECTER_GOUVERNEUR_0000", pos);
 		if (!existenceGouverneur(nomGouverneur))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_AFFECTER_GOUVERNEUR_0001", nomGouverneur);
 
 		if (pos.equals(ProductionOrdres.POSITION_DEFAUT)) {
@@ -3690,7 +3689,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean licencierLieutenant(String nomLieutenant) {
 		if (!existenceLieutenant(nomLieutenant))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_LICENCIER_LIEUTENANT_0000", nomLieutenant);
 
 		Leader l = getLieutenant(nomLieutenant);
@@ -3705,11 +3704,11 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean renommerLieutenant(String nomLieutenant, String nouveauNom) {
 		if (!existenceLieutenant(nomLieutenant))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_RENOMMER_LIEUTENANT_0000", nomLieutenant);
 		Leader l = getLieutenant(nomLieutenant);
 		if (l.estNomme())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_RENOMMER_LIEUTENANT_0001", nomLieutenant);
 		if (existenceLieutenant(nouveauNom))
 			return ajouterErreur("ER_COMMANDANT_RENOMMER_LIEUTENANT_0000",
@@ -3722,7 +3721,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean changerCapitale(Position pos) {
 		if (!existencePossession(pos))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CHANGER_CAPITALE_0000", pos);
 		if (Const.COUT_CHANGER_CAPITALE > centaures)
 			return ajouterErreur("ER_COMMANDANT_CHANGER_CAPITALE_0000", pos);
@@ -3738,15 +3737,15 @@ public class Commandant extends Joueur implements Serializable {
 			int modeTransfert) {
 		if (!estPlanDeVaisseauConnuPrive(code)
 				&& !Univers.getPlanDeVaisseau(code).estConcepteur(numero))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_PLAN_0000", code);
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_PLAN_0001", destinataire);
 		Commandant c = Univers.getCommandant(destinataire);
 		if (c.estPlanDeVaisseauConnuPrive(code))
 			return ajouterErreur("ER_COMMANDANT_DON_PLAN_0000",
-					c.getNomNumero(), code);
+					c.getNomNumeroHtml(), code);
 		float cout = 0F;
 		if (modeTransfert == Const.DON_MODE_CACHE)
 			cout = Const.SURCOUT_DON_PLAN_CACHE;
@@ -3760,16 +3759,16 @@ public class Commandant extends Joueur implements Serializable {
 		c.ajouterPlanDeVaisseau(code);
 		Univers.ajouterTransfert(this, c, "don plan : " + code);
 
-		ajouterEvenement("EV_COMMANDANT_DON_PLAN_0000", c.getNomNumero(), code);
+		ajouterEvenement("EV_COMMANDANT_DON_PLAN_0000", c.getNomNumeroHtml(), code);
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_PLAN_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_PLAN_0003",
-					getNomNumero(), c.getNomNumero());
+					getNomNumeroHtml(), c.getNomNumeroHtml());
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			return c.ajouterEvenement("EV_COMMANDANT_DON_PLAN_0002", code);
 		else
 			return c.ajouterEvenement("EV_COMMANDANT_DON_PLAN_0001",
-					getNomNumero(), code);
+					getNomNumeroHtml(), code);
 	}
 
 	public boolean creerPlanDeVaisseau(String code, String marque,
@@ -3786,7 +3785,7 @@ public class Commandant extends Joueur implements Serializable {
 		else {
 			
 			if (royalties > Const.ROYALTIES_MAXIMALES)
-				return Univers.ajouterErreur(getNomNumero(),
+				return Univers.ajouterErreur(getNomNumeroHtml(),
 						"ER_COMMANDANT_CREER_PLAN_0000", royalties);
 			if (!PlanDeVaisseau.verificationConformite(this, compo, code)){
 				System.out.println("failed conformité");
@@ -3881,15 +3880,15 @@ public class Commandant extends Joueur implements Serializable {
 	public boolean donnerStrategie(String code, int destinataire,
 			int modeTransfert) {
 		if (!connaitStrategie(code))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_STRATEGIE_0000", code);
 		if (!Univers.existenceCommandant(destinataire))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DON_STRATEGIE_0001", destinataire);
 		Commandant c = Univers.getCommandant(destinataire);
 		if (c.connaitStrategie(code))
 			return ajouterErreur("ER_COMMANDANT_DON_STRATEGIE_0000",
-					c.getNomNumero(), code);
+					c.getNomNumeroHtml(), code);
 		float cout = 0F;
 		if (modeTransfert == Const.DON_MODE_CACHE)
 			cout = Const.SURCOUT_DON_STRATEGIE_CACHE;
@@ -3902,17 +3901,17 @@ public class Commandant extends Joueur implements Serializable {
 		modifierBudget(Const.BUDGET_COMMANDANT_DON_STRATEGIE, -cout);
 		c.ajouterStrategie(getStrategie(code));
 
-		ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0000", c.getNomNumero(),
+		ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0000", c.getNomNumeroHtml(),
 				code);
 		if ((modeTransfert == Const.DON_MODE_NORMAL)
 				&& (Univers.getTest(Const.CHANCE_DON_STRATEGIE_PUBLIC)))
 			Univers.ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0003",
-					getNomNumero(), c.getNomNumero());
+					getNomNumeroHtml(), c.getNomNumeroHtml());
 		if (modeTransfert == Const.DON_MODE_ANONYME)
 			return c.ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0002", code);
 		else
 			return c.ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0001",
-					getNomNumero(), code);
+					getNomNumeroHtml(), code);
 	}
 
 	public boolean renommerSysteme(Position pos, String nouveauNom) {
@@ -3966,10 +3965,10 @@ public class Commandant extends Joueur implements Serializable {
 					numFlotte + 1);
 		Flotte f = getFlotte(numFlotte);
 		if (!f.aCapaciteNavireUsine())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CONSTRUCTION_FLOTTE_0001", numFlotte + 1);
 		if (!estPlanDeVaisseauConnu(codeConstruction))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_CONSTRUCTION_FLOTTE_0000", codeConstruction);
 
 		f.setConstructionEnCours(codeConstruction);
@@ -3980,7 +3979,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean utiliserPorteGalactique(int numFlotte, int galaxie) {
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_UTILISER_PORTE_GALACTIQUE_0000",
 					numFlotte + 1);
 		Flotte f = getFlotte(numFlotte);
@@ -3998,7 +3997,7 @@ public class Commandant extends Joueur implements Serializable {
 					"ER_COMMANDANT_UTILISER_PORTE_GALACTIQUE_0000",
 					numFlotte + 1);
 		if (galaxie >= Const.NB_GALAXIES)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_UTILISER_PORTE_GALACTIQUE_0001", galaxie);
 
 		f.getPosition().setNumeroGalaxie(galaxie);
@@ -4009,19 +4008,19 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean utiliserPorteIntraGalactique(int numFlotte) {
 		if (!existenceFlotte(numFlotte))
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000",
 					numFlotte + 1);
 		Flotte f = getFlotte(numFlotte);
 		if (!f.estSurPorteIntraGalactique())
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0001",
 					numFlotte + 1);
 
 		float cout = (float) f.nombreTotalCases();
 
 		if (centaures < cout)
-			return ajouterErreur(getNomNumero(),
+			return ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000",
 					numFlotte + 1);
 
@@ -4046,7 +4045,7 @@ public class Commandant extends Joueur implements Serializable {
 
 	public boolean fixerTauxPostes(int taux) {
 		if (taux > 100)
-			return Univers.ajouterErreur(getNomNumero(),
+			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_TAUX_POSTE_0000", taux);
 
 		tauxTaxationPoste = taux;
@@ -4106,13 +4105,13 @@ public class Commandant extends Joueur implements Serializable {
 		if (vendeur != null) {
 			vendeur.modifierBudget(Const.BUDGET_COMMANDANT_VENTE_MARCHANDISE, (float)montant);
 			vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0003",
-                    getNomNumero(),
+                    getNomNumeroHtml(),
                     offre.getDescription(),
                     (float) montant);
 		}
 
 		ajouterEvenement("EV_COMMANDANT_ACHAT_GALACTIQUE_0000",
-                vendeur != null ? vendeur.getNomNumero() : "???",
+                vendeur != null ? vendeur.getNomNumeroHtml() : "???",
                 offre.getDescription(),
                 (float) montant,
                 destinationPosition.getDescription()

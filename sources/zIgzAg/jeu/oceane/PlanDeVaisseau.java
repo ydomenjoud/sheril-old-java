@@ -140,7 +140,7 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 			return Utile.maj(Univers.getMessage(
 					"PLAN_DE_VAISSEAU_CONCEPTEUR_INCONNU", l));
 		else {
-			nom = Univers.getCommandant((int) concepteurNum).getNomNumero();
+			nom = Univers.getCommandant((int) concepteurNum).getNomNumeroHtml();
 			return nom;
 		}
 	}
@@ -150,7 +150,7 @@ public class PlanDeVaisseau extends Produit implements Serializable {
             return Utile.maj(Univers.getMessage(
                     "PLAN_DE_VAISSEAU_CONCEPTEUR_INCONNU", l));
         else {
-            nom = Univers.getCommandant((int) concepteurNum).getNomNumerobis();
+            nom = Univers.getCommandant((int) concepteurNum).getNomNumeroText();
             return nom;
         }
     }
@@ -310,11 +310,11 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 					|| (com.estTechnologieConnue(comp[i])))
 				t = Univers.getTechnologie(comp[i]);
 			else {
-				return Univers.ajouterErreur(com.getNomNumero(),
+				return Univers.ajouterErreur(com.getNomNumeroHtml(),
 						"ER_PLAN_DE_VAISSEAU_0001", cod, comp[i]);
 			}
 			if (!(t instanceof ComposantDeVaisseau)){
-				return Univers.ajouterErreur(com.getNomNumero(),
+				return Univers.ajouterErreur(com.getNomNumeroHtml(),
 						"ER_PLAN_DE_VAISSEAU_0001", cod, comp[i]);
 			}
 			if (((ComposantDeVaisseau) t).estBouclier()) {

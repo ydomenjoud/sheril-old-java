@@ -77,10 +77,10 @@ public class RapportCombat {
 		BaliseHTML[] retour = new BaliseHTML[5];
 		retour[0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getFont(Rapport.COULEURS_RACES[attaquant.getRace()],
-						null).ajout(Rapport.getText(attaquant.getNomNumero())));
+						null).ajout(Rapport.getText(attaquant.getNomNumeroHtml())));
 		retour[1] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getFont(Rapport.COULEURS_RACES[defenseur.getRace()],
-						null).ajout(Rapport.getText(defenseur.getNomNumero())));
+						null).ajout(Rapport.getText(defenseur.getNomNumeroHtml())));
 		if (typeCombat == TYPE_COMBAT_SPATIAL)
 			retour[2] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 					Rapport.getText("spatial"));

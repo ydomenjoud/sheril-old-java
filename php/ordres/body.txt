@@ -60,6 +60,11 @@
             font-style: italic;
             border:none;
         }
+
+        table thead {
+            background: #000;
+        }
+
         .button {
             display: inline-block;
             padding: 5px 10px;

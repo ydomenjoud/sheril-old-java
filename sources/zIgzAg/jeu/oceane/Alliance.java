@@ -5,7 +5,6 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
@@ -90,7 +89,7 @@ public class Alliance implements Serializable {
 		if (allianceNonDirigee())
 			return Univers.getMessage("NON_EXISTENCE_DIRIGEANT_ALLIANCE", l);
 		else
-			return Univers.getCommandant(dirigeantNum).getNomNumero();
+			return Univers.getCommandant(dirigeantNum).getNomNumeroHtml();
 	}
 
 	public boolean aUnSite() {
@@ -296,7 +295,7 @@ public class Alliance implements Serializable {
 				annonce = annonce
 						+ Univers.getCommandant(
 								m[i].getKey())
-								.getNomNumero() + " : " + Integer.toString(nb)
+								.getNomNumeroHtml() + " : " + Integer.toString(nb)
 						+ "<BR>";
 			}
 			ajouterEvenement(annonce + "<BR>");
@@ -304,10 +303,10 @@ public class Alliance implements Serializable {
 			Commandant c = Univers.getCommandant(m[index].getKey());
 			if (max >= nbMembres / 2) {
 				setDirigeant(m[index].getKey());
-				ajouterEvenement("EV_ALLIANCE_0003", c.getNomNumero(),
+				ajouterEvenement("EV_ALLIANCE_0003", c.getNomNumeroHtml(),
 						getNom(), max, nbMembres);
 			} else
-				ajouterEvenement("EV_ALLIANCE_0010", c.getNomNumero(),
+				ajouterEvenement("EV_ALLIANCE_0010", c.getNomNumeroHtml(),
 						getNom(), max, nbMembres);
 		}
 	}
@@ -335,7 +334,7 @@ public class Alliance implements Serializable {
 							"EV_ALLIANCE_0004",
 							Univers.getCommandant(
 									m[i].getKey())
-									.getNomNumero());
+									.getNomNumeroHtml());
 					reussite = true;
 				}
 				if (estDemocratique()) {
@@ -345,14 +344,14 @@ public class Alliance implements Serializable {
 								"EV_ALLIANCE_0005",
 								Univers.getCommandant(
 										m[i].getKey())
-										.getNomNumero(), nbVoix, nbMembres);
+										.getNomNumeroHtml(), nbVoix, nbMembres);
 						reussite = true;
 					} else
 						ajouterEvenement(
 								"EV_ALLIANCE_0006",
 								Univers.getCommandant(
 										m[i].getKey())
-										.getNomNumero(), nbVoix, nbMembres);
+										.getNomNumeroHtml(), nbVoix, nbMembres);
 				}
 				if (reussite) {
 					Commandant c = Univers.getCommandant(m[i]

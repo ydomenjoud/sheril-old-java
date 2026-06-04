@@ -4,7 +4,7 @@ die();
 @require_once './secure/connect.txt';
 
 // 2. Sélection de tous les joueurs ayant un email renseigné
-$sql = "SELECT LOGIN, MOT_DE_PASSE, ADRESSE, NOM FROM aa_registre WHERE TOUR_ARRIVEE=3";
+$sql = "SELECT LOGIN, MOT_DE_PASSE, ADRESSE, NOM FROM aa_registre WHERE TOUR_ARRIVEE=5";
 $result = mysql_query($sql);
 
 if (!$result) {

@@ -452,7 +452,7 @@ public abstract class Leader implements Serializable {
 				+ Rapport.COULEURS_RACES[race] + "\">" + nom + "</font>");
 		Univers.ajouterEvenement("HEROS_MORT_0002", "<font color=\""
 				+ Rapport.COULEURS_RACES[race] + "\">" + nom + "</font>",
-				c.getNomNumero());
+				c.getNomNumeroHtml());
 		mettreEnReserve();
 		initialiserLeader();
 		Univers.ajouterLeaderEnVente(this);
