@@ -1,3 +1,18 @@
+<?php
+
+// est ce qu'on est dans un partage ?
+if(estDansUnPartage( $commandant)) {
+
+// on affiche la techno reçue si on est dans un échange
+    $received = getTechnoCodeReceived($commandant);
+    if ($received !== null) {
+        echo "<div style='margin-top: 20px' class='important'>
+                Avec votre partage de connaissance technologie vous allez recevoir la technologie <span class='item'>{$t0[$received]}</span>
+            </div>";
+    }
+}
+?>
+
 <h3 class="help">Aide</h3>
 
 <div>

@@ -4064,17 +4064,38 @@ public class Commandant extends Joueur implements Serializable {
 			return;
 		}
 
-		ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
-		if (o == null || o.getNombreObjets() <= 0) {
-            String description = ObjetTransporte.traductionChargement(code, nombre, getLocale());
-			ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
-			return;
-		}
+        var objTransporte = new ObjetSimpleTransporte(code, nombre);
+        String description =  ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{objTransporte});
 
-        String description = ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{o});
-		int reelNombre = o.getNombreObjets();
+        // marchandise
+        if(ObjetTransporte.typeDeCodeChargement(code) == Const.TRANSPORT_MARCHANDISE){
+            int numeroMarchandise = Utile.numeroMarchandise(code);
+            Possession possession = getPossession(pos);
+            if(possession == null){
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0000", pos);
+                return;
+            }
+            int quantitePresente = possession.getQuantiteMarchandise(numeroMarchandise);
+            if(quantitePresente < nombre) {
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                return;
+            }
+            possession.supprimerMarchandise(numeroMarchandise, nombre);
+        }
+        else {
+            if(!sys.possedeRichesses(numero, code, nombre)){
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                return;
+            }
+            ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
+            if (o == null || o.getNombreObjets() <= 0) {
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                return;
+            }
+        }
+
 		int id = Univers.trouverProchainIdOffreMarche();
-		OffreMarche offre = new OffreMarche(id, numero, pos, code, reelNombre, prix, Univers.getTour()+5);
+		OffreMarche offre = new OffreMarche(id, numero, pos, code, nombre, prix, Univers.getTour()+5);
 		Univers.ajouterOffreMarche(offre);
 
 		ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0000",

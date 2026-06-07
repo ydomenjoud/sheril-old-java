@@ -2,4 +2,4 @@
 $t0=base1($base,$commandant,"z_commandants_transfert");
 $t1=base1($base,$commandant,"z_techno_transfert");
 $t2=base2($base,"z_mode_transfert");
-?>
+$t3=base1($base,$commandant,"z_technologies_cherchees");

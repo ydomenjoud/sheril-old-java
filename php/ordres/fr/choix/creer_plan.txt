@@ -1,3 +1,9 @@
+<?php
+$max = 1;
+$result = mysql($base, "SELECT * FROM $table WHERE NUMERO='$commandant'");
+$nb_lignes = mysql_num_rows($result);
+if ($nb_lignes < $max) {
+?>
 <FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
 <P><h1>Conception d'un nouveau vaisseau </h1>
 <BR>
@@ -15,4 +21,10 @@ avec un pourcentage de royalties de
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
+<?php } else { ?>
+
+    Vous avez déjà passé le maximum d'ordre de ce type
+
+<?php } ?>
+
 

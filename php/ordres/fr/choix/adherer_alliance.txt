@@ -2,7 +2,7 @@
 <P><h1>Demande d'adhésion à une alliance existante  </h1>
 <BR>
 Je désire adhérer à l'alliance
-<?php select1("v0",$t0); ?>
+<?php select1("v0",$t0, 'select', false, 800); ?>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

@@ -86,12 +86,27 @@
     border-collapse: collapse;
 }
 .poste_commerciaux td:first-child {
-    width: auto;
+    width: 100px;
+    position: sticky;
+    left: 0;
+    background: #000;
+    z-index: 500;
+    border-right: 1px solid #fff;
 }
 
 .poste_commerciaux .entete {
     display: flex;
     flex-direction: column;
+}
+
+.poste_commerciaux td:has(.entete) {
+    width: 100px;
+}
+
+.container {
+    width: 95vw;
+    margin: 0 auto;
+    overflow-x: auto;
 }
 
 /* poste */
@@ -346,6 +361,9 @@ table tr:first-child td {
 }
 
 .titre_section {
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 10px;
     color: var(--accent);
     font-size: 16pt;
     font-weight: bold;

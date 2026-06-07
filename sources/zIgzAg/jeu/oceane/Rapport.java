@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import zIgzAg.html.BaliseHTML;
 import zIgzAg.html.DocumentHTML;
@@ -283,6 +284,9 @@ public class Rapport {
 		return ((BaliseHTML) TABLE.clone()).ajout("class", className);
 	}
 
+	public static BaliseHTML getTH() {
+		return getTH(null, null);
+	}
 	public static BaliseHTML getTH(String align, String colspan) {
 		BaliseHTML retour = new BaliseHTML("th");
 		if (align != null)
@@ -412,9 +416,11 @@ public class Rapport {
 				Utile.maj(Univers.getMessage("RACES", race, c.getLocale())));
 	}
 
+	public BaliseHTML getTitreSection(String title){
+		return getTitreSection().ajout(title);
+	}
 	public BaliseHTML getTitreSection() {
-		return new BaliseHTML(BaliseHTML.SPAN, BaliseHTML.CLASS,
-				"titre_section");
+		return new BaliseHTML(BaliseHTML.SPAN, BaliseHTML.CLASS, "titre_section");
 	}
 
 	public BaliseHTML getTitreTable() {
@@ -422,8 +428,7 @@ public class Rapport {
 	}
 
 	public static BaliseHTML getTitreCaption() {
-		return new BaliseHTML(BaliseHTML.SPAN, BaliseHTML.CLASS,
-				"titre_caption");
+		return new BaliseHTML(BaliseHTML.SPAN, BaliseHTML.CLASS, "titre_caption");
 	}
 
 	public static BaliseHTML getRace(int race, Locale l) {
@@ -880,7 +885,9 @@ public class Rapport {
 //		ajouterLienSecondaire(getALienE(PRINCIPAL + "#SYSTEMES_GENERAL").ajout(""));
 
 		splitter.ajout(getBudget());
-		splitter.ajout(getVotrePeuple());
+		splitter.ajout(
+				getDiv().ajout("style", "display: flex;justify-content: space-between;flex-direction: column;")
+						.ajout(getVotrePeuple()).ajout(getResumePDV()));
 		body.ajout(splitter);
 
 		body.ajout(sautP());
@@ -903,6 +910,8 @@ public class Rapport {
 		body.ajout(getPacteNonAgression());
 		body.ajout(sautP());
 		body.ajout(getPlansDeVaisseaux());
+		body.ajout(sautP());
+		body.ajout(getVenteGalactique());
 		body.ajout(sautP());
 		body.ajout(getStrategiesDeCombat());
 		body.ajout(sautP());
@@ -1362,6 +1371,41 @@ public class Rapport {
         return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
 
+	public String getPDVInfos(PointDeVictoireCategorie categorie) {
+		return c.pointDeVictoireHistory.stream()
+				.filter(pdv -> pdv.type() == categorie)
+				.map(pdv -> "T" + pdv.tour() + "<span class='plus'>(+" + pdv.points() + ")</span>")
+				.collect(Collectors.joining(", "));
+	}
+
+	public BaliseHTML getResumePDV(){
+        String sb = """
+                <table>
+                	<thead>
+                	<tr><th colspan="2" class="titre_table">Résumé des points de victoire</th></tr>
+                	</thead>
+                	<tbody>
+                	<tr><td class="titre_caption">Type</td><td class="titre_caption">Historique</td></tr>
+                	<tr><td>Territorial</td><td>%s</td></tr>
+                	<tr><td>Bataille</td><td>%s</td></tr>
+                	<tr><td>Culturelle</td><td>%s</td></tr>
+                	<tr><td>Scientifique</td><td>%s</td></tr>
+                	<tr><td>Merveille</td><td>%s</td></tr>
+                	<tr><td>Coloniale</td><td>%s</td></tr>
+                	</tbody>
+                	</table>
+                """.formatted(
+                getPDVInfos(PointDeVictoireCategorie.PLANETES),
+                getPDVInfos(PointDeVictoireCategorie.COMBATS),
+                getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
+                getPDVInfos(PointDeVictoireCategorie.RECHERCHE),
+                getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
+                getPDVInfos(PointDeVictoireCategorie.POPULATION_VS)
+        );
+
+		return getText(sb);
+	}
+
 	public BaliseHTML getBudget() {
 		String t = (String) Univers.getMessageRapport("RAPPORT_FINANCIER",
 				c.getLocale());
@@ -1419,6 +1463,56 @@ public class Rapport {
 		return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
 
+
+	public BaliseHTML getVenteGalactique() {
+
+		List<OffreMarche> encheres = Univers.getListeOffresMarche().stream()
+				.filter(o -> o.getNumeroVendeur() == c.getNumero()).toList();
+
+
+		ajouterLienPrincipal(getALienE(PRINCIPAL + "#MARCHE").ajout("Marché Galactique"));
+
+		StringBuilder table = new StringBuilder("""
+				<A name="MARCHE"></A>
+				<SPAN class="titre_section">Liste de vos enchères galactiques</SPAN>
+				<table class="table_full stripped">
+					<thead>
+						<tr>
+							<th>Quantité</th>
+							<th>Marchandise</th>
+							<th>Depuis le système</th>
+							<th>Prix</th>
+							<th>Termine au tour</th>
+						</tr>
+					</thead>
+					<tbody>
+				""");
+
+		for(OffreMarche o : encheres) {
+			table.append("""
+					<tr>
+						<td>%d</td>
+						<td>%s</td>
+						<td><a href='%s#%s' class='systeme'>%s</a></td>
+						<td>%d ce</td>
+						<td>%d</td>
+					</tr>""".formatted(
+								o.getQuantite(),
+								ObjetTransporte.traductionChargement(o.getCodeMarchandise(),o.getQuantite(), Locale.getDefault()),
+								Rapport.PRINCIPAL,
+								o.getPositionOrigine().toString(),
+								Univers.getSysteme(o.getPositionOrigine()).getNomPosition(),
+								o.getPrixTotal(),
+								o.getTourFin()
+			));
+		}
+		table.append("<tbody></table>");
+
+
+		return getDiv().ajout(table.toString());
+
+	}
+
 	public BaliseHTML getPlansDeVaisseaux() {
 		String[] t = (String[]) Univers.getMessageRapport("PLANS_DE_VAISSEAUX",
 				c.getLocale());
@@ -1426,7 +1520,7 @@ public class Rapport {
 		ajouterLienPrincipal(getALienE(PRINCIPAL + "#PLAN")
 				.ajout(getText(t[0])));
 		BaliseHTML lien = getABorne("PLAN");
-		BaliseHTML titre = getTitreSection().ajout(getText(t[0])).ajout(sautP());
+		BaliseHTML titre = getTitreSection().ajout(getText(t[0]));
 
 		BaliseHTML racine = getDiv().ajout(lien).ajout(titre);
 		ajouterLienPrincipal(getALienE("https://sheril.pbem-france.net/stats/vapub.htm")
@@ -1506,20 +1600,14 @@ public class Rapport {
 		BaliseHTML racine = getDiv();
 		if (p.length > 0) {
 			BaliseHTML lien = getABorne("ALLI");
-			ajouterLienPrincipal(getALienE(PRINCIPAL + "#ALLI").ajout(
-					getText("Alliances")));
+			ajouterLienPrincipal(getALienE(PRINCIPAL + "#ALLI").ajout(getText("Alliances")));
 
 			racine.ajout(lien);
 
-			String[] t = (String[]) Univers.getMessageRapport("ALLIANCES",
-					c.getLocale());
-			String[] t2 = (String[]) Univers.getMessageRapport(
-					"ALLIANCES_DETAIL", c.getLocale());
-			String t3 = (String) Univers.getMessageRapport("RETOUR_PRINCIPAL",
-					c.getLocale());
-			racine.ajout(getTitreTable().ajout(
-					getABorne(LIEN_ALLIANCES).ajout(getText(t[0]))).ajout(
-					sautP()));
+			String[] t = (String[]) Univers.getMessageRapport("ALLIANCES",c.getLocale());
+			String[] t2 = (String[]) Univers.getMessageRapport("ALLIANCES_DETAIL", c.getLocale());
+			String t3 = (String) Univers.getMessageRapport("RETOUR_PRINCIPAL",c.getLocale());
+			racine.ajout(getTitreSection().ajout(t[0]).ajout(getABorne(LIEN_ALLIANCES)));
 			BaliseHTML[][] a = new BaliseHTML[p.length + 1][7];
 			for (int i = 0; i < 7; i++)
 				a[0][i] = getTD(BaliseHTML.CENTER, null).ajout(
@@ -1615,13 +1703,11 @@ public class Rapport {
 			String t = "Commandants rencontrés";
 
 			BaliseHTML lien = getABorne("CONTACTS");
-			ajouterLienPrincipal(getALienE(PRINCIPAL + "#CONTACTS").ajout(
-					getText("Contacts")));
+			ajouterLienPrincipal(getALienE(PRINCIPAL + "#CONTACTS").ajout(getText("Contacts")));
 
 			racine.ajout(lien);
 
-			racine.ajout(getTitreTable().ajout(getText(t))
-					.ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t)));
 
 			BaliseHTML[][] a = new BaliseHTML[p.size() + 1][3];
 			a[0][0] = getTD(BaliseHTML.CENTER, null).ajout(getTitreCaption().ajout(getText("Nom/Numéro")));
@@ -1670,9 +1756,7 @@ public class Rapport {
 
 			racine.ajout(lien);
 
-			racine.ajout(getTitreTable().ajout(
-					getABorne(LIEN_PACTES_NON_AGRESSION).ajout(getText(t)))
-					.ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(t).ajout(getABorne(LIEN_PACTES_NON_AGRESSION)));
 			BaliseHTML[][] a = new BaliseHTML[1][1];
 			String inter = "";
 			for (int i = 0; i < p.length; i++)
@@ -1700,7 +1784,7 @@ public class Rapport {
 			racine.ajout(lien);
 
 			racine.ajout(getTitreSection().ajout(getText(t))).ajout(
-					getABorne(LIEN_HEROS).ajout(sautP()));
+					getABorne(LIEN_HEROS));
 			racine.ajout(getListeLeaders(h, c.getLocale())).ajout(sautP());
 		}
 		if (g.length > 0) {
@@ -1713,8 +1797,7 @@ public class Rapport {
 
 			racine.ajout(lien);
 
-			racine.ajout(getTitreSection().ajout(getText(t))).ajout(
-					sautP());
+			racine.ajout(getTitreSection().ajout(getText(t)));
 			racine.ajout(getListeLeaders(g, c.getLocale())).ajout(sautP());
 		}
 		return racine;
@@ -1795,7 +1878,7 @@ public class Rapport {
 
 			// on met le titre du tableau contenu dans t[0]
 			racine.ajout(getABorne(LIEN_DETECTION_FLOTTES));
-			racine.ajout(getTitreSection().ajout(getText(t[0])).ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t[0])));
 
 			// on créé notre futur tableau avec une ligne en plus pour le titre
 			// des colonnes et
@@ -1876,7 +1959,7 @@ public class Rapport {
 
 			racine.ajout(lien);
 			racine.ajout(getABorne(LIEN_DETECTION_SYSTEMES).ajout(sautP()));
-			racine.ajout(getTitreSection().ajout(getText(t[0])).ajout(sautP()));
+			racine.ajout(getTitreSection().ajout(getText(t[0])));
 
 			BaliseHTML[][] a = new BaliseHTML[b.length + 1][6];
 			a[0][0] = getTD(null, null).setTexteContenu("&nbsp;");
@@ -1916,26 +1999,26 @@ public class Rapport {
 		Commentaire co = c.getCombats();
 		Commentaire or = c.getOrdres();
 		if (er.nbMessages() != 0) {
-			racine.ajout(getTitreSection().ajout(getText(t[0]))).ajout(sautP());
+			racine.ajout(getTitreSection().ajout(getText(t[0])));
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#ERREUR").ajout(getText("Erreurs ordres")));
 			racine.ajout(getABorne("ERREUR"));
 			racine.ajout(ecrireMessages(er, Const.MESSAGE_TYPE_COMMANDANT));
 		}
 		if (ev.nbMessages() != 0) {
-			racine.ajout(getTitreSection().ajout(getABorne(LIEN_MESSAGES)).ajout(getText(t[1]))).ajout(sautP());
+			racine.ajout(getTitreSection().ajout(getABorne(LIEN_MESSAGES)).ajout(getText(t[1])));
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#EVT").ajout(getText("Evenements")));
 			racine.ajout(getABorne("EVT"));
 			racine.ajout(ecrireMessages(ev, Const.MESSAGE_TYPE_COMMANDANT));
 		}
 		if (co.nbMessages() != 0) {
 			BaliseHTML d = getDiv();
-			d.ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
+			d.ajout(getTitreSection().ajout(getText(t[2])));
 			ajouterLienPrincipal(getALienE(DETAIL_COMBAT).ajout(getText("Combats")));
 			d.ajout(ecrireMessages(co, Const.MESSAGE_TYPE_COMMANDANT));
 			listeDocuments.add(getDocument(chemin + DETAIL_COMBAT, (String) Univers.getMessageRapport("TITRE_DETAIL_COMBAT",c.getLocale()), getBody().ajout(d)));
 		}
 		if (or.nbMessages() != 0) {
-			racine.ajout(getTitreSection().ajout(getText(t[3]))).ajout(sautP());
+			racine.ajout(getTitreSection().ajout(getText(t[3])));
 			racine.ajout(ecrireMessages(or, Const.MESSAGE_TYPE_COMMANDANT));
 		}
 		return racine;
@@ -2037,7 +2120,9 @@ public class Rapport {
 					+ "</span>";
 				}
 				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
-				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(getText(s.getInfluenceRayonnement(c.getNumero())+""));
+				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(
+						"%.2f".formatted(s.getInfluenceRayonnement(c.getNumero()))
+				);
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
 					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme stripped"), a)));
@@ -2237,7 +2322,9 @@ public class Rapport {
 				.ajout("data-tooltip", " revenu/10  + encombrement + entretien + (expérience gouverneur ) " +
 						"+ (nb produit de luxe) + ( nb holofilm) " +
 						"+ (nb metaux précieux ) + (nb LIXIAM) * 10"));
-		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(getText(s.getInfluenceRayonnement(num)+""));
+		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(
+				"%.2f".formatted(s.getInfluenceRayonnement(c.getNumero()))
+		);
 
 		a[ligne][0] = getTD(null, null)
 				.ajout(getFont(cC[4], null)
@@ -2406,7 +2493,7 @@ public class Rapport {
 			b[bligne++][bcol] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));
 
 		// poste  commercial
 		int[] proprios = s.getProprios();
@@ -2440,7 +2527,7 @@ public class Rapport {
 
 		return getDiv()
 				.ajout(lien)
-				.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(sautP());
+				.ajout(DocumentHTML.creerTable(getTable("table_full"), a)).ajout(sautP());
 	}
 
 	public BaliseHTML getPostesCommerciaux() {
@@ -2449,12 +2536,12 @@ public class Rapport {
 		BaliseHTML racine = getDiv();
 
 //		ajouterLienPrincipal(getSpan("menu_separator").ajout(getText("Poste commerciaux")));
-		racine.ajout(getTitreSection().ajout(getText(t[0]))).ajout(sautP());
+		racine.ajout(getTitreSection().ajout(getText(t[0])));
 		Position[] p = c.listePossession();
 		Possession[] po = c.listeVraiePossession();
 		racine.ajout(getPostes(p, po, null, t, true));
 
-		racine.ajout(sautP()).ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
+		racine.ajout(sautP()).ajout(getTitreSection().ajout(getText(t[2])));
 		ArrayList pE = new ArrayList();
 		ArrayList poE = new ArrayList();
 		ArrayList nE = new ArrayList();
@@ -2564,7 +2651,9 @@ public class Rapport {
 			}
 		}
 
-		return DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux table_full stripped");
+		return getDiv()
+				.ajout("class", "container")
+				.ajout(DocumentHTML.creerTable(getTable(), a).ajout(BaliseHTML.CLASS, "poste_commerciaux table_full stripped"));
 	}
 
 	public BaliseHTML getResumeFlottes() {
@@ -3004,7 +3093,7 @@ public class Rapport {
 		racine.ajout(
 				DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(sautP());
 
-		racine.ajout(getTitreSection().ajout(getText(t[2]))).ajout(sautP());
+		racine.ajout(getTitreSection().ajout(getText(t[2])));
 		a = new BaliseHTML[200][8];
 		ligne = 0;
 		tab = Technologie.transformationCode(c
@@ -3248,7 +3337,7 @@ public class Rapport {
 
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#STRATEGIES").ajout( getText("Stratégies")));
 
-			racine.ajout(getFont(cC[3], "4").ajout(getText(t[0])));
+			racine.ajout(getTitreSection().ajout(getText(t[0])));
 
 			ArrayList<ArrayList<BaliseHTML>> globalBalisesList = new ArrayList<ArrayList<BaliseHTML>>();
 			BaliseHTML temp;

@@ -13,4 +13,3 @@ if($nb_lignes==0){
  echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
  echo("</FORM>");
  }
-?>

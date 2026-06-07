@@ -10,6 +10,7 @@ public class OffreMarche implements Serializable {
     private final Position positionOrigine;
     private final String codeMarchandise;
     private final int quantite;
+    /** le nom est resté tel quel pour la serialisation de la partie en cours **/
     private final int prixUnitaire;
     private final int id;
     private final int tourFin;
@@ -50,7 +51,7 @@ public class OffreMarche implements Serializable {
                 });
     }
 
-    private int getTourFin() {
+    public int getTourFin() {
         return tourFin;
     }
 
@@ -74,7 +75,7 @@ public class OffreMarche implements Serializable {
         return quantite;
     }
 
-    public int getPrixUnitaire() {
+    public int getPrixTotal() {
         return prixUnitaire;
     }
 

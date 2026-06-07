@@ -13,7 +13,8 @@
         </li>
     </ul>
     Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
-
+</div>
+<div>
     <table>
         <caption>Liste des tailles de vaisseaux</caption>
         <thead>

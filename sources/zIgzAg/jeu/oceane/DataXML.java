@@ -126,7 +126,7 @@ public class DataXML {
                 int type = t.getTypeDeTechno();
                 if (type == Const.TECHNOLOGIE_TYPE_BATIMENT) {
                     Batiment t1 = (Batiment) t;
-                    Element addtech = creerNode(
+                    creerNode(
                             "SPECIFICATION",
                             technor,
                             new String[]{"prix", "structure", "pc", "min", "arme"},
@@ -139,10 +139,22 @@ public class DataXML {
                                             .getCodeArme() : "")});
                 } else if (type == Const.TECHNOLOGIE_TYPE_COMPOSANT_DE_VAISSEAU) {
                     ComposantDeVaisseau t2 = (ComposantDeVaisseau) t;
-                    Element addtech = creerNode("SPECIFICATION", technor,
+                    creerNode("SPECIFICATION", technor,
                             new String[]{"prix", "type", "case", "min"},
                             new String[]{"" + t2.getPrix(), t2.getTypeArme(),
                                     t2.getNombreDeCases() + "", t2.getMineraiNecessaire() + ""});
+                    if(t2.estArme()){
+                        Arme a = (Arme)t2;
+                        creerNode("ARME", technor,
+                                new String[]{"degat_coque", "degat_bouclier", "degat_sol", "portee", "vitesse"},
+                                new String[]{
+                                        "" + a.getDommagesCoque(),
+                                        "" + a.getDommagesBouclier(),
+                                        "" + a.getDommagesSol(),
+                                        "" + a.getPortee(),
+                                        "" + a.getVitesse(),
+                                });
+                    }
                 }
 
 

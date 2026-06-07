@@ -16,7 +16,7 @@ include "../script/aut.txt";
 <TITLE>Passage des ordres</TITLE>
 </HEAD>
 <FRAMESET frameborder="0" cols="20%,*" framespacing="0" border="false">
-<FRAME src="./menu.php3" name="men"></FRAME>
-<FRAME src="./" name="fenetre"></FRAME>
+<FRAME src="./menu.php3" name="men" id="menu"></FRAME>
+<FRAME src="./" name="fenetre" id="fenetre"></FRAME>
 </FRAMESET>
 </HTML>

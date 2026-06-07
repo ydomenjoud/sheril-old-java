@@ -130,6 +130,9 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
             padding: 5px;
         }
 
+        li a.active {
+            background-color: #056805;
+        }
 
         li a:hover {
             background-color: #403f3f;
@@ -259,6 +262,17 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
     <LI><span class="important2">Gestion des syst&#232;mes et des constructions</span></li>
     <LI><span class="important2">Finalisation du budget</span></LI>
 </UL>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const liens = document.querySelectorAll('#orderslist a');
+        liens.forEach(lien => {
+            lien.addEventListener('click', (event) => {
+                liens.forEach(lien => lien.classList.remove('active'));
+                lien.classList.add('active');
+            });
+        });
+    })
 
+</script>
 </BODY>
 </HTML>

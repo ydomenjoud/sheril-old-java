@@ -987,8 +987,32 @@ public class Systeme implements Serializable {
 		return retour;
 	}
 
-	public ObjetTransporte supprimerRichesses(int numero, String code, int nb,
-			int numPlanete) {
+
+	public boolean possedeRichesses(int numero, String code, int nombre) {
+		switch(ObjetTransporte.typeDeCodeChargement(code)){
+			case Const.TRANSPORT_BATIMENT: {
+				int present = 0;
+				for (Planete pla : pla) {
+					if ((numero == -1) || (pla.estProprio(numero))) {
+						present += pla.nombreBatimentsDeType(code);
+					}
+				}
+				return present >= nombre;
+			}
+			case Const.TRANSPORT_MINERAI: {
+				int present = 0;
+				for (Planete pla : pla) {
+					if ((numero == -1) || (pla.estProprio(numero))) {
+						present += pla.getStockMinerai();
+					}
+				}
+				return present >= nombre;
+			}
+		}
+		return false;
+	}
+
+	public ObjetTransporte supprimerRichesses(int numero, String code, int nb, int numPlanete) {
 		if (numPlanete >= 0 && numPlanete < pla.length)
 			return pla[numPlanete].supprimerRichesse(code, nb);
 		if (ObjetTransporte.typeDeCodeChargement(code) == Const.TRANSPORT_BATIMENT) {

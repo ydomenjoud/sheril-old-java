@@ -355,7 +355,7 @@ public class ProductionOrdres {
             vendeurs[i] = (v != null ? v.getNumero()+"" : "???");
             codes[i] = offres.get(i).getCodeMarchandise();
             quantites[i] = new Integer(offres.get(i).getQuantite());
-            prix[i] = new Integer(offres.get(i).getPrixUnitaire());
+            prix[i] = new Integer(offres.get(i).getPrixTotal());
         }
         
         ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
