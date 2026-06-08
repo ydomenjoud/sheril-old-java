@@ -25,6 +25,14 @@ public class Rapport {
 			"#FBF7AF", "#967DFF", "#EE82EE", "#00F1AF", "#EB9F96", "#6F9EC3",
 			"#ffdead" };
 
+	private static final Map<String, Integer> COLOR_INDEX_MAP = new HashMap<>();
+	static {
+		for (int i = 0; i < cC.length; i++) {
+			COLOR_INDEX_MAP.put(cC[i], i);
+		}
+	}
+
+
 	// noir,jaune,bleu foncé(couleur des liens),rouge,violet clair(couleur
 	// /pop),violet,vert clair (neutre),saumon,
 	// vert foncé,
@@ -38,11 +46,6 @@ public class Rapport {
 	// le chemin du bg général.
 	private static final String cBVaisseau = cI + "blkbck31.jpg";
 
-	// le bg pour les vaisseaux et certains titres.
-	private static final String cBPoste = cI + "blkbck40.gif";
-
-	// le bg pour les postes co.
-	private static final String cBTechno = cI + "fondb5.gif";
 
 	// le bg pour les technologies.
 	public static final String[] COULEURS_RACES = { "#CC00FF", "#0066CC",
@@ -320,11 +323,22 @@ public class Rapport {
 	}
 
 	public static BaliseHTML getFont(String color, String size) {
-		BaliseHTML retour = new BaliseHTML(BaliseHTML.FONT);
-		if (color != null)
-			retour.ajout(BaliseHTML.COLOR, color);
-		if (size != null)
-			retour.ajout(BaliseHTML.SIZE, size);
+		BaliseHTML retour = new BaliseHTML(BaliseHTML.SPAN);
+		List<String> c = new ArrayList<>();
+		if (color != null) {
+			int index = COLOR_INDEX_MAP.getOrDefault(color, -1);
+			if(index >= 0) {
+				c.add("c" + index);
+			}
+			// fallback
+			else {
+				retour.ajout("style", "color: " + color);
+			}
+		}
+		if (size != null) {
+			c.add("s" + size);
+		}
+		retour.ajout(BaliseHTML.CLASS, String.join(" ", c));
 		return retour;
 	}
 
@@ -859,7 +873,7 @@ public class Rapport {
 				+ "firstInd = getIndex(firstEl); showAll(); arrange(); }  //--> </script>"));
 
 		listeDocuments.add(getDocumentMenu(chemin + "menu.htm", getBody()
-				.ajout(BaliseHTML.BACKGROUND, cBVaisseau).ajout(racine)));
+				.ajout("class", "bg").ajout(racine)));
 	}
 
 	// méthodes principales
@@ -1104,9 +1118,9 @@ public class Rapport {
 					getText(Univers.getCommandant(p.getProprio())
 							.getNomNumeroHtml()));
 
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
-					getFont(cC[7], null).ajout(getText(t[2])));
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg")
+					.ajout(getFont(cC[7], null).ajout(getText(t[2])));
 
 			ArrayList ar = p.getPopulations();
 			for (int j = 0; j < ar.size(); j++) {
@@ -1156,9 +1170,9 @@ public class Rapport {
 
 			ligne++;
 
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
-					getFont(cC[7], null).ajout(getText(t2[2])));
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg")
+					.ajout(getFont(cC[7], null).ajout(getText(t2[2])));
 			a[ligne][0] = getTD(null, null).ajout(
 					getFont(cC[4], null).ajout(getText(t2[3])));
 			a[ligne][1] = getTD(null, null).ajout(
@@ -1206,9 +1220,9 @@ public class Rapport {
 									/ (float) (p.getCapaciteEncombrement())
 									* 100) + " %"));
 
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
-					getFont(cC[7], null).ajout(getText(t2[8])));
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg")
+					.ajout(getFont(cC[7], null).ajout(getText(t2[8])));
 			if ((num == -1) || (num == p.getProprio())) {
 				a[ligne][0] = getTD(null, null).ajout(
 						getFont(cC[4], null).ajout(getText(t2[11])));
@@ -1255,8 +1269,8 @@ public class Rapport {
 				a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 						getFont(cC[3], null).ajout(getText(t2[10])));
 
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg").ajout(
 					getFont(cC[7], null).ajout(getText(t[29])));
 			Map.Entry[] listeE = p.listeEquipement();
 			int k;
@@ -1907,13 +1921,13 @@ public class Rapport {
 				infos.add(f.getNom());
 				infos.add((b[i][1] + 1) + "");
 				infos.add(commandant.getNomNumeroHtml());
-				infos.add(Utile.maj("<font color=" + cC[4] + ">"
-						+ f.getNombreDeVaisseaux() + "</font>"));
+				infos.add(Utile.maj("<span class='c4'>"
+						+ f.getNombreDeVaisseaux() + "</span>"));
 				int[] bornes = f.getBornesPuissance();
 				String tooltip = bornes[0] + " - " + bornes[1];
 				String description = "<span data-tooltip=\""+tooltip+"\">"
 						+ Utile.maj(f.getDescriptionPuissance(c.getLocale()))
-						+ "</san>";
+						+ "</span>";
 				infos.add(description);
 				orderDetect.put(clef, infos);
 			}
@@ -2109,7 +2123,7 @@ public class Rapport {
 				String constructionEnCoursCode = c.getPossession(p[i]).getProgrammationConstruction();
 				String constructionEnCours = "";
 				if(constructionEnCoursCode != null){
-					constructionEnCours = "<span class='technology'>"
+					constructionEnCours = "<span class='technologie'>"
 					+ Univers.getTechnologie(constructionEnCoursCode).getNomComplet(Locale.getDefault())
 					+ "</span>";
 				}
@@ -2180,8 +2194,8 @@ public class Rapport {
 						.ajout(getText(t[1])));
 
 		if (c.existenceGouverneurSurPossession(s.getPosition())) {
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg").ajout(
 					getFont(cC[7], null).ajout(getText(t[31])));
 			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 					getALienI(LIEN_GOUVERNEURS).ajout(
@@ -2190,8 +2204,8 @@ public class Rapport {
 											s.getPosition()).getNom()))));
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[2])));
 
 		for (int i = 0; i < Const.NB_RACES; i++)
@@ -2241,8 +2255,8 @@ public class Rapport {
 		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(
 				getFont(cC[3], null).ajout(getText("&nbsp;")));
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[8])));
 		a[ligne][0] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[9])));
@@ -2276,8 +2290,8 @@ public class Rapport {
 								/ (float) (s.getCapaciteEncombrement()) * 100)
 						+ " %"));
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[12])));
 		a[ligne][0] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[13])));
@@ -2307,16 +2321,14 @@ public class Rapport {
 		a[ligne++][5] = getTD(null, null).ajout(
 				getText(Integer.toString(s.getTerraformation(num))));
 
-		String b_open = "<font color=" + cC[6] + ">";
-		String b_close = "</font>";
+		String b_open = "<span color='c6'>";
+		String b_close = "</span>";
 
 		a[ligne][0] = getTD(null, null).ajout(getFont(cC[4], null).ajout(getText("Rayonnement"))
 				.ajout("data-tooltip", " revenu/10  + encombrement + entretien + (expérience gouverneur ) " +
 						"+ (nb produit de luxe) + ( nb holofilm) " +
 						"+ (nb metaux précieux ) + (nb LIXIAM) * 10"));
-		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(
-				"%.2f".formatted(s.getInfluenceRayonnement(c.getNumero()))
-		);
+		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
 
 		a[ligne][0] = getTD(null, null)
 				.ajout(getFont(cC[4], null)
@@ -2327,8 +2339,8 @@ public class Rapport {
 		a[ligne++][1] = getTD(BaliseHTML.CENTER, "5").ajout(
 				getText(p.getStringEvolutionStabilite(c, s, false)));
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[19])));
 		a[ligne][0] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[20])));
@@ -2348,8 +2360,8 @@ public class Rapport {
                         .getBudget(Const.DOMAINES_BUDGET_CONTRE_ESPIONNAGE)
 						+ "% "));
 		if (p.possedeProgrammationConstruction()) {
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg").ajout(
 					getFont(cC[7], null).ajout(getText(t[32])));
 			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 					getFont(cC[3], null).ajout(
@@ -2362,8 +2374,8 @@ public class Rapport {
 		}
 
 		if (p.constructionEnCours()) {
-			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-					BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+					.ajout("class", "bg").ajout(
 					getFont(cC[7], null).ajout(getText(t[23])));
 			a[ligne][0] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(cC[4], null).ajout(getText(t[24])));
@@ -2391,8 +2403,8 @@ public class Rapport {
 			}
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[29])));
 		Map.Entry[] listeE = s.listeEquipement(num);
 		int k;
@@ -2418,8 +2430,8 @@ public class Rapport {
 					"&nbsp;");
 
 		// Ajout liste des planètes
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText("Détail des planètes")));
 
 
@@ -2485,7 +2497,7 @@ public class Rapport {
 			b[bligne++][bcol] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full"), b));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b));
 
 		// poste  commercial
 		int[] proprios = s.getProprios();
@@ -2498,8 +2510,8 @@ public class Rapport {
 		}
 
 		BaliseHTML[][] posteTable = new BaliseHTML[5][4*2];
-		posteTable[0][0] = getTD(BaliseHTML.CENTER, "8").ajout(
-				BaliseHTML.BACKGROUND, cBVaisseau).ajout(
+		posteTable[0][0] = getTD(BaliseHTML.CENTER, "8")
+				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText("Poste commercial : " + String.join(", ", liens))));
 		for (int col = 0; col < 4; col++) {
 			for(int row = 0; row < 4; row++) {
@@ -3030,7 +3042,6 @@ public class Rapport {
 		if (vs != null)
 			retour.ajout(new BaliseHTML(BaliseHTML.BR)).ajout(
 					DocumentHTML.creerTable(getTable(), vs));
-		/** .ajout(BaliseHTML.BACKGROUND,cBPoste)); * */
 		return retour.ajout(sautP());
 	}
 
@@ -3563,10 +3574,7 @@ public class Rapport {
 							getFont(cC[3], null).ajout(
 									getText(Univers.getMessage("NOMS_GALAXIES",
 											i, l)
-											+ " : <font color="
-											+ COULEURS_RACES[Utile
-													.getCouleurSecteur(j + 1)]
-											+ ">secteur"
+											+ " : <span class='position'>secteur"
 											+ (j + 1)
 											+ "</font>")));
 

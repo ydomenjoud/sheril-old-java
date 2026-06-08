@@ -3274,10 +3274,9 @@ public class Commandant extends Joueur implements Serializable {
 
 			return ajouterEvenement(
 					"EV_COMMANDANT_TRANSFERER_0000",
-					"<font color=\"#00f1af\">"
-							+ ObjetTransporte.getDescriptionListeChargement(
-									new ObjetTransporte[] { o }, getLocale())
-							+ "</font>", pos1, pos2);
+					ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[] { o }),
+                    pos1,
+                    pos2);
 		} else {
 			return ajouterEvenement("ER_COMMANDANT_TRANSFERER_0006");
 		}

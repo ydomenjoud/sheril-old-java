@@ -14,7 +14,35 @@
     --information: #00e6e6;
     --important: #83bfb0;
     --width: 1200px;
+    --c0: #000000;
+    --c1: #FFB400;
+    --c2: #008080;
+    --c3: #FBF7AF;
+    --c4: #967DFF;
+    --c5: #EE82EE;
+    --c6: #00F1AF;
+    /*--c7: #EB9F96;*/
+    --c7: #96eba7;;
+    --c8: #6F9EC3;
+    --c9: #ffdead;
 }
+
+.c0 { color: var(--c0); }
+.c1 { color: var(--c1); }
+.c2 { color: var(--c2); }
+.c3 { color: var(--c3); }
+.c4 { color: var(--c4); }
+.c5 { color: var(--c5); }
+.c6 { color: var(--c6); }
+.c7 { color: var(--c7); font-size: 1.1em; }
+.c8 { color: var(--c8); }
+.c9 { color: var(--c9); }
+
+.s1 { font-size: 0.8em; }
+.s2 { font-size: 1em; }
+.s3 { font-size: 1.2em; }
+.s4 { font-size: 1.4em; }
+.s5 { font-size: 1.6em; }
 
 .split {
     display: flex;
@@ -166,6 +194,10 @@
     font-weight: bold;
 }
 
+.bg {
+    background-color: #10001d;
+}
+
 :target {
     animation: highlight 3s ease-out forwards;
 }
@@ -311,6 +343,11 @@ body {
     COLOR: #DDDDDD;
     FONT-FAMILY: verdana, arial, sans-serif;
 }
+
+body.bg {
+    background: linear-gradient(to bottom, #10001d, #000);
+}
+
 html {
     scrollbar-color:  #967dff #10001d;
     scrollbar-width: auto;
@@ -325,7 +362,8 @@ table {
     border-radius: 2px;
     border: 1px solid var(--important);
     padding: 4px;
-    background: #10001d;
+    /*background: #10001d;*/
+    background: #000;
     box-shadow: 12px 12px 15px rgba(131, 191, 176, 0.3);
 }
 table:hover {

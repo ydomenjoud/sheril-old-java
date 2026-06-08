@@ -360,7 +360,7 @@ public class Possession implements Serializable {
 		int total = 0;
 		String retour = "";
 		String[] nom_cat = new String[] { "Gouverneur", "Politique", "Marchandises", "Position", "Taxation", "Bonus racial" };
-		String[] balises = new String[] { "<font color=" + Rapport.cC[6] + ">", "</font>" };
+		String[] balises = new String[] { "<span class='c6'>", "</span>" };
 
 		for (int i = 0; i < tab_stab.length; i++)
 			if (tab_stab[i] != 0) {
