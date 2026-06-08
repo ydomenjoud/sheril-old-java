@@ -70,19 +70,13 @@ public class Rapport {
 			{ BaliseHTML.HREF, "../images/rapport.css" },
 			{ BaliseHTML.TYPE, "text/css" }, { BaliseHTML.REL, "stylesheet" } };
 
-	private static final String[][] attributsBaseBody = {
-			{ BaliseHTML.BGCOLOR, cC[0] }, { BaliseHTML.LINK, cC[2] },
-			{ BaliseHTML.VLINK, cC[2] }, /** { BaliseHTML.BACKGROUND, cB }, **/
-			{ BaliseHTML.STYLE, "Background-attachment:fixed; background-color: #000; background-image: url('http://sheril.pbem-france.net/media/img/caution.jpeg');" } };
-
 	private static final String[][] attributsBaseTable = {
 			{ BaliseHTML.BORDER, "1" }, { BaliseHTML.CELLSPACING, "0" },
 			{ BaliseHTML.CELLPADING, "1" }, { BaliseHTML.BGCOLOR, cC[0] } };
 
 	private static final BaliseHTML BASE = new BaliseHTML(BaliseHTML.HTML);
 
-	private static final BaliseHTML BODY = new BaliseHTML(BaliseHTML.BODY,
-			attributsBaseBody);
+	private static final BaliseHTML BODY = new BaliseHTML(BaliseHTML.BODY);
 
 	private static final BaliseHTML DIV = new BaliseHTML(BaliseHTML.DIV,
 			BaliseHTML.ALIGN, BaliseHTML.CENTER);
@@ -2120,9 +2114,7 @@ public class Rapport {
 					+ "</span>";
 				}
 				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
-				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(
-						"%.2f".formatted(s.getInfluenceRayonnement(c.getNumero()))
-				);
+				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
 					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme stripped"), a)));

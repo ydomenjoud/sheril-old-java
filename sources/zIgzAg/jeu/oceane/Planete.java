@@ -143,20 +143,7 @@ public class Planete implements Serializable {
 
 	// Capacité Encombrement de la planête
 	public int getCapaciteEncombrement() {
-
-		float mod = 1;
-
-		/**
-		 * Patch Atalante: +10% encombrement max
-		 */
-		if (Univers.getCommandant(getProprio()).getRace() == 1){
-			mod = 1.1f;
-		}
-
-		int rtr = 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
-		rtr = (int)(rtr * mod);
-		
-		return rtr;
+        return 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
 	}
 
 	// Encombrement effectif de la planête

@@ -151,7 +151,7 @@ public class Commentaire implements Serializable {
 		}
 
 		private String colorier(String entree, int num) {
-			return "<span style=\"color:#dc3a3a\">" + entree + "</span>";
+			return "<span class='item'>" + entree + "</span>";
 		}
 
 		private String traduction(Object o, Locale l) {

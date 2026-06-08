@@ -1352,28 +1352,31 @@ public class Commandant extends Joueur implements Serializable {
 	}
 
     public void initialiserDataPointDeVictoire() {
+
+        // planetes : evolution du tour
+        // combats : evolution du tour
+        // recherche : evolution du tour
+        // pop vs : evolution du tour
+        // population : stock actuel
+        // merveille : stock actuel
+
         pointDeVictoireData = new HashMap<>();
+        // evolution
         pointDeVictoireData.put(PointDeVictoireCategorie.PLANETES, getNombrePlanetesPossedees());
-        pointDeVictoireData.put(PointDeVictoireCategorie.COMBATS, 0);
+        pointDeVictoireData.put(PointDeVictoireCategorie.COMBATS, (int) getDegatsInfligesCeTour());
+        pointDeVictoireData.put(PointDeVictoireCategorie.RECHERCHE, getScoreTechnologique());
+        pointDeVictoireData.put(PointDeVictoireCategorie.POPULATION_VS, getEvolutionPopulationFlotte());
+        // stock
         pointDeVictoireData.put(PointDeVictoireCategorie.POPULATION, getPopulationTotale());
-        pointDeVictoireData.put(PointDeVictoireCategorie.RECHERCHE, (int) getBudget(Const.BUDGET_COMMANDANT_RECHERCHE));
-        pointDeVictoireData.put(PointDeVictoireCategorie.POPULATION_VS, getTotalPopulationVS());
-        pointDeVictoireData.put(PointDeVictoireCategorie.MERVEILLE, getMeilleurSystemeScore());
+        pointDeVictoireData.put(PointDeVictoireCategorie.MERVEILLE, (int)getMeilleurRayonnement());
     }
 
+    /**
+     * @deprecated utiliser plutôt getMeilleurRayonnement
+     * @return
+     */
     public int getMeilleurSystemeScore() {
-        Systeme[] systemesList = Univers.listeSystemes(listePossession());
-        int scoreMax = Integer.MIN_VALUE; // Initialisé à une valeur très basse
-        for (Systeme s : systemesList){
-            int entretien = (int) s.getEntretien(numero,getGouverneurSurPossession(s.getPosition()), getPossession(s.getPosition()));
-            int encombrement = s.getEncombrement(numero);
-            int scoreActuel = entretien + encombrement;
-            // Comparaison avec le maximum trouvé jusqu'ici
-            if (scoreActuel > scoreMax) {
-                scoreMax = scoreActuel;
-            }
-        }
-        return scoreMax;
+        return (int)getMeilleurRayonnement();
     }
 
 	public void initialiserChampsTransients() {
@@ -1400,6 +1403,14 @@ public class Commandant extends Joueur implements Serializable {
 
     public int getEvolutionPossession(){
         return getNombrePlanetesPossedees() - getScoreCategorie(PointDeVictoireCategorie.PLANETES);
+    }
+
+    public int getEvolutionDegatsInfligeesCeTour() {
+        return (int) (getDegatsInfligesCeTour() - getScoreCategorie(PointDeVictoireCategorie.COMBATS));
+    }
+
+    public int getEvolutionTechnologique(){
+        return getScoreTechnologique() - getScoreCategorie(PointDeVictoireCategorie.RECHERCHE);
     }
 
 	// Champs transients --->
@@ -4193,7 +4204,7 @@ public class Commandant extends Joueur implements Serializable {
 
     public float getMeilleurRayonnement(){
         return domaine.keySet().stream()
-                .map(pos -> Univers.getSysteme(pos))     // Transforme la position en Système
+                .map(Univers::getSysteme)     // Transforme la position en Système
                 .filter(Objects::nonNull)                // Sécurité : ignore les systèmes nuls
                 .map(s -> s.getInfluenceRayonnement(numero)) // Récupère l'influence
                 .max(Float::compare)                     // Trouve le max

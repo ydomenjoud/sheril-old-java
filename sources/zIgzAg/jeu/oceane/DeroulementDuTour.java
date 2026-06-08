@@ -126,7 +126,6 @@ public class DeroulementDuTour {
 		ProductionOrdres.productionDonneeRaces(Locale.FRENCH);
 
 		Map tran = new HashMap();
-		Map tran2 = new HashMap();
 
 		System.out.print("Détermination flottes détectées : ");
 		Univers.notify("Détermination flottes détectées : ");
@@ -158,7 +157,7 @@ public class DeroulementDuTour {
 		System.out.print("Rapport: ");
 		for (int i = cL2.length - 1; i >= 0; i--) {
 
-			if (i % 19 == 0)
+			if (i % 10 == 0)
 				System.out.println("");
 
 			System.out.print(cL2[i].getNumero() + "-");
@@ -171,10 +170,6 @@ public class DeroulementDuTour {
 			r = null;
 			RapportXML rxml = new RapportXML(cL2[i]);
 			rxml.ecrireRapportXML();
-			/**
-			 * RapportTechnoXML rtxml = new RapportTechnoXML(cL2[i]);
-			 * rtxml.ecrireRapportXML();
-			 */
 			ProductionOrdres prod = new ProductionOrdres(cL2[i]);
 			prod.creation();
 			cL2[i].initialiserChampsTransients();
