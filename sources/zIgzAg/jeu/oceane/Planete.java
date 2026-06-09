@@ -7,7 +7,9 @@ package zIgzAg.jeu.oceane;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Planete implements Serializable {
 
@@ -407,6 +409,31 @@ public class Planete implements Serializable {
 			compteur = compteur + nombreBatimentsDeType(t[i].getCode())
 					* t[i].getValeurCaracteristiqueSpeciale(carac);
 		return compteur;
+	}
+
+	public List<Batiment> getBatimentsParType(BatimentType type, int commandant_num) {
+		if(commandant_num != proprietaire)
+			return new ArrayList<>();
+		Stream<Batiment> retour = Stream.of(getBatiments()).map(ConstructionPlanetaire::getBatiment);
+
+		switch (type) {
+			case MINAGE -> {
+				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_EXTRACTION_MINERAI)).toList();
+			}
+			case BOUCLIER -> {
+				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_BOUCLIER)).toList();
+			}
+			case CONSTRUCTION -> {
+				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_GAIN_POINTS_CONSTRUCTION)).toList();
+			}
+			case PRODUCTION -> {
+				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_PRODUCTION_MARCHANDISE)).toList();
+			}
+			case ARME ->  {
+				return retour.filter(Batiment::estDefensePlanetaire).toList();
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	public int capaciteSpecialeBatiment(int carac) {

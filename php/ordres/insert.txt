@@ -22,7 +22,10 @@ if ($v0 != "" || array_key_exists('tache',$_POST)) {
             $query = "INSERT INTO creer_plan_ajouter (NUMERO, NOM, NOMBRE) VALUES ($commandant, '$tech', $nb)";
             mysql_query($query) or die(mysql_error());
         }
-    } else if ($table == "fusionner_flotte" && is_array($v0) && count($v0) > 1 && $v1 != null) {
+    } else if ($table == "fusionner_flotte" && is_array($v0)  && $v1 != null) {
+        if(count($v0) <= 1){
+            die("Vous devez sélectionner plusieurs flottes <br /><a href='index.php3?table=$table'>Retour</a>");
+        }
         sort($v0, SORT_NUMERIC);
         for ($i = 1; $i < count($v0); $i++) {
             $f1 = intval($v0[0]);

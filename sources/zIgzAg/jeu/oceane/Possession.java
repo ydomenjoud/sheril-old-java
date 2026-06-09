@@ -360,18 +360,16 @@ public class Possession implements Serializable {
 		int total = 0;
 		String retour = "";
 		String[] nom_cat = new String[] { "Gouverneur", "Politique", "Marchandises", "Position", "Taxation", "Bonus racial" };
-		String[] balises = new String[] { "<span class='c6'>", "</span>" };
 
 		for (int i = 0; i < tab_stab.length; i++)
 			if (tab_stab[i] != 0) {
-				retour += nom_cat[i] + ": " + balises[0] + tab_stab[i]
-						+ balises[1];
+				retour += nom_cat[i] + ": " + tab_stab[i];
 				if (i != tab_stab.length - 1)
 					retour += " ; ";
 				total = total + tab_stab[i];
 			}
 		if (tot)
-			return (total > 0 ? "+" + total : total + "");
+			return (total > 0 ? "<span class='plus'>+" + total + "</span>" : total + "");
 
 		return retour;
 	}

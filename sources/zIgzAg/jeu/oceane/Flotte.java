@@ -123,9 +123,16 @@ public class Flotte implements Serializable {
 		return direction;
 	}
 
-	public String getNomNumero(int num) {
-		return "<span class='flotte_desc'>" + nom + "(" + Integer.toString(num + 1) + ")</span>";
+	public String getNomNumeroHTML(int num) {
+		return "<a href='"+Rapport.PRINCIPAL+"#"+Rapport.getLienFlotte(num)+"'><span class='flotte_desc'>" + nom + "(" + (num + 1) + ")</span></a>";
 	}
+
+	public String getNomNumero(int num) {
+		return  nom + "(" + (num + 1) + ")";
+	}
+
+
+
 	public String getDescriptionVersionMab(int numF, Commandant c, Locale l) {
 		return Univers.getMessage("DESCRIPTION_FLOTTE1", l)
 				+ Integer.toString(numF + 1)
@@ -612,7 +619,7 @@ public class Flotte implements Serializable {
 										.getPrixConstructionEspace(constructionEnCours) == 0) {
 									c.ajouterEvenement(
 											"EV_COMMANDANT_CONSTRUCTION_00010",
-											getNomNumero(c.numeroFlotte(this)),
+											getNomNumeroHTML(c.numeroFlotte(this)),
 											constructionEnCours, nbConstru);
 									// cout de la construction
 									coutcritik = nbConstru
@@ -679,14 +686,14 @@ public class Flotte implements Serializable {
 				// Si on a pas construit d'inter, alors on a construit
 				if (nbConstruIntercepteur == 0)
 					c.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0005",
-							getNomNumero(c.numeroFlotte(this)),
+							getNomNumeroHTML(c.numeroFlotte(this)),
 							constructionEnCours,
 							nbConstruAutre,
 							coutTotal
 					);
 				else
 					c.ajouterEvenement("EV_COMMANDANT_CONSTRUCTION_0008",
-							getNomNumero(c.numeroFlotte(this)),
+							getNomNumeroHTML(c.numeroFlotte(this)),
 							constructionEnCours,
 							"Chasseur standard",
 							nbConstruAutre,

@@ -90,7 +90,7 @@ public abstract class ObjetTransporte implements Serializable, Cloneable {
 			String code = o[i].getCode();
 			boolean estBatiment = o[i].estBatiment();
 			int nbObjet = o[i].getNombreObjets();
-			retour.append("<span class=\"").append(estBatiment ? "technology" : "marchandise").append("\">")
+			retour.append("<span class=\"").append(estBatiment ? "technologie" : "marchandise").append("\">")
 					.append(Utile.maj(traductionChargement(code, nbObjet, Locale.getDefault())))
 					.append(" : ")
 					.append(nbObjet)

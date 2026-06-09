@@ -12,9 +12,11 @@ if ($nb_lignes < $max) {
             stratégie au lieu d'en créer une nouvelle. <br />
             Liste de vos stratégies actuelles:
             <?php
-                foreach($t2 as $name){
-                    echo "<a href='$nom_page?table=$table&v0=$name'>".$name."</a>";
+            if(is_array($t2)) {
+                foreach ($t2 as $name) {
+                    echo "<a href='$nom_page?table=$table&v0=$name'>" . $name . "</a>";
                 }
+            }
             ?>
 
         </div>

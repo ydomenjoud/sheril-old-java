@@ -1529,7 +1529,7 @@ public class Commandant extends Joueur implements Serializable {
 			int[] inter = f[i].numeroPorteIntraGalactique();
 			if (inter != null)
 				ajouterEvenement("EV_COMMANDANT_GESTION_FLOTTE_0005",
-						f[i].getNomNumero(numeroFlotte(f[i])),
+						f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 						f[i].getPosition());
 		}
 
@@ -1554,14 +1554,14 @@ public class Commandant extends Joueur implements Serializable {
 									-nbRepare * Const.COUT_REPARATION_VAISSEAU);
 							ajouterEvenement(
 									"EV_COMMANDANT_GESTION_FLOTTE_0001",
-									f[i].getNomNumero(numeroFlotte(f[i])),
+									f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 									s.getPosition(), nbRepare);
 							fait = true;
 							s.setPointsRepare(numero, nbRepare);
 						} else
 							ajouterEvenement(
 									"EV_COMMANDANT_GESTION_FLOTTE_0000",
-									f[i].getNomNumero(numeroFlotte(f[i])));
+									f[i].getNomNumeroHTML(numeroFlotte(f[i])));
 					if (!fait) {
 						int[] proprio = s.getProprios();
 						for (int j = 0; j < proprio.length; j++)
@@ -1584,14 +1584,14 @@ public class Commandant extends Joueur implements Serializable {
 																	* Const.COUT_REPARATION_VAISSEAU);
 											ajouterEvenement(
 													"EV_COMMANDANT_GESTION_FLOTTE_0002",
-													f[i].getNomNumero(numeroFlotte(f[i])),
+													f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 													s.getPosition(), commandant
 															.getNomNumeroHtml(),
 													nbRepare);
 											commandant
 													.ajouterEvenement(
 															"EV_COMMANDANT_GESTION_FLOTTE_0003",
-															f[i].getNomNumero(numeroFlotte(f[i])),
+															f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 															s.getPosition(),
 															getNomNumeroHtml(),
 															nbRepare);
@@ -1602,7 +1602,7 @@ public class Commandant extends Joueur implements Serializable {
 										} else
 											ajouterEvenement(
 													"EV_COMMANDANT_GESTION_FLOTTE_0004",
-													f[i].getNomNumero(numeroFlotte(f[i])),
+													f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 													commandant.getNomNumeroHtml());
 								}
 							}
@@ -1622,7 +1622,7 @@ public class Commandant extends Joueur implements Serializable {
 
 				if (dommages > 0) {
 					ajouterEvenement("EV_COMMANDANT_GESTION_FLOTTE_0006",
-							f[i].getNomNumero(numeroFlotte(f[i])),
+							f[i].getNomNumeroHTML(numeroFlotte(f[i])),
 							f[i].getPosition(), dommages);
 				}
 			}
@@ -2563,7 +2563,7 @@ public class Commandant extends Joueur implements Serializable {
 			cout = Const.SURCOUT_DON_FLOTTE_ANONYME;
 		if ((cout != 0F) && (cout > centaures))
 			return ajouterErreur("ER_COMMANDANT_DON_FLOTTE_0000",
-					f.getNomNumero(numeroFlotte), destinataire);
+					f.getNomNumeroHTML(numeroFlotte), destinataire);
 
 		f.planifierTransmission(numero, Univers.getTour() + nbTours);
 		cible.ajouterFlotte(f);
@@ -2610,7 +2610,7 @@ public class Commandant extends Joueur implements Serializable {
 
 		if (cout > cible.getCentaures())
 			return ajouterErreur("ER_COMMANDANT_VENTE_FLOTTE_0000",
-					f.getNomNumero(numeroFlotte), destinataire);
+					f.getNomNumeroHTML(numeroFlotte), destinataire);
 
 		f.initialiserEquipages();
 		cible.ajouterFlotte(f);
@@ -3168,12 +3168,12 @@ public class Commandant extends Joueur implements Serializable {
 			f.deplacer(direction, directive, directivePrecision, getHerosSurFlotte(numFlotte), strat, this);
 			if (connaitStrategie(stra)){
 				return ajouterEvenement("EV_COMMANDANT_DEPLACER_FLOTTE_0001",
-						f.getNomNumero(numFlotte), direction,
+						f.getNomNumeroHTML(numFlotte), direction,
 						Flotte.traductionDirective(directive,
 								directivePrecision, getLocale()), strat);
 			}else{
 				return ajouterEvenement("EV_COMMANDANT_DEPLACER_FLOTTE_0000",
-						f.getNomNumero(numFlotte), direction,
+						f.getNomNumeroHTML(numFlotte), direction,
 						Flotte.traductionDirective(directive,
 								directivePrecision, getLocale()));
 			}
@@ -3306,7 +3306,7 @@ public class Commandant extends Joueur implements Serializable {
 					f.getPosition(), numPlanete + 1);
 		if (numTransport >= f.nbVaisseauxCargos())
 			return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0001",
-					f.getNomNumero(numFlotte), numTransport);
+					f.getNomNumeroHTML(numFlotte), numTransport);
 		int numJou = joueur;
 		if (joueur == Integer.MIN_VALUE)
 			if (sys.nbProprios() == 1)
@@ -3317,7 +3317,7 @@ public class Commandant extends Joueur implements Serializable {
 				numJou = numero;
 			else
 				return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0004",
-						f.getNomNumero(numFlotte));
+						f.getNomNumeroHTML(numFlotte));
 		Commandant c = Univers.getCommandant(numJou);
 		if (!c.existencePossession(f.getPosition()))
 			return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0002",
@@ -3325,7 +3325,7 @@ public class Commandant extends Joueur implements Serializable {
 		if ((numJou != numero)
 				&& (ObjetTransporte.typeDeCodeChargement(code) != Const.TRANSPORT_MARCHANDISE))
 			return ajouterErreur("ER_COMMANDANT_CHARGER_CARGO_0003",
-					f.getNomNumero(numFlotte));
+					f.getNomNumeroHTML(numFlotte));
 
 		try {
 
@@ -3335,7 +3335,7 @@ public class Commandant extends Joueur implements Serializable {
 				return ajouterEvenement("EV_COMMANDANT_CHARGER_CARGO_0001",
 						f.getPosition(), ObjetTransporte.traductionChargement(
 								code, 0, getLocale()),
-						f.getNomNumero(numFlotte));
+						f.getNomNumeroHTML(numFlotte));
 			// System.out.println(getNomNumero()+"-"+numTransport+"-"+code+"-"+transportMax);
 			ObjetTransporte o = c.enleverChargementDeSysteme(this, numFlotte,
 					f.getPosition(), numPlanete, code,
@@ -3354,12 +3354,12 @@ public class Commandant extends Joueur implements Serializable {
 							f.getPosition(),
 							ObjetTransporte.traductionChargement(code,
 									o.getNombreObjets(), getLocale()),
-							f.getNomNumero(numFlotte), charge);
+							f.getNomNumeroHTML(numFlotte), charge);
 				else
 					return ajouterEvenement("EV_COMMANDANT_CHARGER_CARGO_0001",
 							f.getPosition(),
 							ObjetTransporte.traductionChargement(code, 0,
-									getLocale()), f.getNomNumero(numFlotte));
+									getLocale()), f.getNomNumeroHTML(numFlotte));
 
 		} catch (Exception e) {
 			System.out.println(joueur + "-" + code + "-" + e.getMessage());
@@ -3398,11 +3398,11 @@ public class Commandant extends Joueur implements Serializable {
 				numJou = sys.getPlanete(numPlanete).getProprio();
 			else
 				return ajouterErreur("ER_COMMANDANT_DECHARGER_CARGO_0004",
-						f.getNomNumero(numFlotte));
+						f.getNomNumeroHTML(numFlotte));
 		Commandant c = Univers.getCommandant(numJou);
 		if (numTransport >= f.nbVaisseauxCargos())
 			return ajouterErreur("ER_COMMANDANT_DECHARGER_CARGO_0001",
-					f.getNomNumero(numFlotte), numTransport + 1);
+					f.getNomNumeroHTML(numFlotte), numTransport + 1);
 		if (!c.existencePossession(f.getPosition()))
 			return ajouterErreur("ER_COMMANDANT_DECHARGER_CARGO_0002",
 					f.getPosition(), c.getNomNumeroHtml());
@@ -3413,7 +3413,7 @@ public class Commandant extends Joueur implements Serializable {
 		if (o1 == null)
 			return ajouterErreur("ER_COMMANDANT_DECHARGER_CARGO_0003",
 					f.getPosition(), ObjetTransporte.traductionChargement(code,
-							nombre, getLocale()), f.getNomNumero(numFlotte),
+							nombre, getLocale()), f.getNomNumeroHTML(numFlotte),
 					nombre);
 
 		ObjetTransporte o2 = c.ajouterChargementSurSysteme(this, numFlotte,
@@ -3431,18 +3431,18 @@ public class Commandant extends Joueur implements Serializable {
 				ajouterEvenement("EV_COMMANDANT_DECHARGER_CARGO_0000",
 						f.getPosition(), ObjetTransporte.traductionChargement(
 								code, nombreCharge, getLocale()),
-						f.getNomNumero(numFlotte), nombreCharge);
+						f.getNomNumeroHTML(numFlotte), nombreCharge);
 				if (c != this)
 					c.ajouterEvenement("EV_COMMANDANT_DECHARGER_CARGO_0002", f
 							.getPosition(), ObjetTransporte
 							.traductionChargement(code, nombreCharge,
-									c.getLocale()), f.getNomNumero(numFlotte),
+									c.getLocale()), f.getNomNumeroHTML(numFlotte),
 							getNomNumeroHtml(), nombreCharge);
 			} else
 				ajouterEvenement("EV_COMMANDANT_DECHARGER_CARGO_0001",
 						f.getPosition(), ObjetTransporte.traductionChargement(
 								code, 0, getLocale()),
-						f.getNomNumero(numFlotte));
+						f.getNomNumeroHTML(numFlotte));
 		return true;
 	}
 
@@ -3468,7 +3468,7 @@ public class Commandant extends Joueur implements Serializable {
 			eliminerFlotte(numFlotte);
 
 		return ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000",
-				ancienne.getNomNumero(getCorrespondanceFlotte(numFlotte)),
+				ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)),
 				nouveauNom);
 	}
 
@@ -3498,7 +3498,7 @@ public class Commandant extends Joueur implements Serializable {
 		Flotte f2 = getFlotte(numFlotte2);
 		if (!f1.getPosition().equals(f2.getPosition()))
 			return ajouterErreur("ER_COMMANDANT_FUSIONNER_FLOTTE_0002",
-					f1.getNomNumero(numFlotte1), f2.getNomNumero(numFlotte2));
+					f1.getNomNumeroHTML(numFlotte1), f2.getNomNumeroHTML(numFlotte2));
 
 		int nouveauNum = numFlotte1;
 		int numSupprime = numFlotte2;
@@ -3518,7 +3518,7 @@ public class Commandant extends Joueur implements Serializable {
 		eliminerFlotte(numSupprime);
 
 		return ajouterEvenement("EV_COMMANDANT_FUSIONNER_FLOTTE_0000",
-				f1.getNomNumero(numFlotte1), f2.getNomNumero(numFlotte2));
+				f1.getNomNumeroHTML(numFlotte1), f2.getNomNumeroHTML(numFlotte2));
 	}
 
 	public boolean pisterFlotte(int nFlotte, int numFlotteVisee, int joueurVise) {
@@ -3540,11 +3540,11 @@ public class Commandant extends Joueur implements Serializable {
 
 		if (reussite)
 			return ajouterEvenement("EV_COMMANDANT_PISTER_FLOTTE_0000",
-					f.getNomNumero(numFlotte), c.getNomNumeroHtml(),
+					f.getNomNumeroHTML(numFlotte), c.getNomNumeroHtml(),
 					numFlotteVisee + 1);
 		else
 			return ajouterEvenement("EV_COMMANDANT_PISTER_FLOTTE_0001",
-					f.getNomNumero(numFlotte), c.getNomNumeroHtml(),
+					f.getNomNumeroHTML(numFlotte), c.getNomNumeroHtml(),
 					numFlotteVisee + 1);
 	}
 
@@ -3560,7 +3560,7 @@ public class Commandant extends Joueur implements Serializable {
 		int nbMines = f.lancerMines(numero);
 
 		return ajouterEvenement("EV_COMMANDANT_LANCER_MINES_0000",
-				f.getNomNumero(numFlotte), nbMines);
+				f.getNomNumeroHTML(numFlotte), nbMines);
 	}
 
 	public boolean coloniserPlanetes(int numFlotte, int numPlanete) {
@@ -3592,7 +3592,7 @@ public class Commandant extends Joueur implements Serializable {
 		// Si le joueur n'est pas proprio de la planete
 		if (!sys.getPlanete(numPlanete).estProprio(numero))
 			return ajouterErreur("ER_COMMANDANT_COLONISER_PLANETE_0000",
-					f.getPosition(), f.getNomNumero(numFlotte),
+					f.getPosition(), f.getNomNumeroHTML(numFlotte),
 					sys.getNomNumeroPlanete(numPlanete));
 
 		Planete pla = sys.getPlanete(numPlanete);
@@ -3601,7 +3601,7 @@ public class Commandant extends Joueur implements Serializable {
 		// Si la race ne peut pas coloniser la planète
 		if( !pla.peutEtreColoniseParRace(numRace) ){
 			return ajouterEvenement("EV_COMMANDANT_COLONISER_PLANETE_0001",
-					f.getPosition(), f.getNomNumero(numFlotte),
+					f.getPosition(), f.getNomNumeroHTML(numFlotte),
 					sys.getNomNumeroPlanete(numPlanete),
 					Univers.getMessage("RACES", numRace, getLocale()));
 		}
@@ -3637,7 +3637,7 @@ public class Commandant extends Joueur implements Serializable {
             return ajouterEvenement(
                     eradication ? "EV_COMMANDANT_COLONISER_PLANETE_0002" : "EV_COMMANDANT_COLONISER_PLANETE_0000",
                     f.getPosition(),
-                    f.getNomNumero(numFlotte),
+                    f.getNomNumeroHTML(numFlotte),
                     sys.getNomNumeroPlanete(numPlanete),
                     "<span class=\"race"
                             + numRace
@@ -3647,7 +3647,7 @@ public class Commandant extends Joueur implements Serializable {
         }
 		else {
 			return ajouterEvenement("EV_COMMANDANT_COLONISER_PLANETE_0001",
-					f.getPosition(), f.getNomNumero(numFlotte),
+					f.getPosition(), f.getNomNumeroHTML(numFlotte),
 					sys.getNomNumeroPlanete(numPlanete),
 					Univers.getMessage("RACES", numRace, getLocale()));
             }
@@ -3672,7 +3672,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		return ajouterEvenement("EV_COMMANDANT_AFFECTER_HEROS_0000", nomHeros,
-				getFlotte(numFlotte).getNomNumero(numFlotte));
+				getFlotte(numFlotte).getNomNumeroHTML(numFlotte));
 	}
 
 	public boolean affecterGouverneur(String nomGouverneur, Position pos) {

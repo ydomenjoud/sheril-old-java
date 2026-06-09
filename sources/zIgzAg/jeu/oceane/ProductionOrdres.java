@@ -702,7 +702,7 @@ public class ProductionOrdres {
                 for (int i = 0; i < m.length; i++) {
                     k1[i] = (Integer) m[i].getKey();
                     v1[i] = ((Flotte) m[i].getValue())
-                            .getNomNumero(((Integer) m[i].getKey()).intValue());
+                            .getNomNumeroHTML(((Integer) m[i].getKey()).intValue());
                 }
 
                 ecrire(afficherT(Const.TABLE_HEROS, h));
