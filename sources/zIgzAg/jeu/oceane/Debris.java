@@ -92,10 +92,10 @@ public class Debris implements Serializable {
 
 				if (((Integer) m[i].getKey()).intValue() == Const.DEBRIS_MINES_CLASSIQUES)
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0003",
-							f.getNomNumero(c.numeroFlotte(f)), enleve);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), enleve);
 				if (((Integer) m[i].getKey()).intValue() == Const.DEBRIS_RESTE_VAISSEAUX)
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0004",
-							f.getNomNumero(c.numeroFlotte(f)), enleve);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), enleve);
 				if (draguage == enleve)
 					break;
 			}
@@ -108,27 +108,27 @@ public class Debris implements Serializable {
 						.intValue());
 				if (nbDommages != 0)
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0005",
-							f.getNomNumero(c.numeroFlotte(f)), nbDommages);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), nbDommages);
 				else
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0006",
-							f.getNomNumero(c.numeroFlotte(f)), nbDommages);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), nbDommages);
 			}
 			if (((Integer) m[i].getKey()).intValue() == Const.DEBRIS_MINES_CLASSIQUES) {
 				int nbDommages = f.gererCollision(((Integer) m[i].getValue())
 						.intValue());
 				if (nbDommages != 0)
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0000",
-							f.getNomNumero(c.numeroFlotte(f)), nbDommages);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), nbDommages);
 				else
 					c.ajouterEvenement("EV_DEBRIS_COLLISION_0002",
-							f.getNomNumero(c.numeroFlotte(f)), nbDommages);
+							f.getNomNumeroHTML(c.numeroFlotte(f)), nbDommages);
 			}
 			c.ajouterEvenement("EV_DEBRIS_COLLISION_0007", m[i].getValue());
 		}
 
 		if (f.getNombreDeVaisseaux() == 0) {
 			c.ajouterEvenement("EV_DEBRIS_COLLISION_0001",
-					f.getNomNumero(c.numeroFlotte(f)));
+					f.getNomNumeroHTML(c.numeroFlotte(f)));
 			if (c.getHerosSurFlotte(c.numeroFlotte(f)) != null)
 				c.getHerosSurFlotte(c.numeroFlotte(f)).mourir(c);
 			c.eliminerFlotte(c.numeroFlotte(f));

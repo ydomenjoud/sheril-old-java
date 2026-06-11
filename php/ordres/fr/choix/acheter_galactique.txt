@@ -41,7 +41,7 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
     <tbody>
     <?php
     foreach ($offresList as $offre) {
-        $min = intval($offre['QUANTITE']) * intval($offre['PRIX']);
+        $min = intval($offre['PRIX']);
         $enchere = array_key_exists($offre['ID_OFFRE'],$encheresActives) > 0 ? $encheresActives[$offre['ID_OFFRE']] : null;
 
         echo "<tr>";

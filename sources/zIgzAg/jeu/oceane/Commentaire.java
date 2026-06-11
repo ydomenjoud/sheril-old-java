@@ -151,7 +151,7 @@ public class Commentaire implements Serializable {
 		}
 
 		private String colorier(String entree, int num) {
-			return "<span style=\"color:#dc3a3a\">" + entree + "</span>";
+			return "<span class='item'>" + entree + "</span>";
 		}
 
 		private String traduction(Object o, Locale l) {
@@ -163,9 +163,12 @@ public class Commentaire implements Serializable {
 					return "<a href='"+Rapport.PRINCIPAL+"#"+ p + "' class='systeme'>" + Univers.getSysteme(p).getNomPosition() + "</a>";
 			}
 			if (o instanceof Float)
-				return Float.toString(Utile.a1D(((Float) o).floatValue()));
+				return "<span class='cur'>%,.1f</span>".formatted((Float) o);
 			if (o instanceof Technologie)
 				return ((Technologie) o).getNomHTML(l, false);
+			if (o instanceof Leader) {
+				return ((Leader) o).getNomHTML();
+			}
 			return o.toString();
 		}
 

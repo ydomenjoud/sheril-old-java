@@ -112,6 +112,10 @@ public abstract class Leader implements Serializable {
 		return marchand;
 	}
 
+	public String getNomHTML() {
+		return "<span class='race"+race+"'>"+nom+"</span>";
+	}
+
 	public String getNom() {
 		return nom;
 	}

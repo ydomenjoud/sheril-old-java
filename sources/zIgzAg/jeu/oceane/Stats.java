@@ -866,7 +866,7 @@ public class Stats {
 			Object valRayonnement = c.getScoreTechnologique();
 			if (mRayonnement != null && mRayonnement.containsKey(hc))
 				valRayonnement = getModif(valRayonnement,
-						c.getMeilleurSystemeScore() - ((Number) mRayonnement.get(hc)).intValue());
+                        (int) (c.getMeilleurRayonnement() - ((Number) mRayonnement.get(hc)).intValue()));
 
 			Object valTech = c.getScoreTechnologique();
 			if (mTech != null && mTech.containsKey(hc))
@@ -1037,10 +1037,13 @@ public class Stats {
 			Map<PointDeVictoireCategorie, StatCategorie> stats,
 			PointDeVictoireCategorie categorie
 	) {
-		var s = stats.get(categorie);
-		if (s == null || s.getPosition() == 0) return "-";
 
-		int pos = s.getPosition();
+		boolean isStock = categorie == PointDeVictoireCategorie.MERVEILLE || categorie == PointDeVictoireCategorie.POPULATION;
+
+		var s = stats.get(categorie);
+		if (s == null || s.position() == 0) return "-";
+
+		int pos = s.position();
 		// Gestion du suffixe : "er" pour 1, "ème" pour le reste
 		String suffixe = (pos == 1) ? "er" : "ème";
 
@@ -1048,25 +1051,21 @@ public class Stats {
 		List<Integer> points = PointDeVictoire.config.get(categorie);
 		String gain = pos <= points.size() ? "<span class='plus'>(+" + points.get(pos-1).toString() + "PV)</span>" : "";
 
-		return  String.format(Locale.getDefault(), "%, d", s.getValeur()) + " <span style='color: #967DFF'>" + pos + "<sup>" + suffixe + "</sup></span>" + " " + gain;
+		return  String.format(Locale.getDefault(), "%"+(!isStock?"+":"")+",d", s.valeur()) + " <span style='color: #967DFF'>" + pos + "<sup>" + suffixe + "</sup></span>" + " " + gain;
 	}
 
 	public static void genererStatsPointDeVictoireDetail(Locale l) {
-		Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> donnees = PointDeVictoire.genererSyntheseCommandants();
-
 		List<String[]> lignes = new ArrayList<>();
-
-		for (var entry : donnees.entrySet()) {
-			Commandant cmd = entry.getKey();
+		for (var entry : PointDeVictoire.pdvAttribuesCetour.entrySet()) {
+			Commandant cmd = Univers.getCommandant(entry.getKey());
 			Map<PointDeVictoireCategorie, StatCategorie> stats = entry.getValue();
 			int totalPointsDeVictoire = 0;
 			boolean estNouveau = cmd.getTourArrivee() == Univers.getTour();
-
 			if (!estNouveau) {
 				for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
 					StatCategorie stat = stats.get(cat);
 					if (stat != null) {
-						int position = stat.getPosition(); // 1-based index
+						int position = stat.position(); // 1-based index
 						if (position > 0) {
 							List<Integer> pointsAttribues = PointDeVictoire.config.get(cat);
 
@@ -1082,10 +1081,10 @@ public class Stats {
 					cmd.getNomNumeroHtml(),
 					formater(stats, PointDeVictoireCategorie.PLANETES),
 					formater(stats, PointDeVictoireCategorie.COMBATS),
-					formater(stats, PointDeVictoireCategorie.POPULATION),
 					formater(stats, PointDeVictoireCategorie.RECHERCHE),
-					formater(stats, PointDeVictoireCategorie.MERVEILLE),
 					formater(stats, PointDeVictoireCategorie.POPULATION_VS),
+					formater(stats, PointDeVictoireCategorie.POPULATION),
+					formater(stats, PointDeVictoireCategorie.MERVEILLE),
 					String.valueOf(totalPointsDeVictoire)
 			};
 
@@ -1114,10 +1113,10 @@ public class Stats {
 						<th data-nosort="1">Commandant</th>
 						<th>Territorial</th>
 						<th>Bataille</th>
-						<th>Culturel</th>
 						<th>Scientifique</th>
-						<th>Merveille</th>
 						<th>Colonial</th>
+						<th>Culturel</th>
+						<th>Merveille</th>
 						<th>Total</th>
 					</tr>
 				</thead>

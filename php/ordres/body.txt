@@ -138,6 +138,10 @@
             font-size: 1.2em;
         }
 
+        .help {
+            color: var(--help);
+        }
+
         .directives tbody tr td:nth-child(2) {
             color: var(--help);
         }
@@ -161,6 +165,7 @@
             font-weight: bold;
         }
         h3 {
+            color: var(--header);
             font-size: 1.4em;
             padding: 0;
             margin: 0;

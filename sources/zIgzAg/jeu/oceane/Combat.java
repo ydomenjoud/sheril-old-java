@@ -316,11 +316,11 @@ public class Combat {
         if (memPla != -1) {
             if (pillage)
                 c.ajouterEvenement("COMBAT_SYSTEME_0009",
-                        f.getNomNumero(c.numeroFlotte(f)), s.getPosition(),
+                        f.getNomNumeroHTML(c.numeroFlotte(f)), s.getPosition(),
                         nbPrise);
             else
                 c.ajouterEvenement("COMBAT_SYSTEME_0006",
-                        f.getNomNumero(c.numeroFlotte(f)), s.getPosition(),
+                        f.getNomNumeroHTML(c.numeroFlotte(f)), s.getPosition(),
                         nbPrise);
             c.ajouterEvenement(
                     "{0}",
@@ -333,7 +333,7 @@ public class Combat {
             for (int i = 0; i < nbPrisesd.length; i++) {
                 Commandant c2 = Univers.getCommandant(nbPrisesd[i][0]);
                 c2.ajouterEvenement("COMBAT_SYSTEME_0007",
-                        f.getNomNumero(c.numeroFlotte(f)), s.getPosition(),
+                        f.getNomNumeroHTML(c.numeroFlotte(f)), s.getPosition(),
                         c.getNomNumeroHtml(), nbPrisesd[i][1]);
                 c2.ajouterEvenement(
                         "{0}",
@@ -353,7 +353,7 @@ public class Combat {
             }
         } else
             c.ajouterEvenement("COMBAT_SYSTEME_0008",
-                    f.getNomNumero(c.numeroFlotte(f)));
+                    f.getNomNumeroHTML(c.numeroFlotte(f)));
 
         f.setDirective(Const.DIRECTIVE_FLOTTE_ATTITUDE_NEUTRE);
     }
@@ -388,7 +388,7 @@ public class Combat {
             }
         } else
             c.ajouterEvenement("COMBAT_SYSTEME_0014",
-                    f.getNomNumero(c.numeroFlotte(f)));
+                    f.getNomNumeroHTML(c.numeroFlotte(f)));
         f.setDirective(Const.DIRECTIVE_FLOTTE_ATTITUDE_NEUTRE);
     }
 
@@ -399,7 +399,7 @@ public class Combat {
 
         if (f.getPuissance() < Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE) {
             c1.ajouterEvenement("COMBAT_SYSTEME_0015",
-                    f.getNomNumero(numFlotte),
+                    f.getNomNumeroHTML(numFlotte),
                     f.getPuissance(),
                     Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE
                     );
@@ -495,31 +495,31 @@ public class Combat {
             if (dommagesFlotte == null) {
                 if (f.getDirective() == Const.DIRECTIVE_FLOTTE_ATTAQUE_PLANETE) {
                     c1.ajouterEvenement("COMBAT_SYSTEME_0000",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c2.getNomNumeroHtml());
                     c2.ajouterEvenement("COMBAT_SYSTEME_0001",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c1.getNomNumeroHtml());
                 }
                 if (f.getDirective() == Const.DIRECTIVE_FLOTTE_PILLAGE_PLANETE) {
                     c1.ajouterEvenement("COMBAT_SYSTEME_0010",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c2.getNomNumeroHtml());
                     c2.ajouterEvenement("COMBAT_SYSTEME_0011",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c1.getNomNumeroHtml());
                 }
                 if (f.getDirective() == Const.DIRECTIVE_FLOTTE_ERADICATION_PLANETE) {
                     c1.ajouterEvenement("COMBAT_SYSTEME_0012",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c2.getNomNumeroHtml());
                     c2.ajouterEvenement("COMBAT_SYSTEME_0013",
-                            f.getNomNumero(numFlotte),
+                            f.getNomNumeroHTML(numFlotte),
                             s.getNomNumeroPlanete(numPla), s.getPosition(),
                             c1.getNomNumeroHtml());
                 }
@@ -588,10 +588,10 @@ public class Combat {
                     g.mourir(c2);
         } else if (dommagesFlotte == null) {
             c1.ajouterEvenement("COMBAT_SYSTEME_0002",
-                    f.getNomNumero(numFlotte), s.getNomNumeroPlanete(numPla),
+                    f.getNomNumeroHTML(numFlotte), s.getNomNumeroPlanete(numPla),
                     s.getPosition(), c2.getNomNumeroHtml());
             c2.ajouterEvenement("COMBAT_SYSTEME_0003",
-                    f.getNomNumero(numFlotte), s.getNomNumeroPlanete(numPla),
+                    f.getNomNumeroHTML(numFlotte), s.getNomNumeroPlanete(numPla),
                     s.getPosition(), c1.getNomNumeroHtml());
         }
         if (dommagesFlotte == null) {
@@ -639,11 +639,11 @@ public class Combat {
 
         if (attaquant)
             c1.ajouterCombat("COMBAT_SYSTEME_0005", c2.getNomNumeroHtml(),
-                    f.getNomNumero(c1.numeroFlotte(f)),
+                    f.getNomNumeroHTML(c1.numeroFlotte(f)),
                     s.getNomNumeroPlanete(numPla), s.getPosition(), tour + 1);
         else
             c1.ajouterCombat("COMBAT_SYSTEME_0004", c2.getNomNumeroHtml(),
-                    f.getNomNumero(c2.numeroFlotte(f)),
+                    f.getNomNumeroHTML(c2.numeroFlotte(f)),
                     s.getNomNumeroPlanete(numPla), s.getPosition(), tour + 1);
 
         c1.ajouterCombat(Rapport.getABorne(Integer.toString(c1.getNumero())
@@ -1045,8 +1045,8 @@ public class Combat {
                                           boolean vC2, int nbD1, int nbD2, int nbP1, int nbP2,
                                           Map.Entry[] d1, Map.Entry[] d2, Map n1, Map n2) {
         c1.ajouterEvenement("COMBAT_FLOTTE_0000",
-                f1.getNomNumero(numF1),
-                f2.getNomNumero(numF2),
+                f1.getNomNumeroHTML(numF1),
+                f2.getNomNumeroHTML(numF2),
                 c2.getNomNumeroHtml(),
                 f1.getPosition());
         if (vC2)
@@ -1080,8 +1080,8 @@ public class Combat {
                 c1.getLocale());
 
         c1.ajouterCombat("COMBAT_FLOTTE_0005", c2.getNomNumeroHtml(),
-                f2.getNomNumero(c2.numeroFlotte(f2)),
-                f1.getNomNumero(c1.numeroFlotte(f1)), tour + 1);
+                f2.getNomNumeroHTML(c2.numeroFlotte(f2)),
+                f1.getNomNumeroHTML(c1.numeroFlotte(f1)), tour + 1);
         c1.ajouterCombat(Rapport.getABorne(
                         Integer.toString(c1.getNumero()) + "-"
                                 + Integer.toString(c2.getNumero()) + "-"
@@ -1098,7 +1098,7 @@ public class Combat {
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[1]);
         String[] inter2 = new String[2];
-        inter2[0] = f.getNomNumero(c.numeroFlotte(f));
+        inter2[0] = f.getNomNumeroHTML(c.numeroFlotte(f));
         inter2[1] = c.getNomNumeroHtml();
         a[ligne++][0] = Rapport.getTD("center", "3").ajout(
                 Rapport.getText(message.format(inter2)));
@@ -1151,7 +1151,7 @@ public class Combat {
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[1]);
         String[] inter2 = new String[2];
-        inter2[0] = f.getNomNumero(c.numeroFlotte(f));
+        inter2[0] = f.getNomNumeroHTML(c.numeroFlotte(f));
         inter2[1] = c.getNomNumeroHtml();
         a[ligne++][0] = Rapport.getTD("center", "4").ajout(
                 Rapport.getText(message.format(inter2)));

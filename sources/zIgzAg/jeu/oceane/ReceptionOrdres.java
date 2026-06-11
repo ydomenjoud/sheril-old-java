@@ -322,14 +322,14 @@ public class ReceptionOrdres {
 				c.modifierBudget(Const.BUDGET_COMMANDANT_ACHAT_LIEUTENANT,
 						-(float) offre);
 				c.ajouterEvenement("EV_COMMANDANT_ACHETER_LIEUTENANT_0000",
-						l[numeroLieutenant].getNom(), (float) offre);
+						l[numeroLieutenant], (float) offre);
 				Univers.ajouterEvenement("PUBLIC_ACHETER_COMMANDANT_0000",
-						c.getNomNumeroHtml(), l[numeroLieutenant].getNom(),
+						c.getNomNumeroHtml(), l[numeroLieutenant],
 						(float) offre);
 				Univers.retirerLeaderEnVente(l[numeroLieutenant]);
 			} else
 				c.ajouterEvenement("EV_COMMANDANT_ACHETER_LIEUTENANT_0001",
-						l[numeroLieutenant].getNom(), offre);
+						l[numeroLieutenant], offre);
 		}
 	}
 

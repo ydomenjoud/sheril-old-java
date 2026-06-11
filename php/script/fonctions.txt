@@ -100,9 +100,10 @@ function V($name, $default="") {
     return array_key_exists($name,$_POST) ? $_POST[$name] : (array_key_exists($name,$_GET) ? $_GET[$name] : $default);
 }
 
-function select1($nv, $t, $class='select', $multiple=false)
+function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200')
 {
-    echo("<SELECT SIZE=\"".($multiple ? 10 : 1)."\" NAME=\"$nv".($multiple ? '[]' : '')."\" style='max-width: 200px; display: inline-flex;' class='$class' ".($multiple ? 'multiple' : ''). ">");
+
+    echo("<SELECT SIZE=\"".($multiple ? 10 : 1)."\" NAME=\"$nv".($multiple ? '[]' : '')."\" style='max-width: {$maxWidth}px; display: inline-flex;' class='$class' ".($multiple ? 'multiple' : ''). ">");
     $k = array_keys($t);
     // Récupération de la valeur postée une seule fois pour plus de clarté
     $postedValue = isset($_POST[$nv]) ? $_POST[$nv] : null;
@@ -110,9 +111,9 @@ function select1($nv, $t, $class='select', $multiple=false)
         $j = $k[$i];
         $selected = '';
 
-        if ($multiple && is_array($postedValue)) {
+        if ($multiple) {
             // Cas multiple : on vérifie si la clé appartient au tableau
-            if (in_array($j, $postedValue)) $selected = 'selected ';
+            if (is_array($postedValue) && in_array($j, $postedValue)) $selected = 'selected ';
         } else {
             // Cas simple : comparaison classique
             if ($postedValue == $j) $selected = 'selected ';
@@ -251,4 +252,17 @@ function getCommandantHTML($num) {
 }
 function display_author($name, $numero, $race){
     return "<span class='race$race'>$name ($numero)</span>";
+}
+
+function estDansUnPartage($commandant){
+    $result = mysql_query("SELECT * FROM _share_technology WHERE NUMERO = $commandant");
+    return mysql_num_rows($result)>0;
+}
+function getTechnoCodeReceived($commandant){
+    $result = mysql_query("SELECT TECHNOLOGIE FROM transferer_technologie WHERE BENEFICIAIRE = $commandant");
+    if(mysql_num_rows($result)>0){
+        $row = mysql_fetch_array($result);
+        return $row['TECHNOLOGIE'];
+    }
+    return null;
 }

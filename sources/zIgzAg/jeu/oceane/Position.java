@@ -59,17 +59,14 @@ public class Position implements Serializable, Comparable, Cloneable {
 
 	public String getDescription() {
 		int numero = Univers.getTheSecteur(this);
-		int secteur = Utile.getCouleurSecteur(numero);
 
-		String cle = "TD_POS_" + Integer.toString(galaxie);
+		String cle = "TD_POS_" + galaxie;
 		BaliseHTML b = BaliseHTML.getModele(cle);
 		if (b == null) {
-			b = new BaliseHTML(BaliseHTML.FONT, BaliseHTML.COLOR,
-					Rapport.COULEURS_GALAXIES[galaxie]);
+			b = new BaliseHTML(BaliseHTML.SPAN).ajout("class", "position");
 			BaliseHTML.ajouterModele(cle, b);
 		}
-		b.setTexteContenu(Integer.toString(pos[0]) + "-"
-				+ Integer.toString(pos[1]) + " s(" + numero + ")");
+		b.setTexteContenu(pos[0] + "-" + pos[1] + " s(" + numero + ")");
 		//
 		return b.toString();
 	}

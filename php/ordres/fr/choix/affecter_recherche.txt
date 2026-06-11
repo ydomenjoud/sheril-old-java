@@ -1,16 +1,30 @@
 <?php
 
  // calcul de la somme actuelle
-//var_dump($t0);
 $result = mysql($base, "SELECT SUM(AFFECTATION) as total FROM affecter_recherche WHERE NUMERO=$commandant");
 $row = mysql_fetch_row($result);
- echo("<FORM action=\"$nom_page?table=$table\" method=\"POST\">");
- echo("<h1>Affecter des crédits pour la recherche (" .  $row[0] . "%)</h1>");
- echo("dépenser ");
- select_pour_cent("v1");
- echo("% de crédits de recherche pour chercher la technologie ");
- select1("v0",$t0);
- echo("<INPUT TYPE=\"submit\" NAME=\"ajout\" VALUE=\"Envoyer cet ordre\">");
- echo("</FORM>");
 ?>
+<h1>Affecter des crédits pour la recherche (<?= $row[0] ?>%)</h1>
+<div>
+<form action="<?= $nom_page ?>?table=<?= $table ?>" method="POST">
+ <input type="hidden" name="tache" value="affectation" />
+ <label>
+  Tout remplacer par schema de recherche :
+  <input type="text" name="affectation" />
+ </label>
+ <input type="submit" name="ajout" value="Envoyer cet ordre">( créer un <a target="_blank" href="https://ydomenjoud.github.io/test-interface-sheril/#/recherche">schema</a> )
+</form>
+<hr/>
+
+
+<form action="<?= $nom_page ?>?table=<?= $table ?>" method="POST">
+
+    Affecter individuellement
+    <?php select_pour_cent("v1"); ?>
+    % de crédits de recherche pour chercher la technologie
+    <?php select1("v0", $t0); ?>
+
+    <input type="submit" name="ajout" value="Envoyer cet ordre">
+</form>
+</div>
 

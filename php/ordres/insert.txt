@@ -1,77 +1,110 @@
 <?php
 
 for ($j = 0; $j < 8; $j++) {
-    $key = 'v'.$j;
+    $key = 'v' . $j;
     $$key = array_key_exists($key, $_POST) ? $_POST[$key] : null;
 }
 
-if($v0!=""){
- if($table=="fusionner_flotte" && is_array($v0) && count($v0)>1 && $v1!=null){
-     sort($v0, SORT_NUMERIC);
-     for($i=1;$i<count($v0);$i++){
-         $f1 = intval($v0[0]);
-         $f2 = intval($v0[$i]);
-         $query = "INSERT INTO fusionner_flotte (NUMERO, FLOTTE_1, FLOTTE_2, DIRECTIVE)
+if ($v0 != "" || array_key_exists('tache',$_POST)) {
+    if ($table == 'creer_plan_ajouter' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
+
+        // on recupere les technos connues :
+        $technoConnues=array_keys(base1($base,$commandant,"z_composants"));
+        $data = base64_decode($_POST['blueprint']);
+        $list = explode("%", $data);
+        for ($i = 0; $i < count($list); $i++) {
+            $component = explode(":", $list[$i]);
+            $tech = mysql_real_escape_string($component[0]);
+            if(!in_array($tech,$technoConnues)){
+                die("Technologie inconnue : ".$tech." <br /><a href='index.php3?table=$table'>Retour</a>");
+            }
+            $nb = intval($component[1]);
+            $query = "INSERT INTO creer_plan_ajouter (NUMERO, NOM, NOMBRE) VALUES ($commandant, '$tech', $nb)";
+            mysql_query($query) or die(mysql_error());
+        }
+    } else if ($table == "affecter_recherche" && array_key_exists('tache',$_POST) && $_POST['tache'] === 'affectation') {
+        $data = base64_decode($_POST['affectation']);
+        $list = explode("%", $data);
+        mysql_query("DELETE FROM affecter_recherche WHERE NUMERO=$commandant");
+        for ($i = 0; $i < count($list); $i++) {
+            $component = explode(":", $list[$i]);
+            if(count($component) === 2) {
+                $code = mysql_real_escape_string($component[0]);
+                $percent = intval($component[1]);
+                $query = "INSERT INTO affecter_recherche (NUMERO, TECHNOLOGIE, AFFECTATION) VALUES ($commandant, '$code', $percent)";
+//            var_dump($query);
+                mysql_query($query) or die(mysql_error());
+            }
+        }
+    } else if ($table == "fusionner_flotte" && is_array($v0)  && $v1 != null) {
+        if(count($v0) <= 1){
+            die("Vous devez sélectionner plusieurs flottes <br /><a href='index.php3?table=$table'>Retour</a>");
+        }
+        sort($v0, SORT_NUMERIC);
+        for ($i = 1; $i < count($v0); $i++) {
+            $f1 = intval($v0[0]);
+            $f2 = intval($v0[$i]);
+            $query = "INSERT INTO fusionner_flotte (NUMERO, FLOTTE_1, FLOTTE_2, DIRECTIVE)
               VALUES ($commandant, '{$f1}', '{$f2}', '{$v1}')";
 //             echo $query."<br />";
-         mysql_query($query) or die(mysql_error());
-     }
- } elseif (array_key_exists('multiple', $_POST) && $_POST['multiple'] !== '') {
-     $data = explode("_", $_POST['multiple']);
-     $fieldNameToReplace = $data[0];
-     $fieldDatasetName = $data[1];
+            mysql_query($query) or die(mysql_error());
+        }
+    } elseif (array_key_exists('multiple', $_POST) && $_POST['multiple'] !== '') {
+        $data = explode("_", $_POST['multiple']);
+        $fieldNameToReplace = $data[0];
+        $fieldDatasetName = $data[1];
 
-     $result = mysql($base, "SELECT * FROM $table");
-     $num_field = mysql_num_fields($result);
+        $result = mysql($base, "SELECT * FROM $table");
+        $num_field = mysql_num_fields($result);
 
-     foreach($$fieldDatasetName as $id=>$datasetValue) {
-         $var_table = mysql_field_name($result, 0);
-         $var_champ = "'$commandant'";
-         for ($i = 1; $i < $num_field; $i++) {
-             $inter1 = mysql_field_name($result, $i);
-             // patch pour les champs id
-             if ($inter1 === "id") {
-                 continue;
-             }
-             $inter4 = $i - 1;
-             $inter2 = "v$inter4";
-             $value = $inter2===$fieldNameToReplace ? $id : $$inter2;
-             $inter3 = mysql_real_escape_string($value);
-             $var_table = "$var_table,$inter1";
-             $var_champ = "$var_champ,'$inter3'";
-         }
-         $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
-         $res = mysql_query($query);
-         if (!$res) {
-             echo mysql_error();
-             die("  <br /><a href='index.php3?table=$table'>Retour</a>");
-         }
-     }
+        foreach ($$fieldDatasetName as $id => $datasetValue) {
+            $var_table = mysql_field_name($result, 0);
+            $var_champ = "'$commandant'";
+            for ($i = 1; $i < $num_field; $i++) {
+                $inter1 = mysql_field_name($result, $i);
+                // patch pour les champs id
+                if ($inter1 === "id") {
+                    continue;
+                }
+                $inter4 = $i - 1;
+                $inter2 = "v$inter4";
+                $value = $inter2 === $fieldNameToReplace ? $id : $$inter2;
+                $inter3 = mysql_real_escape_string($value);
+                $var_table = "$var_table,$inter1";
+                $var_champ = "$var_champ,'$inter3'";
+            }
+            $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
+            $res = mysql_query($query);
+            if (!$res) {
+                echo mysql_error();
+                die("  <br /><a href='index.php3?table=$table'>Retour</a>");
+            }
+        }
 
- } else {
-     $result = mysql($base, "SELECT * FROM $table");
-     $num_field = mysql_num_fields($result);
-     $var_table = mysql_field_name($result, 0);
-     $var_champ = "'$commandant'";
-     for ($i = 1; $i < $num_field; $i++) {
-         $inter1 = mysql_field_name($result, $i);
-         // patch pour les champs id
-         if($inter1==="id"){
-             continue;
-         }
-         $inter4 = $i - 1;
-         $inter2 = "v$inter4";
-         $inter3 = mysql_real_escape_string($$inter2);
-         if ($table == "ecrire_article") $inter3 = nl2br($inter3);
-         $var_table = "$var_table,$inter1";
-         $var_champ = "$var_champ,'$inter3'";
-     }
-     $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
-     $res = mysql_query($query);
-     if (!$res) {
+    } else {
+        $result = mysql($base, "SELECT * FROM $table");
+        $num_field = mysql_num_fields($result);
+        $var_table = mysql_field_name($result, 0);
+        $var_champ = "'$commandant'";
+        for ($i = 1; $i < $num_field; $i++) {
+            $inter1 = mysql_field_name($result, $i);
+            // patch pour les champs id
+            if ($inter1 === "id") {
+                continue;
+            }
+            $inter4 = $i - 1;
+            $inter2 = "v$inter4";
+            $inter3 = mysql_real_escape_string($$inter2);
+            if ($table == "ecrire_article") $inter3 = nl2br($inter3);
+            $var_table = "$var_table,$inter1";
+            $var_champ = "$var_champ,'$inter3'";
+        }
+        $query = "INSERT INTO $table($var_table) VALUES ($var_champ)";
+        $res = mysql_query($query);
+        if (!$res) {
 //         echo $query;
-         echo mysql_error();
-         die("  <br /><a href='index.php3?table=$table'>Retour</a>");
-     }
- }
+            echo mysql_error();
+            die("  <br /><a href='index.php3?table=$table'>Retour</a>");
+        }
+    }
 }

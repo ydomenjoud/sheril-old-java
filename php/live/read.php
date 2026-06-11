@@ -1,21 +1,17 @@
 <?php
 session_start();
+
 include "a.php";
 // rapport.php
 $commandant = $_SESSION['commandant_num'];
 $email = $_SESSION['commandant_email'];
 $tour =  intval(file_get_contents("../tour.txt"));
 
+
 if(!$commandant || !$email || !$tour){
     header('Location: /ordres/ordres.php3');;
+    exit();
 }
-
-if (!$email || !$tour || !$commandant) {
-    http_response_code(400);
-    echo "Paramètres manquants";
-    exit;
-}
-
 
 // clé secrète stockée dans config ou env
 if (!$secret) {

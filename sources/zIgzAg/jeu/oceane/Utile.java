@@ -175,6 +175,10 @@ public class Utile {
 		return aD(valeur, 1);
 	}
 
+	public static String a1DS(float valeur){
+		return "%,.1f".formatted(valeur);
+	}
+
 	public static float a2D(float valeur) {
 		return aD(valeur, 2);
 	}

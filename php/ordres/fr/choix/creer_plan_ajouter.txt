@@ -1,14 +1,24 @@
+<P><h1>Ajouter les composants du nouveau plan  </h1>
+
 <FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>Ajouter les composants du nouveau plan </h1>
-<BR>
+    <input type="hidden" name="tache" value="blueprint">
+    Créer depuis un schéma : <input type="text" name="blueprint" />
+    <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+    ( <a target="_blank" href="https://ydomenjoud.github.io/test-interface-sheril/#/creer-plan-simple" >créer un schema</a> )
+</FORM>
+<hr />
+<FORM name="f" action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
+    <div style="    padding-left: 20px;">
+    Créer par ajout individuel:
+    <BR>
+    Je désire ajouter
+    <INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=3 MAXLENGTH=3>
+     composant(s) de type
+    <?php select1("v0",$t0); ?>
+     à mon plan de vaisseau.
 
-Je désire ajouter
-<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=3 MAXLENGTH=3>
- composant(s) de type
-<?php select1("v0",$t0); ?>
- à mon plan de vaisseau.
-
-</B></P>
-<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+    </B></P>
+    <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
+    </div>
 </FORM>
 

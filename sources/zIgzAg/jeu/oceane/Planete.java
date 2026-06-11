@@ -7,7 +7,11 @@ package zIgzAg.jeu.oceane;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Planete implements Serializable {
 
@@ -143,20 +147,7 @@ public class Planete implements Serializable {
 
 	// Capacité Encombrement de la planête
 	public int getCapaciteEncombrement() {
-
-		float mod = 1;
-
-		/**
-		 * Patch Atalante: +10% encombrement max
-		 */
-		if (Univers.getCommandant(getProprio()).getRace() == 1){
-			mod = 1.1f;
-		}
-
-		int rtr = 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
-		rtr = (int)(rtr * mod);
-		
-		return rtr;
+        return 100 + (taille * taille * 10) + terraformation * Const.MODIFICATEUR_ENCOMBREMENT_TERRAFORMATION;
 	}
 
 	// Encombrement effectif de la planête
@@ -420,6 +411,26 @@ public class Planete implements Serializable {
 			compteur = compteur + nombreBatimentsDeType(t[i].getCode())
 					* t[i].getValeurCaracteristiqueSpeciale(carac);
 		return compteur;
+	}
+
+	public List<Batiment> getBatimentsParType(BatimentType type) {
+		Stream<Batiment> retour = Stream.of(getBatiments()).map(ConstructionPlanetaire::getBatiment);
+
+		Map<BatimentType, Predicate<Batiment>> mapping = new HashMap<>();
+		mapping.put(BatimentType.MINAGE, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_EXTRACTION_MINERAI));
+		mapping.put(BatimentType.BOUCLIER, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_BOUCLIER));
+		mapping.put(BatimentType.CONSTRUCTION, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_GAIN_POINTS_CONSTRUCTION));
+		mapping.put(BatimentType.PRODUCTION, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_PRODUCTION_MARCHANDISE));
+		mapping.put(BatimentType.ARME, t -> t.getCodeArme() != null);
+
+		Predicate<Batiment> pred = mapping.get(type);
+		// si on fourni pas de type, on prend tout ce qui n'est pas dans une autre catégorie
+		if(pred == null){
+			pred = t -> mapping.values().stream().noneMatch(t2 -> t2.test(t));
+		}
+
+		return retour.filter(pred).toList();
+
 	}
 
 	public int capaciteSpecialeBatiment(int carac) {

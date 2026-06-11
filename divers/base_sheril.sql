@@ -1164,3 +1164,12 @@ CREATE INDEX idx_progression ON statistiques (numero, tour);
 CREATE INDEX idx_classement_puissance ON statistiques (tour, puissance);
 CREATE INDEX idx_classement_pv ON statistiques (tour, pv);
 CREATE INDEX idx_classement_techno ON statistiques (tour, technologie);
+
+create table sql11103_5._share_technology
+(
+    NUMERO     int not null,
+    SHARE_WITH int not null,
+    constraint _share_technology_pk
+        unique (NUMERO, SHARE_WITH)
+);
+

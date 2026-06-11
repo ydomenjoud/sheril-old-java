@@ -355,7 +355,7 @@ public class ProductionOrdres {
             vendeurs[i] = (v != null ? v.getNumero()+"" : "???");
             codes[i] = offres.get(i).getCodeMarchandise();
             quantites[i] = new Integer(offres.get(i).getQuantite());
-            prix[i] = new Integer(offres.get(i).getPrixUnitaire());
+            prix[i] = new Integer(offres.get(i).getPrixTotal());
         }
         
         ecrire(afficherA_SQL(Const.TABLE_GALACTIQUE,
@@ -702,7 +702,7 @@ public class ProductionOrdres {
                 for (int i = 0; i < m.length; i++) {
                     k1[i] = (Integer) m[i].getKey();
                     v1[i] = ((Flotte) m[i].getValue())
-                            .getNomNumero(((Integer) m[i].getKey()).intValue());
+                            .getNomNumeroHTML(((Integer) m[i].getKey()).intValue());
                 }
 
                 ecrire(afficherT(Const.TABLE_HEROS, h));

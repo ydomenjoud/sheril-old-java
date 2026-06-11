@@ -1,6 +1,7 @@
 package zIgzAg.jeu.oceane;
 
 import java.util.*;
+import java.util.List;
 
 enum PointDeVictoireCategorie {
     PLANETES, // Territorial
@@ -11,21 +12,13 @@ enum PointDeVictoireCategorie {
     POPULATION_VS // coloniale
 }
 
-class StatCategorie {
-    private final int position;
-    private final int valeur;
-
-    public StatCategorie(int position, int valeur) {
-        this.position = position;
-        this.valeur = valeur;
-    }
-
-    public int getPosition() { return position; }
-    public int getValeur() { return valeur; }
+record StatCategorie(int position, int valeur) {
 }
 
 
 public class PointDeVictoire {
+    static TreeMap<Integer, Map<PointDeVictoireCategorie, StatCategorie>> pdvAttribuesCetour = new TreeMap<>();
+
     static Map<PointDeVictoireCategorie, List<Commandant>> classement = new EnumMap<>(PointDeVictoireCategorie.class);
 
     static List<Commandant> classementGeneral;
@@ -33,7 +26,7 @@ public class PointDeVictoire {
     static final Map<PointDeVictoireCategorie, List<Integer>> config = new EnumMap<>(PointDeVictoireCategorie.class);
 
     static void calculerPointDeVictoire() {
-        // configuration
+        // configuration de la répartition des points de victoire
         config.put(PointDeVictoireCategorie.PLANETES, List.of(4, 2, 1));
         config.put(PointDeVictoireCategorie.COMBATS, List.of(5, 3, 1));
         config.put(PointDeVictoireCategorie.POPULATION, List.of(2, 1));
@@ -41,28 +34,40 @@ public class PointDeVictoire {
         config.put(PointDeVictoireCategorie.MERVEILLE, List.of(2, 1));
         config.put(PointDeVictoireCategorie.POPULATION_VS, List.of(3, 2, 1));
 
+        // planetes : evolution du tour
+        // combats : evolution du tour
+        // recherche : evolution du tour
+        // pop vs : evolution du tour
+        // population : stock actuel
+        // merveille : stock actuel
+
+
         // classement
+        // on vire les commandant qui sont arrivés ce tour
         List<Commandant> baseList = Arrays.stream(Univers.getListeCommandantsHumains())
                 .filter(c -> c.getTourArrivee() != Univers.getTour())
                 .toList();
+
+        // EVOLUTION
         classement.put(PointDeVictoireCategorie.PLANETES, baseList.stream()
                 .sorted(Comparator.comparing(Commandant::getEvolutionPossession).reversed())
                 .toList());
         classement.put(PointDeVictoireCategorie.COMBATS, baseList.stream()
-                .sorted(Comparator.comparing(Commandant::getDegatsInfligesCeTour).reversed())
-                .toList());
-        classement.put(PointDeVictoireCategorie.POPULATION, baseList.stream()
-                .sorted(Comparator.comparing(Commandant::getPopulationTotale).reversed())
-                .toList());
-        classement.put(PointDeVictoireCategorie.RECHERCHE, baseList.stream()
-                .sorted(Comparator.comparing(Commandant::getScoreTechnologique).reversed())
-                .toList());
-        classement.put(PointDeVictoireCategorie.MERVEILLE, baseList.stream()
-                .sorted(Comparator.comparing(Commandant::getMeilleurSystemeScore).reversed())
+                .sorted(Comparator.comparing(Commandant::getEvolutionDegatsInfligeesCeTour).reversed())
                 .toList());
         classement.put(PointDeVictoireCategorie.POPULATION_VS, baseList.stream()
                 .filter(c -> c.getTotalPopulationVS() > 0)
                 .sorted(Comparator.comparing(Commandant::getEvolutionPopulationFlotte).reversed())
+                .toList());
+        classement.put(PointDeVictoireCategorie.RECHERCHE, baseList.stream()
+                .sorted(Comparator.comparing(Commandant::getEvolutionTechnologique).reversed())
+                .toList());
+        // STOCK
+        classement.put(PointDeVictoireCategorie.POPULATION, baseList.stream()
+                .sorted(Comparator.comparing(Commandant::getPopulationTotale).reversed())
+                .toList());
+        classement.put(PointDeVictoireCategorie.MERVEILLE, baseList.stream()
+                .sorted(Comparator.comparing(Commandant::getMeilleurRayonnement).reversed())
                 .toList());
 
         // On parcourt chaque catégorie définie dans la config
@@ -83,10 +88,15 @@ public class PointDeVictoire {
                             : i + 1;
 
                     // On ne donne des points que si le rang est dans la config (1, 2 ou 3)
+                    int points = 0;
                     if (rangDeCeJoueur <= pointsAttribues.size()) {
-                        int points = pointsAttribues.get(rangDeCeJoueur - 1);
+                        points = pointsAttribues.get(rangDeCeJoueur - 1);
                         c.ajouterPointsDeVictoire(points, rangDeCeJoueur, categorie);
                     }
+                    // on stock globalement pour les stats futures
+                    pdvAttribuesCetour
+                            .computeIfAbsent(c.getNumero(), _ -> new HashMap<>())
+                            .put(categorie, new StatCategorie(rangDeCeJoueur, valeurActuelle));
 
                     dernierRangAttribue = rangDeCeJoueur;
                     derniereValeur = valeurActuelle;
@@ -99,63 +109,18 @@ public class PointDeVictoire {
                 .sorted(Comparator.comparing(Commandant::getPointsDeVictoire))
                 .toList().reversed();
     }
-    public static Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> genererSyntheseCommandants() {
-        List<Commandant> commandants = Arrays.asList(Univers.getListeCommandantsHumains());
 
-        // On pré-calcule les rangs avec égalités pour chaque catégorie
-        Map<PointDeVictoireCategorie, Map<Commandant, Integer>> rangsReels = new EnumMap<>(PointDeVictoireCategorie.class);
-
-        for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
-            List<Commandant> trie = classement.get(cat);
-            Map<Commandant, Integer> mapPourCetteCat = new HashMap<>();
-
-            for (int i = 0; i < trie.size(); i++) {
-                Commandant actuel = trie.get(i);
-
-                // Si c'est le premier, il est 1er.
-                // Sinon, si sa valeur est égale au précédent, il prend le même rang.
-                // Sinon, il prend sa position physique dans la liste + 1 (le saut de rang).
-                if (i > 0 && getValeurSelonCategorie(cat, actuel) == getValeurSelonCategorie(cat, trie.get(i - 1))) {
-                    mapPourCetteCat.put(actuel, mapPourCetteCat.get(trie.get(i - 1)));
-                } else {
-                    mapPourCetteCat.put(actuel, i + 1);
-                }
-            }
-            rangsReels.put(cat, mapPourCetteCat);
-        }
-
-        // On construit la synthèse triée par numéro de commandant
-        commandants.sort(Comparator.comparing(Commandant::getNumero));
-        Map<Commandant, Map<PointDeVictoireCategorie, StatCategorie>> synthese = new LinkedHashMap<>();
-
-        for (Commandant cmd : commandants) {
-            Map<PointDeVictoireCategorie, StatCategorie> statsCmd = new EnumMap<>(PointDeVictoireCategorie.class);
-            boolean estNouveau = cmd.getTourArrivee() == Univers.getTour();
-
-            for (PointDeVictoireCategorie cat : PointDeVictoireCategorie.values()) {
-                if (estNouveau) {
-                    statsCmd.put(cat, new StatCategorie(0, 0));
-                } else {
-                    Integer rang = rangsReels.get(cat).get(cmd);
-                    int valeur = getValeurSelonCategorie(cat, cmd);
-                    statsCmd.put(cat, new StatCategorie(rang != null ? rang : 0, valeur));
-                }
-            }
-            synthese.put(cmd, statsCmd);
-        }
-
-        return synthese;
-    }
 
     // Helper pour extraire la donnée numérique selon la catégorie
     private static int getValeurSelonCategorie(PointDeVictoireCategorie cat, Commandant cmd) {
         return switch (cat) {
             case PLANETES -> cmd.getEvolutionPossession();
-            case COMBATS -> (int)cmd.getDegatsInfligesCeTour();
-            case POPULATION -> cmd.getPopulationTotale();
-            case RECHERCHE -> cmd.getScoreTechnologique();
-            case MERVEILLE -> cmd.getMeilleurSystemeScore();
+            case COMBATS -> cmd.getEvolutionDegatsInfligeesCeTour();
+            case RECHERCHE -> cmd.getEvolutionTechnologique();
             case POPULATION_VS -> cmd.getEvolutionPopulationFlotte();
+            // stock
+            case POPULATION -> cmd.getPopulationTotale();
+            case MERVEILLE -> (int)cmd.getMeilleurRayonnement();
         };
     }
 }

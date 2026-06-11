@@ -1,7 +1,6 @@
 <?php
-if(isset($nom_cookie)){
- setcookie("$nom_cookie");
- }
+require_once dirname(__FILE__) . '/../includes/auth.php';
+auth_logout();
 ?>
 <html>
 <head>

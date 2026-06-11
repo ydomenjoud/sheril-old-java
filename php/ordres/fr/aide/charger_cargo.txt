@@ -9,3 +9,48 @@ Le nombre de transferts autorisés par tour est : nombre systèmes possédés  (
 </p>
 
 
+<div class="help">
+    <header>
+        <h3>Ordre d'exécution du moteur de jeu (Phase de Résolution)</h3>
+        <p>Le moteur de jeu traite les actions selon une séquence logique stricte. L'ordre de résolution est le suivant :</p>
+    </header>
+
+    <div>
+        <ol>
+            <li><strong>Console de commandes :</strong> Exécution des ordres dans l'ordre de saisie. Certains effets sont immédiats, d'autres sont mis en attente pour leur phase respective.</li>
+            <li><strong>Butin :</strong> Largage (<em>drop</em>) des marchandises précieuses.</li>
+            <li><strong>Militaire :</strong> Résolution des combats.</li>
+            <li><strong>Gouverneurs :</strong> Gain d'expérience.</li>
+            <li><strong>Alliances :</strong> Calcul des gains d'alliance.</li>
+            <li><strong>Gestion des systèmes :</strong> Révoltes, transfert, évolution de la stabilité, évolution de la population, évolution des minerais, production de marchandises, puis constructions.</li>
+            <li><strong>Gestion des flottes :</strong> construction par MDC, réparations, collisions, calcul de l'entretien, revenus des Villes Spatiales (VS), croissance de la population des VS, et retours de location.</li>
+            <li><strong>Lieutenants :</strong> Progression de niveau.</li>
+            <li><strong>Technologie :</strong> Progression de la recherche.</li>
+            <li><strong>Économie :</strong> Calcul des différents budgets.</li>
+            <li><strong>Diplomatie :</strong> Ajustement de la réputation liée aux politiques.</li>
+            <li><strong>Événements technologiques :</strong> Test pour déterminer si une technologie devient publique.</li>
+            <li><strong>Marché galactique :</strong> Suppression des enchères expirées (dépassant 5 tours sans achat).</li>
+            <li><strong>Fin de tour :</strong> Calcul des points de victoire.</li>
+        </ol>
+
+        <section aria-labelledby="applications-pratiques">
+            <h2 id="applications-pratiques">Impacts stratégiques et applications pratiques</h2>
+            <p>L'ordre de ces phases est crucial pour optimiser vos actions, car un bonus peut ne pas s'appliquer immédiatement selon le moment où il est généré.</p>
+
+            <aside>
+                <h3>Exemples concrets :</h3>
+                <ul>
+                    <li>
+                        <strong>Bonus de Stabilité et de Croissance :</strong>
+                        Le bonus de stabilité des <em>Holofilms</em> ne s'applique pas au tour en cours, car la stabilité est calculée <em>avant</em> la production des marchandises. Il en va de même pour les produits alimentaires et les médicaments, qui impacteront l'évolution de la population au tour suivant.
+                    </li>
+                    <li>
+                        <strong>Transfert d'usines et Production :</strong>
+                        Si vous transférez 20 usines de robots du système X vers le système Y, le système X ne produira rien ce tour-ci. En revanche, le système Y produira immédiatement 100 robots, car <strong>la phase de production de marchandises a lieu avant la résolution des constructions</strong>. Vous bénéficierez donc bien des +5 Points de Construction (PDC) dès ce tour.
+                    </li>
+                </ul>
+            </aside>
+        </section>
+    </div>
+</div>
+
