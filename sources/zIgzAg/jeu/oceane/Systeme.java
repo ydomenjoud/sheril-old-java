@@ -5,6 +5,8 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 import zIgzAg.utile.Mdt;
@@ -831,6 +833,28 @@ public class Systeme implements Serializable {
 			return retour / getNombrePlanetesPossedees(numero);
 		else
 			return 0;
+	}
+
+	public double calculerChanceRevolteGlobale(int numero) {
+		int stabilite = getStabilite(numero);
+		int nbPlanetes = getNombrePlanetesPossedees(numero);
+		int arrondi = 2;
+		// 1. Convertir la stabilité en valeur décimale (ex: 95 devient 0.95)
+		double stabiliteDecimale = stabilite / 100.0;
+
+		// 2. Calculer la probabilité qu'AUCUNE planète ne se révolte (S^N)
+		double chanceAucuneRevolte = Math.pow(stabiliteDecimale, nbPlanetes);
+
+		// 3. En déduire la probabilité qu'au moins une se révolte (1 - S^N)
+		double chanceAuMoinsUneRevolte = 1.0 - chanceAucuneRevolte;
+
+		// 4. Convertir en pourcentage (ex: 0.5123 -> 51.23)
+		double pourcentageBrut = chanceAuMoinsUneRevolte * 100.0;
+
+		// 5. Arrondir proprement avec BigDecimal
+		BigDecimal bd = new BigDecimal(Double.toString(pourcentageBrut));
+		bd = bd.setScale(arrondi, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 	public int getStabilite(int numero) {

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planete implements Serializable {
@@ -411,29 +413,24 @@ public class Planete implements Serializable {
 		return compteur;
 	}
 
-	public List<Batiment> getBatimentsParType(BatimentType type, int commandant_num) {
-		if(commandant_num != proprietaire)
-			return new ArrayList<>();
+	public List<Batiment> getBatimentsParType(BatimentType type) {
 		Stream<Batiment> retour = Stream.of(getBatiments()).map(ConstructionPlanetaire::getBatiment);
 
-		switch (type) {
-			case MINAGE -> {
-				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_EXTRACTION_MINERAI)).toList();
-			}
-			case BOUCLIER -> {
-				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_BOUCLIER)).toList();
-			}
-			case CONSTRUCTION -> {
-				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_GAIN_POINTS_CONSTRUCTION)).toList();
-			}
-			case PRODUCTION -> {
-				return retour.filter(t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_PRODUCTION_MARCHANDISE)).toList();
-			}
-			case ARME ->  {
-				return retour.filter(Batiment::estDefensePlanetaire).toList();
-			}
+		Map<BatimentType, Predicate<Batiment>> mapping = new HashMap<>();
+		mapping.put(BatimentType.MINAGE, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_EXTRACTION_MINERAI));
+		mapping.put(BatimentType.BOUCLIER, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_BOUCLIER));
+		mapping.put(BatimentType.CONSTRUCTION, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_GAIN_POINTS_CONSTRUCTION));
+		mapping.put(BatimentType.PRODUCTION, t -> t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_PRODUCTION_MARCHANDISE));
+		mapping.put(BatimentType.ARME, t -> t.getCodeArme() != null);
+
+		Predicate<Batiment> pred = mapping.get(type);
+		// si on fourni pas de type, on prend tout ce qui n'est pas dans une autre catégorie
+		if(pred == null){
+			pred = t -> mapping.values().stream().noneMatch(t2 -> t2.test(t));
 		}
-		return new ArrayList<>();
+
+		return retour.filter(pred).toList();
+
 	}
 
 	public int capaciteSpecialeBatiment(int carac) {

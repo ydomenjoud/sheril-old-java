@@ -436,7 +436,10 @@ table tr:not(:first-child) td:last-child, table tbody tr td:last-child {
 }
 
 table tr:first-child td {
-    border: none;
+    border: 1px solid transparent;
+}
+tr:has(+ tr td.bg) td {
+    padding-bottom: 3px;
 }
 
 .titre_section {
@@ -446,6 +449,12 @@ table tr:first-child td {
     color: var(--accent);
     font-size: 16pt;
     font-weight: bold;
+}
+
+.batiments-list {
+    font-size: 0.8em;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .titre_table {

@@ -1,9 +1,50 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez modifier la taxation d'un de vos systèmes.<BR>
-        </STRONG></FONT></P>
+<P><FONT ><STRONG>Utilisez cette rubrique si vous voulez modifier la taxation d'un de vos systèmes.<BR></STRONG></FONT></P>
+
+<?php
+function calculerChanceRevolteGlobale($stabilite,$nbPlanetes, $arrondi = 2): float
+{
+    // 1. Convertir la stabilité en valeur décimale (ex: 95 devient 0.95)
+    $stabiliteDecimale = $stabilite / 100;
+
+    // 2. Calculer la probabilité qu'AUCUNE planète ne se révolte
+    $chanceAucuneRevolte = pow($stabiliteDecimale, $nbPlanetes);
+
+    // 3. En déduire la probabilité qu'au moins une se révolte
+    $chanceAuMoinsUneRevolte = 1 - $chanceAucuneRevolte;
+
+    // 4. Retourner le résultat sous forme de pourcentage arrondi
+    return round($chanceAuMoinsUneRevolte * 100, $arrondi);
+}
+
+$stabMin = 80;
+
+?>
+
+<table>
+    <caption>% de chance d'avoir au moins une révolte dans un système par rapport à la stab et au nombre de planètes</caption>
+    <thead>
+    <tr>
+        <th></th>
+        <?php for($i = 100; $i > $stabMin; $i--) { ?>
+          <th> <?=$i?>%</th>
+        <?php } ?>
+    </tr>
+    </thead>
+    <tbody>
+    <?php for ($row = 10; $row <= 20; $row++) { ?>
+            <tr>
+                <td><?=$row?> planètes</td>
+                <?php for($i = 100; $i > $stabMin; $i--) { ?>
+                    <td> <?=calculerChanceRevolteGlobale($i, $row)?>%</td>
+                <?php } ?>
+            </tr>
+    <?php } ?>
+    </tbody>
+</table>
+
 <div style="display:flex; gap: 10px;">
 <table>
     <caption>Modificateur de stabilité par niveau de taxation</caption>

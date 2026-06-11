@@ -1390,8 +1390,7 @@ public class Rapport {
 	}
 
 	public BaliseHTML getBudget() {
-		String t = (String) Univers.getMessageRapport("RAPPORT_FINANCIER",
-				c.getLocale());
+		String t = (String) Univers.getMessageRapport("RAPPORT_FINANCIER", c.getLocale());
 		String[] b = Univers.getTableauMessage("CHAMPS_BUDGET", c.getLocale());
 
 		BaliseHTML lien = getABorne("RAPPORT_FINANCIER");
@@ -1401,7 +1400,7 @@ public class Rapport {
 		BaliseHTML[][] a = new BaliseHTML[Const.BUDGET_COMMANDANT_TOTAL_DISPONIBLE + 1][2];
 		a[0][0] = getTD(BaliseHTML.CENTER, "2").ajout(getTitreTable().ajout(getText(t)));
 		a[1][0] = getTD(null, "1").ajout(getTitreCaption().ajout(getText(b[0].toUpperCase())));
-		a[1][1] = getTD("right", null).ajout(getTitreCaption().ajout(getText((Utile.a1DS(c.getBudget(0))))));
+		a[1][1] = getTD("right", null).ajout("class", "cur").ajout(Utile.a1DS(c.getBudget(0)));
 		int ligne = 2;
 		for (int i = 1; i < Const.BUDGET_COMMANDANT_TOTAL_RECETTE; i++)
 			if (c.getBudget(i) != 0F) {
@@ -2142,6 +2141,13 @@ public class Rapport {
 		return df.format(a);
 	}
 
+	private String getPlaneteBuildingSpan(Planete pl, List<Batiment> batList, String title){
+		String tooltip = String.join("&#10;", batList.stream().distinct().map(t2 -> pl.getBatimentsDeType(t2.getCode()).length + " " + t2.getNomComplet(Locale.getDefault())).toList());
+		int count = batList.size();
+		String nombre = count > 0 ? "<span class='plus'>" + count + "</span>" : "0";
+		return count>0 ? "<span data-tooltip=\""+tooltip+"\">"+title+":&nbsp;"+nombre+"</span>" : "<span>" +title + ":&nbsp;0</span>";
+	};
+
 	public BaliseHTML getSysteme(int num, Systeme s, Possession p, Locale l) {
 
 		String[] t = (String[]) Univers.getMessageRapport("SYSTEME",
@@ -2253,11 +2259,11 @@ public class Rapport {
 		a[ligne][1] = getTD(null, null)
 				.ajout(getText(s.getEncombrement(num) + ""));
 		a[ligne][2] = getTD(null, null).ajout(
-				getFont(cC[4], null).ajout(getText("Sur")));
+				getFont(cC[4], null).ajout(getText("Encombrement Max")));
 		a[ligne][3] = getTD(null, null).ajout(
 				getText(s.getCapaciteEncombrement() + ""));
 		a[ligne][4] = getTD(null, null).ajout(
-				getFont(cC[4], null).ajout(getText("Total")));
+				getFont(cC[4], null).ajout(getText("Encombrement Total")));
 		float pourcentageEncombrement = (float)s.getEncombrement() / s.getCapaciteEncombrement() * 100;
 		a[ligne++][5] = getTD(null, null).ajout("%05.2f".formatted(pourcentageEncombrement)+"%");
 
@@ -2271,7 +2277,8 @@ public class Rapport {
 		a[ligne][2] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[14])));
 		a[ligne][3] = getTD(null, null).ajout(
-				getText(Integer.toString(s.getStabilite(num))));
+				"<span data-tooltip=\"Chance d'avoir au moins une planète en révolte: "+s.calculerChanceRevolteGlobale(num)+"%\">" + s.getStabilite(num) + "</span>"
+		);
 		a[ligne][4] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[15])));
 		a[ligne++][5] = getTD(null, null).ajout(
@@ -2279,7 +2286,7 @@ public class Rapport {
 		a[ligne][0] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[16])));
 		a[ligne][1] = getTD(null, null).ajout(
-				"<span class='cur'>"+Utile.a1DS(s.getRevenu(num,
+				"<span class='cur plus'>+"+Utile.a1DS(s.getRevenu(num,
 						c.getGouverneurSurPossession(s.getPosition()), p))+"</span>"
 		);
 		a[ligne][2] = getTD(null, null).ajout(
@@ -2293,12 +2300,9 @@ public class Rapport {
 		a[ligne++][5] = getTD(null, null).ajout(
 				getText(Integer.toString(s.getTerraformation(num))));
 
-		String b_open = "<span class='c6'>";
-		String b_close = "</span>";
-
 		a[ligne][0] = getTD(null, null).ajout(getFont(cC[4], null).ajout("Entretien"));
 		a[ligne][1] = getTD(null, null).ajout(
-				"<span class='cur'>%,.1f</span>".formatted(s.getEntretien(num, c.getGouverneurSurPossession(s.getPosition()), p))
+				"<span class='cur moins'>%,.1f</span>".formatted(-s.getEntretien(num, c.getGouverneurSurPossession(s.getPosition()), p))
 		);
 		a[ligne][2] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout("Evolution de la stabilité")
@@ -2309,29 +2313,24 @@ public class Rapport {
 				.ajout("data-tooltip", " revenu/10  + encombrement + entretien + (expérience gouverneur ) " +
 						"+ (nb produit de luxe) + ( nb holofilm) " +
 						"+ (nb metaux précieux ) + (nb LIXIAM) * 10"));
-		a[ligne][5] = getTD(null, null).ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
+		a[ligne++][5] = getTD(null, null).ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
 
 
-		a[++ligne][0] = getTD(BaliseHTML.CENTER, "6")
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
 				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[19])));
 		a[ligne][0] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[20])));
 		a[ligne][1] = getTD(null, null)
-				.ajout(getText(p
-                        .getBudget(Const.DOMAINES_BUDGET_TECHNOLOGIQUE) + "% "));
+				.ajout(getText(p.getBudget(Const.DOMAINES_BUDGET_TECHNOLOGIQUE) + "% "));
 		a[ligne][2] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[21])));
 		a[ligne][3] = getTD(null, null).ajout(
-				getText(p
-                        .getBudget(Const.DOMAINES_BUDGET_SERVICES_SPECIAUX)
-						+ "%"));
+				getText(p.getBudget(Const.DOMAINES_BUDGET_SERVICES_SPECIAUX)+ "%"));
 		a[ligne][4] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout(getText(t[22])));
 		a[ligne++][5] = getTD(null, null).ajout(
-				getText(p
-                        .getBudget(Const.DOMAINES_BUDGET_CONTRE_ESPIONNAGE)
-						+ "% "));
+				getText(p.getBudget(Const.DOMAINES_BUDGET_CONTRE_ESPIONNAGE)+ "% "));
 		if (p.possedeProgrammationConstruction()) {
 			a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
 					.ajout("class", "bg").ajout(
@@ -2422,7 +2421,7 @@ public class Rapport {
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Rév.")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Proprio.")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Population")));
-		b[bligne++][bcol] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
+		b[bligne++][bcol] = getTD(BaliseHTML.CENTER, null).ajout("style", "width:450px").ajout(getFont(cC[4], null).ajout(getText("Bâtiments")));
 
 		for (int i = 0; i < planetesList.length; i++) {
 			Planete pl = planetesList[i];
@@ -2457,41 +2456,26 @@ public class Rapport {
 						pl.getPopActuelle(race)+ "/" + pl.calculeMaxPop(race)
 				));
 			}
-			String listeB = "";
 
+
+			String summary = "";
 			// Trop de choses à afficher, il faut les regrouper :
-			// mine / station / bouclier / batterie / Autre
-//			List<Batiment> bat_mines = pl.getBatimentsParType(BatimentType.MINAGE, num);
-//			List<Batiment> bat_production = pl.getBatimentsParType(BatimentType.PRODUCTION, num);
-//			List<Batiment> bat_construction = pl.getBatimentsParType(BatimentType.CONSTRUCTION, num);
-//			List<Batiment> bat_bouclier = pl.getBatimentsParType(BatimentType.BOUCLIER, num);
-//			List<Batiment> bat_arme = pl.getBatimentsParType(BatimentType.ARME, num);
-//
-//			String summary = """
-//					Minage: %d,
-//					Production: %d,
-//					Construction: %d,
-//					Bouclier: %d,
-//					Défense: %d
-//					""".formatted(
-//							bat_mines.size(),
-//							bat_production.size(),
-//							bat_construction.size(),
-//							bat_bouclier.size(),
-//							bat_arme.size()
-//			);
+			// mine / production / construction / bouclier / batterie / Autre
+			List<Batiment> bat_mines = pl.getBatimentsParType(BatimentType.MINAGE);
+			List<Batiment> bat_production = pl.getBatimentsParType(BatimentType.PRODUCTION);
+			List<Batiment> bat_construction = pl.getBatimentsParType(BatimentType.CONSTRUCTION);
+			List<Batiment> bat_bouclier = pl.getBatimentsParType(BatimentType.BOUCLIER);
+			List<Batiment> bat_arme = pl.getBatimentsParType(BatimentType.ARME);
+			List<Batiment> bat_autre = pl.getBatimentsParType(null);
 
-			String[] typesB = pl.listeTypeDeBatimentsPresents();
-			if (typesB != null) {
-				for (int j = 0; j < typesB.length; j++) {
-					int nbB = pl.nombreBatimentsDeType(typesB[j]);
-					Technologie techB = Univers.getTechnologie(typesB[j]);
-					listeB += nbB + " " + (techB != null ? techB.getNomComplet(l) : typesB[j]);
-					if (j < typesB.length - 1) listeB += ", ";
-				}
-			}
-			b[bligne++][bcol] = getTD(null, null).ajout(getFont(null, "1").ajout(getText(listeB.equals("") ? "&nbsp;" : listeB)));
-//			b[bligne++][bcol] = getTD(null, null).ajout(summary);
+			summary += getPlaneteBuildingSpan(pl, bat_mines, "Mine")+",";
+			summary += getPlaneteBuildingSpan(pl, bat_production, "Production")+",";
+			summary += getPlaneteBuildingSpan(pl, bat_construction, "Construction")+",";
+			summary += getPlaneteBuildingSpan(pl, bat_bouclier, "Bouclier")+",";
+			summary += getPlaneteBuildingSpan(pl, bat_arme, "Défense")+",";
+			summary += getPlaneteBuildingSpan(pl, bat_autre, "Autre");
+
+			b[bligne++][bcol] = getTD(null, null).ajout(getDiv().ajout("class", "batiments-list").ajout(summary));
 		}
 
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b));

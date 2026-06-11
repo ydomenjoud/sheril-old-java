@@ -6,10 +6,7 @@ package zIgzAg.jeu.oceane;
 
 import zIgzAg.utile.Mdt;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.Serializable;
 
 public class Technologie implements Serializable {
@@ -65,6 +62,7 @@ public class Technologie implements Serializable {
 			return getNom(loc) + Univers.getMessage("DE_TYPE", loc)
 					+ getRepresentationNiveau();
 	}
+
 
 	public String getNomHTML(Locale loc, boolean showPublic) {
 		boolean isPublic = showPublic && Univers.estTechnologiePublique(getCode());
@@ -173,9 +171,9 @@ public class Technologie implements Serializable {
 					retour = retour
 							+ " : "
 							+ ((getNiveau() + 1) * 5)
-							+ " <i>"
+							+ " "
 							+ Messages.MARCHANDISES[caracteristiquesSpeciales[i][1] - 1]
-							+ "</i> par tour";
+							+ " par tour";
 				} else {
 					if( 
 							caracteristiquesSpeciales[i][0] != Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE
@@ -321,6 +319,19 @@ public class Technologie implements Serializable {
 		pointsDeRecherche = recherche;
 		caracteristiquesSpeciales = caracS;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Technologie that = (Technologie) o;
+		return niveau == that.niveau && Objects.equals(codeDeBase, that.codeDeBase);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codeDeBase, niveau);
+	}
+
 
 	// les autres mÃ©thodes
 
