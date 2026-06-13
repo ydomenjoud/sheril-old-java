@@ -81,25 +81,6 @@ create table aa_registre
 )
     engine = MyISAM;
 
-create table aa_registre_2
-(
-    NUMERO             int          default 0  not null
-        primary key,
-    LOGIN              varchar(10)             null,
-    MOT_DE_PASSE       varchar(20)             null,
-    NOM                varchar(100)            null,
-    ADRESSE            varchar(100)            null,
-    RACE               int                     null,
-    TOUR_ARRIVEE       int                     null,
-    ORDRE_LOCAL        int                     null,
-    ENVOI_STATS        int                     null,
-    BG_RAPPORT         int                     null,
-    DETAIL_ORDRES      int                     null,
-    RECEPTION_RAPPORTS int                     null,
-    send               varchar(100) default '' not null,
-    auto               int(1)       default 0  not null
-)
-    engine = MyISAM;
 
 create table aa_vaisseaux
 (
@@ -1107,7 +1088,7 @@ CREATE TABLE `z_galactique` (
     `ID_OFFRE` text NOT NULL,
     `VENDEUR` text NOT NULL,
     `CODE` text NOT NULL,
-    `QUANTITE` mediumtext NOT NULL default '0',
+    `QUANTITE` mediumtext NOT NULL,
     `PRIX` mediumtext NOT NULL default '0'
 ) engine=MyISAM;
 
@@ -1165,7 +1146,7 @@ CREATE INDEX idx_classement_puissance ON statistiques (tour, puissance);
 CREATE INDEX idx_classement_pv ON statistiques (tour, pv);
 CREATE INDEX idx_classement_techno ON statistiques (tour, technologie);
 
-create table sql11103_5._share_technology
+create table _share_technology
 (
     NUMERO     int not null,
     SHARE_WITH int not null,

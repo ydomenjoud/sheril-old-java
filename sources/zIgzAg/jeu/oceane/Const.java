@@ -12,6 +12,7 @@ public class Const {
  public static String DISCORD_WEBHOOK_URL = "";
     public static String SSH_PORT = "";
     public static String SSH_BASE_PATH = "";
+    public static Boolean IS_LOCAL = false;
 
     public static String DATABASE_HOST = "";
     public static String DATABASE_LOGIN = "";
@@ -30,6 +31,7 @@ public class Const {
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
+    public static String PATH_PHP = "./php/";
 
     static {
         Properties properties = new Properties();
@@ -61,6 +63,11 @@ public class Const {
 
             NOTIFY_BOT = properties.getProperty("NOTIFY_BOT").equalsIgnoreCase("true");
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
+            IS_LOCAL = "true".equalsIgnoreCase(properties.getProperty("IS_LOCAL"));
+            String pathPhpProp = properties.getProperty("PATH_PHP");
+            if (pathPhpProp != null && !pathPhpProp.isEmpty()) {
+              PATH_PHP = pathPhpProp;
+            }
 
         } catch (IOException e) {
             System.out.println("Cant load config file. file config.properties should be on the same directory as the jar file");

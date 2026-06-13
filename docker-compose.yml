@@ -1,34 +1,38 @@
+name: sheril
 
 services:
-  ## DATABASE
-  sheril-db:
-    container_name: sheril-db
+  db:
     image: mysql:5
     restart: always
     environment:
       MYSQL_DATABASE: 'sheril'
-      # So you don't have to use root, but you can if you like
       MYSQL_USER: 'user'
-      # You can use whatever password you like
       MYSQL_PASSWORD: 'password'
-      # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      # <Port exposed> : <MySQL Port running inside container>
       - '3311:3306'
     expose:
       - '3311'
     volumes:
-      - type: bind
-        source: ./mysql/data
-        target: /var/lib/mysql
+      - ./mysql/data:/var/lib/mysql
+      - ./divers/base_sheril.sql:/docker-entrypoint-initdb.d/base_sheril.sql
 
   console:
     build: .
-    container_name: php_console
     ports:
       - "666:80"
     volumes:
       - ./php:/var/www/html
     restart: unless-stopped
+    depends_on:
+      - db
 
+  ## MOTEUR DE JEU (JAVA)
+  engine:
+    image: eclipse-temurin:21-jdk
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["tail", "-f", "/dev/null"] # Maintient le conteneur actif en tâche de fond
+    depends_on:
+      - db

@@ -863,7 +863,7 @@ public class Rapport {
 				getALienE("https://ydomenjoud.github.io/test-interface-sheril/")
 				.ajout(getText("Cartographie")));
 		ajouterLienPrincipal(
-				getALienE("https://sheril.pbem-france.net/stats_general.php")
+				getALienE(Chemin.RACINE_SITE +"stats_general.php")
 						.ajout("Statistiques"));
 //		ajouterLienSecondaire(getALienE(PRINCIPAL + "#SYSTEMES_GENERAL").ajout(""));
 
@@ -1505,7 +1505,7 @@ public class Rapport {
 		BaliseHTML titre = getTitreSection().ajout(getText(t[0]));
 
 		BaliseHTML racine = getDiv().ajout(lien).ajout(titre);
-		ajouterLienPrincipal(getALienE("https://sheril.pbem-france.net/stats/vapub.htm")
+		ajouterLienPrincipal(getALienE(Chemin.RACINE_SITE +"stats/vapub.htm")
 				.ajout(getText("Plans Publics")));
 
 		PlanDeVaisseau[] p = c.listePlansConnusNonPublics();

@@ -2,6 +2,7 @@
 session_start();
 error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
+date_default_timezone_set('Europe/Paris');
 require_once __DIR__ .'/../secure/connect.txt';
 require_once __DIR__ .'/../script/fonctions.txt';
 // 1. Définir le chemin absolu vers le fichier
