@@ -1089,7 +1089,7 @@ CREATE TABLE `z_galactique` (
     `VENDEUR` text NOT NULL,
     `CODE` text NOT NULL,
     `QUANTITE` mediumtext NOT NULL,
-    `PRIX` mediumtext NOT NULL default '0'
+    `PRIX` mediumtext NOT NULL
 ) engine=MyISAM;
 
 CREATE TABLE `vendre_galactique` (
@@ -1134,9 +1134,9 @@ CREATE TABLE IF NOT EXISTS statistiques (
     UNIQUE KEY unq_tour_commandant (tour, numero)
     ) ENGINE=InnoDB;
 
----
---- INDEX POUR LES CALCULS ET CLASSEMENTS
----
+--
+-- INDEX POUR LES CALCULS ET CLASSEMENTS
+--
 
 -- Accélère la comparaison entre deux tours pour un même commandant
 CREATE INDEX idx_progression ON statistiques (numero, tour);

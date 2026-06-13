@@ -105,7 +105,7 @@ if (!function_exists('mysql_connect')) {
     }
 
     function mysql_error($link_identifier = null) {
-        return mysqli_error($link_identifier ?: $GLOBALS['___mysql_default_link']);
+        return @mysqli_error($link_identifier ?: $GLOBALS['___mysql_default_link']);
     }
 
     function mysql_errno($link_identifier = null) {
@@ -127,7 +127,7 @@ if (!function_exists('mysql_connect')) {
     }
 
     function mysql_set_charset($charset, $link_identifier = null) {
-        return mysqli_set_charset($link_identifier ?: $GLOBALS['___mysql_default_link'], $charset);
+        return @mysqli_set_charset($link_identifier ?: $GLOBALS['___mysql_default_link'], $charset);
     }
 
     function mysql_get_server_info($link_identifier = null) {
