@@ -8,12 +8,7 @@
 docker compose up -d
 ```
 
-### initialisation de l'environnement
-```shell
-docker compose exec engine bash ./scripts/prepare.sh
-```
-
-### initialisater un Univers avec une galaxie
+### initialisation environnement + Univers
 ```shell
 docker compose exec engine bash ./scripts/init.sh
 ```
