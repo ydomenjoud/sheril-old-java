@@ -1,7 +1,20 @@
 
 # Moteur de jeu basé sur celui d'océane https://github.com/ydomenjoud/oceane 
 
-## DOCKER
+## tl;dr
+```shell
+git clone git@github.com:ydomenjoud/sheril-old-java.git sheril
+cd sheril
+docker compose up -d
+docker compose exec engine bash ./scripts/init.sh
+```
+Aller sur http://localhost:666 pour créer votre premier commandant
+Puis passer le tour avec :
+```shell
+docker compose exec engine java -cp sheril.jar Start newRound
+```
+
+## Pour lancer le jeu sous DOCKER
 
 ### démarrage de la base de données, la console et le moteur
 ```shell
