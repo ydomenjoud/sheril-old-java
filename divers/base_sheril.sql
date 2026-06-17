@@ -1113,6 +1113,7 @@ create unique index acheter_galactique_uniq_offer
 -- id pour identification ordre
 ALTER TABLE transferer_centaures ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
 ALTER TABLE diviser_flotte ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE construire ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
 
 -- gestion des statistiques
 CREATE TABLE IF NOT EXISTS statistiques (
