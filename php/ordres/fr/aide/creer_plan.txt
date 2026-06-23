@@ -12,7 +12,8 @@
             composants de ce plan.
         </li>
     </ul>
-    Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
+    <p>Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.</p>
+    <p>Une création de plan de vaisseau est coûteuse : 10 fois le prix de construction du vaisseau</p>
 </div>
 <div>
     <table>
