@@ -621,7 +621,7 @@ public class Const {
     // Les paramétrages de la taille des vaisseaux(min nb cases,max nb
     // cases,vitesse de base)
 
-    public static final int[] NB_CIBLES = {0, 3, 7, 15, 25, 63, 127, 255, 511, 2000};
+    public static final int[] NB_CIBLES = {0, 3, 7, 15, 31, 63, 127, 255, 511, 2000};
     // Nombres de cibles en fonctions de la taille
 
     public static final int TAILLE_MAXIMAL_VAISSEAU = 10;

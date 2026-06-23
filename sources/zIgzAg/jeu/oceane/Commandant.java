@@ -2731,25 +2731,24 @@ public class Commandant extends Joueur implements Serializable {
         }
 
 		Systeme sys = Univers.getSysteme(pos);
-		if (numPlanete >= sys.getNombrePlanetes())
-			return ajouterErreur("ER_COMMANDANT_MISE_EN_CHANTIER_0000", pos, numPlanete + 1);
+		if (numPlanete >= sys.getNombrePlanetes()) {
+            return ajouterErreur("ER_COMMANDANT_MISE_EN_CHANTIER_0000", pos, numPlanete + 1);
+        }
+
+        // est ce que le commandant actuel possède la planète
+        if (numPlanete > -1 && !sys.getPlanete(numPlanete).estProprio(numero)) {
+            return ajouterErreur("ER_COMMANDANT_MISE_EN_CHANTIER_0002", pos, numPlanete + 1);
+        }
+
+        Object objToBuild = Univers.existenceTechnologie(codeConstruction)
+                ? Univers.getTechnologie(codeConstruction)
+                : codeConstruction;
 
 		if (nombre > 0){
 			getPossession(pos).ajouterConstruction(new Construction(codeConstruction, nombre, numPlanete));
-
-			if (Univers.existenceTechnologie(codeConstruction)){
-				return ajouterEvenement("EV_COMMANDANT_MISE_EN_CHANTIER_0000", pos, Univers.getTechnologie(codeConstruction), nombre);
-			} else {
-				return ajouterEvenement("EV_COMMANDANT_MISE_EN_CHANTIER_0000", pos, codeConstruction, nombre);
-			}
-			
+            return ajouterEvenement("EV_COMMANDANT_MISE_EN_CHANTIER_0000", pos, objToBuild, nombre);
 		} else {
-			
-			if (Univers.existenceTechnologie(codeConstruction)){
-				return ajouterEvenement("ER_COMMANDANT_MISE_EN_CHANTIER_0001", pos, Univers.getTechnologie(codeConstruction), nombre);
-			} else {
-				return ajouterEvenement("ER_COMMANDANT_MISE_EN_CHANTIER_0001", pos, codeConstruction, nombre);
-			}
+            return ajouterEvenement("ER_COMMANDANT_MISE_EN_CHANTIER_0001", pos, objToBuild, nombre);
 		}
 
 	}
@@ -4075,7 +4074,9 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
         var objTransporte = new ObjetSimpleTransporte(code, nombre);
-        String description =  ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{objTransporte});
+        String description =  " <span class='marchandise'>"
+                + ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[]{objTransporte})
+                + "</span>";
 
         // marchandise
         if(ObjetTransporte.typeDeCodeChargement(code) == Const.TRANSPORT_MARCHANDISE){
@@ -4087,19 +4088,19 @@ public class Commandant extends Joueur implements Serializable {
             }
             int quantitePresente = possession.getQuantiteMarchandise(numeroMarchandise);
             if(quantitePresente < nombre) {
-                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", description, pos);
                 return;
             }
             possession.supprimerMarchandise(numeroMarchandise, nombre);
         }
         else {
             if(!sys.possedeRichesses(numero, code, nombre)){
-                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", description, pos);
                 return;
             }
             ObjetTransporte o = sys.supprimerRichesses(numero, code, nombre, -1);
             if (o == null || o.getNombreObjets() <= 0) {
-                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", nombre + " <span class='marchandise'>" + description + "</span>", pos);
+                ajouterErreur("ER_COMMANDANT_VENTE_GALACTIQUE_0002", description, pos);
                 return;
             }
         }
@@ -4108,10 +4109,11 @@ public class Commandant extends Joueur implements Serializable {
 		OffreMarche offre = new OffreMarche(id, numero, pos, code, nombre, prix, Univers.getTour()+5);
 		Univers.ajouterOffreMarche(offre);
 
-		ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0000",
-                description,
-                pos,
-                (float) prix);
+        // on ajoute l'offre aux événements publiques
+        Univers.ajouterEvenement("PUBLIC_MARCHE_GALACTIQUE_0000",this, description, (float) prix);
+
+        // on ajoute l'offre aux événements du commandant
+		ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0000",description, pos, (float) prix);
 	}
 
 	public boolean acheterGalactique(OffreMarche offre, Position destinationPosition, int montant) {
@@ -4145,7 +4147,7 @@ public class Commandant extends Joueur implements Serializable {
                 vendeur != null ? vendeur.getNomNumeroHtml() : "???",
                 offre.getDescription(),
                 (float) montant,
-                destinationPosition.getDescription()
+                destinationPosition
         );
 
 		Univers.retirerOffreMarche(offre);

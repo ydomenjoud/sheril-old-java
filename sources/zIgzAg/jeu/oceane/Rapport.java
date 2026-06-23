@@ -1087,7 +1087,7 @@ public class Rapport {
 					getText("(taille " + p.getTaille() + ")"));
 			a[ligne][1] = getTD(BaliseHTML.CENTER, BaliseHTML.T_2).ajout(
 					getFont(cC[5], "4")
-							.ajout(getText(s.getNomNumeroPlanete(i))));
+							.ajout(getABorne("p"+i)).ajout(s.getNomNumeroPlanete(i)));
 			a[ligne++][2] = getTD(BaliseHTML.CENTER, "3").ajout(
 					getFont(cC[4], null).ajout(getText(t2[1]))).ajout(
 					getText(Univers.getCommandant(p.getProprio())
@@ -2428,9 +2428,11 @@ public class Rapport {
 			boolean proprio = pl.getProprio() == num;
 			bcol = 0;
 			String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
-			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(nomP));
+			var link = getALienE(getNomDocHTMLPlanetes(s.getPosition(), num)+"#p"+i).ajout(nomP);
+			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(link);
+			int revenuMinerai = pl.calculeRevenuMinerai();
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
-				proprio ? (pl.getStockMinerai() + "(+" + pl.calculeRevenuMinerai() + ")") : "-"
+				proprio ? (pl.getStockMinerai() + ( revenuMinerai > 0 ? " (<span class='plus'>+" + revenuMinerai : "</span>)" )) : "-"
 			));
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
 					proprio ? Integer.toString(pl.getTerraformation()) : "-"

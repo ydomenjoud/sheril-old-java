@@ -111,6 +111,9 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String PUBLIC_ALLIANCE_0000 = "L'alliance {0} vient d'être dissoute faute de membres.";
 	public static final String PUBLIC_ACHETER_COMMANDANT_0000 = "{0} vient d'enrôler le lieutenant {1} pour la somme de {2}.";
 	public static final String PUBLIC_TECHNOLOGIE_0000 = "Boost technologique: {0} est Désormais accessible à tous!";
+	public static final String PUBLIC_MARCHE_GALACTIQUE_0000 = "Le commandant {0} met en vente {1} sur le marché galactique au prix de {2}";
+
+
 
 	public static final String EV_ALLIANCE_0000 = "Le commandant {0} vient d'adhérer à l'alliance.<BR>";
 	public static final String EV_ALLIANCE_0001 = "Le commandant {0} vient de quitter l'alliance.<BR>";
@@ -174,7 +177,8 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_DON_PLANETE_0003 = "Un commandant qui souhaite garder l'anonymat vous as transmis la planète {1} du système {0}.";
 
 	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0000 = "Impossible de mettre en chantier une construction sur la planète numéro {1} du système {0}: cette planète n'existe pas.";
-	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0001 = "Impossible de mettre en chantier une construction le système {0}: vous ne pouvez construire {2} construction(s) de type {1}";
+	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0002 = "Impossible de mettre en chantier une construction sur la planète numéro {1} du système {0}: vous ne possédez pas cette planète";
+	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0001 = "Impossible de mettre en chantier une construction sur le système {0}: vous ne pouvez construire {2} construction(s) de type {1}";
 	public static final String EV_COMMANDANT_MISE_EN_CHANTIER_0000 = "Prérogatives: {2} construction(s) de type {1} sur le système {0}.";
 
 	public static final String EV_COMMANDANT_ANNULER_CONSTRUCTION_0000 = "Vous venez d'annuler tous vos projets de constructions en cours sur le système {0}.";

@@ -1161,17 +1161,17 @@ public class Univers {
 	};
 
 	private static final Object[][] PLAN_RACIAUX = {
-			{ "Inconnu", new String[] { "moteurI", "scanIII" },
+			{ "Inconnu", new String[] { "moteurI", "scanIV", "bscanIV" },
 					new int[] { 1, 1, 1 }, "Sidjin", "FreeTech", new Integer(0) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "plasmaIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "plasmaIV" },
 					new int[] { 1, 1, 12 }, "Gardien", "Atatech", new Integer(1) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "bombeIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "bombeIV" },
 					new int[] { 1, 1, 12 }, "Bombardier Zwaia", "Zwatech",
 					new Integer(2) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII","missIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII","missIV" },
 					new int[] { 1, 1,12 }, "Spiteur", "Yoktech",
 					new Integer(3) },
-			{ "Inconnu", new String[] { "moteurII", "bouclierIII", "laserIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "laserIV" },
 					new int[] { 1, 1, 12 }, "Feinteur", "Fertech",
 					new Integer(4) },
 
