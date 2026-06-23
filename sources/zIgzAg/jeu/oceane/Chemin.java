@@ -18,6 +18,7 @@ public class Chemin {
 	 public static String RACINE_ZIP = "";
 	 public static String NUMERO_DU_TOUR = "";
 	 public static String PATH_STATS = "";
+	 public static String RACINE_SITE = "https://sheril.pbem-france.net/";
 	
 	static {
 		Properties properties = new Properties();
@@ -27,6 +28,7 @@ public class Chemin {
 		    RACINE_ZIP = properties.getProperty("PATH_EXPORT_ZIPPED_RAPPORT");
 			NUMERO_DU_TOUR = properties.getProperty("PATH_TOUR");
 			PATH_STATS = properties.getProperty("PATH_STATS");
+			RACINE_SITE = properties.getProperty("RACINE_SITE");
 		} catch (IOException e) {
 			System.out.println("Cant load config file. file config.properties should be on the same directory as the jar file");
 		}
@@ -43,7 +45,6 @@ public class Chemin {
 
 	public static final String CARNET_DE_BORD = RACINE + "carnet.txt";
 
-	public static final String RACINE_SITE = "https://sheril.pbem-france.net/";
 	public static final String SITE = RACINE_SITE + "principal.htm";
 	public static final String SITE_REGISTRE = RACINE_SITE + "info/reg.htm";
 

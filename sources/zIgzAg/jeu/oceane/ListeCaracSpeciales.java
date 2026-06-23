@@ -52,16 +52,16 @@ public interface ListeCaracSpeciales{
 
 // fin batiments gestion
 
- public static final int[][] lmineI={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,10}};
- public static final int[][] lmineII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,25}};
- public static final int[][] lmineIII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,40}};
- public static final int[][] lmineIV={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,80}};
- public static final int[][] lmineV={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,150}};
- public static final int[][] lmineVI={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,300}};
- public static final int[][] lmineVII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,600}};
- public static final int[][] lmineVIII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,1200}};
- public static final int[][] lmineIX={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,2500}};
- public static final int[][] lmineX={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,5000}};
+ public static final int[][] lmineI={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,20}};
+ public static final int[][] lmineII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,40}};
+ public static final int[][] lmineIII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,80}};
+ public static final int[][] lmineIV={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,160}};
+ public static final int[][] lmineV={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,320}};
+ public static final int[][] lmineVI={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,640}};
+ public static final int[][] lmineVII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,1280}};
+ public static final int[][] lmineVIII={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,2560}};
+ public static final int[][] lmineIX={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,5120}};
+ public static final int[][] lmineX={{Const.COMPOSANT_CAPACITE_LANCEUR_MINES_CLASSIQUES,10240}};
 
  public static final int[][] dmineI={{Const.COMPOSANT_CAPACITE_DETECTION_MINES,10}};
  public static final int[][] dmineII={{Const.COMPOSANT_CAPACITE_DETECTION_MINES,20}};

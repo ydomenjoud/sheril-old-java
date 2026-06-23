@@ -3,8 +3,9 @@
   $inter1=$rf[1]; // -- ID de l'offre choisie--
   $inter2=$rf[2]; // -- Prix enchere
   $inter3=$rf[3]; // Position du système de réception
-  $offre = $offresList[$inter1];
+  $offreIndex = array_search($inter1, array_column($offresList, 'ID_OFFRE'));
+  $offre = $offresList[$offreIndex];
 
 echo "Enchérir <span class='item'><span style='color: var(--header); font-weight: bold'>$inter2</span> centaures </span> 
-sur l'enchère de {$offre['QUANTITE']} <span class='item'>${offre['CODE']}</span> du commandant <span class='commandant'>{$t1[$offre['VENDEUR']]}</span>
+sur l'enchère de <span class='number'>{$offre['QUANTITE']}</span> <span class='item'>{$t2[$offre['CODE']]}</span> du commandant <span class='commandant'>{$t1[$offre['VENDEUR']]}</span>
 a livrer sur votre système <span class='item'>${t0[$inter3]}</span>";

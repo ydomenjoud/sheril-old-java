@@ -34,7 +34,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String RETOUR_PRET_FLOTTE_0000 = "Retour de prêt du commandant {0}.";
 	public static final String RETOUR_PRET_FLOTTE_0001 = "Certains vaisseaux que le commandant {0} vous avait prêtés viennent de regagner leur affectation d'origine.";
 
-	public static final String SYSTEME_EXTERMINATION_0000 = "Votre politique d'extermination sur le système {0} vous as rapporté cette semaine {1}.";
+	public static final String SYSTEME_EXTERMINATION_0000 = "Votre politique d'extermination sur le système {0} vous a rapporté cette semaine {1}.";
 
 	public static final String EVENEMENT_0000 = "Le fond d'aide aux Déshérités de la <i>Banque Galactique</i> vous vient en aide. Vous recevez {0}.";
 
@@ -51,7 +51,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EVENEMENT_POPULATION_NEGATIF_2 = "La planète {1} de votre système {0} vient de subir une collision avec un météorite géant, mais heureusement Bruce Willis est là !!. Sa population ne diminue que de {2} millions.";
 	public static final String EVENEMENT_POPULATION_NEGATIF_3 = "Le squelette de Mahomet vient de maudir la planète {1} de votre système {0}. Les gens fuient devant cette malédiction. La population de la planète diminue de {2} millions.";
 
-	public static final String COMBAT_FLOTTE_0000 = "Combat en {3} entre votre flotte {0} et la flottille {1} du commandant {2}.résultat de combat:<BR>";
+	public static final String COMBAT_FLOTTE_0000 = "Combat en {3} entre votre flotte {0} et la flotte {1} du commandant {2}. Résultat de combat:<BR>";
 	public static final String COMBAT_FLOTTE_0001 = "Votre flotte est anéantie.";
 	public static final String COMBAT_FLOTTE_0002 = "Suite au {0} dommage(s) infligés votre flotte a perdu {1} vaisseau(x).";
 	public static final String COMBAT_FLOTTE_0003 = "La flotte ennemie est détruite.";
@@ -111,6 +111,9 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String PUBLIC_ALLIANCE_0000 = "L'alliance {0} vient d'être dissoute faute de membres.";
 	public static final String PUBLIC_ACHETER_COMMANDANT_0000 = "{0} vient d'enrôler le lieutenant {1} pour la somme de {2}.";
 	public static final String PUBLIC_TECHNOLOGIE_0000 = "Boost technologique: {0} est Désormais accessible à tous!";
+	public static final String PUBLIC_MARCHE_GALACTIQUE_0000 = "Le commandant {0} met en vente {1} sur le marché galactique au prix de {2}";
+
+
 
 	public static final String EV_ALLIANCE_0000 = "Le commandant {0} vient d'adhérer à l'alliance.<BR>";
 	public static final String EV_ALLIANCE_0001 = "Le commandant {0} vient de quitter l'alliance.<BR>";
@@ -135,7 +138,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_DON_CENTAURES_0002 = "Vous avez recu {0} d'un bienfaiteur généreux qui souhaite rester anonyme.";
 	public static final String EV_COMMANDANT_DON_CENTAURES_0003 = "Le commandant {0} vous as transmis {1}.";
 
-	public static final String ER_COMMANDANT_DON_TECHNOLOGIE_0000 = "Impossible de transmettre la technologie {0} au commandant numéro {1} : vous ne disposez pas d'assez de en ce moment.";
+	public static final String ER_COMMANDANT_DON_TECHNOLOGIE_0000 = "Impossible de transmettre la technologie {0} au commandant numéro {1} : vous ne disposez pas d'assez de centaures en ce moment.";
 	public static final String ER_COMMANDANT_DON_TECHNOLOGIE_0001 = "Impossible de transmettre la technologie {0} au commandant numéro {1} : ce commandant connaît déjà cette technologie!";
 	public static final String EV_COMMANDANT_DON_TECHNOLOGIE_0000 = "Dans votre insondable bonté, vous avez transmis la technologie {1} au commandant {0}.";
 	public static final String EV_COMMANDANT_DON_TECHNOLOGIE_0001 = "Le commandant {0} vous as transmis la technologie {1}.";
@@ -145,27 +148,27 @@ public class MessagesInfo extends MessagesAbstraits {
 
 	public static final String EV_COMMANDANT_ELIMINER_TECHNOLOGIE_0000 = "Vous venez d'abandonner toute connaissance sur la technologie {0}.";
 
-	public static final String ER_COMMANDANT_DON_FLOTTE_0000 = "Impossible de transmettre votre flotte {0} au commandant numéro {1} : vous ne disposez pas d'assez de en ce moment.";
+	public static final String ER_COMMANDANT_DON_FLOTTE_0000 = "Impossible de transmettre votre flotte {0} au commandant numéro {1} : vous ne disposez pas d'assez de centaures en ce moment.";
 	public static final String ER_COMMANDANT_DON_FLOTTE_0001 = "Impossible de donner la flotte numéro {0} au commandant numéro {1} : le flotte contient des vaisseaux en location.";
 	public static final String EV_COMMANDANT_DON_FLOTTE_0000 = "Dans votre insondable bonté, vous avez loué votre flotte numéro {1} au commandant {0} pour {2} tours.";
 	public static final String EV_COMMANDANT_DON_FLOTTE_0001 = "Le commandant {0} vous a loué sa flotte numéro {1} pour {2} tours.";
 	public static final String EV_COMMANDANT_DON_FLOTTE_0002 = "Le commandant qui souhaite garder l'anonymat vous a loué sa flotte numéro {0} pour {1} tours.";
 	public static final String EV_COMMANDANT_DON_FLOTTE_0003 = "Le commandant {0} a loué une de ses flottes au commandant {1} cette semaine.";
 
-	public static final String ER_COMMANDANT_VENTE_FLOTTE_0000 = "Impossible de vendre votre flotte {0} au commandant numéro {1} : ce commandant ne dispose pas d'assez de en ce moment.";
+	public static final String ER_COMMANDANT_VENTE_FLOTTE_0000 = "Impossible de vendre votre flotte {0} au commandant numéro {1} : ce commandant ne dispose pas d'assez de centaures en ce moment.";
 	public static final String ER_COMMANDANT_VENTE_FLOTTE_0003 = "Impossible de vendre la flotte numéro {0} au commandant numéro {1} : le flotte contient des vaisseaux en location.";
 
 	public static final String EV_COMMANDANT_VENTE_FLOTTE_0000 = "Dans votre insondable bonté, vous avez vendu votre flotte numéro {1} au commandant {0}.";
 	public static final String EV_COMMANDANT_VENTE_FLOTTE_0001 = "Le commandant {0} vous a vendu sa flotte {1} numéro {3} pour {2}.";
 	public static final String EV_COMMANDANT_VENTE_FLOTTE_0003 = "Le commandant {0} a vendu une de ses flottes au commandant {1} cette semaine.";
 
-	public static final String ER_COMMANDANT_DON_SYSTEME_0000 = "Impossible de transmettre le systeme {0} au commandant numéro {1} : vous ne disposez pas d'assez de en ce moment.";
+	public static final String ER_COMMANDANT_DON_SYSTEME_0000 = "Impossible de transmettre le systeme {0} au commandant numéro {1} : vous ne disposez pas d'assez de centaures en ce moment.";
 	public static final String EV_COMMANDANT_DON_SYSTEME_0000 = "Dans votre insondable bonté, vous avez transmis le système {1} au commandant {0}.";
 	public static final String EV_COMMANDANT_DON_SYSTEME_0001 = "Le commandant {0} vous as transmis le système {1}.";
 	public static final String EV_COMMANDANT_DON_SYSTEME_0002 = "Le commandant {0} as transmis les planètes de son système {2} au commandant {1} cette semaine.";
 	public static final String EV_COMMANDANT_DON_SYSTEME_0003 = "Un commandant qui souhaite garder l'anonymat vous as transmis le système {0}.";
 
-	public static final String ER_COMMANDANT_DON_PLANETE_0000 = "Impossible de transmettre la planète {1} du systeme {0} au commandant numéro {2} : vous ne disposez pas d'assez de en ce moment.";
+	public static final String ER_COMMANDANT_DON_PLANETE_0000 = "Impossible de transmettre la planète {1} du systeme {0} au commandant numéro {2} : vous ne disposez pas d'assez de centaures en ce moment.";
 	public static final String ER_COMMANDANT_DON_PLANETE_0001 = "Impossible de transmettre la planète numéro {2} du systeme {0} au commandant numéro {1} : cette planète n'existe pas.";
 	public static final String ER_COMMANDANT_DON_PLANETE_0002 = "Impossible de donner la planète {1} du système {0} : cette planète ne vous appartient pas.";
 	public static final String EV_COMMANDANT_DON_PLANETE_0000 = "Dans votre insondable bonté, vous avez transmis la planète {2} du système {1} au commandant {0}.";
@@ -174,7 +177,8 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_DON_PLANETE_0003 = "Un commandant qui souhaite garder l'anonymat vous as transmis la planète {1} du système {0}.";
 
 	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0000 = "Impossible de mettre en chantier une construction sur la planète numéro {1} du système {0}: cette planète n'existe pas.";
-	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0001 = "Impossible de mettre en chantier une construction le système {0}: vous ne pouvez construire {2} construction(s) de type {1}";
+	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0002 = "Impossible de mettre en chantier une construction sur la planète numéro {1} du système {0}: vous ne possédez pas cette planète";
+	public static final String ER_COMMANDANT_MISE_EN_CHANTIER_0001 = "Impossible de mettre en chantier une construction sur le système {0}: vous ne pouvez construire {2} construction(s) de type {1}";
 	public static final String EV_COMMANDANT_MISE_EN_CHANTIER_0000 = "Prérogatives: {2} construction(s) de type {1} sur le système {0}.";
 
 	public static final String EV_COMMANDANT_ANNULER_CONSTRUCTION_0000 = "Vous venez d'annuler tous vos projets de constructions en cours sur le système {0}.";
@@ -193,8 +197,8 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_MODIFIER_TAXATION_0000 = "Une taxation {1} est dorénavant présente sur votre système {0}.";
 	public static final String EV_COMMANDANT_MODIFIER_TAXATION_0001 = "Un nouvelle taxation de niveau {2} est en vigueur sur la planète {1} de votre système {0}.";
 
-	public static final String ER_COMMANDANT_TERRAFORMER_0000 = "Impossible de terraformer le système {0} : vous n'avez pas assez de en ce moment.";
-	public static final String ER_COMMANDANT_TERRAFORMER_0001 = "Impossible de terraformer la planète {1} du système {0} : vous n'avez pas assez de en ce moment.";
+	public static final String ER_COMMANDANT_TERRAFORMER_0000 = "Impossible de terraformer le système {0} : vous n'avez pas assez de centaures en ce moment.";
+	public static final String ER_COMMANDANT_TERRAFORMER_0001 = "Impossible de terraformer la planète {1} du système {0} : vous n'avez pas assez de centaures en ce moment.";
 	public static final String ER_COMMANDANT_TERRAFORMER_0002 = "Impossible de terraformer la planète numéro {1} du système {0} : cette planète n'existe pas.";
 	public static final String ER_COMMANDANT_TERRAFORMER_0003 = "Impossible de terraformer la planète {1} du système {0} : cette planète ne vous appartient pas.";
 	public static final String ER_COMMANDANT_TERRAFORMER_0004 = "Impossible de terraformer le système {0} : Il l'a déjà été ce tour-ci.";
@@ -297,25 +301,25 @@ public class MessagesInfo extends MessagesAbstraits {
 
 	public static final String EV_COMMANDANT_LICENCIER_LIEUTENANT_0000 = "Licensiement: Vous venez de vous séparer de votre lieutenant {0}, ce qui vous a rapporté la somme de {1}.";
 
-	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Impossible d'acheter le lieutenant {0}, vous n'avez pas assez de actuellement!";
+	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Impossible d'acheter le lieutenant {0}, vous n'avez pas assez de centaures actuellement!";
 	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Impossible d'acheter le lieutenant {0}, votre enchère a été surpassée";
 	public static final String ER_COMMANDANT_ACHETER_LIEUTENANT_0002 = "Impossible d'acheter plusieurs lieutenants par tour";
 	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0000 = "Le lieutenant {0} est maintenant sous vos ordres, ce qui vous a couté la somme de {1}.";
-	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Vous n'avez pas pu acheter le lieutenant {0}, pour la somme de {1}, car ce lieutenant demande plus de.";
+	public static final String EV_COMMANDANT_ACHETER_LIEUTENANT_0001 = "Vous n'avez pas pu acheter le lieutenant {0}, pour la somme de {1}, car ce lieutenant demande plus de centaures.";
 
 	public static final String ER_COMMANDANT_RENOMMER_LIEUTENANT_0000 = "Impossible de donner le nom {1} au lieutenant {0} : vous possèdez déjà un lieutenant ayant ce nom.";
 
-	public static final String ER_COMMANDANT_CHANGER_CAPITALE_0000 = "Impossible de changer la capitale en {0} : vous n'avez pas assez de actuellement.";
+	public static final String ER_COMMANDANT_CHANGER_CAPITALE_0000 = "Impossible de changer la capitale en {0} : vous n'avez pas assez de centaures actuellement.";
 	public static final String EV_COMMANDANT_CHANGER_CAPITALE_0000 = "Vous venez de Déplacer votre capitale en {0}.";
 
 	public static final String ER_COMMANDANT_DON_PLAN_0000 = "Impossible de donner le plan du vaisseau {1} au commandant {0} : ce commandant possède déjà ce plan!";
-	public static final String ER_COMMANDANT_DON_PLAN_0001 = "Impossible de donner le plan du vaisseau {1} au commandant {0} : vous n'avez pas assez de actuellement!";
+	public static final String ER_COMMANDANT_DON_PLAN_0001 = "Impossible de donner le plan du vaisseau {1} au commandant {0} : vous n'avez pas assez de centaures actuellement!";
 	public static final String EV_COMMANDANT_DON_PLAN_0000 = "Vous venez de donner le plan du vaisseau {1} au commandant {0}.";
 	public static final String EV_COMMANDANT_DON_PLAN_0001 = "Le commandant {0} vient de vous transmettre le plan du vaisseau {1}.";
 	public static final String EV_COMMANDANT_DON_PLAN_0002 = "Le commandant qui souhaite rester anonyme vient de vous transmettre le plan du vaisseau {0}.";
 	public static final String EV_COMMANDANT_DON_PLAN_0003 = "Le commandant {0} vient de transmettre un plan de vaisseau au commandant {1}.";
 
-	public static final String ER_COMMANDANT_CREER_PLAN_0000 = "Impossible de créer le plan du vaisseau de nom {0} : Vous n'avez pas assez de en ce moment!";
+	public static final String ER_COMMANDANT_CREER_PLAN_0000 = "Impossible de créer le plan du vaisseau de nom {0} : Vous n'avez pas assez de centaures en ce moment!";
 	public static final String EV_COMMANDANT_CREER_PLAN_0000 = "Design: Vous venez de créer le plan du vaisseau de nom {0}.";
 	public static final String EV_COMMANDANT_CREER_PLAN_0001 = "Vous venez de supprimer votre plan de vaisseau {0}.";
 
@@ -326,7 +330,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_MODIFIER_STRATEGIE_0000 = "Vous venez de modifier la stratégie de combat de nom {0}.";
 
 	public static final String ER_COMMANDANT_DON_STRATEGIE_0000 = "Impossible de donner la stratégie de combat {1} au commandant {0} : ce commandant possède déjà une stratégie de ce nom!";
-	public static final String ER_COMMANDANT_DON_STRATEGIE_0001 = "Impossible de donner la stratégie de combat {1} au commandant {0} : vous n'avez pas assez de actuellement!";
+	public static final String ER_COMMANDANT_DON_STRATEGIE_0001 = "Impossible de donner la stratégie de combat {1} au commandant {0} : vous n'avez pas assez de centaures actuellement!";
 	public static final String EV_COMMANDANT_DON_STRATEGIE_0000 = "Vous venez de donner la stratégie de combat {1} au commandant {0}.";
 	public static final String EV_COMMANDANT_DON_STRATEGIE_0001 = "Le commandant {0} vient de vous transmettre la stratégie de combat {1}.";
 	public static final String EV_COMMANDANT_DON_STRATEGIE_0002 = "Le commandant qui souhaite rester anonyme vient de vous transmettre la stratégie de combat {0}.";
@@ -348,7 +352,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_UTILISER_PORTE_GALACTIQUE_0000 = "Votre flotte numéro {0} ne peut changer de galaxie : elle ne possède pas la capacité intergalactique...";
 	public static final String EV_COMMANDANT_UTILISER_PORTE_GALACTIQUE_0000 = "Votre flotte numéro {0} vient de changer de galaxie.";
 
-	public static final String ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000 = "Votre flotte numéro {0} ne peut utiliser une porte intragalactique : vous ne possèdez pas assez de";
+	public static final String ER_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000 = "Votre flotte numéro {0} ne peut utiliser une porte intragalactique : vous ne possèdez pas assez de centaures";
 	public static final String EV_COMMANDANT_UTILISER_PORTE_INTRAGALACTIQUE_0000 = "Votre flotte numéro {0} vient d'utiliser une porte intragalactique.";
 
 	public static final String EV_COMMANDANT_TAUX_POSTE_0000 = "Vous venez de fixer le taux de taxation de vos postes commerciaux à {0}%.";
@@ -358,24 +362,24 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_RECHERCHE_0000 = "Vous venez de découvrir la technologie: {0}.";
 	public static final String EV_COMMANDANT_RECHERCHE_0001 = "La technologie {0} étant devenu publique, votre recherche de cette technologie est annulé.";
 
-	public static final String EV_COMMANDANT_CONSTRUCTION_0000 = "Votre système {0} ne peut réaliser ce tour-ci le projet de construction de {2} construction(s) de type {1} car vous n'avez pas assez de.";
+	public static final String EV_COMMANDANT_CONSTRUCTION_0000 = "Votre système {0} ne peut réaliser ce tour-ci le projet de construction de {2} construction(s) de type {1} car vous n'avez pas assez de centaures.";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0001 = "Votre système {0} vient de produire {2} construction(s) de type {1}.";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0002 = "Votre système {0} n'a construit que {1} {2} en raison d'un manque de {3}";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0003 = "Votre système {0} n'a construit aucun des {1} {2} en raison d'un manque de {3}";
 
 	public static final String EV_COMMANDANT_CONSTRUCTION_0005 = "Votre flotte {0} vient de produire {2} vaisseau(x) de type {1} pour {3}. Ces vaisseaux sont maintenant dans cette flotte";
-	public static final String EV_COMMANDANT_CONSTRUCTION_0006 = "Votre flotte {0} ne peut produire des constructions de type {1} : vous n'avez pas assez de en ce moment.";
+	public static final String EV_COMMANDANT_CONSTRUCTION_0006 = "Votre flotte {0} ne peut produire des constructions de type {1} : vous n'avez pas assez de centaures en ce moment.";
 
 	public static final String EV_COMMANDANT_CONSTRUCTION_0007 = "Votre système {0} ne peut réaliser ce tour-ci le projet de construction de {2} construction(s) de type {1} car ce système ne possède pas le chantier naval nécessaire à la production de vaisseaux.";
 	public static final String EV_COMMANDANT_CONSTRUCTION_0008 = "Votre flotte {0} vient de produire {3} vaisseau(x) de type {1} et {4} vaisseau(x) de type {2}. Ces vaisseaux sont maintenant dans cette flotte";
-	public static final String EV_COMMANDANT_CONSTRUCTION_0009 = "Certains vaisseaux n'ont pas pu être construit par manque de.";
+	public static final String EV_COMMANDANT_CONSTRUCTION_0009 = "Certains vaisseaux n'ont pas pu être construit par manque de centaures.";
 	public static final String EV_COMMANDANT_CONSTRUCTION_00010 = "Rapports des amiraux de votre flotte {1}: Commandant, notre flotte a produit {3} vaisseaux  fictifs de type {2}, ils sont désormais dans votre jeu Starwars...";
 
-	public static final String EV_COMMANDANT_GESTION_FLOTTE_0000 = "Votre flotte {0} ne peut être réparée ce tour-ci car vous n'avez pas assez de.";
+	public static final String EV_COMMANDANT_GESTION_FLOTTE_0000 = "Votre flotte {0} ne peut être réparée ce tour-ci car vous n'avez pas assez de centaures.";
 	public static final String EV_COMMANDANT_GESTION_FLOTTE_0001 = "Votre flotte {0} vient d'être réparée par votre système {1} de {2} points de dommages.";
 	public static final String EV_COMMANDANT_GESTION_FLOTTE_0002 = "Votre flotte {0} vient d'être réparée par le système {1} de votre allié le commandant {2} de {3} points de dommages.";
 	public static final String EV_COMMANDANT_GESTION_FLOTTE_0003 = "Votre système {1} vient de réparer la flotte {0} de votre allié le commandant {2} pour {3} points de dommages.";
-	public static final String EV_COMMANDANT_GESTION_FLOTTE_0004 = "Votre flotte {0} ne peut être réparée ce tour-ci car le commandant {1} n'a pas assez de.";
+	public static final String EV_COMMANDANT_GESTION_FLOTTE_0004 = "Votre flotte {0} ne peut être réparée ce tour-ci car le commandant {1} n'a pas assez de centaures.";
 	public static final String EV_COMMANDANT_GESTION_FLOTTE_0005 = "Votre flotte {0} vient de Détecter en {1} une ancienne porte intra-galactique. Vers ou mène elle? Mystère. Par contre, le passage est visiblement payant...";
 	public static final String EV_COMMANDANT_GESTION_FLOTTE_0006 = "Argg!!Commandant, un chasseur de {0} vient de s'écraser sur son binome en {1} .. L'incident a causé {2} dommages..";
 

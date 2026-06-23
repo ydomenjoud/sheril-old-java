@@ -1,8 +1,9 @@
 <?php
+require_once dirname(__FILE__) . '/../mysql_compat.php';
 $base = "sheril";
 $user = "user";
 $pass = "password";
-$host = "sheril-db";
+$host = "db";
 if(defined('USE_PDO') && USE_PDO === true) {
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$base;charset=utf8", $user, $pass, [

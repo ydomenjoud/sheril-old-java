@@ -95,7 +95,7 @@ public class PointDeVictoire {
                     }
                     // on stock globalement pour les stats futures
                     pdvAttribuesCetour
-                            .computeIfAbsent(c.getNumero(), _ -> new HashMap<>())
+                            .computeIfAbsent(c.getNumero(), t -> new HashMap<>())
                             .put(categorie, new StatCategorie(rangDeCeJoueur, valeurActuelle));
 
                     dernierRangAttribue = rangDeCeJoueur;

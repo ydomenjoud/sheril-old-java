@@ -260,7 +260,7 @@ public class Flotte implements Serializable {
 		quotas.put("Intercepteur standard", 10 + modifier * 5);
 		quotas.put("Chasseur standard", 20 + modifier * 5);
 		quotas.put("Fregate standard", 20 + modifier * 5);
-		quotas.put("Eclaireur standard", 8 + modifier);
+		quotas.put("Eclaireur standard", 3 + modifier);
 		quotas.put("Grand Bombardier standard", 20 + modifier * 5);
 
 		String[] noms = quotas.keySet().toArray(new String[0]);

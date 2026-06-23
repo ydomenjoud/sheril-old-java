@@ -97,6 +97,21 @@
             border-right: none;
         }
 
+        .copy {
+            width: 50px;
+            padding: 0;
+        }
+        .copy a {
+            height: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .copy a:hover {
+            background-color: #0a9bcc;
+            color: #000;
+            text-decoration: none;
+        }
 
         .important {
             color: var(--important);
@@ -193,8 +208,22 @@
             background-color: rgba(90,90,90,0.8);
         }
         .delete {
-            margin-right: 10px;
+            padding: 0;
+            width: 70px;
+        }
+        .delete a {
             color: #c54646;
+            height: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .delete a:hover {
+            background-color: #ff2b2b;
+            color: #000;
+            text-decoration: none;
         }
 
         .race0 {

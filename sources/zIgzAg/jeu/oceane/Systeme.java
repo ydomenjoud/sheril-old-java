@@ -1074,7 +1074,11 @@ public class Systeme implements Serializable {
 	}
 
 	public void ajouterRichesses(int numero, ObjetTransporte o, int numPlanete) {
-		if (numPlanete >= 0 && numPlanete < pla.length){
+		// si c'est des marchandises, faut le mettre sur la possession
+		if(ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_MARCHANDISE){
+			Possession p = Univers.getCommandant(numero).getPossession(position);
+			p.ajouterMarchandise(Utile.numeroMarchandise(o.getCode()), o.getNombreObjets());
+		} else if (numPlanete >= 0 && numPlanete < pla.length){
 			pla[numPlanete].ajouterRichesse(o);
 		} else if (ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_BATIMENT) {
 			Batiment b = (Batiment) Univers.getTechnologie(o.getCode());

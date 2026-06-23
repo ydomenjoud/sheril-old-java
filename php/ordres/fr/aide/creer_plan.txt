@@ -12,7 +12,8 @@
             composants de ce plan.
         </li>
     </ul>
-    Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.
+    <p>Attention, ne créez pas plus d'un plan de vaisseau par tour, cela génèrerait des erreurs.</p>
+    <p>Une création de plan de vaisseau est coûteuse : 10 fois le prix de construction du vaisseau</p>
 </div>
 <div>
     <table>
@@ -23,6 +24,7 @@
             <th>Nombre de composant min</th>
             <th>Nombre de composant max</th>
             <th>Vitesse de base</th>
+            <th>Nombre de cible</th>
         </tr>
         </thead>
         <tbody>
@@ -31,60 +33,70 @@
             <td>1</td>
             <td>3</td>
             <td>9</td>
+            <td>1</td>
         </tr>
         <tr>
             <td>2</td>
             <td>4</td>
             <td>9</td>
             <td>8</td>
+            <td>4</td>
         </tr>
         <tr>
             <td>3</td>
             <td>10</td>
             <td>17</td>
             <td>7</td>
+            <td>8</td>
         </tr>
         <tr>
             <td>4</td>
             <td>18</td>
             <td>33</td>
             <td>6</td>
+            <td>16</td>
         </tr>
         <tr>
             <td>5</td>
             <td>34</td>
             <td>65</td>
             <td>5</td>
+            <td>32</td>
         </tr>
         <tr>
             <td>6</td>
             <td>66</td>
             <td>129</td>
             <td>4</td>
+            <td>64</td>
         </tr>
         <tr>
             <td>7</td>
             <td>130</td>
             <td>257</td>
             <td>3</td>
+            <td>128</td>
         </tr>
         <tr>
             <td>8</td>
             <td>258</td>
             <td>512</td>
             <td>2</td>
+            <td>256</td>
         </tr>
         <tr>
             <td>9</td>
             <td>513</td>
             <td>1025</td>
             <td>1</td>
+            <td>512</td>
         </tr>
         <tr>
             <td>10</td>
             <td>1026</td>
             <td>1000000</td>
             <td>0</td>
+            <td>2000</td>
         </tr>
         </tbody>
     </table>

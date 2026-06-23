@@ -20,6 +20,8 @@ import java.util.*;
 import java.io.*;
 import java.util.regex.Pattern;
 
+import static zIgzAg.jeu.oceane.Chemin.*;
+
 
 public class Univers {
 
@@ -401,7 +403,7 @@ public class Univers {
 			NUMERO_DU_TOUR = 0;
 		else
 			NUMERO_DU_TOUR = Integer.parseInt(s);
-        Chemin.MJ = Chemin.RACINE + "tour"+(NUMERO_DU_TOUR)+"/mj/";
+        Chemin.MJ = RACINE + "tour"+(NUMERO_DU_TOUR)+"/mj/";
         System.out.println("charger tour " + Chemin.MJ);
 		Chemin.initialiserChemins(NUMERO_DU_TOUR);
 	}
@@ -931,13 +933,13 @@ public class Univers {
 	}
 
 	public static Map getStatsDernierTour() {
-		String chemin = Chemin.RACINE + "tour"
+		String chemin = RACINE + "tour"
 				+ Integer.toString(getTour() - 1) + "/donnees/" + "stats.txt";
 		return chargerMap(chemin);
 	}
 
 	public static Map getStatsDuTour(int tour) {
-		String chemin = Chemin.RACINE + "tour" + Integer.toString(tour)
+		String chemin = RACINE + "tour" + Integer.toString(tour)
 				+ "/donnees/" + "stats.txt";
 		return chargerMap(chemin);
 	}
@@ -1081,6 +1083,8 @@ public class Univers {
 
 	public Univers(boolean e1, String e2) {
 
+		// charger infos
+		chargerNumeroTour();
 		// reparation
 		systemesReparations = new TreeMap();
 
@@ -1157,17 +1161,17 @@ public class Univers {
 	};
 
 	private static final Object[][] PLAN_RACIAUX = {
-			{ "Inconnu", new String[] { "moteurI", "scanIII" },
+			{ "Inconnu", new String[] { "moteurI", "scanIV", "bscanIV" },
 					new int[] { 1, 1, 1 }, "Sidjin", "FreeTech", new Integer(0) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "plasmaIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "plasmaIV" },
 					new int[] { 1, 1, 12 }, "Gardien", "Atatech", new Integer(1) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "bombeIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "bombeIV" },
 					new int[] { 1, 1, 12 }, "Bombardier Zwaia", "Zwatech",
 					new Integer(2) },
-			{ "Inconnu", new String[] { "moteurI", "bouclierIII","missIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII","missIV" },
 					new int[] { 1, 1,12 }, "Spiteur", "Yoktech",
 					new Integer(3) },
-			{ "Inconnu", new String[] { "moteurII", "bouclierIII", "laserIII" },
+			{ "Inconnu", new String[] { "moteurI", "bouclierIII", "laserIV" },
 					new int[] { 1, 1, 12 }, "Feinteur", "Fertech",
 					new Integer(4) },
 
@@ -1773,7 +1777,7 @@ public class Univers {
     public static synchronized void notify(String msg) {
         System.out.println(msg);
 
-        if(Const.FAKE_TURN || !Const.NOTIFY_BOT) {
+        if(Const.FAKE_TURN || !Const.NOTIFY_BOT || Const.DISCORD_WEBHOOK_URL == null || Objects.equals(Const.DISCORD_WEBHOOK_URL, "")) {
             return;
         }
 

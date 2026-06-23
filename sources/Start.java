@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -17,7 +16,7 @@ public class Start {
         System.out.println("Usage: java -jar sheril.jar <action>");
         System.out.println("Actions disponibles:");
         System.out.println("init: initialisation de l'Univers");
-        System.out.println("addNewGalaxy <num>: Ajoute une galaxy à l'Univers, deuxième");
+        System.out.println("addNewGalaxy <num>: Ajoute une galaxy à l'Univers");
         System.out.println("newRound: passe le tour");
         System.out.println("listNeutralFleets: affiche la liste des flottes du neutre");
     }
@@ -86,7 +85,11 @@ public class Start {
 
         try {
             Univers.notify("Démarrage du nouveau tour");
-            System.out.println(" FAKE " + (Const.FAKE_TURN ? "OUI" : "NON" ) + ", NOTIFY " + (Const.NOTIFY_BOT ? "OUI" : "NON" ) );
+            System.out.println(
+                    " FAKE " + (Const.FAKE_TURN ? "OUI" : "NON" )
+                            + ", NOTIFY " + (Const.NOTIFY_BOT ? "OUI" : "NON" )
+                    + ", IS_LOCAL " + (Const.IS_LOCAL ? "OUI" : "NON" )
+            );
 
             // On déroule le tour
             DeroulementDuTour.main(null);
@@ -99,19 +102,20 @@ public class Start {
                 ProductionOrdres.insertionOrdres();
                 Univers.notify("Insertion des nouveaux ordres");
 
-                Start.uploadBySSH(Chemin.NUMERO_DU_TOUR, "");
+                Start.upload(Chemin.NUMERO_DU_TOUR, "");
 
                 // Déplacements des rapports
                 String rapportsDir = Chemin.RACINE_ZIP + nextTour;
                 Copie.copieRepertoire(Chemin.ZIP, rapportsDir);
-                Start.uploadBySSH(rapportsDir, "rapports");
+                Start.upload(rapportsDir, "rapports");
+                Start.upload(Chemin.RAPPORTS_IMAGES, "");
                 Univers.notify("Rapports disponibles");
 
 
                 // Déplacements des statistiques
                 Copie.copieRepertoire(Chemin.STATS, Chemin.PATH_STATS);
                 Univers.notify("Mise en place des stats");
-                Start.uploadBySSH(Chemin.PATH_STATS, "");
+                Start.upload(Chemin.PATH_STATS, "");
 
             }
 
@@ -167,9 +171,9 @@ public class Start {
     public static boolean isToday() {
         String test = "";
         try {
-            test = getRemoteFileContent("https://sheril.pbem-france.net/autres/next-turn.php");
+            test = getRemoteFileContent(Chemin.RACINE_SITE + "autres/next-turn.php");
         } catch (Exception e) {
-            System.out.println("Erreur dans le chargement de https://sheril.pbem-france.net/autres/next-turn.php");
+            System.out.println("Erreur dans le chargement de "+Chemin.RACINE_SITE +"autres/next-turn.php");
             e.printStackTrace();
             System.exit(-1);
         }
@@ -177,12 +181,22 @@ public class Start {
     }
 
 
-    public static void uploadBySSH(
+    public static void upload(
             String localPath,
             String remotePath
     ) {
-        System.out.println("upload " + localPath + " vers " + remotePath);
+
+        // Interception pour le mode local
+        if (Const.IS_LOCAL) {
+            File src = new File(localPath);
+            String targetPath = Const.PATH_PHP + (remotePath.isEmpty() ? "" : remotePath + "/") + src.getName();
+            System.out.println("[Mode Local] Copie de " + localPath + " vers " + targetPath);
+            zIgzAg.utile.Copie.copie(localPath, targetPath);
+            return;
+        }
+
         try {
+            System.out.println("upload " + localPath + " vers " + remotePath);
             ProcessBuilder pb = new ProcessBuilder(
                     "scp",
                     "-r",
@@ -201,7 +215,7 @@ public class Start {
 
     public static String getNextTurn() {
         try {
-            return getRemoteFileContent("http://sheril.pbem-france.net/autres/next-turn.php?act=next");
+            return getRemoteFileContent(Chemin.RACINE_SITE +"autres/next-turn.php?act=next");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -106,16 +106,16 @@ public interface ListeMarchandises{
  public static final int[][] bouclierIX={{13,2}};
  public static final int[][] bouclierX={{13,3}};
 
- public static final int[][] lmineI={{9,1}};
- public static final int[][] lmineII={{9,2}};
- public static final int[][] lmineIII={{9,3},{7,1}};
- public static final int[][] lmineIV={{9,4},{7,2}};
- public static final int[][] lmineV={{9,5},{7,3}};
- public static final int[][] lmineVI={{9,8},{7,4}};
- public static final int[][] lmineVII={{9,9},{7,5}};
- public static final int[][] lmineVIII={{9,9},{7,6}};
- public static final int[][] lmineIX={{9,9},{7,7}};
- public static final int[][] lmineX={{9,10},{7,8}};
+ public static final int[][] lmineI={{9,1},{7,1}};
+ public static final int[][] lmineII={{9,1},{7,1}};
+ public static final int[][] lmineIII={{9,1},{7,1}};
+ public static final int[][] lmineIV={{9,1},{7,1}};
+ public static final int[][] lmineV={{9,1},{7,1}};
+ public static final int[][] lmineVI={{9,1},{7,1}};
+ public static final int[][] lmineVII={{9,1},{7,1}};
+ public static final int[][] lmineVIII={{9,1},{7,1}};
+ public static final int[][] lmineIX={{9,1},{7,1}};
+ public static final int[][] lmineX={{9,1},{7,1}};
  
  public static final int[][] dmineIII={{8,1}};
  public static final int[][] dmineIV={{8,2}};
