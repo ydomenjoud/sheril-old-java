@@ -2432,7 +2432,7 @@ public class Rapport {
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(link);
 			int revenuMinerai = pl.calculeRevenuMinerai();
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
-				proprio ? (pl.getStockMinerai() + ( revenuMinerai > 0 ? " (<span class='plus'>+" + revenuMinerai : "</span>)" )) : "-"
+				proprio ? (pl.getStockMinerai() + ( revenuMinerai > 0 ? " (<span class='plus'>+" + revenuMinerai + "</span>)" : "" )) : "-"
 			));
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
 					proprio ? Integer.toString(pl.getTerraformation()) : "-"
