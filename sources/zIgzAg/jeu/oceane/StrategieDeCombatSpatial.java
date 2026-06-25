@@ -151,6 +151,40 @@ public class StrategieDeCombatSpatial implements Serializable {
 		}
 	}
 
+	// Constructeur de copie (Deep Copy)
+	public StrategieDeCombatSpatial(StrategieDeCombatSpatial autre) {
+		if (autre == null) {
+			throw new IllegalArgumentException("La stratégie à copier ne peut pas être nulle.");
+		}
+		System.out.println("copie de stratégie " + autre.nom);
+
+		this.nom = autre.nom;
+		this.agressivite = autre.agressivite;
+		this.typeCible = autre.typeCible;
+
+		// Initialisation des nouvelles maps
+		this.comportement = new TreeMap<>();
+		this.positionnement = new TreeMap<>();
+
+		// Copie profonde du comportement (on clone les tableaux de int[])
+		if (autre.comportement != null) {
+			for (Map.Entry<String, int[]> entry : autre.comportement.entrySet()) {
+				if (entry.getValue() != null) {
+					this.comportement.put(entry.getKey(), entry.getValue().clone());
+				}
+			}
+		}
+
+		// Copie profonde du positionnement (on clone les tableaux de int[])
+		if (autre.positionnement != null) {
+			for (Map.Entry<String, int[]> entry : autre.positionnement.entrySet()) {
+				if (entry.getValue() != null) {
+					this.positionnement.put(entry.getKey(), entry.getValue().clone());
+				}
+			}
+		}
+	}
+
 	// les autres mÃ©thodes
 
 }

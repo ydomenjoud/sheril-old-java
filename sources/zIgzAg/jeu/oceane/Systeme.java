@@ -1086,13 +1086,15 @@ public class Systeme implements Serializable {
 			
 			if( p == null ){
 				Univers.getCommandant(numero).ajouterErreur("ER_COMMANDANT_TRANSFERER_0009", this.getNomPosition(), o.getDescription());
+				return;
 			}
 			
 			int nbAjouter = 0;
+			ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
 			while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
-				p.ajouterBatiment((ConstructionPlanetaire) ((ObjetComplexeTransporte) o) .getObjet(nbAjouter));
-				nbAjouter++;
+				p.ajouterBatiment(batiment);
 				p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+				nbAjouter++;
 			}
 		} else if (ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_MINERAI) {
 			

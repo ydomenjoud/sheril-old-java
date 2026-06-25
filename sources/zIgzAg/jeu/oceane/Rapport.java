@@ -1380,7 +1380,7 @@ public class Rapport {
                 """.formatted(
                 getPDVInfos(PointDeVictoireCategorie.PLANETES),
                 getPDVInfos(PointDeVictoireCategorie.COMBATS),
-                getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
+                getPDVInfos(PointDeVictoireCategorie.POPULATION),
                 getPDVInfos(PointDeVictoireCategorie.RECHERCHE),
                 getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
                 getPDVInfos(PointDeVictoireCategorie.POPULATION_VS)

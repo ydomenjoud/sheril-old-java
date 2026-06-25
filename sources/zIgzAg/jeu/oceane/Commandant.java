@@ -3908,7 +3908,7 @@ public class Commandant extends Joueur implements Serializable {
 					destinataire);
 
 		modifierBudget(Const.BUDGET_COMMANDANT_DON_STRATEGIE, -cout);
-		c.ajouterStrategie(getStrategie(code));
+		c.ajouterStrategie(new StrategieDeCombatSpatial(getStrategie(code)));
 
 		ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0000", c.getNomNumeroHtml(),
 				code);

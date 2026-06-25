@@ -821,7 +821,7 @@ public class Combat {
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
                     v.tirSurConstruction(cibles, h, g, construCible);
                 } else {
-                    morts = v.tirSurMilices(h, g, construCible);
+                    morts = v.tirSurMilices(h, g, construCible, retour);
                     retour = retour - morts;
                 }
 
