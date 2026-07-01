@@ -369,7 +369,7 @@ public class Possession implements Serializable {
 				total = total + tab_stab[i];
 			}
 		if (tot)
-			return "<span class='"+(total > 0 ? "plus" : "moins")+"'>" + (total > 0 ? "+" : "") + total+ "</span>";
+			return "<span class='"+(total >= 0 ? "plus" : "moins")+"'>" + (total >= 0 ? "+" : "") + total+ "</span>";
 
 		return retour;
 	}
