@@ -1288,8 +1288,9 @@ public class Rapport {
 		BaliseHTML[][] a = new BaliseHTML[t.length][2];
 		a[0][0] = getTD(BaliseHTML.CENTER, BaliseHTML.T_2).ajout(
 				getTitreTable().ajout(getText(t[0]))).ajout("id", "INFO_GENERALES");
-		for (int i = 1; i < t.length; i++)
+		for (int i = 1; i < t.length; i++) {
 			a[i][0] = getTD(null, null).ajout(getText(t[i]));
+		}
 		int j = 1;
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(
 				Integer.toString(Univers.getTour()));
@@ -1304,6 +1305,7 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Integer.toString(c.getReputation()));
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getStatutReputation()));
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 
 		return DocumentHTML.creerTable(getTable("table_half"), a);
