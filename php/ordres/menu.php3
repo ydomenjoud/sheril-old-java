@@ -28,10 +28,15 @@ include "./fr/ordres.txt";
 
 function affiche_ordre($i, $code_ordres, $description_ordres)
 {
+
+    $hiddenOrdres = array(54, 55, 56);
+
     $inter1 = $code_ordres[$i];
     $inter2 = $description_ordres[$i];
     $ordreNum = str_pad($i + 1, 2, "0", STR_PAD_LEFT);
-    echo("<LI><A href=\"./?table=$inter1\" target=\"fenetre\">$ordreNum. $inter2</A></LI>");
+    if(!in_array($i, $hiddenOrdres)){
+        echo("<LI><A href=\"./?table=$inter1\" target=\"fenetre\">$ordreNum. $inter2</A></LI>");
+    }
 }
 
 ?>

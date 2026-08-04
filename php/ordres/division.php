@@ -6,6 +6,10 @@ include_once "../secure/connect.txt";
 include_once "../script/fonctions.txt";
 include_once "./fr/ordres.txt";
 
+// --- RECUPERATION DES DONNEES ---
+$t0 = base1($base, $commandant, "z_flottes"); // Liste des flottes
+$t1 = base3($base, $commandant, "z_vaisseaux"); // Types de vaisseaux dispo
+
 $flotte_selectionnee = isset($_POST['flotte_id']) ? intval($_POST['flotte_id']) : (isset($_GET['flotte_id']) ? intval($_GET['flotte_id']) : null);
 
 // --- TRAITEMENT DES ACTIONS ---
@@ -29,9 +33,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantites' && $flotte
 
     if (isset($_POST['qte']) && is_array($_POST['qte'])) {
         foreach ($_POST['qte'] as $nb_div => $vaisseaux) {
-            foreach ($vaisseaux as $type_vaisseau => $nombre) {
+            foreach ($vaisseaux as $index_vaisseau => $nombre) {
                 $nombre = intval($nombre);
                 if ($nombre > 0) {
+                    $type_vaisseau = $t1[$index_vaisseau];
                     $type_vaisseau_esc = mysql_real_escape_string($type_vaisseau);
                     mysql($base, "INSERT INTO diviser_flotte_ajouter (NUMERO, FLOTTE, NB_DIVISION, TYPE, NOMBRE) 
                                   VALUES ('$commandant', '$flotte_selectionnee', '$nb_div', '$type_vaisseau_esc', '$nombre')");
@@ -57,10 +62,6 @@ while ($row = mysql_fetch_assoc($res_flottes)) {
 // on inclus après pour être sûr de ne pas avoir de double header
 include "body.txt";
 
-// --- RECUPERATION DES DONNEES ---
-$t0 = base1($base, $commandant, "z_flottes"); // Liste des flottes
-$t1 = base3($base, $commandant, "z_vaisseaux"); // Types de vaisseaux dispo
-
 $divisions = [];
 $affectations = [];
 if ($flotte_selectionnee !== null) {
@@ -70,7 +71,9 @@ if ($flotte_selectionnee !== null) {
     }
     $res2 = mysql($base, "SELECT NB_DIVISION, TYPE, NOMBRE FROM diviser_flotte_ajouter WHERE NUMERO='$commandant' AND FLOTTE='$flotte_selectionnee'");
     while ($row2 = mysql_fetch_assoc($res2)) {
-        $affectations[$row2['NB_DIVISION']][$row2['TYPE']] = $row2['NOMBRE'];
+        // on va chercher sa position dans la liste
+        $index = array_search($row2['TYPE'], $t1);
+        $affectations[$row2['NB_DIVISION']][$index] = $row2['NOMBRE'];
     }
 }
 if (count($divisions) > 0) {
@@ -185,13 +188,13 @@ if (count($divisions) > 0) {
                 <tbody>
                 <?php
                 if (is_array($t1)) {
-                    foreach ($t1 as $type_vaisseau) {
+                    foreach ($t1 as $key => $type_vaisseau) {
                         echo "<tr>";
                         echo "<td>$type_vaisseau</td>";
                         $somme_ligne = 0;
                         foreach ($divisions as $nb_div => [$nom, $id]) {
-                            $val = isset($affectations[$nb_div][$type_vaisseau]) ? $affectations[$nb_div][$type_vaisseau] : 0;
-                            echo "<td><input type='number' name='qte[$nb_div][$type_vaisseau]' " . ($val > 0 ? "value='$val'" : "") . " " . ($val > 0 ? "class='notempty'" : "") . " min='0' style='width: 60px;'></td>";
+                            $val = isset($affectations[$nb_div][$key]) ? $affectations[$nb_div][$key] : 0;
+                            echo "<td><input type='number' name='qte[$nb_div][$key]' " . ($val > 0 ? "value='$val'" : "") . " " . ($val > 0 ? "class='notempty'" : "") . " min='0' style='width: 60px;'></td>";
                             $somme_ligne += $val;
                         }
                         echo "<td><strong>$somme_ligne</strong></td>";

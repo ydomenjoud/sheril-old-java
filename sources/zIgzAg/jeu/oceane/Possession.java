@@ -355,6 +355,14 @@ public class Possession implements Serializable {
 
 	}
 
+	public Integer getIntEvolutionStabilite(Commandant c, Systeme s){
+		int[] tab_stab = getEvolutionStabilite(c, s);
+		int total = 0;
+		for (int i = 0; i < tab_stab.length; i++)
+			total = total + tab_stab[i];
+		return total;
+	}
+
 	public String getStringEvolutionStabilite(Commandant c, Systeme s, boolean tot) {
 		int[] tab_stab = getEvolutionStabilite(c, s);
 		int total = 0;

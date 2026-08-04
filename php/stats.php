@@ -43,7 +43,7 @@
                 const a = document.createElement('a');
                 a.href = `/stats/statsT${i}.zip`;
                 a.target = '_blank';
-                a.textContent = `T${i}`;
+                a.textContent = `T${(i+"").padStart(2, '0')}`;
                 container.appendChild(a);
             }
         })

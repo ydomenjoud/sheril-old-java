@@ -266,3 +266,17 @@ function getTechnoCodeReceived($commandant){
     }
     return null;
 }
+
+function slugify(string $text) {
+    // 1. Remplace les caractères non-ASCII (accents, etc.) par leur équivalent ASCII
+    $text = transliterator_transliterate('Any-Latin; Latin-ASCII; Any-Lower;', $text);
+
+    // 2. Supprime tout ce qui n'est pas une lettre, un chiffre ou un espace
+    $text = preg_replace('/[^a-z0-9\s-]/', '', $text);
+
+    // 3. Remplace les espaces et tirets consécutifs par un seul tiret
+    $text = preg_replace('/[\s-]+/', '-', $text);
+
+    // 4. Supprime les tirets au début et à la fin
+    return trim($text, '-');
+}

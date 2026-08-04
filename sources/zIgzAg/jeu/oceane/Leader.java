@@ -89,7 +89,8 @@ public abstract class Leader implements Serializable {
 	}
 
 	public boolean estNomme() {
-		return changementNom;
+//		return changementNom;
+		return false;
 	}
 
 	public int getMoral() {

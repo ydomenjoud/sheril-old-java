@@ -1012,6 +1012,7 @@ public class Stats {
 		ecrireClassementGeneral();
 		genererStatsPointDeVictoireDetail(l);
 
+
 		ecrireVaisseauxPublics(l);
 		ecrireEncheres(l);
 		ecrireUnivers(l);

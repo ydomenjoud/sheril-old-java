@@ -637,7 +637,7 @@ public class Vaisseau implements Serializable {
 		experience = 0;
 		// VS
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE) != 0)
-			populationVilleSpatiale = 100;
+			populationVilleSpatiale = capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE)/10;
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_TECHNO) != 0)
 			populationVilleSpatialeTechno = 100;
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_CONTRE) != 0)
@@ -834,35 +834,7 @@ public class Vaisseau implements Serializable {
 
 	public void augmenterPopulationVilleSpatiale() {
 		int capaMax = capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
-		int niveau = (int) getMoyenneNiveauVillesSpatiales(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
-		int carre = ( niveau ) * ( niveau );
-		int aug = Math.max(20 * carre , populationVilleSpatiale / 10);
-		
-		populationVilleSpatiale = Math.min(capaMax, populationVilleSpatiale + aug);
-		
-		if( populationVilleSpatiale < ( capaMax/10 ) * 2 ){
-			populationVilleSpatiale = ( capaMax/10 ) * 2;
-		}
-
-		/**
-		populationVilleSpatialeTechno = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_TECHNO),
-						populationVilleSpatialeTechno
-								+ Math.max(20,
-										populationVilleSpatialeTechno / 10));
-
-		populationVilleSpatialeContre = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_CONTRE),
-						populationVilleSpatialeContre
-								+ Math.max(20,
-										populationVilleSpatialeContre / 10));
-
-		populationVilleSpatialeEspionnage = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_ESPIONNAGE),
-						populationVilleSpatialeEspionnage
-								+ Math.max(20,
-										populationVilleSpatialeContre / 10));
-		 **/
+		populationVilleSpatiale = Math.min(capaMax, populationVilleSpatiale + populationVilleSpatiale / 10);
 	}
 
 	public int getTaille() {

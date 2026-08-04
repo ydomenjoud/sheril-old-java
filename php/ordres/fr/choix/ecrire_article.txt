@@ -1,9 +1,13 @@
-<FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>Faire paraître une annonce ou un article dans la gazette</h1>
-<BR>
-Je désire faire paraître l'article suivant :
-<TEXTAREA name="v0" rows="10" cols="100" wrap="virtual" ></TEXTAREA>
-</B></P>
-<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
-</FORM>
+
+<h1>Faire paraître une annonce ou un article dans la gazette</h1>
+<!--<FORM action="--><?php //echo("$nom_page?table=$table"); ?><!-- " method="POST" >-->
+<!--<P><h1>Faire paraître une annonce ou un article dans la gazette</h1>-->
+<!--<BR>-->
+<!--Je désire faire paraître l'article suivant :-->
+<!--<TEXTAREA name="v0" rows="10" cols="100" wrap="virtual" ></TEXTAREA>-->
+<!--</B></P>-->
+<!--<INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">-->
+<!--</FORM>-->
+
+<a href="https://sheril.pbem-france.net/forum/">Aller sur le forum</a>
 

@@ -65,7 +65,7 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
         <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
             <td>
                 <input type="hidden" name="v0" value="<?=$offre['ID_OFFRE']?>">
-                <input type="number" value="<?=(V('v1', $min))?>" min="<?=$min?>" name="v1" placeholder="Montant">
+                <input type="number" value="<?=$min?>" min="<?=$min?>" name="v1" placeholder="Montant">
             </td>
             <td>
                 <?php select1("v2", $t0) ?>
