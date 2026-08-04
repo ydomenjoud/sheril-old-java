@@ -597,16 +597,6 @@ public class Stats {
 	    return retour;
 	}
 
-	public static void ecrireHeros(Heros[] heros, Locale loc) {
-		String[] t = (String[]) Univers.getMessageRapport("STATS_HEROS", loc);
-		BaliseHTML racine = Rapport.getDiv();
-		racine.ajout(Rapport.getListeLeaders(heros, loc))
-				.ajout(Rapport.sautP());
-		DocumentHTML d = Rapport.getDocument(Chemin.STATS + FICHIER_HEROS,
-				t[0], Rapport.getBody().ajout(racine));
-		d.ecrire();
-	}
-
 	public static void ecrireEncheres(Locale loc) {
 		String[] t = (String[]) Univers
 				.getMessageRapport("STATS_ENCHERES", loc);
