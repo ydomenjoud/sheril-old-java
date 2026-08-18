@@ -1,12 +1,56 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique quand vous
-voulez donner des ordres à vos services spéciaux.<BR><BR>
-Vous ne pouvez pas donner plus de trois ordres de ce type
-par tour.
-<br><br>
-Si vous ne précisez pas de planète particulière, une planète du système sera choisie au hasard pour cible.
-<br>Il est conseillé en général de préciser le numéro de la planète visée.
+<p>Vos services spéciaux mènent une mission sur un système que vous possédez ou que vous détectez. Trois au plus par tour, le formulaire disparaissant ensuite.</p>
 
+<h4>Conditions</h4>
+<ul>
+<li>La rubrique n'apparaît pas si vous ne possédez et ne détectez aucun système.</li>
+<li>L'ordre est rejeté si le numéro de planète dépasse le nombre de planètes du système.</li>
+</ul>
 
+<h4>Les quatre missions</h4>
+<div>
+<table class="stylized">
+<caption>Effet et marge de réussite. Le contre-espionnage retenu est la somme des budgets de tous les autres propriétaires présents dans le système, et pas seulement celui de votre cible. Le moteur tire au hasard un nombre entre zéro et la marge : un tirage nul fait échouer la mission, ce qui est le seul résultat possible quand la marge ne dépasse pas zéro.</caption>
+<thead>
+<tr>
+<th>Mission</th>
+<th>Effet en cas de réussite</th>
+<th>Marge de réussite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Espionnage</td>
+<td>Le détail du système visé s'ajoute à votre rapport du tour</td>
+<td>budget − (contre-espionnage + 300)</td>
+</tr>
+<tr>
+<td>Sabotage</td>
+<td>Tous les bâtiments de la planète visée sont détruits</td>
+<td>budget − (10 × contre-espionnage + 300)</td>
+</tr>
+<tr>
+<td>Vol de technologie</td>
+<td>Une technologie de la victime entre dans vos connaissances</td>
+<td>budget − (10 × contre-espionnage + 1000)</td>
+</tr>
+<tr>
+<td>Propagande</td>
+<td>La stabilité de la planète baisse, ou monte si elle vous appartient</td>
+<td>budget − (2 ou 3 × contre-espionnage + 500)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4>À savoir</h4>
+<ul>
+<li>Une modification de votre budget des services spéciaux ordonnée le même tour ne compte pas : elle est résolue après les missions.</li>
+<li>Sans numéro de planète, la cible est tirée parmi les planètes habitées qui ne vous appartiennent pas : une propagande sur votre domaine exige de préciser la planète.</li>
+<li>Un échec vous désigne nommément à la victime, et un vol de technologie manqué est annoncé à tous les commandants.</li>
+<li>Une réussite de faible marge vous fait aussi repérer. Au-delà, sabotage et propagande sont signalés sans votre nom, et le vol passe inaperçu.</li>
+<li>Le vol prend la première technologie non publique connue de la victime que vous ignorez et pouvez rechercher : les plus coûteuses demandent une marge plus grande.</li>
+<li>Une propagande réussie sur une planète étrangère peut la faire passer sous votre autorité si sa stabilité tombe assez bas.</li>
+</ul>
