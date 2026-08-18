@@ -555,12 +555,12 @@ public class Const {
     // d'atmosphére.
     // { AUGMENTATION_POPULATION, RACE_CARACTERISTIQUE_BONUS_TECHNOLOGIQUE, RACE_CARACTERISTIQUE_COMBAT_SPATIAL, RACE_CARACTERISTIQUE_COMBAT_PLANETAIRE }
     public static final int[][] RACES_CARACTERISTIQUES = {
-            {1, 0, 0, 0},
-            {1, 0, 0, 0},
-            {1, 0, 0, 0},
-            {0, 2, 0, 0},
-            {0, 0, 1, 1},
-            {1, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
     };
 
     public static final int RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION = 0;
