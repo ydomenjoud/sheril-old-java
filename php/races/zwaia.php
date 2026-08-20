@@ -103,6 +103,26 @@
             <p><em>Note : Ils restent peu prolixes sur leurs affaires internes, préférant la compagnie de leurs semblables.</em></p>
         </section>
 
+                <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race2">Zwaïas</span> héritent de la connaissance "Bombe de type I", qui leur permet de créer des plans de vaisseaux efficace en combat planétaire.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race2">Zwaïas</span> peuvent construire sur leurs systèmes de départ des "Stations d'armements et explosifs de type II", qui produisent 10 marchandises de type "armements et explosifs" par tour.
+                   Un stock de 100 armements et explosifs sur un système octroie un malus de -1% sur la stabilité et +50% sur la défense du système.
+                   Les logiciels sont utilisés pour la construction de batteries de défense, et pour la production de vaisseaux spatiaux, notamment ceux dotés de bombes et de lanceurs de mines.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race2">Zwaïas</span> les plans du vaisseau "Bombardier Zwaïa" utile en combat planétaire. C'est un bombardier de taille 3 équipé d'un bouclier et de bombes.</p>
+            </article>
+        </section>
+
 
 
     </main>
