@@ -128,7 +128,7 @@
                 <h3>Bâtiment</h3>
                 <p>Les <span class="race0">Fremens</span> peuvent construire sur leurs systèmes de départ des "Stations d'enrichissement des métaux de type II", qui produisent 10 marchandises de type "métaux précieux" par tour.
                    Un stock de 100 métaux précieux sur un système octroie un bonus de 5% sur les revenus du système.
-                   Les unités métaux précieux sont utilisées pour la construction de bâtiments de production de marchandises avancés, et pour la production de vaisseaux spatiaux, notamment ceux dotés de scanners, brouilleurs et réacteurs avancés.
+                   Les métaux précieux sont utilisés pour la production de vaisseaux spatiaux, notamment ceux dotés de scanners, brouilleurs et réacteurs avancés.
                 </p>
             </article>
             <article>
