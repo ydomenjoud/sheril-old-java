@@ -116,6 +116,26 @@
                 <p>Diplomatie souvent marquée par leur méfiance naturelle et leur isolement volontaire.</p>
             </article>
         </section>
+
+        <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race0">Fremens</span> héritent de la connaissance "Scanner de type I", qui leur permet de créer des plans de vaisseaux pouvant détecter des flottes et systèmes environnant.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race0">Fremens</span> peuvent construire sur leurs systèmes de départ des "Stations d'enrichissement des métaux de type II", qui produisent 10 marchandises de type "métaux précieux" par tour.
+                   Un stock de 100 métaux précieux sur un système octroie un bonus de 5% sur les revenus du système.
+                   Les unités métaux précieux sont utilisées pour la construction de bâtiments de production de marchandises avancés, et pour la production de vaisseaux spatiaux, notamment ceux dotés de scanners, brouilleurs et réacteurs avancés.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race0">Fremens</span> les plans du vaisseau "Sidjin" utile pour détecter flottes et systèmes. C'est un éclaireur de taille 3 équipé d'un scanner de type IV.</p>
+            </article>
+        </section>
     </main>
 </div>
 <footer>
