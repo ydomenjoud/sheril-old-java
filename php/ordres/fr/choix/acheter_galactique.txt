@@ -25,9 +25,13 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
     /*    flex: 1;*/
     /*}*/
 </style>
-
-<table style=" width: auto " class="stylized">
+<table style=" width: auto " class="stylized searchable" data-input-div="#inputDiv">
     <thead>
+    <tr>
+        <th colspan="7">
+            Filtrer: <span id="inputDiv"></span>
+        </th>
+    </tr>
     <tr>
         <th>Commandant</th>
         <th>Quantité</th>
@@ -40,6 +44,7 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
     </thead>
     <tbody>
     <?php
+    $total = 0;
     foreach ($offresList as $offre) {
         $min = intval($offre['PRIX']);
         $enchere = array_key_exists($offre['ID_OFFRE'],$encheresActives) > 0 ? $encheresActives[$offre['ID_OFFRE']] : null;
@@ -48,13 +53,16 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
         echo "<td>{$t1[$offre['VENDEUR']]}</td>";
         echo "<td>" . $offre['QUANTITE'] . "</td>";
         echo "<td>" . $t2[$offre['CODE']] . "</td>";
-        echo "<td>" . $min . "ce</td>";
+        echo "<td class='cur'>" . number_format($min, 1, ',', ' ') . "</td>";
         if($enchere){
         ?>
             <td class="item">
-                <span class="number"><?=$enchere['v1']?></span> centaures
+                <span class="cur"><?php
+                    $total += $enchere['v1'];
+                    echo number_format($enchere['v1'], 1, ',', ' ')
+                    ?></span>
             </td>
-            <td class="item">
+            <td class="item nosearch">
                 <?=$t0[$enchere['v2']]?>
             </td>
             <td>
@@ -63,14 +71,14 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
         <?php } else { ?>
 
         <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-            <td>
+            <td class="nosearch">
                 <input type="hidden" name="v0" value="<?=$offre['ID_OFFRE']?>">
                 <input type="number" value="<?=$min?>" min="<?=$min?>" name="v1" placeholder="Montant">
             </td>
-            <td>
+            <td class="nosearch">
                 <?php select1("v2", $t0) ?>
             </td>
-            <td>
+            <td class="nosearch">
                 <input type='submit' name='acheter_galactique' value='Valider mon enchère'>
             </td>
         </form>
@@ -80,7 +88,16 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
     }
     ?>
     </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="4" align="right">Total</td>
+        <td class="cur"><?=number_format($total, 1, ',', ' ')?></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tfoot>
 </table>
+
     <?php
 
 //    create acheter_galactique

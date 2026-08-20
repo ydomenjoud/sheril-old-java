@@ -10,7 +10,8 @@
 
 
         <div>Militaire:</div>
-        <a target="stats-detail" href="./stats/flotte.htm">TOP 10 flottes</a>
+    <a target="stats-detail" href="./stats/flotte.htm">TOP 10 flottes</a>
+    <a target="stats-detail" href="./stats/leaders.htm">TOP 10 leaders</a>
         <a target="stats-detail" href="./stats/combats.htm">Liste des combats</a>
         <a target="stats-detail" href="./stats/vapub.htm">Plans de vaisseaux</a>
         <a target="stats-detail" href="./stats/vaisseaux.htm">Statistiques vaisseaux</a>

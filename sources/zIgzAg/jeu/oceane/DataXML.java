@@ -113,7 +113,7 @@ public class DataXML {
                 Element technor = creerNode(
                         "T",
                         tech,
-                        new String[]{"base", "code", "niv", "type", "recherche", "nom"},
+                        new String[]{"base", "code", "niv", "type", "recherche", "nom", "publique"},
                         new String[]{
                                 t.getCodeBase(),
                                 t.getCode(),
@@ -121,6 +121,7 @@ public class DataXML {
                                 "" + t.getTypeDeTechno(),
                                 "" + t.getPointsDeRecherche(),
                                 t.getNom(Locale.FRENCH),
+                                (Univers.estTechnologiePublique(t.getCode()) ? "1" : "0"),
                         });
 
                 int type = t.getTypeDeTechno();

@@ -418,10 +418,11 @@ public class Combat {
         StrategieDeCombatSpatial strategie = c1.getStrategie(f.getStrategie());
 
         int nbPopDefensive = (p.populationTotale() * p.getStabilite()) / 100;
-        if (c2.estJoueurNeutre()) {
-            // si le joueur est Neutre, on le nerf les 10 premiers tours de l'arrivée d'un joueur pour faciliter les prises de planetes
-            nbPopDefensive = (int) (nbPopDefensive * Math.min(1.0,  0.1 * (1+Univers.getTour() - c1.getTourArrivee())));
-        }
+//        // Plus besoin de ça.
+//        if (c2.estJoueurNeutre()) {
+//            // si le joueur est Neutre, on le nerf les 10 premiers tours de l'arrivée d'un joueur pour faciliter les prises de planetes
+//            nbPopDefensive = (int) (nbPopDefensive * Math.min(1.0,  0.1 * (1+Univers.getTour() - c1.getTourArrivee())));
+//        }
 
         if (c2.getPossession(s.getPosition()).getPolitique() == Const.POLITIQUE_DEFENSE)
             nbPopDefensive = Math.min(p.populationTotale(), nbPopDefensive

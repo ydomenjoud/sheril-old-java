@@ -23,6 +23,7 @@ if ($table === "list_ordres") {
     }
     // on élime d'abord
     include "elimine.txt";
+    include "body.txt";
     // puis on affiche le choix
     include "./$langue/choix/$table.txt";
     if (array_key_exists('previous', $_GET)) {
@@ -33,7 +34,6 @@ if ($table === "list_ordres") {
     }
 
 
-    include "body.txt";
     if ($table !== "acheter_galactique") {
         ob_start();
         include "affiche.txt";

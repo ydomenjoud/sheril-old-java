@@ -12,7 +12,10 @@ $colonnes = [
     'numero', 'puissance', 'centaure', 'planetes', 'pop_syst',
     'pop_vs', 'reputation', 'rayonnement', 'technologie', 'offensif', 'pv'
 ];
-$tri = isset($_GET['tri']) && in_array($_GET['tri'], $colonnes) ? $_GET['tri'] : 'puissance';
+$tri = isset($_GET['tri']) && (
+        in_array($_GET['tri'], $colonnes)
+|| in_array($_GET['tri'], array_map(function ($colonne) { return 'd_' . $colonne; }  ,$colonnes))
+)? $_GET['tri'] : 'puissance';
 $ordre = isset($_GET['ordre']) && $_GET['ordre'] === 'asc' ? 'ASC' : 'DESC';
 
 // Requête avec jointure gauche pour calculer les deltas
@@ -56,13 +59,13 @@ function afficherCellules($valeur, $delta, $important = false) {
         $style = "";
     } else {
         $signe = ($delta > 0) ? "+" : "";
-        if($delta === $valeur) {
-            $dDisplay = '-';
-            $style = "";
-        } else {
+//        if($delta === $valeur) {
+//            $dDisplay = '-';
+//            $style = "";
+//        } else {
             $dDisplay = $signe . number_format($delta, 0, ",", ' ');
             $style = " class='".($delta>0 ? "plus" : "moins" )."'";
-        }
+//        }
     }
 
     echo "<td class='score'>$vDisplay</td>";
@@ -72,15 +75,18 @@ function afficherCellules($valeur, $delta, $important = false) {
 /**
  * Aide pour les liens de tri
  */
-function trie($label, $id, $colspan=2) {
+function trie($label, $id, $colspan=2, $delta=1) {
     global $tourActuel, $tri, $ordre;
     $tour = isset($_GET['tour']) ? (int)$_GET['tour'] : $tourActuel;
-    $inv = (isset($_GET['tri']) && $_GET['tri'] == $id && $_GET['ordre'] == 'desc') ? 'asc' : 'desc';
+    $inv = (($tri == $id || $tri == 'd_'.$id ) && isset($_GET['ordre']) && $_GET['ordre'] == 'desc') ? 'asc' : 'desc';
     $triActuel = '';
-    if($tri == $id ) {
+    if($tri == $id || $tri == 'd_'.$id ) {
         $triActuel = strtolower($ordre);
     }
-    return "<th colspan=\"".$colspan."\" data-sort-order='$triActuel'><a href='?tour=$tour&tri=$id&ordre=$inv'>$label</a></th>";
+    return "<th colspan=\"".$colspan."\" data-sort-order='$triActuel'>
+            <a href='?tour=$tour&tri=$id&ordre=$inv'>$label</a>
+             ".($delta ? "- <a href='?tour=$tour&tri=d_$id&ordre=$inv' style='color: #2bd849;'>&#948;</a>" : "" )."
+        </th>";
 }
 ?>
 
@@ -100,7 +106,7 @@ function trie($label, $id, $colspan=2) {
     <tr>
         <th>Tour</th>
         <th>Position</th>
-        <?php echo trie('Commandant', 'numero', 1); ?>
+        <?php echo trie('Commandant', 'numero', 1, 0); ?>
         <?php echo trie('Puissance', 'puissance'); ?>
         <?php echo trie('Centaure', 'centaure'); ?>
         <?php echo trie('Planètes', 'planetes'); ?>

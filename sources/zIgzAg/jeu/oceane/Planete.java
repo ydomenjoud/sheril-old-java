@@ -662,29 +662,29 @@ public class Planete implements Serializable {
 				modRelation = modRelation + Systeme.niveauRelation(Univers.getRelationRaces(pos, race[i], race[j]));
 		setStabilite(stabilite + modificateurSysteme + modRelation + Const.MODIFICATEUR_STABILITE_TAXATION[taxation]);
 	}
+//
+//	public void evolutionPopulation(int modificateurSysteme,
+//			boolean esclavagisme) {
+//		if (!revolte) {
+//			Population[] p = (Population[]) populations
+//					.toArray(new Population[0]);
+//			for (int i = 0; i < p.length; i++)
+//				ajouterPopulation(
+//						p[i].getRace(),
+//						(esclavagisme ? 10
+//								: Math.max(
+//										10,
+//										(p[i].getPopActuelle() * (calculeProgressionPop(p[i]
+//												.getRace()) + modificateurSysteme)) / 100)));
+//		}
+//	}
 
-	public void evolutionPopulation(int modificateurSysteme,
-			boolean esclavagisme) {
-		if (!revolte) {
-			Population[] p = (Population[]) populations
-					.toArray(new Population[0]);
-			for (int i = 0; i < p.length; i++)
-				ajouterPopulation(
-						p[i].getRace(),
-						(esclavagisme ? 10
-								: Math.max(
-										10,
-										(p[i].getPopActuelle() * (calculeProgressionPop(p[i]
-												.getRace()) + modificateurSysteme)) / 100)));
-		}
-	}
 
-	public int evolutionPopulation(int modificateurSysteme,
-			boolean esclavagisme, boolean test) {
+
+	public int evolutionPopulation(int modificateurSysteme, boolean esclavagisme, boolean test) {
 		int excedent = 0;
 		if (!revolte) {
-			Population[] p = (Population[]) populations
-					.toArray(new Population[0]);
+			Population[] p = (Population[]) populations.toArray(new Population[0]);
 			for (int i = 0; i < p.length; i++)
 				excedent += ajouterPopulation(
 						p[i].getRace(),
