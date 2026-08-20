@@ -493,7 +493,15 @@ public class Vaisseau implements Serializable {
 			if (!bombe)
 				possible = true;
 			if (possible) {
-				int index = Univers.getInt(cibles.length);
+								ArrayList ciblesValides = new ArrayList(cibles.length);
+				for (int j = 0; j < cibles.length; j++)
+					if (!cibles[j].estDetruit())
+						ciblesValides.add(cibles[j]);
+				if (ciblesValides.size() == 0)
+					break;
+
+				ConstructionPlanetaire cible = (ConstructionPlanetaire) ciblesValides
+						.get(Univers.getInt(ciblesValides.size()));
 
 				int chance = 50
 						+ getNiveauExperience()
@@ -504,23 +512,25 @@ public class Vaisseau implements Serializable {
 							+ 1
 							+ h.getNiveauCompetence(Const.COMPETENCE_LEADER_INSPIRATION_FANATIQUE);
 				chance = chance
-						- cibles[index].getNiveauExperience()
+						- cible.getNiveauExperience()
 						- g.getDefenseModifie()
 						- g.getNiveauCompetence(Const.COMPETENCE_LEADER_INSPIRATION_FANATIQUE);
 				if (Univers.getTest(chance)) {
 					augmenterMoral();
 					augmenterExperience(1 + h
 							.getNiveauCompetence(Const.COMPETENCE_LEADER_MAITRISE_SAVOIR));
-					cibles[index]
+					cible
 							.augmenterExperience(1 + g
 									.getNiveauCompetence(Const.COMPETENCE_LEADER_MAITRISE_SAVOIR));
 					if (h != null)
 						h.augmenterExperience();
 					if (g != null)
 						g.augmenterExperience();
-					cibles[index].ajouterDommages(arme.getDommagesSol());
-					int dommagesActuel = Math.min(arme.getDommagesSol(), cibles[index].getPointsDeStructureRestants());
-					dommagesEffectues += dommagesActuel ;
+					int dommagesAvant = cible.getDommages();
+					cible.ajouterDommages(arme.getDommagesSol());
+					int dommagesActuel = Math.min(arme.getDommagesSol(),
+							Math.max(0, cible.getPointsDeStructure() - dommagesAvant));
+					dommagesEffectues += dommagesActuel;
 				}
 			}
 		}
