@@ -36,29 +36,25 @@ public class Mail {
 			String nomDestinataire, String adresseDestinataire,
 			String adresseEnvoi, String host, String sujet,
 			String corpsMessage, String[] fichiers) {
-		/*
-		 * try{ System.out.println(InetAddress.getLocalHost()); }catch(Exception
-		 * e){e.printStackTrace();}
-		 */
+
 		Properties props = System.getProperties();
-		props.put("mail.smtp.user", Const.MAIL_SMTP_HOST);
-        props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
-        props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
-        props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
-        props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
-        props.put("mail.smtp.debug", "true");
+		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
+		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
+		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
+		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
+		props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
+		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
+		props.put("mail.smtp.debug", "true");
 
-
-		Session session = Session.getDefaultInstance(props, null);
-		// session.setDebug(true);
+		Authenticator auth = new SMTPAuthenticator();
+		Session session = Session.getInstance(props, auth);
 
 		try {
 			MimeMessage msg = new MimeMessage(session);
 			msg.setFrom(new InternetAddress(adresseEnvoi));
 			InternetAddress[] adresse = new InternetAddress[1];
 			try {
-				adresse[0] = new InternetAddress(adresseDestinataire,
-						nomDestinataire/* ,CHARSET */);
+				adresse[0] = new InternetAddress(adresseDestinataire, nomDestinataire);
 			} catch (UnsupportedEncodingException e) {
 				System.out.println(ERREUR_CODAGE_TEXTE + nomDestinataire);
 				e.printStackTrace();
@@ -67,8 +63,7 @@ public class Mail {
 
 			msg.setRecipients(Message.RecipientType.TO, adresse);
 			try {
-				msg.setSubject(MimeUtility
-						.encodeText(sujet/* ,CHARSET,ENCODING */));
+				msg.setSubject(MimeUtility.encodeText(sujet));
 			} catch (UnsupportedEncodingException e) {
 				System.out.println(ERREUR_CODAGE_TEXTE + sujet);
 				e.printStackTrace();
@@ -78,20 +73,18 @@ public class Mail {
 			Multipart mp = new MimeMultipart();
 
 			MimeBodyPart mbp1 = new MimeBodyPart();
-			mbp1.setText(corpsMessage/* ,CHARSET */);
+			mbp1.setText(corpsMessage);
 			mp.addBodyPart(mbp1);
 
 			for (int i = 0; i < fichiers.length; i++) {
 				MimeBodyPart mbp2 = new MimeBodyPart();
 				FileDataSource fds = new FileDataSource(fichiers[i]);
 				mbp2.setDataHandler(new DataHandler(fds));
-				// File inter=new File(fichiers[i]);
 				mbp2.setFileName(fds.getName());
 				mp.addBodyPart(mbp2);
 			}
 
 			msg.setContent(mp);
-
 			msg.setSentDate(new Date());
 
 			Transport.send(msg);
@@ -102,20 +95,20 @@ public class Mail {
 		}
 		return true;
 	}
-	
+
 	public static boolean envoyerMessageFichiersAttaches( String nomDestinataire, String adresseDestinataire, String sujet, String corpsMessage, String[] fichiers) {
 
 		Properties props = System.getProperties();
 		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
 		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
-        props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
-        props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
-        props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
-        props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
-        props.put("mail.smtp.debug", "true");
-        props.put("mail.smtp.ehlo", "false");
+		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
+		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
+		props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
+		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
+		props.put("mail.smtp.debug", "true");
+		props.put("mail.smtp.ehlo", "false");
 
-        Authenticator auth = new SMTPAuthenticator();
+		Authenticator auth = new SMTPAuthenticator();
 		Session session = Session.getDefaultInstance(props, auth);
 		session.setDebug(true);
 
@@ -161,20 +154,11 @@ public class Mail {
 
 			msg.setSentDate(new Date());
 
-
-
-			//Transport.send(msg);
-
-			 Transport tr = session.getTransport("smtp");
-			    tr.connect(Const.MAIL_SMTP_HOST, Const.MAIL_SMTP_LOGIN, Const.MAIL_SMTP_PASSWORD);
-			    msg.saveChanges();
-
-			    // tr.send(message);
-
-			    tr.sendMessage(msg,msg.getAllRecipients());
-			    tr.close();
-
-
+			Transport tr = session.getTransport("smtp");
+			tr.connect(Const.MAIL_SMTP_HOST, Const.MAIL_SMTP_LOGIN, Const.MAIL_SMTP_PASSWORD);
+			msg.saveChanges();
+			tr.sendMessage(msg,msg.getAllRecipients());
+			tr.close();
 
 		} catch (MessagingException e)  {
 			e.printStackTrace();
@@ -195,5 +179,5 @@ public class Mail {
 class SMTPAuthenticator extends Authenticator {
 	protected PasswordAuthentication getPasswordAuthentication() {
 		return new PasswordAuthentication(Const.MAIL_SMTP_LOGIN, Const.MAIL_SMTP_PASSWORD);
-		}
-	};
+	}
+};

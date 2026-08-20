@@ -148,9 +148,23 @@
 
     <!-- 11. Pièces industrielles -->
     <g id="icon-pieces-industrielles">
-        <path d="M7 1H9V3H7V1ZM13 7H15V9H13V7ZM7 13H9V15H7V13ZM1 7H3V9H1V7ZM3.05 3.05L4.46 4.46L3.05 5.88L1.64 4.46L3.05 3.05ZM12.95 12.95L14.36 14.36L12.95 15.78L11.54 14.36L12.95 12.95ZM12.95 3.05L14.36 4.46L12.95 5.88L11.54 4.46L12.95 3.05ZM3.05 12.95L4.46 14.36L3.05 15.78L1.64 14.36L3.05 12.95Z" fill="#64748b"/>
+        <!-- Dents de l'engrenage (8 dents parfaitement centrées et alignées) -->
+        <path d="
+      M7,1 H9 V3 H7 Z
+      M12.66,2.34 L14.07,3.76 L12.66,5.17 L11.24,3.76 Z
+      M13,7 H15 V9 H13 Z
+      M12.66,13.66 L11.24,12.24 L12.66,10.83 L14.07,12.24 Z
+      M7,13 H9 V15 H7 Z
+      M3.34,13.66 L1.93,12.24 L3.34,10.83 L4.76,12.24 Z
+      M1,7 H3 V9 H1 Z
+      M3.34,2.34 L4.76,3.76 L3.34,5.17 L1.93,3.76 Z
+    " fill="#64748b"/>
+
+        <!-- Corps principal de l'engrenage -->
         <circle cx="8" cy="8" r="5.5" fill="#94a3b8"/>
+        <!-- Creux intérieur -->
         <circle cx="8" cy="8" r="3.5" fill="#334155"/>
+        <!-- Axe central -->
         <circle cx="8" cy="8" r="1.5" fill="#cbd5e1"/>
     </g>
 

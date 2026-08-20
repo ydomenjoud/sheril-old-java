@@ -21,6 +21,7 @@ public class Const {
 
     public static String IRC_MAIN_CHANNEL = "";
 
+    public static Boolean SEND_MAIL = false;
     public static String MAIL_SMTP_HOST = "";
     public static String MAIL_SMTP_AUTH = "false";
     public static String MAIL_SMTP_TTLS = "false";
@@ -28,6 +29,7 @@ public class Const {
     public static String MAIL_SMTP_LOGIN = "";
     public static String MAIL_SMTP_PASSWORD = "";
     public static String MAIL_SMTP_DEBUG = "false";
+   public static String ADRESSE_MJ = "EMAIL@HOST";
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
@@ -60,6 +62,8 @@ public class Const {
             MAIL_SMTP_LOGIN = properties.getProperty("MAIL_SMTP_LOGIN");
             MAIL_SMTP_PASSWORD = properties.getProperty("MAIL_SMTP_PASSWORD");
             MAIL_SMTP_DEBUG = properties.getProperty("MAIL_SMTP_DEBUG");
+            SEND_MAIL = properties.getProperty("SEND_MAIL").equalsIgnoreCase("true");
+            ADRESSE_MJ = properties.getProperty("ADRESSE_MJ");
 
             NOTIFY_BOT = properties.getProperty("NOTIFY_BOT").equalsIgnoreCase("true");
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
@@ -77,8 +81,6 @@ public class Const {
 
     // nouvelle interface combat -->
     public static final int COMBAT_Z_MAX = 20;
-
-    public static final String ADRESSE_MJ = "EMAIL@HOST";
 
     public static final String SMTP_ENVOI = "smtp.host";
     public static final String ADRESSE_SITE_RAPPORTS = "https://host/";

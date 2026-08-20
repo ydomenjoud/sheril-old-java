@@ -19,7 +19,7 @@ public class EnvoyerRapport {
 		String[] f = new String[2];
 		f[0] = Chemin.RAPPORTS_IMAGES;
 		f[1] = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour();
-		Copie.zipper(f, chemin, Integer.toString(c.getNumero()) + "tour" + Univers.getTour() + ".zip");
+		Copie.zipper(f, chemin, c.getNumero() + "tour" + Univers.getTour() + ".zip");
 
 		ProductionOrdres.ecrireSecurite(chemin, c);
 		if (c.getTourArrivee() == Univers.getTour()) {
@@ -28,22 +28,26 @@ public class EnvoyerRapport {
 	}
 
 	public static void envoyer(Commandant c) {
-		MessageFormat m = new MessageFormat(Univers.getMessageInfo(
-				"MAIL_TITRE_RAPPORT", c.getLocale()));
-		Object[] o = { new Integer(Univers.getTour()) };
+		// si on envoit pas de mail, on essaye même pas
+		if(!Const.SEND_MAIL) { return; }
+		MessageFormat m = new MessageFormat(
+				Univers.getMessageInfo("MAIL_TITRE_RAPPORT", c.getLocale())
+		);
+		Object[] o = { Univers.getTour() };
 		String sujet = m.format(o);
 
-		if (c.getTourArrivee() == Univers.getTour())
-
+		if (c.getTourArrivee() == Univers.getTour()){
 			m = new MessageFormat(Univers.getMessageInfo(
 					"MAIL_CORPS_NOUVEAU_RAPPORT", c.getLocale()));
-		else
+		}
+		else {
 			m = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT", c.getLocale()));
+		}
+		int num = c.getNumero();
 		Object[] o2 = {
 				c.getLogin(),
 				c.getMotDePasse(),
-				Const.ADRESSE_SITE_RAPPORTS + Integer.toString(c.getNumero())
-						+ "/" + Integer.toString(c.getNumero()) + ".zip" };
+				Const.ADRESSE_SITE_RAPPORTS + num+ "/" + num + ".zip" };
 		String corpsMessage = m.format(o2);
 		String[] fichiers = new String[0];
 
