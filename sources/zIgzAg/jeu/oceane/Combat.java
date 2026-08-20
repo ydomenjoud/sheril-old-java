@@ -663,13 +663,13 @@ public class Combat {
     private static BaliseHTML ecrireDetailCombatPlanete(Commandant c,
                                                         Systeme s, int numPla, Map m, Map.Entry[] d, Map n, int popm,
                                                         int popn, String[] t) {
-        BaliseHTML[][] a = new BaliseHTML[4 + d.length][3];
+        BaliseHTML[][] a = new BaliseHTML[4 + d.length][5];
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[0]);
         String[] inter2 = new String[2];
         inter2[0] = s.getNomNumeroPlanete(numPla);
         inter2[1] = c.getNomNumeroHtml();
-        a[ligne++][0] = Rapport.getTD("center", "3").ajout(
+        a[ligne++][0] = Rapport.getTD("center", "5").ajout(
                 Rapport.getText(message.format(inter2)));
         a[ligne][0] = Rapport.getTD("center", null).setTexteContenu("&nbsp;");
         a[ligne][1] = Rapport.getTD("center", "2").ajout(
@@ -701,6 +701,12 @@ public class Combat {
             a[ligne][2] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[3])));
+                        a[ligne][3] = Rapport.getTD("center", null).ajout(
+                Rapport.getFont(Rapport.cC[4], null).ajout(
+                    Rapport.getText(t[5])));
+            a[ligne][4] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                        Rapport.getText(t[6])));
             ligne++;
             for (int i = 0; i < d.length; i++) {
                 Batiment b = (Batiment) Univers.getTechnologie((String) d[i]
@@ -739,6 +745,10 @@ public class Combat {
                                     Rapport.getText("(+"
                                             + Integer.toString(dom - domA)
                                             + ")")));
+                    a[ligne][3] = Rapport.getTD("center", null).ajout(
+                            Rapport.getText(Integer.toString(mT[1])));
+                        a[ligne][4] = Rapport.getTD("center", null).ajout(
+                            Rapport.getText(Integer.toString(nT[1])));
                 ligne++;
             }
         }
