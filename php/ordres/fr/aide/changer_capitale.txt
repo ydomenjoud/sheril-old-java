@@ -1,9 +1,47 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous désirez
-changer la position de votre capitale.<BR><BR>
-Chaque changement de capitale nécessite de dépenser la somme de 100 centaures.
+<p>Déplacer votre capitale sur un autre de vos systèmes. Coût : <strong>100 centaures</strong>,
+prélevés au moment où l'ordre est traité.</p>
 
+<h4>Pourquoi ça compte</h4>
 
+<p>La distance entre votre capitale et chacun de vos systèmes applique à ce système un
+modificateur de stabilité <strong>à chaque tour</strong>. C'est la ligne « Position » du détail
+de stabilité. Un domaine qui s'étire loin de sa capitale se déstabilise tour après tour, sans
+qu'aucun événement ne vous en avertisse.</p>
 
+<table class="stylized">
+    <caption>Modificateur de stabilité par tour, selon la distance à la capitale</caption>
+    <thead>
+    <tr>
+        <th>Distance</th>
+        <th>Modificateur</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr><td>0 (le système capital lui-même)</td><td>+3</td></tr>
+    <tr><td>1 ou 2 cases</td><td>+2</td></tr>
+    <tr><td>3 ou 4 cases</td><td>+1</td></tr>
+    <tr><td>5 cases</td><td>0</td></tr>
+    <tr><td>6 cases</td><td>-1</td></tr>
+    <tr><td>7 cases</td><td>-3</td></tr>
+    <tr><td>8 ou 9 cases</td><td>-6</td></tr>
+    <tr><td>10 cases</td><td>-9</td></tr>
+    <tr><td>11 cases et plus</td><td>-16</td></tr>
+    </tbody>
+</table>
+
+<h4>Conditions</h4>
+<ul>
+    <li>Le système visé doit vous appartenir.</li>
+    <li>Vous devez disposer de 100 centaures au traitement de l'ordre.</li>
+    <li>Un seul changement de capitale par tour.</li>
+</ul>
+
+<h4>À savoir</h4>
+<ul>
+    <li>Si vous perdez le système qui abrite votre capitale, <strong>vous vous retrouvez sans
+        capitale du tout</strong> : tous vos systèmes subissent alors le malus maximal de -16 par
+        tour. Rétablir une capitale devient la priorité absolue.</li>
+</ul>

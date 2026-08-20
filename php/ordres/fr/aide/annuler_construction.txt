@@ -1,7 +1,17 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez annuler toutes vos constructions en cours sur un de vos systèmes.<BR>
+<p>Vider entièrement la file de construction d'un de vos systèmes. L'ordre porte sur le
+système entier : il n'est pas possible de retirer une seule construction de la file.</p>
 
-
+<h4>À savoir</h4>
+<ul>
+    <li><strong>Les points de construction déjà investis sont perdus.</strong> Un chantier
+        avancé aux trois quarts et annulé repart de zéro, rien n'est remboursé.</li>
+    <li>L'annulation est résolue <strong>avant</strong> les mises en chantier du même tour.
+        Vous pouvez donc vider une file et en constituer une nouvelle dans le même tour.</li>
+    <li>Seuls vos systèmes ayant au moins une construction en cours apparaissent dans la
+        liste.</li>
+    <li>À ne pas confondre avec « Déprogrammer une construction », qui supprime la
+        construction automatique répétée et laisse le chantier en cours intact.</li>
+</ul>

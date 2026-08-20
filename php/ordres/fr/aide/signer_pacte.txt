@@ -1,10 +1,23 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez signer un pacte de non-agression avec un autre commandant.<BR>
-<BR>
-Pour que cet ordre soit validé, il faudra que le commandant en question ait également
- passé l'ordre de signer un pacte avec vous.
-<br><br>
-Tout pacte signé est effectif immédiatement et empôche tout combat entre les deux commandants signataires.
+<p>Signer un pacte de non-agression avec un autre commandant. Tant que le pacte tient,
+aucun combat n'est possible entre vous et lui.</p>
+
+<h4>Conditions</h4>
+<ul>
+    <li>Le commandant visé doit passer le <strong>même ordre vers vous, au cours du même
+        tour</strong>. Sans réciprocité, votre ordre reste sans effet : contactez-le avant de le
+        passer.</li>
+    <li>Vous ne devez pas déjà être lié à lui par un pacte.</li>
+</ul>
+
+<h4>À savoir</h4>
+<ul>
+    <li>Signer vous rapporte <strong>25 points de réputation</strong>.</li>
+    <li>Le pacte prend effet immédiatement, dès le tour de signature.</li>
+    <li>Le pacte ne bloque que les combats. Les services spéciaux restent possibles dans les
+        deux sens.</li>
+    <li>Rompre le pacte ne demande pas l'accord de l'autre, prend effet immédiatement et
+        coûte <strong>100 points de réputation</strong>.</li>
+</ul>
