@@ -23,7 +23,7 @@ public class Stats {
 	public static final String FICHIER_VAISSEAUX_PUBLICS = "vapub.htm";
 	public static final String FICHIER_VAISSEAUX_NOMBRE = "vaisseaux.htm";
 	public static final String FICHIER_UNIVERS = "univers.htm";
-	public static final String FICHIER_HEROS = "hero.htm";
+	public static final String FICHIER_LEADERS = "leaders.htm";
 	public static final String FICHIER_FLOTTES = "flotte.htm";
 	public static final String FICHIER_RAYONNEMENT = "rayonnement.htm";
 	public static final String FICHIER_GENERAL = "general.htm";
@@ -597,16 +597,6 @@ public class Stats {
 	    return retour;
 	}
 
-	public static void ecrireHeros(Heros[] heros, Locale loc) {
-		String[] t = (String[]) Univers.getMessageRapport("STATS_HEROS", loc);
-		BaliseHTML racine = Rapport.getDiv();
-		racine.ajout(Rapport.getListeLeaders(heros, loc))
-				.ajout(Rapport.sautP());
-		DocumentHTML d = Rapport.getDocument(Chemin.STATS + FICHIER_HEROS,
-				t[0], Rapport.getBody().ajout(racine));
-		d.ecrire();
-	}
-
 	public static void ecrireEncheres(Locale loc) {
 		String[] t = (String[]) Univers
 				.getMessageRapport("STATS_ENCHERES", loc);
@@ -648,6 +638,156 @@ public class Stats {
 		DocumentHTML d = Rapport.getDocument(Chemin.STATS
 				+ FICHIER_VAISSEAUX_PUBLICS, t[0],
 				Rapport.getBody().ajout(racine));
+		d.ecrire();
+	}
+	public static void ecrireTopHerosEtGouverneur() {
+		int limit = 10;
+
+		// Record local pour associer le commandant à son leader
+		record LeaderWithCommandant<T extends Leader>(Commandant commandant, T leader) {}
+
+		// Stream pour les Héros
+		@SuppressWarnings("unchecked")
+		LeaderWithCommandant<Heros>[] heroesList = Arrays.stream(Univers.getListeCommandantsHumains())
+				.flatMap(cmd -> Arrays.stream(cmd.listeHeros())
+						.map(hero -> new LeaderWithCommandant<>(cmd, hero)))
+				.sorted(Comparator.comparing((LeaderWithCommandant<Heros> pair) -> pair.leader().getValeur()).reversed())
+				.limit(limit)
+				.toArray(LeaderWithCommandant[]::new);
+
+		// Stream pour les Gouverneurs
+		@SuppressWarnings("unchecked")
+		LeaderWithCommandant<Gouverneur>[] gouverneursList = Arrays.stream(Univers.getListeCommandantsHumains())
+				.flatMap(cmd -> Arrays.stream(cmd.listeGouverneur())
+						.map(gouv -> new LeaderWithCommandant<>(cmd, gouv)))
+				.sorted(Comparator.comparing((LeaderWithCommandant<Gouverneur> pair) -> pair.leader().getValeur()).reversed())
+				.limit(limit)
+				.toArray(LeaderWithCommandant[]::new);
+
+		StringBuilder table = new StringBuilder("""
+            <SPAN class="titre_section">Top 10 Leaders</SPAN>
+            <table class="table_full stripped">
+                <thead>
+                    <tr>
+                        <th colspan="3">Héro</th>
+                        <th colspan="3">Gouverneur</th>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Valeur</th>
+                        <th>Propriétaire</th>
+                        <th>Nom</th>
+                        <th>Valeur</th>
+                        <th>Propriétaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+            """);
+
+		int rowsCount = Math.min(heroesList.length, gouverneursList.length);
+
+		for (int i = 0; i < rowsCount; i++) {
+			var heroPair = heroesList[i];
+			var gouvPair = gouverneursList[i];
+
+			table.append("""
+                <tr>
+                    <td>%s</td>
+                    <td><span class='cur'>%,.1f</span></td>
+                    <td>%s</td>
+                    <td>%s</td>
+                    <td><span class='cur'>%,.1f</span></td>
+                    <td>%s</td>
+                </tr>""".formatted(
+					heroPair.leader().getNom(),
+					heroPair.leader().getValeur(),
+					heroPair.commandant().getNomNumeroHtml(),
+					gouvPair.leader().getNom(),
+					gouvPair.leader().getValeur(),
+					gouvPair.commandant().getNomNumeroHtml()
+			));
+		}
+
+		table.append("</tbody></table>"); // Note : correction de "<tbody>" en "</tbody>"
+
+		BaliseHTML racine = Rapport.getDiv().ajout(table.toString());
+
+		DocumentHTML d = Rapport.getDocument(
+				Chemin.STATS + FICHIER_LEADERS,
+				"TOP Leaders",
+				Rapport.getBody().ajout(racine)
+		);
+		d.ecrire();
+	}
+
+	public static void ecrireTopFlottes() {
+		int limit = 10;
+		record FlotteWithCommandant(Commandant commandant, Flotte flotte, int numero) {}
+		FlotteWithCommandant[] flottesList = Arrays.stream(Univers.getListeCommandantsHumains())
+				.flatMap(cmd -> Arrays.stream(cmd.listeNumerosFlottes())
+						.mapToObj(num -> new FlotteWithCommandant(cmd, cmd.getFlotte(num), num)))
+				.sorted(Comparator.comparing((FlotteWithCommandant data) -> data.flotte().getPuissance()).reversed())
+				.limit(limit)
+				.toArray(FlotteWithCommandant[]::new);
+
+		StringBuilder table = new StringBuilder("""
+            <SPAN class="titre_section">Top 10 Flottes</SPAN>
+            <table class="table_full stripped">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Propriétaire</th>
+                        <th>Puissance</th>
+                        <th>Nombre de vaisseaux</th>
+                        <!--
+                        <th>AS</th>
+                        <th>AP</th>
+                        <th>Pop VS</th>
+                        <th>Position</th>
+                        -->
+                    </tr>
+                </thead>
+                <tbody>
+            """);
+
+
+        for (int i = 0; i < flottesList.length; i++) {
+            FlotteWithCommandant data = flottesList[i];
+            Flotte flotte = data.flotte();
+            int[] bornes = flotte.getBornesPuissance();
+            String tooltip = bornes[0] + " - " + bornes[1];
+            String description = "<span data-tooltip=\"" + tooltip + "\">"
+                    + Utile.maj(flotte.getDescriptionPuissance(Locale.getDefault()))
+                    + "</span>";
+            table.append("""
+                    <tr>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <!--
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        -->
+                    </tr>""".formatted(
+                    flotte.getNomNumeroHTML(data.numero),
+                    data.commandant.getNomNumeroHtml(),
+                    description,
+                    i==0 ? flotte.getNombreDeVaisseaux() : ""
+            ));
+        }
+
+		table.append("</tbody></table>"); // Note : correction de "<tbody>" en "</tbody>"
+
+		BaliseHTML racine = Rapport.getDiv().ajout(table.toString());
+
+		DocumentHTML d = Rapport.getDocument(
+				Chemin.STATS + FICHIER_FLOTTES,
+				"TOP Leaders",
+				Rapport.getBody().ajout(racine)
+		);
 		d.ecrire();
 	}
 
@@ -989,10 +1129,6 @@ public class Stats {
 				definirParametresAlliances(
 						getListe(trierParMembres(a), FICHIER_ALLIANCES), l),
 				Univers.getMessageRapport("STATS_ALLIANCES", l));
-		ecrire(FICHIER_FLOTTES,
-				definirParametresFlottes(
-						getListe(trierParFlottes(c), FICHIER_FLOTTES), l),
-				Univers.getMessageRapport("STATS_FLOTTES", l));
 		ecrire(FICHIER_POP_VS,
 		        definirParametresPopulationVS(
 		                getListe(trierParPopulationVS(c), FICHIER_POP_VS), l),
@@ -1012,7 +1148,10 @@ public class Stats {
 		ecrireClassementGeneral();
 		genererStatsPointDeVictoireDetail(l);
 
+
 		ecrireVaisseauxPublics(l);
+		ecrireTopHerosEtGouverneur();
+		ecrireTopFlottes();
 		ecrireEncheres(l);
 		ecrireUnivers(l);
 		Rapport.ecrireLiensSites(l);

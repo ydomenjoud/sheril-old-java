@@ -3,6 +3,7 @@ $result = mysql($base,"SELECT * FROM $table WHERE NUMERO='$commandant'");
 $nb_lignes = mysql_num_rows($result);
 $nb_col=mysql_num_fields($result);
 
+
 if($nb_lignes!=0){
  include "./$langue/suppr.txt";
  echo("<TABLE cellspacing='0' border='0' class='$table'>");
@@ -15,7 +16,7 @@ if($nb_lignes!=0){
       if($idPosition >= 0){
           echo("<TR><TD class='delete'><A HREF=\"$nom_page?table=$table&elimine=$i&identifierKey=id&identifier={$rf[$idPosition]}\">$suppression</A></TD><TD>");
       } else {
-          echo("<TR><TD class='delete'><A HREF=\"$nom_page?table=$table&elimine=$i\">$suppression</A></TD><TD>");
+          echo("<TR><TD class='delete'><A HREF=\"$nom_page?table=$table&elimine=$i".(isset($num_f) ? "&num_f=$num_f&nb_div=$nb_div" : "")."\">$suppression</A></TD><TD>");
       }
    include "./$langue/affiche/$table.txt";
    $encode = urlencode(serialize($rf));

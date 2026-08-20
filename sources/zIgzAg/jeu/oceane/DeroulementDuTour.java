@@ -287,9 +287,6 @@ public class DeroulementDuTour {
 
 	}
 
-	public static void ecrirestats() {
-		Stats.ecrireHeros(Commandant.listeHerosTotale(), Locale.FRENCH);
-	}
 
 	public static void augmenterGouverneurParMab(Commandant c) {
 

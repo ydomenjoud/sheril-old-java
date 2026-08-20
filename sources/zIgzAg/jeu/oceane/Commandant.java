@@ -1618,7 +1618,7 @@ public class Commandant extends Joueur implements Serializable {
             int degat_t = (int) Math.ceil(f[i].getNombreDeVaisseaux() * 1.0 / divider) - 2 * militaire;
 
 			if (degat_t > 0) { 
-				int dommages = f[i].gererCollisionVaisseaux(Math.abs(degat_t * degat_t));
+				int dommages = f[i].gererCollisionVaisseaux(degat_t * degat_t);
 
 				if (dommages > 0) {
 					ajouterEvenement("EV_COMMANDANT_GESTION_FLOTTE_0006",
@@ -1765,7 +1765,9 @@ public class Commandant extends Joueur implements Serializable {
 					suppressionDomaineDeRecherche(s[i]);
 					ajouterTechnologieConnue(s[i]);
 					ajouterEvenement("EV_COMMANDANT_RECHERCHE_0000", t);
-				}
+				} else {
+
+                }
 			}
 		}
 	}
@@ -1811,9 +1813,11 @@ public class Commandant extends Joueur implements Serializable {
 
 	public static void resolutionEvenements() {
 
+        Position[] p = Univers.listePositionsSystemes();
+        int base = Math.max(1, Univers.getNombreCommandants() / 6);
+
 		// Oxole
-		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
-			Position[] p = Univers.listePositionsSystemes();
+		for (int a = 0; a < base + Univers.getInt(4); a++) {
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
 			int[] proprios = systeme.getProprios();
@@ -1826,8 +1830,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// Lixiam
-		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
-			Position[] p = Univers.listePositionsSystemes();
+		for (int a = 0; a < base + Univers.getInt(4); a++) {
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
 			int[] proprios = systeme.getProprios();
@@ -1840,8 +1843,7 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		// Tixium
-		for (int a = 0; a < 1 + Univers.getInt(4); a++) {
-			Position[] p = Univers.listePositionsSystemes();
+		for (int a = 0; a < base + Univers.getInt(4); a++) {
 			Position choix = p[Univers.getInt(p.length)];
 			Systeme systeme = Univers.getSysteme(choix);
 			int[] proprios = systeme.getProprios();
@@ -3908,7 +3910,7 @@ public class Commandant extends Joueur implements Serializable {
 					destinataire);
 
 		modifierBudget(Const.BUDGET_COMMANDANT_DON_STRATEGIE, -cout);
-		c.ajouterStrategie(getStrategie(code));
+		c.ajouterStrategie(new StrategieDeCombatSpatial(getStrategie(code)));
 
 		ajouterEvenement("EV_COMMANDANT_DON_STRATEGIE_0000", c.getNomNumeroHtml(),
 				code);

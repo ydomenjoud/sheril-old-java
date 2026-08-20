@@ -304,8 +304,8 @@ public class Possession implements Serializable {
 	}
 
 	public int[] getEvolutionStabilite(Commandant c, Systeme s) {
-		int mod_gou, mod_pos, mod_pol, mod_post, mod_tax, mod_race;
-		mod_gou = mod_pos = mod_pol = mod_post = mod_tax = mod_race = 0;
+		int mod_gou, mod_pos, mod_pol, mod_post, mod_tax, mod_race, mod_dechet;
+		mod_gou = mod_pos = mod_pol = mod_post = mod_tax = mod_race = mod_dechet =0;
 
 		// Gouverneur
 		if (c.existenceGouverneurSurPossession(s.getPosition()))
@@ -328,10 +328,16 @@ public class Possession implements Serializable {
 		if (possedeStockImportantPoste(Const.PRODUIT_ALCOOLS))
 			mod_post = mod_post - 1; // Pas de malus pour systeme de guidage
 			**/
-		if (possedeStockImportantPoste(Const.PRODUIT_ARMEMENT))
+		if (possedeStockImportantPoste(Const.PRODUIT_ARMEMENT)) {
 			mod_post = mod_post - 1;
-		if (possedeStockImportantPoste(Const.PRODUIT_HOLOFILM))
+		}
+		if (possedeStockImportantPoste(Const.PRODUIT_HOLOFILM)) {
 			mod_post = mod_post + 1;
+		}
+		int nbDeDechets = getQuantiteMarchandise(Const.PRODUIT_MATERIEL_AGRICOLE);
+		if (nbDeDechets > 0) {
+			mod_dechet = -(nbDeDechets/100);
+		}
 
 		// Position à la capitale
 		if (c.getCapitale() == null)
@@ -351,15 +357,23 @@ public class Possession implements Serializable {
 		// Taxation
 		mod_tax = Const.MODIFICATEUR_STABILITE_TAXATION[s.getTaxation(c.getNumero())];
 
-		return new int[] { mod_gou, mod_pol, mod_post, mod_pos, mod_tax, mod_race };
+		return new int[] { mod_gou, mod_pol, mod_post, mod_pos, mod_tax, mod_race, mod_dechet };
 
+	}
+
+	public Integer getIntEvolutionStabilite(Commandant c, Systeme s){
+		int[] tab_stab = getEvolutionStabilite(c, s);
+		int total = 0;
+		for (int i = 0; i < tab_stab.length; i++)
+			total = total + tab_stab[i];
+		return total;
 	}
 
 	public String getStringEvolutionStabilite(Commandant c, Systeme s, boolean tot) {
 		int[] tab_stab = getEvolutionStabilite(c, s);
 		int total = 0;
 		String retour = "";
-		String[] nom_cat = new String[] { "Gouverneur", "Politique", "Marchandises", "Position", "Taxation", "Bonus racial" };
+		String[] nom_cat = new String[] { "Gouverneur", "Politique", "Marchandises", "Position", "Taxation", "Bonus racial", "Déchet" };
 
 		for (int i = 0; i < tab_stab.length; i++)
 			if (tab_stab[i] != 0) {
@@ -369,7 +383,7 @@ public class Possession implements Serializable {
 				total = total + tab_stab[i];
 			}
 		if (tot)
-			return "<span class='"+(total > 0 ? "plus" : "moins")+"'>" + (total > 0 ? "+" : "") + total+ "</span>";
+			return "<span class='"+(total >= 0 ? "plus" : "moins")+"'>" + (total >= 0 ? "+" : "") + total+ "</span>";
 
 		return retour;
 	}

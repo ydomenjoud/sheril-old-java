@@ -1050,7 +1050,7 @@ public class Univers {
 	public static void ajouterRapportCombat(RapportCombat r) {
 		int galaxie = r.getPosition().getNumeroGalaxie();
 		int secteur = r.getPosition().getNumeroSecteur();
-        System.out.println("ajout rapport combat g:" + galaxie+", s:" + secteur + ",p:" + r.getPosition().toString() + ",t:"+(r.estSpatial() ? "spatial":"planétaire")+",a:"+r.getAttaquant().getNomNumeroText()+",d"+r.getDefenseur().getNomNumeroText());
+        //System.out.println("ajout rapport combat g:" + galaxie+", s:" + secteur + ",p:" + r.getPosition().toString() + ",t:"+(r.estSpatial() ? "spatial":"planétaire")+",a:"+r.getAttaquant().getNomNumeroText()+",d"+r.getDefenseur().getNomNumeroText());
 		int cle = secteur + (Const.NB_SECTEURS * galaxie);
 		Collection<RapportCombat> c = RAPPORTS_COMBAT.get(cle);
 		if (c == null) {
@@ -1770,45 +1770,53 @@ public class Univers {
 //            throw new RuntimeException(e);
 //        }
 //    }
-    private static String messageId = null;
-    private static String currentContent = "";
-    private static final HttpClient client = HttpClient.newHttpClient();
-    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
-    public static synchronized void notify(String msg) {
-        System.out.println(msg);
+	private static String messageId = null;
+	private static String currentContent = "";
+	private static final HttpClient client = HttpClient.newHttpClient();
+	private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
+	private static final int MAX_DISCORD_LENGTH = 1900; // Marge de sécurité sous la limite des 2000
 
-        if(Const.FAKE_TURN || !Const.NOTIFY_BOT || Const.DISCORD_WEBHOOK_URL == null || Objects.equals(Const.DISCORD_WEBHOOK_URL, "")) {
-            return;
-        }
+	public static synchronized void notify(String msg) {
+		System.out.println(msg);
 
-        String webhookUrl = Const.DISCORD_WEBHOOK_URL;
+		if (Const.FAKE_TURN || !Const.NOTIFY_BOT || Const.DISCORD_WEBHOOK_URL == null || Const.DISCORD_WEBHOOK_URL.isEmpty()) {
+			return;
+		}
 
-        // Timestamp de l'appel
-        String timestamp = LocalTime.now().format(TIME_FORMAT);
+		String webhookUrl = Const.DISCORD_WEBHOOK_URL;
+		String timestamp = LocalTime.now().format(TIME_FORMAT);
+		String lineToAdd = timestamp + " " + msg;
 
-        // Ajouter une nouvelle ligne
-        if (currentContent.isEmpty()) {
-            currentContent = "TOUR " + (Univers.NUMERO_DU_TOUR+1) + "\n";
-        } else {
-            currentContent += "\n";
-        }
-        currentContent += timestamp + " " + msg;
+		// Si c'est le début d'un nouveau bloc de message
+		if (currentContent.isEmpty()) {
+			currentContent = "TOUR " + (Univers.NUMERO_DU_TOUR + 1) + "\n" + lineToAdd;
+		} else {
+			// Vérification de la taille avant d'ajouter la ligne
+			if ((currentContent + "\n" + lineToAdd).length() > MAX_DISCORD_LENGTH) {
+				// Trop long : on réinitialise pour forcer un nouveau POST
+				messageId = null;
+				currentContent = "TOUR " + (Univers.NUMERO_DU_TOUR + 1) + " (suite)\n" + lineToAdd;
+			} else {
+				currentContent += "\n" + lineToAdd;
+			}
+		}
 
-        try {
-            if (messageId == null) {
-                // Premier envoi -> POST avec ?wait=true
-                String response = doRequest("POST", webhookUrl + "?wait=true",
-                        "{\"content\":\"" + escape(currentContent) + "\"}");
-                messageId = response.split("\"id\":\"")[1].split("\"")[0];
-            } else {
-                // Éditer le message existant
-                doRequest("PATCH", webhookUrl + "/messages/" + messageId,
-                        "{\"content\":\"" + escape(currentContent) + "\"}");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try {
+			if (messageId == null) {
+				// Premier envoi ou nouveau message suite au dépassement -> POST
+				String response = doRequest("POST", webhookUrl + "?wait=true",
+						"{\"content\":\"" + escape(currentContent) + "\"}");
+				messageId = response.split("\"id\":\"")[1].split("\"")[0];
+			} else {
+				// Éditer le message en cours -> PATCH
+				doRequest("PATCH", webhookUrl + "/messages/" + messageId,
+						"{\"content\":\"" + escape(currentContent) + "\"}");
+			}
+		} catch (Exception e) {
+			System.out.println("Error sending message to Discord webhook: " + e.getMessage());
+			System.out.println("message: " + msg);
+		}
+	}
 
     private static String doRequest(String method, String urlStr, String body) throws Exception {
         while (true) {

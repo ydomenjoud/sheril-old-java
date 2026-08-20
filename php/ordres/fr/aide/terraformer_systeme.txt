@@ -7,3 +7,6 @@ On ne peut pas terraformer une même planète plus d'une fois par tour.
 <BR><BR>
 Attention, la terraformation d'une planète a un coût, qui dépend de son niveau de terraformation précèdent.
 
+<span>Coût = 50 + (niveau terraformation actuel + 1) * 2</span>
+
+            

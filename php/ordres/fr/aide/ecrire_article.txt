@@ -1,8 +1,8 @@
 
-<h3 class="help">Aide</h3>
-
-<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez faire paraître un article dans la &quot;Voix Lactée&quot;.
-<BR>
-
-
+<!--<h3 class="help">Aide</h3>-->
+<!---->
+<!--<P><FONT ><STRONG>Utilisez cette rubrique si vous souhaitez faire paraître un article dans la &quot;Voix Lactée&quot;.-->
+<!--<BR>-->
+<!---->
+<!---->
 

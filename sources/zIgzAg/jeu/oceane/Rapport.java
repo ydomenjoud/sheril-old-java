@@ -5,15 +5,9 @@
 package zIgzAg.jeu.oceane;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import zIgzAg.html.BaliseHTML;
 import zIgzAg.html.DocumentHTML;
@@ -149,11 +143,153 @@ public class Rapport {
 
                                 
                                 document.addEventListener("DOMContentLoaded", function () {
+                                
+                                
+                                	const toggleInformations = {};
+							
+								  document.querySelectorAll('.toggle').forEach(t => {
+									  t.innerHTML = '&#128033;';
+									  const toggle = t.dataset.toggle;
+									  t.addEventListener('click', () => {
+										const previous = toggleInformations[toggle] || 'block';
+										const next = previous === 'block' ? 'none' : 'block';
+										document.querySelectorAll('.'+toggle).forEach(t => t.style.display = next);
+										toggleInformations[toggle] = next;
+									  });
+								  });
+                                
+                                    // 1. Ajout d'une classe CSS spécifique pour cacher les lignes
+								  const style = document.createElement('style');
+								  style.innerHTML = '.tech-hidden { display: none !important; }';
+								  document.head.appendChild(style);
+	
+								  // Fonction pour convertir les chiffres romains en nombres
+								  const romanToInt = (roman) => {
+									  const romanVals = { I: 1, V: 5, X: 10, L: 50, C: 100 };
+									  let num = 0;
+									  for (let i = 0; i < roman.length; i++) {
+										  if (i > 0 && romanVals[roman[i]] > romanVals[roman[i - 1]]) {
+											  num += romanVals[roman[i]] - 2 * romanVals[roman[i - 1]];
+										  } else {
+											  num += romanVals[roman[i]];
+										  }
+									  }
+									  return num;
+								  };
+	
+								  // 2. Parcourir tous les tableaux de la page
+								  document.querySelectorAll("table.technologies").forEach(table => {
+									  const tbody = table.querySelector("tbody") || table;
+									  const rows = Array.from(tbody.querySelectorAll("tr"));
+									  if (rows.length === 0) return;
+	
+									  const groups = new Map();
+	
+									  // 3. Analyser chaque ligne
+									  rows.forEach(row => {
+										  if (row.querySelector("th") || row.classList.contains("titre_table")) return;
+	
+										  const firstCell = row.querySelector("td");
+										  if (!firstCell) return;
+	
+										  let text = firstCell.textContent.trim();
+										  // Extrait la base ("Usine d'opti..."), le niveau ("V")
+										  const match = text.match(/^(.*?)\\s+de type\\s+([IVX]+)(.*)$/i);
+	
+										  if (match) {
+											  const displayName = match[1].trim();
+											  const baseName = displayName.toLowerCase();
+											  const roman = match[2].toUpperCase();
+											  const level = romanToInt(roman);
+	
+											  if (!groups.has(baseName)) {
+												  groups.set(baseName, []);
+											  }
+											  // On sauvegarde le chiffre romain et le nom propre en plus du reste
+											  groups.get(baseName).push({ row, level, roman, displayName, text });
+										  }
+									  });
+	
+									  // 4. Traiter chaque groupe
+									  groups.forEach((items, baseName) => {
+										  if (items.length > 1) {
+											  // Tri par niveau croissant
+											  items.sort((a, b) => a.level - b.level);
+	
+											  const maxItem = items[items.length - 1];
+											  const otherItems = items.slice(0, items.length - 1);
+	
+											  // Masquer les niveaux inférieurs
+											  otherItems.forEach(item => {
+												  item.row.classList.add('tech-hidden');
+											  });
+	
+											  // 5. Gérer la cellule principale
+											  const firstCell = maxItem.row.querySelector("td");
+											  if (firstCell) {
+												  // Cible proprement le texte (préserve votre infobulle / tooltip)
+												  let textNodeOrElement = firstCell.querySelector('.technologie');
+												  if (!textNodeOrElement) {
+													  textNodeOrElement = Array.from(firstCell.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.nodeValue.trim().length > 0);
+												  }
+	
+												  let originalText = "";
+												  let summaryText = "";
+	
+												  if (textNodeOrElement) {
+													  originalText = textNodeOrElement.textContent;
+	
+													  // Création du texte résumé (ex: "Usine d'optimisation planétaire : I, II, III")
+													  const romanList = items.map(i => i.roman).join(", ");
+													  summaryText = maxItem.displayName + " : " + romanList;
+	
+													  // Définir le texte résumé par défaut (puisque c'est réduit initialement)
+													  textNodeOrElement.textContent = summaryText;
+												  }
+	
+												  const toggleBtn = document.createElement("span");
+												  toggleBtn.innerHTML = "🔽";
+												  toggleBtn.style.cursor = "pointer";
+												  toggleBtn.style.fontSize = "0.9em";
+												  toggleBtn.style.userSelect = "none";
+												  toggleBtn.title = "Afficher/Masquer les niveaux précédents";
+												  toggleBtn.classList.add("tech-toggle-btn");
+	
+												  // Flexbox pour aligner la flèche tout à droite
+												  firstCell.style.display = "flex";
+												  firstCell.style.justifyContent = "space-between";
+												  firstCell.style.alignItems = "center";
+	
+												  toggleBtn.addEventListener("click", (e) => {
+													  e.stopPropagation();
+	
+													  const isHidden = otherItems[0].row.classList.contains('tech-hidden');
+	
+													  if (isHidden) {
+														  // Déplier : on réaffiche les autres lignes et on remet le texte d'origine sur la ligne max
+														  otherItems.forEach(item => item.row.classList.remove('tech-hidden'));
+														  if (textNodeOrElement) textNodeOrElement.textContent = originalText;
+														  toggleBtn.innerHTML = "🔼";
+													  } else {
+														  // Réduire : on recache les lignes et on affiche le texte résumé
+														  otherItems.forEach(item => item.row.classList.add('tech-hidden'));
+														  if (textNodeOrElement) textNodeOrElement.textContent = summaryText;
+														  toggleBtn.innerHTML = "🔽";
+													  }
+												  });
+	
+												  firstCell.appendChild(toggleBtn);
+											  }
+										  }
+									  });
+								  });
+	
+                                
 									document.querySelectorAll('[data-marchandise]').forEach(el =>
 										el.dataset.tooltip = marchandisesBonusList[el.dataset.marchandise]
 									);
                                 
-                                    document.querySelectorAll("table").forEach(table => {
+                                    document.querySelectorAll("table:not(.unsearchable)").forEach(table => {
                                         const input = document.createElement("input");
                                         input.setAttribute("placeholder", "");
                                         input.addEventListener("input", e => {
@@ -1288,8 +1424,9 @@ public class Rapport {
 		BaliseHTML[][] a = new BaliseHTML[t.length][2];
 		a[0][0] = getTD(BaliseHTML.CENTER, BaliseHTML.T_2).ajout(
 				getTitreTable().ajout(getText(t[0]))).ajout("id", "INFO_GENERALES");
-		for (int i = 1; i < t.length; i++)
+		for (int i = 1; i < t.length; i++) {
 			a[i][0] = getTD(null, null).ajout(getText(t[i]));
+		}
 		int j = 1;
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(
 				Integer.toString(Univers.getTour()));
@@ -1305,6 +1442,7 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.maj(c.getStatutReputation()));
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.position(PointDeVictoire.getPositionGenerale(c)));
 
 		return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
@@ -1380,7 +1518,7 @@ public class Rapport {
                 """.formatted(
                 getPDVInfos(PointDeVictoireCategorie.PLANETES),
                 getPDVInfos(PointDeVictoireCategorie.COMBATS),
-                getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
+                getPDVInfos(PointDeVictoireCategorie.POPULATION),
                 getPDVInfos(PointDeVictoireCategorie.RECHERCHE),
                 getPDVInfos(PointDeVictoireCategorie.MERVEILLE),
                 getPDVInfos(PointDeVictoireCategorie.POPULATION_VS)
@@ -1984,16 +2122,16 @@ public class Rapport {
 			racine.ajout(getTitreSection().ajout(getText(t[0])));
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#ERREUR").ajout(getText("Erreurs ordres")));
 			racine.ajout(getABorne("ERREUR"));
-			racine.ajout(ecrireMessages(er, Const.MESSAGE_TYPE_COMMANDANT));
+			racine.ajout(getDiv().ajout("class", "errors").ajout(ecrireMessages(er, Const.MESSAGE_TYPE_COMMANDANT)));
 		}
 		if (ev.nbMessages() != 0) {
 			racine.ajout(getTitreSection().ajout(getABorne(LIEN_MESSAGES)).ajout(getText(t[1])));
 			ajouterLienPrincipal(getALienE(PRINCIPAL + "#EVT").ajout(getText("Evenements")));
 			racine.ajout(getABorne("EVT"));
-			racine.ajout(ecrireMessages(ev, Const.MESSAGE_TYPE_COMMANDANT));
+			racine.ajout(getDiv().ajout("class", "evenements").ajout(ecrireMessages(ev, Const.MESSAGE_TYPE_COMMANDANT)));
 		}
 		if (co.nbMessages() != 0) {
-			BaliseHTML d = getDiv();
+			BaliseHTML d = getDiv().ajout("class", "combat");
 			d.ajout(getTitreSection().ajout(getText(t[2])));
 			ajouterLienPrincipal(getALienE(DETAIL_COMBAT).ajout(getText("Combats")));
 			d.ajout(ecrireMessages(co, Const.MESSAGE_TYPE_COMMANDANT));
@@ -2001,23 +2139,39 @@ public class Rapport {
 		}
 		if (or.nbMessages() != 0) {
 			racine.ajout(getTitreSection().ajout(getText(t[3])));
-			racine.ajout(ecrireMessages(or, Const.MESSAGE_TYPE_COMMANDANT));
+			racine.ajout(getDiv().ajout("class", "ordres").ajout(ecrireMessages(or, Const.MESSAGE_TYPE_COMMANDANT)));
 		}
 		return racine;
+	}
+
+	public List<String> getMessageFor(String filtre) {
+		Commentaire[] tousLesCommentaires = { c.getErreurs(), c.getEvenements(), c.getOrdres() };
+
+		Locale locale = Locale.FRENCH;
+		int typeMessage = Const.MESSAGE_TYPE_COMMANDANT;
+
+		return Arrays.stream(tousLesCommentaires)
+				.filter(Objects::nonNull)
+				.flatMap(com -> Arrays.stream(com.listeMessages(locale, typeMessage)))
+				.flatMap(branche -> ((List<?>) branche).stream()) // Forcer le Stream à manipuler des objets
+				.map(Object::toString)                            // Convertir proprement chaque élément en String
+				.filter(msgStr -> msgStr.contains(filtre))
+				// un peu sale, mais je sais pas comment gérer ça autremement facilement
+				.filter(msgF -> !msgF.contains("Tour de combat"))
+				.toList();
 	}
 
 	public BaliseHTML ecrireMessages(Commentaire co, int type) {
 		ArrayList[] a = co.listeMessages(c.getLocale(), type);
 		BaliseHTML retour = new BaliseHTML(BaliseHTML.B);
 		for (int i = 0; i < a.length; i++) {
-			BaliseHTML p = getP();
-			StringBuffer sb = new StringBuffer(10000);
 			for (int j = 0; j < a[i].size(); j++) {
-				sb.append(a[i].get(j));
-				sb.append("<BR>");
+				retour.ajout(getP()
+							.ajout("class", "message")
+							.setTexteContenu((String) a[i].get(j))
+				);
 			}
-			p.setTexteContenu(sb.toString());
-			retour.ajout(p);
+			retour.ajout(getP().ajout("class", "separator"));
 		}
 		return getP().ajout(retour);
 	}
@@ -2055,7 +2209,13 @@ public class Rapport {
 						new BaliseHTML("span").ajout("class", className).ajout(Integer.toString(plaPossedees))
 				).ajout( getFont(cC[4], null).ajout( getText("/" + plaTotal)));
 				a[i + 2][6] = getTD(BaliseHTML.CENTER, null) .ajout(getText(Integer.toString(s.getTaxation(c .getNumero()))));
-				a[i + 2][7] = getTD(BaliseHTML.CENTER, null).ajout( getFont(cC[4], null).ajout( getText(Integer.toString(s.getStabilite(c .getNumero())))));
+				int evolutionStab = fief.getIntEvolutionStabilite(c, s);
+				String evolutionClass = (evolutionStab > 0) ? "plus": (evolutionStab < 0) ? "moins": "";
+				a[i + 2][7] = getTD(BaliseHTML.CENTER, null).ajout( getSpan()
+							.ajout("class", "c5 "+ evolutionClass)
+							.ajout("data-tooltip", fief.getStringEvolutionStabilite(c, s, false))
+							.ajout(Integer.toString(s.getStabilite(c .getNumero())))
+				);
 
 				a[i + 2][8] = getTD(BaliseHTML.CENTER, null).ajout(
 						getFont(cC[3], null).ajout(getText(Integer.toString(s
@@ -2097,8 +2257,11 @@ public class Rapport {
 				String constructionEnCoursCode = c.getPossession(p[i]).getProgrammationConstruction();
 				String constructionEnCours = "";
 				if(constructionEnCoursCode != null){
+					String nom = Univers.existenceTechnologie(constructionEnCoursCode)
+							? Utile.maj(Univers.getTechnologie(constructionEnCoursCode).getNomComplet(c.getLocale()))
+							: constructionEnCoursCode;
 					constructionEnCours = "<span class='technologie'>"
-					+ Univers.getTechnologie(constructionEnCoursCode).getNomComplet(Locale.getDefault())
+					+ nom
 					+ "</span>";
 				}
 				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
@@ -2154,9 +2317,11 @@ public class Rapport {
 				c.getLocale());
 		int ligne = 0;
 
-		BaliseHTML lien = getABorne(s.getPosition().toString());
+		String systemIdentifier = s.getPosition().toString();
+
+		BaliseHTML lien = getABorne(systemIdentifier);
 		ajouterLienSecondaire(getALienE(
-				PRINCIPAL + "#" + s.getPosition().toString()).setTexteContenu(
+				PRINCIPAL + "#" + systemIdentifier).setTexteContenu(
 				s.getNomPosition()));
 
 		BaliseHTML[][] a = new BaliseHTML[1500][6];
@@ -2306,9 +2471,9 @@ public class Rapport {
 		);
 		a[ligne][2] = getTD(null, null).ajout(
 				getFont(cC[4], null).ajout("Evolution de la stabilité")
-						.ajout("data-tooltip", p.getStringEvolutionStabilite(c, s, false))
 		);
-		a[ligne][3] = getTD(null, null).ajout(p.getStringEvolutionStabilite(c, s, true));
+		a[ligne][3] = getTD(null, null).ajout(p.getStringEvolutionStabilite(c, s, true))
+				.ajout("data-tooltip", p.getStringEvolutionStabilite(c, s, false));
 		a[ligne][4] = getTD(null, null).ajout(getFont(cC[4], null).ajout(getText("Rayonnement"))
 				.ajout("data-tooltip", " revenu/10  + encombrement + entretien + (expérience gouverneur ) " +
 						"+ (nb produit de luxe) + ( nb holofilm) " +
@@ -2378,7 +2543,26 @@ public class Rapport {
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
 				.ajout("class", "bg").ajout(
 				getFont(cC[7], null).ajout(getText(t[29])));
-		Map.Entry[] listeE = s.listeEquipement(num);
+		Map.Entry<String, Integer>[] listeE = s.listeEquipement(num);
+		Arrays.sort(listeE, Comparator
+				.comparing((Map.Entry<String, Integer> entry) -> {
+					String code = entry.getKey();
+					if (Univers.existenceTechnologie(code)) {
+						Technologie tech = Univers.getTechnologie(code);
+						return tech != null ? tech.getNom(Locale.getDefault()) : code;
+					}
+					return code;
+				})
+				.thenComparingInt(entry -> {
+					String code = entry.getKey();
+					if (Univers.existenceTechnologie(code)) {
+						Technologie tech = Univers.getTechnologie(code);
+						return tech != null ? tech.getNiveau() : 0;
+					}
+					return 0;
+				})
+		);
+
 		int k;
 		for (k = 0; k < listeE.length; k++) {
 			Technologie techno = Univers.getTechnologie((String) listeE[k].getKey());
@@ -2403,8 +2587,8 @@ public class Rapport {
 
 		// Ajout liste des planètes
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
-				.ajout("class", "bg").ajout(
-				getFont(cC[7], null).ajout(getText("Détail des planètes")));
+				.ajout("class", "bg").ajout(getFont(cC[7], null).ajout(getText("Détail des planètes")))
+				.ajout("<span class='toggle' data-toggle='detail_planetes'></span>");
 
 
 		Planete[] planetesList = s.getPlanetes();
@@ -2432,7 +2616,7 @@ public class Rapport {
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(link);
 			int revenuMinerai = pl.calculeRevenuMinerai();
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
-				proprio ? (pl.getStockMinerai() + ( revenuMinerai > 0 ? " (<span class='plus'>+" + revenuMinerai : "</span>)" )) : "-"
+				proprio ? (pl.getStockMinerai() + ( revenuMinerai > 0 ? " (<span class='plus'>+" + revenuMinerai + "</span>)" : "" )) : "-"
 			));
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getText(
 					proprio ? Integer.toString(pl.getTerraformation()) : "-"
@@ -2480,7 +2664,9 @@ public class Rapport {
 			b[bligne++][bcol] = getTD(null, null).ajout(getDiv().ajout("class", "batiments-list").ajout(summary));
 		}
 
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
+				getDiv().ajout("class", "detail_planetes collapsable").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), b))
+		);
 
 		// poste  commercial
 		int[] proprios = s.getProprios();
@@ -2492,25 +2678,44 @@ public class Rapport {
 					.toString());
 		}
 
-		BaliseHTML[][] posteTable = new BaliseHTML[5][4*2];
-		posteTable[0][0] = getTD(BaliseHTML.CENTER, "8")
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
 				.ajout("class", "bg").ajout(
-				getFont(cC[7], null).ajout(getText("Poste commercial : " + String.join(", ", liens))));
+						getFont(cC[7], null).ajout(getText("Poste commercial : " + String.join(", ", liens) )))
+				.ajout("<span class='toggle' data-toggle='detail_posteco'></span>");
+
+		BaliseHTML[][] posteTable = new BaliseHTML[5][4*2];
 		for (int col = 0; col < 4; col++) {
 			for(int row = 0; row < 4; row++) {
 				int marchandise = col*4 + row;
 				// entête
-				posteTable[row+1][col*2] = getTD(null, null)
+				posteTable[row][col*2] = getTD(null, null)
 						.ajout("data-marchandise", marchandise+"")
                         .ajout("<div class='marchandise'>" + getText(Utile.maj(Univers.getMessage("MARCHANDISES", marchandise,c.getLocale()))) + "</div>");
 
 				// stock + prod
                 int prod = s.getProductionMarchandise(c.getNumero(), marchandise);
                 int stock = c.getPossession(s.getPosition()).getQuantiteMarchandise(marchandise);
-                posteTable[row+1][col*2 + 1] = getPosteCell(stock, prod, marchandise);
+                posteTable[row][col*2 + 1] = getPosteCell(stock, prod, marchandise);
 			}
 		}
-		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(DocumentHTML.creerTable(getTable("table_full stripped"), posteTable));
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
+				getDiv().ajout("class", "detail_posteco collapsable").ajout(DocumentHTML.creerTable(getTable("table_full stripped unsearchable"), posteTable))
+		);
+
+
+		// Ajout messages
+		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
+				.ajout("class", "bg").ajout(
+						getFont(cC[7], null).ajout(getText("Evénements ")))
+				.ajout("<span class='toggle' data-toggle='detail_evenements'></span>");
+		a[ligne++][0] = getTD(null, "6")
+				.ajout(
+						getDiv().ajout("class", "detail_evenements collapsable").ajout(
+							getMessageFor(systemIdentifier).stream()
+							.map(Object::toString)
+							.collect(Collectors.joining("<br>"))
+						)
+				);
 
 		return getDiv()
 				.ajout(lien)
@@ -3074,7 +3279,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 		racine.ajout(
-				DocumentHTML.creerTable(getTable("table_full stripped"), a)).ajout(sautP());
+				DocumentHTML.creerTable(getTable("table_full stripped technologies"), a)).ajout(sautP());
 
 		racine.ajout(getTitreSection().ajout(getText(t[2])));
 		a = new BaliseHTML[200][8];
@@ -3088,7 +3293,7 @@ public class Rapport {
 		ligne = ajoutTableauTechnologique(a, ligne, tab,
 				Const.TECHNOLOGIE_TYPE_SIMPLE, t);
 
-		return racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped"), a));
+		return racine.ajout(DocumentHTML.creerTable(getTable("table_full stripped technologies"), a));
 	}
 
 	public int ajoutTableauTechnologique(BaliseHTML[][] a, int ligne,
@@ -3196,24 +3401,20 @@ public class Rapport {
 	}
 
 	public BaliseHTML getDetailTechnologies() {
-		String[] t = (String[]) Univers.getMessageRapport("TECHNOLOGIES",
-				c.getLocale());
+		String[] t = (String[]) Univers.getMessageRapport("TECHNOLOGIES", c.getLocale());
 		BaliseHTML racine = getDiv();
 		racine.ajout(getFont(cC[3], "4").ajout(getText(t[0])));
-		ajouterLienPrincipal(getALienE(PRINCIPAL + "#TECHNO").ajout(
-				getText("Technologies")));
-		racine.ajout(getFont(cC[3], "5").ajout(getText("<BR><BR>" + t[1])));
+		ajouterLienPrincipal(getALienE(PRINCIPAL + "#TECHNO").ajout(getText("Technologies")));
 
-		Technologie[] tab = Technologie.transformationCode(c
-				.listeTechnologiesConnues());
-		for (int i = 0; i < tab.length; i++)
-			racine.ajout(getTechnologie(tab[i], t));
-
-		racine.ajout(sautP()).ajout(getFont(cC[3], "3").ajout(getText(t[2])));
-		tab = Technologie.transformationCode(c
-				.listeTechnologiesPouvantEtreCherchees());
-		for (int i = 0; i < tab.length; i++)
-			racine.ajout(getTechnologie(tab[i], t));
+		String[] technologiesList = Stream.concat(
+					Stream.of(c.listeTechnologiesConnues()),
+						Stream.of(c.listeTechnologiesPouvantEtreCherchees())
+				)
+				.toArray(String[]::new);
+		Technologie[] tab = Univers.trierAlphabetiquementTechnologies(Technologie.transformationCode(technologiesList));
+        for (Technologie technologie : tab) {
+            racine.ajout(getTechnologie(technologie, t));
+        }
 
 		return getBody().ajout(racine);
 	}
@@ -3223,16 +3424,14 @@ public class Rapport {
 
 		ajouterLienSecondaire(getALienE(
 				DETAIL_TECHNOLOGIES + "#" + te.getCode()).setTexteContenu(
-				Utile.maj(te.getNomComplet(c.getLocale()))));
+				Utile.maj(te.getNomHTML(c.getLocale()))));
 
 		a[0][0] = getTD(BaliseHTML.CENTER, BaliseHTML.T_2).ajout(
-				getABorne(te.getCode()).ajout(
-						getFont(cC[4], null).ajout(getText(t[3]))));
+				getABorne(te.getCode()).ajout(getText(t[3])));
 		a[0][1] = getTD(BaliseHTML.CENTER, "8").ajout(
 				getALienE(PRINCIPAL + "#" + LIEN_RESUME_TECHNOLOGIE).ajout(
-						getFont(cC[1], null).ajout(
-								getText(Utile.maj(te.getNomComplet(c
-										.getLocale()))))));
+								getText(Utile.maj(te.getNomHTML(c
+										.getLocale())))));
 		a[1][0] = getTD(BaliseHTML.CENTER, "10").ajout(
 				getFont(cC[7], null).ajout(
 						getText(te.getDescription(c.getLocale()))));

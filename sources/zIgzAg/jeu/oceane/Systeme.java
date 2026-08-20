@@ -315,7 +315,7 @@ public class Systeme implements Serializable {
 		 **/
 		
 		int[] evolutionStab = pos.getEvolutionStabilite(Univers.getCommandant(numero), this);
-		// mod_gou, mod_pol, mod_post, mod_pos, mod_tax, mod_race 
+		// mod_gou, mod_pol, mod_post, mod_pos, mod_tax, mod_race, mod_dechet
 		
 		int evoStab = 0;
 		for(int a=0; a<evolutionStab.length; a++){ 
@@ -339,6 +339,27 @@ public class Systeme implements Serializable {
 		c.modifierBudget(Const.BUDGET_COMMANDANT_POLITIQUE_EXTERMINATION,
 				retour);
 	}
+
+	public int[] getEvolutionPopulation(int numero, Possession pos) {
+		int modificateurPolitique = switch (pos.getPolitique()) {
+			case Const.POLITIQUE_EXPANSION -> 5;
+			case Const.POLITIQUE_INTEGRISME -> 10;
+			default -> 0;
+		};
+
+		boolean isEsclavagiste = pos.getPolitique() == Const.POLITIQUE_ESCLAVAGISTE;
+
+		int modificateurPosteCommercial = 0;
+		if (pos.possedeStockImportantPoste(Const.PRODUIT_NOURRITURE)) {
+			modificateurPosteCommercial += 5;
+		}
+		if (pos.possedeStockImportantPoste(Const.PRODUIT_MEDICAMENT)) {
+			modificateurPosteCommercial += 10;
+		}
+
+		return new int[] { modificateurPolitique, modificateurPosteCommercial };
+	}
+
 
 	public int evolutionPopulation(int numero, Possession pos) {
 		int excedent = 0;
@@ -459,14 +480,16 @@ public class Systeme implements Serializable {
 		// On regarde si la tech a besoin de pop
 		Technologie t = Univers.getTechnologie(code);
 		boolean needPop = !(t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE));
-		int pointDeStructure = new ConstructionPlanetaire(code).getBatiment().getPointsDeStructure();
+		// l'espace libre se compte en points de construction et non pas en structure,
+		// sinon les BP ne seraient pas constructibles
+		int pointsDeConstruction = new ConstructionPlanetaire(code).getBatiment().getPointsDeConstruction();
 
 		for (int i = 0; i < pla.length; i++){
 			boolean testProprio = numero>-1 ? pla[i].estProprio(numero) : true;
-			if (((needPop && pla[i].estHabite()) || !needPop)
+			if ((!needPop || pla[i].estHabite())
 					&& (testProprio)
 					&& ((inter = pla[i].nombreBatimentsDeType(code)) < min)
-					&& (pla[i].getEspaceLibre() > pointDeStructure)) {
+					&& (pla[i].getEspaceLibre() > pointsDeConstruction)) {
 				min = inter;
 				index = i;
 			}
@@ -478,7 +501,7 @@ public class Systeme implements Serializable {
 			for (int i = 0; i < pla.length; i++){
 				
 				boolean testProprio = numero>-1 ? pla[i].estProprio(numero) : true;
-				if ((testProprio) && ((inter = pla[i].nombreBatimentsDeType(code)) < min) && (pla[i].getEspaceLibre() > pointDeStructure)) {
+				if ((testProprio) && ((inter = pla[i].nombreBatimentsDeType(code)) < min) && (pla[i].getEspaceLibre() > pointsDeConstruction)) {
 					min = inter;
 					index = i;
 				}
@@ -486,7 +509,12 @@ public class Systeme implements Serializable {
 		}
 		
 		if( index == -1 ){
-			//System.out.println("error");
+			System.out.println("error");
+			System.err.println(
+					"Pas de planète candidate pour commandant "+numero+" sur "+getPosition().toString()
+					+ "=  code:"+code+", espaceLibre:"+getEspaceLibre(numero)+", needPop: " + needPop
+					+ ", pointsDeConstruction: "+pointsDeConstruction
+			);
 			//Univers.getCommandant(numero).ajouterErreur("ER_COMMANDANT_TRANSFERER_0009", this.getNomPosition());
 			//Univers.notify("Erreur, la planète recherchée n'a pas été trouvée" +
 			//		" ( système: "+getPosition().toString()+", batiment: "+code+", espace libre: "+getEspaceLibre(numero)+", numero: "+numero+")");
@@ -1086,13 +1114,15 @@ public class Systeme implements Serializable {
 			
 			if( p == null ){
 				Univers.getCommandant(numero).ajouterErreur("ER_COMMANDANT_TRANSFERER_0009", this.getNomPosition(), o.getDescription());
+				return;
 			}
 			
 			int nbAjouter = 0;
+			ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
 			while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
-				p.ajouterBatiment((ConstructionPlanetaire) ((ObjetComplexeTransporte) o) .getObjet(nbAjouter));
-				nbAjouter++;
+				p.ajouterBatiment(batiment);
 				p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+				nbAjouter++;
 			}
 		} else if (ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_MINERAI) {
 			

@@ -457,6 +457,11 @@ tr:has(+ tr td.bg) td {
     color: var(--accent);
     font-size: 16pt;
     font-weight: bold;
+    position: sticky;
+    top: 0px;
+    background: black;
+    padding: 10px;
+    z-index: 9999;
 }
 
 .batiments-list {
@@ -505,4 +510,126 @@ A:hover {
     COLOR: var(--link-hover);
     FONT-SIZE: 10pt;
     TEXT-DECORATION: none
+}
+
+/** liste des événements **/
+p.message {
+    margin: 0;
+}
+
+.toggle {
+    cursor: pointer;
+    color: var(--c4);
+    float: right;
+    padding-right: 10px;
+}
+
+.detail_evenements {
+    text-align: left;
+    padding: 5px 10px;
+}
+
+.detail_evenements hr {
+    display: none;
+}
+.detail_evenements big {
+    font-size: 0.8em;
+}
+
+[data-marchandise] {
+    display: flex;
+}
+[data-marchandise]::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 0.3em;
+    vertical-align: -0.15em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 1px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+/* 0: Produits alimentaires */
+[data-marchandise="0"]::before {
+    background-image: url("goods_sprite.svg#icon-produits-alimentaires");
+}
+
+/* 1: Dechets */
+[data-marchandise="1"]::before {
+    background-image: url("goods_sprite.svg#icon-dechets");
+}
+
+/* 2: Articles de luxe */
+[data-marchandise="2"]::before {
+    background-image: url("goods_sprite.svg#icon-articles-de-luxe");
+}
+
+/* 3: Holofilms et hololivres */
+[data-marchandise="3"]::before {
+    background-image: url("goods_sprite.svg#icon-holofilms-hololivres");
+}
+
+/* 4: Systèmes de guidage */
+[data-marchandise="4"]::before {
+    background-image: url("goods_sprite.svg#icon-systemes-de-guidage");
+}
+
+/* 5: Médicaments */
+[data-marchandise="5"]::before {
+    background-image: url("goods_sprite.svg#icon-medicaments");
+}
+
+/* 6: Logiciels */
+[data-marchandise="6"]::before {
+    background-image: url("goods_sprite.svg#icon-logiciels");
+}
+
+/* 7: Robots */
+[data-marchandise="7"]::before {
+    background-image: url("goods_sprite.svg#icon-robots");
+}
+
+/* 8: Composants électroniques */
+[data-marchandise="8"]::before {
+    background-image: url("goods_sprite.svg#icon-composants-electroniques");
+}
+
+/* 9: Armement et explosifs */
+[data-marchandise="9"]::before {
+    background-image: url("goods_sprite.svg#icon-armement-explosifs");
+}
+
+/* 10: Unité energétique */
+[data-marchandise="10"]::before {
+    background-image: url("goods_sprite.svg#icon-unite-energetique");
+}
+
+/* 11: Pièces industrielles */
+[data-marchandise="11"]::before {
+    background-image: url("goods_sprite.svg#icon-pieces-industrielles");
+}
+
+/* 12: Métaux précieux */
+[data-marchandise="12"]::before {
+    background-image: url("goods_sprite.svg#icon-metaux-precieux");
+}
+
+/* 13: Tixium */
+[data-marchandise="13"]::before {
+    background-image: url("goods_sprite.svg#icon-tixium");
+}
+
+/* 14: Lixiam */
+[data-marchandise="14"]::before {
+    background-image: url("goods_sprite.svg#icon-lixiam");
+}
+
+/* 15: Oxole */
+[data-marchandise="15"]::before {
+    background-image: url("goods_sprite.svg#icon-oxole");
 }

@@ -2,7 +2,7 @@
 <h3 class="help">Aide</h3>
 <p>Le marché galactique vous permet de vendre des marchandises à l'ensemble des commandants de la galaxie.
 <br><br>
-<b>Vendre :</b> Choisissez le type de marchandise, la quantité et le prix unitaire. Les marchandises seront prélevées sur votre système dès la mise à disposition sur le marché galactique.
+<b>Vendre :</b> Choisissez le type de marchandise, la quantité et le prix de votre lot. Les marchandises seront prélevées sur votre système dès la mise à disposition sur le marché galactique.
 <br><br>
 <b>/!\</b> La mise en vente s'effectue AVANT la production des systèmes
 </p>

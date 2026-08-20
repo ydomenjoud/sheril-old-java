@@ -11,7 +11,7 @@ public class MessagesRapport extends MessagesAbstraits{
  public static int tour=Univers.getTour()+1;
 
  public static final String[] INFO_GENERALES={"Informations générales","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
-   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire"};
+   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire", "Classement PDV"};
 
  public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max"};
 

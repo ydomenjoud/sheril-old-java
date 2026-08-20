@@ -10,7 +10,8 @@
 
 
         <div>Militaire:</div>
-        <a target="stats-detail" href="./stats/flotte.htm">TOP 10 flottes</a>
+    <a target="stats-detail" href="./stats/flotte.htm">TOP 10 flottes</a>
+    <a target="stats-detail" href="./stats/leaders.htm">TOP 10 leaders</a>
         <a target="stats-detail" href="./stats/combats.htm">Liste des combats</a>
         <a target="stats-detail" href="./stats/vapub.htm">Plans de vaisseaux</a>
         <a target="stats-detail" href="./stats/vaisseaux.htm">Statistiques vaisseaux</a>
@@ -43,7 +44,7 @@
                 const a = document.createElement('a');
                 a.href = `/stats/statsT${i}.zip`;
                 a.target = '_blank';
-                a.textContent = `T${i}`;
+                a.textContent = `T${(i+"").padStart(2, '0')}`;
                 container.appendChild(a);
             }
         })

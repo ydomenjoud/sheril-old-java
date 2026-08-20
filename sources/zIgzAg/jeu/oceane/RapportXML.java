@@ -212,7 +212,7 @@ public class RapportXML {
 					
 					// evo stab
 					int[] evostabParams = poss.getEvolutionStabilite(c, s);
-					String[] evonames = new String[]{"gouverneur","politique","marchandise","position","taxation","race"};
+					String[] evonames = new String[]{"gouverneur","politique","marchandise","position","taxation","race","déchet"};
 					for(int a=0;a<evonames.length;a++){
 						int evo = evostabParams[a];
 						if( evo != 0 ){

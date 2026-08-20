@@ -257,11 +257,11 @@ public class Flotte implements Serializable {
 	public static void choixFlotteDeDepart(Commandant c, Map m) {
 		int modifier = + Math.max(Univers.getTour() - 1, 0);
 		Map<String, Integer> quotas = new java.util.LinkedHashMap<>();
-		quotas.put("Intercepteur standard", 10 + modifier * 5);
-		quotas.put("Chasseur standard", 20 + modifier * 5);
-		quotas.put("Fregate standard", 20 + modifier * 5);
+		quotas.put("Intercepteur standard", 10 + modifier * 2);
+		quotas.put("Chasseur standard", 20 + modifier * 2);
+		quotas.put("Fregate standard", 20 + modifier * 2);
 		quotas.put("Eclaireur standard", 3 + modifier);
-		quotas.put("Grand Bombardier standard", 20 + modifier * 5);
+		quotas.put("Grand Bombardier standard", 20 + modifier * 3);
 
 		String[] noms = quotas.keySet().toArray(new String[0]);
 		int[] n = new int[quotas.size()];

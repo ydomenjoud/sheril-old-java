@@ -35,8 +35,8 @@ if ($elimine != "") {
         }
         mysql_query("DELETE FROM $table WHERE $var_result")
         or die("zIgzAg need HELP! Erreur suppression<BR>");
-        if ($nb_div != "") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE COMMANDANT='$commandant' AND NB_DIVISION='nb_div'")
-        or die("zIgzAg need HELP! Erreur suppression<BR>");
+        if ($nb_div != "") mysql_query("DELETE FROM diviser_flotte_ajouter WHERE NUMERO='$commandant' AND NB_DIVISION='nb_div'")
+        or die("zIgzAg need HELP! Erreur suppression<BR>".mysql_error());
     }
 }
 ?>

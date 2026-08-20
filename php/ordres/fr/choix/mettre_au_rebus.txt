@@ -7,7 +7,7 @@
 <?php select1("v1",$t1); ?>
  sur mon syst&egrave;me
 <?php select1("v0",$t0); ?>
-(préciser �ventuellement la planète :
+(préciser éventuellement la planète :
 <?php select_planete2("v3"); ?>
 )
 </B></P>

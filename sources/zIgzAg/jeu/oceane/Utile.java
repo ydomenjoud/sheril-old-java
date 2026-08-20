@@ -13,6 +13,16 @@ import zIgzAg.utile.Mdt;
 
 public class Utile {
 
+	public static String position(int p){
+		if(p <= 0){
+			return "";
+		}
+		if(p>1) {
+			return p + "<sup>e</sup>";
+		}
+		return p + "<sup>er</sup>";
+	}
+
 	public static final String[] ROMAINS = { "I", "II", "III", "IV", "V", "VI",
 			"VII", "VIII", "IX", "X" };
 

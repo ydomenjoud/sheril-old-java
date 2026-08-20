@@ -110,6 +110,26 @@ public class PointDeVictoire {
                 .toList().reversed();
     }
 
+    public static int getPositionGenerale(Commandant c) {
+        if (classementGeneral == null) {
+            return -1;
+        }
+        int index = classementGeneral.indexOf(c);
+        if (index == -1) {
+            return -1;
+        }
+
+        // Gestion des ex-æquo : on cherche le premier commandant ayant le même nombre de points
+        int points = c.getPointsDeVictoire();
+        for (int i = 0; i < index; i++) {
+            if (classementGeneral.get(i).getPointsDeVictoire() == points) {
+                return i + 1;
+            }
+        }
+
+        return index + 1;
+    }
+
 
     // Helper pour extraire la donnée numérique selon la catégorie
     private static int getValeurSelonCategorie(PointDeVictoireCategorie cat, Commandant cmd) {

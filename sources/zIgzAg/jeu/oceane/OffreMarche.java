@@ -39,7 +39,7 @@ public class OffreMarche implements Serializable {
                                         offre.getDescription(),
                                         offre.getPositionOrigine());
                             } else {
-                                sys.ajouterRichesses(vendeur.getNumero(), new ObjetSimpleTransporte(offre.getCodeMarchandise(), offre.getQuantite()), -1);
+                                sys.ajouterRichesses(vendeur.getNumero(), offre.getObjetTransporte(), -1);
                                 vendeur.ajouterEvenement("EV_COMMANDANT_VENTE_GALACTIQUE_0002",
                                         offre.getDescription(),
                                         offre.getPositionOrigine());

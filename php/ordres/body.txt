@@ -327,6 +327,16 @@
             padding-left: 0;
             margin-bottom: 10px;
         }
+        .cur {
+            color: gold;
+        }
+
+        .cur::after {
+            content: "\00A2";
+            padding-left: 1px;
+            color: gold;
+            text-shadow: 2px 1px 6px #ddbcbc;
+        }
 
     </STYLE>
 
@@ -342,6 +352,7 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            // recherche globale
             const search = document.querySelector('#search');
             const tables = document.querySelectorAll('.searchable ~ table');
             if(search && tables.length>0){
@@ -353,6 +364,90 @@
                     }));
                 });
             }
+
+            // filtrage dans table
+            document.querySelectorAll("table.searchable").forEach(table => {
+                const input = document.createElement("input");
+                input.setAttribute("placeholder", "");
+                input.setAttribute(
+                    "title",
+                    "Recherche textuelle ou Expression Régulière"
+                );
+
+                // Fonction de filtrage réutilisable
+                const applyFilter = (filterValue) => {
+                    if (!filterValue.trim()) {
+                        table.querySelectorAll("tbody tr").forEach(row => row.style.display = "");
+                        return;
+                    }
+
+                    let regex = null;
+                    let fallbackText = filterValue.toLowerCase();
+
+                    try {
+                        regex = new RegExp(filterValue, 'i');
+                    } catch (err) {
+                        // Fallback si la Regex est invalide
+                    }
+
+                    table.querySelectorAll("tbody tr").forEach(row => {
+                        const rowContentHTML = row.innerHTML.toLowerCase();
+                        const isTitle = ['titre_table', 'titre_caption'].some(l => rowContentHTML.indexOf(l) > -1);
+
+                        if (isTitle) {
+                            row.style.display = "";
+                        } else {
+                            // 1. On sélectionne uniquement les <td> sans la classe "nosearch"
+                            const searchableCells = row.querySelectorAll("td:not(.nosearch)");
+
+                            // 2. On concatène le texte de ces cellules uniquement
+                            const textToSearch = Array.from(searchableCells)
+                                .map(td => td.textContent)
+                                .join(" ");
+
+                            // 3. On applique le filtre sur ce texte filtré
+                            const isMatch = regex
+                                ? regex.test(textToSearch)
+                                : textToSearch.toLowerCase().includes(fallbackText);
+
+                            row.style.display = isMatch ? "" : "none";
+                        }
+                    });
+                };
+                input.addEventListener("input", e => {
+                    applyFilter(e.target.value);
+                });
+
+                const inputLocalisation = table.dataset.inputDiv;
+                if (inputLocalisation) {
+                    const nodeForInput = document.querySelector(inputLocalisation);
+                    if (!nodeForInput) {
+                        console.log('wrong input_div for ', table);
+                        return;
+                    }
+                    nodeForInput.append(input);
+
+                    const button = document.createElement("button");
+                    button.textContent = 'X';
+
+                    // Écouteur sur le bouton qui réinitialise ET applique le filtre
+                    button.addEventListener("click", e => {
+                        input.value = '';
+                        applyFilter(''); // On réaffiche toutes les lignes
+                    });
+
+                    nodeForInput.append(button);
+                    // Icône d'information / aide Regex
+                    const helpBtn = document.createElement("span");
+                    helpBtn.textContent = ' ❓';
+                    helpBtn.style.cursor = 'help';
+                    helpBtn.setAttribute(
+                        "title",
+                        "Astuce : Vous pouvez utiliser des Regex !\n• oxole|lixiam : cherche 'oxole' OU 'lixiam' \n• \\d{3} : cherche 3 chiffres consécutifs"
+                    );
+                    nodeForInput.append(helpBtn);
+                }
+            });
         });
     </script>
 

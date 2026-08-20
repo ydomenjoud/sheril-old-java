@@ -5,11 +5,9 @@
 package zIgzAg.jeu.oceane;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.text.MessageFormat;
 
 public class Vaisseau implements Serializable {
 
@@ -482,8 +480,10 @@ public class Vaisseau implements Serializable {
 			boucliers = new int[getNombreBoucliers()];
 	}
 
-	public void tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h,
-			Gouverneur g, boolean bombe) {
+	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe) {
+		int sommeDommages = 0;
+		// mémoire
+		int previousDommagesEffectues = dommagesEffectues;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
 			Integer a = (Integer) listeArmesValides.get(i);
 			Arme arme = (Arme) plan.getComposant(a.intValue());
@@ -519,15 +519,15 @@ public class Vaisseau implements Serializable {
 					if (g != null)
 						g.augmenterExperience();
 					cibles[index].ajouterDommages(arme.getDommagesSol());
-					dommagesEffectues = dommagesEffectues
-							+ Math.min(arme.getDommagesSol(), cibles[index]
-									.getPointsDeStructureRestants());
+					int dommagesActuel = Math.min(arme.getDommagesSol(), cibles[index].getPointsDeStructureRestants());
+					dommagesEffectues += dommagesActuel ;
 				}
 			}
 		}
+		return dommagesEffectues - previousDommagesEffectues;
 	}
 
-	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe) {
+	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe, int popRestante) {
 		int retour = 0;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
 			Integer a = (Integer) listeArmesValides.get(i);
@@ -557,9 +557,17 @@ public class Vaisseau implements Serializable {
 						h.augmenterExperience();
 					if (g != null)
 						g.augmenterExperience();
-					retour = retour + arme.getDommagesSol();
-					dommagesEffectues = dommagesEffectues
-							+ arme.getDommagesSol();
+
+					// calcul des dommages réels
+					if(popRestante > 0) {
+						int dommagesActuel = Math.clamp(arme.getDommagesSol(), 0, popRestante);
+						retour += dommagesActuel;
+						dommagesEffectues += dommagesActuel;
+						popRestante = Math.max(0, popRestante - dommagesActuel);
+					}
+					else {
+						return retour;
+					}
 				}
 			}
 		}
@@ -629,7 +637,7 @@ public class Vaisseau implements Serializable {
 		experience = 0;
 		// VS
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE) != 0)
-			populationVilleSpatiale = 100;
+			populationVilleSpatiale = capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE)/10;
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_TECHNO) != 0)
 			populationVilleSpatialeTechno = 100;
 		if (capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_CONTRE) != 0)
@@ -826,35 +834,7 @@ public class Vaisseau implements Serializable {
 
 	public void augmenterPopulationVilleSpatiale() {
 		int capaMax = capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
-		int niveau = (int) getMoyenneNiveauVillesSpatiales(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE);
-		int carre = ( niveau ) * ( niveau );
-		int aug = Math.max(20 * carre , populationVilleSpatiale / 10);
-		
-		populationVilleSpatiale = Math.min(capaMax, populationVilleSpatiale + aug);
-		
-		if( populationVilleSpatiale < ( capaMax/10 ) * 2 ){
-			populationVilleSpatiale = ( capaMax/10 ) * 2;
-		}
-
-		/**
-		populationVilleSpatialeTechno = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_TECHNO),
-						populationVilleSpatialeTechno
-								+ Math.max(20,
-										populationVilleSpatialeTechno / 10));
-
-		populationVilleSpatialeContre = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_CONTRE),
-						populationVilleSpatialeContre
-								+ Math.max(20,
-										populationVilleSpatialeContre / 10));
-
-		populationVilleSpatialeEspionnage = Math
-				.min(capaciteVilleSpatiale(Const.COMPOSANT_CAPACITE_VILLE_SPATIALE_ESPIONNAGE),
-						populationVilleSpatialeEspionnage
-								+ Math.max(20,
-										populationVilleSpatialeContre / 10));
-		 **/
+		populationVilleSpatiale = Math.min(capaMax, populationVilleSpatiale + populationVilleSpatiale / 10);
 	}
 
 	public int getTaille() {
