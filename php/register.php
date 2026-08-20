@@ -182,7 +182,8 @@
     </nav>
     <main>
         <h1>Inscription : Forgez votre Destin</h1>
-        <h3>«Commandant, la galaxie est réinitialisée. Vos usines tournent à vide, vos sondes sont prêtes et vos rivaux rédigent déjà leurs premiers ordres »</h3>
+        <h2>Commandant, la galaxie est réinitialisée. Vos usines tournent à vide, vos sondes sont prêtes
+            et vos rivaux rédigent déjà leurs premiers ordres !</h2>
         <blockquote>
             L'univers est vaste, froid et n'attend qu'un leader pour l'unifier.
             Plongez dans Sheril où chaque décision sculpte l'avenir de la galaxie.

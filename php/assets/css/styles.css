@@ -56,7 +56,7 @@ table {
 :root {
   --accent: #9c27b0;
   --information: #00e6e6;
-  --important: #83bfb0;
+  --important: #a6e16b;
 }
 
 .race-koro {
@@ -156,19 +156,19 @@ h4 {
 }
 
 h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: var(--important);
+  font-style: italic;
 }
 
 h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
   color: var(--information);
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #003061;
@@ -191,7 +191,6 @@ h1, h2, h3, h4 {
   font-weight: bold;
   display: block;
   margin-top: 10px;
-  padding-bottom: 10px;
   text-transform: lowercase;
 }
 h1:first-letter, h2:first-letter, h3:first-letter, h4:first-letter {
