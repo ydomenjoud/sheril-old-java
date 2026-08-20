@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <style>
+        svg > g { display: none; }
+        svg > g:target { display: inline; }
+    </style>
+
+    <!-- 0. Produits alimentaires -->
+    <g id="icon-produits-alimentaires">
+        <path d="M8 15C8 15 8 10 5 7C3 5 2 2 2 2C2 2 5 3 7 5C10 8 8 15 8 15Z" fill="#2ecc71"/>
+        <path d="M8 15C8 15 8 10 11 7C13 5 14 2 14 2C14 2 11 3 9 5C6 8 8 15 8 15Z" fill="#27ae60"/>
+        <path d="M8 15V6" stroke="#a3e635" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="8" cy="4" r="1.5" fill="#facc15"/>
+    </g>
+
+    <!-- 1. Dechets -->
+    <g id="icon-dechets">
+        <!-- Corps du conteneur/poubelle -->
+        <path d="M3 5L4.2 14.2C4.3 14.7 4.7 15 5.2 15H10.8C11.3 15 11.7 14.7 11.8 14.2L13 5H3Z" fill="#334155"/>
+
+        <!-- Poignée et couvercle -->
+        <rect x="6" y="1" width="4" height="1.5" rx="0.5" fill="#94a3b8"/>
+        <path d="M2 3.5C2 3.2 2.2 3 2.5 3H13.5C13.8 3 14 3.2 14 3.5V5H2V3.5Z" fill="#64748b"/>
+
+        <!-- Rainures métalliques verticales -->
+        <line x1="5" y1="5" x2="5.5" y2="14" stroke="#1e293b" stroke-width="0.8"/>
+        <line x1="11" y1="5" x2="10.5" y2="14" stroke="#1e293b" stroke-width="0.8"/>
+
+        <!-- Macaron jaune radioactif -->
+        <circle cx="8" cy="9.5" r="2.3" fill="#eab308"/>
+        <circle cx="8" cy="9.5" r="0.5" fill="#0f172a"/>
+
+        <!-- Symbole Trèfle / Pales de radiation -->
+        <path d="M8 9.5L7.2 7.8A1.8 1.8 0 0 1 8.8 7.8L8 9.5Z" fill="#0f172a"/>
+        <path d="M8 9.5L9.5 10.3A1.8 1.8 0 0 1 8.7 11.3L8 9.5Z" fill="#0f172a"/>
+        <path d="M8 9.5L6.5 10.3A1.8 1.8 0 0 1 7.3 11.3L8 9.5Z" fill="#0f172a"/>
+    </g>
+
+    <!-- 2. Articles de luxe -->
+    <g id="icon-articles-de-luxe">
+        <!-- Anneau en or -->
+        <circle cx="8" cy="10" r="4.5" fill="none" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="8" cy="10" r="4.5" fill="none" stroke="#fef08a" stroke-width="0.8"/>
+
+        <!-- Serti / Chatton sous la pierre -->
+        <polygon points="6,6 10,6 9,7.5 7,7.5" fill="#d97706"/>
+
+        <!-- Pierre rouge brillante (Rubis) -->
+        <polygon points="5,3 11,3 13,5.5 8,8.5 3,5.5" fill="#dc2626"/>
+        <polygon points="6.5,3 9.5,3 11,4.5 8,6 5,4.5" fill="#ef4444"/>
+        <!-- Reflet / Facette brillante -->
+        <polygon points="6.5,3 8,3 7,4.5 5.5,4.5" fill="#fca5a5"/>
+
+        <!-- Éclat lumineux (Sparkle) -->
+        <path d="M12 2.5L14 2.5M13 1.5L13 3.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+    </g>
+
+    <!-- 3. Holofilms et hololivres -->
+    <g id="icon-holofilms-hololivres">
+        <polygon points="8,1 14,11 2,11" fill="#38bdf8" opacity="0.4"/>
+        <polygon points="8,3 12,10 4,10" fill="#7dd3fc" opacity="0.6"/>
+        <ellipse cx="8" cy="11" rx="6" ry="2" fill="#0284c7"/>
+        <ellipse cx="8" cy="11" rx="4" ry="1" fill="#38bdf8"/>
+        <path d="M8 12L8 15" stroke="#38bdf8" stroke-width="1.5"/>
+        <polygon points="5,15 11,15 8,13" fill="#0369a1"/>
+        <circle cx="8" cy="4" r="1" fill="#ffffff"/>
+    </g>
+
+    <!-- 4. Systèmes de guidage -->
+    <g id="icon-systemes-de-guidage">
+        <circle cx="8" cy="8" r="6" fill="none" stroke="#f97316" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="3" fill="none" stroke="#fdba74" stroke-width="1"/>
+        <circle cx="8" cy="8" r="1" fill="#ef4444"/>
+        <line x1="8" y1="0" x2="8" y2="4" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="8" y1="12" x2="8" y2="16" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="0" y1="8" x2="4" y2="8" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="12" y1="8" x2="16" y2="8" stroke="#f97316" stroke-width="1.5"/>
+    </g>
+
+    <!-- 5. Médicaments -->
+    <g id="icon-medicaments">
+        <rect x="2" y="5" width="12" height="6" rx="3" fill="#ef4444"/>
+        <path d="M8 5H11C12.6569 5 14 6.34315 14 8C14 9.65685 12.6569 11 11 11H8V5Z" fill="#f87171"/>
+        <rect x="6" y="2" width="4" height="12" rx="1" fill="#ffffff"/>
+        <rect x="2" y="6" width="12" height="4" rx="1" fill="#ffffff"/>
+        <circle cx="8" cy="8" r="1.5" fill="#ef4444"/>
+    </g>
+
+    <!-- 6. Logiciels -->
+    <g id="icon-logiciels">
+        <!-- Fond bleu néon / boîtier -->
+        <rect x="2" y="2" width="12" height="12" rx="2" fill="#0284c7"/>
+        <!-- Écran sombre de console -->
+        <rect x="3.5" y="3.5" width="9" height="9" rx="1" fill="#0f172a"/>
+        <!-- Balise gauche '<' -->
+        <path d="M6.5 5.5L4.5 8L6.5 10.5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Balise droite '>' -->
+        <path d="M9.5 5.5L11.5 8L9.5 10.5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Slash central '/' vert néon -->
+        <line x1="8.5" y1="5.5" x2="7.5" y2="10.5" stroke="#4ade80" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+
+    <!-- 7. Robots -->
+    <g id="icon-robots">
+        <path d="M3 3H13V9L11 14H5L3 9V3Z" fill="#475569"/>
+        <path d="M4 4H12V7H4V4Z" fill="#64748b"/>
+        <rect x="4" y="6" width="8" height="2.5" fill="#06b6d4"/>
+        <rect x="7" y="6" width="2" height="2.5" fill="#a5f3fc"/>
+        <line x1="6" y1="10" x2="10" y2="10" stroke="#1e293b" stroke-width="1"/>
+        <line x1="6" y1="12" x2="10" y2="12" stroke="#1e293b" stroke-width="1"/>
+        <rect x="1" y="5" width="2" height="3" fill="#94a3b8"/>
+        <rect x="13" y="5" width="2" height="3" fill="#94a3b8"/>
+    </g>
+
+    <!-- 8. Composants électroniques -->
+    <g id="icon-composants-electroniques">
+        <rect x="3" y="3" width="10" height="10" rx="1.5" fill="#0f766e"/>
+        <rect x="5" y="5" width="6" height="6" fill="#14b8a6"/>
+        <path d="M7 6H9V10H7V6Z" fill="#ccfbf1"/>
+        <path d="M5 1V3M8 1V3M11 1V3M5 13V15M8 13V15M11 13V15M1 5H3M1 8H3M1 11H3M13 5H15M13 8H15M13 11H15" stroke="#2dd4bf" stroke-width="1.2"/>
+    </g>
+
+    <!-- 9. Armement et explosifs -->
+    <g id="icon-armement-explosifs">
+        <!-- Goupille & Anneau de sécurité -->
+        <circle cx="5" cy="2.5" r="1.3" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+        <rect x="7" y="1" width="2" height="3" fill="#64748b"/>
+        <path d="M6 3.5H10V5H6V3.5Z" fill="#334155"/>
+
+        <!-- Corps elliptique de la grenade -->
+        <ellipse cx="8" cy="10" rx="5" ry="5.5" fill="#3f6212"/>
+
+        <!-- Striations / Quadrillage d'incision -->
+        <line x1="8" y1="4.5" x2="8" y2="15.5" stroke="#1a2e05" stroke-width="0.8"/>
+        <line x1="3" y1="8" x2="13" y2="8" stroke="#1a2e05" stroke-width="0.8"/>
+        <line x1="3.5" y1="12" x2="12.5" y2="12" stroke="#1a2e05" stroke-width="0.8"/>
+
+        <!-- Bande d'avertissement centrale (Charge active) -->
+        <rect x="6.5" y="9" width="3" height="2" rx="0.5" fill="#ef4444"/>
+    </g>
+
+    <!-- 10. Unité energétique -->
+    <g id="icon-unite-energetique">
+        <rect x="5" y="1" width="6" height="2" fill="#475569"/>
+        <rect x="3" y="3" width="10" height="12" rx="1.5" fill="#15803d"/>
+        <rect x="4" y="4" width="8" height="10" rx="1" fill="#22c55e"/>
+        <polygon points="9,5 5,10 8,10 7,14 11,9 8,9" fill="#fef08a"/>
+    </g>
+
+    <!-- 11. Pièces industrielles -->
+    <g id="icon-pieces-industrielles">
+        <!-- Dents de l'engrenage (8 dents parfaitement centrées et alignées) -->
+        <path d="
+      M7,1 H9 V3 H7 Z
+      M12.66,2.34 L14.07,3.76 L12.66,5.17 L11.24,3.76 Z
+      M13,7 H15 V9 H13 Z
+      M12.66,13.66 L11.24,12.24 L12.66,10.83 L14.07,12.24 Z
+      M7,13 H9 V15 H7 Z
+      M3.34,13.66 L1.93,12.24 L3.34,10.83 L4.76,12.24 Z
+      M1,7 H3 V9 H1 Z
+      M3.34,2.34 L4.76,3.76 L3.34,5.17 L1.93,3.76 Z
+    " fill="#64748b"/>
+
+        <!-- Corps principal de l'engrenage -->
+        <circle cx="8" cy="8" r="5.5" fill="#94a3b8"/>
+        <!-- Creux intérieur -->
+        <circle cx="8" cy="8" r="3.5" fill="#334155"/>
+        <!-- Axe central -->
+        <circle cx="8" cy="8" r="1.5" fill="#cbd5e1"/>
+    </g>
+
+    <!-- 12. Métaux précieux -->
+    <g id="icon-metaux-precieux">
+        <polygon points="3,5 8,2 14,4 15,10 11,14 4,13" fill="#b45309"/>
+
+        <!-- Facettes dorées principales -->
+        <polygon points="3,5 8,2 9,7 4,10" fill="#fbbf24"/>
+        <polygon points="8,2 14,4 12,8 9,7" fill="#fef08a"/> <!-- Facette haute très lumineuse -->
+        <polygon points="14,4 15,10 11,9 12,8" fill="#f59e0b"/>
+        <polygon points="4,10 9,7 11,14" fill="#d97706"/>
+        <polygon points="9,7 12,8 11,9 11,14" fill="#b45309"/>
+
+        <!-- Éclats de brillance / Sparkles -->
+        <path d="M13 2L15 2M14 1L14 3" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+        <circle cx="5" cy="4" r="0.8" fill="#ffffff"/>
+    </g>
+
+    <!-- 13. Tixium -->
+    <g id="icon-tixium">
+        <!-- Éclat de fond sombre -->
+        <polygon points="8,1 12,5 8,15 4,5" fill="#0284c7"/>
+
+        <!-- Cristal principal centré -->
+        <polygon points="8,1 12,5 8,8" fill="#38bdf8"/>
+        <polygon points="4,5 8,1 8,8" fill="#e0f2fe"/>
+        <polygon points="4,5 8,8 8,15" fill="#0284c7"/>
+        <polygon points="12,5 8,8 8,15" fill="#0369a1"/>
+
+        <!-- Cristaux secondaires latéraux (rapprochés et abaissés) -->
+        <!-- Gauche -->
+        <polygon points="2,11 5,8 6,15" fill="#38bdf8"/>
+        <polygon points="2,11 6,15 3,15" fill="#0284c7"/>
+
+        <!-- Droite -->
+        <polygon points="14,11 11,8 10,15" fill="#7dd3fc"/>
+        <polygon points="14,11 10,15 13,15" fill="#0369a1"/>
+    </g>
+
+
+    <!-- 14. Lixiam -->
+    <g id="icon-lixiam">
+        <!-- Capuchons métalliques (Haut & Bas) -->
+        <rect x="3" y="1" width="10" height="2" rx="0.5" fill="#64748b"/>
+        <rect x="5" y="0.5" width="6" height="1" rx="0.5" fill="#94a3b8"/>
+        <rect x="3" y="13" width="10" height="2" rx="0.5" fill="#64748b"/>
+        <rect x="5" y="14.5" width="6" height="1" rx="0.5" fill="#334155"/>
+
+        <!-- Tubes / Renforts métalliques latéraux -->
+        <rect x="4" y="3" width="1" height="10" fill="#475569"/>
+        <rect x="11" y="3" width="1" height="10" fill="#475569"/>
+
+        <!-- Verre transparent du cylindre -->
+        <rect x="5" y="3" width="6" height="10" rx="1" fill="#0284c7" fill-opacity="0.25"/>
+
+        <!-- Gaz Vespène
+      enrichi violet incandescent -->
+        <rect x="5" y="3" width="6" height="10" fill="#a855f7"/>
+        <!-- Cœur réactif magenta ultra-lumineux -->
+
+        <!-- Reflet brillant sur la vitre -->
+        <path d="M5.5 3.5V12.5" stroke="#ffffff" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>
+    </g>
+    <!-- 15. Oxole -->
+    <g id="icon-oxole">
+        <!-- Structure géométrique externe (Pyramide/Prisme sci-fi) -->
+        <polygon points="8,1 15,6 8,15 1,6" fill="#c2410c"/>
+        <!-- Facettes de lumière (Orange vif et Doré) -->
+        <polygon points="8,1 15,6 8,7" fill="#f97316"/>
+        <polygon points="1,6 8,1 8,7" fill="#fbbf24"/>
+        <polygon points="1,6 8,7 8,15" fill="#ea580c"/>
+        <polygon points="15,6 8,7 8,15" fill="#9a3412"/>
+
+        <!-- Cœur de fusion interne brillant -->
+        <polygon points="8,4 11,7 8,11 5,7" fill="#fef08a"/>
+        <line x1="8" y1="1" x2="8" y2="15" stroke="#ffffff" stroke-width="0.8" opacity="0.6"/>
+    </g>
+</svg>
