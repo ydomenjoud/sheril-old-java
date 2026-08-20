@@ -804,13 +804,20 @@ public class Combat {
 
         ArrayList listeBoucliers = new ArrayList();
         for (int i = 0; i < listeC.length; i++)
-            if (listeC[i].estBouclier())
+            if (!listeC[i].estDetruit() && listeC[i].estBouclier())
                 listeBoucliers.add(listeC[i]);
         if (listeBoucliers.size() > 0)
             cibles = (ConstructionPlanetaire[]) listeBoucliers
                     .toArray(new ConstructionPlanetaire[0]);
-        else if (listeC.length > 0)
-            cibles = listeC;
+        else {
+            ArrayList constructionsValides = new ArrayList();
+            for (int i = 0; i < listeC.length; i++)
+                if (!listeC[i].estDetruit())
+                    constructionsValides.add(listeC[i]);
+            if (constructionsValides.size() > 0)
+                cibles = (ConstructionPlanetaire[]) constructionsValides
+                        .toArray(new ConstructionPlanetaire[0]);
+        }
 
         for (int i = 0; i < strato.size(); i++) {
             Vaisseau v = (Vaisseau) strato.get(i);
