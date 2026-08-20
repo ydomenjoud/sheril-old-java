@@ -209,7 +209,7 @@
             </article>
             <article>
                 <h3>Plan de vaisseau</h3>
-                <p>Les anciens ont légué aux atalantes les plans du vaisseau "Gardien" utile lors des combats spatiaux entre flottes. C'est un chasseur de taille 3 équipé d'un bouclier et de canons à plasma.</p>
+                <p>Les anciens ont légué aux <span class="race1">Atalantes</span> les plans du vaisseau "Gardien" utile lors des combats spatiaux entre flottes. C'est un chasseur de taille 3 équipé d'un bouclier et de canons à plasma.</p>
             </article>
         </section>
 
