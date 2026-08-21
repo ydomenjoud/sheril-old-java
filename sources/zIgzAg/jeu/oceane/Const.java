@@ -83,7 +83,7 @@ public class Const {
     public static final int COMBAT_Z_MAX = 20;
 
     public static final String SMTP_ENVOI = "smtp.host";
-    public static final String ADRESSE_SITE_RAPPORTS = "https://host/";
+    public static final String ADRESSE_SITE_RAPPORTS = "https://sheril.pbem-france.net/";
     // diverses caractéristiques internet.
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;

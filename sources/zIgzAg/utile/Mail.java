@@ -13,7 +13,6 @@ import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -35,14 +34,17 @@ public class Mail {
 	public static boolean envoyerMessageFichiersAttaches(
 			String nomDestinataire, String adresseDestinataire,
 			String adresseEnvoi, String host, String sujet,
-			String corpsMessage, String[] fichiers) {
+			String corpsTexte, String corpsHtml, String[] fichiers) {
 
+		System.setProperty("https.protocols", "TLSv1.2");
 		Properties props = System.getProperties();
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+		props.put("mail.smtp.ssl.trust", Const.MAIL_SMTP_HOST);
 		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
 		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
 		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
 		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
-		props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
+		props.put("mail.smtp.starttls.enable", Const.MAIL_SMTP_TTLS);
 		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
 		props.put("mail.smtp.debug", "true");
 
@@ -70,21 +72,37 @@ public class Mail {
 				return false;
 			}
 
-			Multipart mp = new MimeMultipart();
+			// --- 1. Conteneur principal (mixed) pour les pièces jointes + contenu ---
+			MimeMultipart mpMain = new MimeMultipart("mixed");
 
-			MimeBodyPart mbp1 = new MimeBodyPart();
-			mbp1.setText(corpsMessage);
-			mp.addBodyPart(mbp1);
+			// --- 2. Conteneur alternatif (brut + HTML) ---
+			MimeMultipart mpAlternative = new MimeMultipart("alternative");
 
+			// Partie A : Texte brut
+			MimeBodyPart textPart = new MimeBodyPart();
+			textPart.setText(corpsTexte, "UTF-8");
+			mpAlternative.addBodyPart(textPart);
+
+			// Partie B : HTML
+			MimeBodyPart htmlPart = new MimeBodyPart();
+			htmlPart.setContent(corpsHtml, "text/html; charset=UTF-8");
+			mpAlternative.addBodyPart(htmlPart);
+
+			// Inclusion du bloc alternatif dans le conteneur principal
+			MimeBodyPart bodyWrapper = new MimeBodyPart();
+			bodyWrapper.setContent(mpAlternative);
+			mpMain.addBodyPart(bodyWrapper);
+
+			// --- 3. Ajout des pièces jointes ---
 			for (int i = 0; i < fichiers.length; i++) {
 				MimeBodyPart mbp2 = new MimeBodyPart();
 				FileDataSource fds = new FileDataSource(fichiers[i]);
 				mbp2.setDataHandler(new DataHandler(fds));
 				mbp2.setFileName(fds.getName());
-				mp.addBodyPart(mbp2);
+				mpMain.addBodyPart(mbp2);
 			}
 
-			msg.setContent(mp);
+			msg.setContent(mpMain);
 			msg.setSentDate(new Date());
 
 			Transport.send(msg);
@@ -95,85 +113,6 @@ public class Mail {
 		}
 		return true;
 	}
-
-	public static boolean envoyerMessageFichiersAttaches( String nomDestinataire, String adresseDestinataire, String sujet, String corpsMessage, String[] fichiers) {
-
-		Properties props = System.getProperties();
-		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
-		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
-		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
-		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
-		props.put("mail.smtp.starttls.enable",Const.MAIL_SMTP_TTLS);
-		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
-		props.put("mail.smtp.debug", "true");
-		props.put("mail.smtp.ehlo", "false");
-
-		Authenticator auth = new SMTPAuthenticator();
-		Session session = Session.getDefaultInstance(props, auth);
-		session.setDebug(true);
-
-		try {
-			MimeMessage msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress(Const.MAIL_SMTP_LOGIN));
-			InternetAddress[] adresse = new InternetAddress[1];
-			try {
-				adresse[0] = new InternetAddress(adresseDestinataire,
-						nomDestinataire/* ,CHARSET */);
-			} catch (UnsupportedEncodingException e) {
-				System.out.println(ERREUR_CODAGE_TEXTE + nomDestinataire);
-				e.printStackTrace();
-				return false;
-			}
-
-			msg.setRecipients(Message.RecipientType.TO, adresse);
-			try {
-				msg.setSubject(MimeUtility
-						.encodeText(sujet/* ,CHARSET,ENCODING */));
-			} catch (UnsupportedEncodingException e) {
-				System.out.println(ERREUR_CODAGE_TEXTE + sujet);
-				e.printStackTrace();
-				return false;
-			}
-
-			Multipart mp = new MimeMultipart();
-
-			MimeBodyPart mbp1 = new MimeBodyPart();
-			mbp1.setText(corpsMessage/* ,CHARSET */);
-			mp.addBodyPart(mbp1);
-
-			for (int i = 0; i < fichiers.length; i++) {
-				MimeBodyPart mbp2 = new MimeBodyPart();
-				FileDataSource fds = new FileDataSource(fichiers[i]);
-				mbp2.setDataHandler(new DataHandler(fds));
-				// File inter=new File(fichiers[i]);
-				mbp2.setFileName(fds.getName());
-				mp.addBodyPart(mbp2);
-			}
-
-			msg.setContent(mp);
-
-			msg.setSentDate(new Date());
-
-			Transport tr = session.getTransport("smtp");
-			tr.connect(Const.MAIL_SMTP_HOST, Const.MAIL_SMTP_LOGIN, Const.MAIL_SMTP_PASSWORD);
-			msg.saveChanges();
-			tr.sendMessage(msg,msg.getAllRecipients());
-			tr.close();
-
-		} catch (MessagingException e)  {
-			e.printStackTrace();
-			System.out.println("debug info");
-			System.out.println("mail.smtp.user: " + props.get("mail.smtp.user") );
-			System.out.println("mail.smtp.host: " + props.get("mail.smtp.host") );
-			System.out.println("mail.smtp.port: " + props.get("mail.smtp.port") );
-			System.out.println("mail.smtp.starttls.enable: " +  props.get("mail.smtp.starttls.enable") );
-			System.out.println("mail.smtp.auth: " +  props.get("mail.smtp.auth") );
-			System.out.println("mail.smtp.debug: " +  props.get("mail.smtp.debug") );
-			return false;
-		}
-		return true;
-	}
-
 }
 
 class SMTPAuthenticator extends Authenticator {

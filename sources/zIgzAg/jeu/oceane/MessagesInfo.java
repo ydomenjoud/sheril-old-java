@@ -16,11 +16,64 @@ public class MessagesInfo extends MessagesAbstraits {
 					"Vous aurez besoin de:\n  1)votre login: {0}\n  2)votre mot de passe: {1}\n\n" +
 					" Conservez les précieusement!\n\n" +
 					" Un autre événement requiert mon attention et je dois vous quitter, momentanément!\n\n A bientôt et bonne chance!\n\nXyur06-Tr";
-	
-	public static final String MAIL_CORPS_RAPPORT = "Bonjour,je suis une IA qui répond au doux nom de Xyur06-Tr.\n\nAttention, les imagesnécessaires au rapport ne sont fournies que lors du premier tour. Si vous avez effacé vos imagesnécessaires pour visualiser votre rapport avec les images, vous pouvez les téléchargez à cette adresse :  http://sheril.free.fr/utile/download.php3 et les Dézipper dans le mêmerépertoire dans lequel vous Dézippez le rapport. \n\n Rappel Sheril:  "
-			+ Chemin.RACINE_SITE
-			+ " .\n\nVotre rapport se trouve ici : {2} \n\nVous aurez besoin de:\n  1)votre login: {0}\n  2)votre mot de passe: {1}\n\n Conservez les précieusement!\n\n           (....) \n\n Humm... Un autre événement requiert mon attention et je dois vous quitter, momentanément!\n\n Ah oui! Si vous voulez pour une raison ou une autre vous Désinscrire, allez sur la page "
-			+ Chemin.SITE_REGISTRE + " .\n\nA bientôt et bonne chance!\n\nMyst";
+
+	public static final String MAIL_CORPS_RAPPORT_TXT = """
+			Salutations, Commandant.
+			
+			Un nouveau cycle s'achève sur la galaxie. Vos ordres ont été intégralement transmis et appliqués sur la ligne de front. Le rapport d'opérations est désormais à votre disposition : il rassemble le bilan de vos mouvements de flottes, l'état de vos mondes et le résultat de vos récents affrontements.
+			
+			Vos Identifiants d'Accès :
+			• Login : {0}
+			• Mot de passe : {1}
+			
+			Lien de téléchargement de votre rapport :
+			{2}
+			
+			"Un autre événement d`ampleur requiert mon attention sur le secteur central... Je dois interrompre la liaison, momentanément !"
+			
+			""";
+	public static final String MAIL_CORPS_RAPPORT_HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0e14; color: #c9d1d9; margin: 0; padding: 20px; line-height: 1.5;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+        
+        <div style="border-bottom: 2px solid #58a6ff; padding-bottom: 10px; margin-bottom: 20px;">
+            <div style="color: #58a6ff; font-size: 20px; font-weight: bold; margin: 0;">🚀 Transmission Tactique — Sheril</div>
+            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Rapport de fin de tour • Unité IA Xyur06-Tr</div>
+        </div>
+
+        <p>Salutations, Commandant.</p>
+
+        <p>Un nouveau cycle s`achève sur la galaxie. Vos ordres ont été intégralement transmis et appliqués sur la ligne de front.
+         Le rapport d`opérations est désormais à votre disposition : il rassemble le bilan de vos mouvements de flottes, l`état de vos mondes et le résultat de vos récents affrontements.</p>
+
+        <p>Téléchargez votre rapport dès maintenant pour analyser vos résultats et préparer vos prochains ordres :</p>
+
+        <div style="background-color: #1f242d; border-left: 4px solid #58a6ff; padding: 12px 15px; margin: 20px 0; border-radius: 0 6px 6px 0;">
+            <strong>🔑 Vos Identifiants d'Accès :</strong>
+            <p style="margin: 4px 0; font-family: monospace; font-size: 14px; color: #e6edf3;">• Login : <span style="color: #58a6ff;">{0}</span></p>
+            <p style="margin: 4px 0; font-family: monospace; font-size: 14px; color: #e6edf3;">• Mot de passe : <span style="color: #58a6ff;">{1}</span></p>
+        </div>
+
+        <div style="text-align: center; margin: 25px 0;">
+            <a href="{2}ordres/ordres.php3" style="display: inline-block; background-color: #238636; color: #ffffff !important; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; font-size: 15px; border: 1px solid #2ea043;">📥 Télécharger le Rapport du Tour</a>
+        </div>
+
+        <div style="font-style: italic; color: #8b949e; border-left: 2px solid #30363d; padding-left: 10px; margin: 20px 0 10px 0; font-size: 13px;">
+            "Un autre événement d'ampleur requiert mon attention sur le secteur central... Je dois interrompre la liaison, momentanément !"
+        </div>
+
+        <div style="font-size: 11px; color: #484f58; margin-top: 25px; text-align: center; border-top: 1px solid #21262d; padding-top: 15px;">
+            <p>Système Sheril — <a href="{2}" style="color: #58a6ff; text-decoration: none;">Accéder au site</a></p>
+        </div>
+    </div>
+</body>
+</html>
+""";
 
 	public static final String HEROS_MORT_0000 = "Au cours de ce combat, votre lieutenant {0} vient deréchapper de justesse à la mort.";
 	public static final String HEROS_MORT_0001 = "Au cours de ce combat, votre lieutenant {0} a trouvé la mort. Un clone de lui est disponible aux Enchêres Galactiques.";

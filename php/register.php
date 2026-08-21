@@ -231,7 +231,7 @@
 
                 <label class="field-label">
                     Nom de commandant <span class="info" title="Sans caractères spéciaux, uniquement lettre/chiffre/underscore">?</span>
-                    <input type="text" name="pseudo" pattern="^[a-zA-Z0-9_]{3,32}$" required/>
+                    <input type="text" name="pseudo" pattern="^[a-zA-Z0-9_ ]{3,32}$" required/>
                 </label>
 
                 <label class="field-label">
