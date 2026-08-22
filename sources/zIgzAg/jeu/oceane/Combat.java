@@ -694,7 +694,7 @@ public class Combat {
         if (d.length > 0) {
             a[ligne][0] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
-                            Rapport.getText(t[4])));
+                        Rapport.getText(t[6])));
             a[ligne][1] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[2])));
@@ -703,10 +703,10 @@ public class Combat {
                             Rapport.getText(t[3])));
                         a[ligne][3] = Rapport.getTD("center", null).ajout(
                 Rapport.getFont(Rapport.cC[4], null).ajout(
-                    Rapport.getText(t[5])));
+                    Rapport.getText(t[4])));
             a[ligne][4] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
-                        Rapport.getText(t[6])));
+                        Rapport.getText(t[5])));
             ligne++;
             for (int i = 0; i < d.length; i++) {
                 Batiment b = (Batiment) Univers.getTechnologie((String) d[i]

@@ -481,7 +481,6 @@ public class Vaisseau implements Serializable {
 	}
 
 	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe) {
-		int sommeDommages = 0;
 		// mémoire
 		int previousDommagesEffectues = dommagesEffectues;
 		for (int i = 0; i < listeArmesValides.size(); i++) {

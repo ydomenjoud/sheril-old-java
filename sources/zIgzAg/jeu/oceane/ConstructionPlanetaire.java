@@ -173,6 +173,9 @@ public class ConstructionPlanetaire implements Serializable {
 	}
 
 	public boolean estDetruit() {
+		determinerBatiment();
+		if (batiment != null && dommages >= batiment.getPointsDeStructure())
+			detruit = true;
 		return detruit;
 	}
 
