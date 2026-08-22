@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import zIgzAg.utile.SherilLogger;
+
 public class Vaisseau implements Serializable {
 
 	static final long serialVersionUID = -4210831797673667249L;
