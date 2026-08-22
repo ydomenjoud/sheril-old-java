@@ -734,6 +734,10 @@ public class Combat {
                                             + ")")));
                 int dom = nT[1] + (-nT[0] + dT[0]) * nbCases;
                 int domA = mT[1] + (-mT[0] + dT[0]) * nbCases;
+                SherilLogger.log(String.format(
+                    "[RAPPORT-PLANETE] Type=%s dT=[%d,%d] mT=[%d,%d] nT=[%d,%d] nbCases=%d dom=%d domA=%d diff=%d",
+                    d[i].getKey(), dT[0], dT[1], mT[0], mT[1],
+                    nT[0], nT[1], nbCases, dom, domA, dom - domA));
                 if (dom == domA)
                     a[ligne][2] = Rapport.getTD("center", null).ajout(
                             Rapport.getText(Integer.toString(dom)));

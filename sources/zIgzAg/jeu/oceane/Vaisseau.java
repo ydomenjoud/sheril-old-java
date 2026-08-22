@@ -530,6 +530,11 @@ public class Vaisseau implements Serializable {
 					int dommagesActuel = Math.min(arme.getDommagesSol(),
 							Math.max(0, cible.getPointsDeStructure() - dommagesAvant));
 					dommagesEffectues += dommagesActuel;
+					SherilLogger.log(String.format(
+							"[COMBAT-PLANETE] Vaisseau=%s Cible=%s Avant=%d Arme=%d Comptabilise=%d Apres=%d Detruit=%s Cumul=%d",
+							getType(), cible.getCode(), dommagesAvant,
+							arme.getDommagesSol(), dommagesActuel,
+							cible.getDommages(), cible.estDetruit(), dommagesEffectues));
 				}
 			}
 		}
