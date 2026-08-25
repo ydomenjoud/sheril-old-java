@@ -221,6 +221,18 @@ strong
 .btn-preview
   background-color: #6c757d
 
+a.btn
+  display: block
+  border: 1px solid #003963
+  padding: 5px 10px
+  text-decoration: none
+  font-weight: bold
+  font-size: 1.8rem
+  border-radius: 5px
+  &:hover
+    background-color: #003963
+    color: white
+
 [name=title]
   line-height: 2em
   background-color: #001021
@@ -237,6 +249,7 @@ $color-toolbar: #eee
   border: 1px solid $color-border
   margin-bottom: 20px
   display: flex
+  font-size: 0.8em
 
   .post-header
     background-color: $color-header-bg
@@ -335,10 +348,24 @@ table.stylized
   color: #fb5757
 
 table.forum-table
+  font-size: 0.8em
+  width: 100%
+  border-collapse: collapse
+  margin-bottom: 20px
+  th
+    background-color: #001d3a
+    color: #fff
+  th, td
+    border: 1px solid #444
+    padding: 10px
+    text-align: left
+  .forum-desc
+    font-size: 0.9em
+    color: #aaa
   td:nth-child(1)
     width: 60%
-  td:nth-child(2)
-    width: 20%
+
+
 
 #statsLink
   display: grid

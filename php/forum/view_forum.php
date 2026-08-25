@@ -18,9 +18,6 @@ $sql_topics = "SELECT p.*, r.NUMERO, r.RACE, r.NOM FROM _post p LEFT JOIN aa_reg
 $res_topics = mysql($base, $sql_topics);
 ?>
 <style>
-    .forum-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    .forum-table th, .forum-table td { border: 1px solid #444; padding: 10px; text-align: left; }
-    .forum-table th { background-color: #333; color: #fff; }
     .breadcrumb { margin-bottom: 20px; }
     .btn { padding: 8px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; display: inline-block; }
 </style>
@@ -38,11 +35,10 @@ $res_topics = mysql($base, $sql_topics);
         <table class="forum-table">
             <thead>
                 <tr>
-                    <th>Sujet</th>
-                    <th>Auteur</th>
-                    <th>Date</th>
-                    <th>Réponses</th>
-                    <th>Dernier message</th>
+                    <th class="forum-column-label">Sujet</th>
+                    <th class="forum-column-author">Auteur</th>
+                    <th class="forum-column-response">Réponses</th>
+                    <th class="forum-column-last-message">Dernier message</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,11 +63,13 @@ $res_topics = mysql($base, $sql_topics);
                                 <?php echo htmlspecialchars($topic['title']); ?>
                             </a>
                         </td>
-                        <td><?php echo display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE']); ?></td>
-                        <td><?php echo format_date($topic['record']); ?></td>
+                        <td>
+                            <?php echo display_author($topic['NOM'], $topic['NUMERO'], $topic['RACE']); ?><br />
+                            <?php echo format_date($topic['record']); ?>
+                        </td>
                         <td><?php echo $count['nb']; ?></td>
                         <td>
-                            <?php if ($last_topic): 
+                            <?php if ($last_topic && $last_topic['id_post'] !== $topic['id_post']):
                                 $target_topic = $last_topic['id_parent'] ? $last_topic['id_parent'] : $last_topic['id_post'];
                             ?>
                                 <a href="view_topic.php?id=<?php echo $target_topic; ?>#post-<?php echo $last_topic['id_post']; ?>" style="text-decoration: none; color: inherit;">

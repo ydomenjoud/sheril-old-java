@@ -355,6 +355,20 @@ strong {
   background-color: #6c757d;
 }
 
+a.btn {
+  display: block;
+  border: 1px solid #003963;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.8rem;
+  border-radius: 5px;
+}
+a.btn:hover {
+  background-color: #003963;
+  color: white;
+}
+
 [name=title] {
   line-height: 2em;
   background-color: #001021;
@@ -365,6 +379,7 @@ strong {
   border: 1px solid #444;
   margin-bottom: 20px;
   display: flex;
+  font-size: 0.8em;
 }
 .post-container .post-header {
   background-color: #333;
@@ -468,11 +483,27 @@ table.stylized td, table.stylized th {
   color: #fb5757;
 }
 
+table.forum-table {
+  font-size: 0.8em;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table.forum-table th {
+  background-color: #001d3a;
+  color: #fff;
+}
+table.forum-table th, table.forum-table td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+}
+table.forum-table .forum-desc {
+  font-size: 0.9em;
+  color: #aaa;
+}
 table.forum-table td:nth-child(1) {
   width: 60%;
-}
-table.forum-table td:nth-child(2) {
-  width: 20%;
 }
 
 #statsLink {
