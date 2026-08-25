@@ -193,6 +193,26 @@
             </article>
         </section>
 
+        <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race1">Atalantes</span> héritent de la connaissance "Canon à plasma de type I", qui leur permet de créer des plans de vaisseaux efficaces contre les coques de taille moyenne.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race1">Atalantes</span> peuvent construire sur leurs systèmes de départ des "Stations énergétiques de type II", qui produisent 10 marchandises de type "unité énergétique" par tour.
+                   Un stock de 100 unités énergétiques sur un système octroie une diminution du coût d'entretien des flottes stationnées sur le système de 50%.
+                   Les unités énergétiques sont utilisées pour la construction de bâtiments de production de marchandises avancés, et pour la production de vaisseaux spatiaux, notamment ceux dotés de réacteurs et de canons à plasma.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race1">Atalantes</span> les plans du vaisseau "Gardien" utile lors des combats spatiaux entre flottes. C'est un chasseur de taille 3 équipé d'un bouclier et de canons à plasma.</p>
+            </article>
+        </section>
+
     </main>
 </div>
 <footer>

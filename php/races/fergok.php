@@ -91,10 +91,29 @@
             <h2>Relations avec les autres espèces</h2>
             <img src="./img/fergok-forteresse.jpeg" alt="fergok" class="float left">
             <p>
-                Historiquement, les <span class="race4">Fergok</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de Dune.
+                Historiquement, les <span class="race4">Fergoks</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de Dune.
                 De ce fait, ils n'ont pas d'<strong>ennemis prédestinés</strong>. Cependant, leur comportement brutal et
                 leur tendance à régler tout différend par la force limitent grandement leurs opportunités diplomatiques.
             </p>
+        </section>
+    <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race4">Fergoks</span> héritent de la connaissance "Laser de type I", qui leur permet de créer des plans de vaisseaux efficace en combat spatial contre des vaisseaux ennemis de petite taille.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race4">Fergoks</span> peuvent construire sur leurs systèmes de départ des "Stations de composants électroniques  de type II", qui produisent 10 marchandises de type "composants électroniques" par tour.
+                   Un stock de 100 composants électroniques sur un système octroie un bonus de 25% sur les budgets services spéciaux et contre-espionnage du système.
+                   Les composants électroniques sont utilisés pour la construction d'usines d'optimisation planétaire, et pour la production de vaisseaux spatiaux, notamment ceux dotés de lasers.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race4">Fergoks</span> les plans du vaisseau "Feinteur" utile en combat spatial. C'est un chasseur de taille 3 équipé d'un bouclier et de lasers.</p>
+            </article>
         </section>
     </main>
 </div>

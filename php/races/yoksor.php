@@ -99,14 +99,24 @@
             </article>
         </section>
 
-        <section>
-            <h2>Avantages de commandant</h2>
-            <img src="./img/yoksor-laboratoire.jpeg" alt="Yoksor" class="float left">
-            <p>Les commandants <span class="race3">Yoksors</span> octroient les bonus suivants :</p>
-            <ul>
-                <li><strong>Furtivité :</strong></li>
-                <li><strong>Sournois :</strong></li>
-            </ul>
+        <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race3">Yoksors</span> héritent de la connaissance "Missile de type I", qui leur permet de créer des plans de vaisseaux efficace en combat spatial contre toute taille de vaisseau ennemi faiblement protégés.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race3">Yoksors</span> peuvent construire sur leurs systèmes de départ des "Stations de logiciels de type II", qui produisent 10 marchandises de type "logiciels" par tour.
+                   Un stock de 100 logiciels sur un système octroie un bonus de 25% sur le budget recherche du système.
+                   Les logiciels sont utilisés pour la construction d'usines d'optimisation planétaire, de radar, de boucliers planétaires, de batteries de défense, et pour la production de vaisseaux spatiaux, notamment ceux dotés de missiles.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race3">Yoksors</span> les plans du vaisseau "Spiteur" utile en combat spatial. C'est un chasseur de taille 3 équipé d'un bouclier et de missiles.</p>
+            </article>
         </section>
     </main>
 </div>
