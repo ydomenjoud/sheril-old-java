@@ -457,21 +457,30 @@ public class Combat {
                     .getAgressivite());
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
-            tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
-            nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
-                    h);
-            tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
+                String contexte = contexteCombatPlanetaire(c1, c2, f, s, numPla, numTour);
+                tirDefensesPlanetaires(listeC, strato, sol, g, h, true, c2, contexte);
+                nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
+                    h, contexte);
+                tirMilicesPlanetaires(nbPopDefensive, sol, g, h, c2, contexte);
 
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
 
-            nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h);
+                nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h,
+                    contexte);
 
             f.eliminerPertesVaisseaux();
             p.eliminerPertesBatiments();
 
+                SherilLogger.log(String.format(
+                    "[RAPPORT-FLOTTE-AVANT-MAP] %s | NombreVaisseaux=%d",
+                    contexte, f.getNombreDeVaisseaux()));
             Map inter1 = p.listeEquipementsNombresDommages();
-            Map inter2 = f.listeVaisseauxParTypePourCombat();
+                Map inter2 = f.listeVaisseauxParTypePourCombat(contexte);
+                SherilLogger.log(String.format(
+                    "[RAPPORT-FLOTTE] %s | Types=%s",
+                    contexte,
+                    inter2));
             ecrireDetailCombatFlottePlanete(c1, c2, f, s, numPla, numTour, mem,
                     materiel, memfin, materielPlanete, inter2, inter1, true,
                     memoirePopTour, nbPopDefensive);
@@ -763,7 +772,8 @@ public class Combat {
 
     private static void tirDefensesPlanetaires(ConstructionPlanetaire[] listeC,
                                                ArrayList strato, ArrayList sol, Gouverneur g, Heros h,
-                                               boolean boutPortant, Commandant defenseur) { // On utilise defenseur passé en paramètre
+                                               boolean boutPortant, Commandant defenseur,
+                                               String contexte) { // On utilise defenseur passé en paramètre
         ArrayList inter = null;
 
         
@@ -785,7 +795,8 @@ public class Combat {
 
                 //LOG
               SherilLogger.log(String.format(
-                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    "[DEB-2.4] %s | BATTERIES -> FLOTTE | Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    contexte,
                     cible.getPlan().getNom(),
                     degatsDuTir,
                       defenseur != null ? defenseur.getNomNumeroText() : "",
@@ -796,23 +807,27 @@ public class Combat {
     }
 
     private static void tirMilicesPlanetaires(int nbPopDefensives,
-                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur) { // On utilise defenseur passé en paramètre
+                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur,
+                                              String contexte) { // On utilise defenseur passé en paramètre
         ConstructionPlanetaire[] c = new ConstructionPlanetaire[1];
         c[0] = new ConstructionPlanetaire("battlaI");
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (!sol.isEmpty()) {
-            SherilLogger.log("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
+            SherilLogger.log(String.format(
+                    "[DEB-2.3] %s | DEBUT TIR MILICE | Population: %d | Nombre de salves prévues: %d",
+                    contexte, nbPopDefensives, nbTirs));
             for (int i = 0; i < nbTirs; i++)
-                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
+                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur, contexte);
         }
                
     }
 
     private static int tirAirSol(Commandant c1, ArrayList strato,
                                  ConstructionPlanetaire[] listeC, int nbPopDefensive,
-                                 boolean construCible, Gouverneur g, Heros h) {
+                                 boolean construCible, Gouverneur g, Heros h,
+                                 String contexte) {
         int retour = nbPopDefensive;
         ConstructionPlanetaire[] cibles = null;
 
@@ -841,9 +856,9 @@ public class Combat {
                 int morts = 0;
 
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
-                    v.tirSurConstruction(cibles, h, g, construCible);
+                    v.tirSurConstruction(cibles, h, g, construCible, contexte);
                 } else {
-                    morts = v.tirSurMilices(h, g, construCible, retour);
+                    morts = v.tirSurMilices(h, g, construCible, retour, contexte);
                     retour = retour - morts;
                 }
 
@@ -854,7 +869,8 @@ public class Combat {
                 }
 
                 SherilLogger.log(String.format(
-                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        "[DEB-2.1/2.2] %s | Vaisseau: %s | Dégâts infligés: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        contexte,
                         v.getPlan().getNom(),
                         degatsDuTir,
                         impactPop,
@@ -865,6 +881,19 @@ public class Combat {
         }
 
         return retour;
+    }
+
+    private static String contexteCombatPlanetaire(Commandant attaquant,
+                                                   Commandant defenseur, Flotte flotte,
+                                                   Systeme systeme, int numPla, int tour) {
+        return String.format(
+                "Tour=%d Attaquant=%s Flotte=%s Defenseur=%s Systeme=%s Planete=%s",
+                tour + 1,
+                attaquant.getNomNumeroText(),
+                flotte.getNomNumero(attaquant.numeroFlotte(flotte)),
+                defenseur.getNomNumeroText(),
+                systeme.getNom() + " " + systeme.getPosition(),
+                systeme.getNomNumeroPlanete(numPla));
     }
 
     public static boolean combatFlotteFlotte(Commandant c1, Commandant c2, int numFlotte1, int numFlotte2) {

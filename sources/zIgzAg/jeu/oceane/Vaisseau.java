@@ -482,7 +482,8 @@ public class Vaisseau implements Serializable {
 			boucliers = new int[getNombreBoucliers()];
 	}
 
-	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe) {
+	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe,
+			String contexte) {
 		// mémoire
 		int previousDommagesEffectues = dommagesEffectues;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
@@ -533,8 +534,10 @@ public class Vaisseau implements Serializable {
 							Math.max(0, cible.getPointsDeStructure() - dommagesAvant));
 					dommagesEffectues += dommagesActuel;
 					SherilLogger.log(String.format(
-							"[COMBAT-PLANETE] Vaisseau=%s Cible=%s Avant=%d Arme=%d Comptabilise=%d Apres=%d Detruit=%s Cumul=%d",
-							getType(), cible.getCode(), dommagesAvant,
+							"[COMBAT-PLANETE] %s | Vaisseau=%s VaisseauId=%d Cible=%s CibleId=%d Avant=%d Arme=%d Comptabilise=%d Apres=%d Detruit=%s Cumul=%d",
+							contexte,
+							getType(), System.identityHashCode(this), cible.getCode(),
+							System.identityHashCode(cible), dommagesAvant,
 							arme.getDommagesSol(), dommagesActuel,
 							cible.getDommages(), cible.estDetruit(), dommagesEffectues));
 				}
@@ -543,7 +546,8 @@ public class Vaisseau implements Serializable {
 		return dommagesEffectues - previousDommagesEffectues;
 	}
 
-	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe, int popRestante) {
+	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe, int popRestante,
+			String contexte) {
 		int retour = 0;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
 			Integer a = (Integer) listeArmesValides.get(i);
@@ -579,6 +583,10 @@ public class Vaisseau implements Serializable {
 						int dommagesActuel = Math.clamp(arme.getDommagesSol(), 0, popRestante);
 						retour += dommagesActuel;
 						dommagesEffectues += dommagesActuel;
+					SherilLogger.log(String.format(
+							"[COMBAT-MILICE] %s | Vaisseau=%s Arme=%d Comptabilise=%d PopulationRestante=%d Cumul=%d",
+							contexte, getType(), arme.getDommagesSol(), dommagesActuel,
+							popRestante, dommagesEffectues));
 						popRestante = Math.max(0, popRestante - dommagesActuel);
 					}
 					else {
