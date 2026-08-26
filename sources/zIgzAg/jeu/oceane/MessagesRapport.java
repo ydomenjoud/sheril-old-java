@@ -125,7 +125,7 @@ public class MessagesRapport extends MessagesAbstraits{
  //Et pour le combat.
 
  public static final String[] COMBAT_FLOTTE={"Tour {0} du combat","Flotte {0} du commandant {1}","Type de vaisseau",
-  "Nombre","Dommages encaissés","Dommages infligés"};
+  "Nombre","Dommages encaissés","Dommages infligés","Dommages infligés théoriques"};
  public static final String[] COMBAT_PLANETE={"Planete {0} du commandant {1}","Milices",
     "Nombre","Dommages encaissés","Dommages persistants avant",
   "Dommages persistants après","Bâtiments planétaires"};

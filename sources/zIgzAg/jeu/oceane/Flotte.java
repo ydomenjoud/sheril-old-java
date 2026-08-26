@@ -1386,12 +1386,16 @@ public class Flotte implements Serializable {
 				inter[0]++;
 				inter[1] = inter[1] + v[i].nombreTotalPointsDeDommage();
 				inter[2] = inter[2] + v[i].getDommagesEffectues();
+				if (inter.length > 3)
+					inter[3] = inter[3] + v[i].getDommagesEffectuesTheoriques();
 				retour.put(v[i].getType(), inter);
 			} else {
-				int[] inter = new int[3];
+				int[] inter = contexte == null ? new int[3] : new int[4];
 				inter[0] = 1;
 				inter[1] = v[i].nombreTotalPointsDeDommage();
 				inter[2] = v[i].getDommagesEffectues();
+				if (inter.length > 3)
+					inter[3] = v[i].getDommagesEffectuesTheoriques();
 				retour.put(v[i].getType(), inter);
 			}
 		}
@@ -1399,8 +1403,9 @@ public class Flotte implements Serializable {
 			for (Map.Entry<String, int[]> entree : retour.entrySet()) {
 				int[] valeurs = entree.getValue();
 				SherilLogger.log(String.format(
-						"[AGREGATION-TOTAL] %s | Type=%s Nombre=%d DommagesEncaisses=%d DommagesInfliges=%d",
-						contexte, entree.getKey(), valeurs[0], valeurs[1], valeurs[2]));
+						"[AGREGATION-TOTAL] %s | Type=%s Nombre=%d DommagesEncaisses=%d DommagesInfliges=%d DommagesTheoriques=%d",
+						contexte, entree.getKey(), valeurs[0], valeurs[1], valeurs[2],
+						valeurs[3]));
 			}
 		return retour;
 	}

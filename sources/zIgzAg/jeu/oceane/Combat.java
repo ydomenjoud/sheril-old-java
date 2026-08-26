@@ -659,13 +659,13 @@ public class Combat {
         c1.ajouterCombat(Rapport.getABorne(Integer.toString(c1.getNumero())
                 + "-" + s.getPosition().toString()));
         if (attaquant) {
-            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c1, f, mf, df, nf, t));
+            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c1, f, mf, df, nf, t, true));
             c1.ajouterCombat(ecrireDetailCombatPlanete(c2, s, numPla, mm, dm,
                     nm, popm, popn, t2));
         } else {
             c1.ajouterCombat(ecrireDetailCombatPlanete(c1, s, numPla, mm, dm,
                     nm, popm, popn, t2));
-            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c2, f, mf, df, nf, t));
+            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c2, f, mf, df, nf, t, true));
         }
     }
 
@@ -1198,15 +1198,21 @@ public class Combat {
 
     private static BaliseHTML ecrireDetailCombatVaisseaux(Commandant c,
                                                           Flotte f, Map m, Map.Entry[] d, Map n, String[] t) {
-        BaliseHTML[][] a = new BaliseHTML[100][4];
+        return ecrireDetailCombatVaisseaux(c, f, m, d, n, t, false);
+    }
+
+    private static BaliseHTML ecrireDetailCombatVaisseaux(Commandant c,
+                                                          Flotte f, Map m, Map.Entry[] d, Map n, String[] t,
+                                                          boolean combatPlanetaire) {
+        BaliseHTML[][] a = new BaliseHTML[100][combatPlanetaire ? 5 : 4];
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[1]);
         String[] inter2 = new String[2];
         inter2[0] = f.getNomNumeroHTML(c.numeroFlotte(f));
         inter2[1] = c.getNomNumeroHtml();
-        a[ligne++][0] = Rapport.getTD("center", "4").ajout(
+        a[ligne++][0] = Rapport.getTD("center", combatPlanetaire ? "5" : "4").ajout(
                 Rapport.getText(message.format(inter2)));
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < (combatPlanetaire ? 5 : 4); i++)
             a[ligne][i] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[i + 2])));
@@ -1219,7 +1225,7 @@ public class Combat {
             Object o = null;
             int[] mT = ((o = m.get(d[i].getKey())) == null ? new int[3]
                     : (int[]) o);
-            int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[3]
+                int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[4]
                     : (int[]) o);
             int nbCases = Univers.getPlanDeVaisseau((String) d[i].getKey())
                     .getNombreDeCases();
@@ -1248,6 +1254,9 @@ public class Combat {
                                         + Integer.toString(dom - domA) + ")")));
             a[ligne++][3] = Rapport.getTD("center", null).ajout(
                     Rapport.getText(Integer.toString(nT[2])));
+                if (combatPlanetaire)
+                a[ligne - 1][4] = Rapport.getTD("center", null).ajout(
+                    Rapport.getText(Integer.toString(nT[3])));
         }
 
         return Rapport.getDiv().ajout(
