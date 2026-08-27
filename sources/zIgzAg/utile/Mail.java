@@ -37,16 +37,7 @@ public class Mail {
 			String corpsTexte, String corpsHtml, String[] fichiers) {
 
 		System.setProperty("https.protocols", "TLSv1.2");
-		Properties props = System.getProperties();
-		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-		props.put("mail.smtp.ssl.trust", Const.MAIL_SMTP_HOST);
-		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
-		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
-		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
-		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
-		props.put("mail.smtp.starttls.enable", Const.MAIL_SMTP_TTLS);
-		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
-		props.put("mail.smtp.debug", "true");
+		Properties props = getProperties();
 
 		Authenticator auth = new SMTPAuthenticator();
 		Session session = Session.getInstance(props, auth);
@@ -112,6 +103,20 @@ public class Mail {
 			return false;
 		}
 		return true;
+	}
+
+	private static Properties getProperties() {
+		Properties props = System.getProperties();
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+		props.put("mail.smtp.ssl.trust", Const.MAIL_SMTP_HOST);
+		props.put("mail.smtp.user", Const.MAIL_SMTP_LOGIN);
+		props.put("mail.smtp.password", Const.MAIL_SMTP_PASSWORD);
+		props.put("mail.smtp.host", Const.MAIL_SMTP_HOST);
+		props.put("mail.smtp.port", Const.MAIL_SMTP_PORT);
+		props.put("mail.smtp.starttls.enable", Const.MAIL_SMTP_TTLS);
+		props.put("mail.smtp.auth", Const.MAIL_SMTP_AUTH);
+		props.put("mail.smtp.debug", "true");
+		return props;
 	}
 }
 

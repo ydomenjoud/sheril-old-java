@@ -5,6 +5,7 @@
 package zIgzAg.jeu.oceane;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import zIgzAg.utile.Copie;
 import zIgzAg.utile.Fiche;
@@ -37,11 +38,15 @@ public class EnvoyerRapport {
 		Object[] o2 = {
 				c.getLogin(),
 				c.getMotDePasse(),
-				Chemin.RACINE_SITE };
+				Chemin.RACINE_SITE
+		};
 		String corpsMessageHTML = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_HTML", c.getLocale()))
 				.format(o2);
 		String corpsMessageTXT = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_TXT", c.getLocale()))
 				.format(o2);
+		System.out.println(Arrays.toString(o2));
+		System.out.println(corpsMessageHTML);
+		System.out.println(corpsMessageTXT);
 		String[] fichiers = new String[0];
 
 		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroText(),

@@ -744,7 +744,7 @@ public class Combat {
         }
 
         return Rapport.getDiv().ajout(
-                DocumentHTML.creerTable(Rapport.getTable(), a));
+                DocumentHTML.creerTable(Rapport.getTable("unsearchable"), a));
     }
 
     private static void tirDefensesPlanetaires(ConstructionPlanetaire[] listeC,
