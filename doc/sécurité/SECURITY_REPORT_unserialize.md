@@ -105,6 +105,20 @@ if (!is_array($tableau)) $tableau = [];
 
 Le bouton "Copier" (`affiche.txt`) qui génère ce paramètre doit être mis à jour en conséquence pour émettre du JSON plutôt que du sérialisé PHP.
 
+> ⚠️ **Insuffisant à lui seul** — voir la note de re-test ci-dessous. Ce correctif ferme le risque d'injection d'objet PHP mais ne ferme pas la XSS : `json_decode()` peut transporter la même chaîne malveillante que `unserialize()`, elle atteint `$_POST['v2']`/`['v3']` de la même façon. Le vrai correctif de la XSS est côté sortie, dans `vendre_galactique.txt`.
+
+### Correctif réel de la XSS — `vendre_galactique.txt`
+
+```php
+// AVANT — vulnérable (valeur réaffichée telle quelle dans l'attribut HTML)
+<input type="number" value="<?=(array_key_exists('v2', $_POST) ? $_POST['v2'] : 1)?>" min="1" name="v2">
+
+// APRÈS — corrigé (cast en entier, cohérent avec le type réel du champ — int(11) en base)
+<input type="number" value="<?=(array_key_exists('v2', $_POST) ? intval($_POST['v2']) : 1)?>" min="1" name="v2">
+```
+
+Même correctif pour `v3`.
+
 ---
 
 ## Révision 2026-08-28
@@ -125,4 +139,6 @@ En contrepartie, une **XSS réfléchie concrète et confirmée** a été identif
 | 2026-08-28 | Confirmation — valeur injectée dans `$_POST` visible dans la réponse |
 | 2026-08-28 | Rapport rédigé (mention RCE non vérifiée) |
 | 2026-08-28 | Recherche des points de sortie non échappés → XSS réfléchie confirmée via `vendre_galactique.txt` (`alert(document.cookie)` déclenché) ; mention RCE retirée faute de gadget chain disponible dans la stack |
-| 2026-08-28 | Correctif appliqué (`fix/unserialize-previous-param`) |
+| 2026-08-28 | Correctif `json_decode()` appliqué (`fix/unserialize-previous-param`) |
+| 2026-08-28 | Re-test post-correctif : XSS toujours déclenchée (`alert()` toujours exécutée) — `json_decode()` seul ne ferme pas la XSS, `$_POST['v2']`/`['v3']` toujours réaffichés sans échappement |
+| 2026-08-28 | Correctif complémentaire : cast `intval()` sur `v2`/`v3` dans `vendre_galactique.txt` |
