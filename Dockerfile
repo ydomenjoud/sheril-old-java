@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.1-apache
 
 # Active mod_rewrite pour les URL propres
 RUN a2enmod rewrite

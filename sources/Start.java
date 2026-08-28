@@ -103,6 +103,8 @@ public class Start {
                 Univers.notify("Insertion des nouveaux ordres");
 
                 Start.upload(Chemin.NUMERO_DU_TOUR, "");
+                Start.upload(Chemin.NUMERO_DU_TOUR, "");
+                Start.upload(Chemin.DONNEES_GAME_NAME, "");
 
                 // Déplacements des rapports
                 String rapportsDir = Chemin.RACINE_ZIP + nextTour;

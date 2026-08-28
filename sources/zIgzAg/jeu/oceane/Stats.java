@@ -505,19 +505,23 @@ public class Stats {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List definirParametresAlliances(List[] l, Locale loc) {
 		List retour = new ArrayList(l[0].size());
-		Object[] p = null;
+		Object[] p;
 		for (int i = 0; i < l[0].size(); i++) {
-			p = new Object[6];
-			Alliance c = (Alliance) l[1].get(i);
-			Commandant[] lc = c.getAdherents();
-			p[0] = c.getNom();
-			p[1] = c.getDescriptionDirigeant(loc);
-			p[2] = l[0].get(i);
-			p[3] = Commandant.getListeCommandants(lc);
-			p[4] = c.getDescriptionType(loc);
-			p[5] = Rapport.getALienE(c.getSite())
-					.ajout(Rapport.getText(c.getSite()))
-					.ajout(BaliseHTML.TARGET, "_blank");
+			p = new Object[9];
+			Alliance al = (Alliance) l[1].get(i);
+			Commandant[] lc = al.getAdherents();
+			int a = 0;
+			p[a++] = al.getNom();
+			p[a++] = al.estSecrete() ? "-" : al.getDescriptionDirigeant(loc);
+			p[a++] = al.estSecrete() ? "-" : l[0].get(i);
+			p[a++] = al.estSecrete() ? " secrête " : Commandant.getListeCommandants(lc);
+			p[a++] = al.getDescriptionType(loc);
+//			p[a++] = Rapport.getALienE(c.getSite())
+//					.ajout(Rapport.getText(c.getSite()))
+//					.ajout(BaliseHTML.TARGET, "_blank");
+			p[a++] = Arrays.stream(lc).mapToInt(Commandant::getNombrePlanetesPossedees).sum();
+			p[a++] = Arrays.stream(lc).mapToInt(Commandant::getPopulationTotale).sum();
+			p[a++] = Arrays.stream(lc).mapToInt(Commandant::getPointsDeVictoire).sum();
 			retour.add(p);
 		}
 		return retour;

@@ -11,115 +11,21 @@
             margin: 10px;
         }
 
-        label {
+        label.field-label {
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        input[type="text"], input[type="email"], select {
-            width: 50%;
-        }
-
-        button, select, input:not([type="checkbox"]), textarea {
-            background: #001021;
-            color: #dedede;
-            border: 1px solid #a7d0f6;
-            box-shadow: 0px 1px 4px #003963;
-            cursor: pointer;
-            border-radius: 1px;
-            padding: 2px 5px;
-        }
-        input[type=submit] {
-            background: #dedede;
-            color: black;
-            border: 1px solid #999;
-            font-weight: bold;
-            margin: 0 5px;
-        }
-        input[type=submit]:hover {
-            filter: brightness(150%);
-        }
-
-        option[value=0], .fre {
-                             color: #CC00FF;
-                             font-weight: bold;
-                             text-transform: capitalize;
-                         }
-        input:not([type="checkbox"]):focus,
-        select:focus,
-        textarea:focus {
-            outline: none;                /* supprime le contour par défaut */
-            box-shadow: 0px 0px 16px 12px #003963;
-            transition: box-shadow 0.2s ease;
-        }
-
-        .race1 {
-            color: #0066CC;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .race2 {
-            color: #FFCC00;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .race3 {
-            color: #CC0033;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .race4 {
-            color: #009933;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .race5 {
-            color: #777777;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .info {
-            display: inline-flex;
-            width: 20px;
-            height: 20px;
-            background: #EEEE;
-            border-radius: 50%;
-            color: black;
-            font-weight: bold;
-            justify-content: center;
             align-items: center;
         }
-
-        blockquote {
-            border-left: 2px solid #003963;
-            padding: 20px;
-        }
-
-        label {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
         form {
-            max-width: 400px;
+            max-width: 650px;
             margin: 0 auto;
         }
-
-        input[type="text"], input[type="email"], select {
+        input[type="text"], input[type="email"] {
             width: 50%;
         }
 
-        button, select, input:not([type="checkbox"]), textarea {
+        button, select, input:not([type="checkbox"]):not([type="radio"]), textarea {
             background: #001021;
             color: #dedede;
             border: 1px solid #a7d0f6;
@@ -128,60 +34,98 @@
             border-radius: 1px;
             padding: 2px 5px;
         }
-
         input[type=submit] {
             background: #dedede;
             color: black;
             border: 1px solid #999;
             font-weight: bold;
-            margin: 0 5px;
+            margin: 15px auto 0 auto;
+            display: block;
+            padding: 8px 20px;
         }
-
         input[type=submit]:hover {
             filter: brightness(150%);
         }
 
-
-        input:not([type="checkbox"]):focus,
+        input:not([type="checkbox"]):not([type="radio"]):focus,
         select:focus,
         textarea:focus {
-            outline: none; /* supprime le contour par défaut */
+            outline: none;
             box-shadow: 0px 0px 16px 12px #003963;
             transition: box-shadow 0.2s ease;
         }
 
-        .race0{ color: #CC00FF;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-        .race1 {
-            color: #0066CC;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
+        /* --- STYLES DES RACES --- */
+        .race0 { color: #CC00FF; font-weight: bold; text-transform: capitalize; }
+        .race1 { color: #0066CC; font-weight: bold; text-transform: capitalize; }
+        .race2 { color: #FFCC00; font-weight: bold; text-transform: capitalize; }
+        .race3 { color: #CC0033; font-weight: bold; text-transform: capitalize; }
+        .race4 { color: #009933; font-weight: bold; text-transform: capitalize; }
+        .race5 { color: #777777; font-weight: bold; text-transform: capitalize; }
 
-        .race2 {
-            color: #FFCC00;
+        /* --- SÉLECTEUR DE RACE VISUEL --- */
+        .race-select-title {
+            margin: 15px 0 10px 0;
+            display: block;
             font-weight: bold;
-            text-transform: capitalize;
         }
-
-        .race3 {
-            color: #CC0033;
-            font-weight: bold;
-            text-transform: capitalize;
+        .race-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
-
-        .race4 {
-            color: #009933;
-            font-weight: bold;
-            text-transform: capitalize;
+        .race-card {
+            position: relative;
+            cursor: pointer;
         }
-
-        .race5 {
-            color: #777777;
-            font-weight: bold;
-            text-transform: capitalize;
+        .race-card input[type="radio"] {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            z-index: 2;
+            cursor: pointer;
+        }
+        .race-card-content {
+            background: #001021;
+            border: 1px solid #003963;
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .race-card-content:hover {
+            border-color: #a7d0f6;
+            box-shadow: 0 0 10px #003963;
+        }
+        .race-card input[type="radio"]:checked + .race-card-content {
+            border-color: #a7d0f6;
+            box-shadow: 0 0 12px 2px #0066CC;
+            background: #001a33;
+        }
+        .race-avatar {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 3px;
+            border: 1px solid #333;
+            background: #000;
+        }
+        .race-name {
+            font-size: 0.95em;
+        }
+        .race-link {
+            font-size: 0.75em;
+            color: #a7d0f6;
+            text-decoration: underline;
+            z-index: 2;
+        }
+        .race-link:hover {
+            color: #ffffff;
         }
 
         .info {
@@ -225,20 +169,21 @@
             border-radius: 2px;
         }
 
-    </style>
-    <style>
         table { border-collapse: collapse; width: 80%; margin: 20px auto; font-family: Arial, sans-serif; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #2c3e50; color: white; }
         tr:nth-child(even) { background-color: #012642; }
         .empty { text-align: center; font-style: italic; color: #777; }
     </style>
+
     <nav>
         <a href="/liste.php">Registre actuel</a>
         <a href="/register.php?p=new">S'inscrire</a>
     </nav>
     <main>
         <h1>Inscription : Forgez votre Destin</h1>
+        <h2>Commandant, la galaxie est réinitialisée. Vos usines tournent à vide, vos sondes sont prêtes
+            et vos rivaux rédigent déjà leurs premiers ordres !</h2>
         <blockquote>
             L'univers est vaste, froid et n'attend qu'un leader pour l'unifier.
             Plongez dans Sheril où chaque décision sculpte l'avenir de la galaxie.
@@ -246,8 +191,16 @@
         </blockquote>
 
         <form action="register.php" method="post">
-        <?php
-            // 2. Vérification que le formulaire a été soumis
+            <?php
+            // Données d'affichage des races (Fiches & Images)
+            $races_details = [
+                    0 => ['nom' => 'Fremens',  'page' => 'https://sheril.pbem-france.net/races/fremen.php',   'img' => '/races/img/fremen-soldat.jpeg'],
+                    1 => ['nom' => 'Atalantes', 'page' => 'https://sheril.pbem-france.net/races/atalante.php', 'img' => '/races/img/atalante-soldat.jpeg'],
+                    2 => ['nom' => 'Zwaias',    'page' => 'https://sheril.pbem-france.net/races/zwaia.php',    'img' => '/races/img/zwaia-city.jpeg'],
+                    3 => ['nom' => 'Yoksors',   'page' => 'https://sheril.pbem-france.net/races/yoksor.php',   'img' => '/races/img/yoksor-soldat.jpeg'],
+                    4 => ['nom' => 'Fergoks',   'page' => 'https://sheril.pbem-france.net/races/fergok.php',   'img' => '/races/img/fergok-fight.jpeg']
+            ];
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if(strtolower($_POST['mj'])!='myst'){
@@ -255,25 +208,18 @@
                 } else {
                     @require_once './secure/connect.txt';
 
-                    // 1. Récupération des données du formulaire
                     $pseudo = isset($_POST['pseudo']) ? $_POST['pseudo'] : '';
                     $race = isset($_POST['race']) ? $_POST['race'] : 0;
                     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
-                    // 2. Sécurisation minimale (très important avec les vieilles fonctions)
-                    // On utilise mysqli_real_escape_string car vos fonctions utilisent mysqli en interne
-                    // Si vous avez une fonction personnalisée mysql_real_escape_string, utilisez-la.
                     $pseudo_safe = @mysql_real_escape_string($pseudo);
                     $email_safe = @mysql_real_escape_string($email);
                     $race_safe = (int)$race;
-                    $flotte = "NULL"; // Sera inséré comme valeur SQL NULL
+                    $flotte = "NULL";
 
-                    // 3. Préparation de la requête
-                    $sql = "INSERT INTO aa_inscription (NOM, ADRESSE, RACE, FLOTTE) 
+                    $sql = "INSERT INTO aa_inscription2 (NOM, ADRESSE, RACE, FLOTTE) 
                         VALUES ('$pseudo_safe', '$email_safe', $race_safe, $flotte)";
 
-                    // 4. Exécution de la requête
-                    // On utilise mysqli_query car votre serveur semble reposer sur l'objet $link de mysqli
                     if (@mysql($base, $sql)) {
                         echo "Inscription réussie pour le commandant " . htmlspecialchars($pseudo);
                     } else {
@@ -281,43 +227,45 @@
                     }
                 }
             } else {
-        ?>
+                ?>
 
-            <label>
-                Nom de commandant <span class="info" title="Sans caractères spéciaux, uniquement lettre/chiffre/underscore">?</span>
-                <input type="text" name="pseudo" pattern="^[a-zA-Z0-9_]{3,32}$" required/>
-            </label>
-            <label>
-                Race
-                <select required name="race">
-                    <option value="0">Fremens</option>
-                    <option value="1">Atalantes</option>
-                    <option value="2">Zwaias</option>
-                    <option value="3">Yoksor</option>
-                    <option value="4">Fergok</option>
-                </select>
-            </label>
-            <label>
-                Email
-                <input type="email" name="email" required/>
-            </label>
-            <label>
-                Le pseudo du MJ <span class="info" title="Pour empécher les r0B0ts de passer">?</span>
-                <input type="text" name="mj" required/>
-            </label>
-            <input type="submit" value="S'inscrire">
-        <?php
+                <label class="field-label">
+                    Nom de commandant <span class="info" title="Sans caractères spéciaux, uniquement lettre/chiffre/underscore">?</span>
+                    <input type="text" name="pseudo" pattern="^[a-zA-Z0-9_ ]{3,32}$" required/>
+                </label>
+
+                <label class="field-label">
+                    Ton Email
+                    <input type="email" name="email" required/>
+                </label>
+                <label class="field-label">
+                    Le pseudo du MJ <span class="info" title="Pour empêcher les r0B0ts de passer, la réponse c'est: Myst">?</span>
+                    <input type="text" name="mj" required/>
+                </label>
+
+                <span class="race-select-title">Choisissez votre Race :</span>
+                <div class="race-grid">
+                    <?php foreach ($races_details as $id => $data): ?>
+                        <label class="race-card">
+                            <input type="radio" name="race" value="<?=$id?>" <?=$id === 0 ? 'checked' : ''?> required/>
+                            <div class="race-card-content">
+                                <img src="<?=$data['img']?>" alt="<?=$data['nom']?>" class="race-avatar"/>
+                                <span class="race-name race<?=$id?>"><?=$data['nom']?></span>
+                                <a href="<?=$data['page']?>" target="_blank" class="race-link" onclick="event.stopPropagation();">Fiche</a>
+                            </div>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+
+                <input type="submit" value="S'inscrire">
+                <?php
             }
-        ?>
+            ?>
         </form>
-
-
 
         <?php
         @require_once './secure/connect.txt';
 
-
-        // 1. Définition des noms de races (pour un affichage plus lisible)
         $races_noms = [
                 0 => "Fremens",
                 1 => "Atalantes",
@@ -326,15 +274,14 @@
                 4 => "Fergok",
                 5 => "Cyborg"
         ];
-        // 2. Requête pour récupérer les données
-        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription ORDER BY date_insertion ASC";
+
+        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription2 ORDER BY date_insertion ASC";
         $result = @mysql($base, $sql);
         if (!$result) {
             echo "Erreur" . mysql_error();
         }
         $count = @mysql_num_rows($result);
 
-        // Préparation des données pour le camembert et stockage des inscrits
         $inscrits = [];
         $repartition_races = [];
         if ($count > 0) {
@@ -345,7 +292,6 @@
             }
         }
 
-        // Couleurs des races
         $races_couleurs = [
                 0 => '#CC00FF',
                 1 => '#0066CC',
@@ -355,7 +301,6 @@
                 5 => '#777777'
         ];
 
-        // Calcul du gradient pour le camembert CSS
         $gradient_parts = [];
         if ($count > 0) {
             $current_percent = 0;
@@ -398,7 +343,6 @@
                         <td <?php echo "class='race" . $row['RACE'] . "'"; ?>><?php echo ucfirst(htmlspecialchars($row['NOM'])); ?></td>
                         <td <?php echo "class='race" . $row['RACE'] . "'"; ?>>
                             <?php
-                            // Affiche le nom de la race si l'ID existe dans notre tableau, sinon affiche l'ID
                             echo isset($races_noms[$row['RACE']]) ? $races_noms[$row['RACE']] : "Inconnue (" . $row['RACE'] . ")";
                             ?>
                         </td>
@@ -406,7 +350,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4" class="empty">Aucun inscrit pour le moment.</td>
+                    <td colspan="2" class="empty">Aucun inscrit pour le moment.</td>
                 </tr>
             <?php endif; ?>
             </tbody>

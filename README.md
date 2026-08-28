@@ -3,7 +3,8 @@
 
 ## tl;dr
 ```shell
-git clone git@github.com:ydomenjoud/sheril-old-java.git sheril
+git clone https://github.com/ydomenjoud/sheril-old-java.git sheril
+# ou par ssh: git clone git@github.com:ydomenjoud/sheril-old-java.git sheril
 cd sheril
 docker compose up -d
 docker compose exec engine bash ./scripts/init.sh
@@ -41,8 +42,9 @@ docker compose exec db mysql -u user -p"password" sheril -e "SELECT NOM,NUMERO,L
 docker compose exec engine bash ./scripts/create-jar.sh
 ```
 
-### recréer le jar suite à une modification du code source
+### Nettoyer le jeu pour recommencer
 ```shell
 docker compose exec engine bash ./scripts/clean.sh
+docker compose down -v
 ```
 

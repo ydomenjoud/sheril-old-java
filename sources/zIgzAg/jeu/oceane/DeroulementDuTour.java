@@ -185,6 +185,7 @@ public class DeroulementDuTour {
 		for (int i = 0; i < cL2.length; i++) {
 			System.out.print(cL2[i].getNumero() + "-");
 			EnvoyerRapport.zipper(cL2[i]);
+			EnvoyerRapport.envoyer(cL2[i]);
 		}
 
 		// zippage des stats
