@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import zIgzAg.utile.SherilLogger;
+
 public class Vaisseau implements Serializable {
 
 	static final long serialVersionUID = -4210831797673667249L;
@@ -34,6 +36,7 @@ public class Vaisseau implements Serializable {
 
 	private transient int[] boucliers;
 	private int dommagesEffectues;
+	private int dommagesEffectuesTheoriques;
 
 	private transient PlanDeVaisseau plan;
 	private transient ArrayList<Integer> listeComposantsValides;
@@ -103,8 +106,13 @@ public class Vaisseau implements Serializable {
 		return dommagesEffectues;
 	}
 
+	public int getDommagesEffectuesTheoriques() {
+		return dommagesEffectuesTheoriques;
+	}
+
 	public void initialiserDommagesEffectues() {
 		dommagesEffectues = 0;
+		dommagesEffectuesTheoriques = 0;
 	}
 
 	public int getMoral() {
@@ -480,8 +488,8 @@ public class Vaisseau implements Serializable {
 			boucliers = new int[getNombreBoucliers()];
 	}
 
-	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe) {
-		int sommeDommages = 0;
+	public int tirSurConstruction(ConstructionPlanetaire[] cibles, Heros h, Gouverneur g, boolean bombe,
+			String contexte) {
 		// mémoire
 		int previousDommagesEffectues = dommagesEffectues;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
@@ -493,7 +501,15 @@ public class Vaisseau implements Serializable {
 			if (!bombe)
 				possible = true;
 			if (possible) {
-				int index = Univers.getInt(cibles.length);
+								ArrayList ciblesValides = new ArrayList(cibles.length);
+				for (int j = 0; j < cibles.length; j++)
+					if (!cibles[j].estDetruit())
+						ciblesValides.add(cibles[j]);
+				if (ciblesValides.size() == 0)
+					break;
+
+				ConstructionPlanetaire cible = (ConstructionPlanetaire) ciblesValides
+						.get(Univers.getInt(ciblesValides.size()));
 
 				int chance = 50
 						+ getNiveauExperience()
@@ -504,30 +520,42 @@ public class Vaisseau implements Serializable {
 							+ 1
 							+ h.getNiveauCompetence(Const.COMPETENCE_LEADER_INSPIRATION_FANATIQUE);
 				chance = chance
-						- cibles[index].getNiveauExperience()
+						- cible.getNiveauExperience()
 						- g.getDefenseModifie()
 						- g.getNiveauCompetence(Const.COMPETENCE_LEADER_INSPIRATION_FANATIQUE);
 				if (Univers.getTest(chance)) {
 					augmenterMoral();
 					augmenterExperience(1 + h
 							.getNiveauCompetence(Const.COMPETENCE_LEADER_MAITRISE_SAVOIR));
-					cibles[index]
+					cible
 							.augmenterExperience(1 + g
 									.getNiveauCompetence(Const.COMPETENCE_LEADER_MAITRISE_SAVOIR));
 					if (h != null)
 						h.augmenterExperience();
 					if (g != null)
 						g.augmenterExperience();
-					cibles[index].ajouterDommages(arme.getDommagesSol());
-					int dommagesActuel = Math.min(arme.getDommagesSol(), cibles[index].getPointsDeStructureRestants());
-					dommagesEffectues += dommagesActuel ;
+					int dommagesAvant = cible.getDommages();
+					cible.ajouterDommages(arme.getDommagesSol());
+					int dommagesActuel = Math.min(arme.getDommagesSol(),
+							Math.max(0, cible.getPointsDeStructure() - dommagesAvant));
+					dommagesEffectuesTheoriques += arme.getDommagesSol();
+					dommagesEffectues += dommagesActuel;
+					SherilLogger.log(String.format(
+							"[COMBAT-PLANETE] %s | Vaisseau=%s VaisseauId=%d Cible=%s CibleId=%d Avant=%d Arme=%d Comptabilise=%d Apres=%d Detruit=%s Cumul=%d Theorique=%d",
+							contexte,
+							getType(), System.identityHashCode(this), cible.getCode(),
+							System.identityHashCode(cible), dommagesAvant,
+							arme.getDommagesSol(), dommagesActuel,
+							cible.getDommages(), cible.estDetruit(), dommagesEffectues,
+							dommagesEffectuesTheoriques));
 				}
 			}
 		}
 		return dommagesEffectues - previousDommagesEffectues;
 	}
 
-	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe, int popRestante) {
+	public int tirSurMilices(Heros h, Gouverneur g, boolean bombe, int popRestante,
+			String contexte) {
 		int retour = 0;
 		for (int i = 0; i < listeArmesValides.size(); i++) {
 			Integer a = (Integer) listeArmesValides.get(i);
@@ -562,7 +590,12 @@ public class Vaisseau implements Serializable {
 					if(popRestante > 0) {
 						int dommagesActuel = Math.clamp(arme.getDommagesSol(), 0, popRestante);
 						retour += dommagesActuel;
+						dommagesEffectuesTheoriques += arme.getDommagesSol();
 						dommagesEffectues += dommagesActuel;
+					SherilLogger.log(String.format(
+							"[COMBAT-MILICE] %s | Vaisseau=%s Arme=%d Comptabilise=%d PopulationRestante=%d Cumul=%d",
+							contexte, getType(), arme.getDommagesSol(), dommagesActuel,
+							popRestante, dommagesEffectues));
 						popRestante = Math.max(0, popRestante - dommagesActuel);
 					}
 					else {

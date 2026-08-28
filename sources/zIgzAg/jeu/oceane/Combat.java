@@ -457,21 +457,30 @@ public class Combat {
                     .getAgressivite());
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
-            tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
-            nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
-                    h);
-            tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
+                String contexte = contexteCombatPlanetaire(c1, c2, f, s, numPla, numTour);
+                tirDefensesPlanetaires(listeC, strato, sol, g, h, true, c2, contexte);
+                nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
+                    h, contexte);
+                tirMilicesPlanetaires(nbPopDefensive, sol, g, h, c2, contexte);
 
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
 
-            nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h);
+                nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h,
+                    contexte);
 
             f.eliminerPertesVaisseaux();
             p.eliminerPertesBatiments();
 
+                SherilLogger.log(String.format(
+                    "[RAPPORT-FLOTTE-AVANT-MAP] %s | NombreVaisseaux=%d",
+                    contexte, f.getNombreDeVaisseaux()));
             Map inter1 = p.listeEquipementsNombresDommages();
-            Map inter2 = f.listeVaisseauxParTypePourCombat();
+                Map inter2 = f.listeVaisseauxParTypePourCombat(contexte);
+                SherilLogger.log(String.format(
+                    "[RAPPORT-FLOTTE] %s | Types=%s",
+                    contexte,
+                    inter2));
             ecrireDetailCombatFlottePlanete(c1, c2, f, s, numPla, numTour, mem,
                     materiel, memfin, materielPlanete, inter2, inter1, true,
                     memoirePopTour, nbPopDefensive);
@@ -650,40 +659,81 @@ public class Combat {
         c1.ajouterCombat(Rapport.getABorne(Integer.toString(c1.getNumero())
                 + "-" + s.getPosition().toString()));
         if (attaquant) {
-            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c1, f, mf, df, nf, t));
+            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c1, f, mf, df, nf, t, true));
             c1.ajouterCombat(ecrireDetailCombatPlanete(c2, s, numPla, mm, dm,
                     nm, popm, popn, t2));
         } else {
             c1.ajouterCombat(ecrireDetailCombatPlanete(c1, s, numPla, mm, dm,
                     nm, popm, popn, t2));
-            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c2, f, mf, df, nf, t));
+            c1.ajouterCombat(ecrireDetailCombatVaisseaux(c2, f, mf, df, nf, t, true));
         }
+    }
+
+    /**
+     * Regroupe, pour un type de bâtiment, le cumul de combat et l'évolution du tour courant.
+     */
+    private static final class DegatsBatiment {
+        final int nombreRestant;
+        final int detruitsCeTour;
+        final int dommagesCumules;
+        final int dommagesCeTour;
+        final int dommagesAvant;
+        final int dommagesApres;
+
+        DegatsBatiment(int nombreRestant, int detruitsCeTour, int dommagesCumules,
+                       int dommagesCeTour, int dommagesAvant, int dommagesApres) {
+            this.nombreRestant = nombreRestant;
+            this.detruitsCeTour = detruitsCeTour;
+            this.dommagesCumules = dommagesCumules;
+            this.dommagesCeTour = dommagesCeTour;
+            this.dommagesAvant = dommagesAvant;
+            this.dommagesApres = dommagesApres;
+        }
+    }
+
+    /**
+     * Calcule les dégâts subis par un type de bâtiment, en distinguant le cumul depuis
+     * le début du combat de l'évolution propre au tour courant (m = avant tour, n = après tour).
+     */
+    private static DegatsBatiment calculerDegatsBatiment(Map.Entry entreeInitiale, Map m, Map n) {
+        int[] dT = (int[]) entreeInitiale.getValue();
+        Object o = null;
+        int[] mT = ((o = m.get(entreeInitiale.getKey())) == null ? new int[2] : (int[]) o);
+        int[] nT = ((o = n.get(entreeInitiale.getKey())) == null ? new int[2] : (int[]) o);
+        Batiment b = (Batiment) Univers.getTechnologie((String) entreeInitiale.getKey());
+        int nbCases = b.getPointsDeStructure();
+
+        int dom = nT[1] + (-nT[0] + dT[0]) * nbCases;
+        int domA = mT[1] + (-mT[0] + dT[0]) * nbCases;
+
+        return new DegatsBatiment(nT[0], mT[0] - nT[0], dom, dom - domA, mT[1], nT[1]);
     }
 
     private static BaliseHTML ecrireDetailCombatPlanete(Commandant c,
                                                         Systeme s, int numPla, Map m, Map.Entry[] d, Map n, int popm,
                                                         int popn, String[] t) {
-        BaliseHTML[][] a = new BaliseHTML[4 + d.length][3];
+        final int nbColonnes = 7;
+        BaliseHTML[][] a = new BaliseHTML[4 + d.length][nbColonnes];
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[0]);
         String[] inter2 = new String[2];
         inter2[0] = s.getNomNumeroPlanete(numPla);
         inter2[1] = c.getNomNumeroHtml();
-        a[ligne++][0] = Rapport.getTD("center", "3").ajout(
+        a[ligne++][0] = Rapport.getTD("center", Integer.toString(nbColonnes)).ajout(
                 Rapport.getText(message.format(inter2)));
         a[ligne][0] = Rapport.getTD("center", null).setTexteContenu("&nbsp;");
-        a[ligne][1] = Rapport.getTD("center", "2").ajout(
+        a[ligne][1] = Rapport.getTD("center", Integer.toString(nbColonnes - 1)).ajout(
                 Rapport.getFont(Rapport.cC[4], null).ajout(
                         Rapport.getText(t[2])));
         ligne++;
         a[ligne][0] = Rapport.getTD("center", null)
                 .ajout(Rapport.getText(t[1]));
         if (Math.max(0, popn) == popm)
-            a[ligne][1] = Rapport.getTD("center", "2").ajout(
+            a[ligne][1] = Rapport.getTD("center", Integer.toString(nbColonnes - 1)).ajout(
                     Rapport.getText(Integer.toString(Math.max(0, popn))));
         else
             a[ligne][1] = Rapport
-                    .getTD("center", "2")
+                    .getTD("center", Integer.toString(nbColonnes - 1))
                     .ajout(Rapport.getText(Integer.toString(Math.max(0, popn))))
                     .ajout(Rapport
                             .getFont(Rapport.cC[6], null)
@@ -694,13 +744,25 @@ public class Combat {
         if (d.length > 0) {
             a[ligne][0] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
-                            Rapport.getText(t[4])));
+                        Rapport.getText(t[6])));
             a[ligne][1] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[2])));
             a[ligne][2] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
+                            Rapport.getText(t[7])));
+            a[ligne][3] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[3])));
+            a[ligne][4] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                        Rapport.getText(t[8])));
+            a[ligne][5] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                    Rapport.getText(t[4])));
+            a[ligne][6] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                        Rapport.getText(t[5])));
             ligne++;
             for (int i = 0; i < d.length; i++) {
                 Batiment b = (Batiment) Univers.getTechnologie((String) d[i]
@@ -708,37 +770,46 @@ public class Combat {
                 a[ligne][0] = Rapport.getTD("center", null)
                         .ajout(Rapport.getText(Utile.maj(b.getNomComplet(c
                                 .getLocale()))));
-                int[] dT = (int[]) d[i].getValue();
-                Object o = null;
-                int[] mT = ((o = m.get(d[i].getKey())) == null ? new int[2]
-                        : (int[]) o);
-                int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[2]
-                        : (int[]) o);
-                int nbCases = b.getPointsDeStructure();
-                if (mT[0] == nT[0])
+
+                DegatsBatiment degats = calculerDegatsBatiment(d[i], m, n);
+                SherilLogger.log(String.format(
+                    "[RAPPORT-PLANETE] Type=%s Restant=%d DetruitsCeTour=%d Cumul=%d CeTour=%d Avant=%d Apres=%d",
+                    d[i].getKey(), degats.nombreRestant, degats.detruitsCeTour,
+                    degats.dommagesCumules, degats.dommagesCeTour,
+                    degats.dommagesAvant, degats.dommagesApres));
+
+                if (degats.detruitsCeTour == 0)
                     a[ligne][1] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(nT[0])));
+                            Rapport.getText(Integer.toString(degats.nombreRestant)));
                 else
                     a[ligne][1] = Rapport
                             .getTD("center", null)
-                            .ajout(Rapport.getText(Integer.toString(nT[0])))
+                            .ajout(Rapport.getText(Integer.toString(degats.nombreRestant)))
                             .ajout(Rapport.getFont(Rapport.cC[6], null).ajout(
-                                    Rapport.getText("("
-                                            + Integer.toString(nT[0] - mT[0])
+                                    Rapport.getText("(-"
+                                            + Integer.toString(degats.detruitsCeTour)
                                             + ")")));
-                int dom = nT[1] + (-nT[0] + dT[0]) * nbCases;
-                int domA = mT[1] + (-mT[0] + dT[0]) * nbCases;
-                if (dom == domA)
-                    a[ligne][2] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(dom)));
+
+                a[ligne][2] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.detruitsCeTour)));
+
+                a[ligne][3] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesCumules)));
+
+                if (degats.dommagesCeTour == 0)
+                    a[ligne][4] = Rapport.getTD("center", null).ajout(
+                            Rapport.getText("0"));
                 else
-                    a[ligne][2] = Rapport
+                    a[ligne][4] = Rapport
                             .getTD("center", null)
-                            .ajout(Rapport.getText(Integer.toString(dom)))
                             .ajout(Rapport.getFont(Rapport.cC[3], null).ajout(
-                                    Rapport.getText("(+"
-                                            + Integer.toString(dom - domA)
-                                            + ")")));
+                                    Rapport.getText("+"
+                                            + Integer.toString(degats.dommagesCeTour))));
+
+                a[ligne][5] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesAvant)));
+                a[ligne][6] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesApres)));
                 ligne++;
             }
         }
@@ -749,7 +820,8 @@ public class Combat {
 
     private static void tirDefensesPlanetaires(ConstructionPlanetaire[] listeC,
                                                ArrayList strato, ArrayList sol, Gouverneur g, Heros h,
-                                               boolean boutPortant, Commandant defenseur) { // On utilise defenseur passé en paramètre
+                                               boolean boutPortant, Commandant defenseur,
+                                               String contexte) { // On utilise defenseur passé en paramètre
         ArrayList inter = null;
 
         
@@ -771,7 +843,8 @@ public class Combat {
 
                 //LOG
               SherilLogger.log(String.format(
-                    "[DEB-2.4] BATTERIES -> FLOTTE |  Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    "[DEB-2.4] %s | BATTERIES -> FLOTTE | Cible: %s | Dégâts: %d | Total Défenseur %s: %.2f",
+                    contexte,
                     cible.getPlan().getNom(),
                     degatsDuTir,
                       defenseur != null ? defenseur.getNomNumeroText() : "",
@@ -782,35 +855,46 @@ public class Combat {
     }
 
     private static void tirMilicesPlanetaires(int nbPopDefensives,
-                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur) { // On utilise defenseur passé en paramètre
+                                              ArrayList sol, Gouverneur g, Heros h, Commandant defenseur,
+                                              String contexte) { // On utilise defenseur passé en paramètre
         ConstructionPlanetaire[] c = new ConstructionPlanetaire[1];
         c[0] = new ConstructionPlanetaire("battlaI");
         int nbTirs = 0;
         if (nbPopDefensives > 50)
             nbTirs = 1 + (nbPopDefensives / (2 * Const.NOMBRE_SALVE_BATTERIE));
         if (!sol.isEmpty()) {
-            SherilLogger.log("[DEB-2.3] DEBUT TIR MILICE | Population: " + nbPopDefensives + " | Nombre de salves prévues: " + nbTirs);
+            SherilLogger.log(String.format(
+                    "[DEB-2.3] %s | DEBUT TIR MILICE | Population: %d | Nombre de salves prévues: %d",
+                    contexte, nbPopDefensives, nbTirs));
             for (int i = 0; i < nbTirs; i++)
-                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur);
+                tirDefensesPlanetaires(c, sol, sol, g, h, false, defenseur, contexte);
         }
                
     }
 
     private static int tirAirSol(Commandant c1, ArrayList strato,
                                  ConstructionPlanetaire[] listeC, int nbPopDefensive,
-                                 boolean construCible, Gouverneur g, Heros h) {
+                                 boolean construCible, Gouverneur g, Heros h,
+                                 String contexte) {
         int retour = nbPopDefensive;
         ConstructionPlanetaire[] cibles = null;
 
         ArrayList listeBoucliers = new ArrayList();
         for (int i = 0; i < listeC.length; i++)
-            if (listeC[i].estBouclier())
+            if (!listeC[i].estDetruit() && listeC[i].estBouclier())
                 listeBoucliers.add(listeC[i]);
         if (listeBoucliers.size() > 0)
             cibles = (ConstructionPlanetaire[]) listeBoucliers
                     .toArray(new ConstructionPlanetaire[0]);
-        else if (listeC.length > 0)
-            cibles = listeC;
+        else {
+            ArrayList constructionsValides = new ArrayList();
+            for (int i = 0; i < listeC.length; i++)
+                if (!listeC[i].estDetruit())
+                    constructionsValides.add(listeC[i]);
+            if (constructionsValides.size() > 0)
+                cibles = (ConstructionPlanetaire[]) constructionsValides
+                        .toArray(new ConstructionPlanetaire[0]);
+        }
 
         for (int i = 0; i < strato.size(); i++) {
             Vaisseau v = (Vaisseau) strato.get(i);
@@ -820,9 +904,9 @@ public class Combat {
                 int morts = 0;
 
                 if ((cibles != null) && ((construCible) || (listeBoucliers.size() > 0))) {
-                    v.tirSurConstruction(cibles, h, g, construCible);
+                    v.tirSurConstruction(cibles, h, g, construCible, contexte);
                 } else {
-                    morts = v.tirSurMilices(h, g, construCible, retour);
+                    morts = v.tirSurMilices(h, g, construCible, retour, contexte);
                     retour = retour - morts;
                 }
 
@@ -833,7 +917,8 @@ public class Combat {
                 }
 
                 SherilLogger.log(String.format(
-                        "[DEB-2.1/2.2] AIR-SOL | Vaisseau: %s | Dégâts Structure: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        "[DEB-2.1/2.2] %s | Vaisseau: %s | Dégâts infligés: %d | Morts Milice: %d | Total Commandant %s: %.2f",
+                        contexte,
                         v.getPlan().getNom(),
                         degatsDuTir,
                         impactPop,
@@ -844,6 +929,19 @@ public class Combat {
         }
 
         return retour;
+    }
+
+    private static String contexteCombatPlanetaire(Commandant attaquant,
+                                                   Commandant defenseur, Flotte flotte,
+                                                   Systeme systeme, int numPla, int tour) {
+        return String.format(
+                "Tour=%d Attaquant=%s Flotte=%s Defenseur=%s Systeme=%s Planete=%s",
+                tour + 1,
+                attaquant.getNomNumeroText(),
+                flotte.getNomNumero(attaquant.numeroFlotte(flotte)),
+                defenseur.getNomNumeroText(),
+                systeme.getNom() + " " + systeme.getPosition(),
+                systeme.getNomNumeroPlanete(numPla));
     }
 
     public static boolean combatFlotteFlotte(Commandant c1, Commandant c2, int numFlotte1, int numFlotte2) {
@@ -1148,15 +1246,21 @@ public class Combat {
 
     private static BaliseHTML ecrireDetailCombatVaisseaux(Commandant c,
                                                           Flotte f, Map m, Map.Entry[] d, Map n, String[] t) {
-        BaliseHTML[][] a = new BaliseHTML[100][4];
+        return ecrireDetailCombatVaisseaux(c, f, m, d, n, t, false);
+    }
+
+    private static BaliseHTML ecrireDetailCombatVaisseaux(Commandant c,
+                                                          Flotte f, Map m, Map.Entry[] d, Map n, String[] t,
+                                                          boolean combatPlanetaire) {
+        BaliseHTML[][] a = new BaliseHTML[100][combatPlanetaire ? 5 : 4];
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[1]);
         String[] inter2 = new String[2];
         inter2[0] = f.getNomNumeroHTML(c.numeroFlotte(f));
         inter2[1] = c.getNomNumeroHtml();
-        a[ligne++][0] = Rapport.getTD("center", "4").ajout(
+        a[ligne++][0] = Rapport.getTD("center", combatPlanetaire ? "5" : "4").ajout(
                 Rapport.getText(message.format(inter2)));
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < (combatPlanetaire ? 5 : 4); i++)
             a[ligne][i] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[i + 2])));
@@ -1169,7 +1273,7 @@ public class Combat {
             Object o = null;
             int[] mT = ((o = m.get(d[i].getKey())) == null ? new int[3]
                     : (int[]) o);
-            int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[3]
+                int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[4]
                     : (int[]) o);
             int nbCases = Univers.getPlanDeVaisseau((String) d[i].getKey())
                     .getNombreDeCases();
@@ -1198,6 +1302,9 @@ public class Combat {
                                         + Integer.toString(dom - domA) + ")")));
             a[ligne++][3] = Rapport.getTD("center", null).ajout(
                     Rapport.getText(Integer.toString(nT[2])));
+                if (combatPlanetaire)
+                a[ligne - 1][4] = Rapport.getTD("center", null).ajout(
+                    Rapport.getText(Integer.toString(nT[3])));
         }
 
         return Rapport.getDiv().ajout(

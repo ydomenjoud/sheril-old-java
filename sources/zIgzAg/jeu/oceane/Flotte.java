@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import zIgzAg.utile.SherilLogger;
+
 public class Flotte implements Serializable {
 
 	static final long serialVersionUID = 8343323531539867063L;
@@ -1367,21 +1369,43 @@ public class Flotte implements Serializable {
 	}
 
 	public Map<String, int[]> listeVaisseauxParTypePourCombat() {
+		return listeVaisseauxParTypePourCombat(null);
+	}
+
+	public Map<String, int[]> listeVaisseauxParTypePourCombat(String contexte) {
 		Vaisseau[] v = listeVaisseaux();
 		HashMap<String, int[]> retour = new HashMap<>(v.length);
-		for (int i = 0; i < v.length; i++)
+		for (int i = 0; i < v.length; i++) {
+			if (contexte != null)
+				SherilLogger.log(String.format(
+						"[AGREGATION-VAISSEAU] %s | Index=%d Type=%s DommagesInfliges=%d Detruit=%s",
+						contexte, i, v[i].getType(),
+						v[i].getDommagesEffectues(), v[i].estDetruit()));
 			if (retour.containsKey(v[i].getType())) {
 				int[] inter = retour.get(v[i].getType());
 				inter[0]++;
 				inter[1] = inter[1] + v[i].nombreTotalPointsDeDommage();
 				inter[2] = inter[2] + v[i].getDommagesEffectues();
+				if (inter.length > 3)
+					inter[3] = inter[3] + v[i].getDommagesEffectuesTheoriques();
 				retour.put(v[i].getType(), inter);
 			} else {
-				int[] inter = new int[3];
+				int[] inter = contexte == null ? new int[3] : new int[4];
 				inter[0] = 1;
 				inter[1] = v[i].nombreTotalPointsDeDommage();
 				inter[2] = v[i].getDommagesEffectues();
+				if (inter.length > 3)
+					inter[3] = v[i].getDommagesEffectuesTheoriques();
 				retour.put(v[i].getType(), inter);
+			}
+		}
+		if (contexte != null)
+			for (Map.Entry<String, int[]> entree : retour.entrySet()) {
+				int[] valeurs = entree.getValue();
+				SherilLogger.log(String.format(
+						"[AGREGATION-TOTAL] %s | Type=%s Nombre=%d DommagesEncaisses=%d DommagesInfliges=%d DommagesTheoriques=%d",
+						contexte, entree.getKey(), valeurs[0], valeurs[1], valeurs[2],
+						valeurs[3]));
 			}
 		return retour;
 	}
