@@ -1122,40 +1122,40 @@ public class Univers {
 	private static final Object[][] PLAN_DEPART = {
 			{ "Inconnu",
 					new String[] { "moteurI", "bombeI" },
-					new int[] { 1, 4 }, "Bombardier standard", "Dune" },
+					new int[] { 1, 4 }, "Bombardier standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "bombeI" },
-					new int[] { 1, 7 }, "Grand Bombardier standard", "Dune" },
+					new int[] { 1, 7 }, "Grand Bombardier standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "laserI" },
-					new int[] { 1, 1 }, "Intercepteur standard", "Dune" },
+					new int[] { 1, 1 }, "Intercepteur standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "laserI" },
-					new int[] { 1, 4 }, "Chasseur standard", "Dune" },
+					new int[] { 1, 4 }, "Chasseur standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "torpI" },
-					new int[] { 1, 4 }, "Torpilleur standard", "Dune" },
+					new int[] { 1, 4 }, "Torpilleur standard", Const.GAME_NAME },
 			{"Inconnu",
 					new String[] { "moteurI", "bouclierI", "plasmaI" },
-					new int[] { 1, 5, 10 }, "Fregate standard", "Dune" },
+					new int[] { 1, 5, 10 }, "Fregate standard", Const.GAME_NAME },
 			{"Inconnu",
 					new String[] { "moteurI", "bouclierI", "laserI", "plasmaI"},
-					new int[] { 1, 5, 10, 10, 10 }, "Destroyer standard", "Dune" },
+					new int[] { 1, 5, 10, 10, 10 }, "Destroyer standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "bouclierI", "plasmaI", "torpI", "missI" },
-					new int[] { 1, 10, 10, 10, 10 }, "Croiseur standard", "Dune" },
+					new int[] { 1, 10, 10, 10, 10 }, "Croiseur standard", Const.GAME_NAME },
 			{"Inconnu",
 					new String[] { "moteurI", "bouclierI", "bombeI", "laserI", "plasmaI", "torpI" },
-					new int[] { 1, 10, 10, 20, 20, 20 }, "Supercroiseur standard", "Dune" },
+					new int[] { 1, 10, 10, 20, 20, 20 }, "Supercroiseur standard", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "robocoI" },
-					new int[] { 1, 1 }, "Colonisateur", "Dune" },
+					new int[] { 1, 1 }, "Colonisateur", Const.GAME_NAME },
 			{ "Inconnu",
 					new String[] { "moteurI", "scanI" },
-					new int[] { 1, 1 }, "Eclaireur standard", "Dune" }
+					new int[] { 1, 1 }, "Eclaireur standard", Const.GAME_NAME }
 	/**
 	 * ,{"Inconnu",new String[]{"moteurI","cargoII"},new int[]{1,16},"Cargo
-	 * Standard","Dune"},*
+	 * Standard",Const.GAME_NAME},*
 	 */
 
 	};

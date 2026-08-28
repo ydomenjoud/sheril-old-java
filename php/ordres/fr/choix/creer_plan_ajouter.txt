@@ -22,3 +22,37 @@
     </div>
 </FORM>
 
+<?php
+// calcul de la somme actuelle
+$result = mysql($base, "SELECT NOM,NOMBRE FROM ".mysql_real_escape_string($table)." WHERE NUMERO=$commandant");
+$rules = [
+        'bouclier' => ['max' => 10, 'label' => 'Boucliers'],
+        'absorb'   => ['max' => 1,  'label' => 'Absorbeur'],
+        'moteur'   => ['max' => 1,  'label' => 'Moteur'],
+        'mconstru' => ['max' => 1,  'label' => 'Module de construction'],
+];
+
+$counts = array_fill_keys(array_keys($rules), 0);
+
+while ($row = mysql_fetch_assoc($result)) {
+    $qty = (int)$row['NOMBRE'];
+    foreach ($counts as $prefix => &$count) {
+        if (strpos($row['NOM'], $prefix) === 0) {
+            $count += $qty;
+            break;
+        }
+    }
+}
+
+$errors = [];
+foreach ($rules as $prefix => $rule) {
+    if ($counts[$prefix] > $rule['max']) {
+        $errors[] = "Trop de {$rule['label']} ( MAX : {$rule['max']} )";
+    }
+}
+
+if ($errors) {
+    echo "<div class='error' style='color: #bf1e00; background: white;  padding: 10px; border: 1px solid #BF1E00;border-radius: 10px'> ERREUR :";
+    echo '<ul><li>' . implode('</li><li>', $errors) . '</li></ul>';
+    echo "</div>";
+}

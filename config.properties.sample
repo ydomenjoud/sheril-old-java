@@ -1,5 +1,7 @@
 # Configuration du jeu
 
+GAME_NAME = DunE
+
 # PATH
 PATH_DATA = ./data/
 PATH_EXPORT_ZIPPED_RAPPORT = ./rapports/
@@ -22,19 +24,19 @@ DATABASE_PASSWORD = password
 DATABASE_NAME = sheril
 
 # SMTP
-MAIL_SMTP_HOST = "smtp-relay.brevo.com"
-MAIL_SMTP_PORT = "587"
-MAIL_SMTP_TTLS = "true"
-MAIL_SMTP_AUTH = "true"
-MAIL_SMTP_LOGIN = "ton_adresse_email_brevo@domaine.com"
-MAIL_SMTP_PASSWORD = "ta_cle_smtp_generee_sur_brevo"
+MAIL_SMTP_HOST = smtp-relay.brevo.com
+MAIL_SMTP_PORT = 587
+MAIL_SMTP_TTLS = true
+MAIL_SMTP_AUTH = true
+MAIL_SMTP_LOGIN = ton_adresse_email_brevo@domaine.co
+MAIL_SMTP_PASSWORD = ta_cle_smtp_generee_sur_brevo
 SMTP_ENVOI = "smtp-relay.brevo.com"
-SEND_MAIL = false
 ADRESSE_MJ = mj@pbem-france.net
 
 # URL
-NOTIFY_BOT = true
-FAKE_TURN = false
+NOTIFY_BOT = false
+FAKE_TURN = true
+SEND_MAIL = false
 
 # LOCAL
 IS_LOCAL = true

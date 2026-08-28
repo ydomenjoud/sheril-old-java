@@ -11,7 +11,7 @@ package zIgzAg.jeu.oceane;
  */
 public class MessagesInfo extends MessagesAbstraits {
 
-	public static final String MAIL_TITRE_RAPPORT = "[Sheril] Rapport du tour {0}";
+	public static final String MAIL_TITRE_RAPPORT = "[Sheril: {0}] Rapport du tour {1}";
 
 	public static final String MAIL_CORPS_RAPPORT_TXT = """
 			Salutations, Commandant.
@@ -25,7 +25,7 @@ public class MessagesInfo extends MessagesAbstraits {
 			• Mot de passe : {1}
 			
 			Lien de téléchargement de votre rapport :
-			{2}
+			{2}ordres/ordres.php3
 			
 			Un autre événement d''ampleur requiert mon attention sur le secteur central... Je dois interrompre la liaison, momentanément !
 			""";
@@ -61,13 +61,17 @@ public class MessagesInfo extends MessagesAbstraits {
         <div style="text-align: center; margin: 25px 0;">
             <a href="{2}ordres/ordres.php3" style="display: inline-block; background-color: #238636; color: #ffffff !important; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; font-size: 15px; border: 1px solid #2ea043;">📥 Télécharger le Rapport du Tour</a>
         </div>
+        
+        <p>
+        	Pour vous aider dans vos ordres, essayez <a href="https://ydomenjoud.github.io/test-interface-sheril">l''outil d''aide</a>.
+		</p>
 
         <div style="font-style: italic; color: #8b949e; border-left: 2px solid #30363d; padding-left: 10px; margin: 20px 0 10px 0; font-size: 13px;">
             "Un autre événement d''ampleur requiert mon attention sur le secteur central... Je dois interrompre la liaison, momentanément !"
         </div>
 
         <div style="font-size: 11px; color: #484f58; margin-top: 25px; text-align: center; border-top: 1px solid #21262d; padding-top: 15px;">
-            <p>Galaxie [Dune] - <a href="{2}" style="color: #58a6ff; text-decoration: none;">Accéder au site</a></p>
+            <p>Galaxie [{3}] - <a href="{2}" style="color: #58a6ff; text-decoration: none;">Accéder au site</a></p>
         </div>
     </div>
 </body>
@@ -289,7 +293,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0012 = "Vos services de contre-espionnage vous informent qu'un service secret dont ils n'ont pasréussi à Déterminer l'identité vient d'effectuer une mission de propagande sur votre planète {1} du système {0}, ce qui diminue de {2} sa stabilité.";
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0013 = "La planète {1} du système {0} vient de serévolter et Décide de se mettre sous votre protection.";
 	public static final String EV_COMMANDANT_MISSION_SPECIALE_0014 = "Ta pas honte ?? sur le MJ en plus .... bah essaye toujours: t'as le droit à 3 essai par tour.";
-	public static final String EV_COMMANDANT_MISSION_SPECIALE_0015 = "La cours de justice de [Dune] a intercepté un vol techno du commandant {0} contre {1}.";
+	public static final String EV_COMMANDANT_MISSION_SPECIALE_0015 = "La cours de justice de [%GAME_NAME%] a intercepté un vol techno du commandant {0} contre {1}.";
 
 	public static final String EV_COMMANDANT_DEPLACER_FLOTTE_0000 = "Votre flotte {0} se déplace vers {1} en directive {2} sans stratégie particulière.";
 

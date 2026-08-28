@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <title>Sheril, les atalantes</title>
-    <script src="/assets/js/script.js" defer></script>
-</head>
-<body>
+<?php
+define('EMBED', true);
+require_once '../includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
+<?php include_once __DIR__. "/../includes/headers.php"; ?>
 
 <?php require_once '../includes/nav.php'; ?>
 <div id="main">
@@ -151,7 +140,7 @@
             <article>
                 <h3>Histoire récente</h3>
                 <p>Au-delà du plaisir qu'ils tirent à la rappeler, les <span class="race1">atalantes</span> sont un peuple ancien, parmi les
-                    premiers nés de Dune ; leur goût pour les connaissances dissimulées et leur perfectionnisme les ont
+                    premiers nés de <?=$game_name?> ; leur goût pour les connaissances dissimulées et leur perfectionnisme les ont
                     souvent empêchés de se hisser à un niveau technologique aussi abouti que les <span class="race3">Yoksors</span> ou de prendre
                     de décisions politiques de premier plan dans les conflits de l'univers.</p>
                 <p>Ainsi, alors que les conflits ont fait rage entre <span class="race3">Yoksors</span>, Fremens et Fergoks durant de nombreux

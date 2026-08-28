@@ -147,7 +147,9 @@ public class Commentaire implements Serializable {
 				else
 					phrase = textePrincipal;
 			MessageFormat m = new MessageFormat(phrase.replace('\'', '"'));
-			return m.format(trad).replace('"', '\'');
+			return m.format(trad)
+					.replace('"', '\'')
+					.replace("%GAME_NAME%", Const.GAME_NAME);
 		}
 
 		private String colorier(String entree, int num) {
@@ -155,19 +157,18 @@ public class Commentaire implements Serializable {
 		}
 
 		private String traduction(Object o, Locale l) {
-			if (o instanceof Position) {
-				Position p = (Position) o;
-				if (!Univers.existenceSysteme(p))
+			if (o instanceof Position p) {
+                if (!Univers.existenceSysteme(p))
 					return p.getDescription();
 				else
-					return "<a href='"+Rapport.PRINCIPAL+"#"+ p + "' class='systeme'>" + Univers.getSysteme(p).getNomPosition() + "</a>";
+					return Univers.getSysteme(p).getLienAvecNomHTML();
 			}
 			if (o instanceof Float)
 				return "<span class='cur'>%,.1f</span>".formatted((Float) o);
 			if (o instanceof Technologie)
 				return ((Technologie) o).getNomHTML(l, false);
-			if (o instanceof Leader) {
-				return ((Leader) o).getNomHTML();
+			if (o instanceof Leader leader) {
+                return "<a href='"+Rapport.PRINCIPAL+"#"+ leader.getSlug() + "' class='leader'>" + leader.getNomHTML() + "</a>";
 			}
 			return o.toString();
 		}

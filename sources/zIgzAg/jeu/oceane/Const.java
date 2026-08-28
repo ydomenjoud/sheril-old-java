@@ -29,7 +29,8 @@ public class Const {
     public static String MAIL_SMTP_LOGIN = "";
     public static String MAIL_SMTP_PASSWORD = "";
     public static String MAIL_SMTP_DEBUG = "false";
-   public static String ADRESSE_MJ = "EMAIL@HOST";
+    public static String ADRESSE_MJ = "EMAIL@HOST";
+    public static String GAME_NAME = "Sheril";
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
@@ -39,6 +40,7 @@ public class Const {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(Univers.config));
+            GAME_NAME = properties.getProperty("GAME_NAME");
             // SSH
             SSH_PORT = properties.getProperty("SSH_PORT");
             SSH_BASE_PATH = properties.getProperty("SSH_BASE_PATH");

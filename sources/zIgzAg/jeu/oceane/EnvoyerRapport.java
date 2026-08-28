@@ -33,12 +33,13 @@ public class EnvoyerRapport {
 		if((!Const.SEND_MAIL || Const.FAKE_TURN) && c.getNumero() != 1) { return; }
 
 		String sujet = new MessageFormat(Univers.getMessageInfo("MAIL_TITRE_RAPPORT", c.getLocale()))
-				.format(new Object[]{ Univers.getTour() });
+				.format(new Object[]{ Const.GAME_NAME, Univers.getTour() });
 
 		Object[] o2 = {
 				c.getLogin(),
 				c.getMotDePasse(),
-				Chemin.RACINE_SITE
+				Chemin.RACINE_SITE,
+				Const.GAME_NAME,
 		};
 		String corpsMessageHTML = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_HTML", c.getLocale()))
 				.format(o2);

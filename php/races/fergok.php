@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <title>Sheril, les yoksors</title>
-    <script src="/assets/js/script.js" defer></script>
-</head>
-<body>
+<?php
+define('EMBED', true);
+require_once '../includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
+<?php include_once __DIR__. "/../includes/headers.php"; ?>
+
 
 <?php require_once '../includes/nav.php'; ?>
 <div id="main">
@@ -44,7 +34,7 @@
 
             <p>
                 D'apparence humanoïde, les <span class="race4">Fergok</span> sont de très grande taille et extrêmement bien bâtis.
-                Contrairement à d'autres formes de vie sur Dune, ils occupent la <strong>Terre Ferme</strong> ;
+                Contrairement à d'autres formes de vie sur <?=$game_name?>, ils occupent la <strong>Terre Ferme</strong> ;
                 leur carrure robuste leur permet de supporter les grandes différences de températures liées aux changements climatiques brutaux.
             </p>
             <p>
@@ -91,7 +81,7 @@
             <h2>Relations avec les autres espèces</h2>
             <img src="./img/fergok-forteresse.jpeg" alt="fergok" class="float left">
             <p>
-                Historiquement, les <span class="race4">Fergoks</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de Dune.
+                Historiquement, les <span class="race4">Fergoks</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de <?=$game_name?>.
                 De ce fait, ils n'ont pas d'<strong>ennemis prédestinés</strong>. Cependant, leur comportement brutal et
                 leur tendance à régler tout différend par la force limitent grandement leurs opportunités diplomatiques.
             </p>
