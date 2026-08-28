@@ -81,7 +81,7 @@ require_once '../includes/top.php'; ?>
             <h2>Relations avec les autres espèces</h2>
             <img src="./img/fergok-forteresse.jpeg" alt="fergok" class="float left">
             <p>
-                Historiquement, les <span class="race4">Fergoks</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de <?=$game_name?>.
+                Historiquement, les <span class="race4">Fergoks</span> n'ont jamais vraiment eu de contacts prolongés avec les autres formes de vie de Dune.
                 De ce fait, ils n'ont pas d'<strong>ennemis prédestinés</strong>. Cependant, leur comportement brutal et
                 leur tendance à régler tout différend par la force limitent grandement leurs opportunités diplomatiques.
             </p>
