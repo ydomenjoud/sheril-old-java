@@ -35,32 +35,18 @@ if (file_exists($file_path)) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/assets/css/styles.css?d=qsd">
-    <title>Sheril, le jeu de conquête galactique</title>
+    <title>Sheril : <?=$game_name?>, le jeu de conquête galactique</title>
 </head>
 <body>
 <?php
     if(!defined('EMBED') || EMBED === false ) {
 ?>
-<header>
-    Sheril, le jeux de conquête galactique
-    <?=$tour_information?>
-    <div style="font-size: 0.6em;">
-        <?php
-        $numero = intval(@$_SESSION['commandant_num']);
-        if ($numero) {
-            echo "Connecté en tant que " . getCommandantHTML($numero);
-            echo ' | <a href="/deconnexion.php" style="color: #ccc;">Déconnexion</a>';
-        } else {
-            echo '<a href="/connexion.php" style="color: #ccc;">Se connecter</a>';
-        }
-        ?>
-    </div>
-</header>
+<?php include_once __DIR__. "/headers.php"; ?>
 
 <nav>
     <a href="/">Accueil</a>
     <a href="/presentation.php">Présentation</a>
-    <a href="/races/fremen.php">Les races</a>
+    <a href="/races/histoire.php">Background</a>
     <a href="/stats.php">Statistiques</a>
     <a href="/ordres/ordres.php3">Console d'ordre</a>
     <a href="/register.php">Registre et Inscription</a>

@@ -1,11 +1,5 @@
 <?php require_once '../includes/top.php'; ?>
-    <style>
-        .forum-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .forum-table th, .forum-table td { border: 1px solid #444; padding: 10px; text-align: left; }
-        .forum-table th { background-color: #333; color: #fff; }
-        .category-header { background-color: #222; color: #fff; padding: 10px; font-size: 1.2em; border: 1px solid #444; }
-        .forum-desc { font-size: 0.9em; color: #aaa; }
-    </style>
+
 <main style="max-width: 100%">
         <h1>Forum</h1>
 

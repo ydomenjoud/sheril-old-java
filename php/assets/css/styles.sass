@@ -8,7 +8,7 @@
 :root
   --accent: #9c27b0
   --information: #00e6e6
-  --important: #83bfb0
+  --important: #a6e16b
 
 @each $name, $color in $races
   .race-#{$name}
@@ -62,19 +62,20 @@ h4
   font-size: 1.2rem
   margin-bottom: 5px
 h3
+  //font-size: 1.3rem
+  margin-bottom: 5px
+  color: var(--important)
+  font-style: italic
+h2
   font-size: 1.5rem
   margin-bottom: 10px
   color: var(--information)
-h2
-  font-size: 2rem
-  margin-bottom: 15px
-  color: var(--accent)
 h1
-  font-size: 2.5rem
+  font-size: 2rem
   margin-bottom: 20px
   padding-bottom: 10px
   border-bottom: 1px solid #003061
-  color: var(--important)
+  color: var(--accent)
 
 img
   &.float
@@ -91,7 +92,6 @@ h1, h2, h3, h4
   font-weight: bold
   display: block
   margin-top: 10px
-  padding-bottom: 10px
   text-transform: lowercase
   &:first-letter
     text-transform: uppercase
@@ -221,6 +221,18 @@ strong
 .btn-preview
   background-color: #6c757d
 
+a.btn
+  display: block
+  border: 1px solid #003963
+  padding: 5px 10px
+  text-decoration: none
+  font-weight: bold
+  font-size: 1.8rem
+  border-radius: 5px
+  &:hover
+    background-color: #003963
+    color: white
+
 [name=title]
   line-height: 2em
   background-color: #001021
@@ -237,6 +249,7 @@ $color-toolbar: #eee
   border: 1px solid $color-border
   margin-bottom: 20px
   display: flex
+  font-size: 0.8em
 
   .post-header
     background-color: $color-header-bg
@@ -335,10 +348,24 @@ table.stylized
   color: #fb5757
 
 table.forum-table
+  font-size: 0.8em
+  width: 100%
+  border-collapse: collapse
+  margin-bottom: 20px
+  th
+    background-color: #001d3a
+    color: #fff
+  th, td
+    border: 1px solid #444
+    padding: 10px
+    text-align: left
+  .forum-desc
+    font-size: 0.9em
+    color: #aaa
   td:nth-child(1)
     width: 60%
-  td:nth-child(2)
-    width: 20%
+
+
 
 #statsLink
   display: grid

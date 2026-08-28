@@ -1,4 +1,5 @@
 <nav>
+    <a href="/races/histoire.php">L'histoire</a>
     <a href="/races/fremen.php" class="race0">Fremens</a>
     <a href="/races/atalante.php" class="race1">Atalantes</a>
     <a href="/races/zwaia.php" class="race2">Zwaias</a>

@@ -72,6 +72,11 @@ public class Systeme implements Serializable {
 		return nom + "(" + position.getDescription() + ")";
 	}
 
+	public String getLienAvecNomHTML() {
+		Position p = this.position;
+		return "<a href='"+Rapport.PRINCIPAL+"#"+ p + "' class='systeme'>" + getNomPosition() + "</a>";
+	}
+
 	public int getCapaciteEncombrement(int player) {
 		int enc = 0;
 		for (int i = 0; i < pla.length; i++){
@@ -828,6 +833,14 @@ public class Systeme implements Serializable {
 		return rtr;
 	}
 
+	public int getPointsDeConstructionModifie(Commandant c) {
+		return getPointsDeConstructionModifie(
+				c.getNumero(),
+				c.getGouverneurSurPossession(position),
+				c.getPossession(position),
+				position
+		);
+	}
 	public int getPointsDeConstructionModifie(int numero, Gouverneur g, Possession p, Position pos) {
 		int retour = 0;
 		for (int i = 0; i < pla.length; i++)

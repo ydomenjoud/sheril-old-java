@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <title>Sheril, les zwaias</title>
-    <script src="/assets/js/script.js" defer></script>
-</head>
-<body>
+<?php
+define('EMBED', true);
+require_once '../includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
-
+<?php include_once __DIR__. "/../includes/headers.php"; ?>
 <?php require_once '../includes/nav.php'; ?>
 <div id="main">
     <?php require_once './nav.php'; ?>
@@ -29,7 +17,7 @@
             <h2>Nature et Morphologie</h2>
             <img src="./img/zwaia-combat2.jpeg" alt="zwaia" class="float">
             <p>
-                Contrairement aux autres espèces de Dune, les <span class="race2">Zwaïas</span> ne sont pas de type humanoïde. Ils se présentent sous la forme d'une <strong>sphère d'énergie</strong>, combinant des forces électriques et nucléaires.
+                Contrairement aux autres espèces de <?=$game_name?>, les <span class="race2">Zwaïas</span> ne sont pas de type humanoïde. Ils se présentent sous la forme d'une <strong>sphère d'énergie</strong>, combinant des forces électriques et nucléaires.
             </p>
 
             <dl>
@@ -63,7 +51,7 @@
             <h2>Habitat et Capacités de Conquête</h2>
         <img src="./img/zwaia-city.jpeg" alt="zwaia" class="float left">
             <p>
-                Les <span class="race2">Zwaïas</span> occupent généralement des milieux hostiles, délaissés par les autres peuples de [Dune]. Leur grande capacité d'adaptation leur permet de transformer ces zones en bastions.
+                Les <span class="race2">Zwaïas</span> occupent généralement des milieux hostiles, délaissés par les autres peuples de [<?=$game_name?>]. Leur grande capacité d'adaptation leur permet de transformer ces zones en bastions.
             </p>
             <ul>
                 <li><strong>Vitesse de reproduction :</strong> Lorsqu'ils s'implantent sur un nouveau territoire, ils se multiplient à une vitesse surprenante.</li>
@@ -101,6 +89,26 @@
                 <li><strong><span class="race4">Fergoks</span> :</strong> Relations limitées au strict nécessaire commercial.</li>
             </ul>
             <p><em>Note : Ils restent peu prolixes sur leurs affaires internes, préférant la compagnie de leurs semblables.</em></p>
+        </section>
+
+                <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race2">Zwaïas</span> héritent de la connaissance "Bombe de type I", qui leur permet de créer des plans de vaisseaux efficace en combat planétaire.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race2">Zwaïas</span> peuvent construire sur leurs systèmes de départ des "Stations d'armements et explosifs de type II", qui produisent 10 marchandises de type "armements et explosifs" par tour.
+                   Un stock de 100 armements et explosifs sur un système octroie un malus de -1% sur la stabilité et +50% sur la défense du système.
+                   Les logiciels sont utilisés pour la construction de batteries de défense, et pour la production de vaisseaux spatiaux, notamment ceux dotés de bombes et de lanceurs de mines.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race2">Zwaïas</span> les plans du vaisseau "Bombardier Zwaïa" utile en combat planétaire. C'est un bombardier de taille 3 équipé d'un bouclier et de bombes.</p>
+            </article>
         </section>
 
 

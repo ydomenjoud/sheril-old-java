@@ -94,6 +94,8 @@ public class Chemin {
 	// le repertoire où sont stockés les fichiers nécessaires pour passer les
 	// ordres.
 
+	public static String DONNEES_GAME_NAME;
+
 	public static String DONNEES_ORDRES;
 	// le fichier sql principal.
 
@@ -148,6 +150,7 @@ public class Chemin {
 		RAPPORTS_IMAGES = c(RAPPORTS + "images", true);
 		ORDRES = c(rep + "ordres/", true);
 		DONNEES_ORDRES = c(ORDRES + "ordres", false);
+		DONNEES_GAME_NAME = c(ORDRES + "name.txt", false);
 		DONNEES_RACES = c(ORDRES + "race.txt", false);
 		SECURITE = c(rep + "secure/", true);
 		STATS = c(rep + "stats/", true);

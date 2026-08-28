@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <title>Sheril, les atalantes</title>
-    <script src="/assets/js/script.js" defer></script>
-</head>
-<body>
+<?php
+define('EMBED', true);
+require_once '../includes/top.php'; ?>
 
-<header>
-    Sheril, le jeux de conquête galactique
-</header>
+<?php include_once __DIR__. "/../includes/headers.php"; ?>
 
 <?php require_once '../includes/nav.php'; ?>
 <div id="main">
@@ -151,7 +140,7 @@
             <article>
                 <h3>Histoire récente</h3>
                 <p>Au-delà du plaisir qu'ils tirent à la rappeler, les <span class="race1">atalantes</span> sont un peuple ancien, parmi les
-                    premiers nés de Dune ; leur goût pour les connaissances dissimulées et leur perfectionnisme les ont
+                    premiers nés de <?=$game_name?> ; leur goût pour les connaissances dissimulées et leur perfectionnisme les ont
                     souvent empêchés de se hisser à un niveau technologique aussi abouti que les <span class="race3">Yoksors</span> ou de prendre
                     de décisions politiques de premier plan dans les conflits de l'univers.</p>
                 <p>Ainsi, alors que les conflits ont fait rage entre <span class="race3">Yoksors</span>, Fremens et Fergoks durant de nombreux
@@ -190,6 +179,26 @@
                         pourrait s'assimiler à de la sympathie.
                     </li>
                 </ul>
+            </article>
+        </section>
+
+        <!-- Nouvelle section Héritage -->
+        <section id="heritage">
+            <h2>Héritage</h2>
+            <article>
+                <h3>Composant de vaisseau</h3>
+                <p>Au démarrage de la partie, les <span class="race1">Atalantes</span> héritent de la connaissance "Canon à plasma de type I", qui leur permet de créer des plans de vaisseaux efficaces contre les coques de taille moyenne.</p>
+            </article>
+            <article>
+                <h3>Bâtiment</h3>
+                <p>Les <span class="race1">Atalantes</span> peuvent construire sur leurs systèmes de départ des "Stations énergétiques de type II", qui produisent 10 marchandises de type "unité énergétique" par tour.
+                   Un stock de 100 unités énergétiques sur un système octroie une diminution du coût d'entretien des flottes stationnées sur le système de 50%.
+                   Les unités énergétiques sont utilisées pour la construction de bâtiments de production de marchandises avancés, et pour la production de vaisseaux spatiaux, notamment ceux dotés de réacteurs et de canons à plasma.
+                </p>
+            </article>
+            <article>
+                <h3>Plan de vaisseau</h3>
+                <p>Les anciens ont légué aux <span class="race1">Atalantes</span> les plans du vaisseau "Gardien" utile lors des combats spatiaux entre flottes. C'est un chasseur de taille 3 équipé d'un bouclier et de canons à plasma.</p>
             </article>
         </section>
 

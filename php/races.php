@@ -28,12 +28,12 @@
             meme hostiles vis a vis des <span class="race3"> Yoksors</span> leur rapidité fait d'eux de tres bons
             guerriers plus particulierement lors de combats spaciaux ou ils court circuitent les vaisseaux ennemis avec
             des decharges energetique. Les <span class="race2">Zwaïas</span> vivent dans des milieux hostiles, delaissés par les autres occupants
-            de Dune, par contre, lorsqu'ils s'implantent quelque part, ils s'y multiplient a une vitesse surprenante ce
+            de <?=$game_name?>, par contre, lorsqu'ils s'implantent quelque part, ils s'y multiplient a une vitesse surprenante ce
             qui avec leur facultés à s'adapter facilement fait d'eux de bons conquerants. </p>
         <div class="clear"></div>
 
         <h3 class="race3">Yoksors</h3>
-        <p>Les <span class="race3"> Yoksors</span> sont surement les habitants de Dune les plus ridicules, ils ont une
+        <p>Les <span class="race3"> Yoksors</span> sont surement les habitants de <?=$game_name?> les plus ridicules, ils ont une
             apparence humanoide ce sont de petits êtres , qui ne cessent de marmonner des formules plus complexes les
             unes que les autres, ce sont en effet de brillants chercheurs, et qui ne quittent jamais leur laboratoire si
             ce n'est les pieds en avant. ils sont constamment penchés sur leurs eprouvettes et pupitres ce qui leur vaut
@@ -48,9 +48,9 @@
         <p>D'apparence humanoide, les <span class="race4"> Fergoks</span> sont de tres grande taille (3 mêtres en
             moyenne) et bien batis, amateurs de combats en tout genre et de guerres meurtrieres, ils brillent d'avantage
             par leur force de frappe extremement destructrice que par leur intelligence. Les <span
-                    class="race4"> Fergok</span> contrairement a certaines formes de vie de Dune occupent la Terre
+                    class="race4"> Fergok</span> contrairement a certaines formes de vie de <?=$game_name?> occupent la Terre
             Ferme, leur carrure leur permet de supporter les grandes differences de temperatures liés aux changements
-            climatiques. Ils n'ont jamais vraiment eus de contacts avec les autres formes de vies que comporte Dune,ils
+            climatiques. Ils n'ont jamais vraiment eus de contacts avec les autres formes de vies que comporte <?=$game_name?>,ils
             n'ont donc pas d'ennemi predestinés, mais leur comportement imprevisible attire la mefiance des autres
             races. </p>
         <div class="clear"></div>

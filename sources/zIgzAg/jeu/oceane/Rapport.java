@@ -124,7 +124,7 @@ public class Rapport {
                     """
 						const marchandisesBonusList = [
 						/* "produits alimentaires" */		"+5% sur le taux d'augmentation de la population.",
-						/* "dechets" */					 	"Ni bonus ni malus",
+						/* "dechets" */					 	"-1 en stab par 100 déchets",
 						/* "articles de luxe" */			"+10% sur les revenus.",
 						/* "holofilms et hololivres" */		"+1% de stabilité.",
 						/* "Systèmes de guidage" */			"Ni bonus ni malus",
@@ -1428,6 +1428,7 @@ public class Rapport {
 			a[i][0] = getTD(null, null).ajout(getText(t[i]));
 		}
 		int j = 1;
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Const.GAME_NAME);
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(
 				Integer.toString(Univers.getTour()));
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.getDateRapport());
@@ -1443,6 +1444,20 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.position(PointDeVictoire.getPositionGenerale(c)));
+		Optional<Integer> pdc = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
+				.map(s -> s.getPointsDeConstructionModifie(c))
+				.reduce(Integer::sum);
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(pdc.orElse(0)));
+
+		Optional<Integer> stockMinerai = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
+				.map(s -> s.getStockMinerai(c.getNumero()))
+				.reduce(Integer::sum);
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(stockMinerai.orElse(0)));
+
+		Optional<Integer> productionMinerai = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
+				.map(s -> s.getRevenuMinerai(c.getNumero()))
+				.reduce(Integer::sum);
+		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(productionMinerai.orElse(0)));
 
 		return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
@@ -1687,28 +1702,32 @@ public class Rapport {
 			a[i + 1][7] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getFont(null, BaliseHTML.T_2).ajout(
 							"<span class='cur'>" + Utile.a1DS(p[i].getPrix()) + "</span>"));
-			a[i + 1][8] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][8] = getTD(BaliseHTML.CENTER, null)
+					.ajout(getFont(null, BaliseHTML.T_2).ajout(
+							"<span class='cur' style='color: #f26600;'>" + Utile.a1DS(p[i].getPrixConstructionEspace()) + "</span>"));
+
+			a[i + 1][9] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(Integer.toString(p[i]
 									.getMineraiNecessaire()))));
-			a[i + 1][9] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][10] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(cC[6], BaliseHTML.T_2).ajout(
 							getText(p[i].getListeMarchandises(loc))));
-			a[i + 1][10] = getTD(BaliseHTML.CENTER, null)
+			a[i + 1][11] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getFont(null, BaliseHTML.T_2).ajout(
 							getText(Integer.toString(p[i].getForceSpatiale()))));
-			a[i + 1][11] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][12] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(null, BaliseHTML.T_2)
 							.ajout(getText(Integer.toString(p[i]
 									.getForcePlanetaire()))));
-			a[i + 1][12] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][13] = getTD(BaliseHTML.CENTER, null).ajout(
 					getSpan("technologie").ajout(
 							getText(p[i].descriptionComposants(loc))));
-			a[i + 1][13] = getTD(BaliseHTML.CENTER, null)
+			a[i + 1][14] = getTD(BaliseHTML.CENTER, null)
 					.ajout(getFont(null, BaliseHTML.T_2)
 							.ajout(getText(p[i].getRoyalties()
 									+ "%")));
-			a[i + 1][14] = getTD(BaliseHTML.CENTER, null).ajout(
+			a[i + 1][15] = getTD(BaliseHTML.CENTER, null).ajout(
 					getFont(null, BaliseHTML.T_2).ajout(
 							getText(p[i].getDescriptionDomaine(loc))));
 		}
@@ -1904,7 +1923,7 @@ public class Rapport {
 
 			racine.ajout(getTitreSection().ajout(getText(t))).ajout(
 					getABorne(LIEN_HEROS));
-			racine.ajout(getListeLeaders(h, c.getLocale())).ajout(sautP());
+			racine.ajout(getListeLeaders(h, c.getLocale(), c)).ajout(sautP());
 		}
 		if (g.length > 0) {
 			String t = (String) Univers.getMessageRapport("GOUVERNEURS",
@@ -1917,22 +1936,44 @@ public class Rapport {
 			racine.ajout(lien);
 
 			racine.ajout(getTitreSection().ajout(getText(t)));
-			racine.ajout(getListeLeaders(g, c.getLocale())).ajout(sautP());
+			racine.ajout(getListeLeaders(g, c.getLocale(), c)).ajout(sautP());
 		}
 		return racine;
 	}
 
 	public static BaliseHTML getListeLeaders(Leader[] l, Locale loc) {
+		return getListeLeaders(l, loc, null);
+	}
+
+	public static BaliseHTML getListeLeaders(Leader[] l, Locale loc, Commandant c) {
 		String[] t = (String[]) Univers.getMessageRapport("LEADERS", loc);
 		BaliseHTML[][] a = new BaliseHTML[l.length + 1][12];
 		for (int i = 0; i < 12; i++)
 			a[0][i] = getTD(BaliseHTML.CENTER, null).ajout(
 					getTitreCaption().ajout(getText(t[i])));
 		for (int i = 0; i < l.length; i++) {
-			a[i + 1][0] = getTD(BaliseHTML.CENTER, null).ajout(
-					getText(l[i].getNom() + (l[i].estNomme() ? "" : "(*)")));
-			a[i + 1][1] = getTD(BaliseHTML.CENTER, null).ajout(
-					getText(l[i].descriptionPosition(loc)));
+			a[i + 1][0] = getTD(BaliseHTML.CENTER, null)
+					.ajout(getABorne(l[i].getSlug()).ajout(getText(l[i].getNomHTML())));
+
+			String descriptionPosition = l[i].descriptionPosition(loc);
+			// gestion de la position dans le rapport
+			if(c != null) {
+				if (l[i] instanceof Gouverneur g) {
+					Position p = g.getPosition();
+					if(p != null) {
+						descriptionPosition = Univers.getSysteme(g.getPosition()).getLienAvecNomHTML();
+					}
+				} else if (l[i] instanceof Heros h) {
+					// on récupère la flotte
+					int num = h.getPosition();
+					if(num >= 0) {
+						descriptionPosition = c.getFlotte(num).getNomNumeroHTML(num);
+					}
+				}
+			}
+			a[i + 1][1] = getTD(BaliseHTML.CENTER, null).ajout(descriptionPosition);
+			// fin affichage de la position
+
 			a[i + 1][2] = getTD(BaliseHTML.CENTER, null).ajout(
 					getText(Integer.toString(l[i].getNiveau())));
 			a[i + 1][3] = getTD(BaliseHTML.CENTER, null).ajout(
@@ -2225,33 +2266,38 @@ public class Rapport {
 								getText(Integer.toString(s.getRevenuMinerai(c
 										.getNumero())))));
 
-				a[i + 2][10] = getTD(BaliseHTML.CENTER, null)
+				a[i + 2][10] = getTD(BaliseHTML.CENTER, null).ajout(
+						getFont(cC[3], null).ajout(
+								getText(Integer.toString(s.getStockMinerai(c
+										.getNumero())))));
+
+				a[i + 2][11] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getFont(cC[6], null)
 								.ajout(getText(Integer.toString(fief
 										.getBudget(Const.DOMAINES_BUDGET_TECHNOLOGIQUE)))));
-				a[i + 2][11] = getTD(BaliseHTML.CENTER, null)
+				a[i + 2][12] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getText(Integer.toString(fief
 								.getBudget(Const.DOMAINES_BUDGET_SERVICES_SPECIAUX))));
-				a[i + 2][12] = getTD(BaliseHTML.CENTER, null)
+				a[i + 2][13] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getFont(cC[4], null)
 								.ajout(getText(Integer.toString(fief
 										.getBudget(Const.DOMAINES_BUDGET_CONTRE_ESPIONNAGE)))));
-				a[i + 2][13] = getTD(BaliseHTML.CENTER, null)
+				a[i + 2][14] = getTD(BaliseHTML.CENTER, null)
 						.ajout(getText(Commandant.getListeCommandants(s
 								.getProprios())));
 				if (c.existenceGouverneurSurPossession(p[i]))
-					a[i + 2][14] = getTD(BaliseHTML.CENTER, null)
+					a[i + 2][15] = getTD(BaliseHTML.CENTER, null)
 							.ajout(getALienI(LIEN_GOUVERNEURS)
 									.ajout(getFont(cC[3], null)
 											.ajout(getText(c
 													.getGouverneurSurPossession(
 															p[i]).getNom()))));
 				else
-					a[i + 2][14] = getTD(null, null).ajout(
+					a[i + 2][15] = getTD(null, null).ajout(
 							getText("&nbsp;"));
 
 
-				a[i + 2][15] = getTD(BaliseHTML.CENTER, null).ajout(
+				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(
 						getText(Messages.POLITIQUES[(c.getPossession(p[i]))
 								.getPolitique()]));
 				String constructionEnCoursCode = c.getPossession(p[i]).getProgrammationConstruction();
@@ -2264,8 +2310,8 @@ public class Rapport {
 					+ nom
 					+ "</span>";
 				}
-				a[i + 2][16] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
-				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
+				a[i + 2][17] = getTD(BaliseHTML.CENTER, null).ajout(getText(constructionEnCours));
+				a[i + 2][18] = getTD(BaliseHTML.CENTER, null).ajout(((int)s.getInfluenceRayonnement(c.getNumero()))+"");
 			}
 			return getABorne(LIEN_RESUME_SYSTEME).ajout(
 					getDiv().ajout(DocumentHTML.creerTable(getTable("table_full resume_systeme stripped"), a)));
@@ -2351,25 +2397,26 @@ public class Rapport {
 		}
 
 		a[ligne++][0] = getTD(BaliseHTML.CENTER, "6")
-				.ajout("class", "bg").ajout(
-				getFont(cC[7], null).ajout(getText(t[2])));
+				.ajout("class", "bg")
+				.ajout(getFont(cC[7], null).ajout(getText(t[2])))
+				.ajout("<span class='toggle' data-toggle='detail_population'></span>");;
 
 		for (int i = 0; i < Const.NB_RACES; i++)
 			if (s.populationPresente(num, i)) {
-				a[ligne][0] = getTD(null, null).ajout(getRace(i));
-				a[ligne][1] = getTD(null, null).ajout(
+				a[ligne][0] = getTD(null, null).ajout("class","detail_population collapsable").ajout(getRace(i));
+				a[ligne][1] = getTD(null, null).ajout("class","detail_population collapsable").ajout(
 						getSpanRace(i).ajout(
 								getText(Integer.toString(s.getPopulationDeRace(
 										num, i)))));
-				a[ligne][2] = getTD(null, null).ajout(
+				a[ligne][2] = getTD(null, null).ajout("class","detail_population collapsable").ajout(
 						getFont(cC[4], null).ajout(getText(t[3])));
-				a[ligne][3] = getTD(null, null)
+				a[ligne][3] = getTD(null, null).ajout("class","detail_population collapsable")
 						.ajout(getSpanRace(i).ajout(
 								getText(Integer.toString(s
 										.getPopulationMaximaleDeRace(num, i)))));
-				a[ligne][4] = getTD(null, null).ajout(
+				a[ligne][4] = getTD(null, null).ajout("class","detail_population collapsable").ajout(
 						getFont(cC[4], null).ajout(getText(t[4])));
-				a[ligne++][5] = getTD(null, null)
+				a[ligne++][5] = getTD(null, null).ajout("class","detail_population collapsable")
 						.ajout(getSpanRace(i)
 								.ajout(getText(s
                                         .getAugmentationMoyennePopulationDeRace(

@@ -633,3 +633,7 @@ p.message {
 [data-marchandise="15"]::before {
     background-image: url("goods_sprite.svg#icon-oxole");
 }
+
+:target {
+    scroll-margin-top: 60px;
+}

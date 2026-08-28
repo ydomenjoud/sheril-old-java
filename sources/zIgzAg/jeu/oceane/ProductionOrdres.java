@@ -161,6 +161,9 @@ public class ProductionOrdres {
                 afficherA_PHP("choix_race",
                         Utile.retournerTableauEntiers(Const.NB_RACES - 1),
                         listeR));
+
+        Fiche.initialisation(Chemin.DONNEES_GAME_NAME);
+        Fiche.ecriture(Chemin.DONNEES_GAME_NAME, "<?php $game_name= \""+Const.GAME_NAME+"\"; ?>");
     }
 
     public static void productionMenuComplet(Locale l) {

@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import zIgzAg.utile.Mdt;
+import zIgzAg.utile.SlugUtils;
 
 public abstract class Leader implements Serializable {
 
@@ -115,6 +116,10 @@ public abstract class Leader implements Serializable {
 
 	public String getNomHTML() {
 		return "<span class='race"+race+"'>"+nom+"</span>";
+	}
+
+	public String getSlug() {
+		return (estGouverneur() ? "gouverneur" : "hero") + "_" + SlugUtils.toSlug(nom);
 	}
 
 	public String getNom() {
@@ -435,7 +440,7 @@ public abstract class Leader implements Serializable {
 			int nb = getNiveau() - niveau;
 			for (int i = 0; i < nb; i++) {
 				int[] augmentation = augmenterNiveau();
-				c.ajouterEvenement("HEROS_AUGMENTATION_NIVEAU_0000", getNom(),
+				c.ajouterEvenement("HEROS_AUGMENTATION_NIVEAU_0000", this,
 						Univers.getMessage("CARACTERISTIQUES_LEADER",
 								augmentation[0], c.getLocale()), Univers
 								.getMessage("COMPETENCES_LEADER",
@@ -448,8 +453,7 @@ public abstract class Leader implements Serializable {
 	public void mourir(Commandant c) {
 		int chance = 1 + getNiveauCompetence(Const.COMPETENCE_LEADER_IMMORTALITE) * 20;
 		if (Univers.getTest(chance)) {
-			c.ajouterEvenement("HEROS_MORT_0000", "<font color=\""
-					+ Rapport.COULEURS_RACES[race] + "\">" + nom + "</font>");
+			c.ajouterEvenement("HEROS_MORT_0000", this);
 			mettreEnReserve();
 			return;
 		}

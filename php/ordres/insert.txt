@@ -6,7 +6,43 @@ for ($j = 0; $j < 8; $j++) {
 }
 
 if ($v0 != "" || array_key_exists('tache',$_POST)) {
-    if ($table == 'creer_plan_ajouter' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
+    if ($table == 'construire' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
+
+        // on recupere les technos connues :
+        $listeSystemes=base1($base,$commandant,"z_systemes");
+        $listeConstructionPossibles=base1($base,$commandant,"z_constructions_possibles");
+        $listeConstructionPossibles = array_map(function($val) {
+            return preg_replace_callback(
+                '/(.*?)(\s?[IVX]+)$/i',
+                function($matches) {
+                    return strtolower($matches[1]) . strtoupper($matches[2]);
+                },
+                $val
+            );
+        }, $listeConstructionPossibles);
+        $data = base64_decode($_POST['blueprint']);
+        $list = explode("%", $data);
+        for ($i = 0; $i < count($list); $i++) {
+            $informations = explode(":", $list[$i]);
+
+            $systeme = mysql_real_escape_string($informations[0]);
+            $quantity = intval($informations[1]);
+            $code = mysql_real_escape_string($informations[2]);
+            $planete = intval($informations[3]);
+            if(!array_key_exists($code,$listeConstructionPossibles)){
+                var_dump($listeConstructionPossibles);
+                die("Technologie inconnue : ".$code." <br /><a href='index.php3?table=$table'>Retour</a>");
+            }
+            if(!array_key_exists($systeme,$listeSystemes)){
+                var_dump($listeSystemes);
+                die("Système inconnu : ".$systeme." <br /><a href='index.php3?table=$table'>Retour</a>");
+            }
+            var_dump($systeme, $quantity, $code, $planete);
+            $query = "insert into construire (NUMERO, SYSTEME, CONSTRUCTION, NOMBRE, PLANETE)
+values ($commandant, '$systeme', '$code', $quantity, $planete);";
+            mysql_query($query) or die(mysql_error());
+        }
+    } else if ($table == 'creer_plan_ajouter' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
 
         // on recupere les technos connues :
         $technoConnues=array_keys(base1($base,$commandant,"z_composants"));

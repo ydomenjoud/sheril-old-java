@@ -5,6 +5,7 @@
 package zIgzAg.jeu.oceane;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import zIgzAg.utile.Copie;
 import zIgzAg.utile.Fiche;
@@ -19,7 +20,7 @@ public class EnvoyerRapport {
 		String[] f = new String[2];
 		f[0] = Chemin.RAPPORTS_IMAGES;
 		f[1] = Chemin.RAPPORTS + c.getNumero()+"tour"+Univers.getTour();
-		Copie.zipper(f, chemin, Integer.toString(c.getNumero()) + "tour" + Univers.getTour() + ".zip");
+		Copie.zipper(f, chemin, c.getNumero() + "tour" + Univers.getTour() + ".zip");
 
 		ProductionOrdres.ecrireSecurite(chemin, c);
 		if (c.getTourArrivee() == Univers.getTour()) {
@@ -28,48 +29,30 @@ public class EnvoyerRapport {
 	}
 
 	public static void envoyer(Commandant c) {
-		MessageFormat m = new MessageFormat(Univers.getMessageInfo(
-				"MAIL_TITRE_RAPPORT", c.getLocale()));
-		Object[] o = { new Integer(Univers.getTour()) };
-		String sujet = m.format(o);
+		// si on envoit pas de mail ou que c'est un tour de test, on essaye même pas
+		if((!Const.SEND_MAIL || Const.FAKE_TURN) && c.getNumero() != 1) { return; }
 
-		if (c.getTourArrivee() == Univers.getTour())
+		String sujet = new MessageFormat(Univers.getMessageInfo("MAIL_TITRE_RAPPORT", c.getLocale()))
+				.format(new Object[]{ Const.GAME_NAME, Univers.getTour() });
 
-			m = new MessageFormat(Univers.getMessageInfo(
-					"MAIL_CORPS_NOUVEAU_RAPPORT", c.getLocale()));
-		else
-			m = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT", c.getLocale()));
 		Object[] o2 = {
 				c.getLogin(),
 				c.getMotDePasse(),
-				Const.ADRESSE_SITE_RAPPORTS + Integer.toString(c.getNumero())
-						+ "/" + Integer.toString(c.getNumero()) + ".zip" };
-		String corpsMessage = m.format(o2);
+				Chemin.RACINE_SITE,
+				Const.GAME_NAME,
+		};
+		String corpsMessageHTML = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_HTML", c.getLocale()))
+				.format(o2);
+		String corpsMessageTXT = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_TXT", c.getLocale()))
+				.format(o2);
 		String[] fichiers = new String[0];
 
-		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroHtml(),
+		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroText(),
 				c.getAdresseElectronique(), Const.ADRESSE_MJ, Const.SMTP_ENVOI,
-				sujet, corpsMessage, fichiers))
+				sujet, corpsMessageTXT, corpsMessageHTML, fichiers))
 			Fiche.ecriture(Const.TEMP, c.getNomNumeroHtml()
 					+ ":erreur envoi rapport");
 	}
 
-	public static void envoyerMessage(Commandant c, String texte) {
-		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroHtml(),
-				c.getAdresseElectronique(), Const.ADRESSE_MJ, Const.SMTP_ENVOI,
-				"[Sheril]Message-Info", texte, new String[0]))
-			Fiche.ecriture(Const.TEMP, c.getNomNumeroHtml()
-					+ ":erreur envoi message");
-	}
-
-	public static void envoyerMessage(Commandant c, String texte, Object[] param) {
-		MessageFormat m = new MessageFormat(new String(texte));
-		texte = m.format(param);
-		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroHtml(),
-				c.getAdresseElectronique(), Const.ADRESSE_MJ, Const.SMTP_ENVOI,
-				"[Sheril]Message-Info", texte, new String[0]))
-			Fiche.ecriture(Const.TEMP, c.getNomNumeroHtml()
-					+ ":erreur envoi message");
-	}
 
 }

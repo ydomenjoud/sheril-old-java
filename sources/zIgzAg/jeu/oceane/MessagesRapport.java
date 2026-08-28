@@ -10,14 +10,15 @@ package zIgzAg.jeu.oceane;
 public class MessagesRapport extends MessagesAbstraits{
  public static int tour=Univers.getTour()+1;
 
- public static final String[] INFO_GENERALES={"Informations générales","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
-   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts", "Points de Victoire", "Classement PDV"};
+ public static final String[] INFO_GENERALES={"Informations générales","Nom de la partie","Numéro du tour","Date du tour","Numéro du Commandant","Nom",
+   "Race","Puissance","Nombre de planètes contrôlées","Grade","Réputation","Statut","Nombre de transferts max", "Points de Victoire", "Classement PDV",
+         "∑ PDC", "∑ Stock Minerai", "∑ Production Minerai"};
 
  public static final String[] VOTRE_PEUPLE={"Votre Peuple","Type","Nombre","Max"};
 
  public static final String[] RESUME_SYSTEMES={"Résumé de vos systèmes","&nbsp;","Position","Nom","Pop","Pop Max",
                                                "Planètes",
-                                               "Taxe","Stabilité","PDC","R.M.","B. Tech","B. Spé","B. Contre",
+                                               "Taxe","Stabilité","PDC","R.M.", "S.M.", "B. Tech","B. Spé","B. Contre",
                                                "Propriétaire(s)","Gouverneur","Politique","Construction", "Rayonnement"};
 
  public static final String[] SYSTEMES_GENERAL={"Systèmes","Capitale : ","Aucune"};
@@ -67,7 +68,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Pourcentage de chance de toucher les différents types de coque","Caractéristique(s) spéciale(s)"};
 
  public static final String[] PLANS_DE_VAISSEAUX={"Plans privés","Nom","Concepteur","Marque","T.C.","Taille","Vitesse",
-   "PDC","centaures","minerai","Produits",
+   "PDC","Prix", "Prix MDC", "Minerai","Produits",
    "AS","AP",
    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
    "Royalties","Domaine"};
@@ -148,7 +149,8 @@ public class MessagesRapport extends MessagesAbstraits{
  public static final String[] STATS_VAISSEAUX={"Nombre d'exemplaires en circulation du tour "+tour,
   "Place","Nom","Nombre"};
  public static final String[] STATS_ALLIANCES={"Alliances non-secrêtes du tour "+tour,"Place","Nom","Concepteur","Adhérents","Membres","Type",
-  "Site web"};
+//  "Site web",
+         "Planètes", "Population", "Points de Victoire"};
  public static final String[] STATS_ENCHERES={"Lieutenants disponibles du tour "+tour,"Heros en vente "+tour,"Gouverneurs en vente "+tour};
  public static final String[] STATS_HEROs={"Classement des héros du tour "+tour};
  public static final String[] STATS_VAISSEAUX_PUBLICS={"Vaisseaux publics du tour "+tour};
