@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir -p data/commun
-chmod -R 0777 php/live/
+chmod -R 0770 php/live/
 cp config.properties.sample config.properties
 cp php/secure/connect.txt.sample php/secure/connect.txt
 cp php/live/a.php.sample php/live/a.php
