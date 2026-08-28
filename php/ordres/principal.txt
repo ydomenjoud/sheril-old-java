@@ -15,7 +15,8 @@ if ($table === "list_ordres") {
     include "insert.txt";
 
     if (array_key_exists('previous', $_GET)) {
-        $tableau = unserialize(urldecode($_GET['previous']));
+        $tableau = json_decode(urldecode($_GET['previous']), true);
+        if (!is_array($tableau)) $tableau = [];
         for ($i = 1; $i < sizeof($tableau); $i++) {
             $_POST['v' . ($i - 1)] = $tableau[$i];
         }
@@ -27,7 +28,8 @@ if ($table === "list_ordres") {
     // puis on affiche le choix
     include "./$langue/choix/$table.txt";
     if (array_key_exists('previous', $_GET)) {
-        $tableau = unserialize(urldecode($_GET['previous']));
+        $tableau = json_decode(urldecode($_GET['previous']), true);
+        if (!is_array($tableau)) $tableau = [];
         for ($i = 1; $i < sizeof($tableau); $i++) {
             $_POST['v' . ($i - 1)] = null;
         }
