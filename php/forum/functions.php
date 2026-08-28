@@ -4,14 +4,17 @@ require_once dirname(__FILE__) . '/../mysql_compat.php';
 require_once dirname(__FILE__) . '/../secure/connect.txt';
 
 function render_post_body($text) {
-    // Quill produit du HTML, on autorise certaines balises et on nettoie le reste
-    // Pour cet exercice, on va faire confiance au contenu mais idéalement il faudrait un purificateur HTML (type HTMLPurifier)
-    // Ici on va juste s'assurer que si c'est de l'ancien BBCode on le traite encore, 
-    // ou si c'est du nouveau HTML de Quill on le laisse passer.
-    
+    // Quill produit du HTML : on autorise une liste blanche de balises et on
+    // supprime les attributs porteurs de JavaScript (on*=, javascript:).
+
     if (strpos($text, '<') !== false && strpos($text, '>') !== false) {
-        // Probablement du HTML (Quill)
-        return $text;
+        $allowed_tags = '<p><br><strong><em><u><b><i><a><img><blockquote><span><ul><ol><li><h1><h2><h3>';
+        $clean = strip_tags($text, $allowed_tags);
+        // Supprime tout attribut on*="..." (gestionnaires d'évènements JS)
+        $clean = preg_replace('/\s+on\w+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $clean);
+        // Neutralise les URLs javascript: dans href/src
+        $clean = preg_replace('/(href|src)(\s*=\s*)("|\')\s*javascript:[^"\']*\3/i', '$1$2$3#$3', $clean);
+        return $clean;
     }
 
     // Sinon traiter comme du BBCode (compatibilité anciens messages)
