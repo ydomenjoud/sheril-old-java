@@ -47,7 +47,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantites' && $flotte
 }
 
 if (isset($_GET['elimine']) && $_GET['elimine'] == 0) {
-    mysql($base, "DELETE FROM diviser_flotte WHERE id = {$_GET['identifier']} AND NUMERO=$commandant");
+    $identifier = intval($_GET['identifier']);
+    mysql($base, "DELETE FROM diviser_flotte WHERE id = $identifier AND NUMERO=$commandant");
     header("Location: ?table=$table&flotte_id=$flotte_selectionnee");
     exit;
 }
