@@ -669,30 +669,71 @@ public class Combat {
         }
     }
 
+    /**
+     * Regroupe, pour un type de bâtiment, le cumul de combat et l'évolution du tour courant.
+     */
+    private static final class DegatsBatiment {
+        final int nombreRestant;
+        final int detruitsCeTour;
+        final int dommagesCumules;
+        final int dommagesCeTour;
+        final int dommagesAvant;
+        final int dommagesApres;
+
+        DegatsBatiment(int nombreRestant, int detruitsCeTour, int dommagesCumules,
+                       int dommagesCeTour, int dommagesAvant, int dommagesApres) {
+            this.nombreRestant = nombreRestant;
+            this.detruitsCeTour = detruitsCeTour;
+            this.dommagesCumules = dommagesCumules;
+            this.dommagesCeTour = dommagesCeTour;
+            this.dommagesAvant = dommagesAvant;
+            this.dommagesApres = dommagesApres;
+        }
+    }
+
+    /**
+     * Calcule les dégâts subis par un type de bâtiment, en distinguant le cumul depuis
+     * le début du combat de l'évolution propre au tour courant (m = avant tour, n = après tour).
+     */
+    private static DegatsBatiment calculerDegatsBatiment(Map.Entry entreeInitiale, Map m, Map n) {
+        int[] dT = (int[]) entreeInitiale.getValue();
+        Object o = null;
+        int[] mT = ((o = m.get(entreeInitiale.getKey())) == null ? new int[2] : (int[]) o);
+        int[] nT = ((o = n.get(entreeInitiale.getKey())) == null ? new int[2] : (int[]) o);
+        Batiment b = (Batiment) Univers.getTechnologie((String) entreeInitiale.getKey());
+        int nbCases = b.getPointsDeStructure();
+
+        int dom = nT[1] + (-nT[0] + dT[0]) * nbCases;
+        int domA = mT[1] + (-mT[0] + dT[0]) * nbCases;
+
+        return new DegatsBatiment(nT[0], mT[0] - nT[0], dom, dom - domA, mT[1], nT[1]);
+    }
+
     private static BaliseHTML ecrireDetailCombatPlanete(Commandant c,
                                                         Systeme s, int numPla, Map m, Map.Entry[] d, Map n, int popm,
                                                         int popn, String[] t) {
-        BaliseHTML[][] a = new BaliseHTML[4 + d.length][5];
+        final int nbColonnes = 7;
+        BaliseHTML[][] a = new BaliseHTML[4 + d.length][nbColonnes];
         int ligne = 0;
         MessageFormat message = new MessageFormat(t[0]);
         String[] inter2 = new String[2];
         inter2[0] = s.getNomNumeroPlanete(numPla);
         inter2[1] = c.getNomNumeroHtml();
-        a[ligne++][0] = Rapport.getTD("center", "5").ajout(
+        a[ligne++][0] = Rapport.getTD("center", Integer.toString(nbColonnes)).ajout(
                 Rapport.getText(message.format(inter2)));
         a[ligne][0] = Rapport.getTD("center", null).setTexteContenu("&nbsp;");
-        a[ligne][1] = Rapport.getTD("center", "2").ajout(
+        a[ligne][1] = Rapport.getTD("center", Integer.toString(nbColonnes - 1)).ajout(
                 Rapport.getFont(Rapport.cC[4], null).ajout(
                         Rapport.getText(t[2])));
         ligne++;
         a[ligne][0] = Rapport.getTD("center", null)
                 .ajout(Rapport.getText(t[1]));
         if (Math.max(0, popn) == popm)
-            a[ligne][1] = Rapport.getTD("center", "2").ajout(
+            a[ligne][1] = Rapport.getTD("center", Integer.toString(nbColonnes - 1)).ajout(
                     Rapport.getText(Integer.toString(Math.max(0, popn))));
         else
             a[ligne][1] = Rapport
-                    .getTD("center", "2")
+                    .getTD("center", Integer.toString(nbColonnes - 1))
                     .ajout(Rapport.getText(Integer.toString(Math.max(0, popn))))
                     .ajout(Rapport
                             .getFont(Rapport.cC[6], null)
@@ -709,11 +750,17 @@ public class Combat {
                             Rapport.getText(t[2])));
             a[ligne][2] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
+                            Rapport.getText(t[7])));
+            a[ligne][3] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
                             Rapport.getText(t[3])));
-                        a[ligne][3] = Rapport.getTD("center", null).ajout(
-                Rapport.getFont(Rapport.cC[4], null).ajout(
-                    Rapport.getText(t[4])));
             a[ligne][4] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                        Rapport.getText(t[8])));
+            a[ligne][5] = Rapport.getTD("center", null).ajout(
+                    Rapport.getFont(Rapport.cC[4], null).ajout(
+                    Rapport.getText(t[4])));
+            a[ligne][6] = Rapport.getTD("center", null).ajout(
                     Rapport.getFont(Rapport.cC[4], null).ajout(
                         Rapport.getText(t[5])));
             ligne++;
@@ -723,45 +770,46 @@ public class Combat {
                 a[ligne][0] = Rapport.getTD("center", null)
                         .ajout(Rapport.getText(Utile.maj(b.getNomComplet(c
                                 .getLocale()))));
-                int[] dT = (int[]) d[i].getValue();
-                Object o = null;
-                int[] mT = ((o = m.get(d[i].getKey())) == null ? new int[2]
-                        : (int[]) o);
-                int[] nT = ((o = n.get(d[i].getKey())) == null ? new int[2]
-                        : (int[]) o);
-                int nbCases = b.getPointsDeStructure();
-                if (mT[0] == nT[0])
+
+                DegatsBatiment degats = calculerDegatsBatiment(d[i], m, n);
+                SherilLogger.log(String.format(
+                    "[RAPPORT-PLANETE] Type=%s Restant=%d DetruitsCeTour=%d Cumul=%d CeTour=%d Avant=%d Apres=%d",
+                    d[i].getKey(), degats.nombreRestant, degats.detruitsCeTour,
+                    degats.dommagesCumules, degats.dommagesCeTour,
+                    degats.dommagesAvant, degats.dommagesApres));
+
+                if (degats.detruitsCeTour == 0)
                     a[ligne][1] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(nT[0])));
+                            Rapport.getText(Integer.toString(degats.nombreRestant)));
                 else
                     a[ligne][1] = Rapport
                             .getTD("center", null)
-                            .ajout(Rapport.getText(Integer.toString(nT[0])))
+                            .ajout(Rapport.getText(Integer.toString(degats.nombreRestant)))
                             .ajout(Rapport.getFont(Rapport.cC[6], null).ajout(
-                                    Rapport.getText("("
-                                            + Integer.toString(nT[0] - mT[0])
+                                    Rapport.getText("(-"
+                                            + Integer.toString(degats.detruitsCeTour)
                                             + ")")));
-                int dom = nT[1] + (-nT[0] + dT[0]) * nbCases;
-                int domA = mT[1] + (-mT[0] + dT[0]) * nbCases;
-                SherilLogger.log(String.format(
-                    "[RAPPORT-PLANETE] Type=%s dT=[%d,%d] mT=[%d,%d] nT=[%d,%d] nbCases=%d dom=%d domA=%d diff=%d",
-                    d[i].getKey(), dT[0], dT[1], mT[0], mT[1],
-                    nT[0], nT[1], nbCases, dom, domA, dom - domA));
-                if (dom == domA)
-                    a[ligne][2] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(dom)));
+
+                a[ligne][2] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.detruitsCeTour)));
+
+                a[ligne][3] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesCumules)));
+
+                if (degats.dommagesCeTour == 0)
+                    a[ligne][4] = Rapport.getTD("center", null).ajout(
+                            Rapport.getText("0"));
                 else
-                    a[ligne][2] = Rapport
+                    a[ligne][4] = Rapport
                             .getTD("center", null)
-                            .ajout(Rapport.getText(Integer.toString(dom)))
                             .ajout(Rapport.getFont(Rapport.cC[3], null).ajout(
-                                    Rapport.getText("(+"
-                                            + Integer.toString(dom - domA)
-                                            + ")")));
-                    a[ligne][3] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(mT[1])));
-                        a[ligne][4] = Rapport.getTD("center", null).ajout(
-                            Rapport.getText(Integer.toString(nT[1])));
+                                    Rapport.getText("+"
+                                            + Integer.toString(degats.dommagesCeTour))));
+
+                a[ligne][5] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesAvant)));
+                a[ligne][6] = Rapport.getTD("center", null).ajout(
+                        Rapport.getText(Integer.toString(degats.dommagesApres)));
                 ligne++;
             }
         }

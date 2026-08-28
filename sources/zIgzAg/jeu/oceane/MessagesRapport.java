@@ -128,7 +128,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Nombre","Dommages encaissés","Dommages infligés","Dommages infligés théoriques"};
  public static final String[] COMBAT_PLANETE={"Planete {0} du commandant {1}","Milices",
     "Nombre","Dommages encaissés","Dommages persistants avant",
-  "Dommages persistants après","Bâtiments planétaires"};
+  "Dommages persistants après","Bâtiments planétaires","Détruits ce tour","Dégâts ce tour"};
 
  //Et pour les stats.
 
