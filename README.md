@@ -15,6 +15,18 @@ Puis passer le tour avec :
 docker compose exec engine java -cp sheril.jar Start newRound
 ```
 
+## Configuration des secrets
+
+Les fichiers contenant des identifiants sensibles ne sont pas versionnés. Avant de démarrer, copier chaque `.sample` vers son fichier réel et renseigner les valeurs :
+
+```shell
+cp php/secure/connect.txt.sample php/secure/connect.txt
+cp php/secure/discord.php.sample php/secure/discord.php
+```
+
+- `php/secure/connect.txt` : identifiants de connexion à la base de données
+- `php/secure/discord.php` : `client_id` / `client_secret` / `redirect_uri` de l'application OAuth2 Discord (portail développeur Discord → onglet OAuth2)
+
 ## Pour lancer le jeu sous DOCKER
 
 ### démarrage de la base de données, la console et le moteur

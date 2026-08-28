@@ -1,0 +1,4 @@
+<?php
+$discord_client_id     = "CHANGE_ME";
+$discord_client_secret = "CHANGE_ME";
+$discord_redirect_uri  = "https://sheril.pbem-france.net/auth/callback.php";

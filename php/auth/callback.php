@@ -1,9 +1,10 @@
 <?php
 session_start();
-// ⚠️ Mets tes valeurs ici
-$client_id     = "1408426801662922845";
-$client_secret = "p5_42sz1lt47itNhECzt55kL3nF4S__7";
-$redirect_uri  = "https://sheril.pbem-france.net/auth/callback.php";
+
+require_once __DIR__ . '/../secure/discord.php';
+$client_id     = $discord_client_id;
+$client_secret = $discord_client_secret;
+$redirect_uri  = $discord_redirect_uri;
 
 if (!isset($_GET['code'])) {
     die("Code OAuth2 manquant.");

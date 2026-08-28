@@ -1,5 +1,6 @@
 .idea
 php/secure/connect.txt
+php/secure/discord.php
 php/live/a.php
 config.properties
 mysql
