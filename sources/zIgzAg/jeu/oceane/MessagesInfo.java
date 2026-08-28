@@ -46,7 +46,7 @@ public class MessagesInfo extends MessagesAbstraits {
         <p>Salutations, Commandant.</p>
 
        	<p>
-			Un nouveau cycle s''achève sur la galaxie. Vos ordres ont été intégralement transmis et appliqués sur la ligne de front.
+			Un nouveau cycle s''achève sur la galaxie {3}. Vos ordres ont été intégralement transmis et appliqués sur la ligne de front.
 			Le rapport d''opérations est désormais à votre disposition : il rassemble le bilan de vos mouvements de flottes,
 			l''état de vos mondes et le résultat de vos récents affrontements.
 		</p>
@@ -63,7 +63,7 @@ public class MessagesInfo extends MessagesAbstraits {
         </div>
         
         <p>
-        	Pour vous aider dans vos ordres, essayez <a href="https://ydomenjoud.github.io/test-interface-sheril">l''outil d''aide</a>.
+        	Pour vous aider dans vos ordres, essayez <a href="https://ydomenjoud.github.io/test-interface-sheril" style="color: #58a6ff; text-decoration: none;">l''outil d''aide</a>.
 		</p>
 
         <div style="font-style: italic; color: #8b949e; border-left: 2px solid #30363d; padding-left: 10px; margin: 20px 0 10px 0; font-size: 13px;">

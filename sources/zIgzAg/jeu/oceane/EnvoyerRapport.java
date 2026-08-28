@@ -45,9 +45,6 @@ public class EnvoyerRapport {
 				.format(o2);
 		String corpsMessageTXT = new MessageFormat(Univers.getMessageInfo("MAIL_CORPS_RAPPORT_TXT", c.getLocale()))
 				.format(o2);
-		System.out.println(Arrays.toString(o2));
-		System.out.println(corpsMessageHTML);
-		System.out.println(corpsMessageTXT);
 		String[] fichiers = new String[0];
 
 		if (!Mail.envoyerMessageFichiersAttaches(c.getNomNumeroText(),
