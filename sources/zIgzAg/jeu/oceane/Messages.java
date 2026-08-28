@@ -6,7 +6,7 @@ package zIgzAg.jeu.oceane;
 
 public class Messages extends MessagesAbstraits {
 
-	public static final String[] NOMS_GALAXIES = { "%GAME_NAME%" };
+	public static final String[] NOMS_GALAXIES = { Const.GAME_NAME };
 
 	public static final String[] SORTES_ATMOSPHERES = { "idéale", "vivifiante",
 			"classique", "toxique", "très toxique" };
