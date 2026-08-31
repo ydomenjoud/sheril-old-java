@@ -151,12 +151,20 @@ public abstract class SessionSQL {
 		return retour.toString();
 	}
 
+	// échappe les quotes et backslash avant interpolation dans une chaîne SQL
+	// litérale (même principe que mysql_real_escape_string) --->
+	private String echapperSql(String v) {
+		if (v == null)
+			return "";
+		return v.replace("\\", "\\\\").replace("'", "\\'");
+	}
+
 	// sÃ©pare chaque valeur par des virgules --->
 	public String champsTraduction2(String[] t) {
 		StringBuffer retour = new StringBuffer(50);
 		for (int i = 0; i < t.length; i++) {
 			retour.append('\'');
-			retour.append(t[i]);
+			retour.append(echapperSql(t[i]));
 			retour.append('\'');
 			if (i != t.length - 1)
 				retour.append(",");
@@ -170,7 +178,7 @@ public abstract class SessionSQL {
 		for (int i = 0; i < c.length; i++) {
 			retour.append(c[i]);
 			retour.append("='");
-			retour.append(v[i]);
+			retour.append(echapperSql(v[i]));
 			retour.append('\'');
 			if (i != c.length - 1)
 				retour.append(" AND ");

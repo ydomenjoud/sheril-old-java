@@ -41,6 +41,7 @@ public class Const {
         try {
             properties.load(new FileInputStream(Univers.config));
             GAME_NAME = properties.getProperty("GAME_NAME");
+            Messages.NOMS_GALAXIES = new String[] { GAME_NAME };
             // SSH
             SSH_PORT = properties.getProperty("SSH_PORT");
             SSH_BASE_PATH = properties.getProperty("SSH_BASE_PATH");
