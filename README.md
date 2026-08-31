@@ -3,7 +3,7 @@
 
 ## tl;dr
 ```shell
-git clone https://github.com/ydomenjoud/sheril-old-java.git sheril
+git clone --single-branch -b main https://github.com/ydomenjoud/sheril-old-java.git sheril
 # ou par ssh: git clone git@github.com:ydomenjoud/sheril-old-java.git sheril
 cd sheril
 docker compose up -d

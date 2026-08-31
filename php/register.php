@@ -218,7 +218,7 @@
                     $flotte = "NULL";
 
                     $sql = "INSERT INTO aa_inscription2 (NOM, ADRESSE, RACE, FLOTTE) 
-                        VALUES ('$pseudo_safe', '$email_safe', $race_safe, $flotte)";
+                        VALUES ('$pseudo_safe', '$email_safe', $race_safe, $flotte) ORDER BY date_insertion DESC";
 
                     if (@mysql($base, $sql)) {
                         echo "Inscription réussie pour le commandant " . htmlspecialchars($pseudo);
