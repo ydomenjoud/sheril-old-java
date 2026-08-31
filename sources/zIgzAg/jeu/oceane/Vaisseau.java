@@ -518,8 +518,9 @@ public class Vaisseau implements Serializable {
 						h.augmenterExperience();
 					if (g != null)
 						g.augmenterExperience();
+					int structureRestanteAvantLeCoup = cibles[index].getPointsDeStructureRestants();
 					cibles[index].ajouterDommages(arme.getDommagesSol());
-					int dommagesActuel = Math.min(arme.getDommagesSol(), cibles[index].getPointsDeStructureRestants());
+					int dommagesActuel = Math.min(arme.getDommagesSol(), structureRestanteAvantLeCoup);
 					dommagesEffectues += dommagesActuel ;
 				}
 			}

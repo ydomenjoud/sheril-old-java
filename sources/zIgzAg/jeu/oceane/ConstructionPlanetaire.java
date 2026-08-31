@@ -158,6 +158,7 @@ public class ConstructionPlanetaire implements Serializable {
 	}
 
 	public int getPointsDeStructureRestants() {
+		determinerBatiment();
 		return Math.max(0, batiment.getPointsDeStructure() - dommages);
 	}
 
