@@ -9,7 +9,7 @@ if($num <= 0){
 
 $currentTurn = intval(file_get_contents("../tour.txt"));
 $givenTurn = intval($_GET['turn']);
-$tour = ($givenTurn > 0 & $givenTurn <= $currentTurn) ? $givenTurn : $currentTurn;
+$tour = ($givenTurn > 0 && $givenTurn <= $currentTurn) ? $givenTurn : $currentTurn;
 if($tour <= 0){
     die("non tour");
 }
@@ -17,7 +17,7 @@ $file = __DIR__ . "/../rapports/${tour}/${num}tour${tour}.zip";
 
 if (!file_exists($file)) {
     http_response_code(404);
-    exit("Fichier introuvable " . $file);
+    exit("Fichier non trouvé");
 }
 
 header('Content-Description: File Transfer');
