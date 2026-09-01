@@ -35,7 +35,7 @@ ADRESSE_MJ = mj@pbem-france.net
 
 # URL
 NOTIFY_BOT = false
-FAKE_TURN = true
+FAKE_TURN = false
 SEND_MAIL = false
 
 # LOCAL
