@@ -4,7 +4,7 @@
 Je désire ordonner à mon gouverneur
 <?php select3("v0",$t0); ?>
  de rejoindre l'affectation suivante :
-<?php select1("v1",$t1); ?>
+<?php select1("v1",filterList($table, "POSITION", $t1)); ?>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>

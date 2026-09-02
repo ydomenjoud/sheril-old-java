@@ -3468,9 +3468,16 @@ public class Commandant extends Joueur implements Serializable {
 		if (ancienne.getNombreDeVaisseaux() == 0)
 			eliminerFlotte(numFlotte);
 
+        String[] list = new String[code.length];
+        for (int i = 0; i < code.length; i++) {
+            list[i] = nb[i]+ " "+code[i];
+        }
+
 		return ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000",
 				ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)),
-				nouveauNom);
+                nouveauNom,
+                String.join(", ", list)
+        );
 	}
 
 	public boolean fusionnerFlotte(int nFlotte1, int nFlotte2, int directive,

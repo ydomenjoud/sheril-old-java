@@ -1,11 +1,18 @@
+<?php
+$result = mysql($base, "SELECT ANCIEN_NOM FROM $table WHERE NUMERO=$commandant");
+$alreadyUsedKeys = array();
+while ($row = mysql_fetch_assoc($result)) {
+$alreadyUsedKeys[] = $row["ANCIEN_NOM"];
+}
+$t0_filter = array_values(array_diff($t0, $alreadyUsedKeys));
+?>
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>Renommer un gouverneur </h1>
+<P><h1>Renommer un Lieutenant ( héro / Gouverneur ) </h1>
 <BR>
 Je désire renommer mon lieutenant
-<?php select3("v0",$t0); ?>
+<?php select3("v0", $t0_filter); ?>
 . Son nouveau nom : 
-<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80 required>
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
-

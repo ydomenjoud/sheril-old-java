@@ -2,7 +2,7 @@
 <P><h1>Modifier la politique d'un syst&egrave;me</h1>
 <BR>
  Sur mon syst&egrave;me 
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "SYSTEME", $t0)); ?>
  passer en politique 
 <?php select1("v1",$t1); ?>
 </B></P>

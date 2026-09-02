@@ -637,3 +637,19 @@ p.message {
 :target {
     scroll-margin-top: 60px;
 }
+
+.collapsable .table_full {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .flotte, .table_full {
+        width: 100%;
+        max-width: 100%;
+    }
+    .split {
+        max-width: 100%;
+        width: 100vw;
+    }
+}

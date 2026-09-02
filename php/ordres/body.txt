@@ -6,6 +6,10 @@
     <STYLE type="text/css">
         @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
         /* @import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");*/
+
+        input:user-invalid {
+            border: 1px solid red !important
+        }
         .select {
             max-width: none;
             /* Colors */
@@ -460,7 +464,9 @@
                 if (firstInput) firstInput.focus();
             }
             document.querySelectorAll('.select').forEach(el => {
-                new SlimSelect({ select: el })
+                new SlimSelect({ select: el, settings: {
+                        closeOnSelect: !el.multiple
+                    } })
             });
         });
     </script>

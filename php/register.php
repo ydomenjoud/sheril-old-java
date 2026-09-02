@@ -275,7 +275,7 @@
                 5 => "Cyborg"
         ];
 
-        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription2 ORDER BY date_insertion ASC";
+        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription2 ORDER BY RACE ASC";
         $result = @mysql($base, $sql);
         if (!$result) {
             echo "Erreur" . mysql_error();
