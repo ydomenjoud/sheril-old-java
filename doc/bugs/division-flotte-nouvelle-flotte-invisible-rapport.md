@@ -1,249 +1,229 @@
-# [EN COURS] Flotte issue d'une division introuvable dans le rapport de tour
+# [CAUSE CONFIRMÉE — CORRECTIF NON APPLIQUÉ] Division de flotte : succès rapporté même quand aucun vaisseau du type demandé n'existe
 
-- **Fichier(s) suspecté(s)** : `sources/zIgzAg/jeu/oceane/Commandant.java`
-  (`diviserFlotte`), possiblement `Flotte.java` ou la séquence de
-  résolution de tour (`DeroulementDuTour.java`, `Combat.java`).
-- **Nature** : comportement non reproduit localement — analyse menée
-  uniquement à partir d'un rapport de tour déjà généré, sans accès aux
-  ordres bruts ni à l'état sérialisé (`comm.txt`/`sys.txt`) de cette
-  partie. Contrairement aux investigations précédentes sur ce dépôt (voir
-  `doc/fix/construction-planetaire-espace-insuffisant-silencieux.md`),
-  aucune reproduction empirique sur du vrai code n'a pu être réalisée ici
-  faute de données brutes.
+- **Fichiers en cause** : `sources/zIgzAg/jeu/oceane/Commandant.java`
+  (`diviserFlotte`), `sources/zIgzAg/jeu/oceane/Flotte.java`
+  (`diviserFlotte`, `trouverNumeroVaisseauLePlusEndommage`).
+- **Nature** : bug logique (absence de vérification du résultat réel
+  avant d'annoncer un succès) — confirmé par exécution du vrai code de
+  production sur les données réelles de la partie, disponibles dans
+  `analyse/tour15/` (mêmes données que celles utilisées pour
+  `doc/fix/construction-planetaire-espace-insuffisant-silencieux.md`).
 
 ## 1. Comportement observé (signalé par l'utilisateur)
 
-Sur la partie accessible en `https://sheril.pbem-france.net/yann/test/1tour16/`,
-le commandant 1 (« mabeur ») a passé 10 ordres de division de flotte,
-prélevant des vaisseaux **Archios II** sur sa flotte **Phalange Cyan (1)**
-pour créer 10 nouvelles flottes. D'après l'utilisateur, les divisions
-« sont prises en compte mais ne sont pas affichées dans le rapport ».
+Sur `https://sheril.pbem-france.net/yann/test/1tour16/`, le commandant 1
+(« mabeur ») a passé 10 ordres de division de sa flotte **Phalange
+Cyan(1)**, prélevant des vaisseaux **Archios II** (et **Curiosity**) pour
+créer 10 nouvelles flottes nommées A à J. Les 10 messages de confirmation
+apparaissent dans le rapport (`principal.htm`), mais aucune des 10
+nouvelles flottes n'apparaît dans la liste des flottes du joueur
+(`menu.htm`, `detailF.htm`).
 
-## 2. Confirmé (preuves directes, récupérées par téléchargement brut +
-   recherche exacte — pas de résumé IA, qui s'est révélé peu fiable sur
-   ce fichier de 1,1 Mo, voir §5)
+## 2. Cause racine confirmée
 
-- **`principal.htm`** contient bien 10 messages d'événement du type :
+Les ordres bruts de ce tour existent dans `analyse/tour15/dump.sql`
+(tables `diviser_flotte` et `diviser_flotte_ajouter`, joueur 1, flotte 0
+= Phalange Cyan) et l'état du commandant juste avant ce tour est
+disponible dans `analyse/tour15/donnees/comm.txt`. Rejoués avec le vrai
+code de production (`Commandant.diviserFlotte`, classes compilées du
+projet, `Univers` réinitialisé a minima par réflexion — technologies,
+plans de vaisseaux, systèmes) :
 
-  > Vous venez de diviser votre flotte **Phalange Cyan(1)** pour donner
-  > la flotte **A** en y affectant **1 Curiosity, 18 Archios II**.
+**Composition réelle de Phalange Cyan avant tout ordre de ce tour** :
+```
+CleanMate=4, Fregate standard=13, Grand Bombardier standard=13, Sidgin Fantom=3, Snip=3, scylla-vortex=113
+```
+→ **aucun "Archios II" ni "Curiosity"**. Ces types de vaisseaux, sur
+lesquels portent 10 des 11 ordres de division, n'existent tout simplement
+pas encore dans cette flotte à ce stade du traitement du tour (ils
+proviennent vraisemblablement d'une production de chantier qui rejoint
+la flotte plus tard dans le même tour — voir §5).
 
-  (et 9 autres, donnant les flottes B, C, D, E, F, G, H, I, J, avec des
-  compositions variées : `1 Curiosity, 18 Archios II`, puis huit fois
-  `1 Curiosity/rien, 1 Archios II`). Ces messages correspondent très
-  exactement au template `EV_COMMANDANT_DIVISER_FLOTTE_0000` = *"Vous
-  venez de diviser votre flotte {0} pour donner la flotte {1}."*
-  (`MessagesInfo.java`), donc à un appel réel et réussi de
-  `Commandant.ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000", ...)`
-  en fin de `Commandant.diviserFlotte`.
+**Résultat de l'exécution réelle des 11 ordres, dans l'ordre de
+soumission (id 125 à 136 dans `dump.sql`)** :
 
-- **Le prélèvement côté source a bien eu lieu.** Reconstitution numérique
-  à partir de `detailF.htm` (état final des flottes) et `combat.htm`
-  (état de la flotte pendant la résolution des combats, qui a lieu
-  *après* le traitement des ordres mais *avant* la génération du
-  rapport — voir `DeroulementDuTour.java` lignes 63-75-167) :
-  - `detailF.htm` : Phalange Cyan(1) termine le tour avec **23 Archios
-    II**.
-  - `combat.htm` : au début des rounds de combat de Phalange Cyan contre
-    plusieurs planètes ennemies, la flotte affiche **28 Archios II**,
-    puis diminue par pertes de combat (28 → 26 → 23) au fil des rounds —
-    cohérent avec les 23 relevés en fin de tour dans `detailF.htm`.
-  - Les 10 divisions retirent au total 18 + 1×8 = **26 Archios II**
-    (la dixième, flotte J, ne prélève qu'1 Curiosity, pas d'Archios II).
-  - `28 (vu en combat) + 26 (retirés par les 10 divisions) = 54` :
-    cohérent avec un effectif de départ de 54 Archios II sur Phalange
-    Cyan avant traitement des ordres de ce tour.
+| Ordre | Type(s) demandé(s) | Présent dans Phalange Cyan ? | Vaisseaux transférés | Nouvelle flotte créée ? | Événement émis |
+|---|---|---|---|---|---|
+| A (div. 1) | 1 Curiosity + 18 Archios II | Non | 0 | **Non** | Succès |
+| B (div. 2) | 1 Curiosity + 1 Archios II | Non | 0 | **Non** | Succès |
+| C (div. 3) | idem | Non | 0 | **Non** | Succès |
+| D (div. 4) | idem | Non | 0 | **Non** | Succès |
+| E (div. 5) | 1 Archios II | Non | 0 | **Non** | Succès |
+| F (div. 6) | 1 Archios II | Non | 0 | **Non** | Succès |
+| G (div. 7) | 1 Archios II | Non | 0 | **Non** | Succès |
+| H (div. 8) | 1 Archios II | Non | 0 | **Non** | Succès |
+| I (div. 9) | 1 Archios II | Non | 0 | **Non** | Succès |
+| J (div. 10) | 1 Curiosity | Non | 0 | **Non** | Succès |
+| "22" (div. 11) | 1 scylla-vortex | **Oui** (113 en stock) | 1 | **Oui** | Succès |
 
-  **Conclusion de ce calcul** : le retrait des vaisseaux de la flotte
-  source a réellement eu lieu (`Flotte.diviserFlotte` /
-  `transfererVaisseau` ont fonctionné correctement) ; le combat qui suit
-  n'implique que Phalange Cyan, jamais une des 10 nouvelles flottes.
+Phalange Cyan termine à **148 vaisseaux** (149 − 1, seul le prélèvement
+"22" a réellement eu lieu) et **une seule** nouvelle flotte est
+effectivement ajoutée (`#14 : "22"`), alors que **les 11 ordres, y
+compris les 10 qui n'ont rien transféré, émettent tous un événement de
+succès identique** (`EV_COMMANDANT_DIVISER_FLOTTE_0000`, "Vous venez de
+diviser votre flotte... pour donner la flotte...").
 
-- **Aucune des 10 flottes créées (A à J) n'apparaît nulle part dans le
-  reste du rapport.** Recherche exacte (téléchargement direct + `grep`,
-  pas de résumé IA) :
-  - `menu.htm` (liste des flottes du joueur) : exactement 24 flottes
-    listées (`Phalange Cyan(1)` à `Aethelgard(13)`, `Hadalis(16)`,
-    `E1(21)` à `E8(28)`) — aucune trace de A, B, C, D, E, F, G, H, I ou
-    J.
-  - `detailF.htm` (détail de chaque flotte, une section par ancre
-    `FLO0`…`FLO27`) : exactement les mêmes 24 flottes (ancres `FLO0` à
-    `FLO15` puis `FLO20` à `FLO27`, aucune ancre supplémentaire) —
-    confirmé par recherche des ancres, pas seulement des noms (élimine
-    l'hypothèse d'un lien cassé mais d'un contenu présent ailleurs).
-  - `combat.htm` : aucune mention de A à J, aucune mention de flotte
-    détruite (`grep` sur "détruite" : 0 résultat).
-
-  `Rapport.getDetailFlottes()` (source de `detailF.htm`, et des liens de
-  `menu.htm`) itère `c.listeFlottesEtNumeros()` sans filtre autre qu'un
-  garde-fou global (« si plus de 2000 vaisseaux au total, n'afficher
-  aucune flotte ») manifestement non déclenché ici (les 24 flottes
-  normales s'affichent). Cette boucle est exhaustive sur la map
-  `flottes` du commandant : si une entrée y était présente au moment de
-  la génération du rapport, elle apparaîtrait. Absence dans les deux
-  pages ⇒ absence de l'entrée correspondante dans `Commandant.flottes` à
-  l'instant de `Rapport.creation()`, malgré l'événement de succès déjà
-  émis plus tôt dans le traitement du tour.
-
-## 3. Hypothèses testées par lecture de code et écartées
-
-1. **`Commandant.eliminerFlotte(numFlotte)` appelé avec un numéro non
-   résolu.** Dans `diviserFlotte` :
-   ```java
-   if (ancienne.getNombreDeVaisseaux() == 0)
-       eliminerFlotte(numFlotte);   // <- numFlotte brut, pas getCorrespondanceFlotte(numFlotte)
-   ```
-   alors que partout ailleurs dans la méthode, `numFlotte` passe par
-   `getCorrespondanceFlotte(...)` avant usage. C'est une incohérence
-   réelle (voir §6), mais elle ne peut pas expliquer *cette* disparition :
-   Phalange Cyan ne s'est jamais vidée (elle finit le tour avec 23
-   Archios II), donc `ancienne.getNombreDeVaisseaux() == 0` est faux à
-   chacun des 10 appels, et cette ligne n'est jamais atteinte ici.
-2. **Collision de numéro lors de `ajouterFlotte`/`numeroFlotteDisponible()`
-   pour 10 flottes créées à la suite dans le même tour.** `flottes` est un
-   `TreeMap<Integer,Flotte>` ; `numeroFlotteDisponible()` relit
-   `listeNumerosFlottes()` (donc l'état courant, trié) à chaque appel et
-   retourne le premier "trou" ou `travail.length`. Comme la map est
-   mutée (`put`) avant l'appel suivant, deux créations successives ne
-   peuvent pas recevoir la même clé — pas de collision possible par ce
-   mécanisme.
-3. **Réutilisation du même `numeroDivision` pour les 10 ordres, bloquant
-   les 9 suivants via le garde `if (getCorrespondanceFlotte(10000 +
-   numeroDivision) != -1) return false;`.** Écarté : si c'était le cas,
-   un seul message d'événement serait généré (le premier), les 9 autres
-   ordres retournant silencieusement `false` sans rien faire. Or les 10
-   messages sont bien présents, chacun avec une composition différente
-   et correcte (18 puis 1×8) — donc chaque appel a bien exécuté sa propre
-   logique de division jusqu'au bout, `numeroDivision` était distinct à
-   chaque fois.
-4. **Filtrage de l'affichage côté rapport (`Rapport.getDetailFlottes()`).**
-   Écarté : la boucle est exhaustive sur `c.listeFlottesEtNumeros()`, sans
-   filtre par position/propriétaire/type — seul un total de vaisseaux
-   supérieur à 2000 ferait tout disparaître (non déclenché, les 24
-   flottes normales s'affichent bien).
-5. **Destruction en combat.** Écarté : `combat.htm` ne mentionne jamais
-   A à J, uniquement Phalange Cyan ; aucune occurrence de
-   "détruite"/"detruite" dans tout le fichier.
-6. **Rapport généré à partir d'un état de commandant périmé (rechargé
-   depuis le disque entre le traitement des ordres et la génération du
-   rapport).** Peu probable à la lecture de `DeroulementDuTour.main` :
-   `ReceptionOrdres` et la boucle de génération de rapport utilisent tous
-   deux `Univers.getListeCommandants()` / `Univers.getCommandant(...)`,
-   c'est-à-dire les mêmes références d'objets en mémoire (pas de
-   re-désérialisation identifiée entre les deux). Non totalement exclu
-   sans exécution instrumentée (voir §4).
-
-## 4. Ce qui manque pour trancher définitivement
-
-Contrairement au cas `boucplaVII` du système 4-20 (`doc/fix/
-construction-planetaire-espace-insuffisant-silencieux.md`), cette partie
-(`sheril.pbem-france.net/yann/test/1tour16`) n'est pas un dépôt de
-données que nous contrôlons : nous n'avons accès qu'aux pages HTML déjà
-générées, pas aux fichiers `comm.txt`/`sys.txt` sérialisés ni à la table
-d'ordres bruts. Pour confirmer une cause précise plutôt que la
-circonscrire, il faudrait :
-
-- soit un export `comm.txt` (ou équivalent) de cette partie juste après
-  ce tour, pour vérifier directement le contenu de `flottes` sur le
-  commandant 1 et son `correspondanceFlotteDivisee` ;
-- soit les 10 lignes d'ordre `diviser_flotte` / `diviser_flotte_ajouter`
-  brutes soumises par le joueur, pour vérifier notamment si le même
-  `numeroDivision` ou le même nom (`nouveauNom`) a pu être réutilisé
-  d'une façon qui produirait un effet différent de celui supposé en §3.3 ;
-- soit une exécution instrumentée de `DeroulementDuTour` (ou au moins de
-  `Commandant.diviserFlotte` + `resolutionGestionFlottes` +
-  `Rapport.getDetailFlottes()`) avec des logs ajoutés autour de
-  `ajouterFlotte`/`eliminerFlotte`/`flottes.size()`, rejouée sur un jeu
-  de données reproduisant ce scénario (une flotte, 10 divisions
-  successives dans le même tour, puis un combat de la flotte source).
-
-## 5. Remarque méthodologique (pour de futures investigations sur rapports distants)
-
-La recherche initiale via l'outil de récupération web avec résumé par IA
-a signalé, à tort, une **absence totale** de toute mention de
-"diviser"/"division" dans `principal.htm` (1,1 Mo) — un faux négatif dû à
-la troncature/au résumé du contenu avant analyse, non à une absence
-réelle. Le téléchargement brut du fichier (`curl`) suivi d'une recherche
-exacte (`grep`) a immédiatement révélé les 10 événements. **Sur des
-pages volumineuses, préférer systématiquement le téléchargement brut et
-une recherche exacte à un résumé automatique**, qui peut masquer
-l'information recherchée sans le signaler comme tel.
-
-## 6. Défaut connexe identifié (indépendant de ce rapport, à corriger par ailleurs)
-
-`Commandant.diviserFlotte` (ligne ~3469) :
+**Le défaut se situe dans `Commandant.diviserFlotte`** :
 
 ```java
+Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
+Flotte nouvelle = ancienne.diviserFlotte(code, nb, nouveauNom);
+if (nouvelle.getNombreDeVaisseaux() != 0) {
+    ajouterFlotte(nouvelle);
+    ajouterCorrespondanceFlotte(10000 + numeroDivision, numeroFlotte(nouvelle));
+}
 if (ancienne.getNombreDeVaisseaux() == 0)
     eliminerFlotte(numFlotte);
+
+return ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000",
+        ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)),
+        nouveauNom);
 ```
 
-utilise le numéro de flotte **brut** (`numFlotte`, tel que soumis par le
-joueur dans l'ordre) au lieu du numéro résolu via
-`getCorrespondanceFlotte(numFlotte)`, contrairement à tous les autres
-usages de `numFlotte` dans la même méthode (`getFlotte(getCorrespondanceFlotte(numFlotte))`
-à la ligne précédente, et de nouveau à la ligne du message final).
+`Flotte.diviserFlotte` (appelé à la ligne 2) est **best-effort et
+silencieux** :
 
-`getCorrespondanceFlotte(n)` renvoie `n` tel quel pour tout `n < 10000`
-(la très grande majorité des cas : un ordre portant sur une flotte "réelle"
-déjà numérotée), donc cette incohérence est **invisible dans le cas
-courant**. Elle ne se manifeste que lorsque `numFlotte` est lui-même une
-référence "virtuelle" à une flotte issue d'une division antérieure **du
-même tour** (`numFlotte >= 10000`, cf. `ajouterCorrespondanceFlotte(10000
-+ numeroDivision, ...)`) — c'est-à-dire lorsqu'un joueur enchaîne, dans le
-même tour, une nouvelle division sur une flotte tout juste créée par une
-division précédente, et que cette sous-flotte se retrouve entièrement
-vidée par la seconde division. Dans ce cas précis :
+```java
+public Flotte diviserFlotte(String[] code, int[] nb, String nouveauNom) {
+    Flotte retour = new Flotte(nouveauNom, position);
+    retour.constructionEnCours = constructionEnCours;
+    for (int i = 0; i < code.length; i++) {
+        int index = trouverNumeroVaisseauLePlusEndommage(code[i]);
+        int compteur = 0;
+        while ((index != -1) && (compteur < nb[i])) {
+            transfererVaisseau(retour, index);
+            compteur++;
+            index = trouverNumeroVaisseauLePlusEndommage(code[i]);
+        }
+    }
+    return retour;   // peut être vide si aucun vaisseau du type demandé n'a été trouvé
+}
+```
 
-- `eliminerFlotte(numFlotte)` avec `numFlotte >= 10000` ne supprime rien
-  de `flottes` (aucune entrée n'existe à cette clé), laissant une flotte
-  fantôme à 0 vaisseau dans la map, jamais nettoyée ;
-- le message final reste correct (il recalcule
-  `getCorrespondanceFlotte(numFlotte)` séparément), donc ce défaut est
-  silencieux : ni erreur, ni incohérence visible dans le rapport, juste
-  une entrée à 0 vaisseau qui traîne indéfiniment dans les données du
-  commandant.
+Si `trouverNumeroVaisseauLePlusEndommage(code[i])` ne trouve aucun
+vaisseau du type demandé (renvoie `-1`), la boucle `while` ne s'exécute
+jamais pour ce type — **sans erreur, sans signal**. `nouvelle` peut donc
+ressortir totalement vide (0 vaisseau transféré sur les N demandés).
 
-Ce n'est **pas la cause confirmée** du symptôme de ce rapport (le
-scénario qui le déclenche — division en chaîne sur une sous-flotte issue
-d'une division du même tour — ne correspond pas au cas observé, où les
-10 divisions partent toutes directement de Phalange Cyan). Il est
-documenté ici comme défaut réel trouvé pendant l'investigation, distinct
-du symptôme à l'origine du signalement.
+De retour dans `Commandant.diviserFlotte`, le bloc `if
+(nouvelle.getNombreDeVaisseaux() != 0)` gère correctement ce cas pour la
+création de la flotte (elle n'est pas ajoutée si vide) — mais le
+**dernier `return ajouterEvenement(...)` est inconditionnel** : il
+s'exécute que la division ait réellement eu lieu ou non, avec exactement
+le même message de succès dans les deux cas. Le joueur ne peut donc pas
+distinguer "division réussie" de "division n'ayant rien transféré,
+faute de vaisseaux du type demandé dans la flotte source".
 
-## 7. Correctif proposé pour le défaut du §6 — non implémenté
+## 3. Correctif proposé — non implémenté
+
+Faire dépendre le message émis du résultat réel de la division, à
+l'image du principe déjà appliqué pour les constructions planétaires
+(`doc/fix/construction-planetaire-espace-insuffisant-silencieux.md`) :
+ne jamais annoncer un succès pour ce qui n'a pas eu lieu.
 
 ```diff
+ 		Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
+ 		Flotte nouvelle = ancienne.diviserFlotte(code, nb, nouveauNom);
++		if (nouvelle.getNombreDeVaisseaux() == 0)
++			return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0001",
++					ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)));
++
+ 		if (nouvelle.getNombreDeVaisseaux() != 0) {
+ 			ajouterFlotte(nouvelle);
+ 			ajouterCorrespondanceFlotte(10000 + numeroDivision,
+ 					numeroFlotte(nouvelle));
+ 		}
  		if (ancienne.getNombreDeVaisseaux() == 0)
--			eliminerFlotte(numFlotte);
-+			eliminerFlotte(getCorrespondanceFlotte(numFlotte));
+ 			eliminerFlotte(numFlotte);
+ 
+ 		return ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000",
+ 				ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)),
+ 				nouveauNom);
 ```
 
-Aligne ce dernier usage de `numFlotte` sur tous les autres de la même
-méthode. Changement d'une ligne, sans effet sur le cas courant
-(`getCorrespondanceFlotte(numFlotte) == numFlotte` pour `numFlotte <
-10000`), et qui supprime correctement la sous-flotte vidée dans le cas
-d'une division en chaîne au sein du même tour.
+avec un nouveau message d'erreur à ajouter dans `MessagesInfo.java`, par
+exemple :
+```java
+public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 =
+    "Impossible de diviser la flotte {0} : aucun des types de vaisseaux demandés n''y a été trouvé.";
+```
 
-**Non implémenté à ce stade** : ce correctif, bien que sain en soi,
-n'ayant pas été identifié comme la cause du symptôme rapporté (§3.1), son
-application ne doit pas être présentée comme une résolution du ticket
-utilisateur tant que la cause réelle de la disparition des 10 nouvelles
-flottes n'est pas confirmée (§4).
+**Limite de ce correctif minimal** : il traite le cas "transfert
+totalement vide" (celui observé ici, les 10 ordres A-J) mais pas le cas
+**partiel** — par exemple demander 18 Archios II alors que la flotte
+n'en contient que 5 : `nouvelle` aurait alors 5 vaisseaux (`!= 0`), la
+flotte serait créée, l'événement de succès émis, mais rien n'indiquerait
+au joueur que seulement 5 des 18 demandés ont été transférés. Une
+solution complète nécessiterait que `Flotte.diviserFlotte` retourne
+également le nombre réellement transféré par type (pas seulement la
+`Flotte` résultante), pour permettre au message de refléter fidèlement
+"X/Y {type} transférés" — cohérent avec le motif "nbbis/nb" déjà utilisé
+pour les constructions planétaires. Cette extension est délibérément
+laissée hors du correctif minimal proposé ici.
 
-## 8. Prochaines étapes
+**Non implémenté à ce stade**, conformément à la demande initiale
+(bug analysé et documenté, correctif proposé, mais pas appliqué).
 
-1. Demander au porteur de la partie (ou à l'administrateur du serveur
-   `sheril.pbem-france.net`) un export de l'état du commandant 1 juste
-   après ce tour (`comm.txt` ou équivalent), ou l'accès aux ordres bruts
-   des 10 divisions.
-2. Une fois ces données disponibles, reproduire l'investigation avec la
-   même méthode que pour `doc/fix/construction-planetaire-espace-
-   insuffisant-silencieux.md` (§3-4 de ce document) : rejouer le/les
-   ordres avec le vrai code de production (`Commandant.diviserFlotte`,
-   `resolutionGestionFlottes`, `Rapport.getDetailFlottes()`) sur l'état
-   réel, écrire un test isolé qui verrouille le comportement observé.
-3. Appliquer le correctif du §6/§7 dans tous les cas (défaut réel,
-   indépendant de la conclusion sur la cause de ce ticket), avec son
-   propre test de non-régression (scénario : division en chaîne dans le
-   même tour, sous-flotte intermédiaire totalement reprélevée).
+## 4. Vérification effectuée
+
+Rejeu direct de `Commandant.diviserFlotte` (code réel, non mocké) sur
+l'état réel du commandant 1 (`analyse/tour15/donnees/comm.txt`) avec les
+11 ordres réels extraits de `analyse/tour15/dump.sql`, dans leur ordre de
+soumission :
+
+```
+Composition Phalange Cyan AVANT tout ordre : {CleanMate=4, Fregate standard=13,
+    Grand Bombardier standard=13, Sidgin Fantom=3, Snip=3, scylla-vortex=113}
+
+diviserFlotte(0, ..., "A", 1) -> true | flotte0=149 vaisseaux | nbFlottesTotal=22
+diviserFlotte(0, ..., "B", 2) -> true | flotte0=149 vaisseaux | nbFlottesTotal=22
+... (idem pour C à J : flotte0 reste à 149, nbFlottesTotal reste à 22)
+diviserFlotte(0, ..., "22", 11) -> true | flotte0=148 vaisseaux | nbFlottesTotal=23
+
+=== Flottes APRES (23) ===
+  #0 : Phalange Cyan (148 vaisseaux)
+  ... (les 22 flottes préexistantes, inchangées)
+  #14 : 22 (1 vaisseaux)     <- seule nouvelle flotte réellement créée
+
+Evenements generes : 11   <- un succès pour CHACUN des 11 ordres, y compris les 10 qui n'ont rien transféré
+```
+
+Cette exécution confirme, avec le vrai code et les vraies données, que :
+- 10 des 11 divisions n'ont transféré aucun vaisseau et n'ont créé
+  aucune flotte (car "Archios II"/"Curiosity" n'existaient pas dans
+  Phalange Cyan à ce moment du traitement du tour) ;
+- les 11 ont néanmoins généré un événement de succès identique.
+
+## 5. Portée, limites, et question ouverte
+
+- Explique entièrement le symptôme rapporté : les événements de succès
+  visibles dans `principal.htm` proviennent bien de
+  `diviserFlotte`/`ajouterEvenement`, et l'absence des 10 flottes dans
+  `menu.htm`/`detailF.htm` s'explique simplement par le fait qu'elles
+  n'ont jamais été créées (`nouvelle.getNombreDeVaisseaux() == 0`),
+  sans qu'aucun bug de rendu du rapport ne soit en cause — les
+  hypothèses de rendu/filtrage explorées dans une version précédente de
+  ce document (collision de numéro de flotte, filtrage du rapport,
+  destruction en combat, état périmé) sont donc bien écartées, comme
+  déjà noté, mais pour la bonne raison cette fois : il n'y avait tout
+  simplement rien à afficher.
+- **Question ouverte, hors périmètre de ce correctif** : pourquoi le
+  joueur a-t-il demandé de diviser des vaisseaux qui n'étaient pas
+  encore dans sa flotte ? Deux explications possibles, non tranchées
+  ici : (a) erreur du joueur (préparation de l'ordre sur la base d'un
+  état anticipé de sa flotte après une production de chantier attendue
+  ce tour, sans que l'interface ne l'avertisse que ces vaisseaux
+  n'étaient pas encore présents au moment de la validation de l'ordre) ;
+  (b) séquencement du tour : la production de vaisseaux
+  (`Possession.resolutionConstructions`) et la réception des ordres
+  (`ReceptionOrdres`, incluant `diviser_flotte`) sont deux étapes
+  distinctes de `DeroulementDuTour.main` — une vérification du
+  positionnement relatif de ces étapes permettrait de confirmer si des
+  vaisseaux tout juste construits ce tour peuvent, par construction,
+  ne jamais être disponibles pour une division ordonnée le même tour,
+  ce qui rendrait ce genre d'erreur silencieuse particulièrement facile
+  à déclencher pour n'importe quel joueur combinant construction et
+  division dans le même tour.
+- Le correctif proposé (§3) ne change aucune mécanique de jeu (aucun
+  vaisseau supplémentaire n'est transféré) : il rend seulement l'échec
+  visible au lieu de le maquiller en succès.
