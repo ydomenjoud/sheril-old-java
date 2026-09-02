@@ -1,8 +1,12 @@
-# [CAUSE CONFIRMÉE — CORRECTIF NON APPLIQUÉ] Division de flotte : succès rapporté même quand aucun vaisseau du type demandé n'existe
+# Division de flotte : succès rapporté même quand aucun vaisseau du type demandé n'existe
 
-- **Fichiers en cause** : `sources/zIgzAg/jeu/oceane/Commandant.java`
-  (`diviserFlotte`), `sources/zIgzAg/jeu/oceane/Flotte.java`
-  (`diviserFlotte`, `trouverNumeroVaisseauLePlusEndommage`).
+- **Fichiers modifiés** : `sources/zIgzAg/jeu/oceane/Commandant.java`
+  (`diviserFlotte`), `sources/zIgzAg/jeu/oceane/MessagesInfo.java`
+  (nouveau message d'erreur).
+- **Fichier analysé (non modifié)** : `sources/zIgzAg/jeu/oceane/Flotte.java`
+  (`diviserFlotte`, `trouverNumeroVaisseauLePlusEndommage`) — cause du
+  transfert vide, mais le correctif porte sur la détection du résultat,
+  pas sur ce comportement best-effort lui-même (voir §6).
 - **Nature** : bug logique (absence de vérification du résultat réel
   avant d'annoncer un succès) — confirmé par exécution du vrai code de
   production sur les données réelles de la partie, disponibles dans
@@ -114,7 +118,7 @@ le même message de succès dans les deux cas. Le joueur ne peut donc pas
 distinguer "division réussie" de "division n'ayant rien transféré,
 faute de vaisseaux du type demandé dans la flotte source".
 
-## 3. Correctif proposé — non implémenté
+## 3. Correctif appliqué
 
 Faire dépendre le message émis du résultat réel de la division, à
 l'image du principe déjà appliqué pour les constructions planétaires
@@ -124,15 +128,18 @@ ne jamais annoncer un succès pour ce qui n'a pas eu lieu.
 ```diff
  		Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
  		Flotte nouvelle = ancienne.diviserFlotte(code, nb, nouveauNom);
+-		if (nouvelle.getNombreDeVaisseaux() != 0) {
+-			ajouterFlotte(nouvelle);
+-			ajouterCorrespondanceFlotte(10000 + numeroDivision,
+-					numeroFlotte(nouvelle));
+-		}
 +		if (nouvelle.getNombreDeVaisseaux() == 0)
 +			return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0001",
 +					ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)));
 +
- 		if (nouvelle.getNombreDeVaisseaux() != 0) {
- 			ajouterFlotte(nouvelle);
- 			ajouterCorrespondanceFlotte(10000 + numeroDivision,
- 					numeroFlotte(nouvelle));
- 		}
++		ajouterFlotte(nouvelle);
++		ajouterCorrespondanceFlotte(10000 + numeroDivision,
++				numeroFlotte(nouvelle));
  		if (ancienne.getNombreDeVaisseaux() == 0)
  			eliminerFlotte(numFlotte);
  
@@ -141,12 +148,14 @@ ne jamais annoncer un succès pour ce qui n'a pas eu lieu.
  				nouveauNom);
 ```
 
-avec un nouveau message d'erreur à ajouter dans `MessagesInfo.java`, par
-exemple :
+avec un nouveau message d'erreur ajouté dans `MessagesInfo.java`, juste
+après `ER_COMMANDANT_DIVISER_FLOTTE_0000` :
 ```java
-public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 =
-    "Impossible de diviser la flotte {0} : aucun des types de vaisseaux demandés n''y a été trouvé.";
+public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 = "Impossible de diviser la flotte {0} : aucun des types de vaisseaux demandés n''y a été trouvé.";
 ```
+(apostrophe doublée `n''y` : convention `MessageFormat` déjà documentée
+en tête de `MessagesInfo.java`, pour éviter que l'apostrophe simple ne
+bascule le message en mode "texte brut" et n'avale le `{0}`.)
 
 **Limite de ce correctif minimal** : il traite le cas "transfert
 totalement vide" (celui observé ici, les 10 ordres A-J) mais pas le cas
@@ -159,17 +168,20 @@ solution complète nécessiterait que `Flotte.diviserFlotte` retourne
 `Flotte` résultante), pour permettre au message de refléter fidèlement
 "X/Y {type} transférés" — cohérent avec le motif "nbbis/nb" déjà utilisé
 pour les constructions planétaires. Cette extension est délibérément
-laissée hors du correctif minimal proposé ici.
-
-**Non implémenté à ce stade**, conformément à la demande initiale
-(bug analysé et documenté, correctif proposé, mais pas appliqué).
+laissée hors du correctif minimal, volontairement circonscrit au
+symptôme confirmé (transfert totalement vide, silencieusement déclaré
+réussi).
 
 ## 4. Vérification effectuée
 
 Rejeu direct de `Commandant.diviserFlotte` (code réel, non mocké) sur
 l'état réel du commandant 1 (`analyse/tour15/donnees/comm.txt`) avec les
 11 ordres réels extraits de `analyse/tour15/dump.sql`, dans leur ordre de
-soumission :
+soumission — via un `pom.xml` Maven temporaire pointant
+`<sourceDirectory>sources</sourceDirectory>` (supprimé après
+vérification, comme le reste des artefacts de build).
+
+**Avant correctif** :
 
 ```
 Composition Phalange Cyan AVANT tout ordre : {CleanMate=4, Fregate standard=13,
@@ -188,11 +200,35 @@ diviserFlotte(0, ..., "22", 11) -> true | flotte0=148 vaisseaux | nbFlottesTotal
 Evenements generes : 11   <- un succès pour CHACUN des 11 ordres, y compris les 10 qui n'ont rien transféré
 ```
 
-Cette exécution confirme, avec le vrai code et les vraies données, que :
-- 10 des 11 divisions n'ont transféré aucun vaisseau et n'ont créé
-  aucune flotte (car "Archios II"/"Curiosity" n'existaient pas dans
-  Phalange Cyan à ce moment du traitement du tour) ;
-- les 11 ont néanmoins généré un événement de succès identique.
+**Après correctif**, rejeu strictement identique (mêmes 11 ordres, même
+état initial) :
+
+```
+diviserFlotte(0, ..., "A", 1) -> false | flotte0=149 vaisseaux | nbFlottesTotal=22
+diviserFlotte(0, ..., "B", 2) -> false | flotte0=149 vaisseaux | nbFlottesTotal=22
+... (idem pour C à J : false, aucun changement d'état)
+diviserFlotte(0, ..., "22", 11) -> true | flotte0=148 vaisseaux | nbFlottesTotal=23
+
+=== Flottes APRES (23) ===
+  (identique à avant correctif : seule "22" a été ajoutée — le correctif
+  ne change aucune mécanique de transfert, seulement le signalement)
+
+Evenements generes : 1
+  EVENEMENT EV_COMMANDANT_DIVISER_FLOTTE_0000 params=[Phalange Cyan(1), 22]
+```
+
+Cette double exécution confirme, avec le vrai code et les vraies
+données :
+- **avant** : 10 des 11 divisions n'ont transféré aucun vaisseau et n'ont
+  créé aucune flotte (car "Archios II"/"Curiosity" n'existaient pas dans
+  Phalange Cyan à ce moment du traitement du tour), mais les 11 ont
+  généré un événement de succès identique ;
+- **après** : les mêmes 10 divisions renvoient `false` (une erreur est
+  ajoutée à la place de l'événement de succès) et un seul événement de
+  succès subsiste, pour la seule division ("22") qui a réellement
+  transféré un vaisseau — le comportement observable côté état du jeu
+  (quels vaisseaux bougent, quelles flottes existent) est rigoureusement
+  identique avant/après, seul le signalement change.
 
 ## 5. Portée, limites, et question ouverte
 
@@ -224,6 +260,17 @@ Cette exécution confirme, avec le vrai code et les vraies données, que :
   ce qui rendrait ce genre d'erreur silencieuse particulièrement facile
   à déclencher pour n'importe quel joueur combinant construction et
   division dans le même tour.
-- Le correctif proposé (§3) ne change aucune mécanique de jeu (aucun
+- Le correctif appliqué (§3) ne change aucune mécanique de jeu (aucun
   vaisseau supplémentaire n'est transféré) : il rend seulement l'échec
   visible au lieu de le maquiller en succès.
+
+## 6. Ce que ce correctif ne change pas (délibérément)
+
+`Flotte.diviserFlotte` reste **best-effort** : demander plus de
+vaisseaux d'un type que ce que contient la flotte source ne produit
+toujours qu'un transfert partiel, silencieux au niveau de cette méthode.
+Le correctif du §3 détecte uniquement le cas extrême (rien transféré du
+tout) au niveau de `Commandant.diviserFlotte`, seul point d'entrée qui
+communique avec le joueur. Documenté ici pour qu'un futur correctif visant
+le cas partiel (§3, "Limite de ce correctif minimal") ne le redécouvre
+pas depuis zéro.
