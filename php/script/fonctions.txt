@@ -286,3 +286,64 @@ function slugify(string $text) {
     // 4. Supprime les tirets au début et à la fin
     return trim($text, '-');
 }
+
+function filterList($table, $field, $listToFilter){
+    global $base, $commandant;
+    $field = mysql_real_escape_string($field);
+    $table = mysql_real_escape_string($table);
+    $commandant = intval($commandant);
+
+    $result = mysql($base, "SELECT $field FROM $table WHERE NUMERO=$commandant");
+    $alreadyUsedKeys = array();
+    while ($row = mysql_fetch_assoc($result)) {
+        $alreadyUsedKeys[] = $row[$field];
+    }
+    return array_diff_key($listToFilter, array_flip($alreadyUsedKeys));
+}
+
+function regrouperFlottes(array $ordres) {
+    $graph = [];
+
+    // 1. Construction du graphe (non orienté)
+    foreach ($ordres as $ordre) {
+        $f1 = $ordre[0];
+        $f2 = $ordre[1];
+
+        $graph[$f1][] = $f2;
+        $graph[$f2][] = $f1;
+    }
+
+    $visites = [];
+    $groupes = [];
+
+    // 2. Parcours pour trouver chaque composante connexe
+    foreach (array_keys($graph) as $noeud) {
+        if (!isset($visites[$noeud])) {
+            $groupeActuel = [];
+
+            // Exploration en profondeur (DFS) via une pile
+            $pile = [$noeud];
+            $visites[$noeud] = true;
+
+            while (!empty($pile)) {
+                $courant = array_pop($pile);
+                $groupeActuel[] = $courant;
+
+                foreach ($graph[$courant] as $voisin) {
+                    if (!isset($visites[$voisin])) {
+                        $visites[$voisin] = true;
+                        $pile[] = $voisin;
+                    }
+                }
+            }
+
+            // Trier les numéros de flotte dans le groupe
+            sort($groupeActuel);
+
+            // Formatage sous forme de chaîne "0, 8, 9, 10..." ou de sous-tableau
+            $groupes[] = $groupeActuel;
+        }
+    }
+
+    return $groupes;
+}

@@ -4,7 +4,12 @@
 Je désire lancer la construction de vaisseaux de type
 <?php select3("v1",$t1); ?>
  à partir de ma flotte
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "FLOTTE", $t0)); ?>
+<br />
+    <label>
+        Pour tous mes flottes :
+        <input type="checkbox" name="multiple" value="v0_t0">
+    </label>
 
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">

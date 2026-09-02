@@ -2,7 +2,7 @@
 <P><h1>Vendre une flotte</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
 Je souhaite vendre les vaisseaux de ma flotte  
-<?php select1("v1",$t1); ?>
+<?php select1("v1",filterList($table, "FLOTTE", $t1)); ?>
  au commandant  
 <?php select1("v0",$t0); ?>
 </B></P>

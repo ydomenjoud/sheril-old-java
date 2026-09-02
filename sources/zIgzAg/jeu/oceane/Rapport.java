@@ -151,8 +151,8 @@ public class Rapport {
 									  t.innerHTML = '&#128033;';
 									  const toggle = t.dataset.toggle;
 									  t.addEventListener('click', () => {
-										const previous = toggleInformations[toggle] || 'block';
-										const next = previous === 'block' ? 'none' : 'block';
+										const previous = toggleInformations[toggle] || '';
+										const next = previous === 'none' ? '' : 'none';
 										document.querySelectorAll('.'+toggle).forEach(t => t.style.display = next);
 										toggleInformations[toggle] = next;
 									  });
@@ -2644,7 +2644,7 @@ public class Rapport {
 
 		// Header du tableau des planètes
 		int bcol = 0;
-		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Nom")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Minerai")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Terra.")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
@@ -2658,7 +2658,7 @@ public class Rapport {
 			Planete pl = planetesList[i];
 			boolean proprio = pl.getProprio() == num;
 			bcol = 0;
-			String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
+			String nomP = (i + 1)+"";
 			var link = getALienE(getNomDocHTMLPlanetes(s.getPosition(), num)+"#p"+i).ajout(nomP);
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(link);
 			int revenuMinerai = pl.calculeRevenuMinerai();

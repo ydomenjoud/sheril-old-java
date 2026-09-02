@@ -515,6 +515,10 @@ table.forum-table td:nth-child(1) {
   font-size: 0.9em;
 }
 
+input:user-invalid {
+  border: 1px solid red !important;
+}
+
 @media screen and (max-width: 768px) {
   #index {
     flex-direction: column;

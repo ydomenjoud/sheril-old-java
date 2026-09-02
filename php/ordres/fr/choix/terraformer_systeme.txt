@@ -2,7 +2,7 @@
 <P><h1>Terraformer un système</h1>
 <BR>
  Terraformer toutes mes planètes de mon syst&egrave;me
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "SYSTEME", $t0)); ?>
 
 </B></P>
     <label>

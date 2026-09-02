@@ -7,4 +7,3 @@ if(gettype($t3)=="array"){
  $inter_f=array("par défaut");
  $t3=fusion_tab($inter_f,$t3);
  }
-?>
