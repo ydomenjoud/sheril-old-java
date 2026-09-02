@@ -214,7 +214,10 @@ diviserFlotte(0, ..., "22", 11) -> true | flotte0=148 vaisseaux | nbFlottesTotal
   ne change aucune mécanique de transfert, seulement le signalement)
 
 Evenements generes : 1
-  EVENEMENT EV_COMMANDANT_DIVISER_FLOTTE_0000 params=[Phalange Cyan(1), 22]
+  EVENEMENT EV_COMMANDANT_DIVISER_FLOTTE_0000 params=[Phalange Cyan(1), 22, 1 scylla-vortex]
+Erreurs generees : 10
+  EVENEMENT ER_COMMANDANT_DIVISER_FLOTTE_0001 params=[Phalange Cyan(1)]
+  ... (10 fois, une par division n'ayant rien transféré)
 ```
 
 Cette double exécution confirme, avec le vrai code et les vraies
@@ -223,12 +226,22 @@ données :
   créé aucune flotte (car "Archios II"/"Curiosity" n'existaient pas dans
   Phalange Cyan à ce moment du traitement du tour), mais les 11 ont
   généré un événement de succès identique ;
-- **après** : les mêmes 10 divisions renvoient `false` (une erreur est
-  ajoutée à la place de l'événement de succès) et un seul événement de
-  succès subsiste, pour la seule division ("22") qui a réellement
-  transféré un vaisseau — le comportement observable côté état du jeu
-  (quels vaisseaux bougent, quelles flottes existent) est rigoureusement
-  identique avant/après, seul le signalement change.
+- **après** : les mêmes 10 divisions renvoient `false` (une erreur
+  `ER_COMMANDANT_DIVISER_FLOTTE_0001` est ajoutée à la place de
+  l'événement de succès) et un seul événement de succès subsiste, pour
+  la seule division ("22") qui a réellement transféré un vaisseau — le
+  comportement observable côté état du jeu (quels vaisseaux bougent,
+  quelles flottes existent) est rigoureusement identique avant/après,
+  seul le signalement change.
+
+**Note** : la branche a été rebasée sur `upstream/develop` après un
+commit amont (`amélioration console des ordres + rapport #68`) qui a
+ajouté la liste des vaisseaux affectés au message de succès
+(`EV_COMMANDANT_DIVISER_FLOTTE_0000` prend désormais un 3ᵉ paramètre,
+"en y affectant {2}" — visible ci-dessus, "1 scylla-vortex"). Ce commit
+amont ne corrige pas le bug ici documenté (il n'ajoute aucune
+vérification du résultat de la division) ; le correctif de ce rapport
+s'applique proprement par-dessus, sans conflit de logique.
 
 ## 5. Portée, limites, et question ouverte
 
