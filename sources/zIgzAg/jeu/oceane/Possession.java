@@ -619,7 +619,7 @@ public class Possession implements Serializable {
 							* pc);
 
 				// On envoi le log de la construction
-				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
+				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises || pasAssezDePlace) {
 					String nombreConstruit = nbbis + "/" + nb;
 					List<String> manqueL = new ArrayList<>();
 					if (pasAssezDeCentaure) manqueL.add("centaure");
@@ -639,8 +639,8 @@ public class Possession implements Serializable {
 				}
 
 			} else { // Si jamais il n'y a aucune construction ( nbbis == 0 )
-				
-				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
+
+				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises || pasAssezDePlace) {
 					String nombreConstruit = ""+nb;
 					List<String> manqueL = new ArrayList<>();
 					if (pasAssezDeCentaure) manqueL.add("centaure");
