@@ -221,6 +221,28 @@ et documenté, correctifs proposés, aucun appliqué.
   de `comm.txt`/`sys.txt` disponible pour `test2`, contrairement aux cas
   précédents où `analyse/` fournissait l'état réel) : quel événement
   antérieur a porté l'Usine V à `dommages == structure` avant le combat
-  de Juqav (un combat précédent ce même tour, un reliquat du tour
-  précédent, ou une autre source de dégâts planétaires) ? Cela ne change
-  rien au correctif proposé, mais confirmerait le scénario exact.
+  de Juqav ? Cela ne change rien au correctif proposé, mais confirmerait
+  le scénario exact.
+
+  Éléments de réponse rassemblés (sans trancher définitivement, faute de
+  données antérieures à `tour15`) :
+  - **`ConstructionPlanetaire.ajouterDommages` n'a qu'un seul site
+    d'appel dans tout le code** (`Vaisseau.tirSurConstruction`,
+    `Vaisseau.java` ~ligne 522), lui-même appelé uniquement depuis
+    `tirAirSol`, dans la boucle de `Combat.combatFlottePlanete`. Aucun
+    autre mécanisme (sabotage, espionnage, bombardement hors combat...)
+    ne peut endommager un bâtiment planétaire — la piste "autre source
+    de dégâts" est donc écartée.
+  - Le rapport de combat (`combat.htm`) des tours **15 et 16** de cette
+    même partie (`1tour15/`, `1tour16/`) ne mentionne **aucun combat**
+    impliquant "Wiryxi 10", et le combat de Juqav (tour 17) est le seul
+    de tout le rapport tour17 à cibler cette planète.
+  - Conclusion : les dégâts préexistants ne proviennent ni d'un autre
+    combat ce même tour, ni des deux tours précédents accessibles — ils
+    remontent nécessairement à un tour antérieur à `tour15` (hors de la
+    fenêtre de données disponible sur ce serveur), pendant lequel un
+    combat a porté l'Usine V à `dommages == structure` sans qu'aucun
+    combat ultérieur ne se reproduise sur cette planète avant celui de
+    Juqav — illustrant concrètement qu'un bâtiment "zombie" peut
+    survivre ainsi un nombre de tours arbitrairement long avant d'être
+    enfin balayé.
