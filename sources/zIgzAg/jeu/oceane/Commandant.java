@@ -3460,11 +3460,13 @@ public class Commandant extends Joueur implements Serializable {
 
 		Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
 		Flotte nouvelle = ancienne.diviserFlotte(code, nb, nouveauNom);
-		if (nouvelle.getNombreDeVaisseaux() != 0) {
-			ajouterFlotte(nouvelle);
-			ajouterCorrespondanceFlotte(10000 + numeroDivision,
-					numeroFlotte(nouvelle));
-		}
+		if (nouvelle.getNombreDeVaisseaux() == 0)
+			return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0001",
+					ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)));
+
+		ajouterFlotte(nouvelle);
+		ajouterCorrespondanceFlotte(10000 + numeroDivision,
+				numeroFlotte(nouvelle));
 		if (ancienne.getNombreDeVaisseaux() == 0)
 			eliminerFlotte(numFlotte);
 
