@@ -34,6 +34,8 @@ public class Commandant extends Joueur implements Serializable {
 
     private transient Commentaire ordres;
 
+    private transient List<RapportCombatData> rapportCombatDatas = new ArrayList<>();
+
     private Position capitale;
 
     private Map<Position, Possession> domaine;
@@ -55,6 +57,52 @@ public class Commandant extends Joueur implements Serializable {
     public Map<Integer, Integer> getContacts() {
         if (contacts == null) initialiserContacts();
         return contacts;
+    }
+
+    public void addRapportCombatData(RapportCombatData rapportCombatData){
+        rapportCombatDatas.add(rapportCombatData);
+    }
+
+    public List<RapportCombatData> getRapportCombatDatas() {
+        return rapportCombatDatas;
+    }
+
+    public List<CombatGlobalData> getCombatsGroupes() {
+        Map<String, CombatGlobalData> mapCombats = new LinkedHashMap<>();
+
+        for (RapportCombatData data : rapportCombatDatas) {
+            // Construction de la clé unique pour identifier la confrontation
+            String cle = "FLOTTE_PLANETE".equals(data.typeCombat)
+                    ? String.format("FP_A%d_F%d_D%d_P%s_Pla%d", data.attaquant.id, data.attaquant.numFlotte, data.defenseur.id, data.positionSysteme, data.numPlanete)
+                    : String.format("FF_A%d_F%d_D%d_F%d_P%s", data.attaquant.id, data.attaquant.numFlotte, data.defenseur.id, data.defenseur.numFlotte, data.positionSysteme);
+
+            CombatGlobalData global = mapCombats.get(cle);
+            if (global == null) {
+                global = new CombatGlobalData();
+                global.typeCombat = data.typeCombat;
+                global.positionSysteme = data.positionSysteme;
+                global.nomSysteme = data.nomSysteme;
+                global.numPlanete = data.numPlanete;
+                global.nomPlanete = data.nomPlanete;
+
+                global.attaquant.id = data.attaquant.id;
+                global.attaquant.nom = data.attaquant.nom;
+                global.attaquant.numFlotte = data.attaquant.numFlotte;
+                global.attaquant.nomFlotte = data.attaquant.nomFlotte;
+
+                global.defenseur.id = data.defenseur.id;
+                global.defenseur.nom = data.defenseur.nom;
+                global.defenseur.numFlotte = data.defenseur.numFlotte;
+                global.defenseur.nomFlotte = data.defenseur.nomFlotte;
+
+                mapCombats.put(cle, global);
+            }
+
+            // On ajoute simplement chaque tour reçu dans la liste
+            global.tours.add(data);
+        }
+
+        return new ArrayList<>(mapCombats.values());
     }
 
     private ArrayList<Integer> pactesDeNonAgression;
@@ -1388,6 +1436,7 @@ public class Commandant extends Joueur implements Serializable {
 		initialiserCorrespondanceFlotteDivisee();
 		initialiserTransfertEntreSysteme();
         initialiserDataPointDeVictoire();
+        rapportCombatDatas = new ArrayList<>();
 	}
 
     private int getScoreCategorie(PointDeVictoireCategorie categorie) {
@@ -3459,24 +3508,36 @@ public class Commandant extends Joueur implements Serializable {
 						"ER_COMMANDANT_DIVISER_FLOTTE_0000", code[i], nb[i]);
 
 		Flotte ancienne = getFlotte(getCorrespondanceFlotte(numFlotte));
+        String nomAncienne = ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte));
 		Flotte nouvelle = ancienne.diviserFlotte(code, nb, nouveauNom);
-		if (nouvelle.getNombreDeVaisseaux() == 0)
-			return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0001",
-					ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)));
+
+        // si la nouvelle flotte n'a pas de vaisseau, on renvoit une erreur
+		if (nouvelle.getNombreDeVaisseaux() == 0) {
+            return ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0001", nomAncienne, nouveauNom);
+        }
+
+        // si il n'y pas tous les vaisseaux demandés, c'est que certains vaisseaux n'ont pas été trouvés
+        if (nouvelle.getNombreDeVaisseaux() != Arrays.stream(nb).sum()) {
+            // ce n'est pas une erreur, mais on informe le joueur
+            ajouterErreur("ER_COMMANDANT_DIVISER_FLOTTE_0002", nomAncienne, nouveauNom);
+        }
 
 		ajouterFlotte(nouvelle);
-		ajouterCorrespondanceFlotte(10000 + numeroDivision,
-				numeroFlotte(nouvelle));
-		if (ancienne.getNombreDeVaisseaux() == 0)
-			eliminerFlotte(numFlotte);
+		ajouterCorrespondanceFlotte(10000 + numeroDivision, numeroFlotte(nouvelle));
 
+        // si l'ancienne flotte est vide, on l'elimine
+		if (ancienne.getNombreDeVaisseaux() == 0) {
+            eliminerFlotte(numFlotte);
+        }
+
+        // calcul des vaisseaux demandés pour log
         String[] list = new String[code.length];
         for (int i = 0; i < code.length; i++) {
             list[i] = nb[i]+ " "+code[i];
         }
 
 		return ajouterEvenement("EV_COMMANDANT_DIVISER_FLOTTE_0000",
-				ancienne.getNomNumeroHTML(getCorrespondanceFlotte(numFlotte)),
+				nomAncienne,
                 nouveauNom,
                 String.join(", ", list)
         );

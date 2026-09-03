@@ -487,14 +487,16 @@ public class Systeme implements Serializable {
 		boolean needPop = !(t.possedeCaracteristiqueSpeciale(Const.BATIMENT_CAPACITE_NON_PRESENCE_HUMAINE));
 		// l'espace libre se compte en points de construction et non pas en structure,
 		// sinon les BP ne seraient pas constructibles
-		int pointsDeConstruction = new ConstructionPlanetaire(code).getBatiment().getPointsDeConstruction();
+		Batiment bat = new ConstructionPlanetaire(code).getBatiment();
+		int pointsDeConstruction = bat.getPointsDeConstruction();
+		int pointsEncombrement = bat.getPointsEncombrement();
 
 		for (int i = 0; i < pla.length; i++){
 			boolean testProprio = numero>-1 ? pla[i].estProprio(numero) : true;
 			if ((!needPop || pla[i].estHabite())
 					&& (testProprio)
 					&& ((inter = pla[i].nombreBatimentsDeType(code)) < min)
-					&& (pla[i].getEspaceLibre() > pointsDeConstruction)) {
+					&& (pla[i].getEspaceLibre() > pointsEncombrement)) {
 				min = inter;
 				index = i;
 			}

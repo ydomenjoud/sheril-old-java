@@ -643,6 +643,201 @@ p.message {
     max-width: 100%;
 }
 
+
+.combat .titre_section {
+    position: static;
+}
+.combat table th {
+    position: static;
+}
+/* --- Bouton fixe en haut à droite --- */
+.btn-toggle-mode {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1001;
+    background-color: #38bdf8;
+    color: #0f172a;
+    border: 1px solid #0284c7;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+.btn-toggle-mode:hover {
+    background-color: #7dd3fc;
+}
+
+/* --- Barre de navigation supérieure fixe au scroll (Mode Avancé) --- */
+.top-nav-bar {
+    display: none;
+}
+
+.is-advanced-mode .top-nav-bar {
+    display: flex;
+    align-items: center;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    width: 95vw;
+    box-sizing: border-box;
+    position: sticky; /* Rendre la barre fixe au défilement */
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+.combat-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.combat-links a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #0f172a;
+}
+
+.combat-links a:hover {
+    background-color: #334155;
+}
+
+/* Mise en valeur de la planète attaquée */
+.planete_target {
+    color: #f59e0b;
+    font-weight: bold;
+}
+
+/* --- Tableaux de combat (Mode Avancé) --- */
+.advanced-combat-view {
+    display: none;
+    text-align: left;
+}
+
+.is-advanced-mode .advanced-combat-view {
+    display: block;
+}
+
+.combat-block {
+    padding: 0 2.5vw;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    width: 95vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.advanced-combat-view table {
+    border-collapse: collapse;
+    font-size: 0.85em;
+    text-align: left;
+}
+
+.advanced-combat-view th,
+.advanced-combat-view td {
+    padding: 2px 4px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+    border-right: 1px solid #334155;
+    white-space: nowrap;
+}
+
+th.unit-name {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 180px;
+}
+
+.unit-name {
+    text-align: left;
+    font-weight: bold;
+    background-color: #1e293b;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 180px;
+}
+
+.fix {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 180px;
+}
+
+/* Séparateur visuel entre les tours */
+.tour-sep {
+    border-left: 2px solid #475569;
+}
+/* --- 1. Séparateur fort sur la première colonne de chaque tour --- */
+.tour-sep {
+    border-left: 3px solid #64748b !important; /* Bordure plus nette et épaisse (Gris Slate) */
+}
+
+/* --- 2. Mise en valeur de l'en-tête principal du Tour --- */
+thead tr:first-child th.tour-sep {
+    background-color: #334155; /* Fond légèrement plus foncé pour marquer le bloc */
+    color: #38bdf8;            /* Texte bleu clair pour faire ressortir "Tour X" */
+    font-size: 0.95em;
+    letter-spacing: 0.05em;
+}
+
+
+.combat :target {
+    animation: none;
+}
+
+/* --- 4. Alternance de couleur de fond pour un tour sur deux (optionnel) --- */
+/* Applique un léger voile sur les colonnes des tours pairs pour un confort visuel maximal */
+.advanced-combat-view td:nth-child(6n+2),
+.advanced-combat-view td:nth-child(6n+3),
+.advanced-combat-view td:nth-child(6n+4) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* En-têtes de factions */
+.faction-header-attaquant {
+    background-color: #451a03;
+    color: #f87171;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: 2px solid #6366f1;
+}
+
+.faction-header-defenseur {
+    background-color: #1e1b4b;
+    color: #818cf8;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: 2px solid #ef4444;
+}
+
+/* Masquage de la vue de base */
+.is-advanced-mode .legacy-combat-view {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     .flotte, .table_full {
         width: 100%;

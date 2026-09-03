@@ -576,6 +576,16 @@ public class RapportXML {
 					}
 
 				}
+
+				try {
+					Element combatsElement = RapportCombatXMLExporter.genererElementCombats(c.getCombatsGroupes(), documentG);
+					if (combatsElement != null) {
+						com.appendChild(combatsElement);
+					}
+				} catch (Exception e) {
+					System.out.println("Erreur lors de l'intégration des combats XML : " + e.getMessage());
+					e.printStackTrace();
+				}
 			}
 
 
