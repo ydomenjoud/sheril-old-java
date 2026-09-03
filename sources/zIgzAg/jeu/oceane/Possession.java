@@ -474,9 +474,9 @@ public class Possession implements Serializable {
 			int pc = Construction.getPointsNecessaires(code);
 			// Nb d'objet constructible qui pourront sortir dans la Construction
 			int nb = c[i].getPointsEffectues() / pc;
-			// Nombre de point de structure nécessaire
-			int nbPointsDeStructure = isBatiment ? new ConstructionPlanetaire(code).getBatiment().getPointsDeStructure() : 0;
-			int espaceLibreSurSysteme = nbPointsDeStructure>0 ? s.getEspaceLibre(com.getNumero()) : 0;
+			// Nombre de points d'encombrement nécessaires
+			int nbPointsEncombrement = isBatiment ? new ConstructionPlanetaire(code).getBatiment().getPointsEncombrement() : 0;
+			int espaceLibreSurSysteme = nbPointsEncombrement>0 ? s.getEspaceLibre(com.getNumero()) : 0;
 			
 			// Variable de test
 			boolean pasAssezDeMinerai = false;
@@ -491,7 +491,7 @@ public class Possession implements Serializable {
 			// Recalcul du nombre d'objet de la construction qui vont sortir ce tour
 			int l_argent = (int) (com.getCentaures() / prix); // Limite d'Argent
 			int l_minerai = (int) (s.getStockMinerai(com.getNumero()) / minerai); // Limite de Minerai
-			int l_espace = nbPointsDeStructure>0 ? (int) (espaceLibreSurSysteme / nbPointsDeStructure) : Integer.MAX_VALUE; // limite d'espace
+			int l_espace = nbPointsEncombrement>0 ? (int) (espaceLibreSurSysteme / nbPointsEncombrement) : Integer.MAX_VALUE; // limite d'espace
 			int l_marchan = nb; // Limite de Marchandises
 			List<String> marchandises_manquantes = new ArrayList<>();
 			
@@ -619,7 +619,7 @@ public class Possession implements Serializable {
 							* pc);
 
 				// On envoi le log de la construction
-				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
+				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises || pasAssezDePlace) {
 					String nombreConstruit = nbbis + "/" + nb;
 					List<String> manqueL = new ArrayList<>();
 					if (pasAssezDeCentaure) manqueL.add("centaure");
@@ -640,7 +640,7 @@ public class Possession implements Serializable {
 
 			} else { // Si jamais il n'y a aucune construction ( nbbis == 0 )
 				
-				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises) {
+				if (pasAssezDeCentaure || pasAssezDeMinerai || pasAssezDeMarchandises || pasAssezDePlace) {
 					String nombreConstruit = ""+nb;
 					List<String> manqueL = new ArrayList<>();
 					if (pasAssezDeCentaure) manqueL.add("centaure");

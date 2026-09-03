@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planete implements Serializable {
@@ -155,7 +154,7 @@ public class Planete implements Serializable {
 		ConstructionPlanetaire[] c = getBatiments();
 		int enc = 0;
 		for (int i = 0; i < c.length; i++)
-			enc += c[i].getBatiment().getPointsDeConstruction();
+			enc += c[i].getBatiment().getPointsEncombrement();
 		return enc;
 	}
 
