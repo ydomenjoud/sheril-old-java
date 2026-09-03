@@ -633,29 +633,35 @@ public class Combat {
                                                         Commandant c2, Flotte f, Systeme s, int numPla, int tour, Map mf,
                                                         Map mm, Map.Entry[] df, Map.Entry[] dm, Map nf, Map nm,
                                                         boolean attaquant, int popm, int popn) {
-        String[] t = (String[]) Univers.getMessageRapport("COMBAT_FLOTTE",
-                c1.getLocale());
-        String[] t2 = (String[]) Univers.getMessageRapport("COMBAT_PLANETE",
-                c1.getLocale());
 
-        if (attaquant)
+        // On instancie et on distribue le rapport de données UNIQUEMENT lors du passage de l'attaquant
+        if (attaquant) {
+            RapportCombatData data = RapportCombatData.fromCombatPlanete(
+                    c1, c2, f, s, numPla, tour, mf, mm, df, dm, nf, nm, true, popm, popn
+            );
+            c1.addRapportCombatData(data);
+            c2.addRapportCombatData(data);
+        }
+
+        String[] t = (String[]) Univers.getMessageRapport("COMBAT_FLOTTE", c1.getLocale());
+        String[] t2 = (String[]) Univers.getMessageRapport("COMBAT_PLANETE", c1.getLocale());
+
+        if (attaquant) {
             c1.ajouterCombat("COMBAT_SYSTEME_0005", c2.getNomNumeroHtml(),
                     f.getNomNumeroHTML(c1.numeroFlotte(f)),
                     s.getNomNumeroPlanete(numPla), s.getPosition(), tour + 1);
-        else
+        } else {
             c1.ajouterCombat("COMBAT_SYSTEME_0004", c2.getNomNumeroHtml(),
                     f.getNomNumeroHTML(c2.numeroFlotte(f)),
                     s.getNomNumeroPlanete(numPla), s.getPosition(), tour + 1);
+        }
 
-        c1.ajouterCombat(Rapport.getABorne(Integer.toString(c1.getNumero())
-                + "-" + s.getPosition().toString()));
+        c1.ajouterCombat(Rapport.getABorne(c1.getNumero() + "-" + s.getPosition().toString()));
         if (attaquant) {
             c1.ajouterCombat(ecrireDetailCombatVaisseaux(c1, f, mf, df, nf, t));
-            c1.ajouterCombat(ecrireDetailCombatPlanete(c2, s, numPla, mm, dm,
-                    nm, popm, popn, t2));
+            c1.ajouterCombat(ecrireDetailCombatPlanete(c2, s, numPla, mm, dm, nm, popm, popn, t2));
         } else {
-            c1.ajouterCombat(ecrireDetailCombatPlanete(c1, s, numPla, mm, dm,
-                    nm, popm, popn, t2));
+            c1.ajouterCombat(ecrireDetailCombatPlanete(c1, s, numPla, mm, dm, nm, popm, popn, t2));
             c1.ajouterCombat(ecrireDetailCombatVaisseaux(c2, f, mf, df, nf, t));
         }
     }
@@ -1077,6 +1083,14 @@ public class Combat {
     private static void ecrireDetailCombatFlotteFlotte(Commandant c1,
                                                        Commandant c2, Flotte f1, Flotte f2, Map m1, Map m2, int tour,
                                                        Map.Entry[] d1, Map.Entry[] d2, Map n1, Map n2) {
+
+        // On instancie le rapport une seule fois lors du premier passage
+        if (c1.getNumero() < c2.getNumero()) {
+            RapportCombatData data = RapportCombatData.fromCombatFlotte(c1, c2, f1, f2, m1, m2, tour, d1, d2, n1, n2);
+            c1.addRapportCombatData(data);
+            c2.addRapportCombatData(data);
+        }
+
         String[] t = (String[]) Univers.getMessageRapport("COMBAT_FLOTTE",
                 c1.getLocale());
 

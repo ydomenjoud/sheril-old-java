@@ -330,7 +330,8 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_ACHAT_MARCHANDISE_0002 = "Vous venez de Décharger dans votre poste commercial du système {1} {2} marchandise(s) de type {0}.";
 
 	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0000 = "Impossible de diviser la flotte numéro {0} : elle n'existe pas.";
-	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 = "Impossible de diviser la flotte {0} : aucun des types de vaisseaux demandés n''y a été trouvé.";
+	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 = "Impossible de diviser la flotte {0} pour créer la flotte {1} : aucun des types de vaisseaux demandés n'y a été trouvé.";
+	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0002 = "Erreur lors de la division de la flotte {0} pour créer la flotte {1} : certains types de vaisseaux demandés n'y ont été trouvés.";
 	public static final String EV_COMMANDANT_DIVISER_FLOTTE_0000 = "Vous venez de diviser votre flotte {0} pour donner la flotte {1} en y affectant {2}";
 
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0000 = "Problème de fusion pour les flotte {0} et {1} : la flotte numéro {0} n'existe pas.";
