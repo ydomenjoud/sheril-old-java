@@ -1,15 +1,20 @@
-# Combat : un bâtiment déjà détruit mais pas encore balayé apparaît comme "détruit à 0 dégât" au combat suivant
+# Combat : un même bâtiment partagé entre plusieurs planètes apparaît "détruit à 0 dégât" sur celles qui n'ont jamais combattu
 
-- **Fichiers en cause** : `sources/zIgzAg/jeu/oceane/Combat.java`
-  (seul appelant de `Planete.eliminerPertesBatiments()`),
-  `sources/zIgzAg/jeu/oceane/Planete.java` (`eliminerPertesBatiments`,
-  `listeEquipementsNombresDommages`), `sources/zIgzAg/jeu/oceane/
-  RapportCombatData.java` (`fromCombatPlanete`, reconstruction du delta
-  de dégâts par tour).
-- **Nature** : bug logique (suppression différée d'un bâtiment détruit),
-  confirmé par un test isolé exécutant le vrai code de production
-  (`Planete`, `ConstructionPlanetaire`, `Univers` mocké statiquement pour
-  la seule résolution de technologie) — voir §3.
+- **Fichiers en cause** :
+  - `sources/zIgzAg/jeu/oceane/Systeme.java` — `ajouterRichesses`
+    (branche `TRANSPORT_BATIMENT`) : **cause racine confirmée**, voir §2.
+  - `sources/zIgzAg/jeu/oceane/Combat.java` (seul appelant de
+    `Planete.eliminerPertesBatiments()`), `sources/zIgzAg/jeu/oceane/
+    Planete.java` (`eliminerPertesBatiments`,
+    `listeEquipementsNombresDommages`), `sources/zIgzAg/jeu/oceane/
+    RapportCombatData.java` (`fromCombatPlanete`) : mécanisme secondaire
+    qui détermine *comment* le défaut se manifeste dans le rapport, voir
+    §3.
+- **Nature** : bug logique — partage d'une instance Java entre plusieurs
+  planètes distinctes (pas un problème de calcul de dégâts). Confirmé par
+  deux tests isolés exécutant le vrai code de production (`Systeme`,
+  `Planete`, `ConstructionPlanetaire`, `Univers` mocké statiquement pour
+  la seule résolution de technologie) — voir §2 et §3.
 
 ## 1. Comportement observé (signalé par l'utilisateur)
 
@@ -42,15 +47,122 @@ Extrait de `combat.htm` (export JSON embarqué, tour 1 de ce combat) :
 ```
 
 L'Usine d'optimisation planétaire de type V passe de 1 à 0 exemplaire ce
-tour (`variationNombre: -1`, elle vient donc d'être détruite), mais
-affiche **0 dégât supplémentaire encaissé ce tour** (`variationDegats:
-0`) — contradictoire en apparence : comment un bâtiment peut-il être
-détruit "ce tour-ci" sans qu'aucun dégât n'y ait été enregistré ce
-tour-ci ? À titre de comparaison, la Mine, détruite le même tour
-(`variationNombre: -4`), affiche bien un delta de dégâts cohérent
-(`variationDegats: 40`).
+tour (`variationNombre: -1`), mais affiche **0 dégât supplémentaire
+encaissé ce tour** (`variationDegats: 0`). La Mine, détruite le même
+tour, affiche un delta cohérent (`variationDegats: 40`).
 
-## 2. Cause racine
+Élément décisif communiqué ensuite par l'utilisateur : **selon ses
+informations, ce système n'a subi aucun combat depuis la construction
+des bâtiments en question.** Ceci écarte totalement l'hypothèse
+initialement documentée ici (un combat antérieur, hors de la fenêtre de
+données disponible, aurait endommagé le bâtiment sans le balayer) — si
+aucun combat n'a jamais eu lieu, aucun dégât réel ne peut avoir été
+infligé par la voie normale. Cette contrainte a permis d'identifier la
+véritable cause, ci-dessous.
+
+## 2. Cause racine confirmée : une même instance `ConstructionPlanetaire` partagée entre plusieurs planètes
+
+`Systeme.ajouterRichesses`, branche `TRANSPORT_BATIMENT` (appelée quand
+une construction de bâtiment planétaire aboutit sans planète précisée,
+cf. `doc/fix/construction-planetaire-espace-insuffisant-silencieux.md`
+pour le même paramètre `PLANETE_NON_PRECISE`) :
+
+```java
+} else if (ObjetTransporte.typeDeCodeChargement(o.getCode()) == Const.TRANSPORT_BATIMENT) {
+    Batiment b = (Batiment) Univers.getTechnologie(o.getCode());
+    Planete p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+    ...
+    int nbAjouter = 0;
+    ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());   // <- UNE SEULE instance créée ici
+    while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
+        p.ajouterBatiment(batiment);        // <- LA MÊME instance, ajoutée à p qui change à chaque itération
+        p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+        nbAjouter++;
+    }
+}
+```
+
+Quand `o.getNombreObjets() > 1` (plusieurs exemplaires construits d'un
+coup, sans planète précisée), la boucle appelle
+`trouverPlaneteSurLaquelleAjouterBatimentDeType` à **chaque itération**
+pour répartir les exemplaires — et cette fonction choisit fréquemment
+une planète **différente** à chaque appel (équilibrage de charge : elle
+privilégie la planète qui a le moins de bâtiments de ce type). Mais
+`ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode())`
+n'est instancié **qu'une seule fois, avant la boucle** — c'est donc la
+**même référence d'objet Java** qui est ajoutée à `p.ajouterBatiment(...)`
+sur chacune des planètes choisies, pas une copie.
+
+Fait aggravant : `resolutionConstructions` (`Possession.java`) avait
+pourtant construit N objets **distincts** :
+
+```java
+ObjetComplexeTransporte objet = new ObjetComplexeTransporte(code);
+for (int j = 0; j < nbbis; j++)
+    objet.ajouterObjet(new ConstructionPlanetaire(code));   // N instances distinctes, réellement créées
+s.ajouterRichesses(com.getNumero(), objet, c[i].getPlanete());
+```
+
+Mais `ajouterRichesses` ne les récupère **jamais** individuellement
+(`objet.getObjet(i)` n'est appelé nulle part dans cette branche) — seul
+`o.getNombreObjets()` est lu, comme simple compteur de boucle. Les N
+objets réellement construits sont donc silencieusement jetés, remplacés
+par une unique instance fabriquée à la volée et dupliquée **par
+référence** sur toutes les planètes choisies.
+
+Conséquence : une fois cette instance partagée détruite au combat sur
+**une seule** des planètes qui la référencent, elle apparaît
+instantanément détruite sur **toutes les autres** — sans qu'aucun combat
+n'ait jamais eu lieu sur elles, expliquant précisément l'observation de
+l'utilisateur.
+
+### Vérification effectuée
+
+Test isolé (`ConstructionPartageeEntrePlanetesTest`, non commité sur
+cette branche, exécuté puis supprimé), appelant directement le vrai code
+de production (`Systeme.ajouterRichesses`, `Planete`,
+`ConstructionPlanetaire`), `Univers` mocké statiquement (Mockito) pour
+la seule résolution de `Univers.getTechnologie`/`existenceTechnologieBatiment` :
+
+```java
+// 3 planètes distinctes, toutes possédées par le joueur 10
+Systeme systeme = new Systeme();
+systeme.setPlanetes(new Planete[]{p1, p2, p3});
+
+// Équivalent de resolutionConstructions : 3 exemplaires réellement construits
+ObjetComplexeTransporte objet = new ObjetComplexeTransporte("usineV");
+objet.ajouterObjet(new ConstructionPlanetaire("usineV"));
+objet.ajouterObjet(new ConstructionPlanetaire("usineV"));
+objet.ajouterObjet(new ConstructionPlanetaire("usineV"));
+
+// Équivalent de mettreEnChantier(..., 3, "usineV", planète non précisée)
+systeme.ajouterRichesses(10, objet, Integer.MIN_VALUE);
+```
+
+Résultat (`mvn test`, via un `pom.xml` temporaire pointant `sources/`,
+supprimé après vérification) :
+
+```
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
+
+Confirmé : `p1.getBatiments()[0]`, `p2.getBatiments()[0]` et
+`p3.getBatiments()[0]` sont **le même objet** (`assertSame` passe).
+Endommager l'exemplaire via `p1` (`ajouterDommages(50)`, atteignant sa
+structure) le marque `estDetruit() == true` **also visible depuis p2 et
+p3** sans qu'aucun dégât n'y ait jamais été appliqué. Balayer via
+`p1.eliminerPertesBatiments()` le retire de `p1` — `p2` et `p3` gardent
+encore leur propre référence à l'objet (déjà détruit, en attente de leur
+propre balayage) tant qu'aucun combat n'a lieu chez elles.
+
+## 3. Mécanisme secondaire : pourquoi ça se traduit par "0 dégât" plutôt qu'une erreur visible
+
+Une fois l'instance partagée détruite via une planète, les autres
+planètes qui la référencent ne signalent rien d'anormal dans l'immédiat
+— elles continuent de la compter comme un bâtiment vivant. C'est
+seulement leur **propre** futur combat qui la fera disparaître, via le
+même mécanisme documenté initialement dans ce rapport :
 
 `ConstructionPlanetaire.ajouterDommages(nb)` :
 
@@ -63,9 +175,8 @@ public void ajouterDommages(int nb) {
 }
 ```
 
-Un bâtiment atteignant `dommages == structure` est marqué `detruit =
-true` — **mais rien ne le retire de `Planete.batiments` à cet instant.**
-Le retrait effectif n'a lieu que via :
+`detruit = true` ne retire **pas** le bâtiment de `Planete.batiments` —
+seul `Planete.eliminerPertesBatiments()` le fait :
 
 ```java
 public void eliminerPertesBatiments() {
@@ -78,42 +189,14 @@ public void eliminerPertesBatiments() {
 }
 ```
 
-Or `eliminerPertesBatiments()` **n'est appelée que depuis
-`Combat.combatFlottePlanete`** — confirmé par recherche exhaustive
-(`grep -rn "eliminerPertesBatiments()" sources/`) : aucun autre site
-d'appel dans tout le code source, pas de balayage de fin de tour, pas de
-nettoyage générique ailleurs.
-
-Conséquence : un bâtiment qui atteint `dommages == structure` (donc
-`estDetruit() == true`) reste néanmoins compté comme vivant — dans
-`Planete.getBatiments()`, dans `Planete.listeEquipementsNombresDommages()`
-(donc dans le nombre de bâtiments et le total de dégâts agrégés) — tant
-qu'aucun combat ne se produit sur cette planète pour déclencher le
-balayage. Si le coup fatal a lieu à un moment où plus aucun combat ne
-suit dans l'immédiat (fin du combat en cours après le dernier tir utile,
-ou bâtiment achevé par une source hors de la boucle de combat qui suit),
-le bâtiment "zombie" survit jusqu'au **prochain** combat sur cette
-planète — potentiellement un tour de jeu plus tard, avec un tout autre
-attaquant.
-
-C'est exactly ce qui explique l'incohérence rapportée : au moment où le
-combat Juqav-vs-Wiryxi 10 commence, l'Usine V est déjà à `dommages ==
-structure` (probablement depuis un combat antérieur ou une action
-antérieure ce même tour) mais toujours listée comme 1 exemplaire vivant.
-Le premier tour du combat de Juqav appelle
-`p.eliminerPertesBatiments()` (comme toute résolution de combat) et la
-fait disparaître — mais comme son état "avant ce combat" (utilisé par
-`RapportCombatData.fromCombatPlanete` pour calculer le delta) affichait
-déjà `dommages == structure`, le calcul du delta ressort à 0 : le combat
-de Juqav n'a *lui-même* rien eu à faire pour l'achever, il a seulement
-"découvert" une destruction déjà consommée. La Mine, elle, n'était pas
-encore à son seuil de destruction avant ce combat — Juqav lui inflige
-réellement les dégâts qui la détruisent ce tour, d'où un
-`variationDegats` non nul et cohérent pour elle.
+Et `eliminerPertesBatiments()` **n'est appelée que depuis
+`Combat.combatFlottePlanete`** (confirmé par recherche exhaustive,
+`grep -rn "eliminerPertesBatiments()" sources/`) — aucun autre site
+d'appel, pas de balayage de fin de tour.
 
 `RapportCombatData.fromCombatPlanete` reconstruit le total cumulé de
-dégâts ainsi (calcul en lui-même correct, il ne fait que refléter fidèlement
-l'état qu'on lui donne) :
+dégâts par bâtiment sur la base de l'état "avant ce combat" / "après ce
+combat" (calcul en lui-même correct) :
 
 ```java
 int dom  = nT[1] + (dT[0] - nT[0]) * nbCases;   // total cumulé "après ce tour"
@@ -122,138 +205,69 @@ bat.degatsEncaisses  = dom;
 bat.variationDegats  = dom - domA;
 ```
 
-(`mT`/`nT` = état agrégé avant/après ce tour de combat, `dT[0]` = nombre
-initial de bâtiments de ce type au tout début du combat, `nbCases` = leur
-structure unitaire.) Le défaut n'est donc pas dans cette formule, mais
-dans les données qu'elle reçoit : `mT` (l'état "avant ce combat") reflète
-déjà un bâtiment fantôme resté artificiellement "vivant" avec des dégâts
-au maximum.
+Le défaut n'est pas dans cette formule : c'est que **l'état "avant ce
+combat" montre déjà** l'objet partagé comme détruit (`dommages ==
+structure`, hérité d'un combat qui a eu lieu ailleurs, sur une planète
+sœur), donc la variation calculée pour *ce* combat-ci ressort à 0 — il
+n'a, lui, rigoureusement rien eu à faire pour "l'achever".
 
-## 3. Vérification effectuée
-
-Test isolé (`BatimentDetruitLazySweepTest`, non commité sur cette
-branche — exécuté puis supprimé, conformément au principe de ne garder
-sur cette branche que le rapport), appelant directement le vrai code de
-production (`Planete`, `ConstructionPlanetaire`), `Univers` mocké
-statiquement (Mockito) pour la seule résolution de `Univers.getTechnologie`
-:
+Second effet du même défaut d'agrégation : `Planete.
+listeEquipementsNombresDommages()` **somme** les dégâts de tous les
+exemplaires d'un même code sans jamais distinguer un exemplaire réel
+d'un exemplaire partagé/fantôme :
 
 ```java
-Batiment batiment = fabriquerBatiment("usineV", /*structure=*/ 50);
-Planete planete = new Planete();
-planete.initialiserBatiments();
-ConstructionPlanetaire cp = new ConstructionPlanetaire("usineV");
-planete.ajouterBatiment(cp);
-
-cp.ajouterDommages(50);                    // dommages == structure
-assertTrue(cp.estDetruit());               // -> vrai
-
-assertEquals(1, planete.getBatiments().length);   // -> toujours listé comme vivant !
-
-Map avant = planete.listeEquipementsNombresDommages();
-int[] avantT = (int[]) avant.get("usineV");
-assertEquals(1, avantT[0]);                // nombre agrégé : 1 (alors que détruit)
-assertEquals(50, avantT[1]);               // dégâts agrégés : déjà au maximum
-
-planete.eliminerPertesBatiments();         // seul ce balayage explicite le retire
-assertEquals(0, planete.getBatiments().length);
+public Map listeEquipementsNombresDommages() {
+    ConstructionPlanetaire[] c = getBatiments();
+    HashMap h = new HashMap(c.length);
+    for (int i = 0; i < c.length; i++) {
+        ... inter[0]++;                          // +1 exemplaire (même si c'est une référence partagée !)
+        ... inter[1] += c[i].getDommages();       // + ses dégâts (partagés eux aussi)
+    }
+    return h;
+}
 ```
 
-Exécuté avec succès (`mvn test`, via un `pom.xml` temporaire pointant
-`sources/`, supprimé après vérification) :
+C'est cette somme brute, recopiée telle quelle par
+`RapportCombatData.fromInitialPlanete` (`bat.degatsEncaisses = mT[1];`,
+sans aucun calcul), qui expose au rapport un total incluant des dégâts
+qui ne proviennent d'aucun combat propre à cette planète.
 
-```
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-BUILD SUCCESS
-```
+## 4. Les missions spéciales (espionnage, sabotage) sont-elles en cause ?
 
-Confirme empiriquement, avec le vrai code : un bâtiment `estDetruit() ==
-true` reste compté comme vivant (nombre et dégâts agrégés inclus) tant
-qu'aucun `eliminerPertesBatiments()` n'est appelé — et ce dernier n'est
-jamais appelé hors d'un combat actif (recherche exhaustive, §2).
+Non, ni l'une ni l'autre — vérifié par lecture de
+`Commandant.effectuerMissionSpeciale` :
 
-## 4. Correctifs envisageables — non implémentés
+- **Espionnage** (`MISSION_ESPIONNAGE`) : ajoute uniquement la position à
+  la liste des positions espionnées du joueur. **Aucun effet sur les
+  bâtiments.**
+- **Sabotage** (`MISSION_SABOTAGE`) :
+  ```java
+  sys.detruireToutBatimentDePlanete(nPlanete);
+  ```
+  et `Systeme.detruireToutBatimentDePlanete` :
+  ```java
+  public void detruireToutBatimentDePlanete(int planete) {
+      getPlanete(planete).initialiserBatiments();
+  }
+  ```
+  Vide **intégralement et instantanément** la liste des bâtiments de la
+  planète visée — sans passer par `ajouterDommages`/`estDetruit`/
+  `eliminerPertesBatiments`, et sans jamais toucher une AUTRE planète.
+  Ne peut ni produire l'état "partagé et détruit ailleurs" (§2), ni
+  laisser un seul type de bâtiment affecté en épargnant les autres sur
+  la même planète (un sabotage réussi les emporterait tous en même
+  temps).
 
-Deux angles possibles, non tranchés ici (à discuter avant implémentation) :
+Ces deux missions sont hors de cause. Elles confirment, par l'exemple,
+que la construction sans planète précisée (§2) reste le seul chemin
+identifié vers cet état.
 
-**Option A — balayer immédiatement.** Appeler
-`eliminerPertesBatiments()` dès qu'un bâtiment devient détruit, plutôt
-que de compter sur le prochain combat pour le faire :
-- dans `ConstructionPlanetaire.ajouterDommages`, on ne peut pas appeler
-  `eliminerPertesBatiments()` directement (la classe n'a pas de référence
-  à la `Planete` qui la contient) ;
-- il faudrait soit passer la `Planete` (ou un callback) à
-  `ajouterDommages`, soit ajouter un balayage systématique en fin de
-  résolution de tour (`DeroulementDuTour` ou `Commandant.
-  resolutionGestionSystemes`), garantissant qu'aucun bâtiment "zombie"
-  ne survit au-delà du tour où il a été détruit.
-
-**Option B — corriger l'attribution, pas la suppression.** Conserver le
-balayage tardif (peu coûteux, déjà cohérent pour l'état du jeu — un
-bâtiment détruit ne défend plus, ne produit plus, qu'il soit ou non
-encore listé), mais faire en sorte que `RapportCombatData.
-fromCombatPlanete` (ou une étape antérieure) ne compte pas comme
-"destruction de ce combat" un bâtiment qui était déjà à `dommages ==
-structure` **avant** que ce combat ne commence — par exemple en
-excluant du delta les bâtiments déjà `estDetruit()` dans l'état "avant
-ce combat", ou en réattribuant leur destruction au combat/tour où le
-seuil a réellement été franchi (nécessiterait de conserver un horodatage
-de la destruction sur `ConstructionPlanetaire`, pas seulement un booléen).
-
-**Recommandation** : l'option A (balayage immédiat, ou a minima
-systématique en fin de tour) est la plus simple et corrige le problème à
-la racine — un bâtiment détruit ne devrait jamais être compté comme
-vivant, dans aucun rapport, quelle qu'en soit la raison. L'option B est
-plus chirurgicale mais laisse subsister le bâtiment zombie dans toutes
-les autres statistiques (nombre de bâtiments, défense planétaire...)
-entre le tour de sa destruction réelle et le prochain combat.
-
-**Non implémenté à ce stade**, conformément à la demande : bug analysé
-et documenté, correctifs proposés, aucun appliqué.
-
-## 5. Portée et question ouverte
-
-- N'affecte que l'affichage/la comptabilité par tour de combat — l'état
-  final du jeu (bâtiment bel et bien détruit) n'est jamais faux, seul le
-  moment/l'attribution de sa destruction dans le rapport peut être
-  trompeur.
-- Question ouverte, hors accès aux données réelles de cette partie (pas
-  de `comm.txt`/`sys.txt` disponible pour `test2`, contrairement aux cas
-  précédents où `analyse/` fournissait l'état réel) : quel événement
-  antérieur a porté l'Usine V à `dommages == structure` avant le combat
-  de Juqav ? Cela ne change rien au correctif proposé, mais confirmerait
-  le scénario exact.
-
-  Éléments de réponse rassemblés (sans trancher définitivement, faute de
-  données antérieures à `tour15`) :
-  - **`ConstructionPlanetaire.ajouterDommages` n'a qu'un seul site
-    d'appel dans tout le code** (`Vaisseau.tirSurConstruction`,
-    `Vaisseau.java` ~ligne 522), lui-même appelé uniquement depuis
-    `tirAirSol`, dans la boucle de `Combat.combatFlottePlanete`. Le
-    combat flotte-planète reste donc le seul moyen d'endommager
-    *progressivement* un bâtiment planétaire (voir §6 pour la piste
-    "missions spéciales", qui suit un chemin différent et est écartée
-    pour une autre raison).
-  - Le rapport de combat (`combat.htm`) des tours **15 et 16** de cette
-    même partie (`1tour15/`, `1tour16/`) ne mentionne **aucun combat**
-    impliquant "Wiryxi 10", et le combat de Juqav (tour 17) est le seul
-    de tout le rapport tour17 à cibler cette planète.
-  - Conclusion : les dégâts préexistants ne proviennent ni d'un autre
-    combat ce même tour, ni des deux tours précédents accessibles — ils
-    remontent nécessairement à un tour antérieur à `tour15` (hors de la
-    fenêtre de données disponible sur ce serveur), pendant lequel un
-    combat a porté l'Usine V à `dommages == structure` sans qu'aucun
-    combat ultérieur ne se reproduise sur cette planète avant celui de
-    Juqav — illustrant concrètement qu'un bâtiment "zombie" peut
-    survivre ainsi un nombre de tours arbitrairement long avant d'être
-    enfin balayé.
-
-## 6. Confirmation multi-planètes : ce n'est pas un cas isolé
+## 5. Confirmation multi-planètes : ce n'est pas un cas isolé
 
 Le combat.htm du tour 17 contient les combats de la flotte **Juqav**
 contre **6 planètes** du système Hadalis ce même tour (Wiryxi 2, 6, 8,
-10, 11, 13). En comparant, pour chaque planète, les bâtiments détruits
-et leur `variationDegats` :
+10, 11, 13) :
 
 | Planète | Bâtiment détruit | `degatsEncaisses` | `variationDegats` |
 |---|---|---|---|
@@ -272,126 +286,86 @@ et leur `variationDegats` :
 | Wiryxi 13 | Usine V         | 50  | **0** ⚠️ |
 | Wiryxi 13 | Mine            | 80  | **20** (cohérent) |
 
-Sur **5 des 6 planètes** attaquées par la même flotte ce même tour, les
-**Usines** (types IV et V) sont systématiquement détruites avec
-`variationDegats: 0`, alors que les **Mines détruites dans les mêmes
-combats** affichent systématiquement un delta cohérent et non nul. Seule
-Wiryxi 2 (première planète attaquée dans l'ordre du rapport) montre des
-Usines avec un delta correct.
+Sur **5 des 6 planètes**, les **Usines** (types IV et V) sont
+systématiquement détruites avec `variationDegats: 0`, jamais les Mines
+détruites dans les mêmes combats. Ce motif se lit maintenant sans
+ambiguïté à la lumière du §2 : un ordre de construction groupée d'Usines
+V (et IV) **sans planète précisée** a très probablement réparti quelques
+instances *partagées* sur Wiryxi 2, 6, 8, 10, 11 et 13 (six planètes du
+même système, même propriétaire) ; Juqav, en attaquant Wiryxi 2 en
+premier, a réellement détruit l'exemplaire partagé (delta cohérent,
+5/41) — ce qui l'a fait apparaître instantanément détruit sur les cinq
+autres planètes, où le combat de Juqav n'a plus eu qu'à "découvrir" et
+balayer une destruction déjà consommée ailleurs (`variationDegats: 0`).
+Les Mines, elles, n'ont manifestement pas été construites via un ordre
+groupé sans planète précisée (ou l'ont été en quantité telle
+qu'aucun partage n'a eu lieu), d'où leur comportement systématiquement
+correct.
 
-Ce n'est donc pas une anomalie isolée sur une seule planète : le même
-mécanisme (§2) s'est très probablement produit **à l'échelle de tout un
-système** avant `tour15` — un bombardement antérieur, hors de la fenêtre
-de données disponible, a laissé les Usines de plusieurs planètes à
-`dommages == structure` sans qu'aucun combat ultérieur ne vienne les
-balayer, jusqu'à ce que Juqav attaque ce tour-ci, planète par planète.
-La récurrence du motif sur un type de bâtiment précis (Usine) et jamais
-sur un autre (Mine) dans les mêmes combats est cohérente avec un
-bombardement qui aurait ciblé les Usines en priorité (bâtiment à forte
-valeur économique) sur l'ensemble du système, laissant les Mines
-relativement épargnées à ce moment-là.
+Ceci répond aussi à la question de l'utilisateur : le système n'a
+effectivement subi **aucun combat** avant celui de Juqav — la
+destruction "prématurée" vue sur 5 planètes ne vient pas d'un combat
+antérieur sur *ces* planètes-là, mais du combat **réel** que Juqav livre
+**ce tour-ci sur Wiryxi 2**, dont l'effet se propage instantanément aux
+cinq autres via l'instance partagée.
 
-## 7. Les missions spéciales (espionnage, sabotage) peuvent-elles produire ces dégâts ?
+## 6. Correctifs envisageables — non implémentés
 
-Non, ni l'une ni l'autre, mais pour des raisons différentes.
+**Correctif de la cause racine (§2, prioritaire)** — dans
+`Systeme.ajouterRichesses`, créer une instance distincte à chaque
+itération au lieu d'une seule réutilisée :
 
-`Commandant.effectuerMissionSpeciale` (`services_speciaux`) gère 4 types
-de mission (`Const.MISSION_ESPIONNAGE`, `MISSION_SABOTAGE`,
-`MISSION_VOL_TECHNOLOGIE`, `MISSION_PROPAGANDE`) :
-
-- **Espionnage** (`MISSION_ESPIONNAGE`) : ajoute uniquement la position à
-  la liste des positions espionnées du joueur
-  (`ajouterPositionEspionnee`) pour lui donner accès au rapport détaillé
-  du système visé. **Aucun effet sur les bâtiments.**
-- **Sabotage** (`MISSION_SABOTAGE`) :
-  ```java
-  if (typeMission == Const.MISSION_SABOTAGE) {
-      sys.detruireToutBatimentDePlanete(nPlanete);
-      ...
-  }
-  ```
-  et `Systeme.detruireToutBatimentDePlanete` :
-  ```java
-  public void detruireToutBatimentDePlanete(int planete) {
-      getPlanete(planete).initialiserBatiments();
-  }
-  ```
-  Le sabotage **vide intégralement et instantanément** la liste des
-  bâtiments de la planète visée (`batiments = new ArrayList(0)`) — tous
-  les bâtiments disparaissent d'un coup, sans passer par
-  `ajouterDommages`/`estDetruit`/`eliminerPertesBatiments`. Il ne peut
-  donc **ni** produire un bâtiment à `dommages == structure` non balayé
-  (il n'y a pas d'étape intermédiaire : c'est un retrait total, immédiat,
-  propre) **ni**, a fortiori, expliquer qu'un seul type de bâtiment
-  (Usine) soit touché en laissant les autres (Mine) intacts sur la même
-  planète — un sabotage réussi les emporterait tous en même temps.
-
-Ces deux missions sont donc hors de cause. Elles confirment par
-l'exemple que `ConstructionPlanetaire.ajouterDommages` reste bien le
-*seul* chemin vers un état "endommagé mais pas retiré" — le sabotage,
-qui est le mécanisme le plus proche en intention ("détruire des
-bâtiments hors combat"), emprunte délibérément un chemin totalement
-différent et ne laisse aucun état intermédiaire.
-
-## 8. Comment `degatsEncaisses` est calculé à l'initialisation
-
-"À l'initialisation" signifie ici : la valeur affichée pour l'état
-"avant le premier tour" d'un combat (utilisée par
-`RapportCombatData.fromInitialPlanete`, la factory de l'état de départ) :
-
-```java
-// 3. Bâtiments au départ (champs issus de mm)
-for (Object key : mm.keySet()) {
-    String codeBatiment = (String) key;
-    Batiment b = (Batiment) Univers.getTechnologie(codeBatiment);
-    int[] mT = (int[]) mm.get(codeBatiment);
-
-    EntiteCombatData bat = new EntiteCombatData();
-    bat.nom = Utile.maj(b.getNomComplet(c1.getLocale()));
-    bat.nombre = mT[0];
-    bat.degatsEncaisses = mT[1];   // <- valeur directement recopiée, aucun calcul
-
-    data.batiments.add(bat);
-}
+```diff
+ int nbAjouter = 0;
+-ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
+ while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
+-    p.ajouterBatiment(batiment);
++    p.ajouterBatiment(new ConstructionPlanetaire(o.getCode()));
+     p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+     nbAjouter++;
+ }
 ```
 
-`degatsEncaisses` à l'initialisation n'est **pas calculé** — c'est une
-simple recopie de `mT[1]`, lui-même produit par
-`Planete.listeEquipementsNombresDommages()` :
+Un simple déplacement de l'instanciation à l'intérieur de la boucle.
+Alternative plus fidèle à l'intention d'origine (réutiliser les objets
+réellement construits par `resolutionConstructions` plutôt que d'en
+fabriquer un nouveau) : itérer sur `o.getObjet(i)` au lieu de fabriquer
+un objet générique — mais cela suppose que tous les éléments de
+`ObjetComplexeTransporte` sont bien du même type, à vérifier.
 
-```java
-public Map listeEquipementsNombresDommages() {
-    ConstructionPlanetaire[] c = getBatiments();
-    HashMap h = new HashMap(c.length);
-    for (int i = 0; i < c.length; i++) {
-        Object o = h.get(c[i].getCode());
-        if (o == null) {
-            int[] inter = {1, c[i].getDommages()};
-            h.put(c[i].getCode(), inter);
-        } else {
-            int[] inter = (int[]) o;
-            inter[0]++;                          // +1 exemplaire
-            inter[1] += c[i].getDommages();       // + ses dégâts individuels
-        }
-    }
-    return h;
-}
-```
+**Correctifs du mécanisme secondaire (§3)**, toujours utiles
+indépendamment du §2 (un bâtiment peut légitimement rester "détruit non
+balayé" plusieurs tours même sans partage d'instance, cf. l'hypothèse
+initiale de ce rapport) :
+- **Option A — balayer immédiatement** : appeler
+  `eliminerPertesBatiments()` dès qu'un bâtiment devient détruit
+  (nécessite de donner à `ConstructionPlanetaire` une référence à sa
+  `Planete`, ou d'ajouter un balayage systématique en fin de tour).
+- **Option B — corriger l'attribution** : exclure du delta de
+  `RapportCombatData.fromCombatPlanete` les bâtiments déjà `estDetruit()`
+  dans l'état "avant ce combat", plutôt que de changer le moment du
+  balayage.
 
-Autrement dit : `degatsEncaisses` à l'initialisation = **la somme brute
-de `ConstructionPlanetaire.getDommages()` sur tous les exemplaires
-actuellement présents dans `Planete.getBatiments()` pour ce type de
-bâtiment**, prise telle quelle au moment de l'appel — sans aucune
-distinction entre :
-- des dégâts réellement infligés récemment (même tour, tour précédent...) ;
-- des dégâts anciens, accumulés puis jamais réparés ;
-- et, précisément le cas de ce rapport, des dégâts d'un bâtiment déjà
-  `estDetruit() == true` mais jamais balayé (§2), dont les dégâts
-  "au maximum" sont comptés exactement comme ceux d'un bâtiment
-  légitimement encore actif.
+**Non implémenté à ce stade**, conformément à la demande : bug analysé
+et documenté, correctifs proposés, aucun appliqué.
 
-C'est cette absence de distinction, à la source même de l'agrégat, qui
-permet à un bâtiment zombie de se fondre invisiblement dans le total
-"initial" d'un combat qui n'a, lui, rigoureusement rien à voir avec son
-état — expliquant à la fois le cas de Wiryxi 10 et sa récurrence sur les
-autres planètes du §6.
+## 7. Portée
+
+- Le défaut du §2 affecte potentiellement **tout ordre de construction
+  groupée d'un bâtiment planétaire sans planète précisée** (dès que
+  `nombre > 1` et que la répartition choisit plus d'une planète) — pas
+  seulement les Usines, ni seulement cette partie. Son impact dépend de
+  la fréquence à laquelle les joueurs utilisent ce mode de construction
+  pour plusieurs exemplaires à la fois.
+- Conséquences au-delà de l'affichage : les planètes "victimes" du
+  partage croient posséder un bâtiment qui, en réalité, n'est qu'un
+  reflet d'un bâtiment détruit ailleurs — tant qu'aucun combat ne les
+  balaie, ces planètes bénéficient à tort des effets du bâtiment
+  (bonus de production, points de construction, défense si c'est un
+  bâtiment armé...) alors qu'il n'existe plus réellement de leur point
+  de vue économique propre.
+- Le mécanisme secondaire (§3) reste un défaut à part entière, qui peut
+  se manifester même sans partage d'instance (bâtiment authentiquement
+  détruit sur sa propre planète, laissé "zombie" faute de combat suivant
+  immédiat) — les deux correctifs (§6) sont complémentaires, pas
+  redondants.
