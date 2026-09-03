@@ -1,20 +1,21 @@
 # Combat : un même bâtiment partagé entre plusieurs planètes apparaît "détruit à 0 dégât" sur celles qui n'ont jamais combattu
 
-- **Fichiers en cause** :
-  - `sources/zIgzAg/jeu/oceane/Systeme.java` — `ajouterRichesses`
-    (branche `TRANSPORT_BATIMENT`) : **cause racine confirmée**, voir §2.
-  - `sources/zIgzAg/jeu/oceane/Combat.java` (seul appelant de
-    `Planete.eliminerPertesBatiments()`), `sources/zIgzAg/jeu/oceane/
-    Planete.java` (`eliminerPertesBatiments`,
-    `listeEquipementsNombresDommages`), `sources/zIgzAg/jeu/oceane/
-    RapportCombatData.java` (`fromCombatPlanete`) : mécanisme secondaire
-    qui détermine *comment* le défaut se manifeste dans le rapport, voir
-    §3.
+- **Fichier modifié** : `sources/zIgzAg/jeu/oceane/Systeme.java` —
+  `ajouterRichesses` (branche `TRANSPORT_BATIMENT`) : **cause racine,
+  corrigée**, voir §2.
+- **Fichiers analysés (non modifiés)** : `sources/zIgzAg/jeu/oceane/
+  Combat.java` (seul appelant de `Planete.eliminerPertesBatiments()`),
+  `sources/zIgzAg/jeu/oceane/Planete.java` (`eliminerPertesBatiments`,
+  `listeEquipementsNombresDommages`), `sources/zIgzAg/jeu/oceane/
+  RapportCombatData.java` (`fromCombatPlanete`) : mécanisme secondaire
+  qui détermine *comment* le défaut se manifeste dans le rapport, voir
+  §3 — non corrigé, reste un défaut à part entière (§6).
 - **Nature** : bug logique — partage d'une instance Java entre plusieurs
-  planètes distinctes (pas un problème de calcul de dégâts). Confirmé par
-  deux tests isolés exécutant le vrai code de production (`Systeme`,
-  `Planete`, `ConstructionPlanetaire`, `Univers` mocké statiquement pour
-  la seule résolution de technologie) — voir §2 et §3.
+  planètes distinctes (pas un problème de calcul de dégâts). Confirmé et
+  corrigé, vérifié par deux tests isolés exécutant le vrai code de
+  production (`Systeme`, `Planete`, `ConstructionPlanetaire`, `Univers`
+  mocké statiquement pour la seule résolution de technologie) — voir §2
+  et §3.
 
 ## 1. Comportement observé (signalé par l'utilisateur)
 
@@ -116,6 +117,23 @@ instantanément détruite sur **toutes les autres** — sans qu'aucun combat
 n'ait jamais eu lieu sur elles, expliquant précisément l'observation de
 l'utilisateur.
 
+### Correctif appliqué
+
+```diff
+ int nbAjouter = 0;
+-ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
+ while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
+-    p.ajouterBatiment(batiment);
++    p.ajouterBatiment(new ConstructionPlanetaire(o.getCode()));
+     p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
+     nbAjouter++;
+ }
+```
+
+Une instance distincte est désormais créée à chaque itération, une par
+planète choisie par la répartition, au lieu d'une seule réutilisée pour
+toutes.
+
 ### Vérification effectuée
 
 Test isolé (`ConstructionPartageeEntrePlanetesTest`, non commité sur
@@ -139,22 +157,38 @@ objet.ajouterObjet(new ConstructionPlanetaire("usineV"));
 systeme.ajouterRichesses(10, objet, Integer.MIN_VALUE);
 ```
 
-Résultat (`mvn test`, via un `pom.xml` temporaire pointant `sources/`,
-supprimé après vérification) :
+**Avant correctif** (`mvn test`, via un `pom.xml` temporaire pointant
+`sources/`, supprimé après vérification) :
 
 ```
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
-Confirmé : `p1.getBatiments()[0]`, `p2.getBatiments()[0]` et
-`p3.getBatiments()[0]` sont **le même objet** (`assertSame` passe).
-Endommager l'exemplaire via `p1` (`ajouterDommages(50)`, atteignant sa
-structure) le marque `estDetruit() == true` **also visible depuis p2 et
-p3** sans qu'aucun dégât n'y ait jamais été appliqué. Balayer via
-`p1.eliminerPertesBatiments()` le retire de `p1` — `p2` et `p3` gardent
-encore leur propre référence à l'objet (déjà détruit, en attente de leur
-propre balayage) tant qu'aucun combat n'a lieu chez elles.
+`p1.getBatiments()[0]`, `p2.getBatiments()[0]` et `p3.getBatiments()[0]`
+étaient **le même objet** (`assertSame` passait). Endommager l'exemplaire
+via `p1` (`ajouterDommages(50)`, atteignant sa structure) le marquait
+`estDetruit() == true` **également visible depuis p2 et p3** sans
+qu'aucun dégât n'y ait jamais été appliqué.
+
+**Après correctif**, le test a été réécrit pour vérifier le comportement
+corrigé (`assertNotSame` sur les trois exemplaires, puis
+`assertFalse(estDetruit())` sur p2/p3 après avoir endommagé l'exemplaire
+de p1) — exécuté avec succès :
+
+```
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
+
+`p1`, `p2` et `p3` reçoivent chacune leur propre instance
+`ConstructionPlanetaire` distincte. Détruire l'exemplaire de `p1` ne
+touche plus `p2` ni `p3`, qui conservent leur propre bâtiment intact
+(`p1.eliminerPertesBatiments()` retire uniquement l'exemplaire de `p1` ;
+`p2`/`p3` gardent 1 bâtiment chacune). Le test
+`BatimentDetruitLazySweepTest` (§3, mécanisme secondaire, non concerné
+par ce correctif) a été rejoué en parallèle et reste vert — pas de
+régression.
 
 ## 3. Mécanisme secondaire : pourquoi ça se traduit par "0 dégât" plutôt qu'une erreur visible
 
@@ -309,34 +343,21 @@ antérieur sur *ces* planètes-là, mais du combat **réel** que Juqav livre
 **ce tour-ci sur Wiryxi 2**, dont l'effet se propage instantanément aux
 cinq autres via l'instance partagée.
 
-## 6. Correctifs envisageables — non implémentés
+## 6. Correctifs
 
-**Correctif de la cause racine (§2, prioritaire)** — dans
-`Systeme.ajouterRichesses`, créer une instance distincte à chaque
-itération au lieu d'une seule réutilisée :
+**Correctif de la cause racine (§2) — appliqué**, voir le diff en §2
+("Correctif appliqué"). Alternative envisagée mais non retenue, plus
+fidèle à l'intention d'origine (réutiliser les objets réellement
+construits par `resolutionConstructions` plutôt que d'en fabriquer un
+nouveau) : itérer sur `o.getObjet(i)` au lieu de fabriquer un objet
+générique — écartée ici pour rester un correctif minimal, cette
+alternative supposerait de vérifier que tous les éléments de
+`ObjetComplexeTransporte` sont bien du même type.
 
-```diff
- int nbAjouter = 0;
--ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
- while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
--    p.ajouterBatiment(batiment);
-+    p.ajouterBatiment(new ConstructionPlanetaire(o.getCode()));
-     p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
-     nbAjouter++;
- }
-```
-
-Un simple déplacement de l'instanciation à l'intérieur de la boucle.
-Alternative plus fidèle à l'intention d'origine (réutiliser les objets
-réellement construits par `resolutionConstructions` plutôt que d'en
-fabriquer un nouveau) : itérer sur `o.getObjet(i)` au lieu de fabriquer
-un objet générique — mais cela suppose que tous les éléments de
-`ObjetComplexeTransporte` sont bien du même type, à vérifier.
-
-**Correctifs du mécanisme secondaire (§3)**, toujours utiles
-indépendamment du §2 (un bâtiment peut légitimement rester "détruit non
-balayé" plusieurs tours même sans partage d'instance, cf. l'hypothèse
-initiale de ce rapport) :
+**Correctifs du mécanisme secondaire (§3) — non implémentés**, toujours
+utiles indépendamment du §2 (un bâtiment peut légitimement rester
+"détruit non balayé" plusieurs tours même sans partage d'instance, cf.
+l'hypothèse initiale de ce rapport) :
 - **Option A — balayer immédiatement** : appeler
   `eliminerPertesBatiments()` dès qu'un bâtiment devient détruit
   (nécessite de donner à `ConstructionPlanetaire` une référence à sa
@@ -346,8 +367,9 @@ initiale de ce rapport) :
   dans l'état "avant ce combat", plutôt que de changer le moment du
   balayage.
 
-**Non implémenté à ce stade**, conformément à la demande : bug analysé
-et documenté, correctifs proposés, aucun appliqué.
+Ces deux options restent volontairement non implémentées à ce stade :
+seul le correctif de la cause racine (§2), demandé explicitement, a été
+appliqué.
 
 ## 7. Portée
 
