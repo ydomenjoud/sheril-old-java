@@ -16,6 +16,10 @@ Chaque modification de politique coûte 10 centaures.
                 </thead>
                 <tbody>
                 <tr>
+                    <td>Loisir</td>
+                    <td> -5% de revenu , + (Nb de planète * 2) réputation, +2 en stabilité</td>
+                </tr>
+                <tr>
                     <td>Impôts</td>
                     <td>Les revenus du système sont augmentés de 10%.</td>
                 </tr>
