@@ -62,8 +62,8 @@ public class ConstructionPlanetaire implements Serializable {
 
 	public void ajouterDommages(int nb) {
 		determinerBatiment();
-		dommages = dommages + nb;
-		if (dommages > batiment.getPointsDeStructure())
+		dommages = Math.min(dommages + nb, batiment.getPointsDeStructure());
+		if (dommages >= batiment.getPointsDeStructure())
 			detruit = true;
 	}
 
