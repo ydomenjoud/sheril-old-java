@@ -909,41 +909,44 @@ public class ProductionOrdres {
 
     public boolean charger_cargo() {
 
-        // System.out.print(" : charger_cargo");
-
         if (c.listePossession().length != 0) {
 
-            // System.out.println("-ok");
-
-            ArrayList a1 = new ArrayList(50);
-            ArrayList a2 = new ArrayList(50);
+            ArrayList<String> a1 = new ArrayList<>(50);
+            ArrayList<String> a2 = new ArrayList<>(50);
 
             a1.add(Univers.getMessage("MINERAI", c.getLocale()));
             a2.add(Messages.MINERAI);
 
-            a1.addAll(Arrays.asList(Utile.tableauToString(Utile
-                    .retournerTableauEntiers(Const.NB_MARCHANDISES - 1))));
-            a2.addAll(Arrays.asList(Univers.getTableauMessage("MARCHANDISES",
-                    c.getLocale())));
+            // Récupération des données d'origine
+            String[] entiers = Utile.tableauToString(Utile.retournerTableauEntiers(Const.NB_MARCHANDISES - 1));
+            String[] marchandises = Univers.getTableauMessage("MARCHANDISES", c.getLocale());
 
-            String[] equipement = (String[]) (c.listeEquipementArray())
-                    .toArray(new String[0]);
+            for (int i = 0; i < marchandises.length; i++) {
+                if (i != Const.PRODUIT_DECHETS) { // On saute les déchets
+                    a1.add(entiers[i]);
+                    a2.add(marchandises[i]);
+                }
+            }
 
-            for (int i = 0; i < equipement.length; i++)
-                if (!a1.contains(equipement[i])) {
-                    a1.add(equipement[i]);
-                    a2.add(Univers.getTechnologie(equipement[i]).getNomComplet(
+            String[] equipement = (c.listeEquipementArray()).toArray(new String[0]);
+
+            for (String s : equipement) {
+                if (!a1.contains(s)) {
+                    a1.add(s);
+                    a2.add(Univers.getTechnologie(s).getNomComplet(
                             c.getLocale()));
                 }
+            }
 
-            String[] k2 = (String[]) a1.toArray(new String[0]);
-            String[] v2 = (String[]) a2.toArray(new String[0]);
+            String[] k2 = a1.toArray(new String[0]);
+            String[] v2 = a2.toArray(new String[0]);
 
             ecrire(afficherA(Const.TABLE_CARGAISON_CHARGEMENT, k2, v2));
 
             return true;
-        } else
+        } else {
             return false;
+        }
 
     }
 

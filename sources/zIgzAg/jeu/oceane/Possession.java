@@ -283,7 +283,7 @@ public class Possession implements Serializable {
 		// Bonus matériel agricole
         // ce sont désormais des déchets dans le moteur
         // et il faudrait avoir un impact négatif dessus , à voir
-//		 if(possedeStockImportantPoste(Const.PRODUIT_MATERIEL_AGRICOLE))
+//		 if(possedeStockImportantPoste(Const.PRODUIT_DECHETS))
 //             bonusNourriture=s.nbPlanetesHabitees(numero);
 		for (int i = 0; i < Const.NB_MARCHANDISES; i++) {
 			int prod = s.getProductionMarchandise(numero, i);
@@ -334,7 +334,7 @@ public class Possession implements Serializable {
 		if (possedeStockImportantPoste(Const.PRODUIT_HOLOFILM)) {
 			mod_post = mod_post + 1;
 		}
-		int nbDeDechets = getQuantiteMarchandise(Const.PRODUIT_MATERIEL_AGRICOLE);
+		int nbDeDechets = getQuantiteMarchandise(Const.PRODUIT_DECHETS);
 		if (nbDeDechets > 0) {
 			mod_dechet = -(nbDeDechets/100);
 		}

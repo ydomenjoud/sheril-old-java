@@ -270,6 +270,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0001 = "Seuls {2} {1} sur {3} demanDés ont pu être recyclés sur le système {0}.";
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0002 = "{3} {1} ont été recyclés sur la planète {2} du système {0} conformêment à vos ordres.";
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0003 = "Seuls {3} {1} sur {4} demanDés ont pu être recyclés sur la planète {2} du système {0}.";
+	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0004 = "Lors du recyclage de {0} {1} sur {2}, vous avez récupéré {3} minerais grace à votre unité de recyclage.";
 
 	public static final String ER_COMMANDANT_AFFECTER_RECHERCHE_0000 = "Vous ne pouvez mettre en place votre nouveau plan de recherche : il est impossible de chercher plus de trois technologies en même temps!";
 	public static final String ER_COMMANDANT_AFFECTER_RECHERCHE_0001 = "Votre nouveau plan de recherche est annulé car le total des affectations Dépasse les 100% !";

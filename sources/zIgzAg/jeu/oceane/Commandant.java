@@ -2988,6 +2988,11 @@ public class Commandant extends Joueur implements Serializable {
 			return Univers.ajouterErreur(getNomNumeroHtml(),
 					"ER_COMMANDANT_DETRUIRE_BATIMENT_0001", pos, code);
 		Technologie t = Univers.getTechnologie(code);
+        if(!t.estBatiment()){
+            System.out.println("Technologie " + code + " n'est pas un batiment");
+            return false;
+        }
+        Batiment batiment = (Batiment) t;
 		Systeme sys = Univers.getSysteme(pos);
 		if (numPlanete == Integer.MIN_VALUE) {
 			if (!sys.contientBatiment(numero, code))
@@ -3006,20 +3011,24 @@ public class Commandant extends Joueur implements Serializable {
 		}
 
 		int nb = 0;
-		if (numPlanete == Integer.MIN_VALUE)
-			nb = sys.recyclerMateriel(numero, (Batiment) t, nombre);
-		else
-			nb = sys.getPlanete(numPlanete).recyclerMateriel((Batiment) t,
-					nombre);
+        boolean contientUniteDeRecyclage = sys.contientUniteDeRecyclage(numero);
+		if (numPlanete == Integer.MIN_VALUE) {
+            nb = sys.recyclerMateriel(numero, batiment, nombre);
+        }
+		else {
+            nb = sys.getPlanete(numPlanete).recyclerMateriel(batiment, nombre, contientUniteDeRecyclage);
+        }
 		Univers.setSysteme(sys);
+
+        if(contientUniteDeRecyclage) {
+            return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0004", nb, batiment, sys, (nb * batiment.getMineraiNecessaire())+"");
+        }
 
 		if (numPlanete == Integer.MIN_VALUE)
 			if (nb == nombre)
-				return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0000",
-						pos, t, nb);
+				return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0000", pos, t, nb);
 			else
-				return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0001",
-						pos, t, nb, nombre);
+				return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0001", pos, t, nb, nombre);
 		else if (nb == nombre)
 			return ajouterEvenement("EV_COMMANDANT_DETRUIRE_BATIMENT_0002",
 					pos, t, sys.getNomNumeroPlanete(numPlanete), nb);

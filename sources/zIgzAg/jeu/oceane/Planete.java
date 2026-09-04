@@ -943,11 +943,13 @@ public class Planete implements Serializable {
 		return retour;
 	}
 
-	public int recyclerMateriel(Batiment b, int nombre) {
+	public int recyclerMateriel(Batiment b, int nombre, boolean contientUniteDeRecyclage) {
 		int nbElimine = eliminerBatiment(b, nombre).getNombreObjets();
-		if (nbElimine > 0)
-			if (contientUniteDeRecyclage())
+		if (nbElimine > 0) {
+			if (contientUniteDeRecyclage) {
 				ajouterMinerai(b.getMineraiNecessaire() * nbElimine);
+			}
+		}
 		return nbElimine;
 	}
 

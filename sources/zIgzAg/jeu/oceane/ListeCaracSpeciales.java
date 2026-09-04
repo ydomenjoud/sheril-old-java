@@ -451,6 +451,9 @@ public interface ListeCaracSpeciales{
     public static final int[][] poly_popV   = poly_popI;
 
 
+    public static final int[][] recylageI = {
+            {Const.BATIMENT_CAPACITE_RECYCLAGE_MINERAI,  1},
+    };
 }
        	 
        	 

@@ -327,7 +327,7 @@ public class Const {
     // Les différentes politiques.
 
     public static final int PRODUIT_NOURRITURE = 0;
-    public static final int PRODUIT_MATERIEL_AGRICOLE = 1;
+    public static final int PRODUIT_DECHETS = 1;
     public static final int PRODUIT_LUXE = 2;
     public static final int PRODUIT_HOLOFILM = 3;
     public static final int PRODUIT_ALCOOLS = 4;

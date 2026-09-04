@@ -592,11 +592,21 @@ public class Systeme implements Serializable {
 		return retour;
 	}
 
+	public boolean contientUniteDeRecyclage(int numero){
+		for(Planete p: pla){
+			if(p.contientUniteDeRecyclage()){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public int recyclerMateriel(int numero, Batiment b, int nombre) {
 		int nbElimine = 0;
 		Planete p = trouverPlaneteSurLaquelleEliminerBatimentDeType(numero, b);
+		boolean contientUniteDeRecyclage = contientUniteDeRecyclage(numero);
 		while ((nbElimine < nombre) && (p != null)) {
-			p.recyclerMateriel(b, 1);
+			p.recyclerMateriel(b, 1, contientUniteDeRecyclage);
 			nbElimine++;
 			p = trouverPlaneteSurLaquelleEliminerBatimentDeType(numero, b);
 		}

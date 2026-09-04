@@ -215,19 +215,10 @@ public interface ListeTechnologique{
  public static final ComposantDeVaisseau draminIX=new ComposantDeVaisseau("dramin",8,ListeParents.draminIX,15000,ListeCaracSpeciales.draminIX,8,80F,ListeMarchandises.draminIX,Const.CV_AUTRE,9);
  public static final ComposantDeVaisseau draminX=new ComposantDeVaisseau("dramin",9,ListeParents.draminX,30000,ListeCaracSpeciales.draminX,10,100F,ListeMarchandises.draminX,Const.CV_AUTRE,10);
 
-
-
-
-
- public static final Batiment mineI         = new Batiment("mine", 0, null,   25, ListeCaracSpeciales.mineI,   1, 10F, null, 20, 1, null);
-    /**
-       public static final Batiment mineII        = new Batiment("mine", 1, ListeParents.mineII,   200, ListeCaracSpeciales.mineII,  2, 20F, ListeMarchandises.mineII,  20, 2, null);
-       public static final Batiment mineIII       = new Batiment("mine", 2, ListeParents.mineIII,  500, ListeCaracSpeciales.mineIII, 3, 30F, ListeMarchandises.mineIII, 20, 3, null);
-       public static final Batiment mineIV        = new Batiment("mine", 3, ListeParents.mineIV,  1000, ListeCaracSpeciales.mineIV,  4, 40F, ListeMarchandises.mineIV,  20, 4, null);
-       public static final Batiment mineV         = new Batiment("mine", 4, ListeParents.mineV,   2000, ListeCaracSpeciales.mineV,   5, 50F, ListeMarchandises.mineV,   20, 5, null);
-    **/
- public static final Batiment chantierI   = new Batiment("chantier",0,null,50,ListeCaracSpeciales.chantierI,10,100F,ListeMarchandises.chantierI,200,10,null);
- public static final Batiment retraiteI   = new Batiment("retraite",0,ListeParents.retraiteI,400,ListeCaracSpeciales.retraiteI,10,50F,ListeMarchandises.retraiteI,50,10,null); 
+ public static final Batiment recylageI = new Batiment("recylage", 0, ListeParents.recylageI, 2000, ListeCaracSpeciales.recylageI, 5, 100F, null, 20, 5, null);
+ public static final Batiment mineI     = new Batiment("mine", 0, null,   25, ListeCaracSpeciales.mineI,   1, 10F, null, 20, 1, null);
+ public static final Batiment chantierI = new Batiment("chantier",0,null,50,ListeCaracSpeciales.chantierI,10,100F,ListeMarchandises.chantierI,200,10,null);
+ public static final Batiment retraiteI = new Batiment("retraite",0,ListeParents.retraiteI,400,ListeCaracSpeciales.retraiteI,10,50F,ListeMarchandises.retraiteI,50,10,null);
 
  public static final Batiment optpI     = new Batiment("optp", 0, ListeParents.optpI   ,   200, ListeCaracSpeciales.optpI    , 10, 100F, ListeMarchandises.optpI    , 50, 5, null);
  public static final Batiment optpII    = new Batiment("optp", 1, ListeParents.optpII  ,   400, ListeCaracSpeciales.optpII   , 19, 190F, ListeMarchandises.optpII   , 50, 5, null);
