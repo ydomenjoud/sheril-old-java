@@ -6,6 +6,7 @@ mysql
 data*/tour*
 data*/carnet.txt
 data*/commun/tour.txt
+data*/commun/borne.txt
 data*/mj
 data*/stats
 data/logs
