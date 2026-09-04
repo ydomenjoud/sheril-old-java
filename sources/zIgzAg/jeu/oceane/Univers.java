@@ -69,6 +69,8 @@ public class Univers {
 
 	private static ArrayList TECHNOLOGIES_PUBLIQUES;
 
+	private static ArrayList PAQUETS_DEPART;
+
 	private static int NUMERO_DU_TOUR;
 
 	private static Integer PHASE;
@@ -406,6 +408,14 @@ public class Univers {
         Chemin.MJ = RACINE + "tour"+(NUMERO_DU_TOUR)+"/mj/";
         System.out.println("charger tour " + Chemin.MJ);
 		Chemin.initialiserChemins(NUMERO_DU_TOUR);
+		// Rechargement de la taille de galaxie (BORNE_MAX: 50 ou 60) enregistrée lors de init.sh
+		String sBorne = Fiche.lecture(Chemin.BORNE_MAX_FILE, 1);
+		if (sBorne != null && !sBorne.trim().isEmpty()) {
+			try {
+				Const.BORNE_MAX = Integer.parseInt(sBorne.trim());
+			} catch (NumberFormatException e) {
+			}
+		}
 	}
 
 	public static void sauvegarderNumeroTour() {
@@ -611,6 +621,58 @@ public class Univers {
 	public static int getTheSecteur(Position p) {
 		int secteur = p.getNumeroSecteur();
 		return secteur;
+	}
+
+	// Méthodes de gestion des paquets de départ réservés aux futurs joueurs.
+
+	public static void setPaquetsDepart(ArrayList paquets) {
+		PAQUETS_DEPART = paquets;
+	}
+
+	public static int getNombrePaquetsDepart() {
+		return PAQUETS_DEPART == null ? 0 : PAQUETS_DEPART.size();
+	}
+
+	// Sélectionne et attribue le premier paquet de départ disponible pour un nouveau joueur.
+	public static PaquetDepart choisirPaquetDepart() {
+		if (PAQUETS_DEPART == null)
+			return null;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue()) {
+				paquet.attribuer();
+				return paquet;
+			}
+		}
+		return null;
+	}
+
+	// Indique si la position correspond à la capitale réservée d'un paquet non encore attribué.
+	public static boolean estCapitaleDepartReservee(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue() && paquet.getCapitale().equals(position))
+				return true;
+		}
+		return false;
+	}
+
+	// Indique si la position correspond à un système neutre d'un paquet non encore attribué.
+	public static boolean estSystemeNeutrePaquetDepart(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue()) {
+				Position[] neutres = paquet.getSystemesNeutres();
+				for (int j = 0; j < neutres.length; j++)
+					if (neutres[j].equals(position))
+						return true;
+			}
+		}
+		return false;
 	}
 
 	public static Position[] choisirPositionsDepartEquitables(int n) {
@@ -1290,6 +1352,12 @@ public class Univers {
 	}
 
 	public static void initialisation() {
+		COMMANDANTS = new TreeMap();
+		SYSTEMES = new TreeMap();
+		DEBRIS = new TreeMap();
+		ALLIANCES = new TreeMap();
+		PAQUETS_DEPART = new ArrayList();
+
 		Univers univers = new Univers(true, Const.MESSAGE_U_00000);
 
 		// créatoin du commandant neutre ->
@@ -1497,6 +1565,8 @@ public class Univers {
 			System.out.print("t");
 			TECHNOLOGIES_PUBLIQUES = chargerArrayList(Chemin.TECHNOLOGIES_PUBLIQUES);
 			if (TECHNOLOGIES_PUBLIQUES == null) TECHNOLOGIES_PUBLIQUES = new ArrayList();
+			PAQUETS_DEPART = chargerArrayList(Chemin.PAQUETS_DEPART);
+			if (PAQUETS_DEPART == null) PAQUETS_DEPART = new ArrayList();
 		} else {
 			COMMANDANTS = (TreeMap) chargerMap(Chemin.COMMANDANTS);
 			DEBRIS = null;
@@ -1533,6 +1603,7 @@ public class Univers {
  		sauvegarderArrayList(Chemin.MARCHE_GALACTIQUE, MARCHE_GALACTIQUE);
 			sauvegarderArrayList(Chemin.TECHNOLOGIES_PUBLIQUES,
 					TECHNOLOGIES_PUBLIQUES);
+			sauvegarderArrayList(Chemin.PAQUETS_DEPART, PAQUETS_DEPART);
 		} else
 			sauvegarderMap(Chemin.COMMANDANTS, COMMANDANTS);
 

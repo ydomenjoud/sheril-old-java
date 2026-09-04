@@ -103,21 +103,17 @@ public class Position implements Serializable, Comparable, Cloneable {
 	// 	}
 	// }
 	
-	//replace the previous method 
+	// Calcule le numéro de secteur dynamiquement en fonction de la taille de carte (Const.BORNE_MAX: 50 ou 60).
 	public int getNumeroSecteur() {
-	    // ratio is the number of sectors per side (e.g., sqrt(9) = 3)
-	    int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
-	    
-	    // sectorSize is the width/height of one sector (e.g., 30 / 3 = 10)
-	    int sectorSize = Const.BORNE_MAX / ratio;
+	    int sectorSize = 10;
+	    int ratio = Const.BORNE_MAX / sectorSize;
 	
-	    int column = (pos[1] - 1) / sectorSize; // 0, 1, or 2
-	    int row = (pos[0] - 1) / sectorSize;    // 0, 1, or 2
+	    int column = (pos[1] - 1) / sectorSize;
+	    int row = (pos[0] - 1) / sectorSize;
 	
 	    int result = 1 + column + (ratio * row);
 	
-	    // Safety check to ensure we don't exceed the defined number of sectors
-	    return Math.min(result, Const.NB_SECTEURS);
+	    return Math.min(result, ratio * ratio);
 	}
 	
 	public boolean estValide(){
@@ -133,12 +129,12 @@ public class Position implements Serializable, Comparable, Cloneable {
 		return retour;
 	}
 		public static Position auHasardInSector(int galaxie, int sector) {
-		    int ratio = (int) Math.sqrt(Const.NB_SECTEURS); // 3
-		    int sectorSize = Const.BORNE_MAX / ratio;       // 10
+		    int sectorSize = 10;
+		    int ratio = Const.BORNE_MAX / sectorSize;
 		
 		    // Calcul des offsets
-		    int column = (sector - 1) % ratio; // 0, 1, 2
-		    int row = (sector - 1) / ratio;    // 0, 1, 2
+		    int column = (sector - 1) % ratio;
+		    int row = (sector - 1) / ratio;
 		
 		    int minX = (column * sectorSize) + 1;
 		    int minY = (row * sectorSize) + 1;
