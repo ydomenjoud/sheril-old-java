@@ -1133,9 +1133,8 @@ public class Systeme implements Serializable {
 			}
 			
 			int nbAjouter = 0;
-			ConstructionPlanetaire batiment = new ConstructionPlanetaire(o.getCode());
 			while ((nbAjouter < o.getNombreObjets()) && (p != null)) {
-				p.ajouterBatiment(batiment);
+				p.ajouterBatiment(new ConstructionPlanetaire(o.getCode()));
 				p = trouverPlaneteSurLaquelleAjouterBatimentDeType(numero, b);
 				nbAjouter++;
 			}
