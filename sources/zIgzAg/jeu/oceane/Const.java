@@ -44,7 +44,10 @@ public class Const {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(Univers.config));
-            GAME_NAME = properties.getProperty("GAME_NAME");
+            String gameNameProp = properties.getProperty("GAME_NAME");
+            if (gameNameProp != null && !gameNameProp.isEmpty()) {
+                GAME_NAME = gameNameProp;
+            }
             Messages.NOMS_GALAXIES = new String[] { GAME_NAME };
             // SSH
             SSH_PORT = properties.getProperty("SSH_PORT");
@@ -69,10 +72,13 @@ public class Const {
             MAIL_SMTP_LOGIN = properties.getProperty("MAIL_SMTP_LOGIN");
             MAIL_SMTP_PASSWORD = properties.getProperty("MAIL_SMTP_PASSWORD");
             MAIL_SMTP_DEBUG = properties.getProperty("MAIL_SMTP_DEBUG");
-            SEND_MAIL = properties.getProperty("SEND_MAIL").equalsIgnoreCase("true");
-            ADRESSE_MJ = properties.getProperty("ADRESSE_MJ");
+            SEND_MAIL = "true".equalsIgnoreCase(properties.getProperty("SEND_MAIL"));
+            String adresseMjProp = properties.getProperty("ADRESSE_MJ");
+            if (adresseMjProp != null && !adresseMjProp.isEmpty()) {
+                ADRESSE_MJ = adresseMjProp;
+            }
 
-            NOTIFY_BOT = properties.getProperty("NOTIFY_BOT").equalsIgnoreCase("true");
+            NOTIFY_BOT = "true".equalsIgnoreCase(properties.getProperty("NOTIFY_BOT"));
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
             IS_LOCAL = "true".equalsIgnoreCase(properties.getProperty("IS_LOCAL"));
             String pathPhpProp = properties.getProperty("PATH_PHP");
