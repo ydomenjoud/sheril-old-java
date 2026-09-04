@@ -69,6 +69,8 @@ public class Univers {
 
 	private static ArrayList TECHNOLOGIES_PUBLIQUES;
 
+	private static ArrayList PAQUETS_DEPART;
+
 	private static int NUMERO_DU_TOUR;
 
 	private static Integer PHASE;

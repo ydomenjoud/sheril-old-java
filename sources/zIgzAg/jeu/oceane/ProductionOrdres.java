@@ -480,9 +480,6 @@ public class ProductionOrdres {
 			}
 
 			if (!inscriptions.isEmpty()) {
-				int nbNouveaux = inscriptions.size();
-				Position[] positionsInitiales = Univers.choisirPositionsDepartEquitables(nbNouveaux);
-
 				Statement s2 = connection.createStatement();
 				ResultSet r2 = mySQL.selectionnerTout(s2,
 						Const.TABLE_INSCRIPTION_VAISSEAUX);
@@ -501,9 +498,11 @@ public class ProductionOrdres {
 									r2.getString("NOMBRE"));
 
 					System.out.println("Creation du commandant " + nom);
-					Position posDepart = (i < positionsInitiales.length) ? positionsInitiales[i] : null;
+					PaquetDepart paquetDepart = Univers.choisirPaquetDepart();
+					if (paquetDepart == null)
+						throw new IllegalStateException("Aucun paquet de départ disponible.");
 
-					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, posDepart);
+					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, paquetDepart);
 
 					String[] o = new String[7];
 					o[0] = Integer.toString(nouveau.getNumero());

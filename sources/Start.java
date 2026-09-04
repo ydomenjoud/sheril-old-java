@@ -55,18 +55,26 @@ public class Start {
 
     }
 
-    public static void initUnivers() {
+    public static void initUnivers(String nombreJoueurs) {
 
         System.out.println("Univers init");
         Univers.initialisation();
-        addNewGalaxy("0");
+        addNewGalaxy("0", nombreJoueurs);
         Rapport.ecrireMessagesSystemes();
 
     }
 
-    public static void addNewGalaxy(String num) {
+    public static void initUnivers() {
+        initUnivers(String.valueOf(Const.NB_JOUEURS));
+    }
+
+    public static void addNewGalaxy(String num, String nombreJoueurs) {
         System.out.println("Add new Galaxy");
-        AjoutDeGalaxie.main(new String[]{num});
+        AjoutDeGalaxie.main(new String[]{num, nombreJoueurs});
+    }
+
+    public static void addNewGalaxy(String num) {
+        addNewGalaxy(num, String.valueOf(Const.NB_JOUEURS));
     }
 
     public static void newRound() {

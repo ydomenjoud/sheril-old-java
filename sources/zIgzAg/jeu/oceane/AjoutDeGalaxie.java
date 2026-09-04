@@ -9,7 +9,10 @@ package zIgzAg.jeu.oceane;
  * @version 2.00, 13/01/01
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class AjoutDeGalaxie {
 
