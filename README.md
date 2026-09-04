@@ -26,6 +26,8 @@ docker compose up -d
 ```shell
 docker compose exec engine bash ./scripts/init.sh
 ```
+`init.sh` génère notamment `php/secure/connect.txt` à partir de `php/secure/connect.txt.sample`
+(fichier non versionné, requis par `register.php`, `includes/top.php`, `includes/auth.php`, etc.).
 
 ### Faire tourner un tour
 ```shell
