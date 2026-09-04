@@ -223,11 +223,15 @@ public class Systeme implements Serializable {
 			int[] inter = s[i].getProprios();
 			for (int j = 0; j < inter.length; j++) {
 				Commandant c = Univers.getCommandant(inter[j]);
-				Possession p = c.getPossession(s[i].getPosition());
-				for (int k = 0; k < Const.NB_MARCHANDISES; k++) {
-					r[k][0] = r[k][0] + p.getQuantiteMarchandise(k);
-					r[k][1] = r[k][1] + p.getQuantiteMarchandise(k)
-							* p.getPrixMarchandise(k);
+				if (c != null) {
+					Possession p = c.getPossession(s[i].getPosition());
+					if (p != null) {
+						for (int k = 0; k < Const.NB_MARCHANDISES; k++) {
+							r[k][0] = r[k][0] + p.getQuantiteMarchandise(k);
+							r[k][1] = r[k][1] + p.getQuantiteMarchandise(k)
+									* p.getPrixMarchandise(k);
+						}
+					}
 				}
 			}
 		}

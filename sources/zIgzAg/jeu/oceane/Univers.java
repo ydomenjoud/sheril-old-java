@@ -1286,6 +1286,12 @@ public class Univers {
 	}
 
 	public static void initialisation() {
+		COMMANDANTS = new TreeMap();
+		SYSTEMES = new TreeMap();
+		DEBRIS = new TreeMap();
+		ALLIANCES = new TreeMap();
+		PAQUETS_DEPART = new ArrayList();
+
 		Univers univers = new Univers(true, Const.MESSAGE_U_00000);
 
 		// créatoin du commandant neutre ->
