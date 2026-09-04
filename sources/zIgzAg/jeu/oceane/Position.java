@@ -104,8 +104,9 @@ public class Position implements Serializable, Comparable, Cloneable {
 	// }
 	
 	// Calcule le numéro de secteur dynamiquement en fonction de la taille de carte (Const.BORNE_MAX: 50 ou 60).
+	// Utilise Const.NB_SECTEURS (recalculé via Const.recalculerBornes()) pour rester cohérent avec le reste du code.
 	public int getNumeroSecteur() {
-	    int sectorSize = 10;
+	    int sectorSize = Const.BORNE_SECTEUR_X;
 	    int ratio = Const.BORNE_MAX / sectorSize;
 	
 	    int column = (pos[1] - 1) / sectorSize;
@@ -113,7 +114,7 @@ public class Position implements Serializable, Comparable, Cloneable {
 	
 	    int result = 1 + column + (ratio * row);
 	
-	    return Math.min(result, ratio * ratio);
+	    return Math.min(result, Const.NB_SECTEURS);
 	}
 	
 	public boolean estValide(){
