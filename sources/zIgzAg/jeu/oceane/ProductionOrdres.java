@@ -500,7 +500,7 @@ public class ProductionOrdres {
 					System.out.println("Creation du commandant " + nom);
 					PaquetDepart paquetDepart = Univers.choisirPaquetDepart();
 					if (paquetDepart == null)
-						throw new IllegalStateException("Aucun paquet de départ disponible.");
+					throw new IllegalStateException("Aucun paquet de départ disponible (paquets=" + Univers.getNombrePaquetsDepart() + ", inscriptions=" + inscriptions.size() + "). Avez-vous lancé init.sh ?");
 
 					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, paquetDepart);
 
