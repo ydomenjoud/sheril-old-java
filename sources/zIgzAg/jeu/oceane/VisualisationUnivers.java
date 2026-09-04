@@ -2,30 +2,51 @@ package zIgzAg.jeu.oceane;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class VisualisationUnivers {
 
+    // Génère la carte HTML de l'univers (carte.html) avec coordonnées de bordures,
+    // affichage des paramètres clés de génération et marqueurs de paquets (R pour capitale réservée, P pour neutre de paquet).
     public static void genererCarteHTML() {
         String cheminFichier = Chemin.STATS+"carte.html";
         try {
-            FileWriter writer = new FileWriter(cheminFichier);
+            FileWriter writer = new FileWriter(cheminFichier, StandardCharsets.UTF_8);
             writer.write("<!DOCTYPE html>\n<html>\n<head>\n");
             writer.write("<meta charset='UTF-8'>\n");
             writer.write("<title>Carte de l'Univers</title>\n");
             writer.write("<style>\n");
-            writer.write("td:has(.commandant-num) {background-color: #076148;}\n");
+            writer.write("td:has(.commandant-num) { background-color: #076148; }\n");
+			writer.write("td:has(.depart-reserve) { background-color: #ffd54a; }\n");
+			writer.write("td:has(.neutre-paquet) { background-color: #00bcd4; }\n");
             writer.write("table { border-collapse: collapse; background-color: #000; }\n");
             writer.write("td { width: 40px; height: 40px; border: 1px solid #333; text-align: center; vertical-align: middle; position: relative; padding: 0; }\n");
+            writer.write("th.coord-cell { width: 40px; height: 40px; background-color: #1a1a1a; color: #888; font-size: 11px; font-weight: bold; border: 1px solid #333; text-align: center; vertical-align: middle; }\n");
             writer.write(".systeme { display: block; width: 30px; height: 30px; margin: auto; border-radius: 50%; position: relative; border: 1px solid #555; }\n");
             writer.write(".commandant-num { text-shadow: 2px 2px black; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; font-size: 17px; text-shadow: 1px 1px 2px black; z-index: 10; }\n");
+			writer.write(".marqueur-paquet { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; font-size: 17px; text-shadow: 1px 1px 2px black; z-index: 10; }\n");
+            writer.write(".depart-reserve { color: #402600; }\n");
+            writer.write(".neutre-paquet { color: #00343b; }\n");
             writer.write(".empty { color: #222; font-size: 8px; }\n");
             writer.write(".grid-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }\n");
+            writer.write(".info-params { color: #ccc; font-size: 15px; margin-top: 5px; margin-bottom: 15px; text-align: center; font-family: sans-serif; }\n");
             writer.write("</style>\n");
             writer.write("</head>\n<body>\n");
             writer.write("<div class='grid-container'>\n");
             writer.write("<h1>Carte de la Galaxie (Grille "+Const.BORNE_MAX+"x"+Const.BORNE_MAX+")</h1>\n");
+            int nbJoueurs = Univers.getNombrePaquetsDepart();
+            writer.write("<div class='info-params'>Joueurs : <strong>" + nbJoueurs + "</strong> | Neutres par paquet : <strong>" + AjoutDeGalaxie.SYSTEMES_NEUTRES_PAR_PAQUET + "</strong> (dont <strong>" + AjoutDeGalaxie.SYSTEMES_NEUTRES_PROCHES + "</strong> proches) | Systèmes régionaux par paquet : <strong>" + AjoutDeGalaxie.SYSTEMES_REGIONAUX_PAR_PAQUET + "</strong></div>\n");
             writer.write("<table>\n");
             
+            // Ligne d'en-tête supérieure avec les coordonnées X
+            writer.write("<tr>\n");
+            writer.write("<th class='coord-cell'></th>\n");
+            for (int x = 1; x <= Const.BORNE_MAX; x++) {
+                writer.write("<th class='coord-cell'>" + x + "</th>\n");
+            }
+            writer.write("<th class='coord-cell'></th>\n");
+            writer.write("</tr>\n");
+
             int nbRacesTotal = Messages.RACES.length;
             int[] sommePopActuelle = new int[nbRacesTotal];
             int[] sommePopMaximale = new int[nbRacesTotal];
@@ -33,6 +54,7 @@ public class VisualisationUnivers {
 
             for (int y = 1; y <= Const.BORNE_MAX; y++) {
                 writer.write("<tr>\n");
+                writer.write("<th class='coord-cell'>" + y + "</th>\n");
                 for (int x = 1; x <= Const.BORNE_MAX; x++) {
                     Position pos = new Position(0, y, x);
                     Systeme sys = Univers.getSysteme(pos);
@@ -90,7 +112,11 @@ public class VisualisationUnivers {
                             }
                         }
                         
-                        if (proprio != 0) {
+                        if (Univers.estCapitaleDepartReservee(pos)) {
+                            writer.write("<span class='marqueur-paquet depart-reserve' title='Emplacement de départ réservé'>R</span>");
+                        } else if (Univers.estSystemeNeutrePaquetDepart(pos)) {
+                            writer.write("<span class='marqueur-paquet neutre-paquet' title='Système neutre du paquet de départ'>P</span>");
+                        } else if (proprio != 0) {
 //                            writer.write("<span class='commandant-num'>" + proprio + "</span>");
                         }
                         writer.write("</div>");
@@ -99,8 +125,17 @@ public class VisualisationUnivers {
                     }
                     writer.write("</td>\n");
                 }
+                writer.write("<th class='coord-cell'>" + y + "</th>\n");
                 writer.write("</tr>\n");
             }
+            // Ligne d'en-tête inférieure avec les coordonnées X
+            writer.write("<tr>\n");
+            writer.write("<th class='coord-cell'></th>\n");
+            for (int x = 1; x <= Const.BORNE_MAX; x++) {
+                writer.write("<th class='coord-cell'>" + x + "</th>\n");
+            }
+            writer.write("<th class='coord-cell'></th>\n");
+            writer.write("</tr>\n");
             writer.write("</table>\n");
 
             writer.write("<br/>\n");

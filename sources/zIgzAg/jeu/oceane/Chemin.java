@@ -17,6 +17,7 @@ public class Chemin {
 	 public static String RACINE = "";
 	 public static String RACINE_ZIP = "";
 	 public static String NUMERO_DU_TOUR = "";
+	 public static String BORNE_MAX_FILE = "";
 	 public static String PATH_STATS = "";
 	 public static String RACINE_SITE = "https://sheril.pbem-france.net/";
 	
@@ -27,6 +28,8 @@ public class Chemin {
 		    RACINE = properties.getProperty("PATH_DATA");
 		    RACINE_ZIP = properties.getProperty("PATH_EXPORT_ZIPPED_RAPPORT");
 			NUMERO_DU_TOUR = properties.getProperty("PATH_TOUR");
+			// Fichier enregistrant la dimension de carte (BORNE_MAX) déterminée lors de init.sh
+			BORNE_MAX_FILE = RACINE + "commun/borne.txt";
 			PATH_STATS = properties.getProperty("PATH_STATS");
 			RACINE_SITE = properties.getProperty("RACINE_SITE");
 		} catch (IOException e) {
