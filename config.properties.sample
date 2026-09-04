@@ -40,3 +40,9 @@ SEND_MAIL = false
 
 # LOCAL
 IS_LOCAL = true
+
+# GENERATION
+# Nombre de joueurs prévus pour la génération de l'univers (entre 30 et 42)
+NB_JOUEURS = 34
+# Nombre de systèmes neutres régionaux additionnels par zone de Voronoï
+SYSTEMES_REGIONAUX_PAR_PAQUET = 3

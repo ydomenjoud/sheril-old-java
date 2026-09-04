@@ -31,14 +31,17 @@ public class Start {
         }
 
         if (args[0].equals("init")) {
-            initUnivers();
+            // Le nombre de joueurs peut être passé en argument ou chargé depuis config.properties (Const.NB_JOUEURS)
+            String nbJoueurs = (args.length >= 2) ? args[1] : String.valueOf(Const.NB_JOUEURS);
+            initUnivers(nbJoueurs);
         } else if (args[0].equals("addNewGalaxy")) {
-            if (args.length != 2) {
-                System.out.println("Il faut spécifier le numéro de galaxy");
+            if (args.length < 2) {
+                System.out.println("Il faut spécifier au moins le numéro de galaxie");
                 displayHelp();
                 System.exit(-1);
             }
-            addNewGalaxy(args[1]);
+            String nbJoueurs = (args.length >= 3) ? args[2] : String.valueOf(Const.NB_JOUEURS);
+            addNewGalaxy(args[1], nbJoueurs);
         } else if (args[0].equals("newRound")) {
             newRound();
         } else if (args[0].equals("listFleet")) {

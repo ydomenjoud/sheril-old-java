@@ -406,6 +406,14 @@ public class Univers {
         Chemin.MJ = RACINE + "tour"+(NUMERO_DU_TOUR)+"/mj/";
         System.out.println("charger tour " + Chemin.MJ);
 		Chemin.initialiserChemins(NUMERO_DU_TOUR);
+		// Rechargement de la taille de galaxie (BORNE_MAX: 50 ou 60) enregistrée lors de init.sh
+		String sBorne = Fiche.lecture(Chemin.BORNE_MAX_FILE, 1);
+		if (sBorne != null && !sBorne.trim().isEmpty()) {
+			try {
+				Const.BORNE_MAX = Integer.parseInt(sBorne.trim());
+			} catch (NumberFormatException e) {
+			}
+		}
 	}
 
 	public static void sauvegarderNumeroTour() {
@@ -613,71 +621,57 @@ public class Univers {
 		return secteur;
 	}
 
-	public static Position[] choisirPositionsDepartEquitables(int n) {
-		Position[] disponibles = listePositionsSystemesDisponibles(-1);
-		if (disponibles.length == 0 || n <= 0) {
-			return new Position[0];
-		}
+	// Méthodes de gestion des paquets de départ réservés aux futurs joueurs.
 
-		ArrayList selection = new ArrayList();
-		ArrayList restants = new ArrayList(Arrays.asList(disponibles));
-		Collections.shuffle(restants);
-
-		// On cherche à maximiser la distance entre les points de départ.
-		// Pour chaque nouveau point, on choisit celui qui est le plus loin des points déjà sélectionnés.
-		if (n > 0 && !restants.isEmpty()) {
-			selection.add(restants.remove(getInt(restants.size())));
-		}
-
-		while (selection.size() < n && !restants.isEmpty()) {
-			Position meilleurCandidat = null;
-			double maxDistanceMin = -1;
-
-			// On échantillonne un sous-ensemble de candidats pour les performances si restants est trop grand
-			int nbCandidatsATester = Math.min(restants.size(), 100); 
-			
-			for (int i = 0; i < nbCandidatsATester; i++) {
-				Position candidat = (Position) restants.get(i);
-				double distanceMin = Double.MAX_VALUE;
-
-				for (int j = 0; j < selection.size(); j++) {
-					Position dejaChoisi = (Position) selection.get(j);
-					// Distance Euclidienne sur un tore (bords jointifs)
-					double dx = Math.abs(candidat.getX() - dejaChoisi.getX());
-					double dy = Math.abs(candidat.getY() - dejaChoisi.getY());
-					
-					if (dx > Const.BORNE_MAX / 2.0) dx = Const.BORNE_MAX - dx;
-					if (dy > Const.BORNE_MAX / 2.0) dy = Const.BORNE_MAX - dy;
-					
-					double d = Math.sqrt(dx * dx + dy * dy);
-					
-					// Préférence forte pour l'étalement intergalactique
-					if (candidat.getNumeroGalaxie() != dejaChoisi.getNumeroGalaxie()) {
-						d += 2000; 
-					}
-
-					if (d < distanceMin) {
-						distanceMin = d;
-					}
-				}
-
-				if (distanceMin > maxDistanceMin) {
-					maxDistanceMin = distanceMin;
-					meilleurCandidat = candidat;
-				}
-			}
-
-			if (meilleurCandidat != null) {
-				selection.add(meilleurCandidat);
-				restants.remove(meilleurCandidat);
-			} else {
-				break;
-			}
-		}
-
-		return (Position[]) selection.toArray(new Position[0]);
+	public static void setPaquetsDepart(ArrayList paquets) {
+		PAQUETS_DEPART = paquets;
 	}
 
+	public static int getNombrePaquetsDepart() {
+		return PAQUETS_DEPART == null ? 0 : PAQUETS_DEPART.size();
+	}
+
+	// Sélectionne et attribue le premier paquet de départ disponible pour un nouveau joueur.
+	public static PaquetDepart choisirPaquetDepart() {
+		if (PAQUETS_DEPART == null)
+			return null;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue()) {
+				paquet.attribuer();
+				return paquet;
+			}
+		}
+		return null;
+	}
+
+	// Indique si la position correspond à la capitale réservée d'un paquet non encore attribué.
+	public static boolean estCapitaleDepartReservee(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue() && paquet.getCapitale().equals(position))
+				return true;
+		}
+		return false;
+	}
+
+	// Indique si la position correspond à un système neutre d'un paquet non encore attribué.
+	public static boolean estSystemeNeutrePaquetDepart(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue()) {
+				Position[] neutres = paquet.getSystemesNeutres();
+				for (int j = 0; j < neutres.length; j++)
+					if (neutres[j].equals(position))
+						return true;
+			}
+		}
+		return false;
+	}
 	public static Position[] listePositionsSystemesParSecteur(int galaxie,
 			int secteur) {
 		Position[] p = listePositionsSystemes();

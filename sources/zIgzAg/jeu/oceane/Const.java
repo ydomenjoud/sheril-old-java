@@ -36,6 +36,10 @@ public class Const {
     public static Boolean FAKE_TURN = false;
     public static String PATH_PHP = "./php/";
 
+    // Paramètres de génération de l'univers (surchargés par config.properties si présents)
+    public static int NB_JOUEURS = 40;
+    public static int SYSTEMES_REGIONAUX_PAR_PAQUET = 4;
+
     static {
         Properties properties = new Properties();
         try {
@@ -76,6 +80,22 @@ public class Const {
               PATH_PHP = pathPhpProp;
             }
 
+            String nbJoueursProp = properties.getProperty("NB_JOUEURS");
+            if (nbJoueursProp != null && !nbJoueursProp.trim().isEmpty()) {
+                try {
+                    NB_JOUEURS = Integer.parseInt(nbJoueursProp.trim());
+                } catch (NumberFormatException e) {
+                }
+            }
+
+            String sysRegProp = properties.getProperty("SYSTEMES_REGIONAUX_PAR_PAQUET");
+            if (sysRegProp != null && !sysRegProp.trim().isEmpty()) {
+                try {
+                    SYSTEMES_REGIONAUX_PAR_PAQUET = Integer.parseInt(sysRegProp.trim());
+                } catch (NumberFormatException e) {
+                }
+            }
+
         } catch (IOException e) {
             System.out.println("Cant load config file. file config.properties should be on the same directory as the jar file");
         }
@@ -95,7 +115,7 @@ public class Const {
     public static final int BORNE_SECTEUR_X = 10;
     public static final int NB_SYSTEMES_PAR_SECTEUR = 17; // nombre de systèmes par secteur
 
-    public static final int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
+    public static int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
     public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
     public static final int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
 
