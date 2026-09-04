@@ -117,15 +117,26 @@ public class Const {
 
     public static final int NB_GALAXIES = Messages.NOMS_GALAXIES.length;
 
-    public static final int NB_SECTEURS_X = 6; // nombre de secteurs par ligne et colonne
+    public static final int NB_SECTEURS_X = 6; // nombre de secteurs par ligne et colonne (valeur par défaut, 60x60)
     public static final int BORNE_SECTEUR_X = 10;
     public static final int NB_SYSTEMES_PAR_SECTEUR = 10; // nombre de systèmes par secteur
 
     public static int BORNE_MAX = NB_SECTEURS_X * BORNE_SECTEUR_X;     // Les bornes pour chaque galaxie. Les coordonnées vont de 1 à BORNE_MAX.
-    public static final int NB_SECTEURS = NB_SECTEURS_X * NB_SECTEURS_X; // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
-    public static final int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
+    // NB_SECTEURS et NB_SYSTEME dépendent de BORNE_MAX (mutable pour les galaxies 50x50/60x60) :
+    // ils doivent être recalculés via recalculerBornes() après toute modification de BORNE_MAX.
+    public static int NB_SECTEURS = (BORNE_MAX / BORNE_SECTEUR_X) * (BORNE_MAX / BORNE_SECTEUR_X); // nombre de secteur total par galaxie. Note, position.java demande que ce nombre soit un carré d'entier
+    public static int NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;     // le nombre de systéme par galaxie
 
-    public static final int NB_FLOTTE_NEUTRE = NB_SYSTEME;     // le nombre de flotte neutre par galaxie
+    public static int NB_FLOTTE_NEUTRE = NB_SYSTEME;     // le nombre de flotte neutre par galaxie
+
+    // Recalcule NB_SECTEURS, NB_SYSTEME et NB_FLOTTE_NEUTRE à partir de la valeur courante de BORNE_MAX.
+    // À appeler systématiquement après toute affectation de Const.BORNE_MAX.
+    public static void recalculerBornes() {
+        int secteursParCote = BORNE_MAX / BORNE_SECTEUR_X;
+        NB_SECTEURS = secteursParCote * secteursParCote;
+        NB_SYSTEME = NB_SECTEURS * NB_SYSTEMES_PAR_SECTEUR;
+        NB_FLOTTE_NEUTRE = NB_SYSTEME;
+    }
 
     public static final int NB_PLANETES_PAR_SYSTEMES = 29;
     // Le nombre maximal de planètes par système.

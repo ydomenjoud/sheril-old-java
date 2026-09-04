@@ -53,6 +53,7 @@ public class AjoutDeGalaxie {
         } else {
             Const.BORNE_MAX = 60;
         }
+        Const.recalculerBornes();
         // Persistance de BORNE_MAX pour les tours suivants (Start newRound)
         zIgzAg.utile.Fiche.initialisation(Chemin.BORNE_MAX_FILE);
         zIgzAg.utile.Fiche.ecriture(Chemin.BORNE_MAX_FILE, Integer.toString(Const.BORNE_MAX));

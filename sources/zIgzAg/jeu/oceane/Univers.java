@@ -413,6 +413,7 @@ public class Univers {
 		if (sBorne != null && !sBorne.trim().isEmpty()) {
 			try {
 				Const.BORNE_MAX = Integer.parseInt(sBorne.trim());
+				Const.recalculerBornes();
 			} catch (NumberFormatException e) {
 			}
 		}
