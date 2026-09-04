@@ -217,8 +217,8 @@
                     $race_safe = (int)$race;
                     $flotte = "NULL";
 
-                    $sql = "INSERT INTO aa_inscription2 (NOM, ADRESSE, RACE, FLOTTE) 
-                        VALUES ('$pseudo_safe', '$email_safe', $race_safe, $flotte) ORDER BY date_insertion DESC";
+                    $sql = "INSERT INTO aa_inscription (NOM, ADRESSE, RACE, FLOTTE) 
+                        VALUES ('$pseudo_safe', '$email_safe', $race_safe, $flotte)";
 
                     if (@mysql($base, $sql)) {
                         echo "Inscription réussie pour le commandant " . htmlspecialchars($pseudo);
@@ -275,7 +275,7 @@
                 5 => "Cyborg"
         ];
 
-        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription2 ORDER BY RACE ASC";
+        $sql = "SELECT NOM, ADRESSE, RACE, FLOTTE FROM aa_inscription ORDER BY RACE ASC";
         $result = @mysql($base, $sql);
         if (!$result) {
             echo "Erreur" . mysql_error();
