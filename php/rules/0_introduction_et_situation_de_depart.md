@@ -2,7 +2,7 @@
 
 
 
-## 0.1 Mécanique générale du jeu
+## <a id="0.1"></a>0.1 Mécanique générale du jeu
 
 Sheril s'inspire du genre 4X (eXplore, eXpand, eXploit, eXterminate), un sous-genre de stratégie et de gestion où le joueur développe son empire à travers l'exploration, l'expansion, l'exploitation et l'extermination.
 
@@ -26,7 +26,7 @@ Un rapport individuel est diffusé à chaque commandant. Il donne l’état de s
 
 Une console d’ordre lui permet d’agir. Les ordres sont enregistrés et une fois par semaine, le jeu passe au tour suivant. Ce n’est qu’à ce moment-là que l’ensemble des ordres passés sont pris en compte.
 
-## 0.2 Situation de départ
+## <a id="0.2"></a>0.2 Situation de départ
 
 Dans Sheril, les commandants évoluent dans une galaxie et commencent avec :
 

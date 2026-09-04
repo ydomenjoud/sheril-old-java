@@ -8,7 +8,7 @@ Il n'y a pas de limite stricte au nombre de vaisseaux pouvant être regroupés d
 
 Cette limite maximale de risques de collisions peut être augmentée grâce à la technologie *Maîtrise militaire*.
 
-## 4.1 Fusionner des flottes
+## <a id="4.1"></a>4.1 Fusionner des flottes
 
 Il est possible de fusionner un nombre illimité de flottes situées au même emplacement en une ou plusieurs flottes distinctes. Lors d’une fusion, seule la flotte portant le plus petit numéro d'identification est conservée ; l’autre disparaît.
 
@@ -16,7 +16,7 @@ Si vous regroupez plus de deux flottes, toutes sont automatiquement fusionnées 
 
 Les fusions de flottes ont lieu avant les attaques (spatiales et planétaires).
 
-## 4.2 Diviser une flotte
+## <a id="4.2"></a>4.2 Diviser une flotte
 
 Une flotte doit contenir au minimum un vaisseau. Il n’y a pas de nombre maximal de vaisseaux au sein d'une flotte.
 
@@ -28,7 +28,7 @@ En cas de division d’une flotte avec un héro, ce dernier demeure au sein de l
 
 Les divisions de flottes ont lieu avant les fusions et les déplacements..
 
-## 4.3 Vitesse de déplacement
+## <a id="4.3"></a>4.3 Vitesse de déplacement
 
 Une flotte se déplace d’un nombre de cases (parsecs) égal à la vitesse de son vaisseau le plus lent. Les déplacements s'effectuent dans toutes les directions, y compris en diagonale.
 
@@ -36,7 +36,7 @@ Tout déplacement de flotte nécessite de lui assigner une directive.
 
 Un vaisseau dont le réacteur est détruit a toujours la capacité de se déplacer.
 
-## 4.4 Directives de rencontre
+## <a id="4.4"></a>4.4 Directives de rencontre
 
 Une directive de rencontre est une instruction assignée à une flotte (notamment lors de son ordre de déplacement) qui détermine son comportement opérationnel et son engagement au combat sur le parsec où elle termine son tour.
 
@@ -47,7 +47,7 @@ Les directives sont résolues successivement selon l’ordre présenté dans le 
 |                                                                                                                 |                                                                                                                                                                                                                                            |
 |-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Attaque les flottes d’un commandant particulier. (Le neutre est considéré par le jeu comme étant un commandant) | Attaque toutes les flottes d'un commandant en particulier (le neutre est considéré comme un commandant), et qui sont présentes sur la même case que votre flotte.                                                                          |
-| Attaque préventive                                                                                              | Attaque toutes les flottes qui comptent attaquer le système (ou ses planètes) que la flotte survole.                                                                                                                                       |
+| Attaque préventive                                                                                              | Attaque toutes les flottes qui comptent attaquer le système (or ses planètes) que la flotte survole.                                                                                                                                       |
 | Attaquer toute flotte rencontrée                                                                                | Votre flotte attaque toute flotte présente sur la même case qu'elle, et uniquement les flottes.                                                                                                                                            |
 | Attaque de système                                                                                              | Votre flotte tente de prendre toutes les planètes du système. S’il n’y a plus de milice, la planète vous appartient et la flotte attaque une autre planète si elle le peut.                                                                |
 | Pillage de système                                                                                              | Votre flotte tente de piller toutes les planètes du système. Le pillage rapporte autant de centaures que de population détruite. Une planète partiellement pillée ne rapporte rien.                                                        |
@@ -58,9 +58,9 @@ Les directives sont résolues successivement selon l’ordre présenté dans le 
 
 **Il est à noter qu'une flotte conservera sa directive si elle n'a pas participé à un combat, ou si elle a participé à un combat spatial contre une flotte avec une puissance en deçà du cinquième de sa propre puissance.**
 
-*Par exemple, la flotte “Chasse” constituée de 7 Intercepteurs standards (puissance de 7\*(3+½)=24) s'arrêtant en 10-10 avec la directive “Attaque de toutes flottes rencontrées” pourra initier un combat spatial avec toutes les flottes - les unes après les autres - constituées d’un seul Intercepteur standard (puissance de 3+½=3), car elle conservera sa directive après chaque combat. Si elle avait affronté une flotte constituée de 2 Intercepteurs standards (puissance de 2\*(3+½)=7), elle n'aurait pas pu engager d'autres flottes, car son adversaire avait une puissance supérieure à 24/5=4. On dit alors que la flotte “Chasse” a été neutralisée.*
+*Par exemple, la flotte “Chasse” constituée de 7 Intercepteurs standards (puissance de 7\*(3+½)=24) s'arrêtant en 10-10 with la directive “Attaque de toutes flottes rencontrées” pourra initier un combat spatial avec toutes les flottes - les unes après les autres - constituées d’un seul Intercepteur standard (puissance de 3+½=3), car elle conservera sa directive après chaque combat. Si elle avait affronté une flotte constituée de 2 Intercepteurs standards (puissance de 2\*(3+½)=7), elle n'aurait pas pu engager d'autres flottes, car son adversaire avait une puissance supérieure à 24/5=4. On dit alors que la flotte “Chasse” a été neutralisée.*
 
-## 4.5 Puissance d'une flotte
+## <a id="4.5"></a>4.5 Puissance d'une flotte
 
 La puissance d'une flotte est égale à la somme de la puissance spatiale de tous ses vaisseaux, plus la somme de la puissance planétaire de tous ses vaisseaux divisée par deux (arrondi à l'entier inférieur).
 

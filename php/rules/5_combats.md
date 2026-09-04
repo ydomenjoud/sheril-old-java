@@ -8,11 +8,11 @@ Un combat est soit spatial, soit planétaire. Sa résolution comporte toujours u
 
 À l'issue d'un combat opposant une flotte à une ou plusieurs planètes, cette flotte adopte automatiquement la directive *Attitude neutre*.
 
-Lors d'un affrontement particulièrement meurtrier, le parsec où il a eu lieu peut devenir dangereux en raison de l'accumulation de débris de vaisseaux.
+Lors d'un affrontement particulièrement meurtrier, le parsec où il a eu lieu peut de venir dangereux en raison de l'accumulation de débris de vaisseaux.
 
 Il existe des technologies permettant d'éliminer les débris, telles que le dragueur de mines.
 
-## 5.1 Durée d’un combat
+## <a id="5.1"></a>5.1 Durée d’un combat
 
 La durée d’un combat correspond au nombre de tours de combat successifs nécessaires à sa résolution au cours de la phase militaire.
 
@@ -22,7 +22,7 @@ Au début de chaque combat, la combativité de chaque vaisseau composant les flo
 
 La combativité est égale à : 5 + caractéristique Moral du héro + niveau de moral de l'équipage.
 
-Voici les différents niveaux de moral d'un équipage :
+Voici les différents niveau de moral d'un équipage :
 
 |     |                |
 |-----|----------------|
@@ -39,9 +39,9 @@ Voici les différents niveaux de moral d'un équipage :
 | 10  | Extraordinaire |
 | 11  | Suprême        |
 
-La combativité représente le nombre de tours de combat durant lesquels un vaisseau est capable de faire feu. À chaque fin de tour, tous les vaisseaux perdent 1 point de combativité. Dès qu'un appareil tombe à 0 point de combativité, il devient incapable de tirer et tente de prendre la fuite.
+La combativité représente le nombre de tours de combat durant lesquels un vaisseau est capable de faire feu. À chaque fin de tour, tous les vaisseaux perdent 1 point de combativité. Dès qu'un appareil tombe à 0 point de combativité, il de vient incapable de tirer et tente de prendre la fuite.
 
-## 5.2 Combat spatial
+## <a id="5.2"></a>5.2 Combat spatial
 
 Un combat spatial oppose deux flottes et s'appuie sur la puissance de combat spatial de vos vaisseaux.
 
@@ -51,7 +51,7 @@ Le combat prend fin lorsque :
 
 - l'une des deux flottes est entièrement détruite.
 
-### 5.2.1 L’espace de combat
+### <a id="5.2.1"></a>5.2.1 L’espace de combat
 
 Le combat entre deux flottes se résout dans un espace à 3 dimensions. Les positions de départ des vaisseaux des deux flottes sont indiquées par le plan de coupe suivant :
 
@@ -61,15 +61,15 @@ Les vaisseaux de chaque flotte sont donc placés par défaut de manière aléato
 
 Une même case peut accueillir un nombre illimité de vaisseaux.
 
-### 5.2.2 Cibles
+### <a id="5.2.2"></a>5.2.2 Cibles
 
-Pour chaque vaisseau, une liste de cibles potentielles est établie de manière aléatoire ou définie par une stratégie de combat (voir 5.4 Stratégies de combat). Parmi celles-ci, l'appareil prend pour cible définitive le vaisseau le plus proche.
+Pour chaque vaisseau, une liste de cibles potentielles est établie de manière aléatoire ou définie par une stratégie de combat (voir [5.4 Stratégies de combat](#5.4)). Parmi celles-ci, l'appareil prend pour cible définitive le vaisseau le plus proche.
 
-### 5.2.3 Tempo
+### <a id="5.2.3"></a>5.2.3 Tempo
 
 Un tempo d’action est attribué à chaque vaisseau en combinant plusieurs paramètres : la caractéristique Vitesse du héro éventuellement présent, le niveau d'expérience de l'équipage, la vitesse de déplacement du vaisseau et la vitesse moyenne de son armement. Une grande part d'aléatoire vient moduler le résultat final.
 
-### 5.2.4 Mouvement
+### <a id="5.2.4"></a>5.2.4 Mouvement
 
 Chaque vaisseau se dirige vers la position de sa cible avec un mouvement égal à sa capacité de vitesse. L'ordre des mouvements se fait du tempo le plus petit au plus grand.
 
@@ -85,7 +85,7 @@ Les vaisseaux peuvent tenter de fuir si :
 
 Lorsqu’un vaisseau prend la fuite, il manœuvre pour rejoindre la zone de la grille tactique la plus distante de la flotte ennemie. La fuite ne met pas fin au combat.
 
-### 5.2.5 Tir
+### <a id="5.2.5"></a>5.2.5 Tir
 
 Chaque vaisseau tire sur sa cible. L'ordre des tirs se déroule du tempo le plus grand au plus petit.
 
@@ -133,13 +133,13 @@ Chaque bouclier permet de parer un certain nombre de points de dégâts (le bouc
 
 Si le moteur du vaisseau est détruit, il y a 1% de chance qu’il explose. Si le vaisseau n’explose pas, il ne bouge plus pour le reste du combat. Il pourra cependant toujours se déplacer dans la galaxie (pour éventuellement rejoindre un système avec un chantier naval pour réparation).
 
-### 5.2.6 Choix des cibles suivantes et tirs suivants
+### <a id="5.2.6"></a>5.2.6 Choix des cibles suivantes et tirs suivants
 
 Les armes qui n'ont pas encore tiré désignent de nouvelles cibles.
 
 *Exemple : Un intercepteur standard (taille 1) ne peut viser qu'une seule cible par tour. Une frégate standard (taille 4) peut tirer sur 16 vaisseaux différents par tour.*
 
-## 5.3 Combat planétaire
+## <a id="5.3"></a>5.3 Combat planétaire
 
 Un combat planétaire se déroule exclusivement entre une flotte et une planète. C’est la puissance de combat planétaire de vos vaisseaux qui est prise en compte lors de l'affrontement.
 
@@ -157,7 +157,7 @@ Le combat prend fin lorsque :
 
 - La flotte a une puissance inférieure à 50.
 
-Un vaisseau attaque une planète soit depuis la stratosphère, soit à la surface, selon son niveau d’agressivité. En début de partie, l’agressivité est réglée sur « standard » : seuls les vaisseaux dépourvus de bombes mènent leur assaut au sol, tandis que les autres bombardent depuis la stratosphère. Par la suite, il est possible de modifier ce comportement via des stratégies de combat. (Voir 5.4 Stratégies de combat)
+Un vaisseau attaque une planète soit depuis la stratosphère, soit à la surface, selon son niveau d’agressivité. En début de partie, l’agressivité est réglée sur « standard » : seuls les vaisseaux dépourvus de bombes mènent leur assaut au sol, tandis que les autres bombardent depuis la stratosphère. Par la suite, il est possible de modifier ce comportement via des stratégies de combat. (Voir [5.4 Stratégies de combat](#5.4))
 
 |                     |                                                                                                                      |
 |---------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -166,17 +166,17 @@ Un vaisseau attaque une planète soit depuis la stratosphère, soit à la surfac
 | Combatif            | Seuls les vaisseaux ne possédant que des bombes attaquent en mode stratosphérique. Les autres attaquent à la surface |
 | Rageur              | Tous les vaisseaux attaquent à la surface                                                                            |
 
-### 5.3.1 Attaque stratosphérique
+### <a id="5.3.1"></a>5.3.1 Attaque stratosphérique
 
 Les vaisseaux équipés de bombes peuvent mener une attaque stratosphérique. Dans ce cas, ils emploient exclusivement leurs bombes. Seules les batteries de défense planétaires peuvent riposter ; la milice ne peut pas attaquer.
 
 L’attaque stratosphérique manquant de précision, les bâtiments planétaires doivent être totalement détruits avant que des dégâts ne puissent être infligés à la milice. Il faut obligatoirement un tour de combat complet pour achever la destruction des bâtiments, même si les dégâts infligés excèdent largement le montant nécessaire. Les dégâts excédentaires ne sont donc pas reportés sur la milice ; ce n’est qu’au tour de combat suivant que cette dernière subira les assauts.
 
-### 5.3.2 Attaque à la surface
+### <a id="5.3.2"></a>5.3.2 Attaque à la surface
 
 Tous les vaisseaux peuvent mener une attaque à la surface d’une planète. Dans ce cas, ils emploient l’ensemble de leurs armes. Les batteries de défense et la milice peuvent alors les attaquer en retour. Les vaisseaux ciblent en priorité la milice et épargnent les bâtiments planétaires : ils ne leur infligent donc aucun dégât, exception faite des boucliers planétaires.
 
-### 5.3.3 Résolution du combat
+### <a id="5.3.3"></a>5.3.3 Résolution du combat
 
 Durant un combat planétaire, les vaisseaux ne disposent d'aucune phase de mouvement : l'affrontement consiste en une succession directe d'échanges de tirs.
 
@@ -190,7 +190,7 @@ L'ordre des tirs est le suivant :
 
 4.  Les vaisseaux qui attaquent à la surface tirent.
 
-### 5.3.4 Puissance de la milice et des batteries
+### <a id="5.3.4"></a>5.3.4 Puissance de la milice et des batteries
 
 La milice correspond à la part de la population chargée de défendre la planète en cas d'attaque ; la stabilité de celle-ci détermine le nombre de miliciens mobilisés.
 
@@ -210,7 +210,7 @@ Si le bouclier planétaire n'est pas détruit à la fin du combat, il se recharg
 
 **Il faut obligatoirement un tour de combat complet pour achever la destruction du bouclier planétaire, même si les dégâts infligés excèdent largement le montant nécessaire. Les dégâts excédentaires ne sont donc pas reportés aux autres bâtiments, ni la milice le cas échéant ; ce n'est qu'au tout de combat suivant que ces derniers subiront les assauts.**
 
-## 5.4 Stratégies de combat
+## <a id="5.4"></a>5.4 Stratégies de combat
 
 Une stratégie de combat est un ensemble de paramètres tactiques prédéfinis qu'un commandant peut assigner à une flotte via la console d'ordre de déplacement, en prévision d’un éventuel affrontement.
 
@@ -226,11 +226,11 @@ Une stratégie comporte plusieurs paramètres :
 
 - Un paramètre de positionnement par type de vaisseau. Si un positionnement pour un type de vaisseau donné n'est pas spécifié, ce positionnement se fait au hasard. Pour la stratégie par défaut, aucun type de vaisseau n'a son positionnement spécifié.
 
-*Exemple : Dans la stratégie « Essai », les intercepteurs standards sont positionnés en (17, 3). Tous les intercepteurs standards d'une flotte attaquante utilisant cette stratégie seront donc déployés en (17, 3). Une part d'aléa sera ensuite appliquée à chacun d'eux afin d'ajuster leur position définitive. Si cette même flotte subit une attaque, ses intercepteurs seront automatiquement repositionnés en (13, 27), soit (30 - 17, 30 - 3) : lors de l'élaboration d'une stratégie, la flotte est toujours considérée comme l'attaquante ; le système adapte automatiquement les coordonnées si elle se retrouve en position de défense. *
+*Exemple : Dans la stratégie « Essai », les intercepteurs standards sont positionnés en (17, 3). Tous les intercepteurs standards d'une flotte attaquante utilisant cette stratégie seront donc déployés en (17, 3). Une part d'aléa sera ensuite appliquée à chacun d'eux afin d'ajuster leur position définitive. Si cette même flotte subit une attaque, ses intercepteurs seront automatiquement repositionnés en (13, 27), soit (30 - 17, 30 - 3) : lors de l'élaboration d'une stratégie, la flotte is toujours considérée comme l'attaquante ; le système adapte automatiquement les coordonnées si elle se retrouve en position de défense. *
 
 - Un paramètre de taille de cibles prioritaires. Il est possible de spécifier les tailles de vaisseaux prioritaires à attaquer. Si aucune taille de cible prioritaire n'est définie, les vaisseaux commencent par attaquer automatiquement les vaisseaux les plus grands. La stratégie par défaut ne définit aucune taille prioritaire. La taille des cibles intervient comme deuxième critère, après que le type de cible prioritaire a été défini.
 
-*Exemple : Dans la stratégie "Essai", les intercepteurs standards doivent attaquer les cibles de taille, dans l’ordre : 5 3 4 1 2 6 8 7 9 10. Ils chercheront donc à attaquer les bombardiers de taille 5. S’il n'y en a pas ou plus, ils passeront aux bombardiers de taille 3, etc. S’il n'y a plus de bombardiers adverses, ils attaqueront les vaisseaux de taille 5, puis ceux de taille 3, etc.*
+*Exemple : Dans la stratégie "Essai", les intercepteurs standards doivent attaquer les cibles de taille, dans l’ordre : 5 3 4 1 2 6 8 7 9 10. Ils chercheront donc à attaquer les bombardiers de taille 5. S’il n'y en a pas ou plus, ils passeront aux bombardiers de taille 3, etc. S’il n'y plus de bombardiers adverses, ils attaqueront les vaisseaux de taille 5, puis ceux de taille 3, etc.*
 
 - Un paramètre d'agressivité. 6 types d'agressivité peuvent être choisis :
 
@@ -245,9 +245,9 @@ Une stratégie comporte plusieurs paramètres :
 
 *Exemple : Dans la stratégie "Essai", l'agressivité est en mode Pillage. Si la flotte adverse ne comporte plus de bombardiers, les vaisseaux tenteront automatiquement de fuir. La stratégie par défaut est en mode d'agressivité standard.*
 
-## 5.5 Dommages et réparations
+## <a id="5.5"></a>5.5 Dommages et réparations
 
-Un vaisseau est la somme de ses composants, dont chacun occupe un certain nombre de cases (voir 3.5).
+Un vaisseau est la somme de ses composants, dont chacun occupe un certain nombre de cases (voir [3.5](3_constructions.md#3.5)).
 
 Chaque composant de vaisseau détruit le reste jusqu'à ce qu'il soit réparé. Un composant détruit ne fonctionne plus.
 

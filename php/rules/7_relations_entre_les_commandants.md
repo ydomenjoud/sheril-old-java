@@ -8,7 +8,7 @@ Ils peuvent également s’imposer des tributs de toute nature ou marchander des
 
 Enfin, les services spéciaux permettent de mener des missions d’espionnage de systèmes, de sabotage de bâtiments, de vol de technologies ou de propagande.
 
-## 7.1 Pacte de non-agression (PNA)
+## <a id="7.1"></a>7.1 Pacte de non-agression (PNA)
 
 Un Pacte de Non-Agression (PNA) est un accord diplomatique conclu entre deux commandants, qui interdit et rend impossible tout combat militaire direct entre leurs forces.
 
@@ -20,7 +20,7 @@ Le pacte peut être rompu à tout moment, permettant d'attaquer dès le tour mê
 
 Par exemple, si vous attaquez le système « Poste avancé » composé de 20 planètes, dont la moitié est possédée par un commandant avec qui vous avez un PNA et l'autre moitié est neutre, votre flotte attaquera les planètes neutres jusqu'à la fin du combat ou jusqu'à ce qu'il ne reste que les planètes de votre allié sous PNA.
 
-## 7.2 Alliances
+## <a id="7.2"></a>7.2 Alliances
 
 Une alliance est un accord militaire, diplomatique et économique conclu entre plusieurs commandants.
 
@@ -40,7 +40,7 @@ Il existe trois types d'alliances :
 
 - Il est impossible d’exclure un membre.
 
-- Si l'alliance n'est pas secrète, le dirigeant change si une majorité de membres votent pour un autre. Si l'alliance est secrète, le dirigeant de l'alliance ne peut pas être remplacé.
+- Si l'alliance n'est pas secrète, le dirigeant change si une majorité de membres votent pour un autre. Si l'alliance est secrète, le dirigeant de l'alliance ne peut pas être remplacée.
 
 - Si le dirigeant quitte l'alliance, le membre qui possède le moins de planètes prend sa place au tour suivant.
 
@@ -70,9 +70,9 @@ Il existe trois types d'alliances :
 
 - L’alliance rapporte \[ 5 x (nombreDeMembresAlliance - 1) ² \] centaures au dirigeant de l'alliance chaque tour.
 
-## 7.3 Services spéciaux et contre-espionnage
+## <a id="7.3"></a>7.3 Services spéciaux et contre-espionnage
 
-De la même façon que pour le budget technologique (voir 6. Recherche technologiques), vous pouvez constituer un budget de services spéciaux et/ou de contre-espionnage.
+De la même façon que pour le budget technologique (voir [6. Recherches technologiques](6_recherches_technologiques.md)), vous pouvez constituer un budget de services spéciaux et/ou de contre-espionnage.
 
 Les services spéciaux permettent de mener des missions spécifiques : espionnage d'un système, sabotage de constructions, vol de technologie et propagande. A chaque tour, vous pouvez donner jusqu'à 3 ordres de mission. Si vous donnez moins d'ordres de mission, le budget est distribué également entre ces ordres.
 
@@ -102,7 +102,7 @@ Au tour N+2, Les missions sont résolues et ses résultats (rapport d'espionnage
 
 *Au tour 3 : Le résultat de la mission est activé, et le budget des services spéciaux est épuisé.*
 
-## 7.4 Autres accords
+## <a id="7.4"></a>7.4 Autres accords
 
 Vous pouvez échanger librement avec un autre commandant, sous réserve des restrictions suivantes :
 
@@ -116,7 +116,7 @@ Vous pouvez effectuer une cession de manière publique, discrète ou anonyme.
 
 Les deux dernières options sont payantes, l’anonymat étant la plus coûteuse.
 
-## 7.5 Réputation
+## <a id="7.5"></a>7.5 Réputation
 
 La réputation est un indicateur chiffré, purement rôle play, qui évalue l'alignement moral et l'éthique diplomatique ou militaire d'un commandant en fonction de ses actions dans la galaxie.
 
@@ -148,7 +148,7 @@ Le score de réputation octroie un statut.
 
 Les commandants qui attaquent des planètes de commandant sanguinaire ou pirate ne perdent pas de points de réputation. Ceux qui jouissent d’une bonne réputation ont un léger bonus sur les événements aléatoires.
 
-## 7.6 Inactivité des commandants
+## <a id="7.6"></a>7.6 Inactivité des commandants
 
 Un commandant disparaît après quatre tours d’inactivité, à la fin de la résolution du quatrième tour. Ses flottes passent alors sous statut neutre en mode « *attaque préventive* » dès le début du tour suivant.
 

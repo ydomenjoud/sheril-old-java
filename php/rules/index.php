@@ -111,7 +111,7 @@ $chapters = [
     margin-bottom: 10px;
 }
 .rules-content p {
-    margin-bottom: 16px;
+    margin-bottom: 5px;
 }
 .rules-content ul, .rules-content ol {
     margin-bottom: 20px;

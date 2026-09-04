@@ -1,6 +1,6 @@
 # 1. La galaxie, les systèmes et les planètes
 
-## 1.1 La galaxie
+## <a id="1.1"></a>1.1 La galaxie
 
 La galaxie se nomme Dune. Elle est formée de systèmes stellaires, eux-mêmes constitués de planètes habitables. Actuellement divisée en quatre secteurs comprenant chacun 40 systèmes, elle compte de 10 à 20 planètes par système.
 
@@ -12,15 +12,15 @@ Une case ne peut contenir qu’un seul système.
 
 ![](images/10000201000002E4000002DF769B0B9566C53384.png)
 
-## 1.2 Les systèmes
+## <a id="1.2"></a>1.2 Les systèmes
 
 Un système est composé d'une étoile centrale autour de laquelle gravitent plusieurs planètes habitables.
 
 L'un des systèmes de votre domaine fait office de capitale. Vous pouvez toutefois en désigner un autre à chaque tour.
 
-L'emplacement de votre capitale influe directement sur la stabilité de votre domaine (Voir 1.3).
+L'emplacement de votre capitale influe directement sur la stabilité de votre domaine (Voir [1.3](#1.3)).
 
-### 1.2.1 Généralités
+### <a id="1.2.1"></a>1.2.1 Généralités
 
 Un système possède :
 
@@ -36,7 +36,7 @@ Certains systèmes possèdent des ressources rares et impossibles à produire do
 
 Hormis ceux des commandants, tous les systèmes de la galaxie sont neutres et ne sont contrôlés par aucun joueur.
 
-Pour renommer un système, le commandant doit en posséder toutes les planètes.
+Pour renommer un système, le commandant must en posséder toutes les planètes.
 
 Les coordonnées du système sont composées d’une paire XX-YY dont chaque composante peut varier de 1 à 40.
 
@@ -56,11 +56,11 @@ Chaque système possède une étoile, autour de laquelle orbitent des planètes.
 
 - Naine rouge
 
-Les étoiles bleues possèdent en moyenne plus de planètes que les novas, qui en comptent elles-mêmes davantage que les étoiles blanches, et ainsi de suite. Le nombre de planètes dans chaque système est compris entre 10 et 20. Un système peut être partagé entre autant de commandants qu'il compte de planètes.
+Les étoiles bleues possèdent en moyenne plus de planètes que les novas, qui en comptent elles-mêmes davantage que les étoiles blanches, et ainsi de suite. Le nombre de planètes dans chaque système is compris entre 10 et 20. Un système peut être partagé entre autant de commandants qu'il compte de planètes.
 
 *Exemple : Le système ayant pour nom Terre d'asile possède 10 planètes. Le commandant X en possède deux, le commandant Y une, le commandant Z trois. Les quatre planètes restantes sont neutres. Ce système est donc partagé entre quatre propriétaires.*
 
-### 1.2.2 Les planètes
+### <a id="1.2.2"></a>1.2.2 Les planètes
 
 Chaque planète porte un nom; par défaut, elle porte le nom de son système suivi d’un numéro attribué de la plus proche de son étoile à la plus éloignée.
 
@@ -98,31 +98,31 @@ Le nombre de planètes dans chaque système varie de 10 à 20. Un système peut 
 
 *Exemple : Le système ayant pour nom Terre d'asile possède 10 planètes. Le commandant X en possède deux, le commandant Y une, le commandant Z trois. Les planètes restantes sont neutres. Ce système est donc partagé entre 4 propriétaires (X, Y, Z et neutre).*
 
-### 1.2.3 Population
+### <a id="1.2.3"></a>1.2.3 Population
 
-La population d’un système est la somme des populations de ses planètes. Elle est exprimée en millions d'habitants.
+La population d’un système is la somme des populations de ses planètes. Elle est exprimée en millions d'habitants.
 
 *Exemple : Dans son rapport sur le système "Terre d'asile", le commandant X ne verra dans cette rubrique que le total de la population des deux planètes qui lui appartiennent. Une population de 10, signifie que 10 millions d'habitants y sont répertoriés. Les autres planètes du système sont peut-être peuplées, mais cela n'est pas indiqué ici.*
 
 Une planète ne peut contenir qu’un seul type de population. Par défaut, il s’agit de la population optimale, mais il est possible de la changer au moyen de vaisseaux colonisateurs.
 
-(Plus d’informations au 2.)
+(Plus d’informations au [2](2_population.md).)
 
-### 1.2.4 Minerai
+### <a id="1.2.4"></a>1.2.4 Minerai
 
 Les revenus en minerai d'un système correspondent à la somme de ceux générés par ses planètes.
 
-Chaque planète possède une capacité de production minière dont la valeur est comprise entre 1 et 8 (voir 3.1).
+Chaque planète possède une capacité de production minière dont la valeur est comprise entre 1 et 8 (voir [3.1](3_constructions.md#3.1)).
 
 Dans le cas d'un système partagé, seuls sont pris en compte les revenus des planètes appartenant au commandant. Il en va de même pour les stocks.
 
-### 1.2.5 Terraformation
+### <a id="1.2.5"></a>1.2.5 Terraformation
 
 Le niveau de terraformation d'un système correspond à la moyenne de celui de ses planètes (la règle du système partagé s'applique également).
 
-Plus d’informations sur le sujet au 2.1.1.
+Plus d’informations sur le sujet au [2.1.1](2_population.md#2.1.1).
 
-### 1.2.6 Politique
+### <a id="1.2.6"></a>1.2.6 Politique
 
 La politique d’un système planétaire est une directive globale de gestion fixée par un commandant, qui s'applique à l'ensemble des planètes qu'il possède au sein de ce système.
 
@@ -154,21 +154,21 @@ Il existe plusieurs formes de politique possibles :
 
 Une politique n'est jamais définitive et peut être modifiée à tout moment. Toutefois, tout changement de politique au sein d'un système coûte 10 centaures, représentant les frais de réorganisation.
 
-### 1.2.7 Taux de taxation
+### <a id="1.2.7"></a>1.2.7 Taux de taxation
 
 Le taux de taxation est un paramètre fixé par le commandant pour déterminer le niveau de prélèvement fiscal en Centaures sur ses populations, que ce soit à l'échelle d'un système entier ou d'une planète individuelle.
 
 Ce taux correspond à la moyenne de celui de ses planètes (la règle du système partagé s'applique également). Au fil de vos découvertes technologiques, il vous sera possible de définir le taux de taxation par planète.
 
-Il peut également influer sur la stabilité du système ou de la planète (voir 1.3.2*).*
+Il peut également influer sur la stabilité du système ou de la planète (voir [1.3.2](#1.3.2)*).*
 
-## 1.3 Le taux de stabilité
+## <a id="1.3"></a>1.3 Le taux de stabilité
 
 Le taux de stabilité est un indicateur exprimé en pourcentage qui mesure l'allégeance, l'ordre et le niveau de loyauté de la population d'une planète ou d'un système envers son commandant.
 
 À l'échelle d'un système, la stabilité affichée correspond à la moyenne de la stabilité de ses planètes.
 
-Exprimé en pourcentage, le taux de stabilité est réévalué à chaque tour. Plus il est bas, plus le risque de révolte augmente et plus les défenses de la planète sont affaiblies (voir 5.3.4).
+Exprimé en pourcentage, le taux de stabilité est réévalué à chaque tour. Plus il est bas, plus le risque de révolte augmente et plus les défenses de la planète sont affaiblies (voir [5.3.4](5_combats.md#5.3.4)).
 
 Par exemple, un système présentant une stabilité de 80 % ne pourra se défendre, en cas d'attaque, qu'à 80 % de ses capacités. Enfin, si la planète est en révolte, son coefficient de défense est à nouveau divisé par 2.
 
@@ -188,7 +188,7 @@ L’éloignement d’un système par rapport à la capitale influe sur sa stabil
 
 *\* Il est important de noter que les distances sont calculées en nombre entier de parsecs, une diagonale ne compte que pour 1. Par exemple, un système en 40-40 est à 3 parsecs d'une capitale en 38-37 et sa stabilité sera affectée d'un bonus de 1%.*
 
-Outre l'éloignement par rapport à la capitale et le taux de taxation, il existe d'autres facteurs influant la stabilité, tels que la politique (voir 1.2.6), la présence d'un gouverneur (voir 8.2) et de grandes quantités de certaines marchandises (voir 3.2).
+Outre l'éloignement par rapport à la capitale et le taux de taxation, il existe d'autres facteurs influant la stabilité, tels que la politique (voir [1.2.6](#1.2.6)), la présence d'un gouverneur (voir [8.2](8_lieutenants.md#8.2)) et de grandes quantités de certaines marchandises (voir [3.2](3_constructions.md#3.2)).
 
 En cas d'absence de capitale, une pénalité de distance maximale s'applique à la stabilité de chaque système au tour suivant.
 
@@ -209,7 +209,7 @@ En voici le détail :
 
 Lors d'un combat, les relations sont affectées dans le secteur où se situe la case de l'affrontement. En cas de don, c'est le secteur de la capitale du bénéficiaire qui voit ses relations interespèces s'améliorer.
 
-### 1.3.1 État de révolte ou de paix
+### <a id="1.3.1"></a>1.3.1 État de révolte ou de paix
 
 La révolte d’une planète est un état d'insurrection de sa population provoqué par un niveau de stabilité insuffisant.
 
@@ -240,9 +240,9 @@ Tableau des pourcentages de risque d'avoir au moins une révolte dans un systèm
 | 19 planètes | 0%       | 17.38%  | 31.88%  | 43.94%  | 53.96%  | 62.26%  | 69.14%  | 74.81%  | 79.49%  | 83.34%  | 86.49%  | 89.08%  | 91.19%  | 92.91%  | 94.31%  | 95.44%  | 96.36%  | 97.1%   | 97.7%   | 98.18%  |
 | 20 planètes | 0%       | 18.21%  | 33.24%  | 45.62%  | 55.8%   | 64.15%  | 70.99%  | 76.58%  | 81.13%  | 84.84%  | 87.84%  | 90.28%  | 92.24%  | 93.83%  | 95.1%   | 96.12%  | 96.94%  | 97.59%  | 98.11%  | 98.52%  |
 
-Lorsqu'une planète entre en révolte, elle ne rapporte plus de centaures, sa population de croit plus et ne produit plus aucune ressource, mais reste sous votre contrôle. Il existe cependant un cas particulier où son contrôle peut être perdu au profit d'un autre commandant (voir 7.3).
+Lorsqu'une planète entre en révolte, elle ne rapporte plus de centaures, sa population de croit plus et ne produit plus aucune ressource, mais reste sous votre contrôle. Il existe cependant un cas particulier où son contrôle peut être perdu au profit d'un autre commandant (voir [7.3](7_relations_entre_les_commandants.md#7.3)).
 
-### 1.3.2 Revenu brut et taux de taxation
+### <a id="1.3.2"></a>1.3.2 Revenu brut et taux de taxation
 
 Le revenu brut est la somme totale en centaures générée à chaque tour par l'impôt prélevé sur la population d'une planète ou d'un système.
 
@@ -250,7 +250,7 @@ Il est établi selon le taux d'imposition fixé pour déterminer la pression fis
 
 Pour chaque planète sous votre contrôle, vous devez définir un taux de taxation compris entre 0 et 5.
 
-Chaque planète génère un impôt en centaures. Essentiellement, ces revenus sont le dixième de la population auquel le taux de taxation est appliqué en tant que facteur de multiplicité.
+Chaque planète génère un impôt en centaures. Essentiellement, ces revenus sont le dixième de la population auquel le taux de taxation est appliqué en tant que factor de multiplicité.
 
 Un taux de taxation élevé génère donc d'importants revenus en Centaures, mais une vigilance s'impose, comme l'illustre le tableau ci-dessous :
 
@@ -267,9 +267,9 @@ En pratique, un taux de taxation de 2 est la base; il est donc déconseillé de 
 
 Par exemple, une planète de 50 (millions) d'habitants à un taux de taxation de 4 rapportera des revenus de (50/10) x 4 = 20 centaures par tour.
 
-**Important : des bonus supplémentaires peuvent s’appliquer à cette collecte selon la politique en vigueur (voir 1.2.6), la présence de certaines marchandises dans le poste commercial (voir 3.2), mais aussi selon les compétences du gouverneur en poste (voir 8.3).**
+**Important : des bonus supplémentaires peuvent s’appliquer à cette collecte selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les compétences du gouverneur en poste (voir [8.3](8_lieutenants.md#8.3)).**
 
-### 1.3.3 Points de construction (PDC)
+### <a id="1.3.3"></a>1.3.3 Points de construction (PDC)
 
 Un point de construction (PDC) est une unité de capacité industrielle disponible par tour au sein d'un système stellaire pour réaliser des chantiers.
 
@@ -279,4 +279,4 @@ Chaque planète, qu'elle soit habitée ou non, rapporte au moins un point de con
 
 Certains bâtiments, accessibles via la recherche technologique, permettent d'augmenter cette valeur.
 
-**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir 1.2.6), la présence de certaines marchandises dans le poste commercial (voir 3.2), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir 8.2 et 8.3).**
+**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir [8.2](8_lieutenants.md#8.2) et [8.3](8_lieutenants.md#8.3)).**

@@ -38,7 +38,7 @@ Par exemple, si vous souhaitez construire 1 mine (1 point de construction), 1 ch
 
 Au final, il manquera 1 point de construction pour le chantier naval et 1 point de construction pour le bouclier planétaire de type I. Aucun de ces deux bâtiments ne sera construit.
 
-## 3.1 Production minière
+## <a id="3.1"></a>3.1 Production minière
 
 La production de minerai d’une planète est calculée selon deux critères : le nombre de mines construites et sa valeur de production minière.
 
@@ -64,7 +64,7 @@ Et ainsi de suite selon cette suite dégressive.
 
 *Avec 4 mines et plus : elle ne produira que 6 minerais, rendant les mines supplémentaires inutiles*
 
-## 3.2 Marchandises
+## <a id="3.2"></a>3.2 Marchandises
 
 Les marchandises sont des ressources économiques produites à l'échelle des systèmes. Elles interviennent principalement dans les coûts de construction pour des bâtiments ou des vaisseaux, et peuvent conférer divers modificateurs passifs au système qui en détient un stock suffisant.
 
@@ -129,7 +129,7 @@ Les marchandises sont requises pour certaines constructions.
 | Unités énergétiques      | \- 50% de frais d'entretien pour les flottes au-dessus du système.                                           |
 | Lixiam, Oxole et Tixium  | Ni bonus ni malus                                                                                            |
 
-## 3.3 Transferts inter systèmes
+## <a id="3.3"></a>3.3 Transferts inter systèmes
 
 Un transfert inter-systèmes est un déplacement logistique de marchandises ou de bâtiments d'une planète à une autre, qu'il s'agisse de planètes situées dans des systèmes différents ou au sein d'un même système
 
@@ -145,7 +145,7 @@ Il est impossible de transférer une marchandise produite le tour même de son d
 
 Formule du nombre de transferts maximum : nombre de systèmes possédés (à + de 75% de planètes) + 2x niveau de Maîtrise des étoiles
 
-## 3.4 Constructions planétaires
+## <a id="3.4"></a>3.4 Constructions planétaires
 
 Les constructions planétaires désignent l'ensemble des bâtiments et infrastructures fixes construits à la surface d'une planète.
 
@@ -153,7 +153,7 @@ Vous pouvez ordonner la construction d’un bâtiment au sein d’un système. S
 
 Vous pouvez mettre en chantier simultanément plusieurs constructions différentes sur un même système, à condition que la planète concernée soit sous votre contrôle. Il est également possible d'étaler une construction sur plusieurs tours si vous manquez de points de construction, de minerai ou de marchandises.
 
-## 3.5 Constructions spatiales
+## <a id="3.5"></a>3.5 Constructions spatiales
 
 Une construction spatiale désigne la mise en production et l'assemblage d'un vaisseau spatial.
 
@@ -212,7 +212,7 @@ Le plan du vaisseau peut être uniquement réservé pour les membres d’une all
 
 Vous aurez également la possibilité d’appliquer des royalties sur vos conceptions. Il s’agit d’un pourcentage du prix du vaisseau reversé à son concepteur lors de chaque construction effectuée par un autre commandant.
 
-## 3.6 Entretien des systèmes
+## <a id="3.6"></a>3.6 Entretien des systèmes
 
 Les systèmes ont un coût d’entretien proportionnel à l’ensemble de leurs bâtiments.
 

@@ -2,7 +2,7 @@
 
 La population représente le nombre d'habitants établis sur chaque planète d'un système.
 
-## 2.1 Habitabilité des planètes
+## <a id="2.1"></a>2.1 Habitabilité des planètes
 
 Dans Sheril, une seule et unique espèce peut être présente par planète. Par défaut, il s’agit de la population optimale, mais il est possible de la changer au moyen de vaisseaux colonisateurs.
 
@@ -22,11 +22,11 @@ Par ailleurs, le type et l’atmosphère d'une planète déterminent le taux d'a
 
 **Formule pour calculer la population maximale**
 
-Si une ou plusieurs des trois caractéristiques (radiation, température ou gravité) est en dehors des intervalles de tolérance, la population maximale est nulle. Sinon elle résulte de la formule suivante :
+Si une ou plusieurs des trois caractéristiques (radiation, température ou gravité) est en dehors des intervalles de tolérance, la population maximale is nulle. Sinon elle résulte de la formule suivante :
 
 R = 1 - \[ 1000 x ( RadiationPlanète - ( -2 x NiveauTerraformation+ RaceRadiationMin ) )x ( RadiationPlanète - ( 2 x NiveauTerraformation+ RaceRadiationMax) ) \] / \[ (4 x NiveauTerraformation ²) + ( RaceRadiationMin-RaceRadiationMax) ² \] T = 1 - \[ 1000 x ( TempératurePlanète - (-2 x NiveauTerraformation+ RaceTempératureMin) )x (TempératurePlanète - ( 2 x NiveauTerraformation+ RaceTempératureMax) ) \] / \[ (4 x NiveauTerraformation ²) + ( RaceTempératureMin-RaceTempératureMax) ²\] G = 1 - \[ 1000 x ( GravitéPlanète - RaceGravitéMin ) x (GravitéPlanète - RaceGravitéMax) \] / \[ ( RaceGravitéMin-RaceGravitéMax) ²\] PopMax = Taille x (R + T + G) + ModificateurRaceAtmosphère x Taille x 100
 
-### 2.1.1 Terraformation
+### <a id="2.1.1"></a>2.1.1 Terraformation
 
 La terraformation est une opération d'ingénierie planétaire qui augmente de +1 le niveau de terraformation d'une planète (toutes les planètes débutent au niveau 0).
 
@@ -56,7 +56,7 @@ Chaque terraformation de planète a un coût selon la formule : 50c + (2 x niv s
 
 *Terraformer du niveau 4 à 5 = 50 + (2 x 5) = 60c sur une planète*
 
-### 2.1.2 Colonisation
+### <a id="2.1.2"></a>2.1.2 Colonisation
 
 La colonisation est l'action d'implanter ou de remplacer une population d'une espèce donnée sur une planète.
 

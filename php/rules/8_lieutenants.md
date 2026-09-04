@@ -1,6 +1,6 @@
 # 8. Lieutenants
 
-## 8.1 Généralités
+## <a id="8.1"></a>8.1 Généralités
 
 Un lieutenant est un officier recruté pour apporter des bonus opérationnels dans une flotte ou sur un système.
 
@@ -24,7 +24,7 @@ L’offre d’un commandant sans aucun lieutenant compte double.
 
 Le coût d'entretien par tour d'un lieutenant s'élève à 10 % de sa valeur de base.
 
-## 8.2 Caractéristiques
+## <a id="8.2"></a>8.2 Caractéristiques
 
 Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois selon qu'il s'agit d'un héro ou d'un gouverneur.
 
@@ -36,7 +36,7 @@ Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois
 | Moral       | Améliore la combativité des vaisseaux                       | Donne au système un bonus en stabilité égal à la statistique. |
 | Marchandage | Pas d’intérêt dans cette version du jeu.                    | Pas d’intérêt dans cette version du jeu.                      |
 
-## 8.3 Compétences
+## <a id="8.3"></a>8.3 Compétences
 
 Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque compétence a 5 niveaux. D’autres compétences peuvent apparaître lors des passages de niveaux des lieutenants.
 
@@ -56,7 +56,7 @@ Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque com
 | Entretien du système    | Non concerné                                                                                                                 | Diminue de 20% par niveau le coût de l'entretien des constructions planétaires du système. Multiplie également les points de dommages réparés automatiquement des bâtiments par le niveau de compétence. |
 | Maîtrise de la finance  | Non concerné                                                                                                                 | Augmente de 20% par niveau le revenu du système                                                                                                                                                          |
 
-## 8.4 Progression
+## <a id="8.4"></a>8.4 Progression
 
 Un lieutenant gagne des points d'expérience lors des combats ou lorsqu'il administre un système qui achève des constructions. Chaque palier de 1000 points d'expérience lui permet de franchir un niveau.
 
@@ -69,7 +69,7 @@ Un lieutenant gagne des points d'expérience lors des combats ou lorsqu'il admin
 
 De plus, il gagne un niveau dans une compétence existante ou débloque une nouvelle compétence (de niveau I). Cette attribution est aléatoire.
 
-## 8.5 Mort
+## <a id="8.5"></a>8.5 Mort
 
 Lorsqu'une flotte commandée par un héro est détruite ou que toutes les planètes du système administré par un gouverneur sont conquises, le lieutenant concerné est considéré comme mort et est cloné, sauf s'il possède la compétence Immortalité.
 

@@ -10,7 +10,7 @@ Plus le niveau de complexité d’une technologie est élevé, plus son coût en
 
 Les technologies accessibles à un commandant figurent dans son rapport et dépendent des connaissances déjà maîtrisées.
 
-## 6.1 Différents types de technologies
+## <a id="6.1"></a>6.1 Différents types de technologies
 
 On distingue trois types de technologies :
 
@@ -24,7 +24,7 @@ Les technologies publiques sont inscrites en vert dans votre rapport. Une techno
 
 Les technologies de construction planétaire permettent de construire de nouveaux bâtiments et les composants de vaisseaux permettent de créer des plans de vaisseaux.
 
-## 6.2 Mécanique du budget de recherche
+## <a id="6.2"></a>6.2 Mécanique du budget de recherche
 
 La recherche technologique est gérée localement, au niveau de chaque système. Le processus se déroule en trois étapes :
 
