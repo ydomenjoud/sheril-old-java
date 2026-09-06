@@ -11,6 +11,7 @@ modificateur de stabilité <strong>à chaque tour</strong>. C'est la ligne « Po
 de stabilité. Un domaine qui s'étire loin de sa capitale se déstabilise tour après tour, sans
 qu'aucun événement ne vous en avertisse.</p>
 
+<div>
 <table class="stylized">
     <caption>Modificateur de stabilité par tour, selon la distance à la capitale</caption>
     <thead>
@@ -31,6 +32,7 @@ qu'aucun événement ne vous en avertisse.</p>
     <tr><td>11 cases et plus</td><td>-16</td></tr>
     </tbody>
 </table>
+</div>
 
 <h4>Conditions</h4>
 <ul>
