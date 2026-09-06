@@ -1,10 +1,23 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez adhérer à une alliance.<BR>
-<BR>
-Pour que cet ordre soit validé, il faut que le dirigeant de l'alliance en question ait
- approuvé votre adhésion dans le même tour, et donc que vous l'ayez contacté.
-<BR><BR>
-Notez bien que l'envoi de cet ordre implique que vous êtes prêt à payer la taxe d'entrée dans l'alliance.
+<p>Demande d'entrée dans une alliance déjà existante. L'ordre n'aboutit que si le dirigeant de cette alliance passe de son côté, dans le même tour, l'ordre de validation qui vous désigne.</p>
+
+<h4>Conditions</h4>
+
+<ul>
+<li>La rubrique disparaît de la console si vous êtes ruiné.</li>
+<li>La liste ne propose que les alliances dont vous n'êtes pas déjà membre.</li>
+<li>L'alliance doit exister encore au moment de la résolution.</li>
+<li>Sans l'ordre de validation du dirigeant, l'adhésion est refusée et un message vous l'annonce.</li>
+<li>Vos centaures doivent couvrir la <strong>taxe d'entrée</strong> fixée à la création de l'alliance, sinon l'ordre est rejeté.</li>
+</ul>
+
+<h4>À savoir</h4>
+
+<ul>
+<li>L'adhésion est le premier ordre résolu du tour : la taxe est prélevée avant toute autre dépense.</li>
+<li>La taxe revient en entier au dirigeant si l'alliance est autocratique ; sinon elle est partagée à parts égales entre les membres déjà en place.</li>
+<li>Le nombre d'alliances auxquelles vous appartenez n'est pas plafonné, mais seules les deux premières auxquelles vous avez adhéré vous rapportent un revenu.</li>
+<li>Rien n'interdit de déposer plusieurs demandes dans le même tour.</li>
+</ul>
