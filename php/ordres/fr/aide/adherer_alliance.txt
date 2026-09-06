@@ -19,5 +19,6 @@
 <li>L'adhésion est le premier ordre résolu du tour : la taxe est prélevée avant toute autre dépense.</li>
 <li>La taxe revient en entier au dirigeant si l'alliance est autocratique ; sinon elle est partagée à parts égales entre les membres déjà en place.</li>
 <li>Le nombre d'alliances auxquelles vous appartenez n'est pas plafonné, mais seules les deux premières auxquelles vous avez adhéré vous rapportent un revenu.</li>
+<li>Une demande restée sans validation n'est pas conservée d'un tour sur l'autre : il vous faut la repasser, et le dirigeant repasser la sienne.</li>
 <li>Rien n'interdit de déposer plusieurs demandes dans le même tour.</li>
 </ul>

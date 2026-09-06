@@ -17,6 +17,7 @@
 <li>Cet ordre ne vous adresse aucun message, ni en cas de réussite ni en cas d'échec.</li>
 <li>La taxe est prélevée au candidat, puis redistribuée aux membres déjà en place.</li>
 <li>Les adhésions sont résolues avant les élections de dirigeant du même tour.</li>
+<li>Une validation qui ne trouve pas sa demande n'est pas conservée d'un tour sur l'autre : chacun doit repasser son ordre.</li>
 <li>Le nombre d'alliances auxquelles un commandant appartient n'est pas limité.</li>
 </ul>
 
