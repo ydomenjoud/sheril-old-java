@@ -1,8 +1,36 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez valider l'adhésion d'un commandant à une alliance que vous dirigez.<BR>
-<BR>
-Pour que cet ordre soit effectif, il faut aussi que le commandant en question ait
- demandé son adhésion à votre alliance dans le même tour.
+<p>Vous contresignez la demande d'adhésion d'un commandant à une alliance que vous dirigez. Sans cette validation, sa demande reste sans effet.</p>
+
+<h4>Conditions</h4>
+<ul>
+<li>La rubrique n'apparaît que si vous dirigez au moins une alliance.</li>
+<li>Le candidat doit passer sa demande d'adhésion <strong>dans le même tour</strong> : sinon rien ne se produit, et lui seul en est averti.</li>
+<li>Seule compte la validation du dirigeant en titre de l'alliance visée.</li>
+<li>Le candidat doit disposer de la taxe d'entrée, faute de quoi son adhésion est rejetée.</li>
+<li>Seuls les commandants humains non ruinés apparaissent dans la liste.</li>
+</ul>
+
+<h4>À savoir</h4>
+<ul>
+<li>Cet ordre ne vous adresse aucun message, ni en cas de réussite ni en cas d'échec.</li>
+<li>La taxe est prélevée au candidat, puis redistribuée aux membres déjà en place.</li>
+<li>Les adhésions sont résolues avant les élections de dirigeant du même tour.</li>
+<li>Une validation qui ne trouve pas sa demande n'est pas conservée d'un tour sur l'autre : chacun doit repasser son ordre.</li>
+<li>Le nombre d'alliances auxquelles un commandant appartient n'est pas limité.</li>
+</ul>
+
+<h4>Destination de la taxe d'entrée</h4>
+<div>
+<table class="stylized">
+<caption>Répartition selon le type de l'alliance</caption>
+<thead>
+<tr><th>Type</th><th>Bénéficiaire</th></tr>
+</thead>
+<tbody>
+<tr><td>Autocratique</td><td>le dirigeant, en totalité</td></tr>
+<tr><td>Démocratique, anarchique</td><td>parts égales entre les membres</td></tr>
+</tbody>
+</table>
+</div>

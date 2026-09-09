@@ -1,10 +1,36 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez quitter une alliance dont vous faites partie.<BR>
-<BR>
-Il vous suffit de choisir dans le cadre le nom de l'alliance
-que vous quittez. <BR>
-Seules les alliances dont vous êtes membre vous seront proposées.
+<p>Vous sortez d'une alliance dont vous êtes membre. Le retrait prend effet à la résolution du tour, et l'alliance en est informée.</p>
 
+<h4>Conditions</h4>
+<ul>
+<li>La rubrique n'apparaît que si vous appartenez à au moins une alliance.</li>
+<li>L'ordre est rejeté si l'alliance n'existe plus, ou si vous n'en êtes plus membre au moment de la résolution.</li>
+</ul>
+
+<h4>À savoir</h4>
+<ul>
+<li>Le départ ne coûte rien et ne modifie pas votre réputation.</li>
+<li>Vos pactes de non-agression ne sont pas touchés, y compris ceux qui vous lient à vos anciens alliés.</li>
+<li>Vous cessez de bénéficier des détections de flottes et de systèmes partagées par l'alliance.</li>
+<li>Vous redevenez attaquable par vos anciens alliés, sauf pacte de non-agression.</li>
+<li>Un dirigeant peut quitter sa propre alliance : la place devient vacante et la succession dépend du type d'alliance.</li>
+<li>Une alliance qui perd son dernier membre est dissoute, et sa disparition est annoncée publiquement.</li>
+<li>Le revenu d'alliance n'est versé que pour les deux premières alliances de votre liste ; en quitter une avance les suivantes dans cette liste.</li>
+</ul>
+
+<h4>Succession du dirigeant</h4>
+<div>
+<table class="stylized">
+<caption>Dirigeant désigné au tour suivant si vous dirigiez l'alliance</caption>
+<thead>
+<tr><th>Type d'alliance</th><th>Successeur</th></tr>
+</thead>
+<tbody>
+<tr><td>Autocratique</td><td>Le membre restant le plus puissant</td></tr>
+<tr><td>Anarchique</td><td>Le membre restant le moins puissant</td></tr>
+<tr><td>Démocratique</td><td>Aucun : la place reste vacante jusqu'à l'élection d'un nouveau dirigeant</td></tr>
+</tbody>
+</table>
+</div>
