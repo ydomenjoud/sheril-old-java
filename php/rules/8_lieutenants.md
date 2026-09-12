@@ -28,7 +28,7 @@ Le coût d'entretien par tour d'un lieutenant s'élève à 10 % de sa valeur de 
 
 Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois selon qu'il s'agit d'un héro ou d'un gouverneur.
 
-|             |                                                             |                                                               |
+| Caractéristiques | Héro                                                   | Gouverneur                                                    |
 |-------------|-------------------------------------------------------------|---------------------------------------------------------------|
 | Vitesse     | Améliore le tempo des vaisseaux                             | Augmente d’autant les points de construction du système       |
 | Attaque     | Améliore le tir de vos vaisseaux                            | Améliore le tir des batteries de défense planétaire.          |
@@ -40,7 +40,7 @@ Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois
 
 Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque compétence a 5 niveaux. D’autres compétences peuvent apparaître lors des passages de niveaux des lieutenants.
 
-|                         |                                                                                                                              |                                                                                                                                                                                                          |
+| Compétence              | Héro                                                                                                                         | Gouverneur                                                                                                                                                                                                         |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Maîtrise de la vitesse  | Augmente de 50% par niveau la caractéristique vitesse                                                                        | Augmente de 50% par niveau la caractéristique vitesse                                                                                                                                                    |
 | Maîtrise de l’attaque   | Augmente de 50% par niveau la caractéristique d’attaque                                                                      | Augmente de 50% par niveau la caractéristique d’attaque                                                                                                                                                  |
@@ -60,11 +60,10 @@ Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque com
 
 Un lieutenant gagne des points d'expérience lors des combats ou lorsqu'il administre un système qui achève des constructions. Chaque palier de 1000 points d'expérience lui permet de franchir un niveau.
 
-À chaque passage de niveau, une de ses caractéristiques augmente aléatoirement d'un point (les caractéristiques augmentent également selon ses compétences), à l'exception du Marchandage, sans utilité dans cette version du jeu.
+À chaque passage de niveau, une de ses caractéristiques augmente aléatoirement d'un point (les caractéristiques augmentent également selon ses compétences), à l'exception du Marchandage, qui n'a pas d'utilité dans cette version du jeu.
 
-|             |             |             |           |                 |
-|-------------|-------------|-------------|-----------|-----------------|
 | **Vitesse** | **Attaque** | **Défense** | **Moral** | **Marchandage** |
+|-------------|-------------|-------------|-----------|-----------------|
 | 25 %        | 25 %        | 25 %        | 25 %      | 0 %             |
 
 De plus, il gagne un niveau dans une compétence existante ou débloque une nouvelle compétence (de niveau I). Cette attribution est aléatoire.
