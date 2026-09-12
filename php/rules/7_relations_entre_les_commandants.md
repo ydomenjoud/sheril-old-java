@@ -124,7 +124,7 @@ Certaines de vos actions augmentent ou baissent votre réputation.
 
 **Le score en réputation n’a pas de conséquence dans le moteur de jeu, mais peut être intéressant dans le rôle-play.**
 
-|                                                                   |                                                 |
+| Motif                                                             | Modification de la réputation                   |
 |-------------------------------------------------------------------|-------------------------------------------------|
 | Attaquer une planète d'un autre commandant en mode "éradication"  | \- 100 et - le nombre de la population maximale |
 | Attaquer une planète d'un autre commandant en mode "pillage"      | -100 et -le nombre d’individus éliminés         |
@@ -137,7 +137,7 @@ Certaines de vos actions augmentent ou baissent votre réputation.
 
 Le score de réputation octroie un statut.
 
-|             |                               |
+| Statut      | Score de réputation           |
 |-------------|-------------------------------|
 | Sanguinaire | Réputation \< -10000          |
 | Pirate      | -10000 \< réputation \< -5000 |
