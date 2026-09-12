@@ -24,7 +24,7 @@ La combativité est égale à : 5 + caractéristique Moral du héro + niveau de 
 
 Voici les différents niveau de moral d'un équipage :
 
-|     |                |
+| Niveau | Type de moral |
 |-----|----------------|
 | 0   | Suicidaire     |
 | 1   | Défaitiste     |
@@ -93,9 +93,8 @@ Chaque vaisseau tire sur sa cible. L'ordre des tirs se déroule du tempo le plus
 
 Une ou plusieurs cibles sont désignées. Le nombre de cibles maximum d’un vaisseau est défini par sa taille selon le tableau suivant :
 
-|        |                  |
-|--------|------------------|
 | Taille | Nombre de cibles |
+|--------|------------------|
 | 1      | 1                |
 | 2      | 4                |
 | 3      | 8                |
@@ -159,12 +158,12 @@ Le combat prend fin lorsque :
 
 Un vaisseau attaque une planète soit depuis la stratosphère, soit à la surface, selon son niveau d’agressivité. En début de partie, l’agressivité est réglée sur « standard » : seuls les vaisseaux dépourvus de bombes mènent leur assaut au sol, tandis que les autres bombardent depuis la stratosphère. Par la suite, il est possible de modifier ce comportement via des stratégies de combat. (Voir [5.4 Stratégies de combat](#5.4))
 
-|                     |                                                                                                                      |
+| Agressivité         | Répartition de l'attaque                                                                                             |
 |---------------------|----------------------------------------------------------------------------------------------------------------------|
-| Fuyard ou Prudent   | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces                              |
-| Standard ou Pillage | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique   |
-| Combatif            | Seuls les vaisseaux ne possédant que des bombes attaquent en mode stratosphérique. Les autres attaquent à la surface |
-| Rageur              | Tous les vaisseaux attaquent à la surface                                                                            |
+| Fuyard ou Prudent   | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces.                              |
+| Standard ou Pillage | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique.   |
+| Combatif            | Seuls les vaisseaux ne possédant que des bombes attaquent en mode stratosphérique. Les autres attaquent à la surface. |
+| Rageur              | Tous les vaisseaux attaquent à la surface.                                                                            |
 
 ### <a id="5.3.1"></a>5.3.1 Attaque stratosphérique
 
@@ -234,14 +233,14 @@ Une stratégie comporte plusieurs paramètres :
 
 - Un paramètre d'agressivité. 6 types d'agressivité peuvent être choisis :
 
-|          |                                                                                                                      |                                                                                                             |
+| Agressivité | Répartition de l'attaque                                                                                                                     |  Engagement                                                                                                           |
 |----------|----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| Fuyard   | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces                              | Les vaisseaux de la flotte tentent de fuir dès l'engagement d’un combat spatial                             |
-| Prudent  | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces                              | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est deux fois plus grande   |
-| Standard | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique   | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est quatre fois plus grande |
-| Pillage  | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique   | Les vaisseaux de la flotte tentent de fuir s’il n'y a plus de vaisseaux du type visé.                       |
-| Combatif | Seuls les vaisseaux ne possédant que des bombes attaquent en mode stratosphérique. Les autres attaquent à la surface | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est huit fois plus grande.  |
-| Rageur   | Tous les vaisseaux attaquent à la surface                                                                            | Les vaisseaux ne tentent jamais de fuir à cause de la puissance de la flotte adverse.                       |
+| Fuyard   | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces.                              | Les vaisseaux de la flotte tentent de fuir dès l'engagement d’un combat spatial.                             |
+| Prudent  | Tous les vaisseaux attaquent en mode stratosphérique : seules les bombes sont efficaces.                              | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est deux fois plus grande.   |
+| Standard | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique.   | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est quatre fois plus grande. |
+| Pillage  | Seuls les vaisseaux ne possédant pas de bombe attaquent à la surface. Les autres attaquent en mode stratosphérique.   | Les vaisseaux de la flotte tentent de fuir s’il n'y a plus de vaisseaux du type visé.                       |
+| Combatif | Seuls les vaisseaux ne possédant que des bombes attaquent en mode stratosphérique. Les autres attaquent à la surface. | Les vaisseaux de la flotte tentent de fuir si la puissance de la flotte adverse est huit fois plus grande.  |
+| Rageur   | Tous les vaisseaux attaquent à la surface.                                                                            | Les vaisseaux ne tentent jamais de fuir à cause de la puissance de la flotte adverse.                       |
 
 *Exemple : Dans la stratégie "Essai", l'agressivité est en mode Pillage. Si la flotte adverse ne comporte plus de bombardiers, les vaisseaux tenteront automatiquement de fuir. La stratégie par défaut est en mode d'agressivité standard.*
 
