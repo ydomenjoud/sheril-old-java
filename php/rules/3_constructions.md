@@ -141,9 +141,8 @@ Les marchandises à déplacer doivent obligatoirement être déjà présentes da
 
 Il est impossible de transférer une marchandise produite le tour même de son déplacement. En revanche, les transferts s'effectuant avant la phase de construction, une marchandise acheminée peut être consommée au cours de ce même tour.
 
- 
 
-Formule du nombre de transferts maximum : nombre de systèmes possédés (à + de 75% de planètes) + 2x niveau de Maîtrise des étoiles
+Formule du nombre de transferts maximum : 1 + nombre de systèmes possédés (à + de 75% de planètes) + 2x niveau de Maîtrise des étoiles
 
 ## <a id="3.4"></a>3.4 Constructions planétaires
 
