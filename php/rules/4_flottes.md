@@ -44,7 +44,7 @@ Une directive de rencontre est une instruction assignée à une flotte (notammen
 
 Les directives sont résolues successivement selon l’ordre présenté dans le tableau suivant. Cet ordre est déterminant, notamment lorsque vous attaquez au même endroit une flotte et un système à l’aide de deux flottes distinctes, et que la flotte ennemie possède la directive *Attaque préventive*.
 
-|                                                                                                                 |                                                                                                                                                                                                                                            |
+| Directive                                                                                                                | Description                                                                                                                                                                                                                                           |
 |-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Attaque les flottes d’un commandant particulier. (Le neutre est considéré par le jeu comme étant un commandant) | Attaque toutes les flottes d'un commandant en particulier (le neutre est considéré comme un commandant), et qui sont présentes sur la même case que votre flotte.                                                                          |
 | Attaque préventive                                                                                              | Attaque toutes les flottes qui comptent attaquer le système (or ses planètes) que la flotte survole.                                                                                                                                       |
@@ -66,7 +66,7 @@ La puissance d'une flotte est égale à la somme de la puissance spatiale de tou
 
 Formule : Puissance = AS + (AP/2)
 
-|     |               |               |
+| Niveau de puissance | Puissance | Mention |
 |-----|---------------|---------------|
 | 0   | \< 25         | Insignifiante |
 | 1   | 25 – 49       | Ridicule      |
