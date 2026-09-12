@@ -279,4 +279,4 @@ Chaque planète, qu'elle soit habitée ou non, rapporte au moins un point de con
 
 Certains bâtiments, accessibles via la recherche technologique, permettent d'augmenter cette valeur.
 
-**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir [8.2](8_lieutenants.md#8.2) et [8.3](8_lieutenants.md#8.3)).**
+**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir [8.2](8_lieutenants.md#8.2) et [8.3](8_lieutenants.md#8.3)) ou la présence de certains bâtiments spécifiques (trouvables via des recherches technologiques).**
