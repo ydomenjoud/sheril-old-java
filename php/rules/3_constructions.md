@@ -110,7 +110,7 @@ Les marchandises sont requises pour certaines constructions.
 
 **Un stock minimal de 100 unités d'une marchandise confère des bonus ou des malus**, à l'exception du Lixiam, Oxole, Tixium et des Systèmes de guidage.
 
-|                          |                                                                                                              |
+| Marchandises             |  Bonus ou malus pour le système                                                                              |
 |--------------------------|--------------------------------------------------------------------------------------------------------------|
 | **Marchandises**         | **Bonus ou malus pour le système**                                                                           |
 | Armement et explosifs    | -1% de stabilité et +50% de miliciens (sans toutefois dépasser la population)                                |
@@ -141,9 +141,8 @@ Les marchandises à déplacer doivent obligatoirement être déjà présentes da
 
 Il est impossible de transférer une marchandise produite le tour même de son déplacement. En revanche, les transferts s'effectuant avant la phase de construction, une marchandise acheminée peut être consommée au cours de ce même tour.
 
- 
 
-Formule du nombre de transferts maximum : nombre de systèmes possédés (à + de 75% de planètes) + 2x niveau de Maîtrise des étoiles
+Formule du nombre de transferts maximum : 1 + nombre de systèmes possédés (à + de 75% de planètes) + 2x niveau de Maîtrise des étoiles
 
 ## <a id="3.4"></a>3.4 Constructions planétaires
 
@@ -175,7 +174,7 @@ Les principales caractéristiques d’un vaisseau sont :
 
 La taille d’un vaisseau dépend du nombre de ses composants. Chaque composant occupe un certain espace, mesuré en « cases ». La taille de votre vaisseau correspond donc au nombre total de cases occupées.
 
-|     |      |         |     |
+| Taille    | Nombre minimum de cases | Nombre maximum de cases | Vitesse de base |
 |-----|------|---------|-----|
 | 1   | 1    | 3       | 9   |
 | 2   | 4    | 9       | 8   |
