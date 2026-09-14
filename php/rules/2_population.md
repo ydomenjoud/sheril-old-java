@@ -8,7 +8,7 @@ Dans Sheril, une seule et unique espèce peut être présente par planète. Par 
 
 Chaque espèce a une tolérance minimum et maximum aux caractéristiques d’une planète (radiation, température, gravité).
 
-|           |     |     |      |     |     |      |
+|           | Radiations min en mR | Radiations max en mR | Température min en °C | Température max en °C | Gravité min en g | Gravité max en g |
 |-----------|-----|-----|------|-----|-----|------|
 | Fremens   | 40  | 200 | 0    | 200 | 0.0 | 8.0  |
 | Atalantes | 0   | 120 | 50   | 180 | 4.0 | 10.0 |
