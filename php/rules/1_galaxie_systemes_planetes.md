@@ -174,7 +174,7 @@ Par exemple, un système présentant une stabilité de 80 % ne pourra se défend
 
 L’éloignement d’un système par rapport à la capitale influe sur sa stabilité.
 
-|            |               |
+|Distance à la capitale (en parsecs*) | Effet sur la stabilité de la planète |
 |------------|---------------|
 | 0          | +3% par tour  |
 | 1 ou 2     | +2% par tour  |
@@ -196,7 +196,7 @@ En cas d'absence de capitale, une pénalité de distance maximale s'applique à 
 
 En voici le détail :
 
-|                                                   |                                                          |
+| Action                                            | Modification du taux                                     |
 |---------------------------------------------------|----------------------------------------------------------|
 | Attaque d'une planète en mode "éradication"       | -200                                                     |
 | Attaque d'une planète en mode "pillage"           | -50                                                      |
@@ -225,9 +225,8 @@ La formule exacte concernant le pourcentage de risque d'avoir au moins une plan�
 
 Tableau des pourcentages de risque d'avoir au moins une révolte dans un système par rapport à la stabilité et au nombre de planètes :
 
-|             |          |         |         |         |         |         |         |         |         |         |         |         |         |         |         |         |         |         |         |         |
-|-------------|----------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 |             | **100%** | **99%** | **98%** | **97%** | **96%** | **95%** | **94%** | **93%** | **92%** | **91%** | **90%** | **89%** | **88%** | **87%** | **86%** | **85%** | **84%** | **83%** | **82%** | **81%** |
+|-------------|----------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | 10 planètes | 0%       | 9.56%   | 18.29%  | 26.26%  | 33.52%  | 40.13%  | 46.14%  | 51.6%   | 56.56%  | 61.06%  | 65.13%  | 68.82%  | 72.15%  | 75.16%  | 77.87%  | 80.31%  | 82.51%  | 84.48%  | 86.26%  | 87.84%  |
 | 11 planètes | 0%       | 10.47%  | 19.93%  | 28.47%  | 36.18%  | 43.12%  | 49.37%  | 54.99%  | 60.04%  | 64.56%  | 68.62%  | 72.25%  | 75.49%  | 78.39%  | 80.97%  | 83.27%  | 85.31%  | 87.12%  | 88.73%  | 90.15%  |
 | 12 planètes | 0%       | 11.36%  | 21.53%  | 30.62%  | 38.73%  | 45.96%  | 52.41%  | 58.14%  | 63.23%  | 67.75%  | 71.76%  | 75.3%   | 78.43%  | 81.2%   | 83.63%  | 85.78%  | 87.66%  | 89.31%  | 90.76%  | 92.02%  |
@@ -254,7 +253,7 @@ Chaque planète génère un impôt en centaures. Essentiellement, ces revenus so
 
 Un taux de taxation élevé génère donc d'importants revenus en Centaures, mais une vigilance s'impose, comme l'illustre le tableau ci-dessous :
 
-|     |               |               |
+| Taux de taxation | Effet sur les revenus | Effet sur la stabilité de la planète |
 |-----|---------------|---------------|
 | 0   | Pas de revenu | +6% par tour  |
 | 1   | Revenu normal | +3% par tour  |
