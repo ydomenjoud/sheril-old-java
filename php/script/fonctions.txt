@@ -122,11 +122,12 @@ function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200')
             if (is_array($postedValue) && in_array($j, $postedValue)) $selected = 'selected ';
         } else {
             // Cas simple : comparaison classique
-            if ($postedValue == $j) $selected = 'selected ';
+            if ($postedValue!==null && $postedValue === $j){
+                $selected = 'selected ';
+            }
         }
 
-        echo("<OPTION ".$selected." ");
-        echo("VALUE=\"$j\">$t[$j]");
+        echo("<option ".$selected." VALUE=\"$j\">$t[$j] $postedValue</option>");
     }
     echo("</SELECT>");
 }
@@ -178,7 +179,7 @@ function select_planete2($nv)
     echo("<OPTION SELECTED VALUE=\"100\">");
     for ($i = 1; $i < 21; $i++) {
         $inter = $i - 1;
-        echo("<OPTION VALUE=\"$inter\">$i");
+        echo("<OPTION VALUE=\"$inter\" ".((array_key_exists($nv,$_POST) && $_POST[$nv] == $inter) ? 'selected ' : '').">$i");
     }
     echo("</SELECT>");
 }
