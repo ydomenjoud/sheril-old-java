@@ -158,8 +158,9 @@ Chaque modification de politique coûte 10 centaures.
 
 Liste des politiques :
 
-|                |                                                                                                                                                                                                                               |
+| Nom de la politique | Effet de la politique                                                                                                                                                                                                    |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Loisir         | Les revenus des impôts de chaque planète du système sont diminués de 5%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de points de réputation par tour égal au double du nombre de planètes.                                                                                                                                                                           |
 | Impôts         | Les revenus du système sont augmentés de 10%.                                                                                                                                                                                 |
 | Commerce       | Le système produit 2 unités de marchandises supplémentaires pour chaque type de marchandise déjà produite.                                                                                                                    |
 | Construction   | Le nombre de points de construction du système est augmenté de 50%.                                                                                                                                                           |
@@ -187,7 +188,7 @@ Utilisez cette rubrique si vous voulez modifier la taxation d'un de vos système
 
 % de chance d'avoir au moins une révolte dans un système par rapport à la stab et au nombre de planètes
 
-|             |     |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+|             | 100% | 99% | 98% | 97% | 96% | 95% | 94% | 93% | 92% | 91% | 90% | 89% | 88% | 87% | 86% | 85% | 84% | 83% | 82% | 81% |
 |-------------|-----|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|
 | 10 planètes | 0%  | 9.56%  | 18.29% | 26.26% | 33.52% | 40.13% | 46.14% | 51.6%  | 56.56% | 61.06% | 65.13% | 68.82% | 72.15% | 75.16% | 77.87% | 80.31% | 82.51% | 84.48% | 86.26% | 87.84% |
 | 11 planètes | 0%  | 10.47% | 19.93% | 28.47% | 36.18% | 43.12% | 49.37% | 54.99% | 60.04% | 64.56% | 68.62% | 72.25% | 75.49% | 78.39% | 80.97% | 83.27% | 85.31% | 87.12% | 88.73% | 90.15% |
@@ -204,7 +205,7 @@ Formule exacte : chance de révolte = 1 - (stab/100)^nbPlanètes
 
 Modificateur de stabilité par niveau de taxation
 
-|     |               |               |
+| Taux de taxation | Revenus | Effet sur la stabilité de la planète |
 |-----|---------------|---------------|
 | 0   | pas de revenu | +6% par tour  |
 | 1   | revenu normal | +3% par tour  |
@@ -215,9 +216,8 @@ Modificateur de stabilité par niveau de taxation
 
 Modificateur de stabilité par distance à la capitale :
 
-|                                           |                                          |
-|-------------------------------------------|------------------------------------------|
 | **Distance à la capitale (en parsecs\*)** | **Effet sur la stabilité de la planète** |
+|-------------------------------------------|------------------------------------------|
 | 0                                         | +3% par tour                             |
 | 1 ou 2                                    | +2% par tour                             |
 | 3 ou 4                                    | +1% par tour                             |
@@ -232,7 +232,7 @@ Modificateur de stabilité par distance à la capitale :
 
 Utilisez cette rubrique si vous voulez modifier la taxation d'une de vos planètes en particulier.
 
-|     |               |               |
+| Taux de taxation | Revenus | Effet sur la stabilité de la planète |
 |-----|---------------|---------------|
 | 0   | pas de revenu | +6% par tour  |
 | 1   | revenu normal | +3% par tour  |
@@ -331,7 +331,7 @@ Si vous lui demandez d'aller dans une autre galaxie que dans celle oû elle se t
 
 Liste des directives par ordre de priorité de résolution :
 
-|                                                                                                                 |                                                                                                                                                                                                                                            |
+| Directive                                                                                                       | Description                                                                                                                                                                                                                                |
 |-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Attaque les flottes d’un commandant particulier. (Le neutre est considéré par le jeu comme étant un commandant) | Attaque toutes les flottes d'un commandant en particulier (le neutre est considéré comme un commandant), et qui sont présentes sur la même case que votre flotte.                                                                          |
 | Attaque préventive                                                                                              | Attaque toutes les flottes qui comptent attaquer le système (ou ses planètes) que la flotte survole.                                                                                                                                       |
@@ -367,7 +367,7 @@ S’il y avait un héro dans chaque flotte, le héro de la flotte au numéro le 
 
 Liste des directives par ordre de priorité de résolution
 
-|                                                                                                                 |                                                                                                                                                                                                                                            |
+| Directive                                                                                                       | Description                                                                                                                                                                                                                                |
 |-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Attaque les flottes d’un commandant particulier. (Le neutre est considéré par le jeu comme étant un commandant) | Attaque toutes les flottes d'un commandant en particulier (le neutre est considéré comme un commandant), et qui sont présentes sur la même case que votre flotte.                                                                          |
 | Attaque préventive                                                                                              | Attaque toutes les flottes qui comptent attaquer le système (ou ses planètes) que la flotte survole.                                                                                                                                       |
@@ -377,7 +377,7 @@ Liste des directives par ordre de priorité de résolution
 | Attaque de planète                                                                                              | Votre flotte tente de prendre une planète du système. S’il n’y a plus de milice, la planète vous appartient.                                                                                                                               |
 | Pillage de planète                                                                                              | Votre flotte tente de piller une planète du système. S’il n’y a plus de milice, la planète devient neutre. Le pillage rapporte autant de centaures que de population détruite. Une planète partiellement pillée ne rapporte rien.          |
 | Eradication de planète                                                                                          | Votre flotte tente d'éradiquer une planète du système. S’il n’y a plus de milice, la planète devient neutre et n’a plus aucune population. Il faut coloniser à nouveau. L’éradication n’est possible que pour une seule planète à la fois. |
-| Attitude neutre                                                                                                 | La flotte ne fait rien, mais se défend en cas d'agression.                                                                                                                                                                                 |
+| Attitude neutre                                                                                                 | La flotte ne fait rien, mais se défend en cas d'agression.                                                                                                                                                                          |
 
 ***Dons et prêts***
 
@@ -476,9 +476,8 @@ Une création de plan de vaisseau est coûteuse : 10 fois le prix de constructio
 
 Liste des tailles de vaisseaux :
 
-|        |                         |                         |                 |                 |
+| Taille | Nombre de composants min | Nombre de composants max | Vitesse de base | Nombre de cibles |
 |--------|-------------------------|-------------------------|-----------------|-----------------|
-| Taille | Nombre de composant min | Nombre de composant max | Vitesse de base | Nombre de cible |
 | 1      | 1                       | 3                       | 9               | 1               |
 | 2      | 4                       | 9                       | 8               | 4               |
 | 3      | 10                      | 17                      | 7               | 8               |
