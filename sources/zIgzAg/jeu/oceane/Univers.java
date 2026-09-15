@@ -69,6 +69,8 @@ public class Univers {
 
 	private static ArrayList TECHNOLOGIES_PUBLIQUES;
 
+	private static ArrayList PAQUETS_DEPART;
+
 	private static int NUMERO_DU_TOUR;
 
 	private static Integer PHASE;
@@ -574,6 +576,7 @@ public class Univers {
 
 	public static void setSysteme(Systeme entree) {
 		SYSTEMES.put(entree.getPosition(), entree);
+		actualiserNombreSystemes();
 	}
 
 	public static Systeme getSysteme(Position pos) {
@@ -582,6 +585,29 @@ public class Univers {
 
 	public static void removeSysteme(Systeme s) {
 		SYSTEMES.remove(s.getPosition());
+		actualiserNombreSystemes();
+	}
+
+	private static void actualiserNombreSystemes() {
+		if (SYSTEMES == null)
+			return;
+		Const.NB_SYSTEME = SYSTEMES.size();
+		Const.NB_FLOTTE_NEUTRE = Const.NB_SYSTEME;
+	}
+
+	public static void actualiserConstantesDepuisEtat() {
+		if (PAQUETS_DEPART != null && !PAQUETS_DEPART.isEmpty()) {
+			Const.BORNE_MAX = PAQUETS_DEPART.size() <= 35 ? 50 : 60;
+		} else if (SYSTEMES != null && !SYSTEMES.isEmpty()) {
+			int max = 0;
+			for (Object o : SYSTEMES.keySet()) {
+				Position p = (Position) o;
+				max = Math.max(max, Math.max(p.getX(), p.getY()));
+			}
+			Const.BORNE_MAX = max <= 50 ? 50 : 60;
+		}
+		Const.recalculerBornes();
+		actualiserNombreSystemes();
 	}
 
 	public static Systeme[] listeSystemes(Position[] pos) {
@@ -611,6 +637,56 @@ public class Univers {
 	public static int getTheSecteur(Position p) {
 		int secteur = p.getNumeroSecteur();
 		return secteur;
+	}
+
+	// Méthodes de gestion des paquets de départ réservés aux futurs joueurs.
+
+	public static void setPaquetsDepart(ArrayList paquets) {
+		PAQUETS_DEPART = paquets;
+	}
+
+	public static int getNombrePaquetsDepart() {
+		return PAQUETS_DEPART == null ? 0 : PAQUETS_DEPART.size();
+	}
+
+	// Sélectionne le premier paquet de départ disponible pour un nouveau joueur.
+	public static PaquetDepart choisirPaquetDepart() {
+		if (PAQUETS_DEPART == null)
+			return null;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue())
+				return paquet;
+		}
+		return null;
+	}
+
+	// Indique si la position correspond à la capitale réservée d'un paquet non encore attribué.
+	public static boolean estCapitaleDepartReservee(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue() && paquet.getCapitale().equals(position))
+				return true;
+		}
+		return false;
+	}
+
+	// Indique si la position correspond à un système neutre d'un paquet non encore attribué.
+	public static boolean estSystemeNeutrePaquetDepart(Position position) {
+		if (PAQUETS_DEPART == null)
+			return false;
+		for (int i = 0; i < PAQUETS_DEPART.size(); i++) {
+			PaquetDepart paquet = (PaquetDepart) PAQUETS_DEPART.get(i);
+			if (!paquet.estAttribue()) {
+				Position[] neutres = paquet.getSystemesNeutres();
+				for (int j = 0; j < neutres.length; j++)
+					if (neutres[j].equals(position))
+						return true;
+			}
+		}
+		return false;
 	}
 
 	public static Position[] choisirPositionsDepartEquitables(int n) {
@@ -1102,6 +1178,7 @@ public class Univers {
 		LISTE_CHANCES_TOUCHE = chargerDynamiquement(LISTE_CHANCES_TOUCHE, "zIgzAg.jeu.oceane.ListeChancesDeToucherArmes");
 		LISTE_TECHNOLOGIES = chargerDynamiquement(LISTE_TECHNOLOGIES, "zIgzAg.jeu.oceane.ListeTechnologique");
 		charger();
+		actualiserConstantesDepuisEtat();
 		CAPACITES_SPECIALES_BATIMENTS = new HashMap();
 		STATS = new HashMap();
 		RAPPORTS_COMBAT = new HashMap<>();
@@ -1290,6 +1367,12 @@ public class Univers {
 	}
 
 	public static void initialisation() {
+		COMMANDANTS = new TreeMap();
+		SYSTEMES = new TreeMap();
+		DEBRIS = new TreeMap();
+		ALLIANCES = new TreeMap();
+		PAQUETS_DEPART = new ArrayList();
+
 		Univers univers = new Univers(true, Const.MESSAGE_U_00000);
 
 		// créatoin du commandant neutre ->
@@ -1497,6 +1580,8 @@ public class Univers {
 			System.out.print("t");
 			TECHNOLOGIES_PUBLIQUES = chargerArrayList(Chemin.TECHNOLOGIES_PUBLIQUES);
 			if (TECHNOLOGIES_PUBLIQUES == null) TECHNOLOGIES_PUBLIQUES = new ArrayList();
+			PAQUETS_DEPART = chargerArrayList(Chemin.PAQUETS_DEPART);
+			if (PAQUETS_DEPART == null) PAQUETS_DEPART = new ArrayList();
 		} else {
 			COMMANDANTS = (TreeMap) chargerMap(Chemin.COMMANDANTS);
 			DEBRIS = null;
@@ -1533,6 +1618,7 @@ public class Univers {
  		sauvegarderArrayList(Chemin.MARCHE_GALACTIQUE, MARCHE_GALACTIQUE);
 			sauvegarderArrayList(Chemin.TECHNOLOGIES_PUBLIQUES,
 					TECHNOLOGIES_PUBLIQUES);
+			sauvegarderArrayList(Chemin.PAQUETS_DEPART, PAQUETS_DEPART);
 		} else
 			sauvegarderMap(Chemin.COMMANDANTS, COMMANDANTS);
 

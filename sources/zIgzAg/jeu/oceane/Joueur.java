@@ -325,7 +325,7 @@ public class Joueur implements Serializable {
 		}
 	}
 
-	public static Commandant creerCommandant(String n, String a, int r, Map m, Position posDepart) {
+	public static Commandant creerCommandant(String n, String a, int r, Map m, PaquetDepart paquetDepart) {
 		// recherche du numéro de commandant
 		int[] num = Univers.getNumerosCommandants();
 		int numF = -1;
@@ -348,7 +348,7 @@ public class Joueur implements Serializable {
 		}
 
 		// On regarde les endroit pour débarquer le joueur
-		Position choix = posDepart;
+		Position choix = paquetDepart == null ? null : paquetDepart.getCapitale();
 		if (choix == null) {
 			Position[] p = Univers.listePositionsSystemesDisponibles(c.getRace());
 			if (p.length == 0) {
@@ -388,34 +388,8 @@ public class Joueur implements Serializable {
 				.ajouterBatiment(new ConstructionPlanetaire("radarII"));
 
 		// On va créer le deuxième système
-
-		// On cherche les positions vierges à 1 case de la capitale
-		int[][] dis = {{0, 2}, {0, -2}, {2, 0}, {-2, 0}, {2, 2},
-				{2, -2}, {-2, -2}, {-2, 2}};
-		// Mélanger le tableau pour randomiser l'ordre de recherche
-		for (int i = dis.length - 1; i > 0; i--) {
-			int j = Univers.getInt(i + 1);
-			int[] temp = dis[i];
-			dis[i] = dis[j];
-			dis[j] = temp;
-		}
-		Position pos = new Position(0, 0, 0);
-		boolean trouve = false;
-		for (int i = 0; i < dis.length && !trouve; i++) {
-			int cy = (choix.getY() + dis[i][0]) % (Const.BORNE_MAX + 1);
-			int cx = (choix.getX() + dis[i][1]) % (Const.BORNE_MAX + 1);
-			if (cy == 0)
-				cy = 1;
-			if (cx == 1)
-				cx = 1;
-			pos = new Position(0, cy, cx);
-			if (!Univers.existenceSysteme(pos) && Position.existe(pos)) {
-				trouve = true;
-			}
-		}
-
-		// On en prend un au hasard
-		Position pos2 = pos;
+		Position pos2 = paquetDepart == null ? positionSecondSysteme(choix)
+				: paquetDepart.getSecondSysteme();
 
 		// On créé le système sur cette position
 		Systeme s2 = Systeme.creerAuHasard(pos2, 30 - s.getNombrePlanetes());
@@ -470,6 +444,25 @@ public class Joueur implements Serializable {
 						.getNomNumeroHtml());
 
 		return c;
+	}
+
+	private static Position positionSecondSysteme(Position choix) {
+		int[][] dis = {{0, 2}, {0, -2}, {2, 0}, {-2, 0}, {2, 2},
+				{2, -2}, {-2, -2}, {-2, 2}};
+		for (int i = dis.length - 1; i > 0; i--) {
+			int j = Univers.getInt(i + 1);
+			int[] temp = dis[i];
+			dis[i] = dis[j];
+			dis[j] = temp;
+		}
+		for (int i = 0; i < dis.length; i++) {
+			int cy = (choix.getY() + dis[i][0] - 1 + Const.BORNE_MAX) % Const.BORNE_MAX + 1;
+			int cx = (choix.getX() + dis[i][1] - 1 + Const.BORNE_MAX) % Const.BORNE_MAX + 1;
+			Position pos = new Position(choix.getNumeroGalaxie(), cy, cx);
+			if (!Univers.existenceSysteme(pos))
+				return pos;
+		}
+		throw new IllegalStateException("Aucune position libre pour le deuxième système.");
 	}
 
 }
