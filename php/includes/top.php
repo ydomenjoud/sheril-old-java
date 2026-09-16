@@ -42,17 +42,7 @@ if (file_exists($file_path)) {
     if(!defined('EMBED') || EMBED === false ) {
 ?>
 <?php include_once __DIR__. "/headers.php"; ?>
-
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/presentation.php">Présentation</a>
-    <a href="/races/histoire.php">Background</a>
-    <a href="/stats.php">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-    <a href="/register.php">Registre et Inscription</a>
-    <a href="/forum/">Forum</a>
-</nav>
-
+<?php include_once __DIR__. "/nav.php"; ?>
 
 <div id="main">
     <?php } ?>

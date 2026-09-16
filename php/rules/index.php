@@ -118,7 +118,14 @@ $chapters = [
     padding-left: 25px;
 }
 .rules-content li {
-    margin-bottom: 6px;
+    margin-bottom: 3px;
+    list-style-type: square;
+    padding: 0;
+    margin-left: 30px;
+}
+.rules-content li p {
+    padding: 0;
+    margin: 0;
 }
 .rules-content table {
     width: 100%;

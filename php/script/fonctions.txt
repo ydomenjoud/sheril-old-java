@@ -1,6 +1,6 @@
 <?php
 
-$file_path = __DIR__ . '/../game.txt';
+$file_path = __DIR__ . '/../name.txt';
 $game_name = "dune";
 if (file_exists($file_path)) {
     include_once $file_path;
