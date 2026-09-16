@@ -54,31 +54,11 @@ $chapters = [
     padding: 20px 15px;
     color: #e0e0e0;
 }
-.rules-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 25px;
-    border: 1px solid #333;
-}
-.rules-nav a {
-    color: #9ac;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    background: #1a1a24;
-    font-size: 0.9em;
-    transition: background 0.2s, color 0.2s;
-    border: 1px solid #2a2a3a;
-}
-.rules-nav a:hover {
+#main > nav > a:hover {
     background: #2b3b55;
     color: #fff;
 }
-.rules-nav a.active {
+#main > nav > a.active {
     background: #345b88;
     color: #fff;
     font-weight: bold;
@@ -86,9 +66,7 @@ $chapters = [
 }
 .rules-content {
     background: rgba(15, 15, 25, 0.85);
-    padding: 30px;
-    border-radius: 8px;
-    border: 1px solid #282838;
+    padding: 10px;
     line-height: 1.7;
 }
 .rules-content h1 {
@@ -183,14 +161,14 @@ $chapters = [
 }
 </style>
 
-<div class="rules-container">
-    <nav class="rules-nav">
+    <nav>
         <?php foreach ($chapters as $file => $label): ?>
             <a href="<?= urlencode($file) ?>" class="<?= ($pageFile === $file) ? 'active' : '' ?>">
                 <?= htmlspecialchars($label) ?>
             </a>
         <?php endforeach; ?>
     </nav>
+<main class="rules-container">
 
     <?php if ($notFound): ?>
         <div class="rules-alert-404">
@@ -201,7 +179,7 @@ $chapters = [
     <article class="rules-content">
         <?= $htmlContent ?>
     </article>
-</div>
+</main>
 
 <?php
 require_once __DIR__ . '/../includes/bot.php';

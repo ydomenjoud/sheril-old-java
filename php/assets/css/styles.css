@@ -57,6 +57,14 @@ table {
   --accent: #9c27b0;
   --information: #00e6e6;
   --important: #a6e16b;
+  --main: #3e037e;
+}
+
+body, html {
+  background: rgb(14.7013223894%, 0.7113543092%, 29.876880985%);
+  color: #dedede;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
 }
 
 .race-koro {
@@ -107,7 +115,7 @@ section {
 
 blockquote {
   padding: 20px;
-  border-left: 5px solid #003061;
+  border-left: 5px solid var(--main);
 }
 blockquote footer {
   border: none;
@@ -117,6 +125,7 @@ blockquote footer {
 
 * {
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 dl {
@@ -141,13 +150,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-body, html {
-  background: #001021;
-  color: #dedede;
-  font-size: 16px;
-  font-family: "Roboto", sans-serif;
 }
 
 h4 {
@@ -219,7 +221,7 @@ ul li {
 }
 
 main, header, footer, nav {
-  box-shadow: 0px 1px 4px #003963;
+  box-shadow: 0px 1px 4px var(--main);
 }
 
 header {
@@ -249,6 +251,7 @@ body #main {
   height: calc(100vh - 170px);
   background-color: transparent;
   display: flex;
+  gap: 5px;
 }
 body #main > nav {
   overflow-y: auto;
@@ -259,6 +262,9 @@ body #main > nav {
 body #main > nav > a {
   display: block;
   padding: 5px 10px;
+}
+body #main > nav > a::first-letter {
+  text-transform: uppercase;
 }
 body #main > main {
   padding: 10px;
@@ -357,7 +363,7 @@ strong {
 
 a.btn {
   display: block;
-  border: 1px solid #003963;
+  border: 1px solid var(--main);
   padding: 5px 10px;
   text-decoration: none;
   font-weight: bold;
@@ -365,7 +371,7 @@ a.btn {
   border-radius: 5px;
 }
 a.btn:hover {
-  background-color: #003963;
+  background-color: var(--main);
   color: white;
 }
 
@@ -515,11 +521,16 @@ table.forum-table td:nth-child(1) {
   font-size: 0.9em;
 }
 
-input:user-invalid {
-  border: 1px solid red !important;
+pre {
+  background: #222;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 768px) {
+  .hmobile {
+    display: none;
+  }
   #index {
     flex-direction: column;
     flex-flow: column-reverse;
@@ -527,9 +538,14 @@ input:user-invalid {
   body #main {
     flex-direction: column;
   }
-  body #main nav {
+  body #main > nav {
     max-width: 100%;
     margin: 5px;
+    display: flex;
+    flex-direction: row;
+    min-height: 40px;
+    overflow-x: auto;
+    overflow-y: visible;
   }
   body #main main {
     max-width: 100%;

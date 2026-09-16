@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/script/helper.php';
 define('USE_PDO', true);
 require_once './includes/top.php';
 
@@ -222,10 +222,10 @@ function format_date($date_str) {
 }
 ?>
     <nav>
-        <a href="/stats.php">Voir les stats</a>
-        <a href="/ordres/ordres.php3">Télécharger son rapport</a>
-        <a href="/ordres/ordres.php3">Passer ses ordres</a>
-        <a href="/rapports/images.zip">Télécharger les images du rapport</a>
+        <a href="/stats.php"><span class="hmobile">Voir les </span>stats</a>
+        <a href="/ordres/ordres.php3"><span class="hmobile">Télécharger son </span>rapport</a>
+        <a href="/ordres/ordres.php3"><span class="hmobile">Passer ses </span>ordres</a>
+        <a href="/rapports/images.zip"><span class="hmobile">Télécharger les </span> images du rapport</a>
     </nav>
     <style>
         blockquote {
@@ -293,11 +293,11 @@ function format_date($date_str) {
         }
 
         .score-positif {
-            color: #2bd849; /* Vert comme dans ton tableau */
+            color: #2bd849;
         }
 
         .score-negatif {
-            color: #fb5757; /* Rouge comme dans ton tableau */
+            color: #fb5757;
         }
 
         .score-neutre {
@@ -307,139 +307,138 @@ function format_date($date_str) {
     </style>
     <main>
 
-        <h1>Sheril, le jeu de stratégie au tour par tour</h1>
-        <blockquote>
-            « L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité pour fonder le
-            leur. »
-            Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après des siècles
-            de guerre totale et de mutations forcées sous les colonnes de radiations bleutées, l'ancien ordre cosmique
-            est tombé. À la tête de l'un des peuples mutants nés de cet enfer — stratèges hors pair, colosses de combat
-            ou maîtres des environnements hostiles —, prenez le contrôle du cosmos. Explorez des systèmes solaires
-            dévastés, développez votre empire, négociez vos alliances et subjuguez vos rivaux dans une lutte acharnée
-            pour la domination absolue de la galaxie.
-        </blockquote>
-        <div style="margin: 20px; display: flex; justify-content: center; gap: 40px">
-            <a class="btn" href="/races/histoire.php">Découvrir l'histoire</a>
-            <a class="btn" href="">Voir les statistiques</a>
-        </div>
 
-        <h2>DERNIERS MESSAGES DU FORUM  - <a href="/forum/">voir le forum</a></h2>
-        <div  style="grid-column: span 2; padding: 10px;">
-            <table class="forum-table" style="width: 100%;">
-                <thead>
-                <tr>
-                    <th style="text-align: left;">Sujet</th>
-                    <th style="text-align: left;">Forum</th>
-                    <th style="text-align: left;">Dernier auteur</th>
-                    <th style="text-align: right;">Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($recent_messages as $msg): ?>
+        <?php if($numeroTour>0){ ?>
+            <h1>Sheril, le jeu de stratégie au tour par tour</h1>
+
+            <blockquote>
+                « L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité pour fonder le
+                leur. »
+                Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après des siècles
+                de guerre totale et de mutations forcées sous les colonnes de radiations bleutées, l'ancien ordre cosmique
+                est tombé. À la tête de l'un des peuples mutants nés de cet enfer — stratèges hors pair, colosses de combat
+                ou maîtres des environnements hostiles —, prenez le contrôle du cosmos. Explorez des systèmes solaires
+                dévastés, développez votre empire, négociez vos alliances et subjuguez vos rivaux dans une lutte acharnée
+                pour la domination absolue de la galaxie.
+            </blockquote>
+
+            <div style="margin: 20px; display: flex; justify-content: center; gap: 40px">
+                <a class="btn" href="/races/histoire.php">Découvrir l'histoire</a>
+                <a class="btn" href="">Voir les statistiques</a>
+            </div>
+
+            <h2>DERNIERS MESSAGES DU FORUM  - <a href="/forum/">voir le forum</a></h2>
+            <div  style="grid-column: span 2; padding: 10px;">
+                <table class="forum-table" style="width: 100%;">
+                    <thead>
                     <tr>
-                        <td>
-                            <a href="forum/view_topic.php?id=<?php echo $msg['target_topic_id']; ?>#post-<?php echo $msg['last_post_id']; ?>"
-                            >
-                                <?php echo htmlspecialchars($msg['topic_title']); ?>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="forum/view_forum.php?id=<?php echo $msg['id_forum']; ?>" >
-                                <?php echo htmlspecialchars($msg['forum_name']); ?>
-                            </a>
-                        </td>
-                        <td>
-                            <?php echo display_author($msg['NOM'], $msg['NUMERO'], $msg['RACE']); ?>
-                        </td>
-                        <td style="text-align: right; color: #888; font-size: 0.85em;">
-                            <?php echo format_date($msg['max_record']); ?>
-                        </td>
+                        <th style="text-align: left;">Sujet</th>
+                        <th style="text-align: left;">Forum</th>
+                        <th style="text-align: left;">Dernier auteur</th>
+                        <th style="text-align: right;">Date</th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <h2>Victoire par Mort Subite - <a href="/stats.php">voir les statistiques</a></h2>
-        <div class="stats-grid">
-            <!-- ÂGE D'OR -->
-            <div class="stat-card">
-                <h2>👑 ÂGE D'OR</h2>
-                <div class="section-top">
-                    <h3>TOP 5 - OBJECTIF 66%</h3>
-                    <ol>
-                        <?php foreach ($topAgeDor as $joueur): ?>
-                            <li>
-                                <?php echo afficherJoueur($joueur); ?>
-                                <?php echo afficherProgressionVictoire($joueur['pct_age_dor']); ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ol>
-                </div>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($recent_messages as $msg): ?>
+                        <tr>
+                            <td>
+                                <a href="forum/view_topic.php?id=<?php echo $msg['target_topic_id']; ?>#post-<?php echo $msg['last_post_id']; ?>"
+                                >
+                                    <?php echo htmlspecialchars($msg['topic_title']); ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="forum/view_forum.php?id=<?php echo $msg['id_forum']; ?>" >
+                                    <?php echo htmlspecialchars($msg['forum_name']); ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?php echo display_author($msg['NOM'], $msg['NUMERO'], $msg['RACE']); ?>
+                            </td>
+                            <td style="text-align: right; color: #888; font-size: 0.85em;">
+                                <?php echo format_date($msg['max_record']); ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
 
-            <!-- EMPIRE GALACTIQUE -->
-            <div class="stat-card">
-                <h2>🚀 EMPIRE GALACTIQUE</h2>
-                <div class="section-top">
-                    <h3>TOP 5 - OBJECTIF 66%</h3>
-                    <ol>
-                        <?php foreach ($topEmpire as $joueur): ?>
-                            <li>
-                                <?php echo afficherJoueur($joueur); ?>
-                                <?php echo afficherProgressionVictoire($joueur['pct_empire_galactique']); ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <h2>Les Top/Flop du tour <?=$tourActuel?> - <a href="/stats.php">voir les statistiques</a></h2>
-
-        <div class="stats-grid">
-            <?php foreach ($criteres as $critere): ?>
+            <h2>Victoire par Mort Subite - <a href="/stats.php">voir les statistiques</a></h2>
+            <div class="stats-grid">
+                <!-- ÂGE D'OR -->
                 <div class="stat-card">
-                    <h2><?php echo strtoupper($labels[$critere]); ?></h2>
-
-                    <!-- TOP 5 -->
+                    <h2>👑 ÂGE D'OR</h2>
                     <div class="section-top">
-                        <h3>TOP 5</h3>
+                        <h3>TOP 5 - OBJECTIF 66%</h3>
                         <ol>
-                            <?php foreach ($classements[$critere]['top'] as $joueur): ?>
+                            <?php foreach ($topAgeDor as $joueur): ?>
                                 <li>
                                     <?php echo afficherJoueur($joueur); ?>
-                                    <?php echo afficherScore($joueur['d_' . $critere]); ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ol>
-                    </div>
-
-                    <!-- FLOP 5 -->
-                    <div class="section-flop">
-                        <h3>FLOP 5</h3>
-                        <ol>
-                            <?php foreach ($classements[$critere]['flop'] as $joueur): ?>
-                                <li>
-                                    <?php echo afficherJoueur($joueur); ?>
-                                    <?php echo afficherScore($joueur['d_' . $critere]); ?>
+                                    <?php echo afficherProgressionVictoire($joueur['pct_age_dor']); ?>
                                 </li>
                             <?php endforeach; ?>
                         </ol>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
 
-        <!--        <iframe src="https://discord.com/widget?id=1407654775649992897&theme=dark" width="350" height="500"-->
-        <!--                allowtransparency="true" frameborder="0"-->
-        <!--                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>-->
+                <!-- EMPIRE GALACTIQUE -->
+                <div class="stat-card">
+                    <h2>🚀 EMPIRE GALACTIQUE</h2>
+                    <div class="section-top">
+                        <h3>TOP 5 - OBJECTIF 66%</h3>
+                        <ol>
+                            <?php foreach ($topEmpire as $joueur): ?>
+                                <li>
+                                    <?php echo afficherJoueur($joueur); ?>
+                                    <?php echo afficherProgressionVictoire($joueur['pct_empire_galactique']); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <h2>Les Top/Flop du tour <?=$tourActuel?> - <a href="/stats.php">voir les statistiques</a></h2>
 
-        <!--        <ul>-->
-        <!--            <li><a href="/stats.php">Voir les stats</a></li>-->
-        <!--            <li><a href="/ordres/ordres.php3">Télécharger son rapport</a></li>-->
-        <!--            <li><a href="/ordres/ordres.php3">Passer ses ordres</a></li>-->
-        <!--            <li><a href="/rapports/images.zip">Télécharger les images du rapport</a></li>-->
-        <!--        </ul>-->
+            <div class="stats-grid">
+                <?php foreach ($criteres as $critere): ?>
+                    <div class="stat-card">
+                        <h2><?php echo strtoupper($labels[$critere]); ?></h2>
 
+                        <!-- TOP 5 -->
+                        <div class="section-top">
+                            <h3>TOP 5</h3>
+                            <ol>
+                                <?php foreach ($classements[$critere]['top'] as $joueur): ?>
+                                    <li>
+                                        <?php echo afficherJoueur($joueur); ?>
+                                        <?php echo afficherScore($joueur['d_' . $critere]); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ol>
+                        </div>
+
+                        <!-- FLOP 5 -->
+                        <div class="section-flop">
+                            <h3>FLOP 5</h3>
+                            <ol>
+                                <?php foreach ($classements[$critere]['flop'] as $joueur): ?>
+                                    <li>
+                                        <?php echo afficherJoueur($joueur); ?>
+                                        <?php echo afficherScore($joueur['d_' . $critere]); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ol>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php } else { ?>
+
+            <blockquote>
+                <?=include_markdown("./saison/2026-corylis/init.md")?>
+            </blockquote>
+
+        <?php } ?>
     </main>
 <?php require_once './includes/bot.php'; ?>
