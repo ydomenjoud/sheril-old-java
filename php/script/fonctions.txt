@@ -154,7 +154,7 @@ function select_nb($nv, $a, $b, $selectValue=null)
 
 function select_pos($nv)
 {
-     echo "<input name='$nv' min=0 max=40 required style='width: 50px;' type='number' value='".(array_key_exists($nv,$_POST) ? $_POST[$nv] : '')."' maxlength=2 />";
+     echo "<input name='$nv' min=0 max=60 required style='width: 50px;' type='number' value='".(array_key_exists($nv,$_POST) ? $_POST[$nv] : '')."' maxlength=2 />";
 //    select_nb($nv, 1, 41);
 }
 

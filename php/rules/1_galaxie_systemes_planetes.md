@@ -130,27 +130,24 @@ Elle permet d'orienter les priorités stratégiques du système en appliquant de
 
 Il existe plusieurs formes de politique possibles :
 
-- **0. Loisir** : les revenus des impôts de chaque planète du système sont diminués de 5%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de points de réputation par tour égal au double du nombre de planètes.
+| Nom de la politique | Effet de la politique                                                                                                                                                                                                          |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Loisir              | Les revenus des impôts de chaque planète du système sont diminués de 5%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de points de réputation par tour égal au double du nombre de planètes. |
+| Impôts              | Les revenus du système sont augmentés de 10%.                                                                                                                                                                                  |
+| Commerce            | Le système produit 2 unités de marchandises supplémentaires pour chaque type de marchandise déjà produite.                                                                                                                     |
+| Construction        | Le nombre de points de construction du système est augmenté de 50%.                                                                                                                                                            |
+| Défense             | Les miliciens sont augmentés de 50% sans pour autant dépasser le maximum de 100% de la population. Cette politique est utile pour les systèmes à stabilité faible.                                                             |
+| Expansion           | La population augmente 5% plus vite.                                                                                                                                                                                           |
+| Intégriste          | La population augmente 10% plus vite mais perte d’un point de réputation par tour et par planète. En plus, la stabilité diminue de 2% par tour.                                                                                |
+| Totalitaire         | \+ 2% en stabilité par tour mais perte d’un point de réputation par tour et par planète. Diminution d’une unité de marchandise pour chaque type de marchandise déjà produite.                                                  |
+| Esclavagiste        | Points de construction x2 mais perte d’un point de réputation par tour et par planète au carré. De plus, la population ne peut pas augmenter de plus de 10 millions par tour et -2% en stabilité.                              |
+| Anti-fremens        | Le nombre de fremens est divisé par deux. Si la population fremen sur une planète est inférieure à 30, elle est éradiquée. Gain en centaures égal à la population éliminée. - 5% de stabilité et- 300 de réputation par tour.  |
+| Anti-atalantes      | Idem pour les Atalantes.                                                                                                                                                                                                       |
+| Anti-zwaias         | Idem pour les Zwaias                                                                                                                                                                                                           |
+| Anti-Yorksors       | Idem pour les yorksors                                                                                                                                                                                                         |
+| Anti-Fergoks        | Idem pour les fergoks                                                                                                                                                                                                          |
+| Anti-Cyborgs        | Idem pour les cyborgs                                                                                                                                                                                                          |
 
-- **1. Impôts** : les revenus des impôts de chaque planète du système sont augmentés de 10%
-
-- **2. Commerce** : le système produit 2 unités en plus pour les marchandises qui possèdent déjà une production sur le système dans le poste commerciales du système
-
-- **3. Construction** : le nombre de points de construction du système est augmenté de 50% (arrondis à l'entier inférieur).
-
-- **4. Défense** : La mobilisation des milices planétaires lors des combats est augmenté de 50%. Cette politique est utile pour les systèmes ayant une stabilité faible, mais sans intérêt pour les systèmes avec une forte stabilité car ils se défendent déjà au maximum de leurs possibilités.
-
-- **5. Expansion** : La population augmente dans toutes les planètes 5% plus vite.
-
-- **6. Intégriste** : La population augmente dans toutes les planètes 10% plus vite. Le commandant perd un nombre de points de réputation par tour égal au nombre de planètes du système. La stabilité du système diminue de 2% par tour.
-
-- **7. Totalitaire** : Le système a un bonus de stabilité de 2% par tour. Le commandant perd un nombre de points de réputation par tour égal au nombre de planètes du système. La production du poste commercial baisse d'une unité par type de produit (production minimum 0).
-
-- **8. Esclavagiste** : Le nombre de points de construction du système est multiplié par deux. La stabilité du système diminue de 2% par tour. Le commandant perd un nombre de points de réputation par tour égal au double du nombre de planètes du système. La population ne peut pas augmenter de plus de 10 millions par tours.
-
-- **9. Anti-Fremen** : Le nombre de Fremens sur les différentes planètes du système est divisé par deux. Si la population fremen sur une planète est inférieure à 30, la population fremen est éradiquée : sa population maximale est réduite à 0, et il faudra éventuellement attendre qu'un colonisateur recolonise cette planète pour que des Fremens puissent de nouveau s'y installer. Cette politique rapporte en centaures un nombre égal à la population diminuée. Le système a un malus de stabilité de 5% par tour. Le commandant perd 300 points de réputation par tour.
-
-- **10 et suivantes ...** Des politiques similaires à la politique anti-Fremen sont disponibles concernant les autres espèces.
 
 Une politique n'est jamais définitive et peut être modifiée à tout moment. Toutefois, tout changement de politique au sein d'un système coûte 10 centaures, représentant les frais de réorganisation.
 
