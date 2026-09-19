@@ -26,6 +26,10 @@ if (file_exists($file_path)) {
     );
 }
 
+if(array_key_exists('embed', $_GET) && $_GET['embed'] == '1' ) {
+    define('EMBED', true);
+}
+
 // gestion de la connexion
 ?><!doctype html>
 <html lang="fr">

@@ -29,7 +29,10 @@ $res_topics = mysql($base, $sql_topics);
         <p><?php echo htmlspecialchars($forum['description']); ?></p>
 
         <?php if(check_auth()> 0){ ?>
-        <p><a href="post.php?id_forum=<?php echo $id_forum; ?>" class="btn">Nouveau sujet</a></p>
+        <p><a href="post.php?id_forum=<?php echo $id_forum; ?>"
+              class="btn"
+              style="display: inline-block;  font-size: 1em"
+            >Nouveau sujet</a></p>
         <?php } ?>
         
         <table class="forum-table">

@@ -1798,7 +1798,7 @@ public class Commandant extends Joueur implements Serializable {
 			}
 		}
 		
-		float r = getBudgetTechnologique();
+		float r = getBudgetTechnologique() + (Univers.getTour() == 1 ? 200 : 0);
 		String[] s = recherchesActuelles();
 		for (int i = 0; i < s.length; i++) {
 			Technologie t = Univers.getTechnologie(s[i]);

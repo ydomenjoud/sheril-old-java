@@ -39,10 +39,7 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
     }
 }
 
-?>
-
-
-<HTML lang="fr">
+?><HTML lang="fr">
 <HEAD>
     <META content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <META content="zIgzAg" name="Author">
@@ -94,7 +91,7 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
         }
 
         body {
-            padding-top: 30px;
+            padding-top: 0px;
             color: #dedede;
             font-weight: normal;
             font-family: 'Roboto', sans-serif;
@@ -144,21 +141,20 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
             text-decoration: none;
         }
 
-        #logout {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .split {
+            display: flex;
+            justify-content: space-between;
         }
-        #home {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        .split > a {
+            flex: 1 1 50%;
+            display: inline-block;
         }
 
         input#search {
             display: block;
             width: 100%;
             padding: 5px;
+            margin: 5px 0;
         }
 
         .hidden {
@@ -187,8 +183,11 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
     </script>
 </HEAD>
 <BODY>
-<A id="logout" href="./delog.php3?nom_cookie=<?php echo("$nom_cookie"); ?>" target="principal">Logout</A>
-<A id="home" href="./" target="fenetre">Accueil</A>
+<div class="split">
+    <A href="./" target="fenetre">Accueil</A>
+    <A href="/rules/9_ordres_de_la_console_et_tour.md?embed=1" target="fenetre">Ordre du tour</A>
+    <A href="./delog.php3?nom_cookie=<?php echo("$nom_cookie"); ?>" target="principal">Logout</A>
+</div>
 <input id="search" type="text" placeholder="rechercher un ordre" onkeyup="filterList()" />
 <UL id="orderslist">
 <!--    <LI><a href="index.php3?table=list_ordres" target="fenetre">Liste des ordres déjà passés</a></LI>-->

@@ -6,10 +6,7 @@ $nom_cookie="ordres";
 include "../mysql_compat.php";
 include "../script/aut.txt";
 
-?>
-
-
-<HTML lang="fr">
+?><HTML lang="fr">
 <HEAD>
 <META content="text/html; charset=UTF-8" http-equiv="Content-Type"></META>
 <META content="zIgzAg" name="Author"></META>

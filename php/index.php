@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/script/helper.php';
 define('USE_PDO', true);
 require_once './includes/top.php';
+require_once __DIR__ . '/script/helper.php';
 
 
 // Paramètres

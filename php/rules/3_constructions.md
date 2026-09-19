@@ -129,7 +129,7 @@ Les marchandises sont requises pour certaines constructions.
 | Unités énergétiques      | \- 50% de frais d'entretien pour les flottes au-dessus du système.                                           |
 | Lixiam, Oxole et Tixium  | Ni bonus ni malus                                                                                            |
 
-## <a id="3.3"></a>3.3 Transferts inter systèmes
+## <a id="3.3"></a>3.3 Transferts inter-systèmes
 
 Un transfert inter-systèmes est un déplacement logistique de marchandises ou de bâtiments d'une planète à une autre, qu'il s'agisse de planètes situées dans des systèmes différents ou au sein d'un même système
 
@@ -174,18 +174,18 @@ Les principales caractéristiques d’un vaisseau sont :
 
 La taille d’un vaisseau dépend du nombre de ses composants. Chaque composant occupe un certain espace, mesuré en « cases ». La taille de votre vaisseau correspond donc au nombre total de cases occupées.
 
-| Taille    | Nombre minimum de cases | Nombre maximum de cases | Vitesse de base |
-|-----|------|---------|-----|
-| 1   | 1    | 3       | 9   |
-| 2   | 4    | 9       | 8   |
-| 3   | 10   | 17      | 7   |
-| 4   | 18   | 33      | 6   |
-| 5   | 34   | 65      | 5   |
-| 6   | 66   | 129     | 4   |
-| 7   | 130  | 257     | 3   |
-| 8   | 258  | 512     | 2   |
-| 9   | 513  | 1025    | 1   |
-| 10  | 1026 | 1000000 | 0   |
+| Taille | Nombre minimum de cases | Nombre maximum de cases | Vitesse de base | Nombre de cibles max |
+|--------|-------------------------|-------------------------|-----------------|----------------------|
+| 1      | 1                       | 3                       | 9               | 1                    |
+| 2      | 4                       | 9                       | 8               | 4                    |
+| 3      | 10                      | 17                      | 7               | 8                    |
+| 4      | 18                      | 33                      | 6               | 16                   |
+| 5      | 34                      | 65                      | 5               | 32                   |
+| 6      | 66                      | 129                     | 4               | 64                   |
+| 7      | 130                     | 257                     | 3               | 128                  |
+| 8      | 258                     | 512                     | 2               | 256                  |
+| 9      | 513                     | 1025                    | 1               | 512                  |
+| 10     | 1026                    | 1000000                 | 0               | 2000                 |
 
 La vitesse d'un vaisseau dépend de sa taille globale ainsi que du type de réacteur installé.
 

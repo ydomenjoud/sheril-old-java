@@ -66,18 +66,25 @@ La puissance d'une flotte est égale à la somme de la puissance spatiale de tou
 
 Formule : Puissance = AS + (AP/2)
 
-| Niveau de puissance | Puissance | Mention |
-|-----|---------------|---------------|
-| 0   | \< 25         | Insignifiante |
-| 1   | 25 – 49       | Ridicule      |
-| 2   | 50 – 99       | Très petite   |
-| 3   | 100 – 199     | Petite        |
-| 4   | 200 – 499     | Moyenne       |
-| 5   | 500 – 999     | Assez grande  |
-| 6   | 1000 – 1999   | Grande        |
-| 7   | 2000 – 4999   | Très grande   |
-| 8   | 5000 – 9999   | Gigantesque   |
-| 9   | 10000 – 17999 | Titanesque    |
-| 10  | ≥ 18000       | Inimaginable  |
+| Niveau de puissance | Puissance     | Mention       |
+|---------------------|---------------|---------------|
+| 0                   | \< 25         | Insignifiante |
+| 1                   | 25 – 49       | Ridicule      |
+| 2                   | 50 – 99       | Très petite   |
+| 3                   | 100 – 199     | Petite        |
+| 4                   | 200 – 499     | Moyenne       |
+| 5                   | 500 – 999     | Assez grande  |
+| 6                   | 1000 – 1999   | Grande        |
+| 7                   | 2000 – 4999   | Très grande   |
+| 8                   | 5000 – 9999   | Gigantesque   |
+| 9                   | 10000 – 17999 | Titanesque    |
+| 10                  | ≥ 18000       | Inimaginable  |
 
 Remarque : il faut au minimum une flotte avec une puissance de 50 pour pouvoir participer à un combat planétaire.
+
+## <a id="4.6"></a>4.6 Construction depuis l'espace
+
+Une flotte peut construire des vaisseaux dans l'espace grâce à des modules de construction.
+Le prix de construction dans l'espace est beaucoup plus élevé.
+Les vaisseaux créés iront directement dans la flotte où est situé le vaisseau producteur.
+

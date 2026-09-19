@@ -7,5 +7,6 @@
     <a href="/ordres/ordres.php3">Console d'ordre</a>
     <a href="https://ydomenjoud.github.io/test-interface-sheril/"  target="_blank">Outil d'aide au passage des ordres</a>
     <a href="/register.php">Registre et Inscription</a>
+    <a href="/forum">Forum</a>
     <a href="/archive">Archives</a>
 </nav>

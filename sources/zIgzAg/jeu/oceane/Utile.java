@@ -357,17 +357,21 @@ public class Utile {
 	// fonctions pour trouver le numÃ©ro correspondant au code.
 
 	public static String choisirLogin() {
-		char[] alpha = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-				'x', 'y', 'z' };
-		char[] retour = new char[Const.TAILLE_LOGIN];
-		for (int i = 0; i < Const.TAILLE_LOGIN; i++)
-			retour[i] = alpha[Univers.getInt(alpha.length)];
-		String l = new String(retour);
+		String l = chaineAuHasard(Const.TAILLE_LOGIN);
 		if (!Univers.existenceLogin(l))
 			return l;
 		else
 			return choisirLogin();
+	}
+
+	public static String chaineAuHasard(int size) {
+		char[] alpha = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+				'x', 'y', 'z' };
+		char[] retour = new char[size];
+		for (int i = 0; i < size; i++)
+			retour[i] = alpha[Univers.getInt(alpha.length)];
+		return new String(retour);
 	}
 
 	// fonction qui retourne un login.
