@@ -36,6 +36,8 @@ ADRESSE_MJ = mj@pbem-france.net
 # URL
 NOTIFY_BOT = false
 FAKE_TURN = false
+# true : les inscriptions du site (table aa_inscription) créent les joueurs et les inactifs sont supprimés
+USE_REGISTRATIONS = true
 SEND_MAIL = false
 
 # LOCAL
