@@ -2,7 +2,7 @@ name: sheril
 
 services:
   db:
-    image: mysql:5
+    image: mariadb:10
     restart: always
     environment:
       MYSQL_DATABASE: 'sheril'
