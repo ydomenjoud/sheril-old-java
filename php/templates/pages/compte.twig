@@ -1,0 +1,36 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="compte">
+        <article class="card">
+            <header><h1>Mon compte</h1></header>
+            <section>
+                <figure>
+                    <img src="{{ compte.avatar }}" alt="" width="200" height="200">
+                    <figcaption class="race{{ compte.race }}">{{ compte.raceNom }}</figcaption>
+                </figure>
+                <div>
+                    <h2 class="race{{ compte.race }}">{{ compte.nom }} ({{ compte.numero }})</h2>
+                    <dl>
+                        <div><dt>E-mail</dt><dd>{{ compte.email }}</dd></div>
+                        <div><dt>Arrivé au tour</dt><dd>{{ compte.tourArrivee }}</dd></div>
+                        {% if compte.profil %}
+                            {% for st in compte.profil.stats %}
+                                <div><dt>{{ st.label }} (tour {{ compte.profil.tour }})</dt><dd>{{ st.valeur }}</dd></div>
+                            {% endfor %}
+                            <div><dt>Messages sur le forum</dt><dd>{{ compte.profil.messages }}</dd></div>
+                        {% endif %}
+                    </dl>
+                    <nav class="button-group" aria-label="Actions du compte">
+                        <a class="button button--primary" href="/play/console">Passer ses ordres</a>
+                        <a class="button button--secondary" href="/statistiques/detail?nums={{ compte.numero }}">Ma progression</a>
+                        <form method="post" action="/deconnexion">
+                            <input type="hidden" name="csrf" value="{{ csrf }}">
+                            <button class="button button--secondary" type="submit">Se déconnecter</button>
+                        </form>
+                    </nav>
+                </div>
+            </section>
+        </article>
+    </main>
+{% endblock %}
