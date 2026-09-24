@@ -1088,6 +1088,12 @@ table__cell--numeric {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
+#home #victoire {
+  grid-column: span 2;
+}
+#home #victoire article {
+  padding: 12px;
+}
 #home #forum-last-msg {
   grid-column: span 2;
 }
@@ -1133,16 +1139,16 @@ table__cell--numeric {
   #home #jumbotron aside {
     display: none;
   }
-  #home #topflop .split {
+  #home .split {
     display: flex;
     flex-direction: column;
   }
 }
 @media screen and (max-width: 1200px) {
-  #home #topflop .split {
+  #home .split {
     flex-wrap: wrap;
   }
-  #home #topflop .split > * {
+  #home .split > * {
     flex: 1 1 calc(50% - 24px);
   }
 }

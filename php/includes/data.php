@@ -314,7 +314,7 @@ WHERE rank_age_dor <= 5
                 LEFT JOIN aa_registre r ON (r.NUMERO = p.id_author)
                 GROUP BY target_topic_id, topic_title, forum_name, f.id_forum
                 ORDER BY max_record DESC
-                LIMIT 5";
+                LIMIT 6";
 
         // 3. Exécution PDO
         $stmt_recent = $pdo->prepare($sql_recent);

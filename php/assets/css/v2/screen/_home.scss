@@ -31,6 +31,12 @@
       }
     }
   }
+  #victoire {
+    grid-column: span 2;
+    article {
+      padding: $gap-cards;
+    }
+  }
   #forum-last-msg {
     grid-column: span 2;
     a.badge {
@@ -75,22 +81,18 @@
 @media screen and (max-width: $breakpoint-tablette) {
   #home {
     #jumbotron aside { display: none; }
-    #topflop {
       .split {
         display: flex;
         flex-direction: column;
       }
-    }
   }
 }
 @media screen and (max-width: 1200px) {
   #home {
-    #topflop {
-      .split {
-        flex-wrap: wrap;
-        & > * {
-          flex: 1 1 calc(50% - 2*$gap-cards);
-        }
+    .split {
+      flex-wrap: wrap;
+      & > * {
+        flex: 1 1 calc(50% - 2*$gap-cards);
       }
     }
   }
