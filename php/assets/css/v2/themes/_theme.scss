@@ -1,0 +1,14 @@
+// Partiel commun aux thèmes : exporte une map de tokens en variables `--sheril-*`.
+@use "sass:map";
+@use "../abstracts" as *;
+
+@mixin theme($nom, $theme) {
+  :root {
+    color-scheme: dark;
+    @each $name, $value in $theme {
+      // Garde-fou : un token inconnu du design system est une faute de frappe
+      @if not map.has-key($tokens, $name) { @error "Thème #{$nom} : token « #{$name} » inconnu."; }
+      --sheril-#{$name}: #{$value};
+    }
+  }
+}

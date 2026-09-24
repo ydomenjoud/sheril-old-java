@@ -89,13 +89,57 @@ body {
         color: token("text-navigation");
         border-bottom: 2px solid transparent;
         &:hover { color: token("text-heading"); }
-        &[aria-current="page"] {
+        // Rubrique courante ("page" pour l'accueil, "true" pour une section)
+        &[aria-current] {
           @include type("body-ui-strong");
           font-weight: 600;
           color: token("text-heading");
           border-bottom-color: token("brand");
         }
       }
+
+      // Menu déroulant en mobile : le bouton <summary> affiche la rubrique courante
+      > details {
+        @include menu-deroulant(token("surface-header"));
+        > summary {
+          height: 100%;
+          padding: 0 $padding-page 0 calc(#{$padding-page} + 2px); // aligné sur les liens du menu
+        }
+      }
     }
   }
 }
+
+// Mobile : la nav devient un menu déroulant sous l'en-tête
+@media screen and (max-width: $breakpoint-mobile) {
+  body > header {
+    &:has(> a) > nav { padding-right: 0; }
+    > nav {
+      position: relative;
+      z-index: 3;
+      padding: 0;
+    }
+
+    &:has(>a) > section {
+      padding-right: $padding-page;
+    }
+    & > section > code,
+    a[href="/compte"] {
+      display: none;
+    }
+    > nav {
+      a {
+        white-space: nowrap;
+      }
+    }
+  }
+  body .card header {
+    height: auto;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+  .hidden-mobile { display: none; }
+}
+

@@ -1187,4 +1187,5 @@ create index idx_classement_techno
 create index idx_progression
     on _statistiques (numero, tour);
 
-
+ALTER TABLE aa_registre
+    ADD COLUMN theme VARCHAR(255) NULL;

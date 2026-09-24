@@ -620,7 +620,7 @@ WHERE rank_age_dor <= 5
     /** Connexion avec les identifiants de la console d'ordres (table aa_registre). */
     static function login($login, $password)
     {
-        $stmt = self::$pdo->prepare('SELECT NUMERO, NOM, ADRESSE, RACE FROM aa_registre WHERE LOGIN = :l AND MOT_DE_PASSE = :p');
+        $stmt = self::$pdo->prepare('SELECT NUMERO, NOM, ADRESSE, RACE, theme FROM aa_registre WHERE LOGIN = :l AND MOT_DE_PASSE = :p');
         $stmt->execute(['l' => trim($login), 'p' => trim($password)]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) return false;
@@ -630,6 +630,7 @@ WHERE rank_age_dor <= 5
         $_SESSION['commandant_email'] = $row['ADRESSE'];
         $_SESSION['commandant_nom'] = $row['NOM'];
         $_SESSION['commandant_race'] = (int) $row['RACE'];
+        $_SESSION['commandant_theme'] = $row['theme'] ?: null;
         return true;
     }
 
@@ -652,6 +653,41 @@ WHERE rank_age_dor <= 5
     {
         $t = isset($_POST['csrf']) ? (string) $_POST['csrf'] : '';
         if ($t === '' || empty($_SESSION['csrf']) || $t !== $_SESSION['csrf']) Mini::abort(403, 'Formulaire expiré, rechargez la page.');
+    }
+
+    /* ------------------------------------------------------------------ *
+     *  Thème : feuille assets/css/v2/themes/<nom>.css chargée après sheril.css,
+     *  choix du commandant connecté enregistré dans aa_registre.theme
+     *  (copié en session pour ne pas relire la base à chaque page)
+     * ------------------------------------------------------------------ */
+
+    /** Vrai si $nom désigne une feuille de thème existante (nom simple, pas de chemin). */
+    static function themeExiste($nom)
+    {
+        return is_string($nom) && preg_match('/^[a-z0-9-]+$/', $nom)
+            && is_file(__DIR__ . '/../assets/css/v2/themes/' . $nom . '.css');
+    }
+
+    /** Thème du commandant connecté, ou null (visiteur, aucun thème choisi, feuille supprimée). */
+    static function theme()
+    {
+        if (empty($_SESSION['commandant_num'])) return null;
+        // Lu en base pour les sessions ouvertes avant l'ajout des thèmes
+        if (!array_key_exists('commandant_theme', $_SESSION)) {
+            $stmt = self::$pdo->prepare('SELECT theme FROM aa_registre WHERE NUMERO = :n');
+            $stmt->execute(['n' => (int) $_SESSION['commandant_num']]);
+            $_SESSION['commandant_theme'] = $stmt->fetchColumn() ?: null;
+        }
+        return self::themeExiste($_SESSION['commandant_theme']) ? $_SESSION['commandant_theme'] : null;
+    }
+
+    /** Enregistre le thème du commandant ; un nom inconnu (ex. « defaut ») revient au thème par défaut. */
+    static function setTheme($user, $nom)
+    {
+        $nom = self::themeExiste($nom) ? $nom : null;
+        $stmt = self::$pdo->prepare('UPDATE aa_registre SET theme = :t WHERE NUMERO = :n');
+        $stmt->execute(['t' => $nom, 'n' => $user['numero']]);
+        $_SESSION['commandant_theme'] = $nom;
     }
 
     /* ------------------------------------------------------------------ *

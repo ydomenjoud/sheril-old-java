@@ -26,6 +26,15 @@
 
   }
 
+  // Menu déroulant en mobile : <nav class="sub-nav"><details><summary>Page courante</summary><a>…</a></details></nav>
+  > details {
+    @include menu-deroulant(token("surface-inset"));
+    > summary { height: $size-nav; padding: 0 $padding-page 0 calc(#{$padding-page} + 2px); }
+  }
+  @media screen and (max-width: $breakpoint-mobile) {
+    &:has(> details) { position: relative; padding: 0; }
+  }
+
   // Variante compacte pour un long sommaire numéroté : défile plutôt que de
   // passer à la ligne. <nav class="sub-nav sub-nav--scroll">
   &--scroll {

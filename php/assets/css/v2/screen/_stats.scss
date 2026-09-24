@@ -12,6 +12,12 @@
       display: block;
       padding: 3px 0;
       @include type("body-ui");
+      &[aria-current] {
+        @include type("body-ui-strong");
+        color: token("text-heading");
+        box-shadow: inset 2px 0 0 token("brand");
+        padding-left: $gap-inline;
+      }
     }
   }
   .stats-archives {

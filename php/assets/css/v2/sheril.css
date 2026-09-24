@@ -18,6 +18,7 @@
   --sheril-text-navigation: #a9b8ca;
   --sheril-text-tertiary: #8fa0b5;
   --sheril-text-link: #56d4ee;
+  --sheril-text-important: #9c27b0;
   --sheril-text-link-hover: #9be7f6;
   --sheril-brand: #56d4ee;
   --sheril-action-primary: #56d4ee;
@@ -230,6 +231,96 @@ time {
   background: color-mix(in srgb, var(--sheril-brand) 12%, transparent);
   color: var(--sheril-brand);
 }
+.sub-nav > details > summary, body main > nav > details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--sheril-text-heading);
+  list-style: none;
+  cursor: pointer;
+}
+.sub-nav > details > summary::-webkit-details-marker, body main > nav > details > summary::-webkit-details-marker {
+  display: none;
+}
+.sub-nav > details > summary::after, body main > nav > details > summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: -4px;
+  border-right: 2px solid var(--sheril-brand);
+  border-bottom: 2px solid var(--sheril-brand);
+  transform: rotate(45deg);
+  transition: transform 0.15s;
+}
+.sub-nav > details > summary:focus-visible, body main > nav > details > summary:focus-visible {
+  outline: 2px solid var(--sheril-focus-ring);
+  outline-offset: 2px;
+  outline-offset: -2px;
+}
+.sub-nav > details[open] > summary::after, body main > nav > details[open] > summary::after {
+  margin-top: 4px;
+  transform: rotate(-135deg);
+}
+@media screen and (min-width: 701px) {
+  .sub-nav > details, body main > nav > details {
+    display: contents;
+  }
+  .sub-nav > details::details-content, body main > nav > details::details-content {
+    display: contents;
+    content-visibility: visible;
+  }
+  .sub-nav > details > summary, body main > nav > details > summary {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .sub-nav > details, body main > nav > details {
+    flex: 1;
+  }
+  .sub-nav > details::details-content, body main > nav > details::details-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+    background: var(--sheril-surface-inset);
+    border-bottom: 1px solid var(--sheril-border-default);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  }
+  .sub-nav > details a, body main > nav > details a {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 0;
+    border-bottom: 0;
+    border-left: 2px solid transparent;
+  }
+  .sub-nav > details a[aria-current], body main > nav > details a[aria-current] {
+    border-left-color: var(--sheril-brand);
+    background: color-mix(in srgb, var(--sheril-brand) 8%, transparent);
+  }
+}
+.sub-nav > details > summary, body main > nav > details > summary {
+  height: 40px;
+  padding: 0 16px 0 calc(16px + 2px);
+}
+@media screen and (max-width: 700px) {
+  .sub-nav:has(> details), body main > nav:has(> details) {
+    position: relative;
+    padding: 0;
+  }
+}
 .sub-nav--scroll {
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -345,7 +436,7 @@ body > header > nav a {
 body > header > nav a:hover {
   color: var(--sheril-text-heading);
 }
-body > header > nav a[aria-current=page] {
+body > header > nav a[aria-current] {
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -354,7 +445,119 @@ body > header > nav a[aria-current=page] {
   color: var(--sheril-text-heading);
   border-bottom-color: var(--sheril-brand);
 }
+body > header > nav > details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--sheril-text-heading);
+  list-style: none;
+  cursor: pointer;
+}
+body > header > nav > details > summary::-webkit-details-marker {
+  display: none;
+}
+body > header > nav > details > summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: -4px;
+  border-right: 2px solid var(--sheril-brand);
+  border-bottom: 2px solid var(--sheril-brand);
+  transform: rotate(45deg);
+  transition: transform 0.15s;
+}
+body > header > nav > details > summary:focus-visible {
+  outline: 2px solid var(--sheril-focus-ring);
+  outline-offset: 2px;
+  outline-offset: -2px;
+}
+body > header > nav > details[open] > summary::after {
+  margin-top: 4px;
+  transform: rotate(-135deg);
+}
+@media screen and (min-width: 701px) {
+  body > header > nav > details {
+    display: contents;
+  }
+  body > header > nav > details::details-content {
+    display: contents;
+    content-visibility: visible;
+  }
+  body > header > nav > details > summary {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  body > header > nav > details {
+    flex: 1;
+  }
+  body > header > nav > details::details-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+    background: var(--sheril-surface-header);
+    border-bottom: 1px solid var(--sheril-border-default);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  }
+  body > header > nav > details a {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 0;
+    border-bottom: 0;
+    border-left: 2px solid transparent;
+  }
+  body > header > nav > details a[aria-current] {
+    border-left-color: var(--sheril-brand);
+    background: color-mix(in srgb, var(--sheril-brand) 8%, transparent);
+  }
+}
+body > header > nav > details > summary {
+  height: 100%;
+  padding: 0 16px 0 calc(16px + 2px);
+}
 
+@media screen and (max-width: 700px) {
+  body > header:has(> a) > nav {
+    padding-right: 0;
+  }
+  body > header > nav {
+    position: relative;
+    z-index: 3;
+    padding: 0;
+  }
+  body > header:has(> a) > section {
+    padding-right: 16px;
+  }
+  body > header > section > code,
+  body > header a[href="/compte"] {
+    display: none;
+  }
+  body > header > nav a {
+    white-space: nowrap;
+  }
+  body .card header {
+    height: auto;
+  }
+}
+@media screen and (max-width: 900px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
 .card {
   display: flex;
   flex-direction: column;
@@ -856,6 +1059,11 @@ table__cell--numeric {
   color: #888888;
 }
 
+@media screen and (max-width: 700px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
 #home {
   gap: 12px;
   display: grid;
@@ -901,11 +1109,44 @@ table__cell--numeric {
 #home #topflop article {
   padding: 12px;
 }
+#home #topflop th {
+  width: 50%;
+}
 #home #topflop td {
   padding: 0 2px;
 }
+#home #topflop td:nth-child(2n) {
+  text-align: right;
+  padding-right: 5px;
+}
 
+@media screen and (max-width: 700px) {
+  #home {
+    display: flex;
+    flex-direction: column;
+  }
+  #home #jumbotron aside {
+    display: none;
+  }
+}
+@media screen and (max-width: 900px) {
+  #home #jumbotron aside {
+    display: none;
+  }
+  #home #topflop .split {
+    display: flex;
+    flex-direction: column;
+  }
+}
 @media screen and (max-width: 1200px) {
+  #home #topflop .split {
+    flex-wrap: wrap;
+  }
+  #home #topflop .split > * {
+    flex: 1 1 calc(50% - 24px);
+  }
+}
+@media screen and (max-width: 1000px) {
   #home {
     display: flex;
     flex-direction: column;
@@ -1380,6 +1621,15 @@ body:has(.page-frame) > footer {
   font-weight: 400;
   line-height: 1.45;
 }
+#stats > aside li a[aria-current] {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--sheril-text-heading);
+  box-shadow: inset 2px 0 0 var(--sheril-brand);
+  padding-left: 8px;
+}
 #stats .stats-archives {
   display: flex;
   flex-wrap: wrap;
@@ -1758,6 +2008,432 @@ body.embed {
 }
 #compte form {
   margin: 0;
+}
+
+#console {
+  padding: 6px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  font-size: 12px;
+  line-height: 1.3;
+}
+#console table, #console input, #console select, #console textarea, #console button {
+  font-size: inherit;
+}
+#console h1 {
+  margin: 0 0 4px;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-text-heading);
+}
+#console h2 {
+  margin: 6px 0 4px;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-text-heading);
+}
+#console h3, #console h4 {
+  margin: 6px 0 4px;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-brand);
+}
+#console p {
+  margin: 0 0 4px;
+  font: inherit;
+  color: var(--sheril-text-primary);
+}
+#console strong, #console b {
+  color: inherit;
+  font-weight: 600;
+}
+#console ul, #console ol {
+  margin: 0 0 4px;
+  padding-left: 16px;
+}
+#console hr {
+  margin: 6px 0;
+  border: 0;
+  border-top: 1px solid var(--sheril-border-default);
+}
+#console li {
+  padding: 0;
+}
+#console .item {
+  font-weight: 600;
+  color: var(--sheril-text-important);
+}
+#console .important {
+  color: var(--sheril-text-important);
+}
+#console .number {
+  color: var(--sheril-brand);
+  font-variant-numeric: tabular-nums;
+}
+#console .help {
+  color: var(--sheril-text-secondary);
+}
+#console .cur {
+  color: var(--sheril-feedback-warning);
+  font-variant-numeric: tabular-nums;
+}
+#console .cur::after {
+  content: "¢";
+  padding-left: 1px;
+}
+#console [class^=race] {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+#console .race6 {
+  color: #CC6600;
+  text-transform: none;
+}
+#console :is(input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea) {
+  height: 22px;
+  padding: 0 4px;
+  background: var(--sheril-surface-inset);
+  border: 1px solid var(--sheril-border-strong);
+  border-radius: 3px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  color: var(--sheril-text-primary);
+  vertical-align: middle;
+}
+#console :is(input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea)::placeholder {
+  color: var(--sheril-text-tertiary);
+}
+#console :is(input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea):hover {
+  border-color: var(--sheril-border-shadow);
+}
+#console :is(input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea):focus-visible {
+  outline: 2px solid var(--sheril-focus-ring);
+  outline-offset: 2px;
+  outline-offset: 0;
+  border-color: var(--sheril-brand);
+}
+#console :is(input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea):user-invalid {
+  border-color: var(--sheril-feedback-negative);
+}
+#console textarea {
+  height: auto;
+  padding: 2px 4px;
+}
+#console select[multiple], #console select[size]:not([size="1"]) {
+  height: auto;
+}
+#console input[type=checkbox], #console input[type=radio] {
+  margin: 0 2px;
+  vertical-align: middle;
+  accent-color: var(--sheril-brand);
+}
+#console label {
+  white-space: nowrap;
+}
+#console form {
+  margin: 0 0 6px;
+}
+#console form:has(input[type=button]) {
+  display: inline-block;
+}
+#console :is(input[type=submit], input[type=button], button) {
+  height: 24px;
+  margin: 4px 4px 0 0;
+  padding: 0 10px;
+  border: 1px solid var(--sheril-action-primary);
+  border-radius: 4px;
+  background: var(--sheril-action-primary);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sheril-action-on-primary);
+  cursor: pointer;
+  vertical-align: middle;
+}
+#console :is(input[type=submit], input[type=button], button):hover {
+  background: var(--sheril-action-primary-hover);
+  border-color: var(--sheril-action-primary-hover);
+}
+#console :is(input[type=submit], input[type=button], button):focus-visible {
+  outline: 2px solid var(--sheril-focus-ring);
+  outline-offset: 2px;
+}
+#console :is(input[type=button], button) {
+  background: transparent;
+  border-color: var(--sheril-border-strong);
+  color: var(--sheril-text-primary);
+}
+#console :is(input[type=button], button):hover {
+  background: transparent;
+  border-color: var(--sheril-brand);
+  color: var(--sheril-brand);
+}
+#console a.button {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--sheril-border-strong);
+  border-radius: 3px;
+  color: var(--sheril-text-primary);
+}
+#console a.button:hover {
+  border-color: var(--sheril-brand);
+  color: var(--sheril-brand);
+}
+#console .select, #console .ss-main, #console .ss-content {
+  max-width: none;
+  --ss-primary-color: var(--sheril-brand);
+  --ss-bg-color: var(--sheril-surface-inset);
+  --ss-font-color: var(--sheril-text-primary);
+  --ss-font-placeholder-color: var(--sheril-text-tertiary);
+  --ss-disabled-color: var(--sheril-surface-card);
+  --ss-border-color: var(--sheril-border-strong);
+  --ss-highlight-color: var(--sheril-feedback-warning);
+  --ss-focus-color: var(--sheril-brand);
+  --ss-error-color: var(--sheril-feedback-negative);
+  --ss-border-radius: 3px;
+  --ss-main-height: 22px;
+  --ss-search-height: 22px;
+  --ss-option-height: auto;
+  --ss-content-height: 600px;
+  --ss-spacing-l: 4px;
+  --ss-spacing-m: 3px;
+  --ss-spacing-s: 1px;
+  --ss-animation-timing: 0.1s;
+}
+#console .ss-main {
+  vertical-align: middle;
+  font-size: inherit;
+}
+#console .ss-content {
+  min-width: max-content;
+  width: auto;
+  font-size: 12px;
+}
+#console .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+  color: var(--sheril-action-on-primary);
+}
+#console h1.searchable {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 6px;
+  border-top: 1px solid var(--sheril-border-default);
+}
+#console h1.searchable > #search {
+  width: 200px;
+  font-size: 12px !important;
+  text-transform: none;
+  letter-spacing: 0;
+}
+#console table {
+  border-collapse: collapse;
+  border: 1px solid var(--sheril-border-default);
+}
+#console table th, #console table td {
+  padding: 1px 6px;
+  border-top: 1px solid var(--sheril-border-subtle);
+  vertical-align: middle;
+}
+#console table thead th {
+  padding: 2px 6px;
+}
+#console table caption {
+  padding: 2px 0;
+}
+#console table tr:hover > td {
+  background-color: color-mix(in srgb, var(--sheril-brand) 6%, transparent);
+}
+#console td.delete, #console td.copy {
+  width: 1%;
+  padding: 0;
+  white-space: nowrap;
+}
+#console td.delete a, #console td.copy a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  padding: 0 6px;
+}
+#console td.delete a {
+  color: var(--sheril-text-tertiary);
+}
+#console td.delete a:hover {
+  background: color-mix(in srgb, var(--sheril-feedback-negative) 22%, transparent);
+  color: var(--sheril-feedback-negative);
+}
+#console td.copy a {
+  color: var(--sheril-text-link);
+}
+#console td.copy a:hover {
+  background: color-mix(in srgb, var(--sheril-brand) 18%, transparent);
+  color: var(--sheril-text-heading);
+}
+#console table.stylized {
+  border-radius: 6px;
+}
+#console table.stylized thead th {
+  font-style: italic;
+}
+#console h3.help {
+  margin-top: 12px;
+  padding-top: 6px;
+  border-top: 1px solid var(--sheril-border-default);
+  color: var(--sheril-brand);
+}
+#console h3.help + * {
+  color: var(--sheril-text-secondary);
+  line-height: 1.4;
+}
+#console h3.help + * p, #console h3.help + * font {
+  color: inherit;
+}
+#console h3.help + * strong, #console h3.help + * b {
+  font-weight: 400;
+}
+#console .directives tbody td:nth-child(1) {
+  width: 1%;
+  text-align: center;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sheril-brand);
+}
+#console .directives tbody td:nth-child(2) {
+  color: var(--sheril-text-heading);
+  font-weight: 500;
+}
+#console > .split {
+  gap: 4px;
+  margin-bottom: 4px;
+}
+#console > .split > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--sheril-border-strong);
+  border-radius: 4px;
+  background: var(--sheril-surface-card);
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--sheril-text-navigation);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#console > .split > a:hover {
+  border-color: var(--sheril-brand);
+  color: var(--sheril-text-heading);
+}
+#console > #search {
+  display: block;
+  width: 100%;
+  height: 24px;
+  margin-bottom: 6px;
+  padding: 0 6px;
+  background: var(--sheril-surface-inset);
+  border: 1px solid var(--sheril-border-strong);
+  border-radius: 4px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  font-size: 12px;
+  color: var(--sheril-text-primary);
+}
+#console > #search::placeholder {
+  color: var(--sheril-text-tertiary);
+}
+#console > #search:hover {
+  border-color: var(--sheril-border-shadow);
+}
+#console > #search:focus-visible {
+  outline: 2px solid var(--sheril-focus-ring);
+  outline-offset: 2px;
+  outline-offset: 0;
+  border-color: var(--sheril-brand);
+}
+#console > #orderslist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#console > #orderslist > li {
+  margin: 0;
+  padding: 0;
+}
+#console > #orderslist > li.hidden {
+  display: none;
+}
+#console > #orderslist a {
+  display: block;
+  padding: 1px 4px;
+  border-left: 2px solid transparent;
+  border-radius: 0 3px 3px 0;
+  color: var(--sheril-text-navigation);
+  font-variant-numeric: tabular-nums;
+}
+#console > #orderslist a:hover {
+  background: color-mix(in srgb, var(--sheril-brand) 10%, transparent);
+  color: var(--sheril-text-heading);
+}
+#console > #orderslist a.active {
+  border-left-color: var(--sheril-brand);
+  background: color-mix(in srgb, var(--sheril-brand) 16%, transparent);
+  color: var(--sheril-text-heading);
+}
+#console > #orderslist font.important {
+  display: block;
+  margin-top: 6px;
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--sheril-border-default);
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--sheril-brand);
+}
+#console > #orderslist > li:first-child font.important {
+  margin-top: 0;
+}
+#console > #orderslist span.important2 {
+  display: block;
+  margin: 2px 0;
+  padding: 1px 4px;
+  border-left: 2px dotted var(--sheril-border-strong);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 11px;
+  line-height: 1.25;
+  font-style: italic;
+  color: var(--sheril-text-tertiary);
 }
 
 /*# sourceMappingURL=sheril.css.map */

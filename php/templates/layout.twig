@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
     <link rel="stylesheet" href="/assets/css/v2/sheril.css">
+{% if theme %}
+    <link rel="stylesheet" href="/assets/css/v2/themes/{{ theme }}.css">
+{% endif %}
     <title>{{ title }}</title>
 </head>
 <body>
@@ -29,27 +32,27 @@
             {% if user %}
                 <a class="button button--secondary" href="/rapport">
                     <svg class="icon icon--small" aria-hidden="true"><use href="#i-download"/></svg>
-                    Télécharger le rapport
+                    <span class="hidden-mobile">Télécharger le rapport</span>
                 </a>
                 <a class="button button--primary" href="/play/console">
                     <svg class="icon icon--small icon--on-primary" aria-hidden="true"><use href="#i-send"/></svg>
-                    Passer ses ordres
+                    <span class="hidden-mobile">Passer ses ordres</span>
                 </a>
             {% else %}
-                <a class="button button--secondary" href="https://discord.gg/bdUtYSqrnK">Rejoindre le Discord</a>
+                <a class="button button--secondary hidden-mobile" href="https://discord.gg/bdUtYSqrnK">Rejoindre le Discord</a>
                 <a class="button button--primary" href="/connexion">Se connecter</a>
             {% endif %}
         </div>
     </section>
 
     <nav aria-label="Navigation principale">
-        <a href="/" aria-current="page">Accueil</a>
-        <a href="/lore/presentation">Présentation</a>
-        <a href="/rule/sommaire">Règles du jeu</a>
-        <a href="/play">Jouer</a>
-        <a href="/forum">Forum</a>
-        <a href="/statistiques">Statistiques</a>
-        <a href="/archives">Archives</a>
+        {# Menu déroulant en mobile (le bouton affiche la rubrique courante) ; en bureau, liens à plat #}
+        <details>
+            <summary>{{ navigation.courant }}</summary>
+            {% for lien in navigation.liens %}
+                <a href="{{ lien.url }}"{% if lien.aria %} aria-current="{{ lien.aria }}"{% endif %}>{{ lien.libelle }}</a>
+            {% endfor %}
+        </details>
         {% if user %}
             {# Commandant connecté, à droite du menu, contre l'avatar #}
             <a href="/compte" class="race{{ user.race }}">{{ user.nom }} ({{ user.numero }})</a>

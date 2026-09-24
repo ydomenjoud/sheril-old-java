@@ -16,8 +16,47 @@ $app->globals = [
     'gameName' => 'Corylis',
     'site' => ['tourNumber' => Data::$tourNumber, 'tourLastDate' => Data::$tourLastDate],
     'user' => Data::currentUser(),
+    // Page courante, pour marquer le lien actif des navigations (aria-current)
+    'chemin' => chemin_courant(),
+    'rubrique' => (string) strtok(ltrim(chemin_courant(), '/'), '/'),
     'csrf' => Data::csrf(),
+    'theme' => Data::theme(),
+    'navigation' => navigation_principale(),
 ];
+
+/** Chemin de la page demandée, sans paramètres ni slash final ("/" pour l'accueil). */
+function chemin_courant()
+{
+    $chemin = rawurldecode((string) parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    return '/' . trim($chemin, '/');
+}
+
+/**
+ * Liens de la navigation principale, avec la valeur d'aria-current du lien actif
+ * ("page" pour l'accueil, "true" pour une rubrique). 'courant' : libellé de la rubrique
+ * active, affiché sur le bouton du menu déroulant en mobile ("Menu" si aucune).
+ */
+function navigation_principale()
+{
+    $chemin = chemin_courant();
+    $rubrique = (string) strtok(ltrim($chemin, '/'), '/');
+    $liens = [
+        ['url' => '/', 'libelle' => 'Accueil', 'rubrique' => ''],
+        ['url' => '/lore/presentation', 'libelle' => 'Présentation', 'rubrique' => 'lore'],
+        ['url' => '/rule/sommaire', 'libelle' => 'Règles du jeu', 'rubrique' => 'rule'],
+        ['url' => '/play', 'libelle' => 'Jouer', 'rubrique' => 'play'],
+        ['url' => '/forum', 'libelle' => 'Forum', 'rubrique' => 'forum'],
+        ['url' => '/statistiques', 'libelle' => 'Statistiques', 'rubrique' => 'statistiques'],
+        ['url' => '/archives', 'libelle' => 'Archives', 'rubrique' => 'archives'],
+    ];
+    $courant = 'Menu';
+    foreach ($liens as $i => $lien) {
+        $actif = $lien['rubrique'] === '' ? $chemin === '/' : $rubrique === $lien['rubrique'];
+        $liens[$i]['aria'] = $actif ? ($lien['rubrique'] === '' ? 'page' : 'true') : null;
+        if ($actif) $courant = $lien['libelle'];
+    }
+    return ['liens' => $liens, 'courant' => $courant];
+}
 
 /** Adresse de retour après connexion : chemin local uniquement. */
 function url_retour($url)
@@ -41,11 +80,11 @@ $app->get('/', 'pages/home', ['title' => 'Accueil', 'data' => Data::getHomeData(
 # LORE
 $app->get('/lore/presentation', 'pages/lore/presentation', ['title' => 'Présentation']);
 $app->get('/lore/histoire', 'pages/lore/histoire', ['title' => 'Histoire']);
-$app->get('/lore/fremen', 'pages/lore/fremen', ['title' => 'fremen']);
-$app->get('/lore/atalante', 'pages/lore/atalante', ['title' => 'atalante']);
-$app->get('/lore/zwaia', 'pages/lore/zwaia', ['title' => 'zwaia']);
-$app->get('/lore/yoksor', 'pages/lore/yoksor', ['title' => 'yoksor']);
-$app->get('/lore/fergok', 'pages/lore/fergok', ['title' => 'fergok']);
+$app->get('/lore/fremen', 'pages/lore/fremen', ['title' => 'Fremen']);
+$app->get('/lore/atalante', 'pages/lore/atalante', ['title' => 'Atalante']);
+$app->get('/lore/zwaia', 'pages/lore/zwaia', ['title' => 'Zwaia']);
+$app->get('/lore/yoksor', 'pages/lore/yoksor', ['title' => 'Yoksor']);
+$app->get('/lore/fergok', 'pages/lore/fergok', ['title' => 'Fergok']);
 # RULE
 $app->get('/rule/{page}', 'pages/rule/page', function ($p) {
 
@@ -261,6 +300,14 @@ $app->any('/forum/post/{id:\d+}/edit', 'pages/forum/edit', function ($p) {
 });
 
 $app->get('/a-propos', 'about.html', ['title' => 'À propos']);
+
+# THÈME (pas de lien dans l'interface pour l'instant : URL à donner aux testeurs)
+// Réservé aux commandants connectés, choix enregistré en base (aa_registre.theme).
+// /theme/violet active le thème, /theme/defaut revient au thème d'origine ; ?retour=/page pour revenir ailleurs qu'à l'accueil
+$app->get('/theme/{nom}', null, function ($p) {
+    Data::setTheme(exiger_connexion(), $p['nom']);
+    Mini::redirect(url_retour(isset($_GET['retour']) ? $_GET['retour'] : '/'));
+});
 
 
 $app->run();

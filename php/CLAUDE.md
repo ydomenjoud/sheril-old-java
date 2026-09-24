@@ -55,6 +55,9 @@ $app->get('/api/xxx', null, function () { return [...]; });
 - Le nom de template est relatif à `templates/`, l'extension `.twig` est ajoutée automatiquement.
 - `Mini::abort(404)` / `Mini::redirect($url)`. En cas d'erreur, le routeur cherche `templates/404.twig`
   puis `templates/error.twig` (pas encore créés → message texte brut).
+- Lien actif des navigations : variables globales `chemin` (chemin courant, sans slash final, "/" pour l'accueil)
+  et `rubrique` (1er segment : `lore`, `rule`, `play`, `forum`…). Menu principal : `aria-current="true"` si
+  `rubrique` correspond ; sous-menus : `aria-current="page"` si `chemin` correspond. Le CSS cible `[aria-current]`.
 - Variables globales à tous les templates : `$app->globals` (`gameName`, `site.tourNumber`,
   `site.tourLastDate`) + `base` (préfixe d'URL, ajouté par le routeur).
 - La logique métier / SQL va dans `Data` (`includes/data.php`), pas dans les templates ni dans `index.php`.
@@ -159,6 +162,9 @@ Une classe n'est ajoutée que pour un composant réutilisable (`.card`, `.button
 ni structure ne suffit.
 Formulaires : composant `components/_form.scss` (`<form class="form">` + `<label class="field">`),
 retours via `.banner--positive` / `.banner--negative`.
+Thèmes : `themes/<nom>.scss` → `themes/<nom>.css` (compilé à part, ne redéfinit que des `--sheril-*`),
+chargé après `sheril.css` pour le commandant connecté dont `aa_registre.theme` le désigne. Choix par `/theme/<nom>` (connexion requise)
+(`/theme/defaut` pour revenir), sans lien dans l'interface pour l'instant ; logique dans `Data::theme()` / `Data::setTheme()`.
 
 ## Contraintes
 

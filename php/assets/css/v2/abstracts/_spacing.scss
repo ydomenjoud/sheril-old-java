@@ -29,3 +29,7 @@ $size-table-head:  26px !default;
 $size-avatar:      116px !default; // avatar du commandant dans l'en-tête
 
 $grid-columns:    12 !default;
+
+// Point de rupture : en dessous, les navigations passent en menu déroulant
+$breakpoint-mobile: 700px !default;
+$breakpoint-tablette: 900px !default;

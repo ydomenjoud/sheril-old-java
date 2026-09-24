@@ -18,3 +18,7 @@
 .score-positif { color: token("feedback-positive"); }
 .score-negatif { color: token("feedback-negative"); }
 .score-neutre { color: #888888; }
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .hidden-mobile { display: none; }
+}

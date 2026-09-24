@@ -3,10 +3,14 @@
 {% block content %}
     <main id="rule">
 
-        <nav>
-        {% for key,value in chapters %}
-            <a href="/rule/{{ key }}"> {{ value }}</a>
-        {% endfor %}
+        <nav aria-label="Chapitres des règles">
+            {# Menu déroulant en mobile (le bouton affiche le chapitre courant) ; en bureau, liens à plat #}
+            <details>
+            <summary>{{ title }}</summary>
+            {% for key,value in chapters %}
+                <a href="/rule/{{ key }}"{% if chemin == '/rule/' ~ key %} aria-current="page"{% endif %}>{{ value }}</a>
+            {% endfor %}
+            </details>
         </nav>
 
         <div class="card">
