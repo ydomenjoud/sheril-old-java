@@ -1,0 +1,59 @@
+@use "../abstracts" as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: token("surface-card");
+  border: 1px solid token("border-raised");
+  border-radius: $radius-container;
+  overflow: hidden;
+  //box-shadow: 2px 2px 3px 0px token("border-shadow");
+
+  header {
+    background: token("surface-track");
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    height: $size-card-header;
+    padding: 0 $padding-card;
+    border-bottom: 1px solid token("border-default");
+    @include type("heading-section");
+    color: token("text-heading");
+    > a {
+      text-transform: lowercase;
+    }
+  }
+  > article   {
+    flex-grow: 1; padding: $padding-card;
+    &:has(table){
+      padding: 0
+    }
+  }
+  > aside {
+    flex: 0 0 40%;
+    padding: $padding-hero;
+    background: token("surface-inset");
+    border-right: 1px solid token("border-default");
+  }
+  a {
+    @include type("body-ui-strong"); font-size: 12px; }
+
+  &__title  { @include type("heading-section"); color: token("text-heading"); }
+  &__action { @include type("body-ui-strong"); font-size: 12px; }
+
+
+  // Carte sans marge interne (tableaux, listes qui vont au bord)
+  &--flush > &__body { padding: 0; }
+
+  // Carte de mise en avant en deux colonnes (héros)
+  &--feature { flex-direction: row; }
+}
+
+.card-grid {
+  display: grid;
+  gap: $gap-cards;
+  &--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  &--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  &--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

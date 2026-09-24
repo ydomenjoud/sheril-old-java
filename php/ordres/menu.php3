@@ -4,7 +4,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // toujours modif
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache"); // HTTP/1.0 
 
-include "../mysql_compat.php";
+include "../script/mysql_compat.php";
 include "../secure/config.php";
 include "../script/aut.txt";
 
@@ -185,8 +185,7 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
 <BODY>
 <div class="split">
     <A href="./" target="fenetre">Accueil</A>
-    <A href="/rules/9_ordres_de_la_console_et_tour.md?embed=1" target="fenetre">Ordre du tour</A>
-    <A href="./delog.php3?nom_cookie=<?php echo("$nom_cookie"); ?>" target="principal">Logout</A>
+    <A href="/rule/9_ordres_de_la_console_et_tour?embed=1" target="fenetre">Ordre du tour</A>
 </div>
 <input id="search" type="text" placeholder="rechercher un ordre" onkeyup="filterList()" />
 <UL id="orderslist">

@@ -1,0 +1,64 @@
+{% extends "pages/forum/_layout.twig" %}
+
+{% block ariane %}
+    <a href="/forum/{{ forum.id }}">{{ forum.nom }}</a>
+    <a href="/forum/topic/{{ sujet.id }}" aria-current="page">{{ sujet.titre }}</a>
+{% endblock %}
+
+{% block forum %}
+    <h1 class="forum-sujet">{{ sujet.titre }}</h1>
+
+    {% for m in sujet.messages %}
+        <article class="card forum-message" id="post-{{ m.id }}">
+            {# Profil de l'auteur, à gauche #}
+            <aside class="forum-auteur">
+                <a class="forum-auteur__nom race{{ m.auteur.race }}" href="/statistiques/detail?nums={{ m.auteur.numero }}">{{ m.auteur.nom }} ({{ m.auteur.numero }})</a>
+                {% if m.profil %}
+                    <img class="forum-auteur__avatar" src="{{ m.profil.avatar }}" alt="" width="120" height="120" loading="lazy">
+                    <span class="caption race{{ m.auteur.race }}">{{ m.profil.race }}</span>
+                    {% if m.profil.stats %}
+                        <dl class="forum-auteur__stats">
+                            {% for st in m.profil.stats %}
+                                <div><dt>{{ st.label }}</dt><dd>{{ st.valeur }}</dd></div>
+                            {% endfor %}
+                        </dl>
+                        <span class="caption">Tour {{ m.profil.tour }} · {{ m.profil.messages }} message{% if m.profil.messages > 1 %}s{% endif %}</span>
+                    {% else %}
+                        <span class="caption">{{ m.profil.messages }} message{% if m.profil.messages > 1 %}s{% endif %}</span>
+                    {% endif %}
+                {% endif %}
+            </aside>
+            {# Contenu du message, à droite #}
+            <div class="forum-message__contenu">
+                <div class="forum-message__meta">
+                    <a href="#post-{{ m.id }}"><time>{{ m.date }}</time></a>
+                    {% if m.editable %}<a href="/forum/post/{{ m.id }}/edit">modifier</a>{% endif %}
+                </div>
+                <div class="forum-corps">{{ m.corps|raw }}</div>
+            </div>
+        </article>
+    {% endfor %}
+
+    <section class="card" id="repondre">
+        <header><h2>Répondre</h2></header>
+        <article>
+            {% if user %}
+                {% if erreurs %}
+                    <div class="banner banner--negative" role="alert">
+                        <ul>{% for e in erreurs %}<li>{{ e }}</li>{% endfor %}</ul>
+                    </div>
+                {% endif %}
+                <form class="form forum-form" method="post" action="/forum/topic/{{ sujet.id }}#repondre">
+                    <input type="hidden" name="csrf" value="{{ csrf }}">
+                    {% include 'pages/forum/_editor' %}
+                    <div class="button-group">
+                        <button class="button button--primary" type="submit">Publier la réponse</button>
+                        <button class="button button--secondary" type="button" data-apercu>Prévisualiser</button>
+                    </div>
+                </form>
+            {% else %}
+                <p><a href="/connexion?retour=/forum/topic/{{ sujet.id }}">Connectez-vous</a> avec vos identifiants de la console d'ordres pour participer.</p>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}

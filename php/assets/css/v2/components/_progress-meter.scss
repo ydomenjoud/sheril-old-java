@@ -1,0 +1,27 @@
+@use "../abstracts" as *;
+
+// Jauge de progression vers un objectif (ex. 66 % pour la victoire)
+// <div class="progress-meter" style="--value:58%; --target:66%">…
+.progress-meter {
+  --value: 0%;
+  --target: 66%;
+  position: relative;
+  height: 5px;
+  background: token("surface-track");
+  border-radius: 3px;
+
+  &__fill {
+    width: var(--value);
+    height: 5px;
+    background: token("brand");
+    border-radius: 3px;
+  }
+  &__target {
+    position: absolute;
+    left: var(--target);
+    top: -3px;
+    width: 1px;
+    height: 11px;
+    background: token("feedback-warning");
+  }
+}

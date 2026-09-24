@@ -1,0 +1,101 @@
+@use "../abstracts" as *;
+@use "../components/subnav" as *;
+
+// En-tête, navigation et grille principale de la page
+
+body {
+  main {
+    padding: $gap-cards;
+    > nav {
+      @extend .sub-nav
+    }
+  }
+  & > header {
+    position: relative;
+
+    // Commandant connecté : on laisse la place à l'avatar dans le coin
+    &:has(> a) > section,
+    &:has(> a) > nav { padding-right: calc(#{$size-avatar} + #{$padding-page}); }
+
+    // Nom du commandant connecté, au bout du menu (lien « Mon compte »), dans la couleur de sa race
+    & > nav > a[href="/compte"] {
+      margin-left: auto;
+      @include type("heading-block");
+      font-size: 15px;
+      text-transform: none;
+    }
+
+    // Avatar du commandant (lien « Mon compte »), dans le coin haut droit sur toute la hauteur de
+    // l'en-tête. La découpe irrégulière est sur ::before, le liseré vient du drop-shadow.
+    & > a {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: $size-avatar;
+      height: calc(#{$size-header} + #{$size-nav});
+      filter: drop-shadow(-1px 0 0 token("border-strong"));
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 -10px 0;
+        background: token("surface-page");
+        clip-path: polygon(22% 0, 100% 0, 100% 100%, 30% 100%, 14% 88%, 20% 72%, 6% 58%, 14% 40%, 4% 24%, 16% 12%);
+      }
+      img {
+        position: relative;
+        width: auto;
+        height: 100%;
+        transition: transform 0.15s;
+      }
+      &:hover img { transform: scale(1.05); }
+      &:focus-visible { @include focus-visible-ring; }
+    }
+    & > section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $padding-page;
+      height: $size-header;
+      padding: 0 $padding-page;
+      background: token("surface-header");
+      border-bottom: 1px solid token("border-default");
+      > div {
+        display: flex;
+        align-items: center;
+        gap: $gap-inline;
+      }
+      .logo {
+        display: flex;
+        gap: 5px;
+        @include type("brand-logo"); color: token("text-heading");
+      }
+    }
+    & > nav {
+      display: flex;
+      align-items: stretch;
+      gap: $gap-tight;
+      height: $size-nav;
+      padding: 0 $padding-page;
+      border-bottom: 1px solid token("border-default");
+      a {
+        display: flex;
+        align-items: center;
+        padding: 0 $gap-cards;
+        @include type("body-ui");
+        color: token("text-navigation");
+        border-bottom: 2px solid transparent;
+        &:hover { color: token("text-heading"); }
+        &[aria-current="page"] {
+          @include type("body-ui-strong");
+          font-weight: 600;
+          color: token("text-heading");
+          border-bottom-color: token("brand");
+        }
+      }
+    }
+  }
+}

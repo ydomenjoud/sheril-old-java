@@ -1,0 +1,55 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+@use "sass:map";
+@use "palette" as *;
+
+// =============================================================================
+// 2. TOKENS SÉMANTIQUES — le seul endroit qui fait le lien palette → usage
+// =============================================================================
+
+$tokens: (
+  // --- Surfaces : ce sur quoi on pose du contenu -----------------------------
+        "surface-page":          palette("ink-950"),  // fond de la page
+        "surface-header":        palette("ink-850"),  // barre du haut
+        "surface-inset":         palette("ink-900"),  // zone en retrait (en-tête de tableau, aside)
+        "surface-card":          palette("ink-800"),  // carte / panneau
+        "surface-raised":        palette("ink-750"),  // élément cliquable posé sur une carte (tuile)
+        "surface-table":         palette("ink-750"),
+        "surface-track":         palette("ink-650"),  // rail d'une jauge
+
+  // --- Bordures --------------------------------------------------------------
+        "border-default":        palette("ink-600"),  // contour de carte, séparateur de section
+        "border-subtle":         palette("ink-700"),  // séparateur de ligne dans une liste
+        "border-strong":         palette("ink-500"),  // contour de contrôle (bouton secondaire, badge)
+        "border-raised":         palette("ink-550"),  // contour d'une tuile
+        "border-shadow":         palette("ink-400"),  // ombrage
+
+  // --- Texte -----------------------------------------------------------------
+        "text-heading":          palette("ink-50"),   // titres
+        "text-primary":          palette("ink-100"),  // texte courant, valeurs importantes
+        "text-secondary":        palette("ink-200"),  // paragraphes longs
+        "text-navigation":       palette("ink-250"),  // liens de menu inactifs
+        "text-tertiary":         palette("ink-300"),  // légendes, méta, en-têtes de colonne
+        "text-link":             palette("cyan-400"),
+        "text-link-hover":       palette("cyan-300"),
+
+  // --- Marque et actions -----------------------------------------------------
+        "brand":                 palette("cyan-400"), // couleur signature : icônes, sur-titres, jauges
+        "action-primary":        palette("cyan-400"), // fond du bouton principal
+        "action-primary-hover":  palette("cyan-300"),
+        "action-on-primary":     palette("cyan-950"), // texte / icône posés sur action-primary
+        "focus-ring":            palette("cyan-400"),
+
+  // --- Retours d'information -------------------------------------------------
+        "feedback-positive":     palette("green-400"), // Top 5, hausse
+        "feedback-negative":     palette("coral-400"), // Flop 5, baisse
+        "feedback-warning":      palette("amber-400"), // repère d'objectif, icône d'alerte
+        "feedback-warning-text": palette("amber-300"),
+        "feedback-warning-text-muted": palette("amber-200"),
+        "feedback-warning-surface":    palette("amber-950"),
+        "feedback-warning-border":     palette("amber-800"),
+) !default;
+
+@function token($name) {
+  @if not map.has-key($tokens, $name) { @error "Token : « #{$name} » n'existe pas."; }
+  @return var(--sheril-#{$name});
+}

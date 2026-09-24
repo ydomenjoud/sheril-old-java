@@ -1,0 +1,22 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+@use "tokens" as *;
+
+// -----------------------------------------------------------------------------
+// Mixins utilitaires
+// -----------------------------------------------------------------------------
+
+@mixin truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin focus-visible-ring {
+  outline: 2px solid token("focus-ring");
+  outline-offset: 2px;
+}
+
+// Teinte translucide d'un token (survols)
+@function tint($token-name, $percent) {
+  @return color-mix(in srgb, #{token($token-name)} #{$percent}, transparent);
+}

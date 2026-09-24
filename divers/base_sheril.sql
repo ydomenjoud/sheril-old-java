@@ -1155,3 +1155,36 @@ create table _share_technology
         unique (NUMERO, SHARE_WITH)
 );
 
+create table _statistiques
+(
+    id_stat     bigint auto_increment
+        primary key,
+    tour        int           not null,
+    numero      int           not null,
+    puissance   int default 0 not null,
+    centaure    int default 0 not null,
+    planetes    int default 0 not null,
+    pop_syst    int default 0 not null,
+    pop_vs      int default 0 not null,
+    reputation  int default 0 not null,
+    rayonnement int default 0 not null,
+    technologie int default 0 not null,
+    offensif    int default 0 not null,
+    pv          int default 0 not null,
+    constraint unq_tour_commandant
+        unique (tour, numero)
+);
+
+create index idx_classement_puissance
+    on _statistiques (tour, puissance);
+
+create index idx_classement_pv
+    on _statistiques (tour, pv);
+
+create index idx_classement_techno
+    on _statistiques (tour, technologie);
+
+create index idx_progression
+    on _statistiques (numero, tour);
+
+

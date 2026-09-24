@@ -1,444 +1,266 @@
 <?php
-define('USE_PDO', true);
-require_once './includes/top.php';
-require_once __DIR__ . '/script/helper.php';
+const USE_PDO = true;
+date_default_timezone_set('Europe/Paris');
+require_once __DIR__ . '/secure/connect.txt';
+require __DIR__ . '/includes/mini.php';
+require __DIR__ . '/includes/data.php';
+Data::$pdo = $pdo;
+
+if (session_status() == PHP_SESSION_NONE) session_start();
 
 
-// Paramètres
-$tourActuel = $numeroTour;
-$tourPrecedent = $tourActuel - 1;
+$app = new Mini(__DIR__ . '/templates');
 
-// sql
-$sql = "
-WITH stats_deltas AS (
-    SELECT
-        reg.nom,
-        reg.numero,
-        reg.race,
-        (curr.centaure - IFNULL(prev.centaure, 0)) AS d_centaure,
-        (curr.planetes - IFNULL(prev.planetes, 0)) AS d_planetes,
-        (curr.pop_syst - IFNULL(prev.pop_syst, 0)) AS d_pop_syst,
-        (curr.pv - IFNULL(prev.pv, 0))             AS d_pv
-    FROM _statistiques curr
-    JOIN aa_registre reg ON curr.numero = reg.numero
-    LEFT JOIN _statistiques prev ON curr.numero = prev.numero AND prev.tour = :tourPrecedent
-    WHERE curr.tour = :tourActuel
-),
-stats_ranked AS (
-    SELECT *,
-        -- Centaures
-        ROW_NUMBER() OVER (ORDER BY d_centaure DESC) AS rank_top_centaure,
-        ROW_NUMBER() OVER (ORDER BY d_centaure ASC)  AS rank_flop_centaure,
-        -- Planètes
-        ROW_NUMBER() OVER (ORDER BY d_planetes DESC) AS rank_top_planetes,
-        ROW_NUMBER() OVER (ORDER BY d_planetes ASC)  AS rank_flop_planetes,
-        -- Pop Syst
-        ROW_NUMBER() OVER (ORDER BY d_pop_syst DESC) AS rank_top_pop_syst,
-        ROW_NUMBER() OVER (ORDER BY d_pop_syst ASC)  AS rank_flop_pop_syst,
-        -- PV
-        ROW_NUMBER() OVER (ORDER BY d_pv DESC)       AS rank_top_pv,
-        ROW_NUMBER() OVER (ORDER BY d_pv ASC)        AS rank_flop_pv
-    FROM stats_deltas
-)
-SELECT *
-FROM stats_ranked
-WHERE rank_top_centaure <= 5 OR rank_flop_centaure <= 5
-   OR rank_top_planetes <= 5 OR rank_flop_planetes <= 5
-   OR rank_top_pop_syst  <= 5 OR rank_flop_pop_syst  <= 5
-   OR rank_top_pv        <= 5 OR rank_flop_pv        <= 5;
-";
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute([
-        'tourActuel' => $tourActuel,
-        'tourPrecedent' => $tourPrecedent
-]);
-
-$donnees = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$criteres = ['centaure', 'planetes', 'pop_syst', 'pv'];
-$labels = [
-        'centaure' => 'Centaures',
-        'planetes' => 'Planètes',
-        'pop_syst' => 'Population',
-        'pv' => 'Points de Victoire',
+/* ---------- Données communes à tous les templates ---------- */
+$app->globals = [
+    'gameName' => 'Corylis',
+    'site' => ['tourNumber' => Data::$tourNumber, 'tourLastDate' => Data::$tourLastDate],
+    'user' => Data::currentUser(),
+    'csrf' => Data::csrf(),
 ];
-$classements = [];
 
-foreach ($criteres as $critere) {
-    $keyTop = "rank_top_" . $critere;
-    $keyFlop = "rank_flop_" . $critere;
+/** Adresse de retour après connexion : chemin local uniquement. */
+function url_retour($url)
+{
+    $url = is_string($url) ? $url : '';
+    return (substr($url, 0, 1) === '/' && substr($url, 0, 2) !== '//' && strpos($url, '\\') === false) ? $url : '/';
+}
 
-    // --- TOP 5 ---
-    $top = array_filter($donnees, function ($row) use ($keyTop) {
-        return $row[$keyTop] <= 5;
-    });
-    usort($top, function ($a, $b) use ($keyTop) {
-        if ($a[$keyTop] == $b[$keyTop]) return 0;
-        return ($a[$keyTop] < $b[$keyTop]) ? -1 : 1;
-    });
+/** Commandant connecté, sinon redirection vers la page de connexion. */
+function exiger_connexion()
+{
+    $user = Data::currentUser();
+    if (!$user) Mini::redirect('/connexion?retour=' . rawurlencode($_SERVER['REQUEST_URI']));
+    return $user;
+}
 
-    // --- FLOP 5 ---
-    $flop = array_filter($donnees, function ($row) use ($keyFlop) {
-        return $row[$keyFlop] <= 5;
-    });
-    usort($flop, function ($a, $b) use ($keyFlop) {
-        if ($a[$keyFlop] == $b[$keyFlop]) return 0;
-        return ($a[$keyFlop] < $b[$keyFlop]) ? -1 : 1;
-    });
+/* ---------- Routes : chemin, template, données ---------- */
+$articles = [];
+// Données statiques
+$app->get('/', 'pages/home', ['title' => 'Accueil', 'data' => Data::getHomeData()]);
+# LORE
+$app->get('/lore/presentation', 'pages/lore/presentation', ['title' => 'Présentation']);
+$app->get('/lore/histoire', 'pages/lore/histoire', ['title' => 'Histoire']);
+$app->get('/lore/fremen', 'pages/lore/fremen', ['title' => 'fremen']);
+$app->get('/lore/atalante', 'pages/lore/atalante', ['title' => 'atalante']);
+$app->get('/lore/zwaia', 'pages/lore/zwaia', ['title' => 'zwaia']);
+$app->get('/lore/yoksor', 'pages/lore/yoksor', ['title' => 'yoksor']);
+$app->get('/lore/fergok', 'pages/lore/fergok', ['title' => 'fergok']);
+# RULE
+$app->get('/rule/{page}', 'pages/rule/page', function ($p) {
 
-    $classements[$critere] = [
-            'top' => array_values($top),
-            'flop' => array_values($flop)
+    $chapters = [
+        'sommaire' => 'Sommaire',
+        '0_introduction_et_situation_de_depart' => '0. Intro',
+        '1_galaxie_systemes_planetes' => '1. Galaxie',
+        '2_population' => '2. Population',
+        '3_constructions' => '3. Constructions',
+        '4_flottes' => '4. Flottes',
+        '5_combats' => '5. Combats',
+        '6_recherches_technologiques' => '6. Recherche',
+        '7_relations_entre_les_commandants' => '7. Relations',
+        '8_lieutenants' => '8. Lieutenants',
+        '9_ordres_de_la_console_et_tour' => '9. Ordres & Tour',
     ];
-}
 
-$sqlVictoire = "
-WITH totaux_galaxie AS (
-    -- 1. Calcul du total global de la galaxie pour le tour actuel
-    SELECT 
-        SUM(pop_syst) AS total_pop_galaxie,
-        SUM(planetes) AS total_planetes_galaxie
-    FROM _statistiques
-    WHERE tour = :tourActuel
-),
-stats_victoire AS (
-    -- 2. Calcul du pourcentage détenu par chaque joueur
-    SELECT 
-        reg.nom,
-        reg.race,
-        reg.numero,
-        curr.pop_syst,
-        curr.planetes,
-        (curr.pop_syst / tot.total_pop_galaxie) * 100 AS pct_age_dor,
-        (curr.planetes / tot.total_planetes_galaxie) * 100 AS pct_empire_galactique
-    FROM _statistiques curr
-    JOIN aa_registre reg ON curr.numero = reg.numero
-    CROSS JOIN totaux_galaxie tot
-    WHERE curr.tour = :tourActuel
-),
-stats_victoire_ranked AS (
-    -- 3. Attributions des rangs Top 5
-    SELECT *,
-        ROW_NUMBER() OVER (ORDER BY pct_age_dor DESC)           AS rank_age_dor,
-        ROW_NUMBER() OVER (ORDER BY pct_empire_galactique DESC) AS rank_empire_galactique
-    FROM stats_victoire
-)
--- 4. Filtrage des Top 5
-SELECT * 
-FROM stats_victoire_ranked
-WHERE rank_age_dor <= 5 
-   OR rank_empire_galactique <= 5;
-   ";
-$stmtVictoire = $pdo->prepare($sqlVictoire);
-$stmtVictoire->execute(['tourActuel' => $tourActuel]);
-$donneesVictoire = $stmtVictoire->fetchAll(PDO::FETCH_ASSOC);
-
-// Tri et extraction du Top 5 Âge d'or
-$topAgeDor = array_filter($donneesVictoire, function($row) {
-    return $row['rank_age_dor'] <= 5;
-});
-usort($topAgeDor, function($a, $b) {
-    return ($a['rank_age_dor'] < $b['rank_age_dor']) ? -1 : 1;
-});
-
-// Tri et extraction du Top 5 Empire Galactique
-$topEmpire = array_filter($donneesVictoire, function($row) {
-    return $row['rank_empire_galactique'] <= 5;
-});
-usort($topEmpire, function($a, $b) {
-    return ($a['rank_empire_galactique'] < $b['rank_empire_galactique']) ? -1 : 1;
-});
-
-function afficherProgressionVictoire($pct) {
-    $pctFormate = number_format($pct, 2, ',', ' ') . '%';
-
-    // Si proche ou ayant dépassé le seuil de victoire de 66%
-    if ($pct >= 66) {
-        $classe = 'score-victoire';
-    } elseif ($pct >= 30) {
-        $classe = 'score-positif';
-    } else {
-        $classe = 'score-neutre';
+    if(!array_key_exists('page', $p)
+    || !isset($chapters[$p['page']])) {
+        Mini::abort(404);
     }
 
-    return '<span class="' . $classe . '">(' . $pctFormate . ' / 66%)</span>';
-}
-// Affichage du nom du joueur
-function afficherJoueur($joueur)
-{
-    return '<span class="race' . ($joueur['race']) . '">' . htmlspecialchars($joueur['nom']) . ' (' . ($joueur['numero']) . ')</span>';
-}
+    $page = $p['page'];
 
-// Affichage de la valeur (delta) formatée avec couleur
-function afficherScore($valeur)
-{
-    if ($valeur > 0) {
-        $signe = '+';
-        $classe = 'score-positif';
-    } elseif ($valeur < 0) {
-        $signe = ''; // le signe - est déjà inclus par PHP
-        $classe = 'score-negatif';
-    } else {
-        $signe = '';
-        $classe = 'score-neutre';
+    // récupération du markdown
+    $file = __DIR__ . '/rules/' . $page . '.md';
+    if(!file_exists($file)) {  Mini::abort(404); }
+
+    return [
+        'title' => $chapters[$page],
+        'chapters' => $chapters,
+        'content' => include_markdown($file),
+    ];
+});
+$app->get('/play', 'pages/play/index', ['title' => 'Jouer']);
+$app->get('/play/listing', 'pages/play/listing', function () {
+    return ['title' => 'Registre', 'registre' => Data::getRegistre()];
+});
+$app->get('/play/console', 'pages/play/console', ['title' => "Console d'ordres"]);
+$app->get('/play/tool', 'pages/play/tool', ['title' => "Outil d'aide"]);
+$app->any('/play/register', 'pages/play/register', function () {
+    $form = ['nom' => '', 'email' => '', 'race' => '', 'mj' => ''];
+    $erreurs = [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        foreach ($form as $k => $v) $form[$k] = isset($_POST[$k]) ? (string) $_POST[$k] : '';
+        $erreurs = Data::inscrire($form['nom'], $form['email'], $form['race'], $form['mj']);
+        // Post/Redirect/Get : un rechargement ne renvoie pas le formulaire
+        if (!$erreurs) Mini::redirect('/play/register?ok=' . rawurlencode(trim($form['nom'])));
     }
-
-    $valeurFormatee = $signe . number_format($valeur, 0, ',', ' ');
-    return '<span class="' . $classe . '">(' . $valeurFormatee . ')</span>';
-}
-
-// 1. Forums à cibler
-$sql_recent = "SELECT 
-                    IF(p.id_parent IS NULL OR p.id_parent = 0, p.id_post, p.id_parent) AS target_topic_id,
-                    MAX(p.id_post) AS last_post_id,
-                    MAX(p.record) AS max_record,
-                    COALESCE(p_parent.title, p.title) AS topic_title,
-                    f.name AS forum_name,
-                    f.id_forum,
-                    -- Informations sur le dernier auteur du sujet
-                    SUBSTRING_INDEX(GROUP_CONCAT(r.NOM ORDER BY p.record DESC, p.id_post DESC), ',', 1) AS NOM,
-                    SUBSTRING_INDEX(GROUP_CONCAT(r.NUMERO ORDER BY p.record DESC, p.id_post DESC), ',', 1) AS NUMERO,
-                    SUBSTRING_INDEX(GROUP_CONCAT(r.RACE ORDER BY p.record DESC, p.id_post DESC), ',', 1) AS RACE
-                FROM _post p
-                INNER JOIN _forum f ON (p.id_forum = f.id_forum)
-                LEFT JOIN _post p_parent ON (p.id_parent = p_parent.id_post)
-                LEFT JOIN aa_registre r ON (r.NUMERO = p.id_author)
-                GROUP BY target_topic_id, topic_title, forum_name, f.id_forum
-                ORDER BY max_record DESC
-                LIMIT 5";
-
-// 3. Exécution PDO
-$stmt_recent = $pdo->prepare($sql_recent);
-$stmt_recent->execute();
-$recent_messages = $stmt_recent->fetchAll(PDO::FETCH_ASSOC);
-
-
-function format_date($date_str) {
-    if (!$date_str || $date_str == '0000-00-00 00:00:00') return "Jamais";
-    $time = strtotime($date_str);
-    if (!$time) return $date_str;
-    return date('d/m/y H\hi', $time);
-}
-?>
-    <nav>
-        <a href="/stats.php"><span class="hmobile">Voir les </span>stats</a>
-        <a href="/ordres/ordres.php3"><span class="hmobile">Télécharger son </span>rapport</a>
-        <a href="/ordres/ordres.php3"><span class="hmobile">Passer ses </span>ordres</a>
-        <a href="/rapports/images.zip"><span class="hmobile">Télécharger les </span> images du rapport</a>
-    </nav>
-    <style>
-        blockquote {
-            padding: 10px;
-            font-style: italic;
-            overflow-x: auto;
-            margin: 10px;
+    $inscription = Data::getInscription();
+    foreach ($inscription['races'] as $i => $race) {
+        $inscription['races'][$i]['checked'] = $form['race'] !== '' && (int) $form['race'] === $race['id'];
+    }
+    // Message de succès seulement si le nom est bien parmi les inscriptions en attente
+    $inscrit = '';
+    if (isset($_GET['ok']) && is_string($_GET['ok'])) {
+        foreach ($inscription['attente'] as $j) {
+            if (strtolower($j['nom']) === strtolower(trim($_GET['ok']))) $inscrit = $j['nom'];
         }
+    }
+    return [
+        'title' => 'Inscription',
+        'inscription' => $inscription,
+        'form' => $form,
+        'erreurs' => $erreurs,
+        'inscrit' => $inscrit,
+    ];
+});
+
+# STATISTIQUES (pages générées par le moteur dans stats/, affichées dans une iframe comme l'ancien stats.php)
+$app->get('/statistiques', 'pages/stats/index', function () {
+    return ['title' => 'Statistiques'] + Data::getStatsLiens();
+});
+
+// Classement général, affiché dans l'iframe de /statistiques (gabarit sans en-tête)
+$app->get('/statistiques/general', 'pages/stats/general', function () {
+    $s = Data::getStatsGeneral(
+        isset($_GET['tour']) ? (int) $_GET['tour'] : 0,
+        isset($_GET['tri']) ? (string) $_GET['tri'] : '',
+        isset($_GET['ordre']) ? (string) $_GET['ordre'] : ''
+    );
+    return ['title' => 'Classement général · tour ' . $s['tour'], 'stats' => $s];
+});
+
+// Progression comparée de commandants, affichée dans l'iframe de /statistiques
+$app->get('/statistiques/detail', 'pages/stats/detail', function () {
+    $d = Data::getStatsDetail(isset($_GET['nums']) ? $_GET['nums'] : '', isset($_GET['ajout']) ? $_GET['ajout'] : 0);
+    // Ajout via le formulaire : on redirige vers l'adresse canonique (?nums=…)
+    if (isset($_GET['ajout'])) Mini::redirect('/statistiques/detail?nums=' . $d['nums']);
+    return ['title' => 'Progression des commandants', 'detail' => $d];
+});
+
+# ARCHIVES (anciennes parties dans archive/<dossier>/, affichées dans une iframe)
+$app->get('/archives', 'pages/archives', function () {
+    return ['title' => 'Archives', 'archives' => Data::getArchives(), 'courante' => null];
+});
+$app->get('/archives/{nom}', 'pages/archives', function ($p) {
+    $archives = Data::getArchives();
+    foreach ($archives as $a) {
+        // Seuls les dossiers existants sont acceptés (pas de chemin arbitraire)
+        if ($a['nom'] === $p['nom']) return ['title' => 'Archives · ' . $a['nom'], 'archives' => $archives, 'courante' => $a];
+    }
+    Mini::abort(404);
+});
+
+# CONNEXION (identifiants de la console d'ordres)
+$app->any('/connexion', 'pages/connexion', function () {
+    $retour = url_retour(isset($_REQUEST['retour']) ? $_REQUEST['retour'] : '/');
+    if (Data::currentUser()) Mini::redirect($retour);
+    $erreur = false;
+    $login = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        Data::checkCsrf();
+        $login = isset($_POST['login']) ? (string) $_POST['login'] : '';
+        $password = isset($_POST['password']) ? (string) $_POST['password'] : '';
+        if (Data::login($login, $password)) Mini::redirect($retour);
+        $erreur = true;
+    }
+    return ['title' => 'Connexion', 'retour' => $retour, 'login' => $login, 'erreur' => $erreur];
+});
+$app->post('/deconnexion', null, function () {
+    Data::checkCsrf();
+    Data::logout();
+    Mini::redirect('/');
+});
+
+# MON COMPTE
+$app->get('/compte', 'pages/compte', function () {
+    $compte = Data::getCompte(exiger_connexion());
+    if (!$compte) Mini::abort(404);
+    return ['title' => 'Mon compte', 'compte' => $compte];
+});
+
+# RAPPORT : téléchargement du zip du commandant connecté (dernier tour, ou /rapport/{tour})
+$rapport = function ($p) {
+    $user = exiger_connexion();
+    list($fichier, $tour) = Data::rapportFichier($user, isset($p['tour']) ? $p['tour'] : 0);
+    if (!$fichier) Mini::abort(404, 'Aucun rapport disponible pour le tour ' . $tour . '.');
+
+    header('Content-Type: application/zip');
+    header('Content-Disposition: attachment; filename="' . basename($fichier) . '"');
+    header('Content-Length: ' . filesize($fichier));
+    header('Cache-Control: private, no-cache');
+    readfile($fichier);
+    exit;
+};
+$app->get('/rapport', null, $rapport);
+$app->get('/rapport/{tour:\d+}', null, $rapport);
+
+# FORUM
+$app->get('/forum', 'pages/forum/index', function () {
+    return ['title' => 'Forum', 'categories' => Data::forumIndex()];
+});
+$app->get('/forum/{id:\d+}', 'pages/forum/forum', function ($p) {
+    $forum = Data::forumGet($p['id']);
+    if (!$forum) Mini::abort(404);
+    return ['title' => $forum['nom'], 'forum' => $forum, 'sujets' => Data::forumSujets($forum['id'])];
+});
+// Nouveau sujet
+$app->any('/forum/{id:\d+}/new', 'pages/forum/edit', function ($p) {
+    $forum = Data::forumGet($p['id']);
+    if (!$forum) Mini::abort(404);
+    $user = exiger_connexion();
+    $form = ['titre' => '', 'corps' => ''];
+    $erreurs = [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        Data::checkCsrf();
+        $form = ['titre' => isset($_POST['titre']) ? (string) $_POST['titre'] : '', 'corps' => isset($_POST['corps']) ? (string) $_POST['corps'] : ''];
+        $r = Data::forumPoster($user, $forum['id'], 0, $form['titre'], $form['corps']);
+        if (isset($r['id'])) Mini::redirect('/forum/topic/' . $r['id']);
+        $erreurs = $r['erreurs'];
+        $form['corps'] = Data::forumCorps($form['corps']);
+    }
+    return ['title' => 'Nouveau sujet', 'forum' => $forum, 'avecTitre' => true, 'form' => $form, 'erreurs' => $erreurs,
+            'action' => '/forum/' . $forum['id'] . '/new', 'bouton' => 'Publier le sujet', 'annuler' => '/forum/' . $forum['id']];
+});
+// Sujet + réponse
+$app->any('/forum/topic/{id:\d+}', 'pages/forum/topic', function ($p) {
+    $erreurs = [];
+    $corps = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $user = exiger_connexion();
+        Data::checkCsrf();
+        $corps = isset($_POST['corps']) ? (string) $_POST['corps'] : '';
+        $r = Data::forumPoster($user, 0, (int) $p['id'], '', $corps);
+        if (isset($r['id'])) Mini::redirect('/forum/topic/' . (int) $p['id'] . '#post-' . $r['id']);
+        $erreurs = $r['erreurs'];
+        $corps = Data::forumCorps($corps);
+    }
+    $sujet = Data::forumSujet($p['id'], Data::currentUser());
+    if (!$sujet) Mini::abort(404);
+    return ['title' => $sujet['titre'], 'sujet' => $sujet, 'forum' => Data::forumGet($sujet['idForum']),
+            'erreurs' => $erreurs, 'form' => ['corps' => $corps]];
+});
+// Modifier un de ses messages
+$app->any('/forum/post/{id:\d+}/edit', 'pages/forum/edit', function ($p) {
+    $user = exiger_connexion();
+    $message = Data::forumMessage($p['id']);
+    if (!$message) Mini::abort(404);
+    if ($message['idAuteur'] !== $user['numero']) Mini::abort(403, "Vous n'êtes pas l'auteur de ce message.");
+    $form = ['titre' => $message['titre'], 'corps' => $message['corps']];
+    $erreurs = [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        Data::checkCsrf();
+        $form = ['titre' => isset($_POST['titre']) ? (string) $_POST['titre'] : '', 'corps' => isset($_POST['corps']) ? (string) $_POST['corps'] : ''];
+        $erreurs = Data::forumModifier($message, $form['titre'], $form['corps']);
+        if (!$erreurs) Mini::redirect('/forum/topic/' . $message['idSujet'] . '#post-' . $message['id']);
+        $form['corps'] = Data::forumCorps($form['corps']);
+    }
+    return ['title' => 'Modifier le message', 'forum' => Data::forumGet($message['idForum']), 'avecTitre' => $message['estSujet'],
+            'form' => $form, 'erreurs' => $erreurs, 'action' => '/forum/post/' . $message['id'] . '/edit',
+            'bouton' => 'Enregistrer', 'annuler' => '/forum/topic/' . $message['idSujet'] . '#post-' . $message['id']];
+});
+
+$app->get('/a-propos', 'about.html', ['title' => 'À propos']);
 
 
-        /* Container global */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            background-color: #000000;
-            padding: 15px;
-            font-family: 'Courier New', Courier, monospace; /* Style console/retro */
-            color: #e0e0e0;
-        }
-
-        /* Carte par critère */
-        .stat-card {
-            background-color: #050811;
-            border: 1px solid #00ffff; /* Cyan de ta bordure extérieure */
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-            padding: 10px;
-        }
-
-        .stat-card h2 {
-            color: #00ffff;
-            text-align: center;
-            margin: 0 0 10px 0;
-            font-size: 1.1em;
-            border-bottom: 1px dashed #00ffff;
-            padding-bottom: 5px;
-        }
-
-        /* Titles Top / Flop */
-        .section-top h3 {
-            color: #2bd849; /* Vert néon */
-            border-bottom: 1px solid #2bd849;
-            font-size: 0.9em;
-            margin: 10px 0 5px 0;
-        }
-
-        .section-flop h3 {
-            color: #fb5757; /* Rouge néon */
-            border-bottom: 1px solid #fb5757;
-            font-size: 0.9em;
-            margin: 15px 0 5px 0;
-        }
-
-        /* Listes */
-        ol {
-            padding-left: 20px;
-            margin: 0;
-        }
-
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 2px 0;
-            font-size: 0.85em;
-        }
-
-        .score-positif {
-            color: #2bd849;
-        }
-
-        .score-negatif {
-            color: #fb5757;
-        }
-
-        .score-neutre {
-            color: #888888;
-        }
-
-    </style>
-    <main>
-
-
-        <?php if($numeroTour>0){ ?>
-            <h1>Sheril, le jeu de stratégie au tour par tour</h1>
-
-            <blockquote>
-                « L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité pour fonder le
-                leur. »
-                Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après des siècles
-                de guerre totale et de mutations forcées sous les colonnes de radiations bleutées, l'ancien ordre cosmique
-                est tombé. À la tête de l'un des peuples mutants nés de cet enfer — stratèges hors pair, colosses de combat
-                ou maîtres des environnements hostiles —, prenez le contrôle du cosmos. Explorez des systèmes solaires
-                dévastés, développez votre empire, négociez vos alliances et subjuguez vos rivaux dans une lutte acharnée
-                pour la domination absolue de la galaxie.
-            </blockquote>
-
-            <div style="margin: 20px; display: flex; justify-content: center; gap: 40px">
-                <a class="btn" href="/races/histoire.php">Découvrir l'histoire</a>
-                <a class="btn" href="">Voir les statistiques</a>
-            </div>
-
-            <h2>DERNIERS MESSAGES DU FORUM  - <a href="/forum/">voir le forum</a></h2>
-            <div  style="grid-column: span 2; padding: 10px;">
-                <table class="forum-table" style="width: 100%;">
-                    <thead>
-                    <tr>
-                        <th style="text-align: left;">Sujet</th>
-                        <th style="text-align: left;">Forum</th>
-                        <th style="text-align: left;">Dernier auteur</th>
-                        <th style="text-align: right;">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($recent_messages as $msg): ?>
-                        <tr>
-                            <td>
-                                <a href="forum/view_topic.php?id=<?php echo $msg['target_topic_id']; ?>#post-<?php echo $msg['last_post_id']; ?>"
-                                >
-                                    <?php echo htmlspecialchars($msg['topic_title']); ?>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="forum/view_forum.php?id=<?php echo $msg['id_forum']; ?>" >
-                                    <?php echo htmlspecialchars($msg['forum_name']); ?>
-                                </a>
-                            </td>
-                            <td>
-                                <?php echo display_author($msg['NOM'], $msg['NUMERO'], $msg['RACE']); ?>
-                            </td>
-                            <td style="text-align: right; color: #888; font-size: 0.85em;">
-                                <?php echo format_date($msg['max_record']); ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-
-            <h2>Victoire par Mort Subite - <a href="/stats.php">voir les statistiques</a></h2>
-            <div class="stats-grid">
-                <!-- ÂGE D'OR -->
-                <div class="stat-card">
-                    <h2>👑 ÂGE D'OR</h2>
-                    <div class="section-top">
-                        <h3>TOP 5 - OBJECTIF 66%</h3>
-                        <ol>
-                            <?php foreach ($topAgeDor as $joueur): ?>
-                                <li>
-                                    <?php echo afficherJoueur($joueur); ?>
-                                    <?php echo afficherProgressionVictoire($joueur['pct_age_dor']); ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- EMPIRE GALACTIQUE -->
-                <div class="stat-card">
-                    <h2>🚀 EMPIRE GALACTIQUE</h2>
-                    <div class="section-top">
-                        <h3>TOP 5 - OBJECTIF 66%</h3>
-                        <ol>
-                            <?php foreach ($topEmpire as $joueur): ?>
-                                <li>
-                                    <?php echo afficherJoueur($joueur); ?>
-                                    <?php echo afficherProgressionVictoire($joueur['pct_empire_galactique']); ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <h2>Les Top/Flop du tour <?=$tourActuel?> - <a href="/stats.php">voir les statistiques</a></h2>
-
-            <div class="stats-grid">
-                <?php foreach ($criteres as $critere): ?>
-                    <div class="stat-card">
-                        <h2><?php echo strtoupper($labels[$critere]); ?></h2>
-
-                        <!-- TOP 5 -->
-                        <div class="section-top">
-                            <h3>TOP 5</h3>
-                            <ol>
-                                <?php foreach ($classements[$critere]['top'] as $joueur): ?>
-                                    <li>
-                                        <?php echo afficherJoueur($joueur); ?>
-                                        <?php echo afficherScore($joueur['d_' . $critere]); ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        </div>
-
-                        <!-- FLOP 5 -->
-                        <div class="section-flop">
-                            <h3>FLOP 5</h3>
-                            <ol>
-                                <?php foreach ($classements[$critere]['flop'] as $joueur): ?>
-                                    <li>
-                                        <?php echo afficherJoueur($joueur); ?>
-                                        <?php echo afficherScore($joueur['d_' . $critere]); ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php } else { ?>
-
-            <blockquote>
-                <?=include_markdown("./saison/2026-corylis/init.md")?>
-            </blockquote>
-
-        <?php } ?>
-    </main>
-<?php require_once './includes/bot.php'; ?>
+$app->run();

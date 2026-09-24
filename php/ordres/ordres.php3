@@ -3,7 +3,7 @@ $base="jeu.oceane";
 $langue="fr";
 $nom_page="ordres.php3";
 $nom_cookie="ordres";
-include "../mysql_compat.php";
+include "../script/mysql_compat.php";
 include "../script/aut.txt";
 
 ?><HTML lang="fr">

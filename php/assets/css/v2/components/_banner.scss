@@ -1,0 +1,41 @@
+@use "../abstracts" as *;
+
+// Bandeau d'information importante (victoire par mort subite)
+.banner {
+  display: flex;
+  align-items: center;
+  gap: $gap-cards;
+  height: 36px;
+  padding: 0 $padding-card;
+  border-radius: $radius-container;
+  @include type("body-ui");
+
+  &--warning {
+    background: token("feedback-warning-surface");
+    border: 1px solid token("feedback-warning-border");
+    color: token("feedback-warning-text-muted");
+
+    .banner__title { @include type("heading-section"); color: token("feedback-warning-text"); }
+    a { color: token("feedback-warning-text"); font-size: 12px; font-weight: 500; }
+  }
+
+  // Retour de formulaire : succès / erreurs (hauteur libre, peut contenir une liste)
+  &--positive,
+  &--negative {
+    height: auto;
+    padding: $gap-inline $padding-card;
+    ul { margin: 0; padding-left: 18px; }
+  }
+  &--positive {
+    background: tint("feedback-positive", 10%);
+    border: 1px solid tint("feedback-positive", 50%);
+    color: token("text-primary");
+  }
+  &--negative {
+    background: tint("feedback-negative", 10%);
+    border: 1px solid tint("feedback-negative", 50%);
+    color: token("text-primary");
+  }
+
+  &__text { flex-grow: 1; }
+}

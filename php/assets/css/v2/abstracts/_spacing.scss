@@ -1,0 +1,31 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+
+// -----------------------------------------------------------------------------
+// Espacements, rayons et gabarits (par rôle)
+// -----------------------------------------------------------------------------
+
+// Espacements
+$gap-tight:        4px  !default; // entre éléments très liés (titre + barre)
+$gap-inline:       8px  !default; // entre icône et texte, entre boutons
+$gap-cards:        12px !default; // gouttière entre cartes et entre blocs
+$padding-page:     16px !default; // marge autour du contenu
+$padding-card:     14px !default; // intérieur d'une carte
+$padding-hero:     22px 24px !default;
+$padding-control:  0 14px !default; // intérieur d'un bouton / badge
+
+// Rayons
+$radius-badge:     3px !default;
+$radius-control:   4px !default;
+$radius-container: 6px !default;
+
+// Hauteurs fixes (rythme vertical dense)
+$size-header:      52px !default;
+$size-nav:         40px !default;
+$size-card-header: 38px !default;
+$size-control:     32px !default;
+$size-control-lg:  36px !default;
+$size-table-row:   34px !default;
+$size-table-head:  26px !default;
+$size-avatar:      116px !default; // avatar du commandant dans l'en-tête
+
+$grid-columns:    12 !default;

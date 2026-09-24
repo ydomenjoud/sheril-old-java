@@ -12,17 +12,11 @@ if (file_exists($file_path)) {
     // 2. Récupérer le contenu (le numéro du tour)
     $numeroTour = intval(trim(file_get_contents($file_path)));
 
-    // 3. Récupérer la date de modification (timestamp)
-    $timestamp = filemtime($file_path);
-
-    // 4. Formater la date en français
-    $dateFormatee = date("d/m/Y", $timestamp);
-
     // 5. Générer le HTML
     $tour_information = sprintf(
             '<small>Dernier tour : %s, le %s - <a href="https://discord.gg/bdUtYSqrnK">rejoignez nous sur discord</a></small>',
             htmlspecialchars($numeroTour),
-            $dateFormatee
+            date("d/m/Y", filemtime($file_path))
     );
 }
 

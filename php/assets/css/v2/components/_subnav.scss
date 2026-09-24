@@ -1,0 +1,45 @@
+@use "../abstracts" as *;
+
+.sub-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: $gap-tight;
+  padding: $gap-inline $padding-page;
+  background: token("surface-inset");
+  border-bottom: 1px solid token("border-default");
+
+  a {
+    @include type("body-ui-strong");
+    font-size: 12px;
+    padding: $gap-tight $gap-inline;
+    border-radius: $radius-badge;
+    color: token("text-navigation");
+
+    &:hover { color: token("text-heading"); }
+
+    &[aria-current="page"] {
+      background: tint("brand", 12%);
+      color: token("brand");
+    }
+
+
+  }
+
+  // Variante compacte pour un long sommaire numéroté : défile plutôt que de
+  // passer à la ligne. <nav class="sub-nav sub-nav--scroll">
+  &--scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+    a { flex-shrink: 0; }
+  }
+
+  // Reste visible en haut de l'écran au défilement, sous l'en-tête principal.
+  &--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+}

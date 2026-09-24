@@ -1,0 +1,225 @@
+@use "../abstracts" as *;
+
+// Liens à gauche, statistique choisie dans l'iframe (pleine hauteur via .page-frame, cf. screen/_play)
+#stats {
+  gap: $gap-cards;
+  > aside {
+    flex: 0 0 220px;
+    overflow-y: auto;
+    padding: $gap-inline $padding-card $padding-card;
+    h3 { margin-top: $gap-cards; }
+    li a {
+      display: block;
+      padding: 3px 0;
+      @include type("body-ui");
+    }
+  }
+  .stats-archives {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap-tight $gap-inline;
+    li a { @include type("data"); }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  // Sur petit écran : liens au-dessus, iframe en dessous
+  body:has(#stats) { height: auto; }
+  #stats {
+    flex-direction: column;
+    > aside { flex: none; }
+    .page-frame { min-height: 80vh; }
+  }
+}
+
+// Classement général (dans l'iframe, gabarit layout_embed)
+body.embed { min-height: 0; }
+
+#stats-general {
+  display: grid;
+  gap: $gap-cards;
+  padding: $padding-page;
+
+  h1 { margin: 0; font-size: 22px; }
+
+  .stats-tours {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $gap-tight;
+    a {
+      min-width: 28px;
+      padding: 2px $gap-inline;
+      text-align: center;
+      border: 1px solid token("border-strong");
+      border-radius: $radius-badge;
+      @include type("data");
+      &[aria-current="page"] {
+        background: tint("brand", 12%);
+        border-color: token("brand");
+        color: token("brand");
+      }
+    }
+  }
+
+  // Tableau large : défilement horizontal dans son conteneur, colonne commandant figée
+  .stats-table {
+    overflow-x: auto;
+    border: 1px solid token("border-raised");
+    border-radius: $radius-container;
+  }
+  table { border-collapse: collapse; }
+  th, td { padding: 4px $gap-inline; white-space: nowrap; }
+  thead th {
+    border-bottom: 1px solid token("border-default");
+    a { color: inherit; }
+    a:hover { color: token("brand"); }
+    &[data-tri="asc"], &[data-tri="desc"] { color: token("brand"); }
+    &[data-tri="asc"] a::after { content: " ▲"; }
+    &[data-tri="desc"] a::after { content: " ▼"; }
+  }
+  .stats-col {
+    text-align: center;
+    border-left: 1px solid token("border-default");
+    color: token("text-heading");
+  }
+  th:nth-child(2), td:nth-child(2) {
+    position: sticky;
+    left: 0;
+    background: token("surface-card");
+    z-index: 1;
+  }
+  tbody tr:hover td { background: tint("brand", 6%); }
+  .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+  .stats-valeur {
+    @include type("data");
+    color: token("text-primary");
+    border-left: 1px solid token("border-subtle");
+  }
+  .stats-pv { @include type("data-emphasis"); color: token("brand"); }
+  .stats-delta {
+    @include type("data");
+    font-size: 11px;
+  }
+}
+
+// Progression comparée (/statistiques/detail)
+// Couleurs des séries : palette catégorielle de la skill dataviz (variante sombre), dans cet ordre.
+// Validée sur surface-card (#0f1620) : CVD ΔE ≥ 8,4 entre voisines, contraste ≥ 3:1.
+// La couleur suit l'emplacement du commandant (slot 1 à 8), jamais son rang.
+:root {
+  --stats-serie-1: #3987e5;
+  --stats-serie-2: #d95926;
+  --stats-serie-3: #199e70;
+  --stats-serie-4: #c98500;
+  --stats-serie-5: #d55181;
+  --stats-serie-6: #008300;
+  --stats-serie-7: #9085e9;
+  --stats-serie-8: #e66767;
+}
+@for $i from 1 through 8 {
+  .serie-#{$i} { background: var(--stats-serie-#{$i}); }
+}
+
+#stats-detail {
+  display: grid;
+  gap: $gap-cards;
+  padding: $padding-page;
+
+  h1 { margin: 0; font-size: 22px; }
+  > p { margin: 0; }
+
+  // Une seule rangée de filtres au-dessus des graphiques
+  .stats-compare {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $gap-inline;
+    ul { display: contents; }
+    .field select { min-width: 240px; }
+  }
+  .stats-puce {
+    display: inline-flex;
+    align-items: center;
+    gap: $gap-inline;
+    height: $size-control;
+    padding: 0 $gap-inline 0 $gap-cards;
+    border: 1px solid token("border-strong");
+    border-radius: $radius-control;
+    @include type("body-ui-strong");
+    a {
+      padding: 0 4px;
+      font-size: 16px;
+      line-height: 1;
+      color: token("text-tertiary");
+      &:hover { color: token("feedback-negative"); }
+    }
+  }
+  // Clé de légende : un trait, comme la marque (ligne)
+  .stats-cle {
+    display: inline-block;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .stats-graphes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: $gap-cards;
+    figure { margin: 0; }
+  }
+  .stats-graphe {
+    position: relative;
+    height: 240px;
+    padding: $gap-inline;
+  }
+
+  .stats-donnees {
+    summary {
+      padding: $gap-inline $padding-card;
+      cursor: pointer;
+      @include type("body-ui-strong");
+    }
+    .stats-table { border: 0; border-top: 1px solid token("border-default"); border-radius: 0; }
+  }
+  .stats-table { overflow-x: auto; }
+  table { border-collapse: collapse; }
+  th, td { padding: 3px $gap-inline; white-space: nowrap; }
+  .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+  td.numeric { @include type("data"); }
+}
+
+@media screen and (max-width: 500px) {
+  #stats-detail .stats-graphes { grid-template-columns: 1fr; }
+}
+
+.stats-infobulle {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  min-width: 160px;
+  padding: $gap-inline $gap-cards;
+  background: token("surface-header");
+  border: 1px solid token("border-strong");
+  border-radius: $radius-control;
+  &__titre {
+    margin-bottom: $gap-tight;
+    @include type("column-label");
+    color: token("text-tertiary");
+  }
+  &__ligne {
+    display: flex;
+    align-items: center;
+    gap: $gap-inline;
+    @include type("body-ui");
+    color: token("text-secondary");
+    strong { @include type("data-emphasis"); color: token("text-heading"); }
+  }
+  &__cle {
+    flex: none;
+    width: 12px;
+    height: 2px;
+    border-radius: 1px;
+  }
+}

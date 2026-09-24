@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="stats">
+        <aside class="card" aria-label="Choix des statistiques">
+            {% for groupe in groupes %}
+                <h2>{{ groupe.titre }}</h2>
+                <ul class="unstyled-list">
+                    {% for lien in groupe.liens %}
+                        <li><a href="{{ lien.url }}" target="stats-detail">{{ lien.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+            <h2>Archives</h2>
+            <ul class="stats-archives unstyled-list">
+                {% for a in archives %}
+                    <li><a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.label }}</a></li>
+                {% endfor %}
+            </ul>
+        </aside>
+        <iframe class="page-frame" name="stats-detail" src="/statistiques/general" title="Statistiques"></iframe>
+    </main>
+{% endblock %}

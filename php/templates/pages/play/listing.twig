@@ -1,0 +1,44 @@
+{% extends "pages/play/_layout.twig" %}
+
+{% block play %}
+    <section class="card" id="registre">
+        <header>
+            <h1>Registre · {{ registre.total }} commandant{% if registre.total > 1 %}s{% endif %}</h1>
+            <a href="/play/register">s'inscrire</a>
+        </header>
+        {% if registre.races %}
+            <ul class="race-count" aria-label="Répartition par race">
+                {% for race in registre.races %}
+                    <li class="badge"><span class="race{{ race.id }}">{{ race.nom }}</span> {{ race.nb }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <article>
+            <table>
+                <thead>
+                <tr>
+                    <th class="numeric">N°</th>
+                    <th>Commandant</th>
+                    <th>Race</th>
+                    <th class="numeric">Arrivé au tour</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if not registre.joueurs %}
+                    <tr>
+                        <td colspan="4">Aucun commandant inscrit pour le moment.</td>
+                    </tr>
+                {% endif %}
+                {% for joueur in registre.joueurs %}
+                    <tr>
+                        <td class="numeric">{{ joueur.numero }}</td>
+                        <td class="race{{ joueur.race }}">{{ joueur.nom }}</td>
+                        <td class="race{{ joueur.race }}">{{ joueur.raceNom }}</td>
+                        <td class="numeric">{{ joueur.tourArrivee }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock %}

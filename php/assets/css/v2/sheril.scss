@@ -1,0 +1,29 @@
+// =============================================================================
+// SHERIL — Design system sémantique (SCSS)
+//
+// Trois couches, du plus brut au plus métier. On ne saute jamais une couche :
+//
+//   1. PALETTE      valeurs brutes, nommées par teinte (ink-800, cyan-400…)
+//   2. TOKENS       rôles d'usage (surface-card, text-secondary, action-primary…)
+//                   → exportés en variables CSS `--sheril-*` (thème modifiable
+//                   à l'exécution, ex. thème clair ou autre accent)
+//   3. COMPOSANTS   n'utilisent QUE des tokens, jamais la palette
+//
+// Pour re-thémer : ne toucher qu'à la couche 2 (ou surcharger les `--sheril-*`).
+//
+// Polices à charger dans le <head> :
+// https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap
+// =============================================================================
+
+// Ordre = ordre de sortie dans le CSS. Ce fichier ne contient QUE des @use.
+@use "base/root";
+@use "base/elements";
+@use "base/layout";
+@use "components";
+@use "screen/home";
+@use "screen/lore";
+@use "screen/rule";
+@use "screen/play";
+@use "screen/forum";
+@use "screen/stats";
+@use "screen/compte";

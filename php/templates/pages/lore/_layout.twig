@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="lore">
+        <nav>
+            <a href="/lore/presentation">Présentation</a>
+            <a href="/lore/histoire">Histoire</a>
+            <a href="/lore/fremen">Fremen</a>
+            <a href="/lore/atalante">Aalante</a>
+            <a href="/lore/zwaia">Zwaia</a>
+            <a href="/lore/yoksor">Yoksor</a>
+            <a href="/lore/fergok">Fergok</a>
+        </nav>
+        {% block lore %}
+        {% endblock %}
+    </main>
+{% endblock %}

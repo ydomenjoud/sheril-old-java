@@ -1,0 +1,21 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="rule">
+
+        <nav>
+        {% for key,value in chapters %}
+            <a href="/rule/{{ key }}"> {{ value }}</a>
+        {% endfor %}
+        </nav>
+
+        <div class="card">
+            <header>
+                <h1>{{  title  }}</h1>
+            </header>
+            <article>
+                {{  content | raw }}
+            </article>
+        </div>
+    </main>
+{% endblock %}
