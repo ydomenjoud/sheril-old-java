@@ -11,9 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3311:3306'
-    expose:
-      - '3311'
     volumes:
+      - db_data:/var/lib/mysql
       - ./divers/base_sheril.sql:/docker-entrypoint-initdb.d/base_sheril.sql
 
   console:
@@ -35,3 +34,6 @@ services:
     entrypoint: ["tail", "-f", "/dev/null"] # Maintient le conteneur actif en tâche de fond
     depends_on:
       - db
+
+volumes:
+  db_data:

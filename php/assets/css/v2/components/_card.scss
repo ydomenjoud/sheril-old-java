@@ -48,6 +48,20 @@
 
   // Carte de mise en avant en deux colonnes (héros)
   &--feature { flex-direction: row; }
+
+    // Carte ambre : alerte, objectif
+  &--warning {
+    background: token("feedback-warning-surface");
+    border-color: token("feedback-warning-border");
+    color: token("feedback-warning-text-muted");
+
+    header {
+      background: tint("feedback-warning", 10%);
+      border-bottom-color: token("feedback-warning-border");
+      color: token("feedback-warning-text");
+    }
+    a { color: token("feedback-warning-text"); }
+  }
 }
 
 .card-grid {

@@ -620,7 +620,7 @@ WHERE rank_age_dor <= 5
     /** Connexion avec les identifiants de la console d'ordres (table aa_registre). */
     static function login($login, $password)
     {
-        $stmt = self::$pdo->prepare('SELECT NUMERO, NOM, ADRESSE, RACE, theme FROM aa_registre WHERE LOGIN = :l AND MOT_DE_PASSE = :p');
+        $stmt = self::$pdo->prepare('SELECT r.NUMERO, r.NOM, r.ADRESSE, r.RACE, c.theme FROM aa_registre r LEFT JOIN aa_configuration c ON c.NUMERO = r.NUMERO WHERE r.LOGIN = :l AND r.MOT_DE_PASSE = :p');
         $stmt->execute(['l' => trim($login), 'p' => trim($password)]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) return false;
@@ -657,7 +657,7 @@ WHERE rank_age_dor <= 5
 
     /* ------------------------------------------------------------------ *
      *  Thème : feuille assets/css/v2/themes/<nom>.css chargée après sheril.css,
-     *  choix du commandant connecté enregistré dans aa_registre.theme
+     *  choix du commandant connecté enregistré dans aa_configuration.theme
      *  (copié en session pour ne pas relire la base à chaque page)
      * ------------------------------------------------------------------ */
 
@@ -674,7 +674,7 @@ WHERE rank_age_dor <= 5
         if (empty($_SESSION['commandant_num'])) return null;
         // Lu en base pour les sessions ouvertes avant l'ajout des thèmes
         if (!array_key_exists('commandant_theme', $_SESSION)) {
-            $stmt = self::$pdo->prepare('SELECT theme FROM aa_registre WHERE NUMERO = :n');
+            $stmt = self::$pdo->prepare('SELECT theme FROM aa_configuration WHERE NUMERO = :n');
             $stmt->execute(['n' => (int) $_SESSION['commandant_num']]);
             $_SESSION['commandant_theme'] = $stmt->fetchColumn() ?: null;
         }
@@ -685,7 +685,7 @@ WHERE rank_age_dor <= 5
     static function setTheme($user, $nom)
     {
         $nom = self::themeExiste($nom) ? $nom : null;
-        $stmt = self::$pdo->prepare('UPDATE aa_registre SET theme = :t WHERE NUMERO = :n');
+        $stmt = self::$pdo->prepare('INSERT INTO aa_configuration (NUMERO, theme) VALUES (:n, :t) ON DUPLICATE KEY UPDATE theme = VALUES(theme)');
         $stmt->execute(['t' => $nom, 'n' => $user['numero']]);
         $_SESSION['commandant_theme'] = $nom;
     }

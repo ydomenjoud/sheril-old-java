@@ -1187,5 +1187,10 @@ create index idx_classement_techno
 create index idx_progression
     on _statistiques (numero, tour);
 
-ALTER TABLE aa_registre
-    ADD COLUMN theme VARCHAR(255) NULL;
+-- Préférences du commandant sur le site (une ligne par commandant, créée au premier réglage)
+create table aa_configuration
+(
+    NUMERO int          not null
+        primary key,
+    theme  varchar(255) null
+);

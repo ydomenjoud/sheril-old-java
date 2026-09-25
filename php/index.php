@@ -302,7 +302,7 @@ $app->any('/forum/post/{id:\d+}/edit', 'pages/forum/edit', function ($p) {
 $app->get('/a-propos', 'about.html', ['title' => 'À propos']);
 
 # THÈME (pas de lien dans l'interface pour l'instant : URL à donner aux testeurs)
-// Réservé aux commandants connectés, choix enregistré en base (aa_registre.theme).
+// Réservé aux commandants connectés, choix enregistré en base (aa_configuration.theme).
 // /theme/violet active le thème, /theme/defaut revient au thème d'origine ; ?retour=/page pour revenir ailleurs qu'à l'accueil
 $app->get('/theme/{nom}', null, function ($p) {
     Data::setTheme(exiger_connexion(), $p['nom']);

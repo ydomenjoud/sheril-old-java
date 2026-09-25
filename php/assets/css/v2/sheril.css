@@ -626,6 +626,19 @@ body > header > nav > details > summary {
 .card--feature {
   flex-direction: row;
 }
+.card--warning {
+  background: var(--sheril-feedback-warning-surface);
+  border-color: var(--sheril-feedback-warning-border);
+  color: var(--sheril-feedback-warning-text-muted);
+}
+.card--warning header {
+  background: color-mix(in srgb, var(--sheril-feedback-warning) 10%, transparent);
+  border-bottom-color: var(--sheril-feedback-warning-border);
+  color: var(--sheril-feedback-warning-text);
+}
+.card--warning a {
+  color: var(--sheril-feedback-warning-text);
+}
 
 .card-grid {
   display: grid;

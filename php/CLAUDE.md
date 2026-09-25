@@ -163,7 +163,7 @@ ni structure ne suffit.
 Formulaires : composant `components/_form.scss` (`<form class="form">` + `<label class="field">`),
 retours via `.banner--positive` / `.banner--negative`.
 Thèmes : `themes/<nom>.scss` → `themes/<nom>.css` (compilé à part, ne redéfinit que des `--sheril-*`),
-chargé après `sheril.css` pour le commandant connecté dont `aa_registre.theme` le désigne. Choix par `/theme/<nom>` (connexion requise)
+chargé après `sheril.css` pour le commandant connecté dont `aa_configuration.theme` (table `aa_configuration`, clé `NUMERO`) le désigne. Choix par `/theme/<nom>` (connexion requise)
 (`/theme/defaut` pour revenir), sans lien dans l'interface pour l'instant ; logique dans `Data::theme()` / `Data::setTheme()`.
 
 ## Contraintes
