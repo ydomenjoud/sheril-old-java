@@ -2,239 +2,272 @@
 
 {% block content %}
     <main id="home">
-    <section class="card card--feature" id="jumbotron" aria-labelledby="titre-jeu">
-        <aside>
-            <p class="eyebrow">4X spatial · tour par tour</p>
-            <h1>Sheril, le jeu de stratégie au tour par tour</h1>
-            <cite>« L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité pour fonder le leur. »</cite>
-        </aside>
-        <article>
-            <p>Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après des siècles de guerre totale et de mutations forcées sous les colonnes de radiations bleutées, l'ancien ordre cosmique est tombé. À la tête de l'un des peuples mutants nés de cet enfer — stratèges hors pair, colosses de combat ou maîtres des environnements hostiles —, prenez le contrôle du cosmos. Explorez des systèmes solaires dévastés, développez votre empire, négociez vos alliances et subjuguez vos rivaux dans une lutte acharnée pour la domination absolue de la galaxie.</p>
-            <div class="button-group">
-                <a class="button button--primary button--large" href="/lore/histoire">Découvrir l'histoire</a>
-                <a class="button button--secondary button--large" href="/statistiques">Voir les statistiques</a>
-                <a class="button button--secondary button--large" href="/play/register">S'inscrire</a>
-            </div>
-        </article>
-    </section>
+        {% if gazette %}
+            {# Commandant connecté : début de la dernière gazette à la place de la présentation du jeu #}
+            <section class="card card--feature" id="jumbotron" aria-labelledby="titre-gazette">
+                <aside>
+                    <p class="eyebrow">La gazette galactique</p>
+                    <h1 id="titre-gazette">Gazette {{ gameName }} tour {{ gazette.tour }}</h1>
+                    {% if gazette.sous_titre %}<cite>{{ gazette.sous_titre }}</cite>{% endif %}
+                </aside>
+                <article>
+                    <div>{{ gazette.extrait|raw }}</div>
+                    <div class="button-group">
+                        <a class="button button--primary button--large" href="{{ gazette.url }}">Lire la gazette en
+                            entier</a>
+                    </div>
+                </article>
+            </section>
+        {% else %}
+            <section class="card card--feature" id="jumbotron" aria-labelledby="titre-jeu">
+                <aside>
+                    <p class="eyebrow">4X spatial · tour par tour</p>
+                    <h1>Sheril, le jeu de stratégie au tour par tour</h1>
+                    <cite>« L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité
+                        pour fonder le leur. »</cite>
+                </aside>
+                <article>
+                    <p>Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après
+                        des siècles de guerre totale et de mutations forcées sous les colonnes de radiations bleutées,
+                        l'ancien ordre cosmique est tombé. À la tête de l'un des peuples mutants nés de cet enfer -
+                        stratèges hors pair, colosses de combat ou maîtres des environnements hostiles -, prenez le
+                        contrôle du cosmos. Explorez des systèmes solaires dévastés, développez votre empire, négociez
+                        vos alliances et subjuguez vos rivaux dans une lutte acharnée pour la domination absolue de la
+                        galaxie.</p>
+                    <div class="button-group">
+                        <a class="button button--primary button--large" href="/lore/histoire">Découvrir l'histoire</a>
+                        <a class="button button--secondary button--large" href="/statistiques">Voir les statistiques</a>
+                        <a class="button button--secondary button--large" href="/play/register">S'inscrire</a>
+                    </div>
+                </article>
+            </section>
+        {% endif %}
 
-    <section id="fast-nav" class="card" >
-        <header>Accès rapide</header>
-        <article>
-            <nav>
-                <a href="/statistiques">
-                    <svg class="icon icon--medium" aria-hidden="true"><use href="#i-chart"/></svg>
-                    Voir les stats
-                </a>
-                <a href="/rapport">
-                    <svg class="icon icon--medium" aria-hidden="true"><use href="#i-download"/></svg>
-                    Télécharger son rapport
-                </a>
-                <a class="button--primary" href="/ordres/ordres.php3">
-                    <svg class="icon icon--medium icon--on-primary" aria-hidden="true"><use href="#i-send"/></svg>
-                    Passer ses ordres
-                </a>
-                <a href="/rapports/images.zip">
-                    <svg class="icon icon--medium" aria-hidden="true"><use href="#i-image"/></svg>
-                    Images du rapport
-                </a>
-            </nav>
-        </article>
-    </section>
+        <section id="fast-nav" class="card">
+            <header>Accès rapide</header>
+            <article>
+                <nav>
+                    <a href="/statistiques">
+                        <svg class="icon icon--medium" aria-hidden="true">
+                            <use href="#i-chart"/>
+                        </svg>
+                        Voir les stats
+                    </a>
+                    <a href="/rapport">
+                        <svg class="icon icon--medium" aria-hidden="true">
+                            <use href="#i-download"/>
+                        </svg>
+                        Télécharger son rapport
+                    </a>
+                    <a class="button--primary" href="/ordres/ordres.php3">
+                        <svg class="icon icon--medium icon--on-primary" aria-hidden="true">
+                            <use href="#i-send"/>
+                        </svg>
+                        Passer ses ordres
+                    </a>
+                    <a href="/rapports/images.zip">
+                        <svg class="icon icon--medium" aria-hidden="true">
+                            <use href="#i-image"/>
+                        </svg>
+                        Images du rapport
+                    </a>
+                </nav>
+            </article>
+        </section>
 
-    <section id="forum-last-msg" class="card">
-        <header>
-            Derniers messages du forum
-            <a href="/forum">voir le forum</a>
-        </header>
-        <article>
-            <table>
-                <thead>
-                <tr>
-                    <th style="width: 70px">Forum</th>
-                    <th>Sujet</th>
-                    <th style="width: 20%">Auteur</th>
-                    <th style="width: 140px">Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for msg in data.recentMessages %}
+        <section id="forum-last-msg" class="card">
+            <header>
+                Derniers messages du forum
+                <a href="/forum">voir le forum</a>
+            </header>
+            <article>
+                <table>
+                    <thead>
                     <tr>
-                        <td>
-                            <a href="/forum/{{ msg.id_forum }}" class="badge">
-                                {{ strstr(msg.forum_name, ']', true) }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="/forum/topic/{{ msg.target_topic_id }}#post-{{ msg.last_post_id }}">
-                                {{ msg.topic_title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ afficherJoueur(["race"=>msg.RACE, "nom"=>msg.NOM , "numero"=>msg.NUMERO] )|raw }}
-                        </td>
-                        <td>
-                            <time datetime="2026-09-21T15:30">{{ format_date(msg.max_record) }}</time>
-                        </td>
+                        <th style="width: 70px">Forum</th>
+                        <th>Sujet</th>
+                        <th style="width: 20%">Auteur</th>
+                        <th style="width: 140px">Date</th>
                     </tr>
-                {% endfor %}
+                    </thead>
+                    <tbody>
+                    {% for msg in data.recentMessages %}
+                        <tr>
+                            <td>
+                                <a href="/forum/{{ msg.id_forum }}" class="badge">
+                                    {{ strstr(msg.forum_name, ']', true) }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/forum/topic/{{ msg.target_topic_id }}#post-{{ msg.last_post_id }}">
+                                    {{ msg.topic_title }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ afficherJoueur(["race"=>msg.RACE, "nom"=>msg.NOM , "numero"=>msg.NUMERO] )|raw }}
+                            </td>
+                            <td>
+                                <time datetime="2026-09-21T15:30">{{ format_date(msg.max_record) }}</time>
+                            </td>
+                        </tr>
+                    {% endfor %}
 
-                </tbody>
-            </table>
-        </article>
-    </section>
+                    </tbody>
+                </table>
+            </article>
+        </section>
 
-    <section id="victoire" class="card card--warning">
-        <header>% Victoire</header>
-        <article class="split">
-            <table>
-                <caption>Âge d'or</caption>
-                <thead>
-                <tr>
-                    <th style="width: 20px"></th>
-                    <th>Joueur</th>
-                    <th style="width: 90px">Niveau</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for joueur in data.topAgeDor %}
+        <section id="victoire" class="card card--warning">
+            <header>% Victoire</header>
+            <article class="split">
+                <table>
+                    <caption>Âge d'or</caption>
+                    <thead>
                     <tr>
-                        <th>{{ loop.index }}</th>
-                        <td>{{ afficherJoueur(joueur)|raw }}</td>
-                        <td>{{ afficherProgressionVictoire(joueur.pct_age_dor)|raw }}</td>
+                        <th style="width: 20px"></th>
+                        <th>Joueur</th>
+                        <th style="width: 90px">Niveau</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <table>
-                <caption>Empire Galactique</caption>
-                <thead>
-                <tr>
-                    <th style="width: 20px"></th>
-                    <th>Commandant</th>
-                    <th style="width: 90px">Planètes</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for joueur in data.topEmpire %}
+                    </thead>
+                    <tbody>
+                    {% for joueur in data.topAgeDor %}
+                        <tr>
+                            <th>{{ loop.index }}</th>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherProgressionVictoire(joueur.pct_age_dor)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Empire Galactique</caption>
+                    <thead>
                     <tr>
-                        <th>{{ loop.index }}</th>
-                        <td>{{ afficherJoueur(joueur)|raw }}</td>
-                        <td>{{ afficherProgressionVictoire(joueur.pct_empire_galactique)|raw }}</td>
+                        <th style="width: 20px"></th>
+                        <th>Commandant</th>
+                        <th style="width: 90px">Planètes</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </article>
-    </section>
+                    </thead>
+                    <tbody>
+                    {% for joueur in data.topEmpire %}
+                        <tr>
+                            <th>{{ loop.index }}</th>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherProgressionVictoire(joueur.pct_empire_galactique)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+        </section>
 
 
-    <section id="topflop" class="card">
-        <header>Top / Flop du tour <a href="/statistiques">Voir les stats</a></header>
-        <article class="split">
-            <table>
-                <caption>CENTAURES</caption>
-                <thead>
-                <tr>
-                    <th colspan="2" class="positive">
-                        <span aria-hidden="true">▲</span>
-                        Top 5
-                    </th>
-                    <th colspan="2" class="negative">
-                        <span aria-hidden="true">▼</span>
-                        Flop 5
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for joueur in data.classements.centaure.top %}
+        <section id="topflop" class="card">
+            <header>Top / Flop du tour <a href="/statistiques">Voir les stats</a></header>
+            <article class="split">
+                <table>
+                    <caption>CENTAURES</caption>
+                    <thead>
                     <tr>
-                        <td>{{ afficherJoueur(joueur)|raw }}</td>
-                        <td>{{ afficherScore(joueur.d_centaure)|raw }}</td>
-                        <td>{{ afficherJoueur(data.classements.centaure.flop[loop.index-1])|raw }}</td>
-                        <td>{{ afficherScore(data.classements.centaure.flop[loop.index-1].d_centaure)|raw }}</td>
+                        <th colspan="2" class="positive">
+                            <span aria-hidden="true">▲</span>
+                            Top 5
+                        </th>
+                        <th colspan="2" class="negative">
+                            <span aria-hidden="true">▼</span>
+                            Flop 5
+                        </th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <table>
-                <caption>Planètes</caption>
-                <thead>
-                <tr>
-                    <th colspan="2" class="positive">
-                        <span aria-hidden="true">▲</span>
-                        Top 5
-                    </th>
-                    <th colspan="2" class="negative">
-                        <span aria-hidden="true">▼</span>
-                        Flop 5
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for joueur in data.classements.planetes.top %}
-                <tr>
-                    <td>{{ afficherJoueur(joueur)|raw }}</td>
-                    <td>{{ afficherScore(joueur.d_planetes)|raw }}</td>
-                    <td>{{ afficherJoueur(data.classements.planetes.flop[loop.index-1])|raw }}</td>
-                    <td>{{ afficherScore(data.classements.planetes.flop[loop.index-1].d_planetes)|raw }}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <table>
-                <caption>Population</caption>
-                <thead>
-                <tr>
-                    <th colspan="2" class="positive">
-                        <span aria-hidden="true">▲</span>
-                        Top 5
-                    </th>
-                    <th colspan="2" class="negative">
-                        <span aria-hidden="true">▼</span>
-                        Flop 5
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
+                    {% for joueur in data.classements.centaure.top %}
+                        <tr>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherScore(joueur.d_centaure)|raw }}</td>
+                            <td>{{ afficherJoueur(data.classements.centaure.flop[loop.index-1])|raw }}</td>
+                            <td>{{ afficherScore(data.classements.centaure.flop[loop.index-1].d_centaure)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Planètes</caption>
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="positive">
+                            <span aria-hidden="true">▲</span>
+                            Top 5
+                        </th>
+                        <th colspan="2" class="negative">
+                            <span aria-hidden="true">▼</span>
+                            Flop 5
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for joueur in data.classements.planetes.top %}
+                        <tr>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherScore(joueur.d_planetes)|raw }}</td>
+                            <td>{{ afficherJoueur(data.classements.planetes.flop[loop.index-1])|raw }}</td>
+                            <td>{{ afficherScore(data.classements.planetes.flop[loop.index-1].d_planetes)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Population</caption>
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="positive">
+                            <span aria-hidden="true">▲</span>
+                            Top 5
+                        </th>
+                        <th colspan="2" class="negative">
+                            <span aria-hidden="true">▼</span>
+                            Flop 5
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                {% for joueur in data.classements.pop_syst.top %}
+                    {% for joueur in data.classements.pop_syst.top %}
+                        <tr>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherScore(joueur.d_pop_syst)|raw }}</td>
+                            <td>{{ afficherJoueur(data.classements.pop_syst.flop[loop.index-1])|raw }}</td>
+                            <td>{{ afficherScore(data.classements.pop_syst.flop[loop.index-1].d_pop_syst)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table>
+                    <caption>Points de victoire</caption>
+                    <thead>
                     <tr>
-                        <td>{{ afficherJoueur(joueur)|raw }}</td>
-                        <td>{{ afficherScore(joueur.d_pop_syst)|raw }}</td>
-                        <td>{{ afficherJoueur(data.classements.pop_syst.flop[loop.index-1])|raw }}</td>
-                        <td>{{ afficherScore(data.classements.pop_syst.flop[loop.index-1].d_pop_syst)|raw }}</td>
+                        <th colspan="2" class="positive">
+                            <span aria-hidden="true">▲</span>
+                            Top 5
+                        </th>
+                        <th colspan="2" class="negative">
+                            <span aria-hidden="true">▼</span>
+                            Flop 5
+                        </th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <table>
-                <caption>Points de victoire</caption>
-                <thead>
-                <tr>
-                    <th colspan="2" class="positive">
-                        <span aria-hidden="true">▲</span>
-                        Top 5
-                    </th>
-                    <th colspan="2" class="negative">
-                        <span aria-hidden="true">▼</span>
-                        Flop 5
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
 
-                {% for joueur in data.classements.pv.top %}
-                    <tr>
-                        <td>{{ afficherJoueur(joueur)|raw }}</td>
-                        <td>{{ afficherScore(joueur.d_pv)|raw }}</td>
-                        <td>{{ afficherJoueur(data.classements.pv.flop[loop.index-1])|raw }}</td>
-                        <td>{{ afficherScore(data.classements.pv.flop[loop.index-1].d_pv)|raw }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </article>
-    </section>
+                    {% for joueur in data.classements.pv.top %}
+                        <tr>
+                            <td>{{ afficherJoueur(joueur)|raw }}</td>
+                            <td>{{ afficherScore(joueur.d_pv)|raw }}</td>
+                            <td>{{ afficherJoueur(data.classements.pv.flop[loop.index-1])|raw }}</td>
+                            <td>{{ afficherScore(data.classements.pv.flop[loop.index-1].d_pv)|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+        </section>
     </main>
 {% endblock %}

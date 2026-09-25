@@ -68,6 +68,7 @@ $app->get('/api/xxx', null, function () { return [...]; });
 
 ```
 layout.twig                 → gabarit HTML global (head, header, nav principale, footer, sprite d'icônes SVG)
+                              ; logo = symbole `#i-logo` (vaisseau), repris dans assets/img/favicon.svg (à garder synchronisés)
 layout_embed.twig           → gabarit minimal (head + CSS, sans en-tête) des pages affichées dans une iframe du site
 pages/home.twig             → accueil
 pages/lore/_layout.twig     → sous-gabarit du lore (sous-navigation) : bloc `lore`
@@ -89,6 +90,10 @@ pages/stats/detail.twig     → /statistiques/detail?nums=3,,7 : progression com
                               un commandant retiré laisse sa place vide pour que les autres gardent leur couleur
 pages/archives.twig         → /archives et /archives/{dossier} : sous-menu d'un lien par dossier de archive/
                               (Data::getArchives, plus récent d'abord) + iframe .page-frame vers /archive/<dossier>/
+pages/gazette.twig          → /gazette/{tour} (connecté) : gazette complète + sous-menu des tours ; /gazette → la dernière.
+                              Fichiers saison/<Data::$saison>/gazette/gazette_<partie>_tour_<n>.md (facultatifs, un par tour,
+                              Data::getGazettes) ; l'accueil connecté remplace le jumbotron par le début de la dernière
+                              (Data::getGazetteUne : sous-titre ## + première rubrique après le 1er ---, deux paragraphes)
 pages/compte.twig           → /compte (connecté) : fiche du commandant, statistiques, liens, déconnexion
 pages/connexion.twig        → connexion avec les identifiants de la console d'ordres
 pages/play/tool.twig        → outil d'aide : iframe pleine hauteur (.page-frame) vers https://ydomenjoud.github.io/test-interface-sheril/

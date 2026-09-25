@@ -562,6 +562,70 @@ WHERE rank_age_dor <= 5
     }
 
     /* ------------------------------------------------------------------ *
+     *  Gazette : un fichier saison/<saison>/gazette/gazette_<partie>_tour_<n>.md par tour (facultatif)
+     * ------------------------------------------------------------------ */
+
+    static $saison = '2026-corylis';
+
+    /** Gazettes de la saison, la plus récente d'abord : [['tour', 'url', 'fichier'], …]. */
+    static function getGazettes()
+    {
+        $dir = __DIR__ . '/../saison/' . self::$saison . '/gazette';
+        $gazettes = [];
+        foreach (is_dir($dir) ? scandir($dir) : [] as $n) {
+            if (preg_match('/^gazette_.*_tour_(\d+)\.md$/', $n, $m)) {
+                $gazettes[(int) $m[1]] = ['tour' => (int) $m[1], 'url' => '/gazette/' . $m[1], 'fichier' => $dir . '/' . $n];
+            }
+        }
+        krsort($gazettes);
+        return array_values($gazettes);
+    }
+
+    /**
+     * Début de la dernière gazette, pour l'accueil : ['tour', 'url', 'sous_titre', 'extrait' (HTML)] ou null.
+     * Sous-titre = premier titre ## avant le premier séparateur ---, extrait = début de la première rubrique
+     * (ses titres + deux paragraphes).
+     */
+    static function getGazetteUne()
+    {
+        $gazettes = self::getGazettes();
+        if (!$gazettes) return null;
+        $g = $gazettes[0];
+
+        $sousTitre = '';
+        $extrait = [];
+        $separateurs = 0;
+        $paragraphes = 0;
+        $dansParagraphe = false;
+        foreach (preg_split('/\R/', file_get_contents($g['fichier'])) as $ligne) {
+            $t = trim($ligne);
+            if (preg_match('/^-{3,}$/', $t)) {
+                if (++$separateurs > 1) break;
+                continue;
+            }
+            if ($separateurs === 0) {
+                if ($sousTitre === '' && preg_match('/^##\s+(.+)$/', $t, $m)) $sousTitre = $m[1];
+                continue;
+            }
+            if ($t === '') {
+                if ($dansParagraphe && ++$paragraphes >= 2) break;
+                $dansParagraphe = false;
+            } elseif ($t[0] !== '#') {
+                $dansParagraphe = true;
+            }
+            $extrait[] = $ligne;
+        }
+
+        $parsedown = new Parsedown();
+        return [
+            'tour' => $g['tour'],
+            'url' => $g['url'],
+            'sous_titre' => trim(html_entity_decode(strip_tags($parsedown->line($sousTitre)), ENT_QUOTES, 'UTF-8')),
+            'extrait' => $parsedown->text(implode("\n", $extrait)),
+        ];
+    }
+
+    /* ------------------------------------------------------------------ *
      *  Session : commandant connecté, jeton anti-CSRF
      * ------------------------------------------------------------------ */
 

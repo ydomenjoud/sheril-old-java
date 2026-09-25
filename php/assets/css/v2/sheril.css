@@ -2455,4 +2455,71 @@ body.embed {
   color: var(--sheril-text-tertiary);
 }
 
+#gazette {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#gazette > nav {
+  border-radius: 6px;
+}
+#gazette .card > article {
+  padding: 14px;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+#gazette .card > article h1 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--sheril-text-heading);
+  text-align: center;
+}
+#gazette .card > article h2 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-text-heading);
+  margin-top: 14px;
+}
+#gazette .card > article h3 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-brand);
+}
+#gazette .card > article hr {
+  border: 0;
+  border-top: 1px solid var(--sheril-border-default);
+  margin: 14px 0;
+}
+
+#home #jumbotron:has(#titre-gazette) article {
+  gap: 12px;
+}
+#home #jumbotron:has(#titre-gazette) article h2 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-text-tertiary);
+  margin: 0;
+}
+#home #jumbotron:has(#titre-gazette) article h3 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheril-text-heading);
+}
+
 /*# sourceMappingURL=sheril.css.map */

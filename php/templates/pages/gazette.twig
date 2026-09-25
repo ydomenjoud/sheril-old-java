@@ -1,0 +1,24 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="gazette">
+        <nav aria-label="Gazettes de la partie">
+            {# Menu déroulant en mobile (le bouton affiche la gazette courante) ; en bureau, liens à plat #}
+            <details>
+            <summary>Tour {{ courante.tour }}</summary>
+            {% for g in gazettes %}
+                <a href="{{ g.url }}"{% if g.tour == courante.tour %} aria-current="page"{% endif %}>Tour {{ g.tour }}</a>
+            {% endfor %}
+            </details>
+        </nav>
+
+        <article class="card">
+            <header>
+                <h1>Gazette {{ gameName }} · tour {{ courante.tour }}</h1>
+            </header>
+            <article>
+                {{ content|raw }}
+            </article>
+        </article>
+    </main>
+{% endblock %}

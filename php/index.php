@@ -76,7 +76,14 @@ function exiger_connexion()
 /* ---------- Routes : chemin, template, données ---------- */
 $articles = [];
 // Données statiques
-$app->get('/', 'pages/home', ['title' => 'Accueil', 'data' => Data::getHomeData()]);
+$app->get('/', 'pages/home', function () {
+    return [
+        'title' => 'Accueil',
+        'data' => Data::getHomeData(),
+        // Jumbotron : début de la dernière gazette pour un commandant connecté
+        'gazette' => Data::currentUser() ? Data::getGazetteUne() : null,
+    ];
+});
 # LORE
 $app->get('/lore/presentation', 'pages/lore/presentation', ['title' => 'Présentation']);
 $app->get('/lore/histoire', 'pages/lore/histoire', ['title' => 'Histoire']);
@@ -177,6 +184,28 @@ $app->get('/statistiques/detail', 'pages/stats/detail', function () {
     return ['title' => 'Progression des commandants', 'detail' => $d];
 });
 
+# GAZETTE (saison/<saison>/gazette/*.md, une par tour, réservée aux commandants connectés)
+$app->get('/gazette', null, function () {
+    exiger_connexion();
+    $gazettes = Data::getGazettes();
+    if (!$gazettes) Mini::abort(404);
+    Mini::redirect($gazettes[0]['url']);
+});
+$app->get('/gazette/{tour:\d+}', 'pages/gazette', function ($p) {
+    exiger_connexion();
+    $gazettes = Data::getGazettes();
+    foreach ($gazettes as $g) {
+        if ($g['tour'] === (int) $p['tour']) {
+            return [
+                'title' => 'Gazette · tour ' . $g['tour'],
+                'gazettes' => $gazettes,
+                'courante' => $g,
+                'content' => include_markdown($g['fichier']),
+            ];
+        }
+    }
+    Mini::abort(404);
+});
 # ARCHIVES (anciennes parties dans archive/<dossier>/, affichées dans une iframe)
 $app->get('/archives', 'pages/archives', function () {
     return ['title' => 'Archives', 'archives' => Data::getArchives(), 'courante' => null];
