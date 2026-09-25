@@ -92,8 +92,9 @@ pages/archives.twig         → /archives et /archives/{dossier} : sous-menu d'u
                               (Data::getArchives, plus récent d'abord) + iframe .page-frame vers /archive/<dossier>/
 pages/gazette.twig          → /gazette/{tour} (connecté) : gazette complète + sous-menu des tours ; /gazette → la dernière.
                               Fichiers saison/<Data::$saison>/gazette/gazette_<partie>_tour_<n>.md (facultatifs, un par tour,
-                              Data::getGazettes) ; l'accueil connecté remplace le jumbotron par le début de la dernière
-                              (Data::getGazetteUne : sous-titre ## + première rubrique après le 1er ---, deux paragraphes)
+                              Data::getGazettes) ; l'accueil connecté remplace le jumbotron par une carte
+                              « Gazette galactique » avec le début de la dernière (Data::getGazetteUne : première rubrique
+                              après le 1er ---, deux paragraphes)
 pages/compte.twig           → /compte (connecté) : fiche du commandant, statistiques, liens, déconnexion
 pages/connexion.twig        → connexion avec les identifiants de la console d'ordres
 pages/play/tool.twig        → outil d'aide : iframe pleine hauteur (.page-frame) vers https://ydomenjoud.github.io/test-interface-sheril/

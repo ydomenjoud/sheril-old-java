@@ -1,0 +1,27 @@
+@use "../abstracts" as *;
+
+// Gazette : sous-menu des tours au-dessus, gazette complète dans une carte
+#gazette {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-cards;
+  > nav { border-radius: $radius-container; }
+  .card > article {
+    padding: $padding-card;
+    @include type("body-long");
+    h1 { @include type("heading-page"); color: token("text-heading"); text-align: center; }
+    h2 { @include type("heading-section"); color: token("text-heading"); margin-top: $padding-card; }
+    h3 { @include type("heading-block"); color: token("brand"); }
+    hr { border: 0; border-top: 1px solid token("border-default"); margin: $padding-card 0; }
+  }
+}
+
+// Accueil (connecté) : extrait de la gazette dans le jumbotron, titres ramenés à la taille du texte
+#home #jumbotron:has(#titre-gazette) article {
+  gap: $gap-inline;
+  padding: $padding-card;
+  h2 { @include type("heading-block"); color: token("text-tertiary"); margin: 0; }
+  h3 { @include type("heading-block"); color: token("text-heading"); margin: 0; }
+  // Texte compact pour afficher un extrait plus long
+  p { @include type("body-ui"); font-size: 12px; margin: 0 0 $gap-tight; }
+}

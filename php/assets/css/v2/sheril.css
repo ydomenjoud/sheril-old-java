@@ -24,6 +24,7 @@
   --sheril-action-primary: #56d4ee;
   --sheril-action-primary-hover: #9be7f6;
   --sheril-action-on-primary: #04212a;
+  --sheril-action-on-primary-icon: #9c27b0;
   --sheril-focus-ring: #56d4ee;
   --sheril-feedback-positive: #2bd849;
   --sheril-feedback-negative: #fb5757;
@@ -817,7 +818,7 @@ table__cell--numeric {
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
-  color: var(--sheril-brand);
+  color: var(--sheril-text-important);
 }
 .icon--small {
   width: 16px;
@@ -848,7 +849,7 @@ table__cell--numeric {
   color: var(--sheril-feedback-warning);
 }
 .icon--on-primary {
-  color: var(--sheril-action-on-primary);
+  color: var(--sheril-action-on-primary-icon);
 }
 
 .badge {
@@ -2502,7 +2503,8 @@ body.embed {
 }
 
 #home #jumbotron:has(#titre-gazette) article {
-  gap: 12px;
+  gap: 8px;
+  padding: 14px;
 }
 #home #jumbotron:has(#titre-gazette) article h2 {
   font-family: "Chakra Petch", "Segoe UI", sans-serif;
@@ -2515,11 +2517,20 @@ body.embed {
 }
 #home #jumbotron:has(#titre-gazette) article h3 {
   font-family: "Chakra Petch", "Segoe UI", sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--sheril-text-heading);
+  margin: 0;
+}
+#home #jumbotron:has(#titre-gazette) article p {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  font-size: 12px;
+  margin: 0 0 4px;
 }
 
 /*# sourceMappingURL=sheril.css.map */

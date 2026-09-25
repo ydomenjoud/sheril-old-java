@@ -8,7 +8,7 @@
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
-  color: token("brand");
+  color: token("text-important");
 
   // Tailles
   &--small  { width: 16px; height: 16px; }
@@ -21,5 +21,5 @@
   &--positive   { color: token("feedback-positive"); }
   &--negative   { color: token("feedback-negative"); }
   &--warning    { color: token("feedback-warning"); }
-  &--on-primary { color: token("action-on-primary"); }
+  &--on-primary { color: token("action-on-primary-icon"); }
 }

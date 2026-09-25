@@ -4,12 +4,11 @@
     <main id="home">
         {% if gazette %}
             {# Commandant connecté : début de la dernière gazette à la place de la présentation du jeu #}
-            <section class="card card--feature" id="jumbotron" aria-labelledby="titre-gazette">
-                <aside>
-                    <p class="eyebrow">La gazette galactique</p>
-                    <h1 id="titre-gazette">Gazette {{ gameName }} tour {{ gazette.tour }}</h1>
-                    {% if gazette.sous_titre %}<cite>{{ gazette.sous_titre }}</cite>{% endif %}
-                </aside>
+            <section class="card" id="jumbotron" aria-labelledby="titre-gazette">
+                <header>
+                    <h1 id="titre-gazette">Gazette galactique</h1>
+                    <a href="{{ gazette.url }}">{{ gameName }} · tour {{ gazette.tour }}</a>
+                </header>
                 <article>
                     <div>{{ gazette.extrait|raw }}</div>
                     <div class="button-group">

@@ -582,8 +582,8 @@ WHERE rank_age_dor <= 5
     }
 
     /**
-     * Début de la dernière gazette, pour l'accueil : ['tour', 'url', 'sous_titre', 'extrait' (HTML)] ou null.
-     * Sous-titre = premier titre ## avant le premier séparateur ---, extrait = début de la première rubrique
+     * Début de la dernière gazette, pour l'accueil : ['tour', 'url', 'extrait' (HTML)] ou null.
+     * Extrait = début de la première rubrique après le premier séparateur ---
      * (ses titres + deux paragraphes).
      */
     static function getGazetteUne()
@@ -592,7 +592,6 @@ WHERE rank_age_dor <= 5
         if (!$gazettes) return null;
         $g = $gazettes[0];
 
-        $sousTitre = '';
         $extrait = [];
         $separateurs = 0;
         $paragraphes = 0;
@@ -603,10 +602,7 @@ WHERE rank_age_dor <= 5
                 if (++$separateurs > 1) break;
                 continue;
             }
-            if ($separateurs === 0) {
-                if ($sousTitre === '' && preg_match('/^##\s+(.+)$/', $t, $m)) $sousTitre = $m[1];
-                continue;
-            }
+            if ($separateurs === 0) continue;
             if ($t === '') {
                 if ($dansParagraphe && ++$paragraphes >= 2) break;
                 $dansParagraphe = false;
@@ -620,7 +616,6 @@ WHERE rank_age_dor <= 5
         return [
             'tour' => $g['tour'],
             'url' => $g['url'],
-            'sous_titre' => trim(html_entity_decode(strip_tags($parsedown->line($sousTitre)), ENT_QUOTES, 'UTF-8')),
             'extrait' => $parsedown->text(implode("\n", $extrait)),
         ];
     }
