@@ -23,7 +23,7 @@
                     </dl>
                     <nav class="button-group" aria-label="Actions du compte">
                         <a class="button button--primary" href="/play/console">Passer ses ordres</a>
-                        <a class="button button--secondary" href="/statistiques/detail?nums={{ compte.numero }}">Ma progression</a>
+                        <a class="button button--secondary" href="/statistiques?page=/statistiques/detail%3Fnums%3D{{ compte.numero }}">Ma progression</a>
                         <form method="post" action="/deconnexion">
                             <input type="hidden" name="csrf" value="{{ csrf }}">
                             <button class="button button--secondary" type="submit">Se déconnecter</button>

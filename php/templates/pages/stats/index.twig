@@ -18,12 +18,15 @@
                 {% endfor %}
             </ul>
         </aside>
-        <iframe class="page-frame" name="stats-detail" src="/statistiques/general" title="Statistiques"></iframe>
+        <iframe class="page-frame" name="stats-detail" src="{{ cadre }}" title="Statistiques"></iframe>
         <script>
-            // Lien actif : le premier (classement général) au chargement, puis celui qu'on clique
+            // Lien actif : celui de la page ouverte dans l'iframe au chargement, puis celui qu'on clique
             (function () {
                 var liens = document.querySelectorAll('#stats > aside a[target="stats-detail"]');
-                liens[0].setAttribute('aria-current', 'page');
+                var cadre = document.querySelector('#stats > iframe').getAttribute('src');
+                liens.forEach(function (a) {
+                    if (a.getAttribute('href') === cadre) a.setAttribute('aria-current', 'page');
+                });
                 liens.forEach(function (a) {
                     a.addEventListener('click', function () {
                         liens.forEach(function (l) { l.removeAttribute('aria-current'); });

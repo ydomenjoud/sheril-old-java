@@ -10,6 +10,14 @@
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/css/v2/sheril.css">
     <title>{{ title }}</title>
+    {% if parent %}
+        {# Ouverte hors de son iframe (lien direct) : on recharge la page parente avec cette page dans l'iframe #}
+        <script>
+            if (window.top === window.self) {
+                location.replace('{{ parent }}?page=' + encodeURIComponent(location.pathname + location.search));
+            }
+        </script>
+    {% endif %}
 </head>
 <body class="embed">
     {% block content %}

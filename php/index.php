@@ -162,8 +162,13 @@ $app->any('/play/register', 'pages/play/register', function () {
 });
 
 # STATISTIQUES (pages générées par le moteur dans stats/, affichées dans une iframe comme l'ancien stats.php)
+// ?page=<chemin> : page à ouvrir dans l'iframe (lien direct vers /statistiques/detail depuis /compte…)
 $app->get('/statistiques', 'pages/stats/index', function () {
-    return ['title' => 'Statistiques'] + Data::getStatsLiens();
+    $page = isset($_GET['page']) ? (string) $_GET['page'] : '';
+    if (!preg_match('#^/(statistiques|stats)/[\w./?=&,%-]*$#', $page) || strpos($page, '..') !== false) {
+        $page = '/statistiques/general';
+    }
+    return ['title' => 'Statistiques', 'cadre' => $page] + Data::getStatsLiens();
 });
 
 // Classement général, affiché dans l'iframe de /statistiques (gabarit sans en-tête)
@@ -173,7 +178,7 @@ $app->get('/statistiques/general', 'pages/stats/general', function () {
         isset($_GET['tri']) ? (string) $_GET['tri'] : '',
         isset($_GET['ordre']) ? (string) $_GET['ordre'] : ''
     );
-    return ['title' => 'Classement général · tour ' . $s['tour'], 'stats' => $s];
+    return ['title' => 'Classement général · tour ' . $s['tour'], 'stats' => $s, 'parent' => '/statistiques'];
 });
 
 // Progression comparée de commandants, affichée dans l'iframe de /statistiques
@@ -181,7 +186,7 @@ $app->get('/statistiques/detail', 'pages/stats/detail', function () {
     $d = Data::getStatsDetail(isset($_GET['nums']) ? $_GET['nums'] : '', isset($_GET['ajout']) ? $_GET['ajout'] : 0);
     // Ajout via le formulaire : on redirige vers l'adresse canonique (?nums=…)
     if (isset($_GET['ajout'])) Mini::redirect('/statistiques/detail?nums=' . $d['nums']);
-    return ['title' => 'Progression des commandants', 'detail' => $d];
+    return ['title' => 'Progression des commandants', 'detail' => $d, 'parent' => '/statistiques'];
 });
 
 # GAZETTE (saison/<saison>/gazette/*.md, une par tour, réservée aux commandants connectés)

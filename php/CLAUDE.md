@@ -83,7 +83,9 @@ pages/forum/_layout.twig    → sous-gabarit du forum : fil d'Ariane (main > nav
 pages/forum/index.twig      → catégories et forums ; forum.twig → sujets d'un forum ; topic.twig → messages + réponse
 pages/forum/edit.twig       → nouveau sujet / modification d'un message ; _editor.twig → éditeur Quill (CDN jsdelivr)
 pages/stats/index.twig      → /statistiques : liens (Data::getStatsLiens) + iframe .page-frame, repris de stats.php
-                              (pages générées par le moteur dans stats/*.htm, archives stats/statsT<n>.zip)
+                              (pages générées par le moteur dans stats/*.htm, archives stats/statsT<n>.zip) ;
+                              ?page=<chemin local> choisit la page de l'iframe. Les pages embarquées dont la route
+                              passe 'parent' (general, detail) se rechargent dans /statistiques?page=… si ouvertes seules
 pages/stats/general.twig    → /statistiques/general : classement général triable (Data::getStatsGeneral), dans l'iframe
 pages/stats/detail.twig     → /statistiques/detail?nums=3,,7 : progression comparée (Data::getStatsDetail) avec Chart.js
                               (assets/js/stats-detail.js) ; chaque position de nums = une couleur --stats-serie-N,

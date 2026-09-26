@@ -877,12 +877,12 @@ public class Planete implements Serializable {
 		if (calculeMaxPopDeBase(race) == 0)
 			return 0;
 		int retour;
-		retour = 1
+		retour = 6
 				+ (type / 10)
 				+ (calculeMaxPopDeBase(race) / 800)
 				+ (terraformation * 3)
 				+ (Const.RACES_ATMOSPHERES[race][atmosphere]/2)
-//				+ Const.RACES_CARACTERISTIQUES[race][Const.RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION]
+				+ Const.RACES_CARACTERISTIQUES[race][Const.RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION]
 		;
 		return Math.max(retour, 1);
 	}
