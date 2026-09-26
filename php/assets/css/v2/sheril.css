@@ -381,6 +381,8 @@ body > header > a img {
   position: relative;
   width: auto;
   height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
   transition: transform 0.15s;
 }
 body > header > a:hover img {
@@ -1982,6 +1984,7 @@ body.embed {
 #compte figure img {
   width: 160px;
   height: 160px;
+  object-fit: cover;
   border-radius: 6px;
   background: var(--sheril-surface-inset);
   border: 1px solid var(--sheril-border-raised);
@@ -1994,6 +1997,12 @@ body.embed {
 }
 #compte section > div {
   flex: 1 1 300px;
+}
+#compte section + section {
+  border-top: 1px solid var(--sheril-border-subtle);
+}
+#compte section > form {
+  flex: 1 1 100%;
 }
 #compte h2 {
   margin-top: 0;

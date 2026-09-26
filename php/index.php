@@ -246,10 +246,29 @@ $app->post('/deconnexion', null, function () {
 });
 
 # MON COMPTE
-$app->get('/compte', 'pages/compte', function () {
-    $compte = Data::getCompte(exiger_connexion());
+// POST : envoi (action=avatar) ou suppression (action=avatar-supprimer) de l'avatar personnalisé
+$app->any('/compte', 'pages/compte', function () {
+    $user = exiger_connexion();
+    $erreurs = [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Envoi plus gros que post_max_size : PHP vide $_POST et $_FILES
+        if (!$_POST && !empty($_SERVER['CONTENT_LENGTH'])) {
+            $erreurs = ["L'image dépasse 200 ko."];
+        } else {
+            Data::checkCsrf();
+            $action = isset($_POST['action']) ? $_POST['action'] : '';
+            if ($action === 'avatar-supprimer') {
+                Data::supprimerAvatar($user);
+                Mini::redirect('/compte?avatar=supprime');
+            }
+            $erreurs = Data::setAvatar($user, isset($_FILES['avatar']) ? $_FILES['avatar'] : null);
+            if (!$erreurs) Mini::redirect('/compte?avatar=enregistre');
+        }
+    }
+    $compte = Data::getCompte(Data::currentUser());
     if (!$compte) Mini::abort(404);
-    return ['title' => 'Mon compte', 'compte' => $compte];
+    return ['title' => 'Mon compte', 'compte' => $compte, 'erreurs' => $erreurs,
+            'avatarMessage' => isset($_GET['avatar']) ? $_GET['avatar'] : null];
 });
 
 # RAPPORT : téléchargement du zip du commandant connecté (dernier tour, ou /rapport/{tour})

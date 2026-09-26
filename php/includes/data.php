@@ -639,7 +639,7 @@ WHERE rank_age_dor <= 5
             'numero' => (int) $_SESSION['commandant_num'],
             'nom' => isset($_SESSION['commandant_nom']) ? $_SESSION['commandant_nom'] : '',
             'race' => $race,
-            'avatar' => '/assets/img/avatar/' . (isset(self::$avatars[$race]) ? self::$avatars[$race] : 'cyborg') . '.png',
+            'avatar' => self::avatarUrl($_SESSION['commandant_num'], $race),
         ];
     }
 
@@ -672,6 +672,7 @@ WHERE rank_age_dor <= 5
             'email' => $r['ADRESSE'],
             'tourArrivee' => (int) $r['TOUR_ARRIVEE'],
             'avatar' => $user['avatar'],
+            'avatarPerso' => self::avatarFichier($user['numero']) !== null,
             'profil' => $profil,
         ];
     }
@@ -885,6 +886,73 @@ WHERE rank_age_dor <= 5
     // Avatar de chaque race (assets/img/avatar/), indexé par numéro de race
     static $avatars = [0 => 'fremen', 1 => 'atalante', 2 => 'zwaia', 3 => 'yoksor', 4 => 'fergok', 5 => 'cyborg'];
 
+    /* ------------------------------------------------------------------ *
+     *  Avatar personnalisé : fichier avatars/<numéro>.<png|jpg|gif> envoyé
+     *  depuis « Mon compte », sinon avatar de la race
+     * ------------------------------------------------------------------ */
+
+    const AVATAR_TAILLE_MAX = 200;         // largeur et hauteur max, en pixels
+    const AVATAR_POIDS_MAX = 204800;       // 200 ko
+    static $avatarTypes = [IMAGETYPE_PNG => 'png', IMAGETYPE_JPEG => 'jpg', IMAGETYPE_GIF => 'gif'];
+
+    private static function avatarDossier()
+    {
+        return __DIR__ . '/../avatars';
+    }
+
+    /** Chemin du fichier d'avatar personnalisé du commandant, ou null. */
+    private static function avatarFichier($numero)
+    {
+        foreach (self::$avatarTypes as $ext) {
+            $f = self::avatarDossier() . '/' . (int) $numero . '.' . $ext;
+            if (is_file($f)) return $f;
+        }
+        return null;
+    }
+
+    /** URL de l'avatar du commandant : personnalisé (avec la date du fichier contre le cache) ou celui de sa race. */
+    static function avatarUrl($numero, $race)
+    {
+        $f = self::avatarFichier($numero);
+        if ($f) return '/avatars/' . basename($f) . '?v=' . filemtime($f);
+        return '/assets/img/avatar/' . (isset(self::$avatars[$race]) ? self::$avatars[$race] : 'cyborg') . '.png';
+    }
+
+    /**
+     * Enregistre l'avatar envoyé ($_FILES['avatar']) : PNG, JPEG ou GIF, 200×200 px et 200 ko au plus.
+     * Renvoie la liste des erreurs (vide si enregistré).
+     */
+    static function setAvatar($user, $fichier)
+    {
+        if (!$fichier || !isset($fichier['error']) || $fichier['error'] === UPLOAD_ERR_NO_FILE) return ['Choisissez une image.'];
+        if (in_array($fichier['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE]) || $fichier['size'] > self::AVATAR_POIDS_MAX) {
+            return ["L'image dépasse 200 ko."];
+        }
+        if ($fichier['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($fichier['tmp_name'])) return ["L'envoi de l'image a échoué, réessayez."];
+
+        $info = @getimagesize($fichier['tmp_name']);
+        if (!$info || !isset(self::$avatarTypes[$info[2]])) return ["Format non reconnu : l'image doit être en PNG, JPEG ou GIF."];
+        if ($info[0] > self::AVATAR_TAILLE_MAX || $info[1] > self::AVATAR_TAILLE_MAX) {
+            return ["L'image mesure {$info[0]}×{$info[1]} pixels : 200×200 au maximum."];
+        }
+
+        $dossier = self::avatarDossier();
+        if (!is_dir($dossier) && !@mkdir($dossier, 0775)) return ["Impossible d'enregistrer l'image (dossier avatars absent)."];
+        $cible = $dossier . '/' . $user['numero'] . '.' . self::$avatarTypes[$info[2]];
+        $ancien = self::avatarFichier($user['numero']);
+        if (!@move_uploaded_file($fichier['tmp_name'], $cible)) return ["Impossible d'enregistrer l'image."];
+        @chmod($cible, 0644);
+        if ($ancien && $ancien !== $cible) @unlink($ancien);
+        return [];
+    }
+
+    /** Supprime l'avatar personnalisé : retour à l'avatar de la race. */
+    static function supprimerAvatar($user)
+    {
+        $f = self::avatarFichier($user['numero']);
+        if ($f) @unlink($f);
+    }
+
     /**
      * Profil affiché à gauche des messages, par numéro de commandant : avatar et nom de race,
      * statistiques du dernier tour connu, nombre de messages sur le forum.
@@ -899,7 +967,7 @@ WHERE rank_age_dor <= 5
         foreach (self::$pdo->query("SELECT NUMERO, RACE FROM aa_registre WHERE NUMERO IN ($in)") as $r) {
             $race = (int) $r['RACE'];
             $profils[(int) $r['NUMERO']] = [
-                'avatar' => '/assets/img/avatar/' . (isset(self::$avatars[$race]) ? self::$avatars[$race] : 'cyborg') . '.png',
+                'avatar' => self::avatarUrl($r['NUMERO'], $race),
                 'race' => isset(self::$races[$race]) ? self::$races[$race] : '',
                 'stats' => [],
                 'tour' => null,

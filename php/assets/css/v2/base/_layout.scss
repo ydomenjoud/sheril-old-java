@@ -49,6 +49,8 @@ body {
         position: relative;
         width: auto;
         height: 100%;
+        aspect-ratio: 1;
+        object-fit: cover; // avatar personnalisé pas forcément carré
         transition: transform 0.15s;
       }
       &:hover img { transform: scale(1.05); }
