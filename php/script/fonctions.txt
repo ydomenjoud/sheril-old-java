@@ -113,20 +113,16 @@ function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200')
     $k = array_keys($t);
     // Récupération de la valeur postée une seule fois pour plus de clarté
     $postedValue = isset($_POST[$nv]) ? $_POST[$nv] : null;
-    $selected = '';
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];
+        $selected = '';
 
+        // Comparaison en chaînes : en PHP 5, "minerai" == 0 est vrai
         if ($multiple) {
-            // Cas multiple : on vérifie si la clé appartient au tableau
-            if (is_array($postedValue) && in_array($j, $postedValue)) $selected = 'selected ';
+            // Cas multiple : on vérifie si la clé appartient au tableau posté
+            if (is_array($postedValue) && in_array((string)$j, array_map('strval', $postedValue), true)) $selected = 'selected ';
         } else {
-            // Cas simple : comparaison classique
-            if ($postedValue!==null && $postedValue == $j && $selected=='' ) {
-                $selected = 'selected ';
-            } else {
-                $selected = '';
-            }
+            if ($postedValue !== null && !is_array($postedValue) && (string)$postedValue === (string)$j) $selected = 'selected ';
         }
 
         echo("<option ".$selected." VALUE=\"$j\">$t[$j]</option>");
