@@ -267,8 +267,15 @@ $app->any('/compte', 'pages/compte', function () {
     }
     $compte = Data::getCompte(Data::currentUser());
     if (!$compte) Mini::abort(404);
-    return ['title' => 'Mon compte', 'compte' => $compte, 'erreurs' => $erreurs,
+    return ['title' => 'Mon compte', 'commandant' => $compte, 'erreurs' => $erreurs,
             'avatarMessage' => isset($_GET['avatar']) ? $_GET['avatar'] : null];
+});
+
+# FICHE PUBLIQUE D'UN COMMANDANT (liens du registre)
+$app->get('/commandant/{numero:\d+}', 'pages/commandant', function ($p) {
+    $commandant = Data::getCommandant($p['numero']);
+    if (!$commandant) Mini::abort(404);
+    return ['title' => $commandant['nom'], 'commandant' => $commandant];
 });
 
 # RAPPORT : téléchargement du zip du commandant connecté (dernier tour, ou /rapport/{tour})

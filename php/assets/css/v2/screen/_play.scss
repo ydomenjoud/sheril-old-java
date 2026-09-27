@@ -55,6 +55,17 @@
     width: 1%;
     white-space: nowrap;
   }
+  // 2e colonne : avatar (personnalisé ou de race) en vignette ; avatar et nom mènent à la fiche du commandant
+  tr > :nth-child(2) { width: 30px; }
+  td a { color: inherit; }
+  td img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: $radius-container;
+    border: 1px solid token("border-raised");
+  }
 }
 
 // Inscription : formulaire + inscriptions en attente côte à côte

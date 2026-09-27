@@ -18,6 +18,7 @@
                 <thead>
                 <tr>
                     <th class="numeric">N°</th>
+                    <th><span class="visually-hidden">Avatar</span></th>
                     <th>Commandant</th>
                     <th>Race</th>
                     <th class="numeric">Arrivé au tour</th>
@@ -26,13 +27,14 @@
                 <tbody>
                 {% if not registre.joueurs %}
                     <tr>
-                        <td colspan="4">Aucun commandant inscrit pour le moment.</td>
+                        <td colspan="5">Aucun commandant inscrit pour le moment.</td>
                     </tr>
                 {% endif %}
                 {% for joueur in registre.joueurs %}
                     <tr>
                         <td class="numeric">{{ joueur.numero }}</td>
-                        <td class="race{{ joueur.race }}">{{ joueur.nom }}</td>
+                        <td><a href="/commandant/{{ joueur.numero }}"><img src="{{ joueur.avatar }}" alt="" width="30" height="30" loading="lazy"></a></td>
+                        <td class="race{{ joueur.race }}"><a href="/commandant/{{ joueur.numero }}">{{ joueur.nom }}</a></td>
                         <td class="race{{ joueur.race }}">{{ joueur.raceNom }}</td>
                         <td class="numeric">{{ joueur.tourArrivee }}</td>
                     </tr>

@@ -76,7 +76,8 @@ pages/lore/*.twig           → pages du lore (présentation, histoire, une page
 pages/rule/page.twig        → un seul template pour tous les chapitres des règles
 pages/play/_layout.twig     → sous-gabarit de la section « Jouer » (sans sous-navigation) : bloc `play`
 pages/play/index.twig       → accueil de « Jouer » : tuiles vers les sous-parties + explication du tour
-pages/play/listing.twig     → registre des commandants (Data::getRegistre)
+pages/play/listing.twig     → registre des commandants (Data::getRegistre) : colonne de l'avatar (30×30, perso ou de race) après le N°,
+                              liens vers /commandant/{numero}
 pages/play/register.twig    → inscription : formulaire (Data::inscrire → aa_inscription) + inscriptions en attente
 pages/play/console.twig     → console d'ordres : iframe pleine hauteur (.page-frame) vers /ordres/ (ancienne console)
 pages/forum/_layout.twig    → sous-gabarit du forum : fil d'Ariane (main > nav, bloc `ariane`) + bloc `forum`
@@ -97,7 +98,9 @@ pages/gazette.twig          → /gazette/{tour} (connecté) : gazette complète 
                               Data::getGazettes) ; l'accueil connecté remplace le jumbotron par une carte
                               « Gazette galactique » avec le début de la dernière (Data::getGazetteUne : première rubrique
                               après le 1er ---, deux paragraphes)
-pages/compte.twig           → /compte (connecté) : fiche du commandant, statistiques, liens, déconnexion
+pages/compte.twig           → /compte (connecté) : fiche du commandant, statistiques, liens, déconnexion, avatar
+pages/commandant.twig       → /commandant/{numero} : fiche publique (sans e-mail), liée depuis le registre
+pages/_commandant.twig      → fiche partagée par ces deux pages (Data::getCommandant) ; `pageCompte` choisit les boutons
 pages/connexion.twig        → connexion avec les identifiants de la console d'ordres
 pages/play/tool.twig        → outil d'aide : iframe pleine hauteur (.page-frame) vers https://ydomenjoud.github.io/test-interface-sheril/
 ```

@@ -2,7 +2,7 @@
 <P><h1>Fusionner mes flottes</h1>
 <BR>
 Fusionner mes flottes
-<?php select1("v0",$t0, 'select', true); ?>
+<?php select1("v0",$t0, 'select', true, '200', false); ?>
  avec la directive
 <?php select1("v1",$t1); ?>
 

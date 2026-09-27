@@ -44,6 +44,7 @@ class Data
                 'race' => $race,
                 'raceNom' => isset(self::$races[$race]) ? self::$races[$race] : 'Inconnue (' . $race . ')',
                 'tourArrivee' => (int) $row['TOUR_ARRIVEE'],
+                'avatar' => self::avatarUrl($row['NUMERO'], $race),
             ];
             if (isset($effectifs[$race])) $effectifs[$race]++;
         }
@@ -655,26 +656,36 @@ WHERE rank_age_dor <= 5
         return [is_file($fichier) ? $fichier : null, $tour];
     }
 
-    /** Page « Mon compte » : fiche du commandant, statistiques du dernier tour. */
-    static function getCompte($user)
+    /**
+     * Fiche publique d'un commandant (/commandant/{numero}) : identité, avatar, statistiques
+     * du dernier tour ; null s'il n'existe pas. $avecEmail : e-mail inclus (page « Mon compte » uniquement).
+     */
+    static function getCommandant($numero, $avecEmail = false)
     {
         $stmt = self::$pdo->prepare('SELECT NOM, RACE, NUMERO, TOUR_ARRIVEE, ADRESSE FROM aa_registre WHERE NUMERO = :n');
-        $stmt->execute(['n' => $user['numero']]);
+        $stmt->execute(['n' => (int) $numero]);
         $r = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$r) return null;
-        $profils = self::forumProfils([$user['numero']]);
-        $profil = isset($profils[$user['numero']]) ? $profils[$user['numero']] : null;
+        $numero = (int) $r['NUMERO'];
+        $race = (int) $r['RACE'];
+        $profils = self::forumProfils([$numero]);
         return [
             'nom' => $r['NOM'],
-            'numero' => (int) $r['NUMERO'],
-            'race' => (int) $r['RACE'],
-            'raceNom' => isset(self::$races[(int) $r['RACE']]) ? self::$races[(int) $r['RACE']] : '',
-            'email' => $r['ADRESSE'],
+            'numero' => $numero,
+            'race' => $race,
+            'raceNom' => isset(self::$races[$race]) ? self::$races[$race] : '',
+            'email' => $avecEmail ? $r['ADRESSE'] : null,
             'tourArrivee' => (int) $r['TOUR_ARRIVEE'],
-            'avatar' => $user['avatar'],
-            'avatarPerso' => self::avatarFichier($user['numero']) !== null,
-            'profil' => $profil,
+            'avatar' => self::avatarUrl($numero, $race),
+            'avatarPerso' => self::avatarFichier($numero) !== null,
+            'profil' => isset($profils[$numero]) ? $profils[$numero] : null,
         ];
+    }
+
+    /** Page « Mon compte » : fiche du commandant connecté, avec son e-mail. */
+    static function getCompte($user)
+    {
+        return self::getCommandant($user['numero'], true);
     }
 
     /** Connexion avec les identifiants de la console d'ordres (table aa_registre). */

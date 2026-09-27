@@ -1247,6 +1247,20 @@ table__cell--numeric {
   width: 1%;
   white-space: nowrap;
 }
+#registre tr > :nth-child(2) {
+  width: 30px;
+}
+#registre td a {
+  color: inherit;
+}
+#registre td img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--sheril-border-raised);
+}
 
 #play:has(#inscription) {
   display: grid;
@@ -1967,21 +1981,21 @@ body.embed {
   border-radius: 1px;
 }
 
-#compte > article {
+#compte > article, #commandant > article {
   max-width: 760px;
   margin: 0 auto;
 }
-#compte section {
+#compte section, #commandant section {
   display: flex;
   flex-wrap: wrap;
   gap: 22px 24px;
   padding: 22px 24px;
 }
-#compte figure {
+#compte figure, #commandant figure {
   margin: 0;
   text-align: center;
 }
-#compte figure img {
+#compte figure img, #commandant figure img {
   width: 160px;
   height: 160px;
   object-fit: cover;
@@ -1989,38 +2003,38 @@ body.embed {
   background: var(--sheril-surface-inset);
   border: 1px solid var(--sheril-border-raised);
 }
-#compte figure figcaption {
+#compte figure figcaption, #commandant figure figcaption {
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
   line-height: 1.45;
 }
-#compte section > div {
+#compte section > div, #commandant section > div {
   flex: 1 1 300px;
 }
-#compte section + section {
+#compte section + section, #commandant section + section {
   border-top: 1px solid var(--sheril-border-subtle);
 }
-#compte section > form {
+#compte section > form, #commandant section > form {
   flex: 1 1 100%;
 }
-#compte h2 {
+#compte h2, #commandant h2 {
   margin-top: 0;
   text-transform: none;
   letter-spacing: normal;
   font-size: 20px;
 }
-#compte dl {
+#compte dl, #commandant dl {
   margin: 12px 0;
 }
-#compte dl > div {
+#compte dl > div, #commandant dl > div {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 4px 0;
   border-top: 1px solid var(--sheril-border-subtle);
 }
-#compte dl dt {
+#compte dl dt, #commandant dl dt {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
   font-weight: 400;
@@ -2028,14 +2042,14 @@ body.embed {
   text-transform: uppercase;
   color: var(--sheril-text-tertiary);
 }
-#compte dl dd {
+#compte dl dd, #commandant dl dd {
   margin: 0;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 12px;
   font-weight: 400;
   color: var(--sheril-text-primary);
 }
-#compte form {
+#compte form, #commandant form {
   margin: 0;
 }
 

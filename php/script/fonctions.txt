@@ -106,13 +106,14 @@ function V($name, $default="") {
     return array_key_exists($name,$_POST) ? $_POST[$name] : (array_key_exists($name,$_GET) ? $_GET[$name] : $default);
 }
 
-function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200')
+function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200', $garderPost=true)
 {
 
     echo("<SELECT SIZE=\"".($multiple ? 10 : 1)."\" NAME=\"$nv".($multiple ? '[]' : '')."\" style='max-width: {$maxWidth}px; display: inline-flex;' class='$class' ".($multiple ? 'multiple' : ''). ">");
     $k = array_keys($t);
     // Récupération de la valeur postée une seule fois pour plus de clarté
-    $postedValue = isset($_POST[$nv]) ? $_POST[$nv] : null;
+    // $garderPost à false : la liste n'est pas présélectionnée avec la valeur postée
+    $postedValue = ($garderPost && isset($_POST[$nv])) ? $_POST[$nv] : null;
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];
         $selected = '';
