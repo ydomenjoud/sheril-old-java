@@ -7,12 +7,14 @@ $tour_information = "";
 if (file_exists($file_path)) {
     Data::$tourNumber = intval(trim(file_get_contents($file_path)));
     Data::$tourLastDate = date("d/m/Y", filemtime($file_path));
+    Data::$tourLastDateIso = date("Y-m-d", filemtime($file_path));
 }
 
 class Data
 {
     static $tourNumber = 12;
     static $tourLastDate = '';
+    static $tourLastDateIso = '';   // même date au format ISO, pour l'attribut datetime de <time>
 
     static $pdo = null;
 

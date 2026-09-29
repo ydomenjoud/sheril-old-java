@@ -59,7 +59,7 @@ $app->get('/api/xxx', null, function () { return [...]; });
   et `rubrique` (1er segment : `lore`, `rule`, `play`, `forum`…). Menu principal : `aria-current="true"` si
   `rubrique` correspond ; sous-menus : `aria-current="page"` si `chemin` correspond. Le CSS cible `[aria-current]`.
 - Variables globales à tous les templates : `$app->globals` (`gameName`, `site.tourNumber`,
-  `site.tourLastDate`) + `base` (préfixe d'URL, ajouté par le routeur).
+  `site.tourLastDate` en jj/mm/aaaa, `site.tourLastDateIso` en aaaa-mm-jj) + `base` (préfixe d'URL, ajouté par le routeur).
 - La logique métier / SQL va dans `Data` (`includes/data.php`), pas dans les templates ni dans `index.php`.
   `Data::$pdo` est initialisé dans `index.php` (connexion dans `secure/connect.txt`).
   Le numéro de tour est lu dans `tour.txt`.

@@ -14,7 +14,7 @@ $app = new Mini(__DIR__ . '/templates');
 /* ---------- Données communes à tous les templates ---------- */
 $app->globals = [
     'gameName' => 'Corylis',
-    'site' => ['tourNumber' => Data::$tourNumber, 'tourLastDate' => Data::$tourLastDate],
+    'site' => ['tourNumber' => Data::$tourNumber, 'tourLastDate' => Data::$tourLastDate, 'tourLastDateIso' => Data::$tourLastDateIso],
     'user' => Data::currentUser(),
     // Page courante, pour marquer le lien actif des navigations (aria-current)
     'chemin' => chemin_courant(),

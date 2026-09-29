@@ -23,25 +23,31 @@
             <span>Sheril</span>
         </a>
         <code>
-            Partie <strong>Corylis</strong> ·
+            Partie <strong>{{ gameName }}</strong> ·
             Dernier tour
-            <strong>1</strong>
-            <time datetime="2026-09-16">16/09/2026</time>
+            <strong>{{ site.tourNumber }}</strong>
+            {% if site.tourLastDate %}<time datetime="{{ site.tourLastDateIso }}">{{ site.tourLastDate }}</time>{% endif %}
         </code>
 
         <div>
+            <a class="button button--secondary" href="https://discord.gg/bdUtYSqrnK">
+                <svg class="icon icon--small" aria-hidden="true"><use href="#i-discord"/></svg>
+                <span class="hidden-mobile">Discord</span>
+            </a>
             {% if user %}
-                <a class="button button--secondary hidden-mobile" href="https://discord.gg/bdUtYSqrnK">Rejoindre le Discord</a>
                 <a class="button button--secondary" href="/rapport">
                     <svg class="icon icon--small" aria-hidden="true"><use href="#i-download"/></svg>
                     <span class="hidden-mobile">Télécharger le rapport</span>
+                </a>
+                <a class="button button--secondary" href="/live/read.php">
+                    <svg class="icon icon--small" aria-hidden="true"><use href="#i-report"/></svg>
+                    <span class="hidden-mobile">Voir le rapport</span>
                 </a>
                 <a class="button button--primary" href="/play/console">
                     <svg class="icon icon--small icon--on-primary" aria-hidden="true"><use href="#i-send"/></svg>
                     <span class="hidden-mobile">Passer ses ordres</span>
                 </a>
             {% else %}
-                <a class="button button--secondary hidden-mobile" href="https://discord.gg/bdUtYSqrnK">Rejoindre le Discord</a>
                 <a class="button button--primary" href="/connexion">Se connecter</a>
             {% endif %}
         </div>
@@ -86,6 +92,8 @@
     <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
     <symbol id="i-user-plus" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a6 6 0 0 1 12 0v1M19 8v6M16 11h6"/></symbol>
     <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></symbol>
+    <symbol id="i-discord" viewBox="0 0 24 24"><path d="M8.6 7.3L8 6Q5.5 6.3 3.5 7.5Q1.2 11 1.5 16.8Q3.5 18.3 6 19L7 17.2Q12 18.8 17 17.2L18 19Q20.5 18.3 22.5 16.8Q22.8 11 20.5 7.5Q18.5 6.3 16 6L15.4 7.3Q12 6.7 8.6 7.3z"/><circle cx="9" cy="12.8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="12.8" r="1.5" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-report" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
     <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></symbol>
 </svg>
 
