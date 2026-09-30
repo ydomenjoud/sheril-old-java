@@ -126,8 +126,16 @@ body {
       padding-right: $padding-page;
     }
     & > section > code,
-    a[href="/compte"] {
+    & > section > div > a:not([href="/connexion"]),
+    & > a {
       display: none;
+    }
+    & > nav > a[href="/compte"] {
+      position: absolute;
+      bottom: 100%;
+      right: $padding-page;
+      height: $size-header;
+      padding: 0;
     }
     > nav {
       a {

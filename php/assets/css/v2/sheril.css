@@ -545,9 +545,15 @@ body > header > nav > details > summary {
   body > header:has(> a) > section {
     padding-right: 16px;
   }
-  body > header > section > code,
-  body > header a[href="/compte"] {
+  body > header > section > code, body > header > section > div > a:not([href="/connexion"]), body > header > a {
     display: none;
+  }
+  body > header > nav > a[href="/compte"] {
+    position: absolute;
+    bottom: 100%;
+    right: 16px;
+    height: 52px;
+    padding: 0;
   }
   body > header > nav a {
     white-space: nowrap;

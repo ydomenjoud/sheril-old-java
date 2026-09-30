@@ -75,7 +75,8 @@ pages/lore/_layout.twig     → sous-gabarit du lore (sous-navigation) : bloc `l
 pages/lore/*.twig           → pages du lore (présentation, histoire, une page par race)
 pages/rule/page.twig        → un seul template pour tous les chapitres des règles
 pages/play/_layout.twig     → sous-gabarit de la section « Jouer » (sans sous-navigation) : bloc `play`
-pages/play/index.twig       → accueil de « Jouer » : tuiles vers les sous-parties + explication du tour
+pages/play/index.twig       → accueil de « Jouer » : tuiles vers les sous-parties, raccourcis (voir / télécharger
+                              son rapport si connecté, Discord) + explication du tour
 pages/play/listing.twig     → registre des commandants (Data::getRegistre) : colonne de l'avatar (30×30, perso ou de race) après le N°,
                               liens vers /commandant/{numero}
 pages/play/register.twig    → inscription : formulaire (Data::inscrire → aa_inscription) + inscriptions en attente
@@ -138,6 +139,8 @@ Les templates sont compilés en PHP et mis en cache dans `sys_get_temp_dir()/min
   que l'ancienne console d'ordres). Variables globales des templates : `user` (`numero`, `nom`, ou null) et `csrf`.
 - En-tête connecté (`layout.twig`) : boutons « Télécharger le rapport » (/rapport) et « Passer ses ordres » (/play/console) et avatar de race dans le coin
   haut droit (`body > header > a`, lien vers `/compte`) ; la déconnexion est sur `/compte`.
+  En mobile, les boutons raccourcis et l'avatar sont masqués : il ne reste que le nom du commandant (lien `/compte`)
+  remonté en `position: absolute` à droite de la ligne du haut (ou « Se connecter » si déconnecté).
   `user` contient aussi `race` et `avatar` (race mise en session à la connexion).
 - `/rapport` et `/rapport/{tour}` (connecté) : téléchargement du zip `rapports/<tour>/<numéro>tour<tour>.zip`
   (`Data::rapportFichier`, dernier tour par défaut) ; remplace `auth/download.php`.

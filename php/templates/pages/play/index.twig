@@ -22,6 +22,23 @@
             <strong>Outil d'aide</strong>
             <span>Des outils pour préparer vos ordres et planifier votre stratégie.</span>
         </a>
+        {% if user %}
+            <a href="/live/read.php">
+                <svg class="icon icon--medium" aria-hidden="true"><use href="#i-report"/></svg>
+                <strong>Voir son rapport</strong>
+                <span>Consultez le rapport du dernier tour directement dans le navigateur.</span>
+            </a>
+            <a href="/rapport">
+                <svg class="icon icon--medium" aria-hidden="true"><use href="#i-download"/></svg>
+                <strong>Télécharger son rapport</strong>
+                <span>Récupérez l'archive zip du rapport du tour {{ site.tourNumber }}.</span>
+            </a>
+        {% endif %}
+        <a href="https://discord.gg/bdUtYSqrnK" target="_blank" rel="noopener">
+            <svg class="icon icon--medium" aria-hidden="true"><use href="#i-discord"/></svg>
+            <strong>Discord</strong>
+            <span>Discutez avec les autres commandants et posez vos questions à la communauté.</span>
+        </a>
     </section>
 
     <section class="card" id="play-intro">
