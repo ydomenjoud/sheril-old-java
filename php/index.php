@@ -130,7 +130,10 @@ $app->get('/play', 'pages/play/index', ['title' => 'Jouer']);
 $app->get('/play/listing', 'pages/play/listing', function () {
     return ['title' => 'Registre', 'registre' => Data::getRegistre()];
 });
-$app->get('/play/console', 'pages/play/console', ['title' => "Console d'ordres"]);
+$app->get('/play/console', 'pages/play/console', function () {
+    $user = Data::currentUser();
+    return ['title' => "Console d'ordres", 'ordres' => $user ? Data::consoleOrdres($user['numero']) : []];
+});
 $app->get('/play/tool', 'pages/play/tool', ['title' => "Outil d'aide"]);
 $app->any('/play/register', 'pages/play/register', function () {
     $form = ['nom' => '', 'email' => '', 'race' => '', 'mj' => ''];

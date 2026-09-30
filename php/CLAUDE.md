@@ -80,7 +80,10 @@ pages/play/index.twig       → accueil de « Jouer » : tuiles vers les sous-pa
 pages/play/listing.twig     → registre des commandants (Data::getRegistre) : colonne de l'avatar (30×30, perso ou de race) après le N°,
                               liens vers /commandant/{numero}
 pages/play/register.twig    → inscription : formulaire (Data::inscrire → aa_inscription) + inscriptions en attente
-pages/play/console.twig     → console d'ordres : iframe pleine hauteur (.page-frame) vers /ordres/ (ancienne console)
+pages/play/console.twig     → console d'ordres : iframe pleine hauteur (.page-frame) vers /ordres/ordres.php3 (ancienne console,
+                              frameset menu + fenêtre). En mobile (assets/js/console.js), l'iframe n'affiche que la fenêtre
+                              (/ordres/?table=…) choisie dans la liste déroulante #console-choix (Data::consoleOrdres,
+                              mêmes groupes que ordres/menu.php3)
 pages/forum/_layout.twig    → sous-gabarit du forum : fil d'Ariane (main > nav, bloc `ariane`) + bloc `forum`
 pages/forum/index.twig      → catégories et forums ; forum.twig → sujets d'un forum ; topic.twig → messages + réponse
 pages/forum/edit.twig       → nouveau sujet / modification d'un message ; _editor.twig → éditeur Quill (CDN jsdelivr)

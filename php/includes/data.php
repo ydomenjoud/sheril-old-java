@@ -659,6 +659,51 @@ WHERE rank_age_dor <= 5
     }
 
     /**
+     * Ordres disponibles pour la liste déroulante de la console en mobile, regroupés comme dans
+     * l'ancien menu (ordres/menu.php3) : [['libelle' => …, 'ordres' => [['url', 'libelle'], …]], …].
+     * Ordres ouverts au commandant : table z_ordres (CODE = indices séparés par des virgules).
+     */
+    static function consoleOrdres($numero)
+    {
+        include __DIR__ . '/../ordres/fr/ordres.txt'; // $code_ordres, $description_ordres
+        $stmt = self::$pdo->prepare('SELECT CODE FROM z_ordres WHERE NUMERO = :n');
+        $stmt->execute(['n' => (int) $numero]);
+        $code = trim((string) $stmt->fetchColumn());
+        if ($code === '') return [];
+        $indices = array_map('intval', explode(',', $code));
+
+        // Groupes de l'ancien menu : libellé => indice d'ordre de fin (exclu) ;
+        // les deux derniers ordres du commandant forment toujours le marché galactique
+        $groupes = [
+            'Diplomatie et recherche' => 14,
+            'Systèmes' => 27,
+            'Flottes' => 36,
+            'Dons et prêts' => 43,
+            'Divers' => null,
+            'Marché galactique' => null,
+        ];
+        $masques = [54, 55, 56]; // sous-formulaires (« …_ajouter »), non listés
+        $n = count($indices);
+        $resultat = [];
+        $j = 0;
+        foreach ($groupes as $libelle => $finIndice) {
+            $ordres = [];
+            while ($j < $n) {
+                if ($finIndice !== null && $indices[$j] >= $finIndice) break;
+                if ($libelle === 'Divers' && $j >= $n - 2) break;
+                $i = $indices[$j++];
+                if (in_array($i, $masques) || !isset($code_ordres[$i])) continue;
+                $ordres[] = [
+                    'url' => '/ordres/?table=' . $code_ordres[$i],
+                    'libelle' => str_pad($i + 1, 2, '0', STR_PAD_LEFT) . '. ' . $description_ordres[$i],
+                ];
+            }
+            if ($ordres) $resultat[] = ['libelle' => $libelle, 'ordres' => $ordres];
+        }
+        return $resultat;
+    }
+
+    /**
      * Fiche publique d'un commandant (/commandant/{numero}) : identité, avatar, statistiques
      * du dernier tour ; null s'il n'existe pas. $avecEmail : e-mail inclus (page « Mon compte » uniquement).
      */

@@ -1366,6 +1366,18 @@ body:has(.page-frame) > footer {
   border-radius: 6px;
 }
 
+#console-choix {
+  display: none;
+}
+#console-choix select {
+  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  #console-choix {
+    display: grid;
+  }
+}
 #forum {
   display: flex;
   flex-direction: column;

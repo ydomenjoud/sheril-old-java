@@ -150,3 +150,14 @@ body:has(.page-frame) {
   gap: $gap-cards;
   > nav { border-radius: $radius-container; }
 }
+
+// Console d'ordres : liste déroulante des ordres, en mobile seulement (le frameset de l'ancienne
+// console est alors remplacé par la seule fenêtre de l'ordre, voir assets/js/console.js)
+#console-choix {
+  display: none;
+  select { width: 100%; }
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  #console-choix { display: grid; }
+}
