@@ -1,0 +1,77 @@
+{% extends "pages/play/_layout.twig" %}
+
+{% block play %}
+    <section id="play-sections" aria-label="Sections de la partie">
+        <a href="/play/listing">
+            <svg class="icon icon--medium" aria-hidden="true"><use href="#i-list"/></svg>
+            <strong>Registre</strong>
+            <span>La liste des commandants engagés dans la partie, leur race et leur numéro.</span>
+        </a>
+        <a href="/play/register">
+            <svg class="icon icon--medium" aria-hidden="true"><use href="#i-user-plus"/></svg>
+            <strong>Inscription</strong>
+            <span>Inscrivez-vous : votre commandant sera créé à la prochaine résolution.</span>
+        </a>
+        <a class="button--primary" href="/play/console">
+            <svg class="icon icon--medium icon--on-primary" aria-hidden="true"><use href="#i-send"/></svg>
+            <strong>Console d'ordres</strong>
+            <span>Transmettez vos ordres avant la résolution du tour.</span>
+        </a>
+        <a href="/play/tool">
+            <svg class="icon icon--medium" aria-hidden="true"><use href="#i-tool"/></svg>
+            <strong>Outil d'aide</strong>
+            <span>Des outils pour préparer vos ordres et planifier votre stratégie.</span>
+        </a>
+        {% if user %}
+            <a href="/live/read.php">
+                <svg class="icon icon--medium" aria-hidden="true"><use href="#i-report"/></svg>
+                <strong>Voir son rapport</strong>
+                <span>Consultez le rapport du dernier tour directement dans le navigateur.</span>
+            </a>
+            <a href="/rapport">
+                <svg class="icon icon--medium" aria-hidden="true"><use href="#i-download"/></svg>
+                <strong>Télécharger son rapport</strong>
+                <span>Récupérez l'archive zip du rapport du tour {{ site.tourNumber }}.</span>
+            </a>
+        {% endif %}
+        <a href="https://discord.gg/bdUtYSqrnK" target="_blank" rel="noopener">
+            <svg class="icon icon--medium" aria-hidden="true"><use href="#i-discord"/></svg>
+            <strong>Discord</strong>
+            <span>Discutez avec les autres commandants et posez vos questions à la communauté.</span>
+        </a>
+    </section>
+
+    <section class="card" id="play-intro">
+        <header>
+            <h1>Jouer à Sheril</h1>
+        </header>
+        <article>
+            <p>
+                Partie <strong>{{ gameName }}</strong> · tour <strong>{{ site.tourNumber }}</strong>
+                résolu le <strong>{{ site.tourLastDate }}</strong>.
+            </p>
+            <p>
+                Sheril se joue au <strong>tour par tour</strong>, sans temps réel : chaque semaine, vous
+                lisez votre rapport, préparez votre stratégie puis transmettez vos ordres depuis la console.
+                Tous les ordres sont résolus ensemble chaque <strong>mercredi à 20h</strong>.
+            </p>
+            <h2>Rejoindre la partie</h2>
+            <p>
+                <a href="/play/register">Inscrivez-vous</a> au jeu. Lors de la résolution suivante, votre commandant
+                est créé et vous recevez un e-mail avec vos informations de connexion à la console d'ordres.
+            </p>
+            <h2>Déroulement d'un tour</h2>
+            <ol>
+                <li><strong>Rapport</strong> : après chaque résolution, vous recevez par e-mail le rapport de votre empire (systèmes, flottes, recherches, événements).</li>
+                <li><strong>Ordres</strong> : connectez-vous à la console pour donner vos directives : déplacements de flottes, constructions, recherches, diplomatie…</li>
+                <li><strong>Résolution</strong> : le mercredi à 20h, le tour est calculé et un nouveau rapport vous parvient.</li>
+            </ol>
+            <p>
+                Débutant ? Commencez par la <a href="/lore/presentation">présentation</a> et les
+                <a href="/rule/sommaire">règles du jeu</a>. En cas de question, la communauté vous répond sur le
+                <a href="/forum">forum</a> et sur <a href="https://discord.gg/bdUtYSqrnK" target="_blank" rel="noopener">Discord</a>.
+            </p>
+        </article>
+    </section>
+
+{% endblock %}

@@ -377,9 +377,11 @@ public abstract class Leader implements Serializable {
 			Univers.retirerLeaderEnVente(l[i]);
 		}
 
-		for (int i = 0; i < 10 - nbHeros; i++)
+		int nbLeaders = Univers.getNombreCommandants() / 3;
+
+		for (int i = 0; i < nbLeaders - nbHeros; i++)
 			Univers.ajouterLeaderEnVente(Leader.creer("heros"));
-		for (int i = 0; i < 10 - nbGouverneurs; i++)
+		for (int i = 0; i < nbLeaders - nbGouverneurs; i++)
 			Univers.ajouterLeaderEnVente(Leader.creer("gouverneur"));
 	}
 

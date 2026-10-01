@@ -40,7 +40,7 @@ public class MessagesInfo extends MessagesAbstraits {
         
         <div style="border-bottom: 2px solid #58a6ff; padding-bottom: 10px; margin-bottom: 20px;">
             <div style="color: #58a6ff; font-size: 20px; font-weight: bold; margin: 0;">🚀 Transmission Tactique - Sheril</div>
-            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Rapport de fin de tour • Unité IA Xyur06-Tr</div>
+            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Rapport de fin de tour • Unité IA Zham13-Tr</div>
         </div>
 
         <p>Salutations, Commandant.</p>

@@ -1,0 +1,43 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+@use "sass:map";
+
+// -----------------------------------------------------------------------------
+// Familles de police (par rôle)
+// -----------------------------------------------------------------------------
+
+$font-display: "Chakra Petch", "Segoe UI", sans-serif !default; // identité : titres, boutons forts
+$font-text:    "IBM Plex Sans", system-ui, sans-serif !default; // lecture : interface et paragraphes
+$font-data:    "IBM Plex Mono", ui-monospace, monospace !default; // données : chiffres, dates, rangs
+
+// -----------------------------------------------------------------------------
+// Styles typographiques (par rôle). Usage : @include type("heading-section");
+// La couleur n'en fait pas partie : elle se choisit au cas par cas.
+// -----------------------------------------------------------------------------
+
+$type-styles: (
+"brand-logo":      (family: $font-display, size: 22px, weight: 700, tracking: 0.14em, transform: uppercase),
+"heading-page":    (family: $font-display, size: 30px, weight: 700, leading: 1.1),
+"heading-section": (family: $font-display, size: 16px, weight: 600, tracking: 0.1em, transform: uppercase),
+"heading-block":   (family: $font-display, size: 13px, weight: 600, tracking: 0.1em, transform: uppercase),
+"eyebrow":         (family: $font-data,    size: 11px, weight: 400, tracking: 0.14em, transform: uppercase),
+"body-long":       (family: $font-text,    size: 14px, weight: 400, leading: 1.55),
+"body-quote":      (family: $font-text,    size: 15px, weight: 400, leading: 1.45, style: italic),
+"body-ui":         (family: $font-text,    size: 13px, weight: 400, leading: 1.45),
+"body-ui-strong":  (family: $font-text,    size: 13px, weight: 500, leading: 1.45),
+"caption":         (family: $font-text,    size: 12px, weight: 400, leading: 1.4),
+"column-label":    (family: $font-data,    size: 11px, weight: 400, tracking: 0.08em, transform: uppercase),
+"data":            (family: $font-data,    size: 12px, weight: 400),
+"data-emphasis":   (family: $font-data,    size: 13px, weight: 500),
+) !default;
+
+@mixin type($role) {
+  @if not map.has-key($type-styles, $role) { @error "Style typographique : « #{$role} » n'existe pas."; }
+  $s: map.get($type-styles, $role);
+  font-family:    map.get($s, "family");
+  font-size:      map.get($s, "size");
+  font-weight:    map.get($s, "weight");
+  line-height:    map.get($s, "leading");   // null = propriété omise
+  letter-spacing: map.get($s, "tracking");
+  text-transform: map.get($s, "transform");
+  font-style:     map.get($s, "style");
+}

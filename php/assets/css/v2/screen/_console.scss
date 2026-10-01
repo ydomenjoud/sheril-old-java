@@ -1,0 +1,362 @@
+@use "../abstracts" as *;
+
+// =============================================================================
+// Console d'ordres (ancienne partie /ordres/, DOM et PHP intouchables)
+// Pages en frameset : chaque page porte <body id="console">.
+// Interface très dense : marges et espacements réduits au minimum.
+// =============================================================================
+
+// Espacements propres à la console, plus serrés que ceux du site
+$console-gap:     4px;
+$console-pad:     6px;
+$console-control: 24px;
+
+#console {
+  padding: $console-pad;
+  @include type("body-ui");
+  font-size: 12px;
+  line-height: 1.3;
+
+  // ---------------------------------------------------------------------------
+  // Fenêtre centrale (index.php3 + body.txt) : formulaire de l'ordre,
+  // ordres déjà passés, aide. Remplace le <STYLE> historique de body.txt.
+  // ---------------------------------------------------------------------------
+
+  // Les anciennes pages n'ont pas de doctype (quirks mode) : les tableaux
+  // n'héritent pas de la taille de police, on la force.
+  table, input, select, textarea, button { font-size: inherit; }
+
+  // Titres : titre de l'ordre, « Ordres déjà passé », sous-titres
+  h1 {
+    margin: 0 0 $console-gap;
+    @include type("heading-section");
+    color: token("text-heading");
+  }
+  h2 {
+    margin: $console-pad 0 $console-gap;
+    @include type("heading-block");
+    color: token("text-heading");
+  }
+  h3, h4 {
+    margin: $console-pad 0 $console-gap;
+    @include type("heading-block");
+    color: token("brand");
+  }
+
+  // Texte courant : même taille que l'interface, pas celle des pages de lecture
+  p {
+    margin: 0 0 $console-gap;
+    font: inherit;
+    color: token("text-primary");
+  }
+  strong, b { color: inherit; font-weight: 600; }
+  ul, ol { margin: 0 0 $console-gap; padding-left: 16px; }
+  hr { margin: $console-pad 0; border: 0; border-top: 1px solid token("border-default"); }
+  li { padding: 0; }
+
+  // Valeur saisie dans un ordre (flotte, case, directive…)
+  .item {
+    font-weight: 600;
+    color: token("text-important");
+  }
+  .important { color: token("text-important"); }
+  .number    { color: token("brand"); font-variant-numeric: tabular-nums; }
+  .help      { color: token("text-secondary"); }
+
+  // Montant en centaures
+  .cur {
+    color: token("feedback-warning");
+    font-variant-numeric: tabular-nums;
+    &::after { content: "\00A2"; padding-left: 1px; }
+  }
+
+  // Races : couleurs du site, plus la 6 (propre à la console)
+  [class^="race"] { font-weight: 600; text-transform: capitalize; }
+  .race6 { color: #CC6600; text-transform: none; }
+
+  // --- Champs ----------------------------------------------------------------
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]), select, textarea) {
+    height: 22px;
+    padding: 0 $console-gap;
+    background: token("surface-inset");
+    border: 1px solid token("border-strong");
+    border-radius: $radius-badge;
+    font-family: $font-text;
+    color: token("text-primary");
+    vertical-align: middle;
+
+    &::placeholder { color: token("text-tertiary"); }
+    &:hover { border-color: token("border-shadow"); }
+    &:focus-visible { @include focus-visible-ring; outline-offset: 0; border-color: token("brand"); }
+    &:user-invalid { border-color: token("feedback-negative"); }
+  }
+  textarea { height: auto; padding: 2px $console-gap; }
+  select[multiple], select[size]:not([size="1"]) { height: auto; }
+  input[type="checkbox"], input[type="radio"] {
+    margin: 0 2px;
+    vertical-align: middle;
+    accent-color: token("brand");
+  }
+  label { white-space: nowrap; }
+  form { margin: 0 0 $console-pad; }
+  form:has(input[type=button]) { display: inline-block; }
+
+  // Bouton d'envoi de l'ordre : action principale, compacte
+  :is(input[type="submit"], input[type="button"], button) {
+    height: 24px;
+    margin: $console-gap $console-gap 0 0;
+    padding: 0 10px;
+    border: 1px solid token("action-primary");
+    border-radius: $radius-control;
+    background: token("action-primary");
+    @include type("body-ui-strong");
+    font-size: 12px;
+    font-weight: 600;
+    color: token("action-on-primary");
+    cursor: pointer;
+    vertical-align: middle;
+
+    &:hover { background: token("action-primary-hover"); border-color: token("action-primary-hover"); }
+    &:focus-visible { @include focus-visible-ring; }
+  }
+  // Bouton secondaire (X du filtre des tableaux, boutons « button » des formulaires)
+  :is(input[type="button"], button) {
+    background: transparent;
+    border-color: token("border-strong");
+    color: token("text-primary");
+    &:hover { background: transparent; border-color: token("brand"); color: token("brand"); }
+  }
+  // Ancien lien-bouton de la console
+  a.button {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 $console-pad;
+    border: 1px solid token("border-strong");
+    border-radius: $radius-badge;
+    color: token("text-primary");
+    &:hover { border-color: token("brand"); color: token("brand"); }
+  }
+
+  // Listes déroulantes enrichies (SlimSelect)
+  .select, .ss-main, .ss-content {
+    max-width: none;
+    --ss-primary-color: #{token("brand")};
+    --ss-bg-color: #{token("surface-inset")};
+    --ss-font-color: #{token("text-primary")};
+    --ss-font-placeholder-color: #{token("text-tertiary")};
+    --ss-disabled-color: #{token("surface-card")};
+    --ss-border-color: #{token("border-strong")};
+    --ss-highlight-color: #{token("feedback-warning")};
+    --ss-focus-color: #{token("brand")};
+    --ss-error-color: #{token("feedback-negative")};
+    --ss-border-radius: #{$radius-badge};
+    --ss-main-height: 22px;
+    --ss-search-height: 22px;
+    --ss-option-height: auto;
+    --ss-content-height: 600px;
+    --ss-spacing-l: 4px;
+    --ss-spacing-m: 3px;
+    --ss-spacing-s: 1px;
+    --ss-animation-timing: 0.1s;
+  }
+  .ss-main { vertical-align: middle; font-size: inherit; }
+  .ss-content {
+    min-width: max-content; // largeur selon le contenu
+    width: auto;            // ne suit plus le max-width du select
+    font-size: 12px;
+  }
+  .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+    color: token("action-on-primary");
+  }
+
+  // --- Ordres déjà passés ----------------------------------------------------
+  // <h1 class="searchable">Ordres déjà passé (n) <input id="search"></h1> + <table class="<ordre>">
+  h1.searchable {
+    display: flex;
+    align-items: center;
+    gap: $console-pad;
+    margin-top: $console-pad * 2;
+    padding-top: $console-pad;
+    border-top: 1px solid token("border-default");
+
+    // style inline « font-size: 16px » dans le PHP : seul !important peut le surcharger
+    > #search { width: 200px; font-size: 12px !important; text-transform: none; letter-spacing: 0; }
+  }
+
+  table {
+    border-collapse: collapse;
+    border: 1px solid token("border-default");
+
+    th, td {
+      padding: 1px $console-pad;
+      border-top: 1px solid token("border-subtle");
+      vertical-align: middle;
+    }
+    thead th { padding: 2px $console-pad; }
+    caption { padding: 2px 0; }
+    tr:hover > td { background-color: tint("brand", 6%); }
+  }
+
+  // Colonnes d'action des ordres passés : Supprimer / Copier
+  td.delete, td.copy {
+    width: 1%;
+    padding: 0;
+    white-space: nowrap;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 20px;
+      padding: 0 $console-pad;
+    }
+  }
+  // Discret par défaut (une ligne sur deux en rouge alourdit tout), rouge au survol
+  td.delete a {
+    color: token("text-tertiary");
+    &:hover { background: tint("feedback-negative", 22%); color: token("feedback-negative"); }
+  }
+  td.copy a {
+    color: token("text-link");
+    &:hover { background: tint("brand", 18%); color: token("text-heading"); }
+  }
+
+  // Tableau mis en valeur dans certaines aides
+  table.stylized {
+    border-radius: $radius-container;
+    thead th { font-style: italic; }
+  }
+
+  // --- Aide de l'ordre ---------------------------------------------------------
+  // <h3 class="help">Aide</h3> + <div> (texte souvent tout en <strong>, tableau des directives…)
+  h3.help {
+    margin-top: $console-pad * 2;
+    padding-top: $console-pad;
+    border-top: 1px solid token("border-default");
+    color: token("brand");
+  }
+  h3.help + * {
+    color: token("text-secondary");
+    line-height: 1.4;
+
+    p, font { color: inherit; }
+    strong, b { font-weight: 400; }
+  }
+
+  // Tableau des directives (aide du déplacement de flotte)
+  .directives tbody td:nth-child(1) {
+    width: 1%;
+    text-align: center;
+    @include type("data-emphasis");
+    color: token("brand");
+  }
+  .directives tbody td:nth-child(2) { color: token("text-heading"); font-weight: 500; }
+
+  // ---------------------------------------------------------------------------
+  // Menu latéral (menu.php3) : liens Accueil / Ordre du tour, recherche, liste des ordres
+  // ---------------------------------------------------------------------------
+
+  // Liens Accueil / Ordre du tour : deux petits boutons côte à côte
+  > .split {
+    gap: $console-gap;
+    margin-bottom: $console-gap;
+
+    > a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: $console-control;
+      padding: 0 $console-pad;
+      border: 1px solid token("border-strong");
+      border-radius: $radius-control;
+      background: token("surface-card");
+      @include type("heading-block");
+      font-size: 11px;
+      color: token("text-navigation");
+      text-align: center;
+      @include truncate;
+
+      &:hover { border-color: token("brand"); color: token("text-heading"); }
+    }
+  }
+
+  // Filtre des ordres
+  > #search {
+    display: block;
+    width: 100%;
+    height: $console-control;
+    margin-bottom: $console-pad;
+    padding: 0 $console-pad;
+    background: token("surface-inset");
+    border: 1px solid token("border-strong");
+    border-radius: $radius-control;
+    @include type("body-ui");
+    font-size: 12px;
+    color: token("text-primary");
+
+    &::placeholder { color: token("text-tertiary"); }
+    &:hover { border-color: token("border-shadow"); }
+    &:focus-visible { @include focus-visible-ring; outline-offset: 0; border-color: token("brand"); }
+  }
+
+  // Liste : ordres, titres de catégorie (<font class="important">)
+  // et étapes de résolution du tour (<span class="important2">)
+  > #orderslist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      margin: 0;
+      padding: 0;
+
+      &.hidden { display: none; }
+    }
+
+    // Ordre : lien vers la fenêtre principale
+    a {
+      display: block;
+      padding: 1px $console-gap;
+      border-left: 2px solid transparent;
+      border-radius: 0 $radius-badge $radius-badge 0;
+      color: token("text-navigation");
+      font-variant-numeric: tabular-nums;
+
+      &:hover {
+        background: tint("brand", 10%);
+        color: token("text-heading");
+      }
+      &.active {
+        border-left-color: token("brand");
+        background: tint("brand", 16%);
+        color: token("text-heading");
+      }
+    }
+
+    // Catégorie d'ordres
+    font.important {
+      display: block;
+      margin-top: $console-pad;
+      padding: 2px $console-gap;
+      border-bottom: 1px solid token("border-default");
+      @include type("heading-block");
+      font-size: 11px;
+      color: token("brand");
+    }
+    > li:first-child font.important { margin-top: 0; }
+
+    // Étape de résolution automatique (pas un ordre) : discrète, en retrait
+    span.important2 {
+      display: block;
+      margin: 2px 0;
+      padding: 1px $console-gap;
+      border-left: 2px dotted token("border-strong");
+      @include type("caption");
+      font-size: 11px;
+      line-height: 1.25;
+      font-style: italic;
+      color: token("text-tertiary");
+    }
+  }
+}

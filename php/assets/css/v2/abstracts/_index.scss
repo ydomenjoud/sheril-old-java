@@ -1,0 +1,12 @@
+// =============================================================================
+// Point d'entrée des « abstracts » : tout ce qui ne produit pas de CSS.
+//
+// Dans n'importe quel fichier :   @use "../abstracts" as *;
+// (Sass charge automatiquement ce _index.scss quand on @use un dossier.)
+// =============================================================================
+
+@forward "palette";
+@forward "tokens";
+@forward "typography";
+@forward "spacing";
+@forward "mixins";

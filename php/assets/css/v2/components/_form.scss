@@ -1,0 +1,46 @@
+@use "../abstracts" as *;
+
+// Formulaires : <form class="form"> avec des <label class="field"> (libellé, champ, aide)
+.form {
+  display: grid;
+  gap: $gap-cards;
+  max-width: 640px;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  legend {
+    margin-bottom: $gap-inline;
+    padding: 0;
+    @include type("heading-block");
+    color: token("brand");
+  }
+}
+
+.field {
+  display: grid;
+  gap: $gap-tight;
+  > span {
+    @include type("body-ui-strong");
+    color: token("text-heading");
+  }
+  > small {
+    @include type("caption");
+    color: token("text-tertiary");
+  }
+  input, select, textarea {
+    height: $size-control;
+    padding: $padding-control;
+    background: token("surface-inset");
+    border: 1px solid token("border-strong");
+    border-radius: $radius-control;
+    @include type("body-ui");
+    color: token("text-primary");
+    &:hover { border-color: token("border-shadow"); }
+    &:focus-visible { @include focus-visible-ring; border-color: token("brand"); }
+  }
+  textarea { height: auto; padding: $gap-inline 14px; }
+}

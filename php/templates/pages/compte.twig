@@ -1,0 +1,42 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="compte">
+        <article class="card">
+            <header><h1>Mon compte</h1></header>
+            {% set pageCompte = true %}
+            {% include 'pages/_commandant' %}
+            <section>
+                <form class="form" method="post" action="/compte" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf" value="{{ csrf }}">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="204800">
+                    {% if avatarMessage == 'enregistre' %}
+                        <div class="banner banner--positive" role="status">Avatar enregistré, il est maintenant affiché sur le forum.</div>
+                    {% elseif avatarMessage == 'supprime' %}
+                        <div class="banner banner--positive" role="status">Avatar supprimé : l'avatar de votre race est de nouveau utilisé.</div>
+                    {% endif %}
+                    {% if erreurs %}
+                        <div class="banner banner--negative" role="alert">
+                            <ul>
+                                {% for erreur in erreurs %}
+                                    <li>{{ erreur }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <label class="field">
+                        <span>Avatar personnalisé</span>
+                        <input type="file" name="avatar" accept="image/png,image/jpeg,image/gif" required>
+                        <small>PNG, JPEG ou GIF, 200×200 pixels et 200 ko au maximum. Affiché sur le forum et dans l'en-tête du site.</small>
+                    </label>
+                    <div class="button-group">
+                        <button class="button button--primary" type="submit" name="action" value="avatar">Envoyer l'avatar</button>
+                        {% if commandant.avatarPerso %}
+                            <button class="button button--secondary" type="submit" name="action" value="avatar-supprimer" formnovalidate>Revenir à l'avatar de race</button>
+                        {% endif %}
+                    </div>
+                </form>
+            </section>
+        </article>
+    </main>
+{% endblock %}

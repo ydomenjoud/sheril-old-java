@@ -1,10 +1,9 @@
 AddType application/x-httpd-php .php3
-DirectoryIndex index.php3 index.php index.html
+DirectoryIndex index.php index.php3 index.html
 
 RewriteEngine On
 
-# Si le fichier .html demandé n'existe pas physiquement
-# mais que le même nom existe en .php
+# --- Vos règles existantes (inchangées) ---
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)\.html$ $1.php [L]
@@ -12,3 +11,11 @@ RewriteRule ^(.*)\.html$ $1.php [L]
 RewriteRule ^stats.html$ stats.php [L]
 
 RewriteRule ^live/images/(.*)$ /images/$1 [R=301,L]
+
+# --- Nouveau forum : /forum est géré par le routeur (l'ancien dossier forum/ reste accessible par ses fichiers) ---
+RewriteRule ^forum/?$ index.php [L]
+
+# --- Routeur : tout ce qui n'est ni un fichier ni un dossier va à index.php ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

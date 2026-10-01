@@ -1,0 +1,50 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+@use "sass:map";
+
+// =============================================================================
+// 1. PALETTE — ne jamais utiliser directement dans un composant
+// =============================================================================
+
+$palette: (
+  // Neutres bleu nuit : 950 = le plus sombre, 50 = le plus clair
+        "ink-950": #0a0e14,
+        "ink-900": #0c121a,
+        "ink-850": #0d131c,
+        "ink-800": #0f1620,
+        "ink-750": #131c28,
+        "ink-700": #172131,
+        "ink-650": #1a2534,
+        "ink-600": #1e2a3a,
+        "ink-550": #22314a,
+        "ink-500": #2c3d52,
+        "ink-400": #395475,
+        "ink-300": #8fa0b5,
+        "ink-250": #a9b8ca,
+        "ink-200": #b4c1d1,
+        "ink-100": #d8e0ea,
+        "ink-50":  #eef3f9,
+
+  // Cyan « radiations bleutées » — teinte de marque
+        "cyan-300": #9be7f6,
+        "cyan-400": #56d4ee,
+        "cyan-950": #04212a,
+
+  // violet
+        "purple-300": #9c27b0,
+
+  // Vert / corail : résultats positifs et négatifs
+        "green-400": #2bd849,
+        "coral-400": #fb5757,
+
+  // Ambre : alertes et objectifs
+        "amber-950": #1a1410,
+        "amber-800": #4a3520,
+        "amber-400": #e8a34f,
+        "amber-300": #f0b56a,
+        "amber-200": #c9b08a,
+) !default;
+
+@function palette($key) {
+  @if not map.has-key($palette, $key) { @error "Palette : « #{$key} » n'existe pas."; }
+  @return map.get($palette, $key);
+}

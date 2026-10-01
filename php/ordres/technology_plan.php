@@ -4,7 +4,7 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 define('USE_PDO', true);
 
-include "../mysql_compat.php";
+include "../script/mysql_compat.php";
 include "../secure/config.php";
 include "../secure/connect.txt";
 include "../script/aut.txt";

@@ -34,6 +34,7 @@ public class Const {
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
+    public static Boolean USE_REGISTRATIONS = true;
     public static String PATH_PHP = "./php/";
 
     // Paramètres de génération de l'univers (surchargés par config.properties si présents)
@@ -80,6 +81,8 @@ public class Const {
 
             NOTIFY_BOT = "true".equalsIgnoreCase(properties.getProperty("NOTIFY_BOT"));
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
+            // Par défaut (paramètre absent) les inscriptions du site sont utilisées
+            USE_REGISTRATIONS = !"false".equalsIgnoreCase(properties.getProperty("USE_REGISTRATIONS"));
             IS_LOCAL = "true".equalsIgnoreCase(properties.getProperty("IS_LOCAL"));
             String pathPhpProp = properties.getProperty("PATH_PHP");
             if (pathPhpProp != null && !pathPhpProp.isEmpty()) {

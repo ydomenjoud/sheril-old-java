@@ -12,18 +12,16 @@ if (file_exists($file_path)) {
     // 2. Récupérer le contenu (le numéro du tour)
     $numeroTour = intval(trim(file_get_contents($file_path)));
 
-    // 3. Récupérer la date de modification (timestamp)
-    $timestamp = filemtime($file_path);
-
-    // 4. Formater la date en français
-    $dateFormatee = date("d/m/Y", $timestamp);
-
     // 5. Générer le HTML
     $tour_information = sprintf(
             '<small>Dernier tour : %s, le %s - <a href="https://discord.gg/bdUtYSqrnK">rejoignez nous sur discord</a></small>',
             htmlspecialchars($numeroTour),
-            $dateFormatee
+            date("d/m/Y", filemtime($file_path))
     );
+}
+
+if(array_key_exists('embed', $_GET) && $_GET['embed'] == '1' ) {
+    define('EMBED', true);
 }
 
 // gestion de la connexion
@@ -42,17 +40,7 @@ if (file_exists($file_path)) {
     if(!defined('EMBED') || EMBED === false ) {
 ?>
 <?php include_once __DIR__. "/headers.php"; ?>
-
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/presentation.php">Présentation</a>
-    <a href="/races/histoire.php">Background</a>
-    <a href="/stats.php">Statistiques</a>
-    <a href="/ordres/ordres.php3">Console d'ordre</a>
-    <a href="/register.php">Registre et Inscription</a>
-    <a href="/forum/">Forum</a>
-</nav>
-
+<?php include_once __DIR__. "/nav.php"; ?>
 
 <div id="main">
     <?php } ?>

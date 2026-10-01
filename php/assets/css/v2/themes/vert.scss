@@ -1,0 +1,79 @@
+// =============================================================================
+// THÈME VERT — à charger APRÈS sheril.css
+//
+// Ne redéfinit que des tokens `--sheril-*` : les composants ne changent pas.
+// Les tokens absents (feedback-*) gardent la valeur du thème par défaut.
+// Compilation : sass --no-source-map themes/vert.scss themes/vert.css
+//
+// Deux teintes qui se répondent :
+//   - VERT JADE : l'ambiance (fonds, bordures) et les actions (boutons, liens)
+//   - ROSE      : la marque (icônes, sur-titres, jauges, onglet actif) et les titres
+// Le jade tire vers le bleu pour rester distinct du vert « feedback-positive ».
+// =============================================================================
+@use "sass:map";
+@use "theme" as *;
+
+$vert: (
+  // Nuit verte : 950 = le plus sombre
+  "night-950": #04110c,
+  "night-900": #061810,
+  "night-850": #08241a,
+  "night-800": #0a1f17,
+  "night-750": #0e291f,
+  "night-700": #123426,
+  "night-650": #153d2d,
+  "night-600": #1a4a37,
+  "night-550": #1f5a43,
+  "night-500": #276e53,
+  "night-400": #3a9a76,
+
+  // Textes : vert-de-gris désaturé, pour laisser les deux accents respirer
+  "mist-300": #9db8ad,
+  "mist-250": #b4ccc2,
+  "mist-200": #c3d8cf,
+  "mist-100": #e0ede7,
+
+  // Jade : actions
+  "jade-300": #9ff5d8,
+  "jade-400": #3ee6b4,
+  "jade-950": #03261b,
+
+  // Rose : marque et titres
+  "rose-50":  #fff0f6,
+  "rose-300": #ffb8d9,
+  "rose-400": #ff85bf,
+);
+
+@function v($key) { @return map.get($vert, $key); }
+
+$theme: (
+  "surface-page":         v("night-950"),
+  "surface-header":       v("night-850"),
+  "surface-inset":        v("night-900"),
+  "surface-card":         v("night-800"),
+  "surface-raised":       v("night-750"),
+  "surface-table":        v("night-750"),
+  "surface-track":        v("night-650"),
+
+  "border-default":       v("night-600"),
+  "border-subtle":        v("night-700"),
+  "border-strong":        v("night-500"),
+  "border-raised":        v("night-550"),
+  "border-shadow":        v("night-400"),
+
+  "text-heading":         v("rose-50"),
+  "text-primary":         v("mist-100"),
+  "text-secondary":       v("mist-200"),
+  "text-navigation":      v("mist-250"),
+  "text-tertiary":        v("mist-300"),
+  "text-link":            v("jade-400"),
+  "text-link-hover":      v("rose-300"),
+
+  "brand":                v("rose-400"),
+  "action-primary":       v("jade-400"),
+  "action-primary-hover": v("jade-300"),
+  "action-on-primary":    v("jade-950"),
+  "focus-ring":           v("rose-400"),
+);
+
+@include theme("vert", $theme);

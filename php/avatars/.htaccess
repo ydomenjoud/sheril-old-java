@@ -1,0 +1,8 @@
+# Avatars envoyés par les commandants (Data::setAvatar) : images uniquement, aucun script exécuté
+<FilesMatch "\.(?i:php\d?|phtml|phar|html?|svg)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>
+Options -Indexes

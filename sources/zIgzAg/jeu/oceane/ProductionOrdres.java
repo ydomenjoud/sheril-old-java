@@ -449,7 +449,7 @@ public class ProductionOrdres {
 			if (Univers.getTour() == 84) {
 				elimine = false;
 			}
-			if (elimine) {
+			if (elimine && Const.USE_REGISTRATIONS) {
 				System.out.println("Supression du commandant "
 						+ c[i].getNomNumeroText());
 				Joueur.supprimerCommandant(c[i]);
@@ -458,6 +458,10 @@ public class ProductionOrdres {
 			}
 		}
 		Univers.phaseSuivante();
+
+		if (!Const.USE_REGISTRATIONS) {
+			return;
+		}
 
 		try {
 			Connection connection = mySQL.getConnection(Const.DATABASE_HOST,

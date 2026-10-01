@@ -1,0 +1,8 @@
+@use "../abstracts" as *;
+
+// Export des tokens en variables CSS (permet de changer de thème sans recompiler)
+:root {
+  @each $name, $value in $tokens {
+    --sheril-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,57 @@
+{% extends "pages/forum/_layout.twig" %}
+
+{% block ariane %}
+    <a href="/forum/{{ forum.id }}" aria-current="page">{{ forum.nom }}</a>
+{% endblock %}
+
+{% block forum %}
+    <section class="card">
+        <header>
+            <h1>{{ forum.nom }}</h1>
+            {% if user %}
+                <a class="button button--primary" href="/forum/{{ forum.id }}/new">Nouveau sujet</a>
+            {% else %}
+                <a href="/connexion?retour=/forum/{{ forum.id }}">se connecter pour poster</a>
+            {% endif %}
+        </header>
+        <p class="forum-description">{{ forum.description }}</p>
+        <article>
+            <table>
+                <thead>
+                <tr>
+                    <th>Sujet</th>
+                    <th class="numeric">Réponses</th>
+                    <th class="forum-dernier">Dernier message</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if not sujets %}
+                    <tr><td colspan="3">Aucun sujet pour le moment.</td></tr>
+                {% endif %}
+                {% for s in sujets %}
+                    <tr>
+                        <td>
+                            <a class="forum-titre" href="/forum/topic/{{ s.id }}">{{ s.titre }}</a>
+                            <span class="caption">
+                                par <span class="race{{ s.auteur.race }}">{{ s.auteur.nom }} ({{ s.auteur.numero }})</span>,
+                                <time>{{ s.date }}</time>
+                            </span>
+                        </td>
+                        <td class="numeric">{{ s.nbReponses }}</td>
+                        <td class="forum-dernier">
+                            {% if s.dernier %}
+                                <a href="{{ s.dernier.url }}">
+                                    <span class="race{{ s.dernier.auteur.race }}">{{ s.dernier.auteur.nom }} ({{ s.dernier.auteur.numero }})</span>
+                                    <time>{{ s.dernier.date }}</time>
+                                </a>
+                            {% else %}
+                                <span class="caption">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock %}

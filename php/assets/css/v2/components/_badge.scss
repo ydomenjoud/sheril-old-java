@@ -1,0 +1,11 @@
+@use "../abstracts" as *;
+
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid token("border-strong");
+  border-radius: $radius-badge;
+  @include type("data");
+  font-size: 11px;
+  color: token("text-navigation");
+}

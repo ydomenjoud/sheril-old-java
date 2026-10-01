@@ -1,0 +1,25 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="rule">
+
+        <nav aria-label="Chapitres des règles">
+            {# Menu déroulant en mobile (le bouton affiche le chapitre courant) ; en bureau, liens à plat #}
+            <details>
+            <summary>{{ title }}</summary>
+            {% for key,value in chapters %}
+                <a href="/rule/{{ key }}"{% if chemin == '/rule/' ~ key %} aria-current="page"{% endif %}>{{ value }}</a>
+            {% endfor %}
+            </details>
+        </nav>
+
+        <div class="card">
+            <header>
+                <h1>{{  title  }}</h1>
+            </header>
+            <article>
+                {{  content | raw }}
+            </article>
+        </div>
+    </main>
+{% endblock %}
