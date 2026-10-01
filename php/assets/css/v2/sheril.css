@@ -602,7 +602,7 @@ body > header > nav > details > summary {
   padding: 0;
 }
 .card > aside {
-  flex: 0 0 40%;
+  flex: 0 0 50%;
   padding: 22px 24px;
   background: var(--sheril-surface-inset);
   border-right: 1px solid var(--sheril-border-default);
@@ -1097,13 +1097,22 @@ table__cell--numeric {
 #home #jumbotron aside {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 8px;
+}
+#home #jumbotron aside .button-group {
+  margin-top: auto;
 }
 #home #jumbotron article {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 22px 24px;
+  padding: 0;
+}
+#home #jumbotron article > div {
+  padding: 0 14px;
+}
+#home #jumbotron article > div:last-child {
+  margin-top: auto;
+  padding-bottom: 14px;
 }
 #home #fast-nav article > nav {
   display: grid;
@@ -1153,12 +1162,16 @@ table__cell--numeric {
     display: flex;
     flex-direction: column;
   }
-  #home #jumbotron aside {
-    display: none;
-  }
 }
 @media screen and (max-width: 900px) {
+  #home #jumbotron {
+    flex-direction: column;
+  }
   #home #jumbotron aside {
+    border-right: 0;
+    border-bottom: 1px solid var(--sheril-border-default);
+  }
+  #home #jumbotron cite {
     display: none;
   }
   #home .split {
@@ -2543,11 +2556,18 @@ body.embed {
   margin: 14px 0;
 }
 
-#home #jumbotron:has(#titre-gazette) article {
+#home #jumbotron > article {
   gap: 8px;
-  padding: 14px;
 }
-#home #jumbotron:has(#titre-gazette) article h2 {
+#home #jumbotron > article header h2 {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+#home #jumbotron > article > div h2 {
   font-family: "Chakra Petch", "Segoe UI", sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -2556,7 +2576,7 @@ body.embed {
   color: var(--sheril-text-tertiary);
   margin: 0;
 }
-#home #jumbotron:has(#titre-gazette) article h3 {
+#home #jumbotron > article > div h3 {
   font-family: "Chakra Petch", "Segoe UI", sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -2565,7 +2585,7 @@ body.embed {
   color: var(--sheril-text-heading);
   margin: 0;
 }
-#home #jumbotron:has(#titre-gazette) article p {
+#home #jumbotron > article p {
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 400;

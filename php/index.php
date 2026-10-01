@@ -80,8 +80,8 @@ $app->get('/', 'pages/home', function () {
     return [
         'title' => 'Accueil',
         'data' => Data::getHomeData(),
-        // Jumbotron : début de la dernière gazette pour un commandant connecté
-        'gazette' => Data::currentUser() ? Data::getGazetteUne() : null,
+        // Jumbotron : début de la dernière gazette, à droite de la présentation du jeu
+        'gazette' => Data::getGazetteUne(),
     ];
 });
 # LORE
@@ -192,15 +192,13 @@ $app->get('/statistiques/detail', 'pages/stats/detail', function () {
     return ['title' => 'Progression des commandants', 'detail' => $d, 'parent' => '/statistiques'];
 });
 
-# GAZETTE (saison/<saison>/gazette/*.md, une par tour, réservée aux commandants connectés)
+# GAZETTE (saison/<saison>/gazette/*.md, une par tour, publique)
 $app->get('/gazette', null, function () {
-    exiger_connexion();
     $gazettes = Data::getGazettes();
     if (!$gazettes) Mini::abort(404);
     Mini::redirect($gazettes[0]['url']);
 });
 $app->get('/gazette/{tour:\d+}', 'pages/gazette', function ($p) {
-    exiger_connexion();
     $gazettes = Data::getGazettes();
     foreach ($gazettes as $g) {
         if ($g['tour'] === (int) $p['tour']) {

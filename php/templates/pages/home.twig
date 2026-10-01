@@ -2,45 +2,32 @@
 
 {% block content %}
     <main id="home">
-        {% if gazette %}
-            {# Commandant connecté : début de la dernière gazette à la place de la présentation du jeu #}
-            <section class="card" id="jumbotron" aria-labelledby="titre-gazette">
-                <header>
-                    <h1 id="titre-gazette">Gazette galactique</h1>
-                    <a href="{{ gazette.url }}">{{ gameName }} · tour {{ gazette.tour }}</a>
-                </header>
-                <article>
+        <section class="card card--feature" id="jumbotron" aria-labelledby="titre-jeu">
+            <aside>
+                <p class="eyebrow">4X spatial · tour par tour</p>
+                <h1 id="titre-jeu">Sheril, le jeu de stratégie au tour par tour</h1>
+                <cite>« L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité
+                    pour fonder le leur. »</cite>
+                <div class="button-group">
+                    <a class="button button--primary button--large" href="/lore/histoire">L'histoire</a>
+                    <a class="button button--secondary button--large" href="/statistiques">Statistiques</a>
+                    <a class="button button--secondary button--large" href="/play/register">S'inscrire</a>
+                </div>
+            </aside>
+            {% if gazette %}
+                {# Début de la dernière gazette #}
+                <article aria-labelledby="titre-gazette">
+                    <header>
+                        <h2 id="titre-gazette">Gazette galactique</h2>
+                        <a href="{{ gazette.url }}">{{ gameName }} · tour {{ gazette.tour }}</a>
+                    </header>
                     <div>{{ gazette.extrait|raw }}</div>
                     <div class="button-group">
-                        <a class="button button--primary button--large" href="{{ gazette.url }}">Lire la gazette en
-                            entier</a>
+                        <a class="button button--primary" href="{{ gazette.url }}">Lire la gazette en entier</a>
                     </div>
                 </article>
-            </section>
-        {% else %}
-            <section class="card card--feature" id="jumbotron" aria-labelledby="titre-jeu">
-                <aside>
-                    <p class="eyebrow">4X spatial · tour par tour</p>
-                    <h1>Sheril, le jeu de stratégie au tour par tour</h1>
-                    <cite>« L'humanité a créé les mutants pour sauver son empire… et les mutants ont effacé l'humanité
-                        pour fonder le leur. »</cite>
-                </aside>
-                <article>
-                    <p>Sheril vous plonge au cœur d'un jeu de stratégie 4X spatial au lore riche et impitoyable. Après
-                        des siècles de guerre totale et de mutations forcées sous les colonnes de radiations bleutées,
-                        l'ancien ordre cosmique est tombé. À la tête de l'un des peuples mutants nés de cet enfer -
-                        stratèges hors pair, colosses de combat ou maîtres des environnements hostiles -, prenez le
-                        contrôle du cosmos. Explorez des systèmes solaires dévastés, développez votre empire, négociez
-                        vos alliances et subjuguez vos rivaux dans une lutte acharnée pour la domination absolue de la
-                        galaxie.</p>
-                    <div class="button-group">
-                        <a class="button button--primary button--large" href="/lore/histoire">Découvrir l'histoire</a>
-                        <a class="button button--secondary button--large" href="/statistiques">Voir les statistiques</a>
-                        <a class="button button--secondary button--large" href="/play/register">S'inscrire</a>
-                    </div>
-                </article>
-            </section>
-        {% endif %}
+            {% endif %}
+        </section>
 
         <section id="fast-nav" class="card">
             <header>Accès rapide</header>

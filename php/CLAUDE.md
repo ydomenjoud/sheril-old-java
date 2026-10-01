@@ -97,11 +97,11 @@ pages/stats/detail.twig     → /statistiques/detail?nums=3,,7 : progression com
                               un commandant retiré laisse sa place vide pour que les autres gardent leur couleur
 pages/archives.twig         → /archives et /archives/{dossier} : sous-menu d'un lien par dossier de archive/
                               (Data::getArchives, plus récent d'abord) + iframe .page-frame vers /archive/<dossier>/
-pages/gazette.twig          → /gazette/{tour} (connecté) : gazette complète + sous-menu des tours ; /gazette → la dernière.
+pages/gazette.twig          → /gazette/{tour} (public) : gazette complète + sous-menu des tours ; /gazette → la dernière.
                               Fichiers saison/<Data::$saison>/gazette/gazette_<partie>_tour_<n>.md (facultatifs, un par tour,
-                              Data::getGazettes) ; l'accueil connecté remplace le jumbotron par une carte
-                              « Gazette galactique » avec le début de la dernière (Data::getGazetteUne : première rubrique
-                              après le 1er ---, deux paragraphes)
+                              Data::getGazettes) ; le jumbotron de l'accueil (connecté ou non) a la présentation
+                              du jeu et les boutons d'action à gauche, et à droite « Gazette galactique » avec le début de
+                              la dernière (Data::getGazetteUne : première rubrique après le 1er ---, deux paragraphes)
 pages/compte.twig           → /compte (connecté) : fiche du commandant, statistiques, liens, déconnexion, avatar
 pages/commandant.twig       → /commandant/{numero} : fiche publique (sans e-mail), liée depuis le registre
 pages/_commandant.twig      → fiche partagée par ces deux pages (Data::getCommandant) ; `pageCompte` choisit les boutons

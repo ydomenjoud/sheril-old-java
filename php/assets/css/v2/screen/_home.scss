@@ -8,16 +8,20 @@
   grid-template-columns: repeat(4, 1fr);
   #jumbotron {
     grid-column: span 3;
+    // Gauche : présentation du jeu, boutons d'action en bas
     aside {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: $gap-inline;
+      .button-group { margin-top: auto; }
     }
+    // Droite : début de la dernière gazette (styles du texte dans screen/_gazette.scss)
     article {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: $padding-hero;
+      padding: 0;
+      > div { padding: 0 $padding-card; }
+      > div:last-child { margin-top: auto; padding-bottom: $padding-card; }
     }
   }
   #fast-nav {
@@ -75,12 +79,15 @@
   #home {
     display: flex;
     flex-direction: column;
-    #jumbotron aside { display: none; }
   }
 }
 @media screen and (max-width: $breakpoint-tablette) {
   #home {
-    #jumbotron aside { display: none; }
+    #jumbotron {
+      flex-direction: column;
+      aside { border-right: 0; border-bottom: 1px solid token("border-default"); }
+      cite { display: none; }
+    }
       .split {
         display: flex;
         flex-direction: column;
