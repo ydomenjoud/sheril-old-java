@@ -16,6 +16,8 @@ aucun combat n'est possible entre vous et lui.</p>
 <ul>
     <li>Signer vous rapporte <strong>25 points de réputation</strong>.</li>
     <li>Le pacte prend effet immédiatement, dès le tour de signature.</li>
+    <li>Un ordre resté sans réciproque n'est pas conservé d'un tour sur l'autre :
+        chacun de vous doit repasser le sien.</li>
     <li>Le pacte ne bloque que les combats. Les services spéciaux restent possibles dans les
         deux sens.</li>
     <li>Rompre le pacte ne demande pas l'accord de l'autre, prend effet immédiatement et

@@ -1,7 +1,27 @@
 
 <h3 class="help">Aide</h3>
 
-<P><FONT ><STRONG>Utilisez cette rubrique si vous
-voulez rompre un pacte de non agression avec un autre commandant.
-<BR><BR>
-Vous pourrez dans le même tour attaquer les flottes ou les systèmes de ce commandant.
+<p>Rompre un pacte de non-agression avec un commandant. Le pacte disparaît des deux côtés
+et les combats entre vous redeviennent possibles.</p>
+
+<h4>Conditions</h4>
+<ul>
+    <li>La rubrique n'apparaît pas tant que vous n'avez <strong>aucun pacte</strong> en
+        cours.</li>
+    <li>Si le pacte visé n'existe plus au moment de la résolution, l'ordre est rejeté et ne
+        vous coûte rien. C'est le cas quand l'autre commandant rompt le même pacte dans le
+        même tour et que son ordre passe avant le vôtre.</li>
+</ul>
+
+<h4>À savoir</h4>
+<ul>
+    <li>La rupture est <strong>unilatérale</strong> : l'accord de l'autre commandant n'est
+        pas demandé.</li>
+    <li>Elle vous coûte <strong>100 points de réputation</strong>.</li>
+    <li>Elle est résolue avant les déplacements et les combats du tour : vous pouvez
+        attaquer ce commandant dès ce tour-ci.</li>
+    <li>L'autre commandant l'apprend dans son rapport du même tour, avec votre nom et votre
+        numéro.</li>
+    <li>Si vous êtes par ailleurs membres d'une même alliance, les combats entre vous
+        restent impossibles malgré la rupture.</li>
+</ul>
