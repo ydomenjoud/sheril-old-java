@@ -1,0 +1,46 @@
+{# Éditeur Quill : le HTML produit est copié dans le champ caché `corps` à l'envoi.
+   form.corps : contenu initial, déjà nettoyé côté PHP. #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
+<div class="field">
+    <span id="corps-label">Message</span>
+    <input type="hidden" name="corps" id="corps">
+    <div class="forum-editeur">
+        <div id="editeur" aria-labelledby="corps-label">{{ form.corps|raw }}</div>
+    </div>
+</div>
+<div class="forum-apercu" id="apercu" hidden>
+    <p class="eyebrow">Aperçu</p>
+    <div class="forum-corps" id="apercu-corps"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    (function () {
+        var quill = new Quill('#editeur', {
+            theme: 'snow',
+            placeholder: 'Votre message…',
+            modules: {
+                toolbar: [
+                    [{header: [2, 3, false]}],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['link', 'blockquote', 'code-block', 'image'],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    ['clean']
+                ]
+            }
+        });
+        var champ = document.getElementById('corps');
+        champ.form.addEventListener('submit', function () {
+            champ.value = quill.root.innerHTML;
+        });
+
+        // Aperçu : bouton [data-apercu] du formulaire (le HTML final est nettoyé côté serveur).
+        // Délégation sur le formulaire : ce script s'exécute avant que les boutons, placés après, n'existent.
+        var apercu = document.getElementById('apercu');
+        champ.form.addEventListener('click', function (e) {
+            if (!e.target.closest('[data-apercu]')) return;
+            document.getElementById('apercu-corps').innerHTML = quill.root.innerHTML;
+            apercu.hidden = false;
+            apercu.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+        });
+    })();
+</script>

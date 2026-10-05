@@ -151,8 +151,8 @@ public class Rapport {
 									  t.innerHTML = '&#128033;';
 									  const toggle = t.dataset.toggle;
 									  t.addEventListener('click', () => {
-										const previous = toggleInformations[toggle] || 'block';
-										const next = previous === 'block' ? 'none' : 'block';
+										const previous = toggleInformations[toggle] || '';
+										const next = previous === 'none' ? '' : 'none';
 										document.querySelectorAll('.'+toggle).forEach(t => t.style.display = next);
 										toggleInformations[toggle] = next;
 									  });
@@ -2174,6 +2174,325 @@ public class Rapport {
 		if (co.nbMessages() != 0) {
 			BaliseHTML d = getDiv().ajout("class", "combat");
 			d.ajout(getTitreSection().ajout(getText(t[2])));
+			String jsonCombat = RapportCombatJSONExporter.exporterString(c.getCombatsGroupes());
+			String script = """
+				
+				<script>
+				const combats = %s;
+				document.addEventListener("DOMContentLoaded", () => {
+					      			if (typeof combats === "undefined" || !combats.length) return;
+					
+					      			const body = document.body;
+					      			const container = document.querySelector(".combat") || body;
+					
+					      			// 1. Isolation de la vue classique
+					      			const legacyNodes = Array.from(container.children);
+					      			const legacyWrapper = document.createElement("div");
+					      			legacyWrapper.classList.add("legacy-combat-view");
+					
+					      			legacyNodes.forEach(node => legacyWrapper.appendChild(node));
+					      			container.appendChild(legacyWrapper);
+					
+					      			// Extraction des classes de race
+					      			const racesMap = new Map();
+					      			legacyWrapper.querySelectorAll("span[class^='race']").forEach(el => {
+					      				const match = el.textContent.match(/([^\\(\\s]+)/);
+					      				if (match) {
+					      					racesMap.set(match[1].trim(), el.className);
+					      				}
+					      			});
+					
+					      			// 2. Bouton fixe en haut à droite
+					      			const toggleBtn = document.createElement("button");
+					      			toggleBtn.classList.add("btn-toggle-mode");
+					      			toggleBtn.textContent = "Mode avancé";
+					      			body.appendChild(toggleBtn);
+					
+					      			// 3. Barre de navigation supérieure (Mode Avancé)
+					      			const navBar = document.createElement("div");
+					      			navBar.classList.add("top-nav-bar");
+					
+					      			const linksContainer = document.createElement("div");
+					      			linksContainer.classList.add("combat-links");
+					      			navBar.appendChild(linksContainer);
+					
+					      			container.insertBefore(navBar, legacyWrapper);
+					
+					      			// 4. Vue Avancée
+					      			const advancedWrapper = document.createElement("div");
+					      			advancedWrapper.classList.add("advanced-combat-view");
+					      			container.appendChild(advancedWrapper);
+					
+					      			combats.forEach((combat, index) => {
+					      				const combatId = `combat-block-${index}`;
+					
+					      				// Mise en valeur de la planète ciblée
+					      				const targetTitleHtml = combat.nomPlanete
+					      						? `<span class="planete_target">${combat.nomPlanete}</span>`
+					      						: (combat.defenseur ? `Flotte ${combat.defenseur.numFlotte + 1}` : "Combat");
+					
+					      				const targetTitleText = combat.nomPlanete || (combat.defenseur ? `Flotte ${combat.defenseur.numFlotte + 1}` : "Combat");
+					
+					      				// Lien dans la barre fixe supérieure
+					      				const navLink = document.createElement("a");
+					      				navLink.href = `#${combatId}`;
+					      				navLink.textContent = `${targetTitleText} (${combat.positionSysteme})`;
+					      				linksContainer.appendChild(navLink);
+					
+					      				// Bloc de combat
+					      				const block = document.createElement("div");
+					      				block.classList.add("combat-block");
+					      				block.id = combatId;
+					
+					      				const header = document.createElement("div");
+					      				header.classList.add("titre_section");
+					
+					      				const attRaceClass = racesMap.get(combat.attaquant.nom) || "race1";
+					      				const defRaceClass = racesMap.get(combat.defenseur.nom) || "race2";
+					
+					      				// Génération du lien de flotte avec +1 sur l'affichage du numéro
+					      				const attFlotteLink = `<a href="principal.htm#FLO${combat.attaquant.numFlotte}"><span class="flotte_desc">${combat.attaquant.nomFlotte}(${combat.attaquant.numFlotte + 1})</span></a>`;
+					
+					      				header.innerHTML = `Combat ${index + 1} : Flotte ${attFlotteLink} du commandant <span class="${attRaceClass}">${combat.attaquant.nom}&nbsp;(${combat.attaquant.id})</span> vs ${targetTitleHtml} du commandant <span class="${defRaceClass}">${combat.defenseur.nom}&nbsp;(${combat.defenseur.id})</span>`;
+					      				block.appendChild(header);
+					
+					      				const tableContainer = document.createElement("div");
+					      				tableContainer.classList.add("table-container");
+					
+					      				const table = document.createElement("table");
+					      				const thead = document.createElement("thead");
+					
+					      				const trHead1 = document.createElement("tr");
+					      				const thEntity = document.createElement("th");
+					      				thEntity.rowSpan = 2;
+					      				thEntity.classList.add("unit-name");
+					      				thEntity.textContent = "Entité";
+					      				trHead1.appendChild(thEntity);
+					
+					      				const trHead2 = document.createElement("tr");
+					
+					      				combat.tours.forEach(tour => {
+					      					const thTour = document.createElement("th");
+					      					thTour.colSpan = 3;
+					      					thTour.classList.add("tour-sep");
+					      					thTour.textContent = `Tour ${tour.tourNumber}`;
+					      					trHead1.appendChild(thTour);
+					
+					      					const thQty = document.createElement("th");
+					      					thQty.classList.add("tour-sep");
+					      					thQty.textContent = "Nb";
+					      					const thEnc = document.createElement("th");
+					      					thEnc.textContent = "D.Enc.";
+					      					const thInf = document.createElement("th");
+					      					thInf.textContent = "D.Inf.";
+					
+					      					trHead2.appendChild(thQty);
+					      					trHead2.appendChild(thEnc);
+					      					trHead2.appendChild(thInf);
+					      				});
+					
+					      				thead.appendChild(trHead1);
+					      				thead.appendChild(trHead2);
+					      				table.appendChild(thead);
+					
+					      				const tbody = document.createElement("tbody");
+					
+					      				// Section Attaquant
+					      				const trSecAtt = document.createElement("tr");
+					      				const tdSecAtt = document.createElement("td");
+					      				tdSecAtt.colSpan = 1 + (combat.tours.length * 3);
+					      				tdSecAtt.classList.add("faction-header-attaquant");
+					      				tdSecAtt.innerHTML = `<div class="fix">⚔️ ATTAQUANT : Flotte ${attFlotteLink} — Commandant <span class="${attRaceClass}">${combat.attaquant.nom}&nbsp;(${combat.attaquant.id})</span</div>`;
+					      				trSecAtt.appendChild(tdSecAtt);
+					      				tbody.appendChild(trSecAtt);
+					
+					      				const attUnits = [...new Set(combat.tours.flatMap(t => t.flotteAttaquante.map(u => u.nom)))];
+					
+					      				attUnits.forEach(unitName => {
+					      					const tr = document.createElement("tr");
+					      					const tdName = document.createElement("td");
+					      					tdName.classList.add("unit-name");
+					      					tdName.textContent = unitName;
+					      					tr.appendChild(tdName);
+					
+					      					combat.tours.forEach(tour => {
+					      						const unit = tour.flotteAttaquante.find(u => u.nom === unitName);
+					      						appendUnitCells(tr, unit);
+					      					});
+					      					tbody.appendChild(tr);
+					      				});
+					
+					      				// Section Défenseur
+					      				const trSecDef = document.createElement("tr");
+					      				const tdSecDef = document.createElement("td");
+					      				tdSecDef.colSpan = 1 + (combat.tours.length * 3);
+					      				tdSecDef.classList.add("faction-header-defenseur");
+					
+					      				const defTargetHtml = combat.typeCombat === "FLOTTE_PLANETE"
+					      						? `Planète ${targetTitleHtml}`
+					      						: `Flotte <a href="principal.htm#FLO${combat.defenseur.numFlotte}"><span class="flotte_desc">${combat.defenseur.nomFlotte}(${combat.defenseur.numFlotte + 1})</span></a>`;
+					
+					      				tdSecDef.innerHTML = `<div class="fix">🛡️ DÉFENSEUR : ${defTargetHtml} — Commandant <span class="${defRaceClass}">${combat.defenseur.nom}&nbsp;(${combat.defenseur.id})</span></div>`;
+					      				trSecDef.appendChild(tdSecDef);
+					      				tbody.appendChild(trSecDef);
+					
+					      				if (combat.typeCombat === "FLOTTE_PLANETE") {
+					      					// Milice
+					      					const trMilice = document.createElement("tr");
+					      					const tdMiliceName = document.createElement("td");
+					      					tdMiliceName.classList.add("unit-name");
+					      					tdMiliceName.textContent = "Milices";
+					      					trMilice.appendChild(tdMiliceName);
+					
+					      					combat.tours.forEach(tour => {
+					      						appendMiliceCells(trMilice, tour.milice);
+					      					});
+					      					tbody.appendChild(trMilice);
+					
+					      					// Bâtiments
+					      					const batNames = [...new Set(combat.tours.flatMap(t => t.batiments.map(b => b.nom)))];
+					      					batNames.forEach(batName => {
+					      						const tr = document.createElement("tr");
+					      						const tdName = document.createElement("td");
+					      						tdName.classList.add("unit-name");
+					      						tdName.textContent = batName;
+					      						tr.appendChild(tdName);
+					
+					      						combat.tours.forEach(tour => {
+					      							const bat = tour.batiments.find(b => b.nom === batName);
+					      							appendBatimentCells(tr, bat);
+					      						});
+					      						tbody.appendChild(tr);
+					      					});
+					      				} else {
+					      					// Flotte défenseuse
+					      					const defUnits = [...new Set(combat.tours.flatMap(t => t.flotteDefenseuse.map(u => u.nom)))];
+					      					defUnits.forEach(unitName => {
+					      						const tr = document.createElement("tr");
+					      						const tdName = document.createElement("td");
+					      						tdName.classList.add("unit-name");
+					      						tdName.textContent = unitName;
+					      						tr.appendChild(tdName);
+					
+					      						combat.tours.forEach(tour => {
+					      							const unit = tour.flotteDefenseuse.find(u => u.nom === unitName);
+					      							appendUnitCells(tr, unit);
+					      						});
+					      						tbody.appendChild(tr);
+					      					});
+					      				}
+					
+					      				table.appendChild(tbody);
+					      				tableContainer.appendChild(table);
+					      				block.appendChild(tableContainer);
+					      				advancedWrapper.appendChild(block);
+					      			});
+					
+					      			// Basculement de mode
+					      			toggleBtn.addEventListener("click", () => {
+					      				const isAdv = body.classList.toggle("is-advanced-mode");
+					      				toggleBtn.textContent = isAdv ? "Mode standard" : "Mode avancé";
+					      			});
+					
+					      			// Cellules
+					      			function appendUnitCells(tr, unit) {
+					      				const tdQty = document.createElement("td");
+					      				tdQty.classList.add("tour-sep");
+					      				const tdEnc = document.createElement("td");
+					      				const tdInf = document.createElement("td");
+					
+					      				if (unit) {
+					      					tdQty.textContent = unit.nombre;
+					      					if (unit.variationNombre < 0) {
+					      						const spanVar = document.createElement("span");
+					      						spanVar.classList.add("c6");
+					      						spanVar.textContent = ` (${unit.variationNombre})`;
+					      						tdQty.appendChild(spanVar);
+					      					}
+					
+					      					tdEnc.textContent = unit.degatsEncaisses;
+					      					if (unit.variationDegats > 0) {
+					      						const spanDmg = document.createElement("span");
+					      						spanDmg.classList.add("c3");
+					      						spanDmg.textContent = ` (+${unit.variationDegats})`;
+					      						tdEnc.appendChild(spanDmg);
+					      					}
+					
+					      					tdInf.textContent = unit.degatsInfliges;
+					      				} else {
+					      					tdQty.textContent = "-";
+					      					tdEnc.textContent = "-";
+					      					tdInf.textContent = "-";
+					      				}
+					
+					      				tr.appendChild(tdQty);
+					      				tr.appendChild(tdEnc);
+					      				tr.appendChild(tdInf);
+					      			}
+					
+					      			function appendMiliceCells(tr, milice) {
+					      				const tdQty = document.createElement("td");
+					      				tdQty.classList.add("tour-sep");
+					      				const tdEnc = document.createElement("td");
+					      				const tdInf = document.createElement("td");
+					
+					      				if (milice) {
+					      					tdQty.textContent = milice.nombre;
+					      					if (milice.variationNombre < 0) {
+					      						const spanVar = document.createElement("span");
+					      						spanVar.classList.add("c6");
+					      						spanVar.textContent = ` (${milice.variationNombre})`;
+					      						tdQty.appendChild(spanVar);
+					      					}
+					      				} else {
+					      					tdQty.textContent = "-";
+					      				}
+					
+					      				tdEnc.textContent = "-";
+					      				tdInf.textContent = "-";
+					
+					      				tr.appendChild(tdQty);
+					      				tr.appendChild(tdEnc);
+					      				tr.appendChild(tdInf);
+					      			}
+					
+					      			function appendBatimentCells(tr, bat) {
+					      				const tdQty = document.createElement("td");
+					      				tdQty.classList.add("tour-sep");
+					      				const tdEnc = document.createElement("td");
+					      				const tdInf = document.createElement("td");
+					
+					      				if (bat) {
+					      					tdQty.textContent = bat.nombre;
+					      					if (bat.variationNombre < 0) {
+					      						const spanVar = document.createElement("span");
+					      						spanVar.classList.add("c6");
+					      						spanVar.textContent = ` (${bat.variationNombre})`;
+					      						tdQty.appendChild(spanVar);
+					      					}
+					
+					      					tdEnc.textContent = bat.degatsEncaisses;
+					      					if (bat.variationDegats > 0) {
+					      						const spanDmg = document.createElement("span");
+					      						spanDmg.classList.add("c3");
+					      						spanDmg.textContent = ` (+${bat.variationDegats})`;
+					      						tdEnc.appendChild(spanDmg);
+					      					}
+					      				} else {
+					      					tdQty.textContent = "-";
+					      					tdEnc.textContent = "-";
+					      				}
+					
+					      				tdInf.textContent = "-";
+					
+					      				tr.appendChild(tdQty);
+					      				tr.appendChild(tdEnc);
+					      				tr.appendChild(tdInf);
+					      			}
+					      		});
+				</script>
+			""".formatted(jsonCombat);
+			d.ajout(script);
 			ajouterLienPrincipal(getALienE(DETAIL_COMBAT).ajout(getText("Combats")));
 			d.ajout(ecrireMessages(co, Const.MESSAGE_TYPE_COMMANDANT));
 			listeDocuments.add(getDocument(chemin + DETAIL_COMBAT, (String) Univers.getMessageRapport("TITRE_DETAIL_COMBAT",c.getLocale()), getBody().ajout(d)));
@@ -2644,7 +2963,7 @@ public class Rapport {
 
 		// Header du tableau des planètes
 		int bcol = 0;
-		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Nom")));
+		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Minerai")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Terra.")));
 		b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(getFont(cC[4], null).ajout(getText("Impôts")));
@@ -2658,7 +2977,7 @@ public class Rapport {
 			Planete pl = planetesList[i];
 			boolean proprio = pl.getProprio() == num;
 			bcol = 0;
-			String nomP = (pl.getNom() == null || pl.getNom().isEmpty() ? "P" + (i + 1) : pl.getNom());
+			String nomP = (i + 1)+"";
 			var link = getALienE(getNomDocHTMLPlanetes(s.getPosition(), num)+"#p"+i).ajout(nomP);
 			b[bligne][bcol++] = getTD(BaliseHTML.CENTER, null).ajout(link);
 			int revenuMinerai = pl.calculeRevenuMinerai();

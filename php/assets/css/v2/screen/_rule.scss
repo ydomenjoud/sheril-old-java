@@ -1,0 +1,7 @@
+@use "../abstracts" as *;
+
+#rule {
+  .card article {
+    padding: $padding-card;
+  }
+}

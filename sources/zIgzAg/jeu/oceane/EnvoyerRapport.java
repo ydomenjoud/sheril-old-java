@@ -30,7 +30,7 @@ public class EnvoyerRapport {
 
 	public static void envoyer(Commandant c) {
 		// si on envoit pas de mail ou que c'est un tour de test, on essaye même pas
-		if((!Const.SEND_MAIL || Const.FAKE_TURN) && c.getNumero() != 1) { return; }
+		if((!Const.SEND_MAIL || Const.FAKE_TURN)) { return; }
 
 		String sujet = new MessageFormat(Univers.getMessageInfo("MAIL_TITRE_RAPPORT", c.getLocale()))
 				.format(new Object[]{ Const.GAME_NAME, Univers.getTour() });

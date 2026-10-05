@@ -75,6 +75,7 @@ public class Chemin {
 	public static String ALLIANCES;
 	public static String TECHNOLOGIES_PUBLIQUES;
 	public static String LEADERS_EN_VENTE;
+	public static String PAQUETS_DEPART;
 	public static String BASE_STATS;
 	public static String RELATIONS_RACES;
 	public static String TRANSFERTS;
@@ -138,6 +139,7 @@ public class Chemin {
 		ALLIANCES = c(DONNEES + "alliance.txt", false);
 		TECHNOLOGIES_PUBLIQUES = c(DONNEES + "techpub.txt", false);
 		LEADERS_EN_VENTE = c(DONNEES + "leader.txt", false);
+		PAQUETS_DEPART = c(DONNEES + "depart.txt", false);
 		BASE_STATS = c(DONNEES + "stats.txt", false);
 		RELATIONS_RACES = c(DONNEES + "rel.txt", false);
 		TRANSFERTS = c(DONNEES + "transfert.txt", false);

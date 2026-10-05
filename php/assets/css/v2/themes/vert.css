@@ -1,0 +1,29 @@
+:root {
+  color-scheme: dark;
+  --sheril-surface-page: #04110c;
+  --sheril-surface-header: #08241a;
+  --sheril-surface-inset: #061810;
+  --sheril-surface-card: #0a1f17;
+  --sheril-surface-raised: #0e291f;
+  --sheril-surface-table: #0e291f;
+  --sheril-surface-track: #153d2d;
+  --sheril-border-default: #1a4a37;
+  --sheril-border-subtle: #123426;
+  --sheril-border-strong: #276e53;
+  --sheril-border-raised: #1f5a43;
+  --sheril-border-shadow: #3a9a76;
+  --sheril-text-heading: #fff0f6;
+  --sheril-text-primary: #e0ede7;
+  --sheril-text-secondary: #c3d8cf;
+  --sheril-text-navigation: #b4ccc2;
+  --sheril-text-tertiary: #9db8ad;
+  --sheril-text-link: #3ee6b4;
+  --sheril-text-link-hover: #ffb8d9;
+  --sheril-brand: #ff85bf;
+  --sheril-action-primary: #3ee6b4;
+  --sheril-action-primary-hover: #9ff5d8;
+  --sheril-action-on-primary: #03261b;
+  --sheril-focus-ring: #ff85bf;
+}
+
+/*# sourceMappingURL=vert.css.map */

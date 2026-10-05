@@ -1,0 +1,121 @@
+@use "../abstracts" as *;
+@use "../components/button"; // nécessaire pour @extend .button
+
+// LAYOUT
+#home {
+  gap: $gap-cards;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  #jumbotron {
+    grid-column: span 3;
+    // Gauche : présentation du jeu, boutons d'action en bas
+    aside {
+      display: flex;
+      flex-direction: column;
+      gap: $gap-inline;
+      .button-group { margin-top: auto; }
+    }
+    // Droite : début de la dernière gazette (styles du texte dans screen/_gazette.scss)
+    article {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      > div { padding: 0 $padding-card; }
+      > div:last-child { margin-top: auto; padding-bottom: $padding-card; }
+    }
+  }
+  #fast-nav {
+    article > nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: $gap-cards;
+      a {
+        @extend .button;
+        @extend .button--tile;
+      }
+    }
+  }
+  #victoire {
+    grid-column: span 2;
+    article {
+      padding: $gap-cards;
+    }
+  }
+  #forum-last-msg {
+    grid-column: span 2;
+    a.badge {
+      font-size: 10px;
+    }
+    table {
+      table-layout: fixed;
+      width: 100%;
+      td:has(a) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  #topflop {
+    grid-column: span 4;
+    article {
+      padding: $gap-cards;
+    }
+    th {
+      width: 50%;
+    }
+    td {
+      padding: 0 2px;
+      &:nth-child(2n) {
+        text-align: right;
+        padding-right: 5px;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  #home {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: $breakpoint-tablette) {
+  #home {
+    #jumbotron {
+      flex-direction: column;
+      aside { border-right: 0; border-bottom: 1px solid token("border-default"); }
+      cite { display: none; }
+    }
+      .split {
+        display: flex;
+        flex-direction: column;
+      }
+  }
+}
+@media screen and (max-width: 1200px) {
+  #home {
+    .split {
+      flex-wrap: wrap;
+      & > * {
+        flex: 1 1 calc(50% - 2*$gap-cards);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  #home {
+    display: flex;
+    flex-direction: column;
+    #topflop {
+      .split {
+        flex-wrap: wrap;
+        & > * {
+          flex: 1 1 calc(50% - 2*$gap-cards);
+        }
+      }
+    }
+  }
+}

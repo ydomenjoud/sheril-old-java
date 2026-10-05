@@ -1,11 +1,11 @@
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
-<P><h1>Renommer un systeme </h1>
-<BR>
+<h1>Renommer un systeme </h1>
+<P>
 Je désire renommer mon systeme
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "SYSTEME", $t0)); ?>
 . Son nouveau nom : 
-<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80>
-</B></P>
+<INPUT TYPE="text" NAME="v1" VALUE="<?=V('v1')?>" SIZE=30 MAXLENGTH=80 required>
+</P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
 

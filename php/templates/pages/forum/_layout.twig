@@ -1,0 +1,12 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="forum">
+        <nav aria-label="Fil d'Ariane">
+            <a href="/forum">Forum</a>
+            {% block ariane %}{% endblock %}
+        </nav>
+        {% block forum %}
+        {% endblock %}
+    </main>
+{% endblock %}

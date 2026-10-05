@@ -1,0 +1,13 @@
+// Tous les composants. Un composant qui en étend un autre (@extend)
+// doit faire lui-même @use du fichier concerné.
+@use "card";
+@use "table";
+@use "subnav";
+@use "button";
+@use "icon";
+@use "badge";
+@use "progress-meter";
+@use "banner";
+@use "form";
+@use "a11y";
+@use "utilities";

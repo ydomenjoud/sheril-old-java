@@ -20,6 +20,10 @@ public class Batiment extends Produit {
 		return structure;
 	}
 
+	public int getPointsEncombrement() {
+		return pointsDeConstructionNecessaires;
+	}
+
 	public boolean estDefensePlanetaire() {
 		return (codeArme != null);
 	}

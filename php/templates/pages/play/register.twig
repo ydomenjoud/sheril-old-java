@@ -1,0 +1,112 @@
+{% extends "pages/play/_layout.twig" %}
+
+{% block play %}
+    <section class="card" id="inscription">
+        <header>
+            <h1>Inscription</h1>
+            <a href="/play/listing">voir le registre</a>
+        </header>
+        <article>
+            <p class="eyebrow">Partie {{ gameName }}</p>
+            <h2>Forgez votre destin</h2>
+            <blockquote>
+                L'univers est vaste, froid et n'attend qu'un leader pour l'unifier. Vous ne commencez qu'avec
+                une modeste colonie, mais l'horizon n'a pas de limites.
+            </blockquote>
+            <p>
+                Votre commandant sera créé lors de la prochaine résolution du tour, le <strong>mercredi à 20h</strong>.
+                Vous recevrez alors un e-mail avec vos informations de connexion à la console d'ordres.
+            </p>
+
+            {% if inscrit %}
+                <div class="banner banner--positive" role="status">
+                    Inscription enregistrée pour le commandant <strong>{{ inscrit }}</strong>. Rendez-vous à la prochaine résolution !
+                </div>
+            {% endif %}
+
+            {% if erreurs %}
+                <div class="banner banner--negative" role="alert">
+                    <ul>
+                        {% for erreur in erreurs %}
+                            <li>{{ erreur }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form class="form" method="post" action="/play/register">
+                <fieldset>
+                    <legend>Choisissez votre race</legend>
+                    <div class="race-choice">
+                        {% for race in inscription.races %}
+                            <label>
+                                <input class="visually-hidden" type="radio" name="race" value="{{ race.id }}" required{% if race.checked %} checked{% endif %}>
+                                <img src="{{ race.img }}" alt="" loading="lazy">
+                                <span class="race{{ race.id }}">{{ race.nom }}</span>
+                                <a href="{{ race.lore }}" target="_blank" rel="noopener">voir la fiche</a>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+
+                <label class="field">
+                    <span>Nom de commandant</span>
+                    <input type="text" name="nom" value="{{ form.nom }}" pattern="[a-zA-Z0-9_ ]{3,32}" maxlength="32" required>
+                    <small>3 à 32 caractères : lettres sans accent, chiffres, espace ou _.</small>
+                </label>
+
+                <label class="field">
+                    <span>Adresse e-mail</span>
+                    <input type="email" name="email" value="{{ form.email }}" maxlength="100" required>
+                    <small>Vos rapports et vos identifiants y seront envoyés. Elle n'est jamais affichée sur le site.</small>
+                </label>
+
+                <label class="field">
+                    <span>Pseudo du MJ</span>
+                    <input type="text" name="mj" value="{{ form.mj }}" required>
+                    <small>Protection anti-robots : la réponse est « Myst ».</small>
+                </label>
+
+                <div class="button-group">
+                    <button class="button button--primary button--large" type="submit">S'inscrire</button>
+                </div>
+            </form>
+        </article>
+    </section>
+
+    <section class="card" id="inscription-attente">
+        <header>
+            <h2>En attente · {{ inscription.attenteTotal }}</h2>
+        </header>
+        {% if inscription.attenteRaces %}
+            <ul class="race-count" aria-label="Répartition par race">
+                {% for race in inscription.attenteRaces %}
+                    <li class="badge"><span class="race{{ race.id }}">{{ race.nom }}</span> {{ race.nb }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <article>
+            <table>
+                <thead>
+                <tr>
+                    <th>Commandant</th>
+                    <th>Race</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if not inscription.attente %}
+                    <tr>
+                        <td colspan="2">Aucune inscription en attente.</td>
+                    </tr>
+                {% endif %}
+                {% for joueur in inscription.attente %}
+                    <tr>
+                        <td class="race{{ joueur.race }}">{{ joueur.nom }}</td>
+                        <td class="race{{ joueur.race }}">{{ joueur.raceNom }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock %}

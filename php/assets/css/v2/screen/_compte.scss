@@ -1,0 +1,46 @@
+@use "../abstracts" as *;
+
+// « Mon compte » et fiche publique d'un commandant (partiel pages/_commandant.twig)
+#compte, #commandant {
+  > article {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $padding-hero;
+    padding: $padding-hero;
+  }
+  figure {
+    margin: 0;
+    text-align: center;
+    img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: $radius-container;
+      background: token("surface-inset");
+      border: 1px solid token("border-raised");
+    }
+    figcaption { @include type("body-ui-strong"); }
+  }
+  section > div { flex: 1 1 300px; }
+  // Formulaire de l'avatar personnalisé
+  section + section { border-top: 1px solid token("border-subtle"); }
+  section > form { flex: 1 1 100%; }
+  h2 { margin-top: 0; text-transform: none; letter-spacing: normal; font-size: 20px; }
+  dl {
+    margin: $gap-cards 0;
+    > div {
+      display: flex;
+      justify-content: space-between;
+      gap: $gap-cards;
+      padding: 4px 0;
+      border-top: 1px solid token("border-subtle");
+    }
+    dt { @include type("column-label"); color: token("text-tertiary"); }
+    dd { margin: 0; @include type("data"); color: token("text-primary"); }
+  }
+  form { margin: 0; }
+}

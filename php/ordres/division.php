@@ -47,7 +47,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantites' && $flotte
 }
 
 if (isset($_GET['elimine']) && $_GET['elimine'] == 0) {
-    mysql($base, "DELETE FROM diviser_flotte WHERE id = {$_GET['identifier']} AND NUMERO=$commandant");
+    $identifier = intval($_GET['identifier']);
+    mysql($base, "DELETE FROM diviser_flotte WHERE id = $identifier AND NUMERO=$commandant");
     header("Location: ?table=$table&flotte_id=$flotte_selectionnee");
     exit;
 }
@@ -171,7 +172,7 @@ if (count($divisions) > 0) {
                 <thead>
                 <tr>
                     <th style="width: 150px">Vaisseau</th>
-                    <?php foreach ($divisions as $nb_div => [$nom, $id]): ?>
+                    <?php foreach ($divisions as $nb_div => $div_data): $nom = $div_data[0]; $id = $div_data[1]; ?>
                         <th>
                             <?php echo $nom; ?>
                             <a class="delete"
@@ -192,7 +193,7 @@ if (count($divisions) > 0) {
                         echo "<tr>";
                         echo "<td>$type_vaisseau</td>";
                         $somme_ligne = 0;
-                        foreach ($divisions as $nb_div => [$nom, $id]) {
+                        foreach ($divisions as $nb_div => $div_data2) { $nom = $div_data2[0]; $id = $div_data2[1];
                             $val = isset($affectations[$nb_div][$key]) ? $affectations[$nb_div][$key] : 0;
                             echo "<td><input type='number' name='qte[$nb_div][$key]' " . ($val > 0 ? "value='$val'" : "") . " " . ($val > 0 ? "class='notempty'" : "") . " min='0' style='width: 60px;'></td>";
                             $somme_ligne += $val;

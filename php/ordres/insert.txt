@@ -5,6 +5,8 @@ for ($j = 0; $j < 8; $j++) {
     $$key = array_key_exists($key, $_POST) ? $_POST[$key] : null;
 }
 
+$construireBluePrintSeparator = "%#!%";
+
 if ($v0 != "" || array_key_exists('tache',$_POST)) {
     if ($table == 'construire' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
 
@@ -21,7 +23,8 @@ if ($v0 != "" || array_key_exists('tache',$_POST)) {
             );
         }, $listeConstructionPossibles);
         $data = base64_decode($_POST['blueprint']);
-        $list = explode("%", $data);
+        $list = explode($construireBluePrintSeparator, $data);
+
         for ($i = 0; $i < count($list); $i++) {
             $informations = explode(":", $list[$i]);
 
@@ -29,15 +32,12 @@ if ($v0 != "" || array_key_exists('tache',$_POST)) {
             $quantity = intval($informations[1]);
             $code = mysql_real_escape_string($informations[2]);
             $planete = intval($informations[3]);
-            if(!array_key_exists($code,$listeConstructionPossibles)){
-                var_dump($listeConstructionPossibles);
+            if(!array_key_exists($code, $listeConstructionPossibles)){
                 die("Technologie inconnue : ".$code." <br /><a href='index.php3?table=$table'>Retour</a>");
             }
             if(!array_key_exists($systeme,$listeSystemes)){
-                var_dump($listeSystemes);
                 die("Système inconnu : ".$systeme." <br /><a href='index.php3?table=$table'>Retour</a>");
             }
-            var_dump($systeme, $quantity, $code, $planete);
             $query = "insert into construire (NUMERO, SYSTEME, CONSTRUCTION, NOMBRE, PLANETE)
 values ($commandant, '$systeme', '$code', $quantity, $planete);";
             mysql_query($query) or die(mysql_error());

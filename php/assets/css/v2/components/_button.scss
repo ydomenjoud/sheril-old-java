@@ -1,0 +1,66 @@
+@use "../abstracts" as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-inline;
+  height: $size-control;
+  padding: $padding-control;
+  border: 1px solid transparent;
+  border-radius: $radius-control;
+  @include type("body-ui-strong");
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+
+  &:focus-visible { @include focus-visible-ring; }
+
+  // Action principale (une seule par zone)
+  &--primary {
+    background: token("action-primary");
+    color: token("action-on-primary");
+    font-weight: 600;
+    &:hover { background: token("action-primary-hover"); color: token("action-on-primary"); }
+  }
+
+  // Action secondaire
+  &--secondary {
+    background: transparent;
+    border-color: token("border-strong");
+    color: token("text-primary");
+    &:hover { border-color: token("brand"); color: token("brand"); }
+  }
+
+  // Action discrète (lien d'appoint)
+  &--tertiary {
+    background: transparent;
+    padding: 0 $gap-inline;
+    color: token("text-link");
+    &:hover { background: tint("brand", 8%); }
+  }
+
+  &--large { height: $size-control-lg; padding: 0 18px; }
+
+  // Tuile d'accès rapide : icône en haut, libellé en bas
+  &--tile {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: auto;
+    padding: $gap-cards;
+    background: token("surface-raised");
+    border-color: token("border-raised");
+    color: token("text-primary");
+    text-align: left;
+    line-height: 1.45;
+    &:hover { border-color: token("brand"); color: token("text-primary"); }
+
+    &.button--primary {
+      background: token("action-primary");
+      border-color: token("action-primary");
+      color: token("action-on-primary");
+      &:hover { background: token("action-primary-hover"); border-color: token("action-primary-hover"); }
+    }
+  }
+}

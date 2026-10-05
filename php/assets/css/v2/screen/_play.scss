@@ -1,0 +1,163 @@
+@use "../abstracts" as *;
+@use "../components/button"; // nécessaire pour @extend .button
+
+#play {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-cards;
+
+  #play-intro article {
+    padding: $padding-card;
+    ol { margin-bottom: $gap-cards; }
+  }
+
+  // Tuiles d'accès aux quatre sous-parties
+  #play-sections {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: $gap-cards;
+    a {
+      @extend .button;
+      @extend .button--tile;
+      gap: $gap-inline;
+      justify-content: flex-start;
+      span { font-weight: 400; }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #play #play-sections { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media screen and (max-width: 600px) {
+  #play #play-sections { grid-template-columns: 1fr; }
+}
+
+// Effectif par race, sous l'en-tête d'une carte (registre, inscriptions en attente)
+#play .race-count {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap-inline;
+  margin: 0;
+  padding: $gap-inline $padding-card;
+  list-style: none;
+  border-bottom: 1px solid token("border-default");
+}
+
+// Registre des commandants
+#registre {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  .numeric {
+    text-align: right;
+    width: 1%;
+    white-space: nowrap;
+  }
+  // 2e colonne : avatar (personnalisé ou de race) en vignette ; avatar et nom mènent à la fiche du commandant
+  tr > :nth-child(2) { width: 30px; }
+  td a { color: inherit; }
+  td img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: $radius-container;
+    border: 1px solid token("border-raised");
+  }
+}
+
+// Inscription : formulaire + inscriptions en attente côte à côte
+#play:has(#inscription) {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+#inscription {
+  > article {
+    display: grid;
+    gap: $gap-inline;
+    padding: $padding-hero;
+  }
+  blockquote { margin: 0 0 $gap-inline; }
+
+  // Sélecteur de race : une carte par race, le bouton radio est masqué
+  .race-choice {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: $gap-cards;
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $gap-tight;
+      padding: $gap-inline;
+      background: token("surface-raised");
+      border: 1px solid token("border-raised");
+      border-radius: $radius-control;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+      &:hover { border-color: token("brand"); }
+      &:has(:checked) {
+        border-color: token("brand");
+        background: tint("brand", 12%);
+      }
+      &:has(:focus-visible) { @include focus-visible-ring; }
+    }
+    img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: $radius-badge;
+    }
+    span { @include type("body-ui-strong"); }
+    a { @include type("caption"); }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  #play:has(#inscription) { display: flex; }
+}
+
+// Pages en iframe (console d'ordres, outil d'aide) : l'iframe occupe toute la hauteur restante sous l'en-tête
+body:has(.page-frame) {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  > main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
+  > footer { display: none; }
+}
+
+.page-frame {
+  flex: 1;
+  width: 100%;
+  border: 1px solid token("border-raised");
+  border-radius: $radius-container;
+  background: token("surface-card");
+}
+
+// Archives : sous-menu des parties au-dessus, iframe (.page-frame) sur le reste de la hauteur
+#archives {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-cards;
+  > nav { border-radius: $radius-container; }
+}
+
+// Console d'ordres : liste déroulante des ordres, en mobile seulement (le frameset de l'ancienne
+// console est alors remplacé par la seule fenêtre de l'ordre, voir assets/js/console.js)
+#console-choix {
+  display: none;
+  select { width: 100%; }
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  #console-choix { display: grid; }
+}

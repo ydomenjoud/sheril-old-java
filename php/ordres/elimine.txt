@@ -4,6 +4,11 @@ $elimine = array_key_exists('elimine', $_GET) ? $_GET['elimine'] : null;
 $identifier = array_key_exists('identifier', $_GET) ? $_GET['identifier'] : null;
 $identifierKey = array_key_exists('key', $_GET) ? strtolower($_GET['key']) : null;
 
+include_once "./fr/ordres.txt";
+if ($elimine != "" && !in_array($table, $code_ordres, true)) {
+    die("Table non autorisée");
+}
+
 if ($elimine != "") {
     if($identifier && $identifierKey){
         // recherche des noms valides

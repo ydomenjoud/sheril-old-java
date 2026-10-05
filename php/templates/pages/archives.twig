@@ -1,0 +1,32 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="archives">
+        {% if archives %}
+            <nav aria-label="Parties archivées">
+                {# Menu déroulant en mobile (le bouton affiche la partie courante) ; en bureau, liens à plat #}
+                <details>
+                <summary>{{ courante.nom|default('Choisir une partie') }}</summary>
+                {% for a in archives %}
+                    <a href="{{ a.url }}"{% if courante and courante.nom == a.nom %} aria-current="page"{% endif %}>{{ a.nom }}</a>
+                {% endfor %}
+                </details>
+            </nav>
+        {% endif %}
+
+        {% if courante %}
+            <iframe class="page-frame" src="{{ courante.src }}" title="Archive {{ courante.nom }}"></iframe>
+        {% else %}
+            <section class="card">
+                <header><h1>Archives</h1></header>
+                <article>
+                    {% if archives %}
+                        <p>Retrouvez les anciennes parties de Sheril : choisissez une partie dans le menu ci-dessus.</p>
+                    {% else %}
+                        <p>Aucune partie archivée pour le moment.</p>
+                    {% endif %}
+                </article>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

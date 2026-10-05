@@ -914,6 +914,7 @@ public class Flotte implements Serializable {
 		Flotte retour = new Flotte(nouveauNom, position);
 		retour.constructionEnCours = constructionEnCours;
 		for (int i = 0; i < code.length; i++) {
+//			System.out.println("code "+code[i]+ ",nb "+nb[i]);
 			int index = trouverNumeroVaisseauLePlusEndommage(code[i]);
 			int compteur = 0;
 			while ((index != -1) && (compteur < nb[i])) {

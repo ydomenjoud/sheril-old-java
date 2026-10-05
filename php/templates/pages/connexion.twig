@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="connexion">
+        <section class="card">
+            <header><h1>Connexion</h1></header>
+            <article>
+                <p>Utilisez les identifiants reçus par e-mail pour la console d'ordres.</p>
+                {% if erreur %}
+                    <div class="banner banner--negative" role="alert">Identifiants incorrects. Veuillez réessayer.</div>
+                {% endif %}
+                <form class="form" method="post" action="/connexion">
+                    <input type="hidden" name="csrf" value="{{ csrf }}">
+                    <input type="hidden" name="retour" value="{{ retour }}">
+                    <label class="field">
+                        <span>Login</span>
+                        <input type="text" name="login" value="{{ login }}" autocomplete="username" required>
+                    </label>
+                    <label class="field">
+                        <span>Mot de passe</span>
+                        <input type="password" name="password" autocomplete="current-password" required>
+                    </label>
+                    <div class="button-group">
+                        <button class="button button--primary" type="submit">Se connecter</button>
+                    </div>
+                </form>
+                <p class="caption">Pas encore de commandant ? <a href="/play/register">Inscrivez-vous</a>.</p>
+            </article>
+        </section>
+    </main>
+{% endblock %}

@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planete implements Serializable {
@@ -155,7 +154,7 @@ public class Planete implements Serializable {
 		ConstructionPlanetaire[] c = getBatiments();
 		int enc = 0;
 		for (int i = 0; i < c.length; i++)
-			enc += c[i].getBatiment().getPointsDeConstruction();
+			enc += c[i].getBatiment().getPointsEncombrement();
 		return enc;
 	}
 
@@ -878,11 +877,13 @@ public class Planete implements Serializable {
 		if (calculeMaxPopDeBase(race) == 0)
 			return 0;
 		int retour;
-		retour = 8
-				+ (type / 2)
-				+ (calculeMaxPopDeBase(race) / 500)
-				+ Const.RACES_ATMOSPHERES[race][atmosphere]
-				+ Const.RACES_CARACTERISTIQUES[race][Const.RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION];
+		retour = 6
+				+ (type / 10)
+				+ (calculeMaxPopDeBase(race) / 800)
+				+ (terraformation * 3)
+				+ (Const.RACES_ATMOSPHERES[race][atmosphere]/2)
+				+ Const.RACES_CARACTERISTIQUES[race][Const.RACE_CARACTERISTIQUE_AUGMENTATION_POPULATION]
+		;
 		return Math.max(retour, 1);
 	}
 
@@ -944,11 +945,13 @@ public class Planete implements Serializable {
 		return retour;
 	}
 
-	public int recyclerMateriel(Batiment b, int nombre) {
+	public int recyclerMateriel(Batiment b, int nombre, boolean contientUniteDeRecyclage) {
 		int nbElimine = eliminerBatiment(b, nombre).getNombreObjets();
-		if (nbElimine > 0)
-			if (contientUniteDeRecyclage())
+		if (nbElimine > 0) {
+			if (contientUniteDeRecyclage) {
 				ajouterMinerai(b.getMineraiNecessaire() * nbElimine);
+			}
+		}
 		return nbElimine;
 	}
 

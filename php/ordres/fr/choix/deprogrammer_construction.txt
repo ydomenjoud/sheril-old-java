@@ -2,7 +2,7 @@
 <P><h1>Terminer un programme de construction</h1>
 <BR>
  Je désire donner l'ordre de terminer le programme de construction sur mon système
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "SYSTEME", $t0)); ?>
 
 </B></P>
     <label>

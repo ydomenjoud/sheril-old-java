@@ -40,7 +40,7 @@ public class MessagesInfo extends MessagesAbstraits {
         
         <div style="border-bottom: 2px solid #58a6ff; padding-bottom: 10px; margin-bottom: 20px;">
             <div style="color: #58a6ff; font-size: 20px; font-weight: bold; margin: 0;">🚀 Transmission Tactique - Sheril</div>
-            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Rapport de fin de tour • Unité IA Xyur06-Tr</div>
+            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Rapport de fin de tour • Unité IA Zham13-Tr</div>
         </div>
 
         <p>Salutations, Commandant.</p>
@@ -270,6 +270,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0001 = "Seuls {2} {1} sur {3} demanDés ont pu être recyclés sur le système {0}.";
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0002 = "{3} {1} ont été recyclés sur la planète {2} du système {0} conformêment à vos ordres.";
 	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0003 = "Seuls {3} {1} sur {4} demanDés ont pu être recyclés sur la planète {2} du système {0}.";
+	public static final String EV_COMMANDANT_DETRUIRE_BATIMENT_0004 = "Lors du recyclage de {0} {1} sur {2}, vous avez récupéré {3} minerais grace à votre unité de recyclage.";
 
 	public static final String ER_COMMANDANT_AFFECTER_RECHERCHE_0000 = "Vous ne pouvez mettre en place votre nouveau plan de recherche : il est impossible de chercher plus de trois technologies en même temps!";
 	public static final String ER_COMMANDANT_AFFECTER_RECHERCHE_0001 = "Votre nouveau plan de recherche est annulé car le total des affectations Dépasse les 100% !";
@@ -330,7 +331,9 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String EV_COMMANDANT_ACHAT_MARCHANDISE_0002 = "Vous venez de Décharger dans votre poste commercial du système {1} {2} marchandise(s) de type {0}.";
 
 	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0000 = "Impossible de diviser la flotte numéro {0} : elle n'existe pas.";
-	public static final String EV_COMMANDANT_DIVISER_FLOTTE_0000 = "Vous venez de diviser votre flotte {0} pour donner la flotte {1}.";
+	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0001 = "Impossible de diviser la flotte {0} pour créer la flotte {1} : aucun des types de vaisseaux demandés n'y a été trouvé.";
+	public static final String ER_COMMANDANT_DIVISER_FLOTTE_0002 = "Erreur lors de la division de la flotte {0} pour créer la flotte {1} : certains types de vaisseaux demandés n'y ont été trouvés.";
+	public static final String EV_COMMANDANT_DIVISER_FLOTTE_0000 = "Vous venez de diviser votre flotte {0} pour donner la flotte {1} en y affectant {2}";
 
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0000 = "Problème de fusion pour les flotte {0} et {1} : la flotte numéro {0} n'existe pas.";
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0001 = "Impossible de fusionner la flotte numéro {0} et la flotte numéro {1} : elles ont le même numéro!";

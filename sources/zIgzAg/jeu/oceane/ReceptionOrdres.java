@@ -659,16 +659,18 @@ public class ReceptionOrdres {
 
 		ArrayList type = new ArrayList();
 		ArrayList nombre = new ArrayList();
-		for (int i = 0; i < s.length; i++)
+		for (int i = 0; i < s.length; i++) {
 			if ((s[i][0].equals(o[0])) && (s[i][1].equals(o[2]))) {
 				type.add(s[i][2]);
 				nombre.add(s[i][3]);
 			}
-		if (type.size() > 0)
+		}
+		if (type.size() > 0) {
 			c[iC].diviserFlotte(tInt(o[0]),
 					(String[]) type.toArray(new String[0]),
 					Utile.transformer3(nombre.toArray(new String[0])), o[1],
 					tInt(o[2]));
+		}
 
 	}
 

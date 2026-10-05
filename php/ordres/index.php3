@@ -19,7 +19,7 @@ if (!ini_get('register_globals')) {
     }
 }
 
-include "../mysql_compat.php";
+include "../script/mysql_compat.php";
 include "../secure/config.php";
 include "../secure/connect.txt";
 include "../script/aut.txt";

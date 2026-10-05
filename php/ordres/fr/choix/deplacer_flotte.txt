@@ -1,9 +1,20 @@
+<?php
+$result = mysql($base, "SELECT FLOTTE_1, FLOTTE_2 FROM fusionner_flotte WHERE NUMERO=$commandant");
+$ordres = [];
+while ($row = mysql_fetch_assoc($result)) {
+    $ordres[] = [intval($row['FLOTTE_1']), intval($row['FLOTTE_2'])];
+}
+
+$groupesDeFusion = regrouperFlottes($ordres);
+
+
+?>
 <FORM action="<?php echo("$nom_page?table=$table"); ?> " method="POST" >
 <P><h1>Deplacement de flotte</h1>
 <FONT SIZE="2" COLOR="#008080"></FONT><BR>
 
 déplacer ma flotte
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "NUMFLOTTE", $t0)); ?>
  vers la case
 <?php select_pos("v1"); ?>
  - 
@@ -20,7 +31,224 @@ déplacer ma flotte
   }
 ?>
 
+    <label>
+        Pour tous mes flottes :
+        <input type="checkbox" name="multiple" value="v0_t0">
+    </label>
+
+
 </B></P>
 <INPUT TYPE="submit" NAME="ajout" VALUE="Envoyer cet ordre">
 </FORM>
+<style>
+    /* Style du titre de groupe */
+    tr.fusion-header td {
+        padding: 8px 12px;
+        font-weight: bold;
+        color: #008080;
+        background-color: rgba(0, 128, 128, 0.1);
+        border-bottom: 2px solid #008080;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
+    /* Indication visuelle des flottes incriminées dans le titre */
+    .dest-warning {
+        color: #d9534f;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    /* Style des liens de correction dans le titre */
+    .dest-warning a.fix-link {
+        color: #d9534f;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    .dest-warning a.fix-link:hover {
+        color: #c9302c;
+    }
+
+    /* Style de la destination incriminée dans le tableau */
+    .dest-mismatch {
+        color: #d9534f !important;
+        font-weight: bold;
+        background-color: rgba(217, 83, 79, 0.15);
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+</style>
+
+<script>
+    const groupesFusion = <?php echo json_encode($groupesDeFusion); ?>;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const table = document.querySelector("table.deplacer_flotte tbody");
+        if (!table) return;
+
+        // 1. Map ID flotte => index groupe
+        const mapFlotteGroupe = {};
+        groupesFusion.forEach((groupe, indexGroupe) => {
+            groupe.forEach(idFlotte => {
+                mapFlotteGroupe[idFlotte] = indexGroupe;
+            });
+        });
+
+        // 2. Extraction des lignes
+        const rows = Array.from(table.querySelectorAll("tr"));
+
+        function getFlotteId(row) {
+            const div = row.querySelector("td div[id^='f']");
+            if (!div) return -1;
+            return parseInt(div.id.replace('f', ''), 10);
+        }
+
+        // Extraire la destination textuelle d'une ligne
+        function getDestination(row) {
+            const spans = row.querySelectorAll("td div span.item");
+            return spans.length >= 2 ? spans[1].textContent.trim() : null;
+        }
+
+        // Extraire le paramètre "previous" (sous forme de tableau JSON) du lien "Copier"
+        function getPreviousParams(row) {
+            const copyLink = row.querySelector("td.copy a");
+            if (!copyLink) return null;
+            const url = new URL(copyLink.href, window.location.href);
+            const prevStr = url.searchParams.get("previous");
+            if (!prevStr) return null;
+            try {
+                return JSON.parse(prevStr);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // 3. Analyse des destinations et modèles d'ordres par groupe
+        const infosGroupes = {}; // indexGroupe => { destinationCommune, flottesIncorrectes, modeleParams }
+
+        groupesFusion.forEach((groupe, indexGroupe) => {
+            const destCount = {};
+            const rowsDuGroupe = rows.filter(r => groupe.includes(getFlotteId(r)));
+
+            rowsDuGroupe.forEach(row => {
+                const dest = getDestination(row);
+                if (dest) {
+                    destCount[dest] = (destCount[dest] || 0) + 1;
+                }
+            });
+
+            // Déterminer la destination majoritaire
+            let maxCount = 0;
+            let destMajoritaire = null;
+            for (const [dest, count] of Object.entries(destCount)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    destMajoritaire = dest;
+                }
+            }
+
+            // Récupérer un modèle de paramètre `previous` valide pour le groupe (provenant d'une flotte ayant la bonne destination)
+            let modeleParams = null;
+            if (destMajoritaire) {
+                const rowModele = rowsDuGroupe.find(r => getDestination(r) === destMajoritaire);
+                if (rowModele) {
+                    modeleParams = getPreviousParams(rowModele);
+                }
+            }
+
+            // Flottes en erreur
+            const flottesIncorrectes = groupe.filter(idFlotte => {
+                const row = rowsDuGroupe.find(r => getFlotteId(r) === idFlotte);
+                if (!row) return true;
+                return getDestination(row) !== destMajoritaire;
+            });
+
+            infosGroupes[indexGroupe] = {
+                destinationCommune: destMajoritaire,
+                flottesIncorrectes: flottesIncorrectes,
+                modeleParams: modeleParams
+            };
+        });
+
+        // 4. Tri des lignes
+        rows.sort((a, b) => {
+            const idA = getFlotteId(a);
+            const idB = getFlotteId(b);
+
+            const groupeA = mapFlotteGroupe.hasOwnProperty(idA) ? mapFlotteGroupe[idA] : Infinity;
+            const groupeB = mapFlotteGroupe.hasOwnProperty(idB) ? mapFlotteGroupe[idB] : Infinity;
+
+            if (groupeA !== groupeB) {
+                return groupeA - groupeB;
+            }
+            return idA - idB;
+        });
+
+        // 5. Reconstruction du DOM
+        table.innerHTML = "";
+        let dernierGroupe = null;
+
+        rows.forEach((row) => {
+            const id = getFlotteId(row);
+            const groupeActuel = mapFlotteGroupe.hasOwnProperty(id) ? mapFlotteGroupe[id] : Infinity;
+            const destLigne = getDestination(row);
+
+            // Insertion du titre de groupe
+            if (dernierGroupe !== groupeActuel) {
+                const headerRow = document.createElement("tr");
+                headerRow.className = "fusion-header";
+
+                let htmlContent = "";
+                if (groupeActuel !== Infinity) {
+                    const info = infosGroupes[groupeActuel];
+
+                    htmlContent = `Groupe de fusion ${groupeActuel + 1}`;
+
+                    if (info.destinationCommune) {
+                        htmlContent += ` — Destination : <span style="color:#FFF;">${info.destinationCommune}</span>`;
+                    }
+
+                    // Génération des liens interactifs pour réaligner les flottes
+                    if (info.flottesIncorrectes.length > 0) {
+                        const liensFlottes = info.flottesIncorrectes.map(fId => {
+                            if (info.modeleParams) {
+                                // Copie du modèle et mise à jour de l'ID de flotte (index 1)
+                                const paramsCopie = [...info.modeleParams];
+                                paramsCopie[1] = String(fId);
+
+                                const jsonPrev = JSON.stringify(paramsCopie);
+                                const url = `index.php3?table=deplacer_flotte&previous=${encodeURIComponent(jsonPrev)}`;
+                                return `<a href="${url}" class="fix-link" title="Copier l'ordre du groupe sur f${fId}">f${fId+1}</a>`;
+                            } else {
+                                return `f${fId}`;
+                            }
+                        }).join(", ");
+
+                        htmlContent += ` <span class="dest-warning">(Non déplacées ou hors trajet : ${liensFlottes})</span>`;
+                    }
+                } else {
+                    htmlContent = "Flottes sans fusion";
+                }
+
+                headerRow.innerHTML = `<td colspan="3">${htmlContent}</td>`;
+                table.appendChild(headerRow);
+            }
+
+            // Surlignage de la destination en erreur sur la ligne
+            if (groupeActuel !== Infinity) {
+                const info = infosGroupes[groupeActuel];
+                if (info.destinationCommune && destLigne !== info.destinationCommune) {
+                    const spans = row.querySelectorAll("td div span.item");
+                    if (spans.length >= 2) {
+                        spans[1].classList.add("dest-mismatch");
+                    }
+                }
+            }
+
+            table.appendChild(row);
+            dernierGroupe = groupeActuel;
+        });
+    });
+</script>

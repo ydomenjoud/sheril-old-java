@@ -3,7 +3,7 @@
 <P><h1>Pistage de flotte</h1>
 <BR>
 Ma flotte
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "FLOTTE", $t0)); ?>
  doit pister la flotte 
 <?php select1("v1",$t1); ?>
 

@@ -1,0 +1,43 @@
+{% extends "pages/forum/_layout.twig" %}
+
+{% block forum %}
+    {% for categorie in categories %}
+        <section class="card">
+            <header><h2>{{ categorie.nom }}</h2></header>
+            <article>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Forum</th>
+                        <th class="numeric">Sujets</th>
+                        <th class="numeric">Messages</th>
+                        <th class="forum-dernier">Dernier message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for f in categorie.forums %}
+                        <tr>
+                            <td>
+                                <a class="forum-titre" href="/forum/{{ f.id }}">{{ f.nom }}</a>
+                                <span class="caption">{{ f.description }}</span>
+                            </td>
+                            <td class="numeric">{{ f.nbSujets }}</td>
+                            <td class="numeric">{{ f.nbMessages }}</td>
+                            <td class="forum-dernier">
+                                {% if f.dernier %}
+                                    <a href="{{ f.dernier.url }}">
+                                        <span class="race{{ f.dernier.auteur.race }}">{{ f.dernier.auteur.nom }} ({{ f.dernier.auteur.numero }})</span>
+                                        <time>{{ f.dernier.date }}</time>
+                                    </a>
+                                {% else %}
+                                    <span class="caption">Aucun message</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+        </section>
+    {% endfor %}
+{% endblock %}

@@ -64,18 +64,22 @@ public class Position3D implements Cloneable {
 	// nouvelle position aprÃšs un dÃ©placement de x case et autres fonctions de
 	// dÃ©placement.
 
+	private static int deplacementLineaire(int depart, int arrivee, int deplacement) {
+		if (depart == arrivee) return arrivee;
+		int diff = arrivee - depart;
+		int pas = Math.clamp(deplacement, 0, Math.abs(diff));
+		return depart + Integer.signum(diff) * pas;
+	}
+
 	public static Position3D positionAtteinte(Position3D depart,
 			Position3D arrivee, int x) {
 		if (arrivee == null)
 			return depart;
 		Position3D retour = (Position3D) depart.clone();
 		int[] inter = retour.getPos();
-		inter[0] = Utile
-				.courtChemin(depart.getPos()[0], arrivee.getPos()[0], x);
-		inter[1] = Utile
-				.courtChemin(depart.getPos()[1], arrivee.getPos()[1], x);
-		inter[2] = Utile
-				.courtChemin(depart.getPos()[2], arrivee.getPos()[2], x);
+		inter[0] = deplacementLineaire(depart.getPos()[0], arrivee.getPos()[0], x);
+		inter[1] = deplacementLineaire(depart.getPos()[1], arrivee.getPos()[1], x);
+		inter[2] = deplacementLineaire(depart.getPos()[2], arrivee.getPos()[2], x);
 		return retour;
 	}
 

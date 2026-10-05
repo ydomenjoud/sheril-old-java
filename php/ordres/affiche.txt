@@ -19,7 +19,7 @@ if($nb_lignes!=0){
           echo("<TR><TD class='delete'><A HREF=\"$nom_page?table=$table&elimine=$i".(isset($num_f) ? "&num_f=$num_f&nb_div=$nb_div" : "")."\">$suppression</A></TD><TD>");
       }
    include "./$langue/affiche/$table.txt";
-   $encode = urlencode(serialize($rf));
+   $encode = urlencode(json_encode($rf));
    echo("</TD><td class='copy'><a href='$nom_page?table=$table&previous={$encode}'>Copier</td></TR>");
    }  
   }

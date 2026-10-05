@@ -4,7 +4,7 @@
  Je désire établir un programme de construction de type
 <?php select1("v1",$t1); ?>
  sur mon syst&egrave;me 
-<?php select1("v0",$t0); ?>
+<?php select1("v0",filterList($table, "SYSTEME", $t0)); ?>
 
 </B></P>
     <label>

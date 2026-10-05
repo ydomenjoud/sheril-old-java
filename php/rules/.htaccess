@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Réécriture de l'accès aux fichiers markdown (.md) vers index.php?page=...
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+\.md)$ index.php?page=$1 [L,QSA]

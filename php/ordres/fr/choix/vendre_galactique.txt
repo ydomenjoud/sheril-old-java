@@ -2,13 +2,13 @@
 <h1>Mettre en vente sur le marché galactique</h1>
 <BR>
 Mettre en vente
-<input type="number" value="<?=(array_key_exists('v2', $_POST) ? $_POST['v2'] : 1)?>" min="1" name="v2">
+<input type="number" value="<?=(array_key_exists('v2', $_POST) ? intval($_POST['v2']) : 1)?>" min="1" name="v2">
 unités de type
 <?php select1("v1",$t1); ?>
 de mon système
 <?php select1("v0",$t0); ?>
 à
-<input type="number" value="<?=(array_key_exists('v3', $_POST) ? $_POST['v3'] : 1)?>" min="1" name="v3">ce le lot
+<input type="number" value="<?=(array_key_exists('v3', $_POST) ? intval($_POST['v3']) : 1)?>" min="1" name="v3">ce le lot
 
 
 <!--    `NUMERO` int(11) NOT NULL default '0',-->

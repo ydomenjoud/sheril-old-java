@@ -4,18 +4,26 @@ $nom_page = "index.php3";
 $table = array_key_exists('table', $_GET) ? $_GET['table'] : null;
 $nb_div = array_key_exists('nb_div', $_GET) ? $_GET['nb_div'] : null;
 
+include_once "./fr/ordres.txt";
+
 if ($table === "list_ordres") {
     include "./list_ordres.php";
 } else if ($table === "diviser_flotte") {
     include "./division.php";
-}  else if ($table != "") {
+} else if ($table != "" && !in_array($table, $code_ordres, true)) {
+    // $table ne correspond à aucun ordre connu : on l'ignore plutôt que de
+    // l'injecter dans une requête SQL ou un chemin de fichier.
+    include "body.txt";
+    include "./$langue/depart.htm";
+} else if ($table != "") {
     include "../secure/connect.txt";
     include "../script/fonctions.txt";
     include "./data/$table.txt";
     include "insert.txt";
 
     if (array_key_exists('previous', $_GET)) {
-        $tableau = unserialize(urldecode($_GET['previous']));
+        $tableau = json_decode(urldecode($_GET['previous']), true);
+        if (!is_array($tableau)) $tableau = [];
         for ($i = 1; $i < sizeof($tableau); $i++) {
             $_POST['v' . ($i - 1)] = $tableau[$i];
         }
@@ -27,7 +35,8 @@ if ($table === "list_ordres") {
     // puis on affiche le choix
     include "./$langue/choix/$table.txt";
     if (array_key_exists('previous', $_GET)) {
-        $tableau = unserialize(urldecode($_GET['previous']));
+        $tableau = json_decode(urldecode($_GET['previous']), true);
+        if (!is_array($tableau)) $tableau = [];
         for ($i = 1; $i < sizeof($tableau); $i++) {
             $_POST['v' . ($i - 1)] = null;
         }

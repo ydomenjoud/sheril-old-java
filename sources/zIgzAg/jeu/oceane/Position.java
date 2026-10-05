@@ -103,20 +103,17 @@ public class Position implements Serializable, Comparable, Cloneable {
 	// 	}
 	// }
 	
-	//replace the previous method 
+	// Calcule le numéro de secteur dynamiquement en fonction de la taille de carte (Const.BORNE_MAX: 50 ou 60).
+	// Utilise Const.NB_SECTEURS (recalculé via Const.recalculerBornes()) pour rester cohérent avec le reste du code.
 	public int getNumeroSecteur() {
-	    // ratio is the number of sectors per side (e.g., sqrt(9) = 3)
-	    int ratio = (int) Math.sqrt(Const.NB_SECTEURS);
-	    
-	    // sectorSize is the width/height of one sector (e.g., 30 / 3 = 10)
-	    int sectorSize = Const.BORNE_MAX / ratio;
+	    int sectorSize = Const.BORNE_SECTEUR_X;
+	    int ratio = Const.BORNE_MAX / sectorSize;
 	
-	    int column = (pos[1] - 1) / sectorSize; // 0, 1, or 2
-	    int row = (pos[0] - 1) / sectorSize;    // 0, 1, or 2
+	    int column = (pos[1] - 1) / sectorSize;
+	    int row = (pos[0] - 1) / sectorSize;
 	
 	    int result = 1 + column + (ratio * row);
 	
-	    // Safety check to ensure we don't exceed the defined number of sectors
 	    return Math.min(result, Const.NB_SECTEURS);
 	}
 	
@@ -132,27 +129,28 @@ public class Position implements Serializable, Comparable, Cloneable {
 		retour.setPos(Univers.getTabInt(Const.BORNE_MAX, 1, 2));
 		return retour;
 	}
-		public static Position auHasardInSector(int galaxie, int sector) {
-		    int ratio = (int) Math.sqrt(Const.NB_SECTEURS); // 3
-		    int sectorSize = Const.BORNE_MAX / ratio;       // 10
+
+	public static Position auHasardInSector(int galaxie, int sector) {
+		int sectorSize = Const.BORNE_SECTEUR_X;
+		int ratio = Const.BORNE_MAX / sectorSize;
 		
-		    // Calcul des offsets
-		    int column = (sector - 1) % ratio; // 0, 1, 2
-		    int row = (sector - 1) / ratio;    // 0, 1, 2
+		// Calcul des offsets
+		int column = (sector - 1) % ratio;
+		int row = (sector - 1) / ratio;
 		
-		    int minX = (column * sectorSize) + 1;
-		    int minY = (row * sectorSize) + 1;
+		int minX = (column * sectorSize) + 1;
+		int minY = (row * sectorSize) + 1;
 		
-		    Position retour = new Position();
-		    retour.setNumeroGalaxie(galaxie);
+		Position retour = new Position();
+		retour.setNumeroGalaxie(galaxie);
 		    
-		    // Génère X et Y spécifiquement dans les bornes du secteur
-		    int y = Univers.getInt(sectorSize) + minY;
-		    int x = Univers.getInt(sectorSize) + minX;
+		// Génère X et Y spécifiquement dans les bornes du secteur
+		int y = Univers.getInt(sectorSize) + minY;
+		int x = Univers.getInt(sectorSize) + minX;
 		    
-		    retour.setPos(new int[]{y, x});
-		    return retour;
-		}
+		retour.setPos(new int[]{y, x});
+		return retour;
+	}
 
 	// methode pour vÃ©rifier si une position est dans les bornes prÃ©vues.
 

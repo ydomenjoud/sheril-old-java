@@ -497,8 +497,9 @@ public static final String[] maitdeIII = {"maitdeII","agroVIII","modeVIII","cult
  public static final String[] maitr3_I = {"maitr3_I"};
  public static final String[] maitr4_I = {"maitr4_I"};
 
-    public static final String[] creplanI = {"armeI"};
+ public static final String[] creplanI = {"armeI"};
 
+ public static final String[] recylageI = {"maitdeI"};
 }
        	 
        	 

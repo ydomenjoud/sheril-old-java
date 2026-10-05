@@ -197,15 +197,17 @@ public class ProductionOrdres {
         }
     }
 
-    public static void ecrire(String entree) {
+    public static boolean ecrire(String entree) {
         String file = Chemin.DONNEES_ORDRES + ".txt";
         try {
             BufferedWriter fluxE = new BufferedWriter(new FileWriter(file, true));
             fluxE.write(entree, 0, entree.length());
             fluxE.close();
+            return true;
         } catch (IOException e) {
             System.err.println("Erreur d'écriture dans " + file);
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -447,7 +449,7 @@ public class ProductionOrdres {
 			if (Univers.getTour() == 84) {
 				elimine = false;
 			}
-			if (elimine) {
+			if (elimine && Const.USE_REGISTRATIONS) {
 				System.out.println("Supression du commandant "
 						+ c[i].getNomNumeroText());
 				Joueur.supprimerCommandant(c[i]);
@@ -456,6 +458,10 @@ public class ProductionOrdres {
 			}
 		}
 		Univers.phaseSuivante();
+
+		if (!Const.USE_REGISTRATIONS) {
+			return;
+		}
 
 		try {
 			Connection connection = mySQL.getConnection(Const.DATABASE_HOST,
@@ -480,9 +486,6 @@ public class ProductionOrdres {
 			}
 
 			if (!inscriptions.isEmpty()) {
-				int nbNouveaux = inscriptions.size();
-				Position[] positionsInitiales = Univers.choisirPositionsDepartEquitables(nbNouveaux);
-
 				Statement s2 = connection.createStatement();
 				ResultSet r2 = mySQL.selectionnerTout(s2,
 						Const.TABLE_INSCRIPTION_VAISSEAUX);
@@ -501,9 +504,11 @@ public class ProductionOrdres {
 									r2.getString("NOMBRE"));
 
 					System.out.println("Creation du commandant " + nom);
-					Position posDepart = (i < positionsInitiales.length) ? positionsInitiales[i] : null;
+					PaquetDepart paquetDepart = Univers.choisirPaquetDepart();
+                    if (paquetDepart == null)
+                        throw new IllegalStateException("Aucun paquet de départ disponible (paquets=" + Univers.getNombrePaquetsDepart() + ", inscriptions=" + inscriptions.size() + "). Avez-vous lancé init.sh ?");
 
-					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, posDepart);
+					Commandant nouveau = Joueur.creerCommandant(nom, adresse, race, h, paquetDepart);
 
 					String[] o = new String[7];
 					o[0] = Integer.toString(nouveau.getNumero());
@@ -513,7 +518,9 @@ public class ProductionOrdres {
 					o[4] = nouveau.getAdresseElectronique();
 					o[5] = Integer.toString(nouveau.getRace());
 					o[6] = Integer.toString(nouveau.getTourArrivee());
-					ecrire(afficherCommandant(Const.TABLE_REGISTRE, o));
+					if (!ecrire(afficherCommandant(Const.TABLE_REGISTRE, o)))
+						throw new IllegalStateException("Impossible d'écrire le registre du commandant " + nom + ".");
+					paquetDepart.attribuer();
 				}
 				VisualisationUnivers.genererCarteHTML();
 			}
@@ -909,41 +916,44 @@ public class ProductionOrdres {
 
     public boolean charger_cargo() {
 
-        // System.out.print(" : charger_cargo");
-
         if (c.listePossession().length != 0) {
 
-            // System.out.println("-ok");
-
-            ArrayList a1 = new ArrayList(50);
-            ArrayList a2 = new ArrayList(50);
+            ArrayList<String> a1 = new ArrayList<>(50);
+            ArrayList<String> a2 = new ArrayList<>(50);
 
             a1.add(Univers.getMessage("MINERAI", c.getLocale()));
             a2.add(Messages.MINERAI);
 
-            a1.addAll(Arrays.asList(Utile.tableauToString(Utile
-                    .retournerTableauEntiers(Const.NB_MARCHANDISES - 1))));
-            a2.addAll(Arrays.asList(Univers.getTableauMessage("MARCHANDISES",
-                    c.getLocale())));
+            // Récupération des données d'origine
+            String[] entiers = Utile.tableauToString(Utile.retournerTableauEntiers(Const.NB_MARCHANDISES - 1));
+            String[] marchandises = Univers.getTableauMessage("MARCHANDISES", c.getLocale());
 
-            String[] equipement = (String[]) (c.listeEquipementArray())
-                    .toArray(new String[0]);
+            for (int i = 0; i < marchandises.length; i++) {
+                if (i != Const.PRODUIT_DECHETS) { // On saute les déchets
+                    a1.add(entiers[i]);
+                    a2.add(marchandises[i]);
+                }
+            }
 
-            for (int i = 0; i < equipement.length; i++)
-                if (!a1.contains(equipement[i])) {
-                    a1.add(equipement[i]);
-                    a2.add(Univers.getTechnologie(equipement[i]).getNomComplet(
+            String[] equipement = (c.listeEquipementArray()).toArray(new String[0]);
+
+            for (String s : equipement) {
+                if (!a1.contains(s)) {
+                    a1.add(s);
+                    a2.add(Univers.getTechnologie(s).getNomComplet(
                             c.getLocale()));
                 }
+            }
 
-            String[] k2 = (String[]) a1.toArray(new String[0]);
-            String[] v2 = (String[]) a2.toArray(new String[0]);
+            String[] k2 = a1.toArray(new String[0]);
+            String[] v2 = a2.toArray(new String[0]);
 
             ecrire(afficherA(Const.TABLE_CARGAISON_CHARGEMENT, k2, v2));
 
             return true;
-        } else
+        } else {
             return false;
+        }
 
     }
 
