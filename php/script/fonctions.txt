@@ -1,6 +1,6 @@
 <?php
 
-$file_path = __DIR__ . '/../game.txt';
+$file_path = __DIR__ . '/../name.txt';
 $game_name = "dune";
 if (file_exists($file_path)) {
     include_once $file_path;
@@ -106,28 +106,27 @@ function V($name, $default="") {
     return array_key_exists($name,$_POST) ? $_POST[$name] : (array_key_exists($name,$_GET) ? $_GET[$name] : $default);
 }
 
-function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200')
+function select1($nv, $t, $class='select', $multiple=false, $maxWidth = '200', $garderPost=true)
 {
 
     echo("<SELECT SIZE=\"".($multiple ? 10 : 1)."\" NAME=\"$nv".($multiple ? '[]' : '')."\" style='max-width: {$maxWidth}px; display: inline-flex;' class='$class' ".($multiple ? 'multiple' : ''). ">");
     $k = array_keys($t);
     // Récupération de la valeur postée une seule fois pour plus de clarté
-    $postedValue = isset($_POST[$nv]) ? $_POST[$nv] : null;
+    // $garderPost à false : la liste n'est pas présélectionnée avec la valeur postée
+    $postedValue = ($garderPost && isset($_POST[$nv])) ? $_POST[$nv] : null;
     for ($i = 0; $i < sizeof($k); $i++) {
         $j = $k[$i];
         $selected = '';
 
+        // Comparaison en chaînes : en PHP 5, "minerai" == 0 est vrai
         if ($multiple) {
-            // Cas multiple : on vérifie si la clé appartient au tableau
-            if (is_array($postedValue) && in_array($j, $postedValue)) $selected = 'selected ';
+            // Cas multiple : on vérifie si la clé appartient au tableau posté
+            if (is_array($postedValue) && in_array((string)$j, array_map('strval', $postedValue), true)) $selected = 'selected ';
         } else {
-            // Cas simple : comparaison classique
-            if ($postedValue!==null && $postedValue === $j){
-                $selected = 'selected ';
-            }
+            if ($postedValue !== null && !is_array($postedValue) && (string)$postedValue === (string)$j) $selected = 'selected ';
         }
 
-        echo("<option ".$selected." VALUE=\"$j\">$t[$j] $postedValue</option>");
+        echo("<option ".$selected." VALUE=\"$j\">$t[$j]</option>");
     }
     echo("</SELECT>");
 }
@@ -154,7 +153,7 @@ function select_nb($nv, $a, $b, $selectValue=null)
 
 function select_pos($nv)
 {
-     echo "<input name='$nv' min=0 max=40 required style='width: 50px;' type='number' value='".(array_key_exists($nv,$_POST) ? $_POST[$nv] : '')."' maxlength=2 />";
+     echo "<input name='$nv' min=0 max=60 required style='width: 50px;' type='number' value='".(array_key_exists($nv,$_POST) ? $_POST[$nv] : '')."' maxlength=2 />";
 //    select_nb($nv, 1, 41);
 }
 
@@ -216,38 +215,47 @@ function baseList($table, $id=null, $where=null)
 
 /**
  * Retourne l'index de la colonne "id" dans une table donnée.
- * * @param string $nom_table Le nom de la table à vérifier
- * @param resource $connexion (Optionnel) La ressource de connexion MySQL
+ * @param string $nom_table Le nom de la table à vérifier
  * @return int L'index (0-based) ou -1 si non trouvé
  */
 function get_id_column_index($nom_table) {
-    // 1. Exécuter une requête légère pour obtenir la structure (LIMIT 0 suffit)
-    $sql = "SELECT * FROM " . mysql_real_escape_string($nom_table) . " LIMIT 0";
-    $result = mysql_query($sql);
+    return get_column_index($nom_table, 'id');
+}
 
+/**
+ * Retourne l'index (0-based) d'une colonne dans une table, ou -1 si non trouvée.
+ * Comparaison insensible à la casse.
+ */
+function get_column_index($nom_table, $nom_colonne) {
+    // Requête légère pour obtenir la structure (LIMIT 0 suffit)
+    $result = mysql_query("SELECT * FROM " . mysql_real_escape_string($nom_table) . " LIMIT 0");
     if (!$result) {
         return -1; // La table n'existe probablement pas ou erreur SQL
     }
-
-    // 2. Récupérer le nombre total de colonnes
     $nb_champs = mysql_num_fields($result);
-
-    // 3. Parcourir les colonnes pour trouver celle nommée "id"
     for ($i = 0; $i < $nb_champs; $i++) {
-        $nom_colonne = mysql_field_name($result, $i);
-
-        // Comparaison insensible à la casse (optionnel, selon vos besoins)
-        if (strtolower($nom_colonne) === 'id') {
-            return $i; // On a trouvé l'index !
+        if (strtolower(mysql_field_name($result, $i)) === strtolower($nom_colonne)) {
+            return $i;
         }
     }
-
-    // 4. Si on sort de la boucle sans avoir trouvé
     return -1;
 }
 
 function getCommandantHTML($num) {
     if (empty($num)) return "Inconnu";
+
+    if(defined('USE_PDO') && USE_PDO === true ) {
+        global $pdo; // Remplace $base par votre instance PDO
+
+        $sql = "SELECT NOM, NUMERO, RACE FROM aa_registre WHERE NUMERO = :num";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['num' => (int)$num]);
+
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return "<span class='race{$row['RACE']}'>{$row['NOM']} ({$row['NUMERO']})</span>";
+        }
+        return "Inconnu (" . $num . ")";
+    }
     global $base;
     $num = (int)$num;
     $sql = "SELECT NOM, NUMERO, RACE FROM aa_registre WHERE NUMERO = $num";
@@ -299,6 +307,17 @@ function filterList($table, $field, $listToFilter){
     while ($row = mysql_fetch_assoc($result)) {
         $alreadyUsedKeys[] = $row[$field];
     }
+
+    // Lien "Copier" d'un ordre déjà passé : la valeur de la ligne copiée reste proposée,
+    // sinon le formulaire ne pourrait pas la présélectionner.
+    if (array_key_exists('previous', $_GET)) {
+        $copie = json_decode(urldecode($_GET['previous']), true);
+        $index = get_column_index($table, $field);
+        if (is_array($copie) && $index >= 0 && isset($copie[$index])) {
+            $alreadyUsedKeys = array_diff($alreadyUsedKeys, array($copie[$index]));
+        }
+    }
+
     return array_diff_key($listToFilter, array_flip($alreadyUsedKeys));
 }
 

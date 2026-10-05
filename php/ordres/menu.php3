@@ -4,7 +4,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // toujours modif
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache"); // HTTP/1.0 
 
-include "../mysql_compat.php";
+include "../script/mysql_compat.php";
 include "../secure/config.php";
 include "../script/aut.txt";
 
@@ -39,138 +39,20 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
     }
 }
 
-?>
-
-
-<HTML lang="fr">
+?><HTML lang="fr">
 <HEAD>
     <META content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <META content="zIgzAg" name="Author">
     <TITLE></TITLE>
-    <STYLE type="text/css">
-        @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-        /*@import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");*/
-
-        /**
-        Cyan / turquoise lumineux (#00e6e6 ou #1de9b6) → cohérent avec les tons spatiaux, futuristes.
-        Violet électrique (#9c27b0 ou #b388ff) → garde l’impact visuel sans rappeler “danger”.
-        Orange doux (#ff9800 ou #ffa726) → attire l’œil, mais plus chaleureux que le rouge.
-        Vert néon (#4caf50 ou #69f0ae) → bonne lisibilité sur fond sombre, mais attention à ne pas le confondre avec une validation.
-         */
-        :root {
-            --header: #ff9800;
-            --help: #ad98d5;
-            --important: #9c27b0;
-        }
-
-        .important {
-            color: var(--important);
-        }
-        .important2 {
-            color: #69f0ae;
-            display: block;
-            padding: 5px;
-        }
-
-        * {
-            box-sizing: border-box;
-            font-size: inherit;
-        }
-
-
-        a {
-            color: #8BC7FF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            text-decoration-style: revert;
-            color: #a7d0f6;
-        }
-
-        html, body {
-            font-size: 12px;
-        }
-
-        body {
-            padding-top: 30px;
-            color: #dedede;
-            font-weight: normal;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to top right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0.8) 100%) fixed;
-        }
-        button, select, input:not([type="checkbox"]), textarea {
-            background: #001021;
-            color: #dedede;
-            border: 1px solid #a7d0f6;
-            box-shadow: 0px 1px 4px #003963;
-            cursor: pointer;
-            border-radius: 1px;
-            padding: 2px 5px;
-        }
-
-        p {
-            margin: 0;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        li:has(font.important) {
-            padding-top: 10px;
-            font-size: 1.2em;
-            border-bottom: 1px solid var(--important);
-            margin-bottom: 5px;
-        }
-
-        li a {
-            display: block;
-            padding: 5px;
-        }
-
-        li a.active {
-            background-color: #056805;
-        }
-
-        li a:hover {
-            background-color: #403f3f;
-            text-decoration: none;
-        }
-
-        #logout {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        #home {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        input#search {
-            display: block;
-            width: 100%;
-            padding: 5px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-    </STYLE>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="/assets/css/v2/sheril.css">
     <script>
         function filterList(event){
             const value = document.querySelector("#search")?.value?.toLowerCase();
             if(value && value.length > 0) {
-                Array.from(document.querySelectorAll("#ordersList li")).forEach((item) => {
+                Array.from(document.querySelectorAll("#orderslist li")).forEach((item) => {
                     if(item.textContent.toLocaleLowerCase().match(value)){
                         item.classList.remove("hidden");
                     } else {
@@ -179,16 +61,18 @@ function affiche_ordre($i, $code_ordres, $description_ordres)
                 })
             } else {
 
-                Array.from(document.querySelectorAll("#ordersList li")).forEach((item) => {
+                Array.from(document.querySelectorAll("#orderslist li")).forEach((item) => {
                     item.classList.remove("hidden");
                 });
             }
         }
     </script>
 </HEAD>
-<BODY>
-<A id="logout" href="./delog.php3?nom_cookie=<?php echo("$nom_cookie"); ?>" target="principal">Logout</A>
-<A id="home" href="./" target="fenetre">Accueil</A>
+<BODY id="console">
+<div class="split">
+    <A href="./" target="fenetre">Accueil</A>
+    <A href="/rule/9_ordres_de_la_console_et_tour?embed=1" target="fenetre">Ordre du tour</A>
+</div>
 <input id="search" type="text" placeholder="rechercher un ordre" onkeyup="filterList()" />
 <UL id="orderslist">
 <!--    <LI><a href="index.php3?table=list_ordres" target="fenetre">Liste des ordres déjà passés</a></LI>-->

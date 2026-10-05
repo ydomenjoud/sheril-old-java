@@ -1,0 +1,24 @@
+{% extends "pages/play/_layout.twig" %}
+
+{% block play %}
+    {# Mobile : l'ancienne console (frameset menu + fenêtre) est remplacée par cette liste déroulante
+       et l'iframe n'affiche que la fenêtre de l'ordre (assets/js/console.js) #}
+    {% if ordres %}
+        <label class="field" id="console-choix">
+            <span>Ordre à afficher</span>
+            <select>
+                <option value="/ordres/">Accueil de la console</option>
+                <option value="/rule/9_ordres_de_la_console_et_tour?embed=1">Ordre du tour</option>
+                {% for groupe in ordres %}
+                    <optgroup label="{{ groupe.libelle }}">
+                        {% for ordre in groupe.ordres %}
+                            <option value="{{ ordre.url }}">{{ ordre.libelle }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+        </label>
+    {% endif %}
+    <iframe class="page-frame" src="/ordres/ordres.php3" data-mobile="/ordres/" title="Console d'ordres"></iframe>
+    <script src="/assets/js/console.js"></script>
+{% endblock %}

@@ -1,0 +1,25 @@
+@use "../abstracts" as *;
+
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: token("text-important");
+
+  // Tailles
+  &--small  { width: 16px; height: 16px; }
+  &--medium { width: 22px; height: 22px; }
+  &--large  { width: 28px; height: 28px; stroke-width: 1.6; }
+
+  // Rôles de couleur
+  &--neutral    { color: token("text-primary"); }
+  &--subdued    { color: token("text-tertiary"); }
+  &--positive   { color: token("feedback-positive"); }
+  &--negative   { color: token("feedback-negative"); }
+  &--warning    { color: token("feedback-warning"); }
+  &--on-primary { color: token("action-on-primary-icon"); }
+}

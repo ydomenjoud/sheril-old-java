@@ -1,0 +1,39 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="stats">
+        <aside class="card" aria-label="Choix des statistiques">
+            {% for groupe in groupes %}
+                <h2>{{ groupe.titre }}</h2>
+                <ul class="unstyled-list">
+                    {% for lien in groupe.liens %}
+                        <li><a href="{{ lien.url }}" target="stats-detail">{{ lien.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+            <h2>Archives</h2>
+            <ul class="stats-archives unstyled-list">
+                {% for a in archives %}
+                    <li><a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.label }}</a></li>
+                {% endfor %}
+            </ul>
+        </aside>
+        <iframe class="page-frame" name="stats-detail" src="{{ cadre }}" title="Statistiques"></iframe>
+        <script>
+            // Lien actif : celui de la page ouverte dans l'iframe au chargement, puis celui qu'on clique
+            (function () {
+                var liens = document.querySelectorAll('#stats > aside a[target="stats-detail"]');
+                var cadre = document.querySelector('#stats > iframe').getAttribute('src');
+                liens.forEach(function (a) {
+                    if (a.getAttribute('href') === cadre) a.setAttribute('aria-current', 'page');
+                });
+                liens.forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        liens.forEach(function (l) { l.removeAttribute('aria-current'); });
+                        a.setAttribute('aria-current', 'page');
+                    });
+                });
+            })();
+        </script>
+    </main>
+{% endblock %}

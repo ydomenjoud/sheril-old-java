@@ -16,7 +16,7 @@ for ($i = 0; $i < count($code_ordres); $i++) {
     if(in_array($table,["diviser_flotte_ajouter", "creer_plan_ajouter", "creer_strategie_ajouter"])){
         continue;
     }
-    (function ($varzaza) use ($base, $commandant,$langue, $nb_div, $nom_page, $description_ordres, $i) {
+    $afficher = (function ($varzaza) use ($base, $commandant,$langue, $nb_div, $nom_page, $description_ordres, $i) {
         $table = $varzaza;
         $a = $i;
         ob_start();
@@ -27,5 +27,6 @@ for ($i = 0; $i < count($code_ordres); $i++) {
             echo "<h2>{$description_ordres[$a]}</h2>";
             echo $content;
         }
-    })($table);
+    });
+    $afficher($table);
 }

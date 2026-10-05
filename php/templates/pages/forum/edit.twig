@@ -1,0 +1,34 @@
+{% extends "pages/forum/_layout.twig" %}
+
+{% block ariane %}
+    <a href="/forum/{{ forum.id }}">{{ forum.nom }}</a>
+    <a href="{{ action }}" aria-current="page">{{ title }}</a>
+{% endblock %}
+
+{% block forum %}
+    <section class="card">
+        <header><h1>{{ title }}</h1></header>
+        <article>
+            {% if erreurs %}
+                <div class="banner banner--negative" role="alert">
+                    <ul>{% for e in erreurs %}<li>{{ e }}</li>{% endfor %}</ul>
+                </div>
+            {% endif %}
+            <form class="form forum-form" method="post" action="{{ action }}">
+                <input type="hidden" name="csrf" value="{{ csrf }}">
+                {% if avecTitre %}
+                    <label class="field">
+                        <span>Titre</span>
+                        <input type="text" name="titre" value="{{ form.titre }}" maxlength="255" required>
+                    </label>
+                {% endif %}
+                {% include 'pages/forum/_editor' %}
+                <div class="button-group">
+                    <button class="button button--primary" type="submit">{{ bouton }}</button>
+                    <button class="button button--secondary" type="button" data-apercu>Prévisualiser</button>
+                    <a class="button button--secondary" href="{{ annuler }}">Annuler</a>
+                </div>
+            </form>
+        </article>
+    </section>
+{% endblock %}

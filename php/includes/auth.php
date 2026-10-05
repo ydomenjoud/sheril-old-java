@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../mysql_compat.php';
+require_once dirname(__FILE__) . '/../script/mysql_compat.php';
 require_once dirname(__FILE__) . '/../secure/connect.txt';
 
 if (session_status() == PHP_SESSION_NONE) {

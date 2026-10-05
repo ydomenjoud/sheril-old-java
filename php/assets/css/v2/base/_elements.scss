@@ -1,0 +1,71 @@
+@use "../abstracts" as *;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom right, token("surface-page"), token("surface-raised"));
+  color: token("text-primary");
+  @include type("body-ui");
+  min-height: 100vh;
+}
+
+h1 { margin: 0; @include type("heading-page");    color: token("text-heading"); }
+h2 { margin: 0; @include type("heading-section"); color: token("text-heading"); }
+h3 { margin: 0; @include type("heading-block");   color: token("brand"); }
+p  { margin: 0; @include type("body-long");       color: token("text-secondary"); }
+
+h1,h2,h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+a {
+  color: token("text-link");
+  text-decoration: none;
+  &:hover { color: token("text-link-hover"); }
+  &:focus-visible { @include focus-visible-ring; }
+}
+
+strong {
+  color: token("text-link");
+}
+
+blockquote, cite { @include type("body-quote"); color: token("text-secondary"); }
+
+// Classes de rôle, quand la balise ne suffit pas
+.eyebrow    { @include type("eyebrow"); color: token("brand"); }
+.caption    { @include type("caption"); color: token("text-tertiary"); }
+.data-value { @include type("data"); color: token("text-primary"); }
+
+code {
+  display: inline-flex;
+  align-items: center;
+  gap: $gap-inline;
+  height: $size-control;
+  padding: 0 $gap-cards;
+  border: 1px solid token("border-strong");
+  border-radius: $radius-control;
+  @include type("body-ui");
+  color: token("text-tertiary");
+  &__value { @include type("data-emphasis"); color: token("brand"); }
+}
+
+time {
+  color: token("text-primary");
+  @include type("data");
+}
+
+.race0 { color: #CC00FF; }
+.race1 { color: #0066CC; }
+.race2 { color: #FFCC00; }
+.race3 { color: #CC0033; }
+.race4 { color: #009933; }
+.race5 { color: #777777; }
+
+.positive { color: token("feedback-positive"); }
+.negative { color: token("feedback-negative"); }

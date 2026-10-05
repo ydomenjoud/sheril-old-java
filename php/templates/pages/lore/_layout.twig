@@ -1,0 +1,21 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <main id="lore">
+        <nav aria-label="Présentation">
+            {# Menu déroulant en mobile (le bouton affiche la page courante) ; en bureau, liens à plat #}
+            <details>
+            <summary>{{ title }}</summary>
+            <a href="/lore/presentation"{% if chemin == '/lore/presentation' %} aria-current="page"{% endif %}>Présentation</a>
+            <a href="/lore/histoire"{% if chemin == '/lore/histoire' %} aria-current="page"{% endif %}>Histoire</a>
+            <a href="/lore/fremen"{% if chemin == '/lore/fremen' %} aria-current="page"{% endif %}>Fremen</a>
+            <a href="/lore/atalante"{% if chemin == '/lore/atalante' %} aria-current="page"{% endif %}>Atalante</a>
+            <a href="/lore/zwaia"{% if chemin == '/lore/zwaia' %} aria-current="page"{% endif %}>Zwaia</a>
+            <a href="/lore/yoksor"{% if chemin == '/lore/yoksor' %} aria-current="page"{% endif %}>Yoksor</a>
+            <a href="/lore/fergok"{% if chemin == '/lore/fergok' %} aria-current="page"{% endif %}>Fergok</a>
+            </details>
+        </nav>
+        {% block lore %}
+        {% endblock %}
+    </main>
+{% endblock %}

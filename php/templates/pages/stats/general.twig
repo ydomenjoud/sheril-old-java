@@ -1,0 +1,51 @@
+{% extends "layout_embed.twig" %}
+
+{% block content %}
+    <main id="stats-general">
+        <h1>Classement général · tour {{ stats.tour }}</h1>
+
+        <nav class="stats-tours" aria-label="Choix du tour">
+            <span class="caption">Tour</span>
+            {% for t in stats.tours %}
+                <a href="?tour={{ t }}"{% if t == stats.tour %} aria-current="page"{% endif %}>{{ t }}</a>
+            {% endfor %}
+        </nav>
+
+        <div class="stats-table">
+            <table>
+                <thead>
+                <tr>
+                    <th class="numeric" rowspan="2">#</th>
+                    <th rowspan="2" data-tri="{{ stats.commandant.tri }}"><a href="{{ stats.commandant.url }}">Commandant</a></th>
+                    {% for c in stats.colonnes %}
+                        <th colspan="2" class="stats-col">{{ c.label }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for c in stats.colonnes %}
+                        <th class="numeric" data-tri="{{ c.tri }}"><a href="{{ c.url }}" title="Trier par {{ c.label }}">valeur</a></th>
+                        <th class="numeric" data-tri="{{ c.triDelta }}"><a href="{{ c.urlDelta }}" title="Trier par progression ({{ c.label }})">δ</a></th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% if not stats.lignes %}
+                    <tr><td colspan="22">Aucune statistique pour ce tour.</td></tr>
+                {% endif %}
+                {% for l in stats.lignes %}
+                    <tr>
+                        <td class="numeric">{{ loop.index }}</td>
+                        <td>
+                            <a class="race{{ l.race }}" href="/statistiques/detail?nums={{ l.numero }}">{{ l.nom }} ({{ l.numero }})</a>
+                        </td>
+                        {% for v in l.valeurs %}
+                            <td class="numeric stats-valeur{% if loop.last %} stats-pv{% endif %}">{{ v.valeur }}</td>
+                            <td class="numeric stats-delta {{ v.sens }}">{{ v.delta }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,187 @@
+@use "../abstracts" as *;
+
+#forum {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-cards;
+
+  // Le fil d'Ariane (main > nav) reprend la sous-navigation : on ne tronque que le dernier maillon
+  > nav a:last-child {
+    @include truncate;
+    max-width: 40ch;
+  }
+
+  table {
+    td { padding-top: $gap-inline; padding-bottom: $gap-inline; vertical-align: top; }
+    .numeric { text-align: right; width: 1%; white-space: nowrap; }
+    .forum-dernier { width: 22%; }
+    .forum-dernier a { display: grid; }
+  }
+  .forum-titre {
+    display: block;
+    @include type("body-ui-strong");
+    font-size: 14px;
+  }
+  .caption { display: block; }
+  .card > header .button { height: 28px; }
+  .forum-description {
+    margin: 0;
+    padding: $gap-inline $padding-card;
+    border-bottom: 1px solid token("border-default");
+  }
+
+  .forum-sujet { margin: 0; }
+
+  // Un message : profil de l'auteur à gauche, contenu à droite
+  .forum-message {
+    flex-direction: row;
+    scroll-margin-top: $gap-cards;
+  }
+  .forum-auteur {
+    flex: 0 0 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $gap-tight;
+    padding: $padding-card;
+    background: token("surface-inset");
+    border-right: 1px solid token("border-default");
+    text-align: center;
+    &__nom {
+      @include type("body-ui-strong");
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+    &__avatar {
+      width: 120px;
+      height: 120px;
+      margin: $gap-tight 0;
+      object-fit: cover;
+      border-radius: $radius-container;
+      background: token("surface-raised");
+      border: 1px solid token("border-raised");
+    }
+    &__stats {
+      width: 100%;
+      margin: $gap-inline 0 $gap-tight;
+      > div {
+        display: flex;
+        justify-content: space-between;
+        gap: $gap-inline;
+        padding: 2px 0;
+        border-top: 1px solid token("border-subtle");
+      }
+      dt { @include type("column-label"); color: token("text-tertiary"); }
+      dd { margin: 0; @include type("data"); color: token("text-primary"); }
+    }
+  }
+  .forum-message__contenu {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .forum-message__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: $gap-inline;
+    padding: $gap-inline $padding-card;
+    border-bottom: 1px solid token("border-subtle");
+    @include type("caption");
+    a { @include type("caption"); color: token("text-tertiary"); }
+    a:hover { color: token("text-link"); }
+  }
+  .forum-corps,
+  .ql-editor {
+    @include type("body-long");
+    color: token("text-secondary");
+    overflow-wrap: anywhere;
+    p { margin: 0 0 $gap-inline; }
+    img { max-width: 100%; height: auto; }
+    blockquote {
+      margin: $gap-inline 0;
+      padding: $gap-inline $padding-card;
+      border-left: 3px solid token("brand");
+      background: token("surface-inset");
+    }
+    pre {
+      padding: $gap-inline $padding-card;
+      background: token("surface-inset");
+      border-radius: $radius-control;
+      overflow-x: auto;
+      @include type("data");
+    }
+    // Quill 2 écrit toutes les listes en <ol>, le type est dans data-list
+    li[data-list="bullet"] { list-style-type: disc; }
+    .ql-ui { display: none; }
+  }
+  .forum-corps { padding: $padding-card; }
+
+  .forum-form { max-width: none; }
+
+  // Aperçu du message avant envoi
+  .forum-apercu {
+    border: 1px dashed token("border-strong");
+    border-radius: $radius-control;
+    > p { margin: 0; padding: $gap-inline $padding-card 0; }
+  }
+}
+
+// Éditeur Quill (thème « snow ») adapté au thème sombre
+.forum-editeur {
+  .ql-toolbar.ql-snow,
+  .ql-container.ql-snow { border-color: token("border-strong"); }
+  .ql-toolbar.ql-snow {
+    background: token("surface-inset");
+    border-radius: $radius-control $radius-control 0 0;
+  }
+  // Quill fixe height: 100% : la zone de saisie déborderait de la hauteur de la barre d'outils
+  .ql-container.ql-snow {
+    height: auto;
+    min-height: 200px;
+    background: token("surface-inset");
+    border-radius: 0 0 $radius-control $radius-control;
+  }
+  .ql-editor { height: auto; min-height: 200px; padding: $padding-card; }
+  .ql-editor.ql-blank::before { color: token("text-tertiary"); font-style: normal; }
+  .ql-snow .ql-stroke { stroke: token("text-secondary"); }
+  .ql-snow .ql-fill { fill: token("text-secondary"); }
+  .ql-snow .ql-picker { color: token("text-secondary"); }
+  .ql-snow .ql-picker-options { background: token("surface-card"); }
+  .ql-snow button:hover .ql-stroke,
+  .ql-snow .ql-active .ql-stroke { stroke: token("brand"); }
+  .ql-snow button:hover .ql-fill,
+  .ql-snow .ql-active .ql-fill { fill: token("brand"); }
+  .ql-snow .ql-tooltip {
+    background: token("surface-card");
+    border-color: token("border-strong");
+    color: token("text-primary");
+    box-shadow: none;
+    input[type="text"] { background: token("surface-inset"); color: token("text-primary"); border-color: token("border-strong"); }
+  }
+}
+
+// Page de connexion
+#connexion {
+  .card {
+    max-width: 440px;
+    margin: $padding-page auto;
+  }
+  .form { margin: $gap-cards 0; }
+}
+
+@media screen and (max-width: 700px) {
+  // Petit écran : profil réduit en bandeau au-dessus du message
+  #forum .forum-message { flex-direction: column; }
+  #forum .forum-auteur {
+    flex: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    text-align: left;
+    border-right: 0;
+    border-bottom: 1px solid token("border-default");
+    &__avatar { width: 48px; height: 48px; margin: 0; order: -1; }
+    &__stats { display: none; }
+  }
+}

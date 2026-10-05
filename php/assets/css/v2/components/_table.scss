@@ -1,0 +1,59 @@
+@use "../abstracts" as *;
+
+table {
+  width: 100%;
+  text-align: left;
+  background-color: token("surface-table");
+  caption {
+    text-align: left;
+    padding: 2px $padding-card;
+    @include type("heading-block");
+    color: token("brand");
+  }
+  th, td {
+    padding: 2px $padding-card;
+  }
+  thead {
+    th {
+      background: token("surface-inset");
+      @include type("column-label");
+      color: token("text-tertiary");
+    }
+  }
+
+  tbody {
+    tr:nth-child(even) {
+      background-color: token("surface-card");
+    }
+  }
+
+  &__header,
+  &__row {
+    display: grid;
+    grid-template-columns: var(--columns);
+    gap: $gap-cards;
+    align-items: center;
+    padding: 0 $padding-card;
+  }
+
+  &__header {
+    height: $size-table-head;
+    background: token("surface-inset");
+    @include type("column-label");
+    color: token("text-tertiary");
+  }
+
+  &__row {
+    flex-grow: 1;
+    min-height: $size-table-row;
+    @include type("body-ui");
+    border-top: 1px solid token("border-subtle");
+    &:hover { background: tint("brand", 4%); }
+  }
+
+  &__cell {
+    &--title   { @include type("body-ui-strong"); @include truncate; }
+    &--data    { @include type("data"); color: token("text-tertiary"); }
+    &--numeric { text-align: right; }
+  }
+}

@@ -1,0 +1,81 @@
+{% extends "layout_embed.twig" %}
+
+{% block content %}
+    <main id="stats-detail">
+        <p><a href="/statistiques/general">← Classement général</a></p>
+        <h1>Progression des commandants</h1>
+
+        {# Filtres : commandants comparés (la puce sert aussi de légende) + ajout #}
+        <form class="stats-compare" method="get" action="/statistiques/detail">
+            <input type="hidden" name="nums" value="{{ detail.nums }}">
+            <ul class="unstyled-list" aria-label="Commandants comparés">
+                {% for s in detail.series %}
+                    <li class="stats-puce">
+                        <span class="stats-cle serie-{{ s.slot }}" aria-hidden="true"></span>
+                        <span>{{ s.nom }}</span>
+                        <a href="{{ s.retirer }}" aria-label="Retirer {{ s.nom }}" title="Retirer">×</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if detail.complet %}
+                <span class="caption">{{ detail.max }} commandants au maximum.</span>
+            {% else %}
+                <label class="field">
+                    <span class="visually-hidden">Ajouter un commandant</span>
+                    <select name="ajout" onchange="this.form.submit()">
+                        <option value="">+ Ajouter un commandant…</option>
+                        {% for o in detail.options %}
+                            <option value="{{ o.numero }}">{{ o.nom }} ({{ o.numero }})</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <noscript><button class="button button--secondary" type="submit">Ajouter</button></noscript>
+            {% endif %}
+        </form>
+
+        {% if not detail.series %}
+            <p>Choisissez un ou plusieurs commandants pour comparer leur progression tour après tour.</p>
+        {% else %}
+            <div class="stats-graphes">
+                {% for st in detail.stats %}
+                    <figure class="card">
+                        <header><h2>{{ st.label }}</h2></header>
+                        <div class="stats-graphe">
+                            <canvas data-stat="{{ st.cle }}" role="img" aria-label="{{ st.label }} par tour"></canvas>
+                        </div>
+                    </figure>
+                {% endfor %}
+            </div>
+
+            {# Vue tableau : toutes les valeurs, sans survol #}
+            {% for s in detail.series %}
+                <details class="card stats-donnees">
+                    <summary>Données de <span class="race{{ s.race }}">{{ s.nom }}</span></summary>
+                    <div class="stats-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="numeric">Tour</th>
+                                {% for st in detail.stats %}<th class="numeric">{{ st.label }}</th>{% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for l in s.lignes %}
+                                <tr>
+                                    <td class="numeric">{{ l.tour }}</td>
+                                    {% for v in l.valeurs %}<td class="numeric">{{ v }}</td>{% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+            {% endfor %}
+
+            <div class="stats-infobulle" id="infobulle" hidden></div>
+            <script type="application/json" id="stats-series">{{ detail.json|raw }}</script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+            <script src="/assets/js/stats-detail.js"></script>
+        {% endif %}
+    </main>
+{% endblock %}

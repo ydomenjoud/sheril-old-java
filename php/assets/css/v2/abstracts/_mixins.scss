@@ -1,0 +1,92 @@
+// Ce fichier ne doit produire AUCUN CSS (variables, fonctions, mixins seulement).
+@use "tokens" as *;
+@use "typography" as *;
+@use "spacing" as *;
+
+// -----------------------------------------------------------------------------
+// Mixins utilitaires
+// -----------------------------------------------------------------------------
+
+@mixin truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin focus-visible-ring {
+  outline: 2px solid token("focus-ring");
+  outline-offset: 2px;
+}
+
+// Teinte translucide d'un token (survols)
+@function tint($token-name, $percent) {
+  @return color-mix(in srgb, #{token($token-name)} #{$percent}, transparent);
+}
+
+// Navigation en menu déroulant sur mobile, liens à plat au-delà. À inclure sur le <details>
+// qui enveloppe les liens d'une <nav> : <nav><details><summary>Page courante</summary><a>…</a></details></nav>
+// En mobile, la liste s'ouvre en panneau sous le bouton (la <nav> doit être en position: relative).
+// $fond : couleur du panneau (celle de la barre de navigation).
+@mixin menu-deroulant($fond) {
+  > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap-inline;
+    @include type("body-ui-strong");
+    font-weight: 600;
+    color: token("text-heading");
+    list-style: none;
+    cursor: pointer;
+    &::-webkit-details-marker { display: none; }
+    // Chevron, retourné quand le menu est ouvert
+    &::after {
+      content: "";
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      margin-top: -4px;
+      border-right: 2px solid token("brand");
+      border-bottom: 2px solid token("brand");
+      transform: rotate(45deg);
+      transition: transform 0.15s;
+    }
+    &:focus-visible { @include focus-visible-ring; outline-offset: -2px; }
+  }
+  &[open] > summary::after { margin-top: 4px; transform: rotate(-135deg); }
+
+  // Bureau : le <details> s'efface, ses liens deviennent des éléments directs de la <nav>
+  @media screen and (min-width: $breakpoint-mobile + 1) {
+    display: contents;
+    &::details-content { display: contents; content-visibility: visible; }
+    > summary { display: none; }
+  }
+
+  // Mobile : liste des liens en panneau posé par-dessus le contenu
+  @media screen and (max-width: $breakpoint-mobile) {
+    flex: 1;
+    &::details-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: $gap-tight 0;
+      background: $fond;
+      border-bottom: 1px solid token("border-default");
+      box-shadow: 0 8px 16px rgb(0 0 0 / 0.4);
+    }
+    a {
+      display: flex;
+      align-items: center;
+      height: $size-control-lg;
+      padding: 0 $padding-page;
+      border-radius: 0;
+      border-bottom: 0;
+      border-left: 2px solid transparent;
+      &[aria-current] { border-left-color: token("brand"); background: tint("brand", 8%); }
+    }
+  }
+}

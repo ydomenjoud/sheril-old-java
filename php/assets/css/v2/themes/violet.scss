@@ -1,0 +1,78 @@
+// =============================================================================
+// THÈME VIOLET — à charger APRÈS sheril.css
+//
+// Ne redéfinit que des tokens `--sheril-*` : les composants ne changent pas.
+// Les tokens absents (feedback-*) gardent la valeur du thème par défaut.
+// Compilation : sass --no-source-map themes/violet.scss themes/violet.css
+//
+// Deux teintes qui se répondent :
+//   - VIOLET : l'ambiance (fonds, bordures) et les actions (boutons, liens)
+//   - OR     : la marque (icônes, sur-titres, jauges, onglet actif) et les titres
+// =============================================================================
+@use "sass:map";
+@use "theme" as *;
+
+$violet: (
+  // Nuit violette : 950 = le plus sombre
+  "night-950": #0c0518,
+  "night-900": #12072a,
+  "night-850": #1c0a3d,
+  "night-800": #190c33,
+  "night-750": #22103f,
+  "night-700": #2c1552,
+  "night-650": #34195f,
+  "night-600": #3f1f73,
+  "night-550": #4d2690,
+  "night-500": #5f31ad,
+  "night-400": #8448e0,
+
+  // Textes : lavande désaturée, pour laisser les deux accents respirer
+  "mist-300": #a89cc4,
+  "mist-250": #bfb4d8,
+  "mist-200": #cdc4e2,
+  "mist-100": #e6e0f2,
+
+  // Violet électrique : actions
+  "violet-300": #dcb6ff,
+  "violet-400": #b77bff,
+  "violet-950": #1d0540,
+
+  // Or : marque et titres
+  "gold-50":  #fff4dc,
+  "gold-300": #ffdb7a,
+  "gold-400": #ffc23d,
+);
+
+@function v($key) { @return map.get($violet, $key); }
+
+$theme: (
+  "surface-page":         v("night-950"),
+  "surface-header":       v("night-850"),
+  "surface-inset":        v("night-900"),
+  "surface-card":         v("night-800"),
+  "surface-raised":       v("night-750"),
+  "surface-table":        v("night-750"),
+  "surface-track":        v("night-650"),
+
+  "border-default":       v("night-600"),
+  "border-subtle":        v("night-700"),
+  "border-strong":        v("night-500"),
+  "border-raised":        v("night-550"),
+  "border-shadow":        v("night-400"),
+
+  "text-heading":         v("gold-50"),
+  "text-primary":         v("mist-100"),
+  "text-secondary":       v("mist-200"),
+  "text-navigation":      v("mist-250"),
+  "text-tertiary":        v("mist-300"),
+  "text-link":            v("violet-400"),
+  "text-link-hover":      v("gold-300"),
+
+  "brand":                v("gold-400"),
+  "action-primary":       v("violet-400"),
+  "action-primary-hover": v("violet-300"),
+  "action-on-primary":    v("violet-950"),
+  "focus-ring":           v("gold-400"),
+);
+
+@include theme("violet", $theme);

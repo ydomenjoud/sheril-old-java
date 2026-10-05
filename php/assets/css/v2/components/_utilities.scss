@@ -1,0 +1,24 @@
+@use "../abstracts" as *;
+
+.split {
+  display: flex;
+  gap: $gap-cards;
+  > * {
+    flex: 1 1 auto;
+  }
+}
+
+
+// Utilitaires de structure
+.unstyled-list { margin: 0; padding: 0; list-style: none; }
+.stack         { display: grid; gap: $gap-inline; align-content: start; }
+.stack-tight   { display: grid; gap: $gap-tight; }
+.button-group  { display: flex; flex-wrap: wrap; gap: $gap-inline * 1.25; }
+
+.score-positif { color: token("feedback-positive"); }
+.score-negatif { color: token("feedback-negative"); }
+.score-neutre { color: #888888; }
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .hidden-mobile { display: none; }
+}
