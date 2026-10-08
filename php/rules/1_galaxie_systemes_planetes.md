@@ -106,13 +106,13 @@ La population d’un système is la somme des populations de ses planètes. Elle
 
 Une planète ne peut contenir qu’un seul type de population. Par défaut, il s’agit de la population optimale, mais il est possible de la changer au moyen de vaisseaux colonisateurs.
 
-(Plus d’informations au [2](2_population.md).)
+(Plus d’informations au [2](2_population).)
 
 ### <a id="1.2.4"></a>1.2.4 Minerai
 
 Les revenus en minerai d'un système correspondent à la somme de ceux générés par ses planètes.
 
-Chaque planète possède une capacité de production minière dont la valeur est comprise entre 1 et 8 (voir [3.1](3_constructions.md#3.1)).
+Chaque planète possède une capacité de production minière dont la valeur est comprise entre 1 et 8 (voir [3.1](3_constructions#3.1)).
 
 Dans le cas d'un système partagé, seuls sont pris en compte les revenus des planètes appartenant au commandant. Il en va de même pour les stocks.
 
@@ -120,7 +120,7 @@ Dans le cas d'un système partagé, seuls sont pris en compte les revenus des pl
 
 Le niveau de terraformation d'un système correspond à la moyenne de celui de ses planètes (la règle du système partagé s'applique également).
 
-Plus d’informations sur le sujet au [2.1.1](2_population.md#2.1.1).
+Plus d’informations sur le sujet au [2.1.1](2_population#2.1.1).
 
 ### <a id="1.2.6"></a>1.2.6 Politique
 
@@ -132,7 +132,7 @@ Il existe plusieurs formes de politique possibles :
 
 | Nom de la politique | Effet de la politique                                                                                                                                                                                                          |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Loisir              | Les revenus des impôts de chaque planète du système sont diminués de 5%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de points de réputation par tour égal au double du nombre de planètes. |
+| Loisir              | Les revenus des impôts de chaque planète du système sont diminués de 20%. La stabilité du système augmente de 2% par tour. Le commandant gagne un nombre de points de réputation par tour égal au double du nombre de planètes. |
 | Impôts              | Les revenus du système sont augmentés de 10%.                                                                                                                                                                                  |
 | Commerce            | Le système produit 2 unités de marchandises supplémentaires pour chaque type de marchandise déjà produite.                                                                                                                     |
 | Construction        | Le nombre de points de construction du système est augmenté de 50%.                                                                                                                                                            |
@@ -165,7 +165,7 @@ Le taux de stabilité est un indicateur exprimé en pourcentage qui mesure l'all
 
 À l'échelle d'un système, la stabilité affichée correspond à la moyenne de la stabilité de ses planètes.
 
-Exprimé en pourcentage, le taux de stabilité est réévalué à chaque tour. Plus il est bas, plus le risque de révolte augmente et plus les défenses de la planète sont affaiblies (voir [5.3.4](5_combats.md#5.3.4)).
+Exprimé en pourcentage, le taux de stabilité est réévalué à chaque tour. Plus il est bas, plus le risque de révolte augmente et plus les défenses de la planète sont affaiblies (voir [5.3.4](5_combats#5.3.4)).
 
 Par exemple, un système présentant une stabilité de 80 % ne pourra se défendre, en cas d'attaque, qu'à 80 % de ses capacités. Enfin, si la planète est en révolte, son coefficient de défense est à nouveau divisé par 2.
 
@@ -185,7 +185,7 @@ L’éloignement d’un système par rapport à la capitale influe sur sa stabil
 
 *\* Il est important de noter que les distances sont calculées en nombre entier de parsecs, une diagonale ne compte que pour 1. Par exemple, un système en 40-40 est à 3 parsecs d'une capitale en 38-37 et sa stabilité sera affectée d'un bonus de 1%.*
 
-Outre l'éloignement par rapport à la capitale et le taux de taxation, il existe d'autres facteurs influant la stabilité, tels que la politique (voir [1.2.6](#1.2.6)), la présence d'un gouverneur (voir [8.2](8_lieutenants.md#8.2)) et de grandes quantités de certaines marchandises (voir [3.2](3_constructions.md#3.2)).
+Outre l'éloignement par rapport à la capitale et le taux de taxation, il existe d'autres facteurs influant la stabilité, tels que la politique (voir [1.2.6](#1.2.6)), la présence d'un gouverneur (voir [8.2](8_lieutenants#8.2)) et de grandes quantités de certaines marchandises (voir [3.2](3_constructions#3.2)).
 
 En cas d'absence de capitale, une pénalité de distance maximale s'applique à la stabilité de chaque système au tour suivant.
 
@@ -236,7 +236,7 @@ Tableau des pourcentages de risque d'avoir au moins une révolte dans un systèm
 | 19 planètes | 0%       | 17.38%  | 31.88%  | 43.94%  | 53.96%  | 62.26%  | 69.14%  | 74.81%  | 79.49%  | 83.34%  | 86.49%  | 89.08%  | 91.19%  | 92.91%  | 94.31%  | 95.44%  | 96.36%  | 97.1%   | 97.7%   | 98.18%  |
 | 20 planètes | 0%       | 18.21%  | 33.24%  | 45.62%  | 55.8%   | 64.15%  | 70.99%  | 76.58%  | 81.13%  | 84.84%  | 87.84%  | 90.28%  | 92.24%  | 93.83%  | 95.1%   | 96.12%  | 96.94%  | 97.59%  | 98.11%  | 98.52%  |
 
-Lorsqu'une planète entre en révolte, elle ne rapporte plus de centaures, sa population de croit plus et ne produit plus aucune ressource, mais reste sous votre contrôle. Il existe cependant un cas particulier où son contrôle peut être perdu au profit d'un autre commandant (voir [7.3](7_relations_entre_les_commandants.md#7.3)).
+Lorsqu'une planète entre en révolte, elle ne rapporte plus de centaures, sa population de croit plus et ne produit plus aucune ressource, mais reste sous votre contrôle. Il existe cependant un cas particulier où son contrôle peut être perdu au profit d'un autre commandant (voir [7.3](7_relations_entre_les_commandants#7.3)).
 
 ### <a id="1.3.2"></a>1.3.2 Revenu brut et taux de taxation
 
@@ -263,7 +263,7 @@ En pratique, un taux de taxation de 2 est la base; il est donc déconseillé de 
 
 Par exemple, une planète de 50 (millions) d'habitants à un taux de taxation de 4 rapportera des revenus de (50/10) x 4 = 20 centaures par tour.
 
-**Important : des bonus supplémentaires peuvent s’appliquer à cette collecte selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les compétences du gouverneur en poste (voir [8.3](8_lieutenants.md#8.3)).**
+**Important : des bonus supplémentaires peuvent s’appliquer à cette collecte selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions#3.2)), mais aussi selon les compétences du gouverneur en poste (voir [8.3](8_lieutenants#8.3)).**
 
 ### <a id="1.3.3"></a>1.3.3 Points de construction (PDC)
 
@@ -275,4 +275,4 @@ Chaque planète, qu'elle soit habitée ou non, rapporte au moins un point de con
 
 Certains bâtiments, accessibles via la recherche technologique, permettent d'augmenter cette valeur.
 
-**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions.md#3.2)), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir [8.2](8_lieutenants.md#8.2) et [8.3](8_lieutenants.md#8.3)).**
+**Important : des bonus supplémentaires peuvent s’appliquer au nombre de points de construction, selon la politique en vigueur (voir [1.2.6](#1.2.6)), la présence de certaines marchandises dans le poste commercial (voir [3.2](3_constructions#3.2)), mais aussi selon les caractéristiques et compétences du gouverneur en poste (voir [8.2](8_lieutenants#8.2) et [8.3](8_lieutenants#8.3)).**
