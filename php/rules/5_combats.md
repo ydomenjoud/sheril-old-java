@@ -20,7 +20,7 @@ Elle est directement déterminée par le capital de combativité des vaisseaux e
 
 Au début de chaque combat, la combativité de chaque vaisseau composant les flottes engagées est calculée.
 
-La combativité est égale à : 5 + caractéristique Moral du héro + niveau de moral de l'équipage.
+La combativité est égale à : 5 + caractéristique Moral du héros + niveau de moral de l'équipage.
 
 Voici les différents niveau de moral d'un équipage :
 
@@ -67,7 +67,7 @@ Pour chaque vaisseau, une liste de cibles potentielles est établie de manière 
 
 ### <a id="5.2.3"></a>5.2.3 Tempo
 
-Un tempo d’action est attribué à chaque vaisseau en combinant plusieurs paramètres : la caractéristique Vitesse du héro éventuellement présent, le niveau d'expérience de l'équipage, la vitesse de déplacement du vaisseau et la vitesse moyenne de son armement. Une grande part d'aléatoire vient moduler le résultat final.
+Un tempo d’action est attribué à chaque vaisseau en combinant plusieurs paramètres : la caractéristique Vitesse du héros éventuellement présent, le niveau d'expérience de l'équipage, la vitesse de déplacement du vaisseau et la vitesse moyenne de son armement. Une grande part d'aléatoire vient moduler le résultat final.
 
 ### <a id="5.2.4"></a>5.2.4 Mouvement
 
@@ -112,9 +112,9 @@ Chaque arme du vaisseau tire l'une après l'autre. Les armes les plus rapides ti
 
 - Distance entre le vaisseau et sa cible (plus elle est faible, plus les chances sont importantes) ;
 
-- Caractéristique Attaque du héro attaquant ;
+- Caractéristique Attaque du héros attaquant ;
 
-- Caractéristique Défense du héro défenseur ;
+- Caractéristique Défense du héros défenseur ;
 
 - Niveau d'expérience des équipages des deux vaisseaux ;
 
