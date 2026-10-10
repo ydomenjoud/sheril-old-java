@@ -36,7 +36,7 @@ Dans Sheril, les commandants évoluent dans une galaxie et commencent avec :
 
 - 21000 centaures (monnaie du jeu)
 
-- 2 lieutenants (un héro et un gouverneur).
+- 2 lieutenants (un héros et un gouverneur).
 
 Dès le début de la partie, chaque planète de chaque système neutre est habitée par l'espèce la plus adaptée.
 
@@ -44,7 +44,7 @@ La flotte de départ contient des vaisseaux standards militaires et des éclaire
 
 En règle générale, pour débuter une partie, chaque commandant cherche à découvrir les systèmes neutres situés autour de sa position. Pour les repérer, il dispose d’un radar sur chacun de ses systèmes de départ, ainsi que de vaisseaux équipés de scanners (Éclaireurs standards).
 
-Des flottes neutres défendent les systèmes neutres en stationnant au-dessus de chacun d'eux. Pour capturer un système, il faut d’abord neutraliser la flotte neutre qui le défend. Ces deux actions peuvent être réalisées au cours d'un seul et même tour (cf. 4.4 Directives de rencontre).
+Des flottes neutres défendent les systèmes neutres en stationnant au-dessus de chacun d'eux, en directive “attaque préventive". Pour capturer un système, il faut d’abord neutraliser la flotte neutre qui le défend. Ces deux actions peuvent être réalisées au cours d'un seul et même tour (cf. 4.4 Directives de rencontre).
 
 Enfin, une flotte neutre est placée au-dessus de chaque capitale des joueurs. Elles sont à l’avantage du commandant puisqu’elle défend le système qu’elle survole.
 
