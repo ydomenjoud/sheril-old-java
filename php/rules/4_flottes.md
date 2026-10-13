@@ -24,7 +24,7 @@ Une flotte peut être scindée en autant de flottes distinctes qu’il y a de va
 
 Si certains vaisseaux sont endommagés, ce sont ceux-là qui seront automatiquement transférés vers la nouvelle flotte issue de la division.
 
-En cas de division d’une flotte avec un héro, ce dernier demeure au sein de la flotte initiale.
+En cas de division d’une flotte avec un héros, ce dernier demeure au sein de la flotte initiale.
 
 Les divisions de flottes ont lieu avant les fusions et les déplacements..
 
