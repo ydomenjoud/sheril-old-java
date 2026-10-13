@@ -36,7 +36,7 @@ Dans Sheril, les commandants évoluent dans une galaxie et commencent avec :
 
 - 21000 centaures (monnaie du jeu)
 
-- 2 lieutenants (un héro et un gouverneur).
+- 2 lieutenants (un héros et un gouverneur).
 
 Dès le début de la partie, chaque planète de chaque système neutre est habitée par l'espèce la plus adaptée.
 
