@@ -246,7 +246,7 @@ Une stratégie comporte plusieurs paramètres :
 
 ## <a id="5.5"></a>5.5 Dommages et réparations
 
-Un vaisseau est la somme de ses composants, dont chacun occupe un certain nombre de cases (voir [3.5](3_constructions.md#3.5)).
+Un vaisseau est la somme de ses composants, dont chacun occupe un certain nombre de cases (voir [3.5](3_constructions#3.5)).
 
 Chaque composant de vaisseau détruit le reste jusqu'à ce qu'il soit réparé. Un composant détruit ne fonctionne plus.
 

@@ -72,7 +72,7 @@ Il existe trois types d'alliances :
 
 ## <a id="7.3"></a>7.3 Services spéciaux et contre-espionnage
 
-De la même façon que pour le budget technologique (voir [6. Recherches technologiques](6_recherches_technologiques.md)), vous pouvez constituer un budget de services spéciaux et/ou de contre-espionnage.
+De la même façon que pour le budget technologique (voir [6. Recherches technologiques](6_recherches_technologiques)), vous pouvez constituer un budget de services spéciaux et/ou de contre-espionnage.
 
 Les services spéciaux permettent de mener des missions spécifiques : espionnage d'un système, sabotage de constructions, vol de technologie et propagande. A chaque tour, vous pouvez donner jusqu'à 3 ordres de mission. Si vous donnez moins d'ordres de mission, le budget est distribué également entre ces ordres.
 
