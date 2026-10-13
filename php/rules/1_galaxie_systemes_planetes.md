@@ -2,9 +2,9 @@
 
 ## <a id="1.1"></a>1.1 La galaxie
 
-La galaxie se nomme Dune. Elle est formée de systèmes stellaires, eux-mêmes constitués de planètes habitables. Actuellement divisée en quatre secteurs comprenant chacun 40 systèmes, elle compte de 10 à 20 planètes par système.
+La galaxie actuelle se nomme Corilys. Elle est formée de systèmes stellaires, eux-mêmes constitués de planètes habitables. Actuellement divisée en 36 secteurs comprenant chacun plusieurs systèmes, elle compte de 10 à 20 planètes par système.
 
-La galaxie est un tore quadrillé, initialement de 40x40 cases (appelées aussi *parsecs*) de côté. Les bords opposés sont contigus. On passe donc de la case (parsec) 40-40 à la case (parsec) 40-1 comme si elles étaient adjacentes.
+La galaxie est un tore quadrillé, initialement de 60x60 cases (appelées aussi parsecs) de côté. Les bords opposés sont contigus. On passe donc de la case (parsec) 60-60 à la case (parsec) 60-1 comme si elles étaient adjacentes. 
 
 Une case ne peut contenir qu’un seul système.
 
