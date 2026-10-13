@@ -28,7 +28,7 @@ Le coût d'entretien par tour d'un lieutenant s'élève à 10 % de sa valeur de 
 
 Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois selon qu'il s'agit d'un héro ou d'un gouverneur.
 
-| Caractéristiques | Héro                                                   | Gouverneur                                                    |
+| Caractéristiques | Héros                                                   | Gouverneur                                                    |
 |-------------|-------------------------------------------------------------|---------------------------------------------------------------|
 | Vitesse     | Améliore le tempo des vaisseaux                             | Augmente d’autant les points de construction du système       |
 | Attaque     | Améliore le tir de vos vaisseaux                            | Améliore le tir des batteries de défense planétaire.          |
@@ -40,7 +40,7 @@ Les lieutenants possèdent cinq caractéristiques, dont l'utilité varie parfois
 
 Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque compétence a 5 niveaux. D’autres compétences peuvent apparaître lors des passages de niveaux des lieutenants.
 
-| Compétence              | Héro                                                                                                                         | Gouverneur                                                                                                                                                                                                |
+| Compétence              | Héros                                                                                                                         | Gouverneur                                                                                                                                                                                                |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Maîtrise de la vitesse  | Augmente de 50% par niveau la caractéristique vitesse                                                                        | Augmente de 50% par niveau la caractéristique vitesse                                                                                                                                                    |
 | Maîtrise de l’attaque   | Augmente de 50% par niveau la caractéristique d’attaque                                                                      | Augmente de 50% par niveau la caractéristique d’attaque                                                                                                                                                  |
@@ -50,7 +50,7 @@ Lors de son recrutement, un lieutenant a une compétence de niveau I. Chaque com
 | Inspiration Fanatique   | Galvanise lors d’un combat les vaisseaux ayant un équipage de même espèce que lui.                                           | Galvanise lors d’un combat les défenseurs du système quelle que soit leur espèce.                                                                                                                        |
 | Entretien de la flotte  | Diminue de 20% par niveau le coût de l'entretien de la flotte                                                                | Non concerné                                                                                                                                                                                             |
 | Entretien du lieutenant | Diminue de 20% par niveau le coût de l'entretien du lieutenant                                                               | Diminue de 20% par niveau le coût de l'entretien du lieutenant                                                                                                                                           |
-| Immortalité             | Lorsqu’il est tué, Il y a niveau x 20% de chance que le héro ne meure pas et rejoigne la réserve de son commandant.          | Lorsqu’il est tué, Il y a niveau x 20% de chance que le héro ne meure pas et rejoigne la réserve de son commandant.                                                                                      |
+| Immortalité             | Lorsqu’il est tué, Il y a niveau x 20% de chance que le héros ne meure pas et rejoigne la réserve de son commandant.          | Lorsqu’il est tué, Il y a niveau x 20% de chance que le héros ne meure pas et rejoigne la réserve de son commandant.                                                                                      |
 | Voyageur                | Augmente d’une case par niveau la vitesse de la flotte qu'il commande                                                        | Non concerné                                                                                                                                                                                             |
 | Maîtrise du savoir      | Gagne 20% de points d'expérience en plus par niveau. Permet également aux vaisseaux de mieux se positionner lors d'un combat | Gagne 20% de points d'expérience en plus par niveau.                                                                                                                                                     |
 | Entretien du système    | Non concerné                                                                                                                 | Diminue de 20% par niveau le coût de l'entretien des constructions planétaires du système. Multiplie également les points de dommages réparés automatiquement des bâtiments par le niveau de compétence. |
@@ -70,8 +70,8 @@ De plus, il gagne un niveau dans une compétence existante ou débloque une nouv
 
 ## <a id="8.5"></a>8.5 Mort
 
-Lorsqu'une flotte commandée par un héro est détruite ou que toutes les planètes du système administré par un gouverneur sont conquises, le lieutenant concerné est considéré comme mort et est cloné, sauf s'il possède la compétence Immortalité.
+Lorsqu'une flotte commandée par un héros est détruite ou que toutes les planètes du système administré par un gouverneur sont conquises, le lieutenant concerné est considéré comme mort et est cloné, sauf s'il possède la compétence Immortalité.
 
 En cas de mort, un clone du lieutenant — réinitialisé à zéro point d'expérience avec ses caractéristiques et ses compétences de base — apparaît au tour suivant et devient disponible aux enchères.
 
-Seuls le héro et le gouverneur de départ de chaque commandant échappent au clonage : leur mort est définitive.
+Seuls le héros et le gouverneur de départ de chaque commandant échappent au clonage : leur mort est définitive.
