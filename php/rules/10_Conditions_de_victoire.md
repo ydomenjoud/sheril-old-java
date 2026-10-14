@@ -21,7 +21,7 @@ Soit dès qu'un joueur franchit le plafond de PV fixé pour la partie.
  
 À la fin de chaque tour (phase finale de résolution), des points sont attribués aux commandants occupant les premières places au sein de 6 axes stratégiques distincts :
 
-IMAGE
+![](images/PV.png)
 
 
 ### <a id="10.2.1"></a>10.2.2. Modalités et définitions des indicateurs
