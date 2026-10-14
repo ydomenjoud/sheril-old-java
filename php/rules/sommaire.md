@@ -1,6 +1,6 @@
 # Sheril – Sommaire des Règles
 
-**Version 2.1 – 30/08/26**
+**Version 2.3.1 – 10/10/26**
 
 ---
 
