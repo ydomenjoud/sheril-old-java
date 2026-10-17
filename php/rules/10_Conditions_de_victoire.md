@@ -17,14 +17,14 @@ En l'absence de domination hégémonique, la partie s'achève :
 Soit au terme d'un nombre de tours prédéfini ;
 Soit dès qu'un joueur franchit le plafond de PV fixé pour la partie.
  
-### <a id="10.2.1"></a>10.2.1. Attribution des PV par catégorie
+### <a id="10.2.1"></a>10.2.1 Attribution des PV par catégorie
  
 À la fin de chaque tour (phase finale de résolution), des points sont attribués aux commandants occupant les premières places au sein de 6 axes stratégiques distincts :
 
 ![](images/PV.png)
 
 
-### <a id="10.2.1"></a>10.2.2. Modalités et définitions des indicateurs
+### <a id="10.2.1"></a>10.2.2 Modalités et définitions des indicateurs
  
 - Rayonnement d'un système (Merveille) : Pour chaque système, le score d'influence est calculé par la formule :
  
@@ -36,7 +36,7 @@ Le score du commandant correspond au rayonnement de son meilleur système.
  
 - Villes Spatiales (Colonial) : Progression de la population résidant à bord des composants de type Ville Spatiale opérationnels, sans distinction de race.
  
-### <a id="10.2.3"></a>10.2.3. Règle de résolution des ex æquo
+### <a id="10.2.3"></a>10.2.3 Règle de résolution des ex æquo
  
 Si plusieurs joueurs se partagent un même rang de performance, chacun d'eux reçoit l'intégralité des PV prévus pour ce rang. Cette égalité sature en contrepartie les places suivantes dans le classement :
 
