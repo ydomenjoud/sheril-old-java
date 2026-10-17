@@ -13,6 +13,24 @@ if(!$commandant || !$email || !$tour){
     exit();
 }
 
+// supprime récursivement un dossier (sans suivre les liens symboliques)
+function supprimer_dossier($dir) {
+    foreach (scandir($dir) as $f) {
+        if ($f === '.' || $f === '..') continue;
+        $p = "$dir/$f";
+        if (is_dir($p) && !is_link($p)) supprimer_dossier($p);
+        else @unlink($p);
+    }
+    @rmdir($dir);
+}
+
+// nettoyage : suppression des extractions (dossiers nommés par hash) de plus d'une semaine
+foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $d) {
+    if (preg_match('/^[0-9a-f]{64}$/', basename($d)) && !is_link($d) && filemtime($d) < time() - 7 * 86400) {
+        supprimer_dossier($d);
+    }
+}
+
 // clé secrète stockée dans config ou env
 if (!$secret) {
     http_response_code(500);
