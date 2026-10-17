@@ -3301,7 +3301,16 @@ public class Commandant extends Joueur implements Serializable {
 
 			int nb2 = Math.min(present, nb);
 
-			o = new ObjetSimpleTransporte(code, nb);
+			if (nb2 < nb) {
+				ObjetTransporte demande = new ObjetSimpleTransporte(code, nb);
+				ajouterErreur("ER_COMMANDANT_TRANSFERER_0010",
+						ObjetTransporte.getDescriptionListeChargementHTML(new ObjetTransporte[] { demande }),
+						pos1, nb2);
+				if (nb2 <= 0)
+					return false;
+			}
+
+			o = new ObjetSimpleTransporte(code, nb2);
 			p1.supprimerMarchandise(Utile.numeroMarchandise(code), nb2);
 			p2.ajouterMarchandise(Utile.numeroMarchandise(code), nb2);
 

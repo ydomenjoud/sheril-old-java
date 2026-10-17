@@ -2,7 +2,7 @@
 /** @noinspection PhpLanguageLevelInspection */
 
 include "../secure/connect.txt";
-include "../script/fonctions.txt";
+include_once "../script/fonctions.txt";
 include "./fr/ordres.txt";
 
 // $code_ordres

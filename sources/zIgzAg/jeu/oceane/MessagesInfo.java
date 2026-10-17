@@ -127,6 +127,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_TRANSFERER_0007 = "Saturation porte spatiale ( max {3} ): vous n'avez pas pu transférer {0} de {1} à {2}";
 	public static final String ER_COMMANDANT_TRANSFERER_0008 = "Transfert : le système de destination  {0} est possédé par plusieurs commandants, veuillez spécifier la planète d'arrivée.";
 	public static final String ER_COMMANDANT_TRANSFERER_0009 = "Transfert : le système de destination  {0} ne possède pas de planètes permettant de recevoir le chargement: {1}";
+	public static final String ER_COMMANDANT_TRANSFERER_0010 = "Transfert : stock insuffisant sur {1} pour transférer {0}, seuls {2} ont été transférés";
 	
 	// evenement
 	public static final String EV_COMMANDANT_TRANSFERER_0000 = "Transfert : Vous avez transferé {0} de {1} à {2}";

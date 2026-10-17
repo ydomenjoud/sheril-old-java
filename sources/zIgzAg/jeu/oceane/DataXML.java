@@ -290,7 +290,7 @@ public class DataXML {
                 int m = Const.MODIFICATEUR_STABILITE_TAXATION[i];
                 creerNode("M", stabTaxationNode,
                         new String[]{"taxation", "modif"},
-                        new String[]{(i + 1) + "", m + ""});
+                        new String[]{(i) + "", m + ""});
 
             }
 
