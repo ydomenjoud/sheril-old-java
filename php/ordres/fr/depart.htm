@@ -42,21 +42,27 @@ Une aide succinte est disponible pour chaque ordre, et elle normallement suffisa
 
 <?php
 include_once "../script/fonctions.txt";
-if (array_key_exists('tache', $_POST) && $_POST['tache'] === 'revenus') {
-    // schéma de la planification des revenus : les ordres s'ajoutent aux ordres déjà passés
-    include_once "schema_revenus.php";
-    $nbOrdresAjoutes = importerSchemaRevenus($base, $commandant, "", array_key_exists('schema', $_POST) ? $_POST['schema'] : '');
-    echo "<p><b>$nbOrdresAjoutes ordre(s) ajouté(s) depuis le schéma.</b></p>";
+if (array_key_exists('tache', $_POST) && $_POST['tache'] === 'schema') {
+    // schéma quelconque (construction, déplacement, recherche, revenus) : le type est lu dans le préfixe, sinon deviné
+    include_once "schemas.php";
+    $libellesSchema = array(
+        "construction" => "construction",
+        "deplacement" => "déplacement de flotte",
+        "recherche" => "recherche (affectations remplacées)",
+        "revenus" => "revenus",
+    );
+    list($typeSchema, $nbOrdresAjoutes) = schemaImporter($base, $commandant, array_key_exists('schema', $_POST) ? $_POST['schema'] : '');
+    echo "<p><b>$nbOrdresAjoutes ordre(s) ajouté(s) depuis le schéma de " . $libellesSchema[$typeSchema] . ".</b></p>";
 }
 ?>
 <form action="<?php echo $nom_page; ?>" method="POST">
-    <input type="hidden" name="tache" value="revenus" />
+    <input type="hidden" name="tache" value="schema" />
     <label>
-        Ajouter des ordres depuis un schéma de revenus (taxation, politique, budgets, gouverneurs, terraformation) :
+        Ajouter des ordres depuis un schéma (construction, déplacement, recherche, revenus) :
         <input type="text" name="schema" />
     </label>
     <input type="submit" name="ajout" value="Envoyer ces ordres" />
-    ( créer un <a target="_blank" href="https://ydomenjoud.github.io/test-interface-sheril/#/planification-revenu">schema</a> ; les ordres déjà passés sont conservés )
+    ( créer un <a target="_blank" href="https://ydomenjoud.github.io/test-interface-sheril/#/">schema</a> ; le type est reconnu automatiquement ; les ordres déjà passés sont conservés, sauf pour la recherche qui est remplacée )
 </form>
 
 

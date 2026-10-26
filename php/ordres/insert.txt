@@ -5,117 +5,25 @@ for ($j = 0; $j < 8; $j++) {
     $$key = array_key_exists($key, $_POST) ? $_POST[$key] : null;
 }
 
-$construireBluePrintSeparator = "%#!%";
+include_once "schemas.php";
+
+$schemaBlueprint = array_key_exists('tache', $_POST) && $_POST['tache'] === 'blueprint' && array_key_exists('blueprint', $_POST);
 
 if ($v0 != "" || array_key_exists('tache',$_POST)) {
-    if ($table == 'construire' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
-
-        // on recupere les technos connues :
-        $listeSystemes=base1($base,$commandant,"z_systemes");
-        $listeConstructionPossibles=base1($base,$commandant,"z_constructions_possibles");
-        $listeConstructionPossibles = array_map(function($val) {
-            return preg_replace_callback(
-                '/(.*?)(\s?[IVX]+)$/i',
-                function($matches) {
-                    return strtolower($matches[1]) . strtoupper($matches[2]);
-                },
-                $val
-            );
-        }, $listeConstructionPossibles);
-        $data = base64_decode($_POST['blueprint']);
-        $list = explode($construireBluePrintSeparator, $data);
-
-        for ($i = 0; $i < count($list); $i++) {
-            $informations = explode(":", $list[$i]);
-
-            $systeme = mysql_real_escape_string($informations[0]);
-            $quantity = intval($informations[1]);
-            $code = mysql_real_escape_string($informations[2]);
-            $planete = intval($informations[3]);
-            if(!array_key_exists($code, $listeConstructionPossibles)){
-                die("Technologie inconnue : ".$code." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            if(!array_key_exists($systeme,$listeSystemes)){
-                die("Système inconnu : ".$systeme." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            $query = "insert into construire (NUMERO, SYSTEME, CONSTRUCTION, NOMBRE, PLANETE)
-values ($commandant, '$systeme', '$code', $quantity, $planete);";
-            mysql_query($query) or die(mysql_error());
+    if ($schemaBlueprint && in_array($table, array('construire', 'deplacer_flotte', 'creer_plan_ajouter', 'affecter_recherche'), true)) {
+        // schéma importé depuis la page de l'ordre : les traitements sont dans schemas.php
+        list($prefixe, $data) = schemaDecoder($_POST['blueprint']);
+        if ($data === false || $data === "") {
+            die("Schéma illisible (base64 invalide)." . schemaRetour($table));
         }
-    } else if ($table == 'deplacer_flotte' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
-
-        // schéma : flotte:galaxie_x_y:directive:stratégie, séparés par %#!%
-        $listeFlottes = fusion_tab2(base1($base, $commandant, "z_flottes"), base_flotte($base, $commandant));
-        $listeGalaxies = base2($base, "z_galaxies");
-        $listeDirectives = base2($base, "z_directives");
-        $listeStrategies = base3($base, $commandant, "z_strategies");
-        $data = base64_decode($_POST['blueprint']);
-        $list = explode($construireBluePrintSeparator, $data);
-
-        $requetes = [];
-        for ($i = 0; $i < count($list); $i++) {
-            $informations = explode(":", $list[$i]);
-            $position = explode("_", isset($informations[1]) ? $informations[1] : "");
-            if (count($informations) < 3 || count($position) != 3) {
-                die("Schéma invalide : ".htmlspecialchars($list[$i])." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-
-            $flotte = intval($informations[0]);
-            $galaxie = intval($position[0]);
-            $x = intval($position[1]);
-            $y = intval($position[2]);
-            $directive = intval($informations[2]);
-            $strategie = isset($informations[3]) && $informations[3] !== "" ? $informations[3] : "par défaut";
-
-            if (!is_array($listeFlottes) || !array_key_exists($flotte, $listeFlottes)) {
-                die("Flotte inconnue : ".$flotte." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            if (!is_array($listeGalaxies) || !array_key_exists($galaxie, $listeGalaxies)) {
-                die("Galaxie inconnue : ".$galaxie." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            if (!is_array($listeDirectives) || !array_key_exists($directive, $listeDirectives)) {
-                die("Directive inconnue : ".$directive." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            if ($strategie !== "par défaut" && (!is_array($listeStrategies) || !in_array($strategie, $listeStrategies))) {
-                die("Stratégie inconnue : ".htmlspecialchars($strategie)." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            $strategie = mysql_real_escape_string($strategie);
-            $requetes[] = "INSERT INTO deplacer_flotte (NUMERO, NUMFLOTTE, POSX, POSY, GALAXIE, DIRECTIVE, STRATEGIE)
-VALUES ($commandant, $flotte, $x, $y, $galaxie, $directive, '$strategie')";
-        }
-        // toutes les lignes sont validées avant la première insertion
-        foreach ($requetes as $query) {
-            mysql_query($query) or die(mysql_error());
-        }
-    } else if ($table == 'creer_plan_ajouter' && array_key_exists('tache',$_POST) && $_POST['tache'] === 'blueprint') {
-
-        // on recupere les technos connues :
-        $technoConnues=array_keys(base1($base,$commandant,"z_composants"));
-        $data = base64_decode($_POST['blueprint']);
-        $list = explode("%", $data);
-        for ($i = 0; $i < count($list); $i++) {
-            $component = explode(":", $list[$i]);
-            $tech = mysql_real_escape_string($component[0]);
-            if(!in_array($tech,$technoConnues)){
-                die("Technologie inconnue : ".$tech." <br /><a href='index.php3?table=$table'>Retour</a>");
-            }
-            $nb = intval($component[1]);
-            $query = "INSERT INTO creer_plan_ajouter (NUMERO, NOM, NOMBRE) VALUES ($commandant, '$tech', $nb)";
-            mysql_query($query) or die(mysql_error());
-        }
-    } else if ($table == "affecter_recherche" && array_key_exists('tache',$_POST) && $_POST['tache'] === 'affectation') {
-        $data = base64_decode($_POST['affectation']);
-        $list = explode("%", $data);
-        mysql_query("DELETE FROM affecter_recherche WHERE NUMERO=$commandant");
-        for ($i = 0; $i < count($list); $i++) {
-            $component = explode(":", $list[$i]);
-            if(count($component) === 2) {
-                $code = mysql_real_escape_string($component[0]);
-                $percent = intval($component[1]);
-                $query = "INSERT INTO affecter_recherche (NUMERO, TECHNOLOGIE, AFFECTATION) VALUES ($commandant, '$code', $percent)";
-//            var_dump($query);
-                mysql_query($query) or die(mysql_error());
-            }
+        if ($table == 'construire') {
+            importerSchemaConstruction($base, $commandant, $table, $data);
+        } else if ($table == 'deplacer_flotte') {
+            importerSchemaDeplacement($base, $commandant, $table, $data);
+        } else if ($table == 'creer_plan_ajouter') {
+            importerSchemaPlan($base, $commandant, $table, $data);
+        } else {
+            importerSchemaRecherche($base, $commandant, $table, $data);
         }
     } else if ($table == "fusionner_flotte" && is_array($v0)  && $v1 != null) {
         if(count($v0) <= 1){
