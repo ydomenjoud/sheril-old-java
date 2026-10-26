@@ -628,13 +628,6 @@ public class Planete implements Serializable {
 				planete.ajouterBatiment(new ConstructionPlanetaire("boucplaI"));
 			}
 		}
-		if (Univers.getTest(20)) {
-			if (Univers.getTest(3)) {
-				planete.ajouterBatiment(new ConstructionPlanetaire("battplaI"));
-			} else if (Univers.getTest(6)) {
-				planete.ajouterBatiment(new ConstructionPlanetaire("battlaI"));
-			}
-		}
 
 		if (Univers.getTest(20)) {
 			if (Univers.getTest(2)) {

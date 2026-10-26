@@ -1863,45 +1863,22 @@ public class Commandant extends Joueur implements Serializable {
 	public static void resolutionEvenements() {
 
         Position[] p = Univers.listePositionsSystemes();
-        int base = Math.max(1, Univers.getNombreCommandants() / 6);
+        int base = Math.max(1, Univers.getNombreCommandants() / 8);
 
-		// Oxole
-		for (int a = 0; a < base + Univers.getInt(4); a++) {
-			Position choix = p[Univers.getInt(p.length)];
-			Systeme systeme = Univers.getSysteme(choix);
-			int[] proprios = systeme.getProprios();
-			int prop = proprios[Univers.getInt(proprios.length)];
-			Commandant c = Univers.getCommandant(prop);
-			Possession poss = c.getPossession(choix);
-			int nb = Univers.getInt(8) + 2;
-			poss.ajouterMarchandise(15, nb);
-			Univers.ajouterEvenement("EVENEMENT_OXOLE", nb, choix);
-		}
-
-		// Lixiam
-		for (int a = 0; a < base + Univers.getInt(4); a++) {
-			Position choix = p[Univers.getInt(p.length)];
-			Systeme systeme = Univers.getSysteme(choix);
-			int[] proprios = systeme.getProprios();
-			int prop = proprios[Univers.getInt(proprios.length)];
-			Commandant c = Univers.getCommandant(prop);
-			Possession poss = c.getPossession(choix);
-            int nb = Univers.getInt(8) + 2;
-			poss.ajouterMarchandise(14, nb);
-			Univers.ajouterEvenement("EVENEMENT_LIXIAM", nb, choix);
-		}
-
-		// Tixium
-		for (int a = 0; a < base + Univers.getInt(4); a++) {
-			Position choix = p[Univers.getInt(p.length)];
-			Systeme systeme = Univers.getSysteme(choix);
-			int[] proprios = systeme.getProprios();
-			int prop = proprios[Univers.getInt(proprios.length)];
-			Commandant c = Univers.getCommandant(prop);
-			Possession poss = c.getPossession(choix);
-            int nb = Univers.getInt(8) + 2;
-			poss.ajouterMarchandise(13, nb);
-			Univers.ajouterEvenement("EVENEMENT_TIXIUM", nb, choix);
+		int[] marchandises = {15, 14, 13};
+		String[] evenements = {"EVENEMENT_OXOLE", "EVENEMENT_LIXIAM", "EVENEMENT_TIXIUM"};
+		for (int i = 0; i < marchandises.length; i++) {
+			for (int a = 0; a < base + Univers.getInt(4); a++) {
+				Position choix = p[Univers.getInt(p.length)];
+				Systeme systeme = Univers.getSysteme(choix);
+				int[] proprios = systeme.getProprios();
+				int prop = proprios[Univers.getInt(proprios.length)];
+				Commandant c = Univers.getCommandant(prop);
+				Possession poss = c.getPossession(choix);
+				int nb = Univers.getInt(6) + 2;
+				poss.ajouterMarchandise(marchandises[i], nb);
+				Univers.ajouterEvenement(evenements[i], nb, choix);
+			}
 		}
 
 	}
