@@ -577,6 +577,37 @@ public class RapportXML {
 
 				}
 
+				// stratégies de combat spatial du joueur
+				Element strategiesNode = creerNode("STRATEGIES", com, new String[]{}, new String[]{});
+				String[] codesStrategies = c.listeCodesStrategies();
+				java.util.Arrays.sort(codesStrategies);
+				for (String codeStrategie : codesStrategies) {
+					StrategieDeCombatSpatial strat = c.getStrategieConnue(codeStrategie);
+					if (strat == null)
+						continue;
+					Element s = creerNode("S", strategiesNode,
+							new String[]{"nom", "agressivite", "cible"},
+							new String[]{strat.getNom(), strat.getAgressivite() + "", strat.getTypeCible() + ""});
+					for (String typeVaisseau : strat.getTypesDeVaisseau()) {
+						int[] pos = strat.getPositionnement(typeVaisseau);
+						int[] cibles = strat.getCibles(typeVaisseau);
+						Element v = creerNode("V", s,
+								new String[]{"type", "ligne", "colonne"},
+								new String[]{typeVaisseau,
+										pos != null && pos.length > 0 ? pos[0] + "" : "",
+										pos != null && pos.length > 1 ? pos[1] + "" : ""});
+						if (cibles != null) {
+							StringBuilder sb = new StringBuilder();
+							for (int k = 0; k < cibles.length; k++) {
+								if (k > 0)
+									sb.append(',');
+								sb.append(cibles[k]);
+							}
+							v.setAttribute("cibles", sb.toString());
+						}
+					}
+				}
+
 				try {
 					Element combatsElement = RapportCombatXMLExporter.genererElementCombats(c.getCombatsGroupes(), documentG);
 					if (combatsElement != null) {
