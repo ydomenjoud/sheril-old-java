@@ -266,6 +266,11 @@ public class Technologie implements Serializable {
 		return liste.toArray(new String[0]);
 	}
 
+	// binarySearch renvoie une valeur < 0 (et pas seulement -1) si absent
+	public static boolean estTechnologieReservee(String corpsCode) {
+		return Arrays.binarySearch(Const.TECHNOLOGIES_RESERVED, corpsCode) >= 0;
+	}
+
 	public static void testDevenirTechnologiesPubliques() {
 
 		Commandant[] c = Univers.getListeCommandantsHumains();
@@ -279,15 +284,12 @@ public class Technologie implements Serializable {
 //		}
 
 		Technologie[] t = Univers.getListeTechnologies();
-		String[] t_reserved = Const.TECHNOLOGIES_RESERVED;
-
 		for (int i = 0; i < t.length; i++)
 			if (!Univers.estTechnologiePublique(t[i].getCode())) {
 				int nb = 0;
 				for (int j = 0; j < c.length; j++)
 					if (c[j].estTechnologieConnue(t[i].getCode())
-							&& Arrays.binarySearch(t_reserved,
-									t[i].getCorpsCode()) == -1)
+							&& !estTechnologieReservee(t[i].getCorpsCode()))
 						nb++;
 				if (nb > (c.length * 60) / 100) {
 					Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", t[i]);
