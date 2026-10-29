@@ -4,6 +4,7 @@ php/live/a.php
 config.properties
 mysql
 data*/tour*
+data*/carnet-chrono-tour*.txt
 data*/carnet.txt
 data*/commun/tour.txt
 data*/mj
