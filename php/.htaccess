@@ -12,6 +12,14 @@ RewriteRule ^stats.html$ stats.php [L]
 
 RewriteRule ^live/images/(.*)$ /images/$1 [R=301,L]
 
+# --- Pas de cache sur les statistiques (/stats*, /statistiques*, dossier stats/) ---
+<IfModule mod_headers.c>
+    SetEnvIf Request_URI "^/(stats|statistiques)(/|\.|$)" sans_cache
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0" env=sans_cache
+    Header always set Pragma "no-cache" env=sans_cache
+    Header always set Expires "0" env=sans_cache
+</IfModule>
+
 # --- Nouveau forum : /forum est géré par le routeur (l'ancien dossier forum/ reste accessible par ses fichiers) ---
 RewriteRule ^forum/?$ index.php [L]
 
