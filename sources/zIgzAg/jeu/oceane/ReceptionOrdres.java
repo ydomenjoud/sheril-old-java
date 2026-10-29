@@ -41,6 +41,8 @@ public class ReceptionOrdres {
 
 	private transient HashMap descriptionTables;
 
+	private transient Map<String, Map<String, List<String[]>>> ordresParTable = new HashMap<>();
+
 	private transient HashMap affectationRecherches;
 
 	private transient HashMap budget;
@@ -108,21 +110,29 @@ public class ReceptionOrdres {
 	}
 
 	public void chargerDescriptionTables() {
-		String[] liste = mySQL.listeTables(connection);
-		descriptionTables = new HashMap(liste.length);
-		for (int i = 0; i < liste.length; i++)
-			descriptionTables.put(liste[i],
-					mySQL.getNomsColonnes(connection, liste[i]));
+		// les colonnes sont chargées à la demande (une requête par table utilisée)
+		descriptionTables = new HashMap();
 	}
 
-	public String[][] getOrdres() {
-		ArrayList a = new ArrayList();
+	private String[] colonnes(String nomTable) {
+		String[] cols = (String[]) descriptionTables.get(nomTable);
+		if (cols == null) {
+			cols = mySQL.getNomsColonnes(connection, nomTable);
+			descriptionTables.put(nomTable, cols);
+		}
+		return cols;
+	}
+
+	// Ordres d'une table, chargés en une seule requête puis groupés par commandant.
+	private Map<String, List<String[]>> chargerOrdresTable(String nomTable) {
+		Map<String, List<String[]>> parCommandant = ordresParTable.get(nomTable);
+		if (parCommandant != null)
+			return parCommandant;
+		parCommandant = new HashMap<>();
 		try {
 			Statement s = connection.createStatement();
-			String[] param = new String[1];
-			param[0] = Integer.toString(c[iC].getNumero());
-			ResultSet r = mySQL.selectionner(s, Const.NOMS_TABLES_ORDRES[index], CLE, param);
-			int nb = ((String[]) descriptionTables.get(Const.NOMS_TABLES_ORDRES[index])).length;
+			ResultSet r = mySQL.selectionnerTout(s, nomTable);
+			int nb = colonnes(nomTable).length;
 			while (r.next()) {
 				String[] inter = new String[nb - 1];
 				for (int i = 0; i < nb - 1; i++) {
@@ -133,7 +143,8 @@ public class ReceptionOrdres {
 							Mds.remplacer(Mds.remplacer(inter[i], "\\'", "'"),
 									"\\\"", "\""), "\\\\", "\\").trim();
 				}
-				a.add(inter);
+				parCommandant.computeIfAbsent(cleCommandant(r.getString(1)),
+						k -> new ArrayList<>()).add(inter);
 			}
 			r.close();
 			s.close();
@@ -142,6 +153,25 @@ public class ReceptionOrdres {
 			System.out.println("SQLState:     " + e.getSQLState());
 			System.out.println("VendorError:  " + e.getErrorCode());
 		}
+		ordresParTable.put(nomTable, parCommandant);
+		return parCommandant;
+	}
+
+	// MySQL compare 'NUMERO' numériquement : on normalise pour retrouver les mêmes correspondances
+	private static String cleCommandant(String numero) {
+		try {
+			return Integer.toString(Integer.parseInt(numero.trim()));
+		} catch (NumberFormatException e) {
+			return numero;
+		}
+	}
+
+	public String[][] getOrdres() {
+		ArrayList a = new ArrayList();
+		List<String[]> ordres = chargerOrdresTable(Const.NOMS_TABLES_ORDRES[index])
+				.get(Integer.toString(c[iC].getNumero()));
+		if (ordres != null)
+			a.addAll(ordres);
 
 		if (((index == Const.ORDRE_ENROLER_LIEUTENANT) && (a.size() > Const.NOMBRE_LIMITE_ENROLER_LIEUTENANT))
 				|| ((index == Const.ORDRE_SERVICES_SPECIAUX) &&
@@ -179,7 +209,7 @@ public class ReceptionOrdres {
 		Statement s = mySQL.getStatement(connection);
 		boolean retour = (0 != mySQL
 				.nombreLignesResultSet(mySQL.selectionner(s, nomTable,
-						(String[]) descriptionTables.get(nomTable), param)));
+						colonnes(nomTable), param)));
 		mySQL.fermerStatement(s);
 		return retour;
 	}
@@ -404,6 +434,7 @@ public class ReceptionOrdres {
 		dumpDatabase();
 
 		for (index = 0; index < Const.BORNE_ORDRES_VISIBLES; index++) {
+			long debutOrdre = System.nanoTime();
 			resoudreMethode();
 			if (index == Const.ORDRE_EXCLURE_ALLIANCE)
 				Alliance.traiterVotes();
@@ -413,6 +444,9 @@ public class ReceptionOrdres {
 				Flotte.deplacerVersBut();
 			if(index == Const.ORDRE_ACHAT_GALACTIQUE)
 				reglerEncheresMarche();
+			DeroulementDuTour.ecrireChrono(String.format("  ordre %-36s %9d ms",
+					Const.NOMS_TABLES_ORDRES[index] + " (" + index + ")",
+					(System.nanoTime() - debutOrdre) / 1000000), true);
 		}
 		mySQL.fermerConnection(connection);
 		return ordresRendus;

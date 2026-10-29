@@ -413,6 +413,8 @@ public class ProductionOrdres {
 		SessionMysql mySQL = new SessionMysql();
 		Univers.phaseSuivante();
 		Commandant[] c = Univers.getListeCommandantsHumains();
+		Connection connection = null;
+		Map<String, String[]> registre = null;
 		for (int i = 0; i < c.length; i++) {
 			if (Mdt.estPresent(listeC, c[i].getNumero()))
 				c[i].setDernierTourRendu(Univers.getTour());
@@ -422,23 +424,28 @@ public class ProductionOrdres {
 				elimine = true;
 			else
 				try {
-					Connection connection = mySQL.getConnection(
-							Const.DATABASE_HOST, Const.DATABASE_NAME,
-							Const.DATABASE_LOGIN, Const.DATABASE_PASSWORD);
-					Statement s = connection.createStatement();
-					String[] i1 = new String[1];
-					i1[0] = "NUMERO";
-					String[] i2 = new String[1];
-					i2[0] = Integer.toString(c[i].getNumero());
-					ResultSet r = mySQL.selectionner(s, Const.TABLE_REGISTRE,
-							i1, i2);
-					elimine = true;
-					while (r.next()) {
-						elimine = false;
-						c[i].setNom(r.getString("NOM").replace('#', '\'')
-								.replace(',', ' '));
-						c[i].setAdresseElectronique(r.getString("ADRESSE"));
-						c[i].setMotDePasse(r.getString("MOT_DE_PASSE"));
+					// une seule connexion et une seule requête pour tout le registre
+					if (connection == null) {
+						connection = mySQL.getConnection(
+								Const.DATABASE_HOST, Const.DATABASE_NAME,
+								Const.DATABASE_LOGIN, Const.DATABASE_PASSWORD);
+						registre = new HashMap<String, String[]>();
+						Statement s = connection.createStatement();
+						ResultSet r = mySQL.selectionnerTout(s, Const.TABLE_REGISTRE);
+						while (r.next())
+							registre.put(cleRegistre(r.getString("NUMERO")),
+									new String[] { r.getString("NOM"),
+											r.getString("ADRESSE"),
+											r.getString("MOT_DE_PASSE") });
+						r.close();
+						s.close();
+					}
+					String[] ligne = registre.get(Integer.toString(c[i].getNumero()));
+					elimine = (ligne == null);
+					if (ligne != null) {
+						c[i].setNom(ligne[0].replace('#', '\'').replace(',', ' '));
+						c[i].setAdresseElectronique(ligne[1]);
+						c[i].setMotDePasse(ligne[2]);
 					}
 				} catch (SQLException e) {
 					System.out.println("SQLException: " + e.getMessage());
@@ -460,13 +467,16 @@ public class ProductionOrdres {
 		Univers.phaseSuivante();
 
 		if (!Const.USE_REGISTRATIONS) {
+			if (connection != null)
+				mySQL.fermerConnection(connection);
 			return;
 		}
 
 		try {
-			Connection connection = mySQL.getConnection(Const.DATABASE_HOST,
-					Const.DATABASE_NAME, Const.DATABASE_LOGIN,
-					Const.DATABASE_PASSWORD);
+			if (connection == null)
+				connection = mySQL.getConnection(Const.DATABASE_HOST,
+						Const.DATABASE_NAME, Const.DATABASE_LOGIN,
+						Const.DATABASE_PASSWORD);
 			Statement s = connection.createStatement();
 			ResultSet r = mySQL.selectionnerTout(s, Const.TABLE_INSCRIPTION);
 
@@ -529,7 +539,18 @@ public class ProductionOrdres {
 			System.out.println("SQLState:     " + e.getSQLState());
 			System.out.println("VendorError:  " + e.getErrorCode());
 		}
+		if (connection != null)
+			mySQL.fermerConnection(connection);
 
+	}
+
+	// MySQL compare NUMERO numériquement : on normalise pour retrouver les mêmes correspondances
+	private static String cleRegistre(String numero) {
+		try {
+			return Integer.toString(Integer.parseInt(numero.trim()));
+		} catch (NumberFormatException e) {
+			return numero;
+		}
 	}
 
     public ProductionOrdres(Commandant commandant) {

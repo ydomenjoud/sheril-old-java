@@ -18,6 +18,7 @@ public class DeroulementDuTour {
 		
 		Univers univers = new Univers(true, "Déroulement du tour...");
 		System.out.println(" Debut du tour " + Univers.getTour());
+		chronoDebut(Univers.getTour());
 
         if(Univers.getTour() == 0){
             Univers.ajouterEvenement("PUBLIC_TECHNOLOGIE_0000", "mineI");
@@ -40,6 +41,8 @@ public class DeroulementDuTour {
 			}
 		}
 
+		chrono("initialisation des commandants");
+
 		// On va remettre les flottes au bon endroit
 		for (int i = 0; i < cL2.length; i++) {
 			Flotte[] lf = cL2[i].listeFlottes();
@@ -59,11 +62,13 @@ public class DeroulementDuTour {
 		for (int i = 0; i < cL.length; i++)
 			cL[i].resolutionCollisions();
 		Univers.phaseSuivante();
+		chrono("collisions");
 
 		Univers.notify("Reception des ordres et gestion ...");
 		ReceptionOrdres ro = new ReceptionOrdres();
 		Map m = ro.deroulementOrdres();
 		ro = null;
+		chrono("reception et execution des ordres");
 
 		Integer[] listeOrdresRendus = (Integer[]) m.keySet().toArray(
 				new Integer[0]);
@@ -73,7 +78,9 @@ public class DeroulementDuTour {
 
 		//System.out.println("Debut des combats...");
 		Univers.notify("Debut des combats...");
+		chrono("evenements");
 		Combat.resolutionCombats();
+		chrono("combats");
 
 		// --- VERIFICATION FINALE AVANT AFFICHAGE ---
 //		System.out.println("---------------------------------------------------------");
@@ -99,10 +106,13 @@ public class DeroulementDuTour {
 		gestionFinDeTour(cL2);
 		System.out.println("gestion fin de tour");
 
+		chrono("fin de tour (gouverneurs, alliances 1, systemes/flottes)");
+
 		Univers.gestionTechno();
 		System.out.println("gestion  techno");
 
 		Technologie.testDevenirTechnologiesPubliques();
+		chrono("technologies");
 		Univers.augmenterNumeroTour();
 		System.out.println("Mise à jour de la base des commandants...");
 		ProductionOrdres.produireRegistre(Utile.transformer(listeOrdresRendus));
@@ -110,6 +120,7 @@ public class DeroulementDuTour {
 		Alliance.gererAlliances2();
 
 		OffreMarche.gererFinDeVieEncheres();
+		chrono("registre, encheres, alliances 2, marche");
 
 		cL = null;
 		m = null;
@@ -126,7 +137,11 @@ public class DeroulementDuTour {
 		ProductionOrdres.produireOrdresGeneraux();
 		ProductionOrdres.productionDonneeRaces(Locale.FRENCH);
 
+		chrono("messages systemes, PV, stats, donnees generales");
+
 		Map tran = new HashMap();
+		long dureeFlottesDetectes = 0;
+		long dureeSystemesDetectes = 0;
 
 		System.out.print("Détermination flottes détectées : ");
 		Univers.notify("Détermination flottes détectées : ");
@@ -135,24 +150,33 @@ public class DeroulementDuTour {
 			System.out.print(cL2[i].getNumero() + "-");
 
 			// Detections
+			long t0 = System.nanoTime();
 			cL2[i].determinerFlottesDetectes();
+			long t1 = System.nanoTime();
 			cL2[i].determinerSystemesDetectes();
+			dureeFlottesDetectes += t1 - t0;
+			dureeSystemesDetectes += System.nanoTime() - t1;
 
 			tran.put(Integer.valueOf(cL2[i].getNumero()), cL2[i].stockerChampsTransients());
 		}
-		
+		ecrireChrono(String.format("%-45s %9d ms", "  dont determinerFlottesDetectes", dureeFlottesDetectes / 1000000), true);
+		ecrireChrono(String.format("%-45s %9d ms", "  dont determinerSystemesDetectes", dureeSystemesDetectes / 1000000), true);
+		chrono("detection des commandants (total)");
+
 		// gestion detection alliance
 		Alliance[] a = Univers.getListeAlliances();
 		for (int i = 0; i < a.length; i++) {
 			a[i].determinerFlottesDetectees();
 			a[i].determinerSystemesDetectes();
 		}
+		chrono("detection des alliances");
 
 		// gestion detection alliance par commandant
 		for (int i = cL2.length - 1; i >= 0; i--) {
 			cL2[i].determinerFlottesDetectesParAlliance();
 			cL2[i].determinerSystemesDetectesParAlliance();
 		}
+		chrono("detection par alliance (commandants)");
 
 		
 		System.out.print("Rapport: ");
@@ -176,9 +200,11 @@ public class DeroulementDuTour {
 			cL2[i].initialiserChampsTransients();
 			tran.remove(Integer.valueOf(cL2[i].getNumero()));
 		}
+		chrono("rapports (texte, XML, ordres)");
 
         // génération des data publiques dans /tourX/stats
         DataXML.main(null);
+		chrono("DataXML");
 
 		// zippage des rapports
 		System.out.println("zippage");
@@ -188,16 +214,51 @@ public class DeroulementDuTour {
 			EnvoyerRapport.zipper(cL2[i]);
 			EnvoyerRapport.envoyer(cL2[i]);
 		}
+		chrono("zip et envoi des rapports");
 
 		// zippage des stats
 		String[] g = new String[] { Chemin.STATS };
 		Copie.zipper(g, Chemin.RACINE + "stats", "statsT" + Univers.getTour()+ ".zip");
+		chrono("zip des stats");
 
 		System.out.println("");
 		System.out.println("Sauvegarde: ");
 		Univers.notify("Sauvegarde: ");
 		univers.sauvegarder();
+		chrono("sauvegarde");
+		chronoFin();
 
+	}
+
+	// Chronométrage par phase, écrit dans carnet-chrono-tourX.txt
+
+	private static File fichierChrono;
+	private static long chronoDebut;
+	private static long chronoDernier;
+
+	private static void chronoDebut(int tour) {
+		fichierChrono = new File(Chemin.RACINE + "carnet-chrono-tour" + tour + ".txt");
+		chronoDebut = chronoDernier = System.nanoTime();
+		ecrireChrono("Chronométrage du passage du tour " + tour + " (" + new java.util.Date() + ")", false);
+	}
+
+	private static void chrono(String phase) {
+		long maintenant = System.nanoTime();
+		ecrireChrono(String.format("%-45s %9d ms", phase, (maintenant - chronoDernier) / 1000000), true);
+		chronoDernier = System.nanoTime();
+	}
+
+	private static void chronoFin() {
+		ecrireChrono(String.format("%-45s %9d ms", "TOTAL", (System.nanoTime() - chronoDebut) / 1000000), true);
+	}
+
+	static void ecrireChrono(String ligne, boolean ajout) {
+		try (java.io.PrintWriter pw = new java.io.PrintWriter(
+				new java.io.FileWriter(fichierChrono, ajout))) {
+			pw.println(ligne);
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Flotte createFlotte(Commandant c, String name, Position position, int directive, int vaisseaux){
