@@ -36,7 +36,7 @@
                     <tr>
                         <td class="numeric">{{ loop.index }}</td>
                         <td>
-                            <a class="race{{ l.race }}" href="/statistiques/detail?nums={{ l.numero }}">{{ l.nom }} ({{ l.numero }})</a>
+                            <a class="race{{ l.race }} link" href="/statistiques/detail?nums={{ l.numero }}">{{ l.nom }} ({{ l.numero }})</a>
                         </td>
                         {% for v in l.valeurs %}
                             <td class="numeric stats-valeur{% if loop.last %} stats-pv{% endif %}">{{ v.valeur }}</td>

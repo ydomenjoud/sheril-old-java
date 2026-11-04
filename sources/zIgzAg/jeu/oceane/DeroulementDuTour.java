@@ -74,6 +74,7 @@ public class DeroulementDuTour {
 				new Integer[0]);
 		System.out.println("");
 
+		Univers.phaseSuivante();
 		Commandant.resolutionEvenements();
 
 		//System.out.println("Debut des combats...");

@@ -168,6 +168,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String PUBLIC_ALLIANCE_0000 = "L'alliance {0} vient d'être dissoute faute de membres.";
 	public static final String PUBLIC_ACHETER_COMMANDANT_0000 = "{0} vient d'enrôler le lieutenant {1} pour la somme de {2}.";
 	public static final String PUBLIC_TECHNOLOGIE_0000 = "Boost technologique: {0} est Désormais accessible à tous!";
+	public static final String PUBLIC_ACHETER_GALACTIQUE_0000 = "{0} vient de remporter l'enchère sur le marché galactique pour {1} mis en vente par {3} au prix de {2}.";
 	public static final String PUBLIC_MARCHE_GALACTIQUE_0000 = "Le commandant {0} met en vente {1} sur le marché galactique au prix de {2}";
 
 

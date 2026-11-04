@@ -4217,6 +4217,13 @@ public class Commandant extends Joueur implements Serializable {
                 destinationPosition
         );
 
+        // on l'indique dans les événements publiques
+        Univers.ajouterEvenement("PUBLIC_ACHETER_GALACTIQUE_0000",
+                getNomNumeroHtml(),
+                offre.getDescription(),
+                (float) montant,
+                vendeur != null ? vendeur.getNomNumeroHtml() : "???");
+
 		Univers.retirerOffreMarche(offre);
         return true;
 	}

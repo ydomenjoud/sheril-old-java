@@ -10,7 +10,7 @@ include_once "schemas.php";
 $schemaBlueprint = array_key_exists('tache', $_POST) && $_POST['tache'] === 'blueprint' && array_key_exists('blueprint', $_POST);
 
 if ($v0 != "" || array_key_exists('tache',$_POST)) {
-    if ($schemaBlueprint && in_array($table, array('construire', 'deplacer_flotte', 'creer_plan_ajouter', 'affecter_recherche'), true)) {
+    if ($schemaBlueprint && in_array($table, array('construire', 'deplacer_flotte', 'creer_plan_ajouter', 'affecter_recherche', 'charger_cargo'), true)) {
         // schéma importé depuis la page de l'ordre : les traitements sont dans schemas.php
         list($prefixe, $data) = schemaDecoder($_POST['blueprint']);
         if ($data === false || $data === "") {
@@ -20,6 +20,8 @@ if ($v0 != "" || array_key_exists('tache',$_POST)) {
             importerSchemaConstruction($base, $commandant, $table, $data);
         } else if ($table == 'deplacer_flotte') {
             importerSchemaDeplacement($base, $commandant, $table, $data);
+        } else if ($table == 'charger_cargo') {
+            importerSchemaTransfert($base, $commandant, $table, $data);
         } else if ($table == 'creer_plan_ajouter') {
             importerSchemaPlan($base, $commandant, $table, $data);
         } else {

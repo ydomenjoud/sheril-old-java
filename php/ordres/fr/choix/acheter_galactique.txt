@@ -24,6 +24,12 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
     /*form > * {*/
     /*    flex: 1;*/
     /*}*/
+    /* offres mises en vente par le commandant connecté */
+    tr.offre-propre td {
+        color: #888;
+        font-style: italic;
+        opacity: .6;
+    }
 </style>
 <table style=" width: auto " class="stylized searchable" data-input-div="#inputDiv">
     <thead>
@@ -49,12 +55,21 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
         $min = intval($offre['PRIX']);
         $enchere = array_key_exists($offre['ID_OFFRE'],$encheresActives) > 0 ? $encheresActives[$offre['ID_OFFRE']] : null;
 
-        echo "<tr>";
-        echo "<td>{$t1[$offre['VENDEUR']]}</td>";
+        echo $offre['PROPRE'] ? "<tr class='offre-propre' title='Votre offre'>" : "<tr>";
+        // $t1 (z_commandants_transfert) ne contient pas le commandant connecté
+        if ($offre['PROPRE']) {
+            $vendeur = "Vous";
+        } else {
+            $vendeur = isset($t1[$offre['VENDEUR']]) ? $t1[$offre['VENDEUR']] : "Commandant " . $offre['VENDEUR'];
+        }
+        echo "<td>$vendeur</td>";
         echo "<td>" . $offre['QUANTITE'] . "</td>";
         echo "<td>" . $t2[$offre['CODE']] . "</td>";
         echo "<td class='cur'>" . number_format($min, 1, ',', ' ') . "</td>";
-        if($enchere){
+        if ($offre['PROPRE']) {
+        ?>
+            <td class="nosearch" colspan="3">Votre offre</td>
+        <?php } else if($enchere){
         ?>
             <td class="item">
                 <span class="cur"><?php

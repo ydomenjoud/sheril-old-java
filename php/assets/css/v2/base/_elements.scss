@@ -31,6 +31,10 @@ a {
   &:focus-visible { @include focus-visible-ring; }
 }
 
+a.link {
+  border-bottom: 1px dotted #00e6e6;
+}
+
 strong {
   color: token("text-link");
 }

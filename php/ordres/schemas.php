@@ -5,7 +5,7 @@
  * Un schéma est du base64, éventuellement précédé d'un préfixe de type : « construction|MF8y… ».
  * Sans préfixe, le type est deviné d'après le contenu (schemaDetecter).
  *
- * Types gérés : construction, deplacement, recherche, revenus (plan : voir importerSchemaPlan, hors accueil).
+ * Types gérés : construction, deplacement, recherche, revenus, transfert (plan : voir importerSchemaPlan, hors accueil).
  * Chaque import valide tout le schéma avant la moindre insertion : sur erreur (die), rien n'est ajouté.
  * Les fonctions s'appellent depuis l'accueil des ordres (schemaImporter) comme depuis les pages d'ordres (insert.txt).
  */
@@ -13,7 +13,7 @@
 include_once "schema_revenus.php";
 
 const SCHEMA_SEPARATEUR = "%#!%";
-const SCHEMA_PREFIXES = "plan|revenus|construction|deplacement|recherche";
+const SCHEMA_PREFIXES = "plan|revenus|construction|deplacement|recherche|transfert";
 
 function schemaRetour($table)
 {
@@ -43,6 +43,8 @@ function schemaDeviner($data)
     $elements = explode(SCHEMA_SEPARATEUR, $data);
     $premier = $elements[0];
     if (preg_match('/^\d+:\d+_\d+_\d+:/', $premier)) return "deplacement";
+    // avant « construction », qui commence aussi par un système
+    if (preg_match('/^\d+_\d+_\d+:[^:]+:\d+:\d+:\d+_\d+_\d+:\d+$/', $premier)) return "transfert";
     if (preg_match('/^\d+_\d+_\d+:/', $premier)) return "construction";
     $tables = schemaRevenusTables();
     $nom = substr($premier, 0, strcspn($premier, ":"));
@@ -123,6 +125,56 @@ function importerSchemaDeplacement($base, $commandant, $table, $data)
         $strategie = mysql_real_escape_string($strategie);
         $requetes[] = "INSERT INTO deplacer_flotte (NUMERO, NUMFLOTTE, POSX, POSY, GALAXIE, DIRECTIVE, STRATEGIE)
 VALUES ($commandant, $flotte, $x, $y, $galaxie, $directive, '$strategie')";
+    }
+    return schemaExecuter($requetes, $retour);
+}
+
+/**
+ * Ajoute des transferts entre systèmes (table charger_cargo).
+ * Format : système départ:objet:nombre:planète départ:système arrivée:planète arrivée, séparés par %#!%.
+ * Objet = minerai, n° de marchandise ou code de bâtiment (clés de z_cargaison_chargement) ;
+ * planète = n° 0-based, 100 = non précisée (comme select_planete2).
+ */
+function importerSchemaTransfert($base, $commandant, $table, $data)
+{
+    $retour = schemaRetour($table);
+    $systemes = base1($base, $commandant, "z_systemes");
+    $objets = base1($base, $commandant, "z_cargaison_chargement");
+    if (!is_array($systemes)) $systemes = array();
+    if (!is_array($objets)) $objets = array();
+
+    $requetes = array();
+    foreach (explode(SCHEMA_SEPARATEUR, $data) as $ligne) {
+        $informations = explode(":", $ligne);
+        if (count($informations) != 6) {
+            die("Schéma invalide : " . schemaEchapper($ligne) . $retour);
+        }
+        list($depart, $objet, $nombre, $planeteDepart, $arrivee, $planeteArrivee) = $informations;
+        if (!array_key_exists($depart, $systemes)) {
+            die("Système de départ inconnu : " . schemaEchapper($depart) . $retour);
+        }
+        if (!array_key_exists($arrivee, $systemes)) {
+            die("Système d'arrivée inconnu : " . schemaEchapper($arrivee) . $retour);
+        }
+        if (!array_key_exists($objet, $objets)) {
+            die("Objet non transférable : " . schemaEchapper($objet) . $retour);
+        }
+        if (!preg_match('/^\d+$/', $nombre) || intval($nombre) <= 0) {
+            die("Quantité invalide : " . schemaEchapper($ligne) . $retour);
+        }
+        foreach (array($planeteDepart, $planeteArrivee) as $planete) {
+            if (!preg_match('/^\d+$/', $planete) || (intval($planete) > 19 && intval($planete) != 100)) {
+                die("Planète invalide : " . schemaEchapper($ligne) . $retour);
+            }
+        }
+        $depart = mysql_real_escape_string($depart);
+        $arrivee = mysql_real_escape_string($arrivee);
+        $objet = mysql_real_escape_string($objet);
+        $nombre = intval($nombre);
+        $planeteDepart = intval($planeteDepart);
+        $planeteArrivee = intval($planeteArrivee);
+        $requetes[] = "INSERT INTO charger_cargo (NUMERO, SYSTEME, CONSTRUCTION, NOMBRE, PLANETE, SYSTEME2, PLANETE2)
+VALUES ($commandant, '$depart', '$objet', $nombre, $planeteDepart, '$arrivee', $planeteArrivee)";
     }
     return schemaExecuter($requetes, $retour);
 }
@@ -211,6 +263,8 @@ function schemaImporter($base, $commandant, $texte)
             return array($type, importerSchemaDeplacement($base, $commandant, "", $data));
         case "recherche":
             return array($type, importerSchemaRecherche($base, $commandant, "", $data));
+        case "transfert":
+            return array($type, importerSchemaTransfert($base, $commandant, "", $data));
         case "revenus":
             return array($type, importerSchemaRevenus($base, $commandant, "", base64_encode($data)));
         default:

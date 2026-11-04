@@ -109,6 +109,10 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+a.link {
+  border-bottom: 1px dotted #00e6e6;
+}
+
 strong {
   color: var(--sheril-text-link);
 }
