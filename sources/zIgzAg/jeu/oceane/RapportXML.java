@@ -294,6 +294,29 @@ public class RapportXML {
 
 						} // Fin batiment
 					} // Fin planete
+
+					// Les constructions en cours (même contenu que le tableau
+					// « Constructions en cours » du rapport HTML)
+					Construction[] listeC = poss.listeConstructions();
+					if (listeC.length > 0) {
+						Element constructions = creerNode("CONSTRUCTIONS", sys);
+						for (int k = 0; k < listeC.length; k++) {
+							Construction co = listeC[k];
+							boolean estBatiment = Univers.existenceTechnologie(co.getCode());
+							boolean planetePrecisee = co.getPlanete() != Integer.MIN_VALUE;
+							String[] attributs = planetePrecisee
+									? new String[] { "code", "type", "nombre", "pdcRestants", "pdcEffectues", "planete" }
+									: new String[] { "code", "type", "nombre", "pdcRestants", "pdcEffectues" };
+							String[] valeurs = planetePrecisee
+									? new String[] { co.getCode(), estBatiment ? "batiment" : "vaisseau",
+											"" + co.getNombre(), "" + co.getPointsNecessaires(),
+											"" + co.getPointsEffectues(), "" + co.getPlanete() }
+									: new String[] { co.getCode(), estBatiment ? "batiment" : "vaisseau",
+											"" + co.getNombre(), "" + co.getPointsNecessaires(),
+											"" + co.getPointsEffectues() };
+							creerNode("CONSTRUCTION", constructions, attributs, valeurs);
+						}
+					}
 				} // fin System
 				
 				// Element Flotte
