@@ -64,7 +64,10 @@ $encheresActives = baseList("acheter_galactique", "v0", "NUMERO=$commandant");
         }
         echo "<td>$vendeur</td>";
         echo "<td>" . $offre['QUANTITE'] . "</td>";
-        echo "<td>" . $t2[$offre['CODE']] . "</td>";
+        // $t2 (z_cargaison_chargement) ne liste que ce que le commandant connecté peut charger :
+        // une offre d'un autre joueur peut porter sur un objet absent (ex. raffineIII)
+        $type = isset($t2[$offre['CODE']]) ? $t2[$offre['CODE']] : $offre['CODE'];
+        echo "<td>$type</td>";
         echo "<td class='cur'>" . number_format($min, 1, ',', ' ') . "</td>";
         if ($offre['PROPRE']) {
         ?>
