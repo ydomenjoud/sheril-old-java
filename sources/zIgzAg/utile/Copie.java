@@ -68,13 +68,13 @@ public class Copie {
 			else {
 				ZipEntry ze = new ZipEntry(depart + fichier.getName());
 				zos.putNextEntry(ze);
-				FileInputStream fis = new FileInputStream(fichier);
-				int N = (int) fichier.length();
-				byte[] buf = new byte[N];
-				fis.read(buf, 0, buf.length);
-				zos.write(buf, 0, buf.length);
+				try (FileInputStream fis = new FileInputStream(fichier)) {
+					byte[] buf = new byte[65536];
+					int n;
+					while ((n = fis.read(buf)) > 0)
+						zos.write(buf, 0, n);
+				}
 				zos.closeEntry();
-				fis.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,8 +87,10 @@ public class Copie {
 		dest.mkdirs();
 
 		try {
-			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(
-					repertoireArchive + "/" + nomArchive));
+			// sortie bufferisée : ZipOutputStream écrit par blocs de 512 octets
+			ZipOutputStream zos = new ZipOutputStream(new java.io.BufferedOutputStream(
+					new FileOutputStream(repertoireArchive + "/" + nomArchive), 65536));
+			zos.setLevel(java.util.zip.Deflater.BEST_SPEED);
 			for (int i = 0; i < source.length; i++) {
 				File f = new File(source[i]);
 				zipperFichier(zos, f, "");

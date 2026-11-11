@@ -210,10 +210,24 @@ public class DeroulementDuTour {
 		// zippage des rapports
 		System.out.println("zippage");
 		Univers.notify("zippage rapport");
+		// l'envoi SMTP coûte ~1 s par mail (connexion + TLS + auth) : on le fait
+		// en parallèle pendant que le zippage continue
+		long dureeZip = 0;
+		java.util.concurrent.ExecutorService envois = java.util.concurrent.Executors.newFixedThreadPool(4);
 		for (int i = 0; i < cL2.length; i++) {
 			System.out.print(cL2[i].getNumero() + "-");
+			long t0 = System.nanoTime();
 			EnvoyerRapport.zipper(cL2[i]);
-			EnvoyerRapport.envoyer(cL2[i]);
+			dureeZip += System.nanoTime() - t0;
+			final Commandant c = cL2[i];
+			envois.submit(() -> EnvoyerRapport.envoyer(c));
+		}
+		ecrireChrono(String.format("%-45s %9d ms", "  dont zippage", dureeZip / 1000000), true);
+		envois.shutdown();
+		try {
+			envois.awaitTermination(30, java.util.concurrent.TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 		chrono("zip et envoi des rapports");
 

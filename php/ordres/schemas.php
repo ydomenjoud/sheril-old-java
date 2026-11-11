@@ -72,7 +72,8 @@ function importerSchemaConstruction($base, $commandant, $table, $data)
         $systeme = $informations[0];
         $quantite = intval($informations[1]);
         $code = $informations[2];
-        $planete = isset($informations[3]) ? intval($informations[3]) : 0;
+        // planète 0-based, 100 = non précisée (absente ou vide dans le schéma)
+        $planete = (isset($informations[3]) && trim($informations[3]) !== "") ? intval($informations[3]) : 100;
         if (!array_key_exists($code, $possibles)) {
             die("Technologie inconnue : " . schemaEchapper($code) . $retour);
         }
