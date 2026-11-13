@@ -1065,6 +1065,47 @@ public class Stats {
 	}
 
 	public static void ecrire(String fichier, List l, Object o) {
+		ecrire(fichier, l, o, null);
+	}
+
+	/**
+	 * Construit le bloc listant uniquement les noms des alliances secrètes
+	 * (aucune autre information), ou null s'il n'y en a pas.
+	 */
+	private static BaliseHTML blocAlliancesSecretes() {
+		List<String> noms = new ArrayList<String>();
+		for (Alliance al : Univers.getListeAlliances())
+			if (al.estSecrete())
+				noms.add(al.getNom());
+		if (noms.isEmpty())
+			return null;
+		Collections.sort(noms, String.CASE_INSENSITIVE_ORDER);
+		BaliseHTML bloc = Rapport.getDiv();
+		bloc.ajout(Rapport.sautP());
+		bloc.ajout(Rapport.getFont(Rapport.cC[3], "6")
+				.ajout(Rapport.getText("Alliances secrètes")))
+				.ajout(Rapport.sautP());
+		// Même table que les autres stats : en-tête + une ligne par alliance
+		BaliseHTML[][] a = new BaliseHTML[noms.size() + 1][2];
+		a[0][0] = Rapport.getTD("center", null).ajout(
+				Rapport.getFont(Rapport.cC[4], null).ajout(
+						Rapport.getText("Place")));
+		a[0][1] = Rapport.getTD("center", null).ajout(
+				Rapport.getFont(Rapport.cC[4], null).ajout(
+						Rapport.getText("Nom")));
+		for (int i = 0; i < noms.size(); i++) {
+			a[i + 1][0] = Rapport.getTD("center", null).ajout(
+					Rapport.getFont(Rapport.cC[3], null).ajout(
+							Rapport.getText(Integer.toString(i + 1))));
+			a[i + 1][1] = Rapport.getTD("center", null).ajout(
+					Rapport.getText(noms.get(i)));
+		}
+		bloc.ajout(DocumentHTML.creerTable(
+				Rapport.getTable().ajout(BaliseHTML.WIDTH, "40%"), a));
+		return bloc;
+	}
+
+	public static void ecrire(String fichier, List l, Object o, BaliseHTML apresTable) {
 		String[] t = (String[]) o;
 		BaliseHTML[][] a = new BaliseHTML[l.size() + 1][t.length - 1];
 		BaliseHTML div = Rapport.getDiv();
@@ -1087,9 +1128,28 @@ public class Stats {
 
 		div.ajout(DocumentHTML.creerTable(
 				Rapport.getTable().ajout(BaliseHTML.WIDTH, "80%"), a));
+		if (apresTable != null)
+			div.ajout(apresTable);
 		DocumentHTML d = Rapport.getDocument(Chemin.STATS + fichier, t[0],
 				Rapport.getBody().ajout(div));
 		d.ecrire();
+	}
+
+	private static void ecrireAlliances(Alliance[] nonSecretes, Locale l) {
+		ecrire(FICHIER_ALLIANCES,
+				definirParametresAlliances(
+						getListe(trierParMembres(nonSecretes), FICHIER_ALLIANCES), l),
+				Univers.getMessageRapport("STATS_ALLIANCES", l),
+				blocAlliancesSecretes());
+	}
+
+	/**
+	 * Regénère uniquement la page des stats des alliances (opération ponctuelle,
+	 * sans passer le tour). Nécessite que l'univers soit chargé.
+	 */
+	public static void regenererStatsAlliances(Locale l) {
+		STATS_DERNIER_TOUR = Univers.getStatsDernierTour();
+		ecrireAlliances(Univers.getListeAlliancesNonSecretes(), l);
 	}
 
 	public static void afficher(Locale l) {
@@ -1129,10 +1189,7 @@ public class Stats {
 				definirParametresVaisseaux(
 						getListe(trierVaisseaux(), FICHIER_VAISSEAUX_NOMBRE), l),
 				Univers.getMessageRapport("STATS_VAISSEAUX", l));
-		ecrire(FICHIER_ALLIANCES,
-				definirParametresAlliances(
-						getListe(trierParMembres(a), FICHIER_ALLIANCES), l),
-				Univers.getMessageRapport("STATS_ALLIANCES", l));
+		ecrireAlliances(a, l);
 		ecrire(FICHIER_POP_VS,
 		        definirParametresPopulationVS(
 		                getListe(trierParPopulationVS(c), FICHIER_POP_VS), l),

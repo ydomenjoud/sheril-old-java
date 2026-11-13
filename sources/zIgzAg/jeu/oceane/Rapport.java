@@ -1006,8 +1006,10 @@ public class Rapport {
 		splitter.ajout(getBudget());
 		splitter.ajout(
 				getDiv().ajout("style", "display: flex;justify-content: space-between;flex-direction: column; gap: 5px;")
-						.ajout(getVotrePeuple()).ajout(getResumePDV()));
+						.ajout(getVotrePeuple()).ajout(getStatistiques()));
 		body.ajout(splitter);
+		body.ajout(sautP());
+		body.ajout(getSpan("split").ajout(getResumePDV()));
 
 		body.ajout(sautP());
 		body.ajout(getResumeSystemes());
@@ -1444,20 +1446,6 @@ public class Rapport {
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getNombreMaximalDeTransfertEntreSysteme()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(c.getPointsDeVictoire()+"");
 		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(Utile.position(PointDeVictoire.getPositionGenerale(c)));
-		Optional<Integer> pdc = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
-				.map(s -> s.getPointsDeConstructionModifie(c))
-				.reduce(Integer::sum);
-		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(pdc.orElse(0)));
-
-		Optional<Integer> stockMinerai = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
-				.map(s -> s.getStockMinerai(c.getNumero()))
-				.reduce(Integer::sum);
-		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(stockMinerai.orElse(0)));
-
-		Optional<Integer> productionMinerai = Arrays.stream(c.listePossession()).map(Univers::getSysteme)
-				.map(s -> s.getRevenuMinerai(c.getNumero()))
-				.reduce(Integer::sum);
-		a[j++][1] = getTD(BaliseHTML.CENTER, null).ajout(String.valueOf(productionMinerai.orElse(0)));
 
 		return DocumentHTML.creerTable(getTable("table_half"), a);
 	}
@@ -1512,6 +1500,39 @@ public class Rapport {
 				.filter(pdv -> pdv.type() == categorie)
 				.map(pdv -> "T" + pdv.tour() + "<span class='plus'>(+" + pdv.points() + ")</span>")
 				.collect(Collectors.joining(", "));
+	}
+
+	public BaliseHTML getStatistiques() {
+		int pdc = 0, stockMinerai = 0, productionMinerai = 0;
+		for (Position pos : c.listePossession()) {
+			Systeme s = Univers.getSysteme(pos);
+			pdc += s.getPointsDeConstructionModifie(c);
+			stockMinerai += s.getStockMinerai(c.getNumero());
+			productionMinerai += s.getRevenuMinerai(c.getNumero());
+		}
+		int as = 0, ap = 0;
+		for (Flotte f : c.listeFlottes()) {
+			as += f.getForceSpatiale();
+			ap += f.getForcePlanetaire();
+		}
+
+		String sb = """
+				<table>
+					<thead>
+					<tr><th colspan="2" class="titre_table">Statistiques</th></tr>
+					</thead>
+					<tbody>
+					<tr><td class="titre_caption">Type</td><td class="titre_caption">Valeur</td></tr>
+					<tr><td>∑ PDC</td><td>%d</td></tr>
+					<tr><td>∑ Stock Minerai</td><td>%d</td></tr>
+					<tr><td>∑ Production Minerai</td><td>%d</td></tr>
+					<tr><td>∑ AS</td><td>%d</td></tr>
+					<tr><td>∑ AP</td><td>%d</td></tr>
+					</tbody>
+				</table>
+				""".formatted(pdc, stockMinerai, productionMinerai, as, ap);
+
+		return getText(sb);
 	}
 
 	public BaliseHTML getResumePDV(){

@@ -667,7 +667,7 @@ public class RapportXML {
 
 			// Rapport general
 			File baseDir = new File(chemin);
-			File fg = new File(baseDir, "rapport.xml");
+			File fg = new File(baseDir, "rapport-t" + Univers.getTour() + ".xml");
 			StreamResult resultG = new StreamResult(fg);
 			DOMSource sourceG = new DOMSource(documentG);
 			transformer.transform(sourceG, resultG);

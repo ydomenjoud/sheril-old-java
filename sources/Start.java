@@ -18,6 +18,7 @@ public class Start {
         System.out.println("init: initialisation de l'Univers");
         System.out.println("addNewGalaxy <num>: Ajoute une galaxy à l'Univers");
         System.out.println("newRound: passe le tour");
+        System.out.println("regen: regénère des éléments du tour courant sans passer le tour (stats alliances)");
         System.out.println("listNeutralFleets: affiche la liste des flottes du neutre");
     }
 
@@ -41,6 +42,8 @@ public class Start {
             addNewGalaxy(args[1]);
         } else if (args[0].equals("newRound")) {
             newRound();
+        } else if (args[0].equals("regen")) {
+            regen();
         } else if (args[0].equals("listFleet")) {
             listNeutralFleets();
         } else if (args[0].equals("help")) {
@@ -64,6 +67,18 @@ public class Start {
     public static void addNewGalaxy(String num) {
         System.out.println("Add new Galaxy");
         AjoutDeGalaxie.main(new String[]{num});
+    }
+
+    /**
+     * Opérations ponctuelles de régénération sur le tour courant (sans passer le tour).
+     */
+    public static void regen() {
+        new Univers(true, "Regen");
+        // MessagesRapport.tour vaut getTour()+1 au chargement de la classe : valable avant
+        // l'incrément du tour, mais ici l'univers est déjà au nouveau tour.
+        MessagesRapport.tour = Univers.getTour();
+        Stats.regenererStatsAlliances(Locale.FRENCH);
+        System.out.println("Stats des alliances regénérées pour le tour " + Univers.getTour());
     }
 
     public static void newRound() {
