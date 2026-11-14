@@ -4124,7 +4124,7 @@ public class Rapport {
 
 	public static void ecrireRapportCombat(Locale l) {
 		String[] t = (String[]) Univers.getMessageRapport("RAPPORT_COMBAT", l);
-		BaliseHTML[][] a = new BaliseHTML[400][5];
+		BaliseHTML[][] a = new BaliseHTML[400][6];
 		int ligne = 0;
 		a[ligne][0] = getTD(BaliseHTML.CENTER, null).ajout(
 				getFont(cC[8], null).ajout(getText(t[0])));
@@ -4134,13 +4134,15 @@ public class Rapport {
 				getFont(cC[8], null).ajout(getText(t[2])));
 		a[ligne][3] = getTD(BaliseHTML.CENTER, null).ajout(
 				getFont(cC[8], null).ajout(getText(t[3])));
-		a[ligne++][4] = getTD(BaliseHTML.CENTER, null).ajout(
+		a[ligne][4] = getTD(BaliseHTML.CENTER, null).ajout(
 				getFont(cC[8], null).ajout(getText(t[4])));
+		a[ligne++][5] = getTD(BaliseHTML.CENTER, null).ajout(
+				getFont(cC[8], null).ajout(getText(t[5])));
 		for (int i = 0; i < Const.NB_GALAXIES; i++)
 			for (int j = 0; j < Const.NB_SECTEURS; j++) {
 				RapportCombat[] r = Univers.getRapportsCombat(i, j + 1);
 				if (r.length != 0)
-					a[ligne++][0] = getTD(BaliseHTML.CENTER, "5").ajout(
+					a[ligne++][0] = getTD(BaliseHTML.CENTER, "6").ajout(
 							getFont(cC[3], null).ajout(
 									getText(Univers.getMessage("NOMS_GALAXIES",
 											i, l)

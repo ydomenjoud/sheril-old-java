@@ -31,6 +31,14 @@ public class Combat {
     private static BufferedWriter writer;
     private static String combatEnCours = "";
 
+    /**
+     * Total des points de dommages (tous camps confondus : vaisseaux,
+     * bâtiments et milices) infligés lors du dernier combat résolu par
+     * combatFlotteFlotte ou combatFlottePlanete.
+     * Sert à qualifier l'intensité du combat dans les statistiques publiques.
+     */
+    private static int degatsDernierCombat = 0;
+
     public static void logln(String message, Object... parameters) {
         log(message, true, parameters);
     }
@@ -242,15 +250,19 @@ public class Combat {
         if (!dC.existenceFlotte(d[1]))
             return false;
 
+        RapportCombat rapport = null;
         if ((dC.getNumero() != 0) && (aC.getNumero() != 0)) {
             Univers.ajouterTransfert(aC, dC, "C*attaque flotte");
-            RapportCombat rapport = new RapportCombat(aF.getPosition(), aC, dC,
+            rapport = new RapportCombat(aF.getPosition(), aC, dC,
                     RapportCombat.TYPE_COMBAT_SPATIAL);
             rapport.setCombatSpatial(aF, dC.getFlotte(d[1]));
             Univers.ajouterRapportCombat(rapport);
         }
 
-        return combatFlotteFlotte(aC, dC, a[1], d[1]);
+        boolean retour = combatFlotteFlotte(aC, dC, a[1], d[1]);
+        if (rapport != null)
+            rapport.setDegats(degatsDernierCombat);
+        return retour;
     }
 
     public static void resolutionAttaqueSysteme(Systeme s, int[] v) {
@@ -277,6 +289,7 @@ public class Combat {
         // planÃštes prises
         Map<Integer, int[]> numPrises = new HashMap<>(); // les numÃ©ros des
         // planÃštes prises
+        Map<Integer, Integer> degatsParDefenseur = new HashMap<>();
         for (int i = 0; i < ordre.length; i++)
             if (peutCombattre(v[0], s.getPlanete(ordre[i]).getProprio())) {
                 if (memPla == -1)
@@ -294,8 +307,11 @@ public class Combat {
                     Univers.ajouterTransfert(c, d, "C*attaque système");
                     Univers.ajouterTransfert(d, c, "C*attaque flotte");
                 }
-                if ((inter = combatFlottePlanete(c, v[1], d, s, ordre[i],
-                        nbTour, dommages)) == -1) {
+                inter = combatFlottePlanete(c, v[1], d, s, ordre[i],
+                        nbTour, dommages);
+                degatsParDefenseur.merge(d.getNumero(), degatsDernierCombat,
+                        Integer::sum);
+                if (inter == -1) {
                     if (s.getPlanete(ordre[i]).getProprio() != d.getNumero()) {
                         nbPrise++;
                         Mdt.modifierIndex(nbPrisesd, d.getNumero(), 1);
@@ -348,6 +364,8 @@ public class Combat {
                     RapportCombat rapport = new RapportCombat(s.getPosition(),
                             c, c2, RapportCombat.TYPE_COMBAT_PLANETAIRE);
                     rapport.setCombatPlanetaire(f, s, listePrises);
+                    rapport.setDegats(degatsParDefenseur.getOrDefault(
+                            c2.getNumero(), 0));
                     Univers.ajouterRapportCombat(rapport);
                 }
             }
@@ -384,6 +402,7 @@ public class Combat {
                     rapport.setCombatPlanetaire(f, s, new int[]{numPla});
                 else
                     rapport.setCombatPlanetaire(f, s, null);
+                rapport.setDegats(degatsDernierCombat);
                 Univers.ajouterRapportCombat(rapport);
             }
         } else
@@ -396,6 +415,7 @@ public class Combat {
                                           Commandant c2, Systeme s, int numPla, int tour, int[] dommagesFlotte) {
 
         Flotte f = c1.getFlotte(numFlotte);
+        degatsDernierCombat = 0;
 
         if (f.getPuissance() < Const.PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE) {
             c1.ajouterEvenement("COMBAT_SYSTEME_0015",
@@ -457,16 +477,25 @@ public class Combat {
                     .getAgressivite());
             ArrayList sol = f.forceAttaqueAirSol(strategie.getAgressivite());
 
+            int dommagesFlotteAvant = f.dommagesTotaux();
+            int dommagesBatimentsAvant = dommagesBatiments(p);
+
             tirDefensesPlanetaires(listeC, strato, sol, g, h, true,c2);
             nbPopDefensive = tirAirSol(c1, strato, listeC, nbPopDefensive, true, g,
                     h);
             tirMilicesPlanetaires(nbPopDefensive, sol, g, h,c2);
 
+            degatsDernierCombat += dommagesBatiments(p) - dommagesBatimentsAvant;
             p.eliminerPertesBatiments();
             listeC = p.getBatiments();
+            dommagesBatimentsAvant = dommagesBatiments(p);
 
             nbPopDefensive = tirAirSol(c1, sol, listeC, nbPopDefensive, false, g, h);
 
+            degatsDernierCombat += dommagesBatiments(p) - dommagesBatimentsAvant;
+            degatsDernierCombat += f.dommagesTotaux() - dommagesFlotteAvant;
+            // chaque milicien perdu compte comme un point de dommage
+            degatsDernierCombat += memoirePopTour - Math.max(0, nbPopDefensive);
             f.eliminerPertesVaisseaux();
             p.eliminerPertesBatiments();
 
@@ -627,6 +656,14 @@ public class Combat {
             return -1;
         else
             return numTour;
+    }
+
+    private static int dommagesBatiments(Planete p) {
+        int retour = 0;
+        ConstructionPlanetaire[] c = p.getBatiments();
+        for (int i = 0; i < c.length; i++)
+            retour += c[i].getDommages();
+        return retour;
     }
 
     private static void ecrireDetailCombatFlottePlanete(Commandant c1,
@@ -1002,6 +1039,8 @@ public class Combat {
 
         // FIN DE TOUR
         System.out.println("");
+
+        degatsDernierCombat = nbDommages1 + nbDommages2;
 
         f1.finaliserCombat();
         f2.finaliserCombat();

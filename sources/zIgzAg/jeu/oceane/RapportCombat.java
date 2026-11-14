@@ -8,6 +8,29 @@ public class RapportCombat {
 
 	public static final int TYPE_COMBAT_PLANETAIRE = 1;
 
+	/**
+	 * Échelle d'intensité des combats : {dégâts min, dégâts max, intitulé}.
+	 * Les dégâts sont le total des points de dommages infligés par les deux
+	 * camps (vaisseaux, bâtiments planétaires et milices). Bornes incluses,
+	 * Integer.MAX_VALUE pour la dernière tranche.
+	 */
+	private static final Object[][] ECHELLE_INTENSITE = {
+			{ 0, 4, "Escarmouche" },
+			{ 5, 14, "Accrochage" },
+			{ 15, 29, "Échauffourée" },
+			{ 30, 59, "Engagement" },
+			{ 60, 99, "Affrontement" },
+			{ 100, 174, "Bataille" },
+			{ 175, 299, "Bataille rangée" },
+			{ 300, 499, "Choc frontal" },
+			{ 500, 799, "Déluge de feu" },
+			{ 800, 1199, "Carnage" },
+			{ 1200, 1999, "Hécatombe" },
+			{ 2000, 3499, "Massacre" },
+			{ 3500, 5999, "Cataclysme" },
+			{ 6000, 9999, "Apocalypse" },
+			{ 10000, Integer.MAX_VALUE, "Armageddon" } };
+
 	private Position position;
 
 	private Commandant attaquant;
@@ -25,6 +48,8 @@ public class RapportCombat {
 	private String nomSystemeAttaque;
 
 	private String nomsPlanetesPrises;
+
+	private int degats;
 
 	public RapportCombat(Position p, Commandant att, Commandant def, int type) {
 		this.position = p;
@@ -61,6 +86,33 @@ public class RapportCombat {
 			nomsPlanetesPrises = nomsPlanetesPrises + ")";
 	}
 
+	public void setDegats(int degats) {
+		this.degats = Math.max(0, degats);
+	}
+
+	public int getDegats() {
+		return degats;
+	}
+
+	private Object[] getTrancheIntensite() {
+		for (Object[] tranche : ECHELLE_INTENSITE)
+			if (degats >= (Integer) tranche[0] && degats <= (Integer) tranche[1])
+				return tranche;
+		return ECHELLE_INTENSITE[ECHELLE_INTENSITE.length - 1];
+	}
+
+	public String getIntensite() {
+		return (String) getTrancheIntensite()[2];
+	}
+
+	private String getLibelleTrancheIntensite() {
+		Object[] tranche = getTrancheIntensite();
+		int max = (Integer) tranche[1];
+		if (max == Integer.MAX_VALUE)
+			return tranche[0] + " dégâts et plus";
+		return tranche[0] + " à " + max + " dégâts";
+	}
+
 	public Position getPosition() {
 		return position;
 	}
@@ -74,7 +126,7 @@ public class RapportCombat {
 	public BaliseHTML[] getDescription() {
 		int raceSecteur = Utile.getRaceDeDepart(position);
 
-		BaliseHTML[] retour = new BaliseHTML[5];
+		BaliseHTML[] retour = new BaliseHTML[6];
 		retour[0] = Rapport.getTD(BaliseHTML.CENTER, null).ajout(
 				Rapport.getFont(Rapport.COULEURS_RACES[attaquant.getRace()],
 						null).ajout(Rapport.getText(attaquant.getNomNumeroHtml())));
@@ -100,6 +152,9 @@ public class RapportCombat {
 							null).ajout(Rapport.getText(nomSystemeAttaque)))
 					.ajout(Rapport.getFont(Rapport.cC[7], null).ajout(
 							Rapport.getText(nomsPlanetesPrises)));
+		retour[5] = Rapport.getTD(BaliseHTML.CENTER, null)
+				.ajout(BaliseHTML.TITLE, getLibelleTrancheIntensite())
+				.ajout(Rapport.getText(getIntensite()));
 		return retour;
 	}
 

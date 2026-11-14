@@ -93,7 +93,7 @@ public class MessagesRapport extends MessagesAbstraits{
   "Résultats des actions importantes","Déroulement des combats","Ordres passés"};
 
  public static final String[] RAPPORT_COMBAT={"Attaquant","Attaqué","Type de combat","Flotte attaquante",
-  "Flotte ou système attaquée (éventuellement planètes prises ou pillées)"};
+  "Flotte ou système attaquée (éventuellement planètes prises ou pillées)","Intensité"};
 
  public static final String RAPPORT_FINANCIER="Rapport financier";
  public static final String HEROS="Heros sous vos ordres";
