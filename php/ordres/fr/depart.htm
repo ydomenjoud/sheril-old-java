@@ -43,11 +43,13 @@ Une aide succinte est disponible pour chaque ordre, et elle normallement suffisa
 <?php
 include_once "../script/fonctions.txt";
 if (array_key_exists('tache', $_POST) && $_POST['tache'] === 'schema') {
-    // schéma quelconque (construction, déplacement, recherche, revenus) : le type est lu dans le préfixe, sinon deviné
+    // schéma quelconque (construction, déplacement, fusion / division, recherche, revenus, transfert) : le type est lu dans le préfixe, sinon deviné
     include_once "schemas.php";
     $libellesSchema = array(
         "construction" => "construction",
         "deplacement" => "déplacement de flotte",
+        "flotte" => "fusion / division de flottes",
+        "transfert" => "transfert",
         "recherche" => "recherche (affectations remplacées)",
         "revenus" => "revenus",
     );
@@ -58,7 +60,7 @@ if (array_key_exists('tache', $_POST) && $_POST['tache'] === 'schema') {
 <form action="<?php echo $nom_page; ?>" method="POST">
     <input type="hidden" name="tache" value="schema" />
     <label>
-        Ajouter des ordres depuis un schéma (construction, déplacement, recherche, revenus) :
+        Ajouter des ordres depuis un schéma (construction, déplacement, fusion / division, recherche, revenus, transfert) :
         <input type="text" name="schema" />
     </label>
     <input type="submit" name="ajout" value="Envoyer ces ordres" />
