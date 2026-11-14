@@ -1542,7 +1542,7 @@ public class Rapport {
                 	<tr><th colspan="2" class="titre_table">Résumé des points de victoire</th></tr>
                 	</thead>
                 	<tbody>
-                	<tr><td class="titre_caption">Type</td><td class="titre_caption">Historique</td></tr>
+                	<tr><td class="titre_caption" style="width:100px">Type</td><td class="titre_caption">Historique</td></tr>
                 	<tr><td>Territorial</td><td>%s</td></tr>
                 	<tr><td>Bataille</td><td>%s</td></tr>
                 	<tr><td>Culturelle</td><td>%s</td></tr>
