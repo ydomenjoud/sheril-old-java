@@ -1027,7 +1027,12 @@ public class Flotte implements Serializable {
 			if (vulnerable) {
 				int dommages = Univers.getInt(Math.max(1, (tailleDebris / (v
 						.getTaille() + 1))));
-				if (!v.ajouterDommagesAuHasard(dommages))
+				// On ne retient que les dommages réellement subis : un vaisseau
+				// détruit n'absorbe pas l'excédent, qui reste dans la réserve.
+				int dommagesAvant = v.nombreTotalPointsDeDommage();
+				boolean survit = v.ajouterDommagesAuHasard(dommages);
+				dommages = v.nombreTotalPointsDeDommage() - dommagesAvant;
+				if (!survit)
 					supprimerVaisseau(numV);
 				retour = retour + dommages;
 				frisk = frisk - dommages;
