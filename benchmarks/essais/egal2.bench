@@ -1,0 +1,9 @@
+[Minerai égal, T6 à 10 boucliers V]
+A: minerai=66300
+A: * T3 = moteur@1 plasma@5x16
+D: 100 T6 = moteur@3 plasma@5x81 bouclier@5x10
+
+[Minerai égal, T6 sans bouclier]
+A: minerai=61300
+A: * T3 = moteur@1 plasma@5x16
+D: 100 T6 = moteur@3 plasma@5x121

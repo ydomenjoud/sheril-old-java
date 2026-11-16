@@ -419,6 +419,7 @@ public class Vaisseau implements Serializable {
 
 	// fin absorbeur
 	public void tir(Vaisseau cible, int distance, Heros h1, Heros h2) {
+		ReglesCombat regles = ReglesCombat.actives();
 		cible.initialiserAbsorbeur();
 		int compteur = 0;
         if(listeArmesValides.isEmpty()){
@@ -428,7 +429,7 @@ public class Vaisseau implements Serializable {
 			Integer a = (Integer) listeArmesValides.get(compteur);
 			Arme arme = (Arme) plan.getComposant(a);
 			int chance = arme.getChanceDeToucher(cible.getTaille(), distance);
-            if (Const.COMBAT_LOG_DETAIL)
+            if (regles.journal && Const.COMBAT_LOG_DETAIL)
                 Combat.logDetail(
                     " - tir N{0}, arme: {1}",
                     compteur,
@@ -439,8 +440,8 @@ public class Vaisseau implements Serializable {
                 compteur++;
             }
 			else {
-				// l'arme peut s'enrayer : son tir de ce round est perdu
-				if (Univers.getTest(arme.getTauxEnrayement()))
+				// Règle optionnelle (absente du moteur actuel) : l'arme s'enraye et son tir est perdu.
+				if (regles.fiabilite && Univers.getTest(arme.getTauxEnrayement()))
 					Combat.logDetail(" - arme enrayée");
 				else if (reussiteTir(chance, cible, h1, h2))
 					effectuerDommages(cible, arme, h1, h2);

@@ -1625,7 +1625,24 @@ public class Univers {
 		ecrireDansCarnetDeBord("Sauvegarde session : " + descriptionSession);
 	}
 
-	private TreeMap chargerDynamiquement(TreeMap t, String nomDeClasse) {
+	/**
+	 * Initialisation minimale pour un banc d'essai : tables de technologies et d'armes,
+	 * registre de plans vide, hasard à graine fixe. Ne charge aucune partie et n'écrit rien.
+	 */
+	public static void initialiserPourBancDEssai(long graine) {
+		HASARD = new Random(graine);
+		LISTE_CARAC_ARMES = chargerDynamiquement(null, "zIgzAg.jeu.oceane.ListeCaracArmes");
+		LISTE_CHANCES_TOUCHE = chargerDynamiquement(null, "zIgzAg.jeu.oceane.ListeChancesDeToucherArmes");
+		LISTE_TECHNOLOGIES = chargerDynamiquement(null, "zIgzAg.jeu.oceane.ListeTechnologique");
+		PLANS_DE_VAISSEAUX = new TreeMap();
+	}
+
+	/** Réinitialise le générateur aléatoire avec une graine, pour rejouer un tirage à l'identique. */
+	public static void setGraine(long graine) {
+		HASARD = new Random(graine);
+	}
+
+	private static TreeMap chargerDynamiquement(TreeMap t, String nomDeClasse) {
 		t = new TreeMap();
 		try {
 			Field[] champs = (Class.forName(nomDeClasse)).getFields();

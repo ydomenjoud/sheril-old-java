@@ -1,0 +1,46 @@
+# Essaim de petits vaisseaux contre quelques gros, à minerai égal.
+# « minerai=N » fixe le budget de la flotte ; « * » calcule le nombre de vaisseaux qui le remplit.
+# Le minerai réellement dépensé par chaque camp est affiché avec les résultats.
+# Format complet : benchmarks/LISEZMOI.md
+
+[Essaim contre croiseurs, même arme]
+# Un croiseur coûte exactement 8 chasseurs et porte les mêmes 24 armes : seule la taille change.
+varier ARME = laser,plasma,torp,miss
+A: agressivite=rage minerai=1056
+A: * Chasseur = moteur@1 {ARME}@1x3
+D: agressivite=rage minerai=1056
+D: * Croiseur = moteur@3 {ARME}@1x24
+
+[Essaim contre tailles croissantes]
+# Le même essaim face à des vaisseaux de plus en plus gros, armés uniquement de l'arme testée.
+varier ARME = laser,plasma,torp,miss
+varier GROS = moteur@2 {ARME}@1x10, moteur@3 {ARME}@1x24, moteur@4 {ARME}@1x67
+A: agressivite=rage minerai=1936
+A: * Chasseur = moteur@1 {ARME}@1x3
+D: agressivite=rage minerai=1936
+D: * Gros = {GROS}
+
+[Essaim contre croiseurs blindés]
+# Les gros utilisent ce que leur taille permet : boucliers et absorbeur.
+# Le budget ne tombe pas juste : les croiseurs dépensent 904 à 1030 minerai sur 1056.
+varier ARME = laser,plasma,torp,miss
+varier DEFENSE = bouclier@1x2, absorb@1, absorb@3, bouclier@1x2 absorb@3
+A: agressivite=rage minerai=1056
+A: * Chasseur = moteur@1 {ARME}@1x3
+D: agressivite=rage minerai=1056
+D: * Croiseur blindé = moteur@3 {ARME}@1x24 {DEFENSE}
+
+[Armement mixte à minerai égal]
+# Chaque camp panache ses armes : cas plus proche d'une vraie flotte.
+A: agressivite=rage minerai=1960
+A: * Chasseur = moteur@1 laser@1 plasma@1 miss@1
+D: agressivite=rage minerai=1960
+D: * Cuirassé = moteur@4 laser@1x25 plasma@1x20 torp@1x10 miss@1x10 bouclier@1x2
+
+[Niveau de l'arme à minerai égal]
+# Les armes de haut niveau demandent moins de minerai : effet du niveau à budget de minerai égal.
+varier NIV = 1,3,5,8
+A: agressivite=rage minerai=1056
+A: * Élite = moteur@1 laser@{NIV}x3
+D: agressivite=rage minerai=1056
+D: * Chasseur = moteur@1 laser@1x3

@@ -1,0 +1,34 @@
+# Compositions variées : chaque paramètre d'une flotte peut être fixé ou balayé avec « varier ».
+# Format complet : benchmarks/LISEZMOI.md
+
+[Essaim contre escadre]
+# Nombre de vaisseaux, arme et agressivité de l'attaquant : 3 x 3 x 2 = 18 combinaisons.
+varier NB = 10,20,40
+varier ARME = laser,plasma,miss
+varier AGR = normal,rage
+A: agressivite={AGR} cible=proche
+A: {NB} Chasseur = moteur@1 {ARME}@1x3
+D: agressivite=combatif
+D: 4 Frégate = moteur@2 plasma@2x12 bouclier@1
+D: 1 Croiseur = moteur@3 torp@2x30 laser@2x20 bouclier@2x2 absorb@1
+
+[Flotte mixte contre flotte mixte]
+# Plusieurs types de vaisseaux par camp, avec expérience, moral, placement et priorités de cible.
+varier CIBLE = proche,chasseur,cargo
+A: agressivite=normal cible={CIBLE} heros=att:3,def:1,vit:2,moral:1
+A: 12 Intercepteur = moteur@2 laser@2x3 ; xp=1 moral=6 cibles=petits
+A: 3 Destroyer = moteur@2 plasma@2x10 miss@2x6 bouclier@1 ; pos=15,2 cibles=gros
+A: 1 Bombardier = moteur@1 bombe@2x10 laser@1x2
+D: agressivite=prudent cible=bombardier
+D: 8 Chasseur = moteur@1 miss@1x3
+D: 2 Cuirassé = moteur@3 torp@2x25 plasma@2x15 bouclier@2x3 ; xp=2 pos=15,3
+D: 4 Cargo = moteur@1 cargo@3x4 laser@1
+
+[Qualité contre quantité]
+# À nombre de cases d'armes comparable : peu d'armes de haut niveau contre beaucoup de bas niveau.
+varier NIV = 2,4,6,8
+varier NB = 12,24
+A: agressivite=rage
+A: 6 Élite = moteur@2 laser@{NIV}x6 bouclier@{NIV}
+D: agressivite=rage
+D: {NB} Conscrit = moteur@1 laser@1x3

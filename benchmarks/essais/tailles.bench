@@ -1,0 +1,503 @@
+[laser T1 contre T2]
+A: agressivite=rage minerai=820
+A: * T1 = moteur@1 laser@5x2
+D: agressivite=rage
+D: 20 T2 = moteur@1 laser@5x8
+
+[laser T1 contre T3]
+A: agressivite=rage minerai=1620
+A: * T1 = moteur@1 laser@5x2
+D: agressivite=rage
+D: 20 T3 = moteur@1 laser@5x16
+
+[laser T1 contre T4]
+A: agressivite=rage minerai=3280
+A: * T1 = moteur@1 laser@5x2
+D: agressivite=rage
+D: 20 T4 = moteur@2 laser@5x32
+
+[laser T2 contre T3]
+A: agressivite=rage minerai=1620
+A: * T2 = moteur@1 laser@5x8
+D: agressivite=rage
+D: 20 T3 = moteur@1 laser@5x16
+
+[laser T2 contre T4]
+A: agressivite=rage minerai=3280
+A: * T2 = moteur@1 laser@5x8
+D: agressivite=rage
+D: 20 T4 = moteur@2 laser@5x32
+
+[laser T2 contre T5]
+A: agressivite=rage minerai=6480
+A: * T2 = moteur@1 laser@5x8
+D: agressivite=rage
+D: 20 T5 = moteur@2 laser@5x64
+
+[laser T3 contre T4]
+A: agressivite=rage minerai=3280
+A: * T3 = moteur@1 laser@5x16
+D: agressivite=rage
+D: 20 T4 = moteur@2 laser@5x32
+
+[laser T3 contre T5]
+A: agressivite=rage minerai=6480
+A: * T3 = moteur@1 laser@5x16
+D: agressivite=rage
+D: 20 T5 = moteur@2 laser@5x64
+
+[laser T3 contre T6]
+A: agressivite=rage minerai=12960
+A: * T3 = moteur@1 laser@5x16
+D: agressivite=rage
+D: 20 T6 = moteur@3 laser@5x128
+
+[laser T4 contre T5]
+A: agressivite=rage minerai=6480
+A: * T4 = moteur@2 laser@5x32
+D: agressivite=rage
+D: 20 T5 = moteur@2 laser@5x64
+
+[laser T4 contre T6]
+A: agressivite=rage minerai=12960
+A: * T4 = moteur@2 laser@5x32
+D: agressivite=rage
+D: 20 T6 = moteur@3 laser@5x128
+
+[laser T4 contre T7]
+A: agressivite=rage minerai=25760
+A: * T4 = moteur@2 laser@5x32
+D: agressivite=rage
+D: 20 T7 = moteur@3 laser@5x256
+
+[laser T5 contre T6]
+A: agressivite=rage minerai=12960
+A: * T5 = moteur@2 laser@5x64
+D: agressivite=rage
+D: 20 T6 = moteur@3 laser@5x128
+
+[laser T5 contre T7]
+A: agressivite=rage minerai=25760
+A: * T5 = moteur@2 laser@5x64
+D: agressivite=rage
+D: 20 T7 = moteur@3 laser@5x256
+
+[laser T5 contre T8]
+A: agressivite=rage minerai=51260
+A: * T5 = moteur@2 laser@5x64
+D: agressivite=rage
+D: 20 T8 = moteur@3 laser@5x511
+
+[laser T6 contre T7]
+A: agressivite=rage minerai=25760
+A: * T6 = moteur@3 laser@5x128
+D: agressivite=rage
+D: 20 T7 = moteur@3 laser@5x256
+
+[laser T6 contre T8]
+A: agressivite=rage minerai=51260
+A: * T6 = moteur@3 laser@5x128
+D: agressivite=rage
+D: 20 T8 = moteur@3 laser@5x511
+
+[laser T6 contre T9]
+A: agressivite=rage minerai=102560
+A: * T6 = moteur@3 laser@5x128
+D: agressivite=rage
+D: 20 T9 = moteur@3 laser@5x1024
+
+[laser T7 contre T8]
+A: agressivite=rage minerai=51260
+A: * T7 = moteur@3 laser@5x256
+D: agressivite=rage
+D: 20 T8 = moteur@3 laser@5x511
+
+[laser T7 contre T9]
+A: agressivite=rage minerai=102560
+A: * T7 = moteur@3 laser@5x256
+D: agressivite=rage
+D: 20 T9 = moteur@3 laser@5x1024
+
+[laser T8 contre T9]
+A: agressivite=rage minerai=102560
+A: * T8 = moteur@3 laser@5x511
+D: agressivite=rage
+D: 20 T9 = moteur@3 laser@5x1024
+
+[plasma T1 contre T2]
+A: agressivite=rage minerai=820
+A: * T1 = moteur@1 plasma@5x2
+D: agressivite=rage
+D: 20 T2 = moteur@1 plasma@5x8
+
+[plasma T1 contre T3]
+A: agressivite=rage minerai=1620
+A: * T1 = moteur@1 plasma@5x2
+D: agressivite=rage
+D: 20 T3 = moteur@1 plasma@5x16
+
+[plasma T1 contre T4]
+A: agressivite=rage minerai=3280
+A: * T1 = moteur@1 plasma@5x2
+D: agressivite=rage
+D: 20 T4 = moteur@2 plasma@5x32
+
+[plasma T2 contre T3]
+A: agressivite=rage minerai=1620
+A: * T2 = moteur@1 plasma@5x8
+D: agressivite=rage
+D: 20 T3 = moteur@1 plasma@5x16
+
+[plasma T2 contre T4]
+A: agressivite=rage minerai=3280
+A: * T2 = moteur@1 plasma@5x8
+D: agressivite=rage
+D: 20 T4 = moteur@2 plasma@5x32
+
+[plasma T2 contre T5]
+A: agressivite=rage minerai=6480
+A: * T2 = moteur@1 plasma@5x8
+D: agressivite=rage
+D: 20 T5 = moteur@2 plasma@5x64
+
+[plasma T3 contre T4]
+A: agressivite=rage minerai=3280
+A: * T3 = moteur@1 plasma@5x16
+D: agressivite=rage
+D: 20 T4 = moteur@2 plasma@5x32
+
+[plasma T3 contre T5]
+A: agressivite=rage minerai=6480
+A: * T3 = moteur@1 plasma@5x16
+D: agressivite=rage
+D: 20 T5 = moteur@2 plasma@5x64
+
+[plasma T3 contre T6]
+A: agressivite=rage minerai=12960
+A: * T3 = moteur@1 plasma@5x16
+D: agressivite=rage
+D: 20 T6 = moteur@3 plasma@5x128
+
+[plasma T4 contre T5]
+A: agressivite=rage minerai=6480
+A: * T4 = moteur@2 plasma@5x32
+D: agressivite=rage
+D: 20 T5 = moteur@2 plasma@5x64
+
+[plasma T4 contre T6]
+A: agressivite=rage minerai=12960
+A: * T4 = moteur@2 plasma@5x32
+D: agressivite=rage
+D: 20 T6 = moteur@3 plasma@5x128
+
+[plasma T4 contre T7]
+A: agressivite=rage minerai=25760
+A: * T4 = moteur@2 plasma@5x32
+D: agressivite=rage
+D: 20 T7 = moteur@3 plasma@5x256
+
+[plasma T5 contre T6]
+A: agressivite=rage minerai=12960
+A: * T5 = moteur@2 plasma@5x64
+D: agressivite=rage
+D: 20 T6 = moteur@3 plasma@5x128
+
+[plasma T5 contre T7]
+A: agressivite=rage minerai=25760
+A: * T5 = moteur@2 plasma@5x64
+D: agressivite=rage
+D: 20 T7 = moteur@3 plasma@5x256
+
+[plasma T5 contre T8]
+A: agressivite=rage minerai=51260
+A: * T5 = moteur@2 plasma@5x64
+D: agressivite=rage
+D: 20 T8 = moteur@3 plasma@5x511
+
+[plasma T6 contre T7]
+A: agressivite=rage minerai=25760
+A: * T6 = moteur@3 plasma@5x128
+D: agressivite=rage
+D: 20 T7 = moteur@3 plasma@5x256
+
+[plasma T6 contre T8]
+A: agressivite=rage minerai=51260
+A: * T6 = moteur@3 plasma@5x128
+D: agressivite=rage
+D: 20 T8 = moteur@3 plasma@5x511
+
+[plasma T6 contre T9]
+A: agressivite=rage minerai=102560
+A: * T6 = moteur@3 plasma@5x128
+D: agressivite=rage
+D: 20 T9 = moteur@3 plasma@5x1024
+
+[plasma T7 contre T8]
+A: agressivite=rage minerai=51260
+A: * T7 = moteur@3 plasma@5x256
+D: agressivite=rage
+D: 20 T8 = moteur@3 plasma@5x511
+
+[plasma T7 contre T9]
+A: agressivite=rage minerai=102560
+A: * T7 = moteur@3 plasma@5x256
+D: agressivite=rage
+D: 20 T9 = moteur@3 plasma@5x1024
+
+[plasma T8 contre T9]
+A: agressivite=rage minerai=102560
+A: * T8 = moteur@3 plasma@5x511
+D: agressivite=rage
+D: 20 T9 = moteur@3 plasma@5x1024
+
+[torp T1 contre T2]
+A: agressivite=rage minerai=820
+A: * T1 = moteur@1 torp@5x2
+D: agressivite=rage
+D: 20 T2 = moteur@1 torp@5x8
+
+[torp T1 contre T3]
+A: agressivite=rage minerai=1620
+A: * T1 = moteur@1 torp@5x2
+D: agressivite=rage
+D: 20 T3 = moteur@1 torp@5x16
+
+[torp T1 contre T4]
+A: agressivite=rage minerai=3280
+A: * T1 = moteur@1 torp@5x2
+D: agressivite=rage
+D: 20 T4 = moteur@2 torp@5x32
+
+[torp T2 contre T3]
+A: agressivite=rage minerai=1620
+A: * T2 = moteur@1 torp@5x8
+D: agressivite=rage
+D: 20 T3 = moteur@1 torp@5x16
+
+[torp T2 contre T4]
+A: agressivite=rage minerai=3280
+A: * T2 = moteur@1 torp@5x8
+D: agressivite=rage
+D: 20 T4 = moteur@2 torp@5x32
+
+[torp T2 contre T5]
+A: agressivite=rage minerai=6480
+A: * T2 = moteur@1 torp@5x8
+D: agressivite=rage
+D: 20 T5 = moteur@2 torp@5x64
+
+[torp T3 contre T4]
+A: agressivite=rage minerai=3280
+A: * T3 = moteur@1 torp@5x16
+D: agressivite=rage
+D: 20 T4 = moteur@2 torp@5x32
+
+[torp T3 contre T5]
+A: agressivite=rage minerai=6480
+A: * T3 = moteur@1 torp@5x16
+D: agressivite=rage
+D: 20 T5 = moteur@2 torp@5x64
+
+[torp T3 contre T6]
+A: agressivite=rage minerai=12960
+A: * T3 = moteur@1 torp@5x16
+D: agressivite=rage
+D: 20 T6 = moteur@3 torp@5x128
+
+[torp T4 contre T5]
+A: agressivite=rage minerai=6480
+A: * T4 = moteur@2 torp@5x32
+D: agressivite=rage
+D: 20 T5 = moteur@2 torp@5x64
+
+[torp T4 contre T6]
+A: agressivite=rage minerai=12960
+A: * T4 = moteur@2 torp@5x32
+D: agressivite=rage
+D: 20 T6 = moteur@3 torp@5x128
+
+[torp T4 contre T7]
+A: agressivite=rage minerai=25760
+A: * T4 = moteur@2 torp@5x32
+D: agressivite=rage
+D: 20 T7 = moteur@3 torp@5x256
+
+[torp T5 contre T6]
+A: agressivite=rage minerai=12960
+A: * T5 = moteur@2 torp@5x64
+D: agressivite=rage
+D: 20 T6 = moteur@3 torp@5x128
+
+[torp T5 contre T7]
+A: agressivite=rage minerai=25760
+A: * T5 = moteur@2 torp@5x64
+D: agressivite=rage
+D: 20 T7 = moteur@3 torp@5x256
+
+[torp T5 contre T8]
+A: agressivite=rage minerai=51260
+A: * T5 = moteur@2 torp@5x64
+D: agressivite=rage
+D: 20 T8 = moteur@3 torp@5x511
+
+[torp T6 contre T7]
+A: agressivite=rage minerai=25760
+A: * T6 = moteur@3 torp@5x128
+D: agressivite=rage
+D: 20 T7 = moteur@3 torp@5x256
+
+[torp T6 contre T8]
+A: agressivite=rage minerai=51260
+A: * T6 = moteur@3 torp@5x128
+D: agressivite=rage
+D: 20 T8 = moteur@3 torp@5x511
+
+[torp T6 contre T9]
+A: agressivite=rage minerai=102560
+A: * T6 = moteur@3 torp@5x128
+D: agressivite=rage
+D: 20 T9 = moteur@3 torp@5x1024
+
+[torp T7 contre T8]
+A: agressivite=rage minerai=51260
+A: * T7 = moteur@3 torp@5x256
+D: agressivite=rage
+D: 20 T8 = moteur@3 torp@5x511
+
+[torp T7 contre T9]
+A: agressivite=rage minerai=102560
+A: * T7 = moteur@3 torp@5x256
+D: agressivite=rage
+D: 20 T9 = moteur@3 torp@5x1024
+
+[torp T8 contre T9]
+A: agressivite=rage minerai=102560
+A: * T8 = moteur@3 torp@5x511
+D: agressivite=rage
+D: 20 T9 = moteur@3 torp@5x1024
+
+[miss T1 contre T2]
+A: agressivite=rage minerai=820
+A: * T1 = moteur@1 miss@5x2
+D: agressivite=rage
+D: 20 T2 = moteur@1 miss@5x8
+
+[miss T1 contre T3]
+A: agressivite=rage minerai=1620
+A: * T1 = moteur@1 miss@5x2
+D: agressivite=rage
+D: 20 T3 = moteur@1 miss@5x16
+
+[miss T1 contre T4]
+A: agressivite=rage minerai=3280
+A: * T1 = moteur@1 miss@5x2
+D: agressivite=rage
+D: 20 T4 = moteur@2 miss@5x32
+
+[miss T2 contre T3]
+A: agressivite=rage minerai=1620
+A: * T2 = moteur@1 miss@5x8
+D: agressivite=rage
+D: 20 T3 = moteur@1 miss@5x16
+
+[miss T2 contre T4]
+A: agressivite=rage minerai=3280
+A: * T2 = moteur@1 miss@5x8
+D: agressivite=rage
+D: 20 T4 = moteur@2 miss@5x32
+
+[miss T2 contre T5]
+A: agressivite=rage minerai=6480
+A: * T2 = moteur@1 miss@5x8
+D: agressivite=rage
+D: 20 T5 = moteur@2 miss@5x64
+
+[miss T3 contre T4]
+A: agressivite=rage minerai=3280
+A: * T3 = moteur@1 miss@5x16
+D: agressivite=rage
+D: 20 T4 = moteur@2 miss@5x32
+
+[miss T3 contre T5]
+A: agressivite=rage minerai=6480
+A: * T3 = moteur@1 miss@5x16
+D: agressivite=rage
+D: 20 T5 = moteur@2 miss@5x64
+
+[miss T3 contre T6]
+A: agressivite=rage minerai=12960
+A: * T3 = moteur@1 miss@5x16
+D: agressivite=rage
+D: 20 T6 = moteur@3 miss@5x128
+
+[miss T4 contre T5]
+A: agressivite=rage minerai=6480
+A: * T4 = moteur@2 miss@5x32
+D: agressivite=rage
+D: 20 T5 = moteur@2 miss@5x64
+
+[miss T4 contre T6]
+A: agressivite=rage minerai=12960
+A: * T4 = moteur@2 miss@5x32
+D: agressivite=rage
+D: 20 T6 = moteur@3 miss@5x128
+
+[miss T4 contre T7]
+A: agressivite=rage minerai=25760
+A: * T4 = moteur@2 miss@5x32
+D: agressivite=rage
+D: 20 T7 = moteur@3 miss@5x256
+
+[miss T5 contre T6]
+A: agressivite=rage minerai=12960
+A: * T5 = moteur@2 miss@5x64
+D: agressivite=rage
+D: 20 T6 = moteur@3 miss@5x128
+
+[miss T5 contre T7]
+A: agressivite=rage minerai=25760
+A: * T5 = moteur@2 miss@5x64
+D: agressivite=rage
+D: 20 T7 = moteur@3 miss@5x256
+
+[miss T5 contre T8]
+A: agressivite=rage minerai=51260
+A: * T5 = moteur@2 miss@5x64
+D: agressivite=rage
+D: 20 T8 = moteur@3 miss@5x511
+
+[miss T6 contre T7]
+A: agressivite=rage minerai=25760
+A: * T6 = moteur@3 miss@5x128
+D: agressivite=rage
+D: 20 T7 = moteur@3 miss@5x256
+
+[miss T6 contre T8]
+A: agressivite=rage minerai=51260
+A: * T6 = moteur@3 miss@5x128
+D: agressivite=rage
+D: 20 T8 = moteur@3 miss@5x511
+
+[miss T6 contre T9]
+A: agressivite=rage minerai=102560
+A: * T6 = moteur@3 miss@5x128
+D: agressivite=rage
+D: 20 T9 = moteur@3 miss@5x1024
+
+[miss T7 contre T8]
+A: agressivite=rage minerai=51260
+A: * T7 = moteur@3 miss@5x256
+D: agressivite=rage
+D: 20 T8 = moteur@3 miss@5x511
+
+[miss T7 contre T9]
+A: agressivite=rage minerai=102560
+A: * T7 = moteur@3 miss@5x256
+D: agressivite=rage
+D: 20 T9 = moteur@3 miss@5x1024
+
+[miss T8 contre T9]
+A: agressivite=rage minerai=102560
+A: * T8 = moteur@3 miss@5x511
+D: agressivite=rage
+D: 20 T9 = moteur@3 miss@5x1024

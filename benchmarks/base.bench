@@ -1,0 +1,72 @@
+# Scénarios de base du banc d'essai du combat spatial.
+# Format : voir benchmarks/LISEZMOI.md
+
+[Miroir laser]
+# Deux flottes identiques : le résultat doit être équilibré entre A et D.
+A: agressivite=rage
+A: 10 Chasseur = moteur@1 laser@1x3
+D: agressivite=rage
+D: 10 Chasseur = moteur@1 laser@1x3
+
+[Niveau du laser]
+# Effet du niveau de l'arme, à nombre égal.
+varier NIV = 1,2,3,5,7,10
+A: agressivite=rage
+A: 10 Chasseur = moteur@1 laser@{NIV}x3
+D: agressivite=rage
+D: 10 Chasseur = moteur@1 laser@1x3
+
+[Nombre contre taille]
+# Un essaim de petits chasseurs contre quelques gros vaisseaux de même nombre total d'armes.
+varier ARME = laser,plasma,torp,miss
+A: agressivite=rage
+A: 20 Chasseur = moteur@1 {ARME}@1x3
+D: agressivite=rage
+D: 2 Croiseur = moteur@3 {ARME}@1x30
+
+[Boucliers]
+# Effet du nombre de boucliers face à des missiles (0 dommage bouclier jusqu'au niveau 3) et des lasers.
+varier ARME = laser,miss
+varier BOUC = 1,2,4
+A: agressivite=rage
+A: 10 Tireur = moteur@1 {ARME}@1x5
+D: agressivite=rage
+D: 10 Blindé = moteur@1 laser@1x5 bouclier@1x{BOUC}
+
+[Absorbeur]
+# Effet du niveau d'absorbeur face à un essaim de petits tireurs.
+varier ABS = 1,3,5
+A: agressivite=rage
+A: 30 Chasseur = moteur@1 laser@1x3
+D: agressivite=rage
+D: 2 Forteresse = moteur@3 plasma@2x40 absorb@{ABS}
+
+[Agressivité]
+# Un attaquant en infériorité : effet du seuil de fuite.
+varier AGR = fuyard,prudent,normal,combatif,rage
+A: agressivite={AGR}
+A: 5 Chasseur = moteur@1 laser@1x3
+D: agressivite=rage
+D: 15 Chasseur = moteur@1 laser@1x3
+
+[Armement mixte et multi-cible]
+# Gros vaisseaux à armes variées contre un essaim : le cas où le multi-cible doit peser.
+A: agressivite=rage
+A: 3 Cuirassé = moteur@4 laser@3x40 torp@3x20 bouclier@3x2
+D: agressivite=rage
+D: 40 Chasseur = moteur@1 laser@1x3
+
+[Placement imposé du défenseur]
+# Positions de stratégie côté défenseur : le cas touché par la symétrie (règle « sym »).
+A: agressivite=rage
+A: 10 Chasseur = moteur@1 laser@1x3 ; pos=15,5
+D: agressivite=rage
+D: 10 Chasseur = moteur@1 laser@1x3 ; pos=15,5
+
+[Héros]
+# Effet d'un héros d'attaque côté attaquant.
+varier ATT = 0,2,5,10
+A: agressivite=rage heros=att:{ATT},def:0,vit:0,moral:0
+A: 10 Chasseur = moteur@1 laser@1x3
+D: agressivite=rage
+D: 10 Chasseur = moteur@1 laser@1x3

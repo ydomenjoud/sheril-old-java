@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map;
@@ -63,6 +62,8 @@ public class Combat {
     }
 
     private static void log(String message, boolean newLine, Object... parameters) {
+        if (!ReglesCombat.actives().journal)
+            return;
         try {
             if(writer == null) {
                 Path dir = Paths.get(Chemin.RACINE, "tour" + (Univers.getTour()+1), "combats");
@@ -931,9 +932,6 @@ public class Combat {
         ArrayList marchandises1 = f1.listeCargaisonTransporte();
         ArrayList marchandises2 = f2.listeCargaisonTransporte();
 
-        f1.calculeCombativite(h1);
-        f2.calculeCombativite(h2);
-
         if ((c1.estJoueurHumain()) && (c2.estJoueurHumain()))
             Univers.ajouterRelationRaces(
                     f1.getPosition(),
@@ -955,94 +953,20 @@ public class Combat {
 
         boolean gardeDirective1 = (f1.getPuissance() >= f2.getPuissance() * 5);
         boolean gardeDirective2 = (f2.getPuissance() >= f1.getPuissance() * 5);
-        boolean vainqueurCombat1 = false;
-        boolean vainqueurCombat2 = false;
         int nbVaisseauxDepart1 = f1.getNombreDeVaisseaux();
         int nbVaisseauxDepart2 = f2.getNombreDeVaisseaux();
-        int nbDommages1 = 0;
-        int nbDommages2 = 0;
         Map.Entry[] memfin1 = (Map.Entry[]) f1.listeVaisseauxParTypePourCombat().entrySet().toArray(new Map.Entry[0]);
         Map.Entry[] memfin2 = (Map.Entry[]) f2.listeVaisseauxParTypePourCombat().entrySet().toArray(new Map.Entry[0]);
-        Map mem1 = null;
-        Map mem2 = null;
-
-        // phase de positionnement et d'initialisation des cibles
-
         StrategieDeCombatSpatial s1 = c1.getStrategie(f1.getStrategie());
-        Map.Entry[] m1 = f1.listeCompleteVaisseaux();
         StrategieDeCombatSpatial s2 = c2.getStrategie(f2.getStrategie());
-        Map.Entry[] m2 = f2.listeCompleteVaisseaux();
 
-        HashMap hp1 = positionnement(s1, m1, true, h1);
-        HashMap hp2 = positionnement(s2, m2, false, h2);
-
-        HashMap hc1 = initialisationCibles(m1);
-        HashMap hc2 = initialisationCibles(m2);
-
-        boolean finDeTour = false;
-        int numTour = 0;
-        while (!finDeTour) {
-            System.out.print("-t" + numTour);
-            Combat.logln("TOUR DE COMBAT " + (numTour + 1));
-
-            mem1 = f1.listeVaisseauxParTypePourCombat();
-            mem2 = f2.listeVaisseauxParTypePourCombat();
-
-            // phase de détermination de cible.
-
-            f1.preparerAuCombat(true);
-            f2.preparerAuCombat(true);
-
-
-            TreeMap ht1 = determinationTempo(m1, h1);
-            TreeMap ht2 = determinationTempo(m2, h2);
-
-            determinationCible(m1, s1, hc1, hp1, hp2, f2, 0);
-            determinationCible(m2, s2, hc2, hp2, hp1, f1, 0);
-
-            // phase de mouvement.
-
-            mouvement(f1, s1, hp1, hc1, ht1, f2, s2, hp2, hc2, ht2);
-
-            // phase de combat.
-
-            int temp1 = f1.dommagesTotaux();
-            int temp2 = f2.dommagesTotaux();
-
-            combat(f1, s1, hp1, hc1, ht1, h1, f2, s2, hp2, hc2, ht2, h2);
-
-            nbDommages1 = nbDommages1 + f1.dommagesTotaux() - temp1;
-            nbDommages2 = nbDommages2 + f2.dommagesTotaux() - temp2;
-
-            f1.eliminerPertesVaisseaux();
-            f2.eliminerPertesVaisseaux();
-
-            f1.diminuerCombativite();
-            f2.diminuerCombativite();
-            m1 = f1.listeCompleteVaisseaux();
-            m2 = f2.listeCompleteVaisseaux();
-
-            Map inter1 = f1.listeVaisseauxParTypePourCombat();
-            Map inter2 = f2.listeVaisseauxParTypePourCombat();
-            ecrireDetailCombatFlotteFlotte(c1, c2, f1, f2, mem1, mem2, numTour,
-                    memfin1, memfin2, inter1, inter2);
-            ecrireDetailCombatFlotteFlotte(c2, c1, f2, f1, mem2, mem1, numTour,
-                    memfin2, memfin1, inter2, inter1);
-            mem1 = inter1;
-            mem2 = inter2;
-
-            if (f1.getNombreDeVaisseaux() == 0)
-                vainqueurCombat2 = true;
-            if (f2.getNombreDeVaisseaux() == 0)
-                vainqueurCombat1 = true;
-            if ((!f1.estCombative()) && (!f2.estCombative()))
-                finDeTour = true;
-            if ((vainqueurCombat1) || (vainqueurCombat2))
-                finDeTour = true;
-
-            Combat.logln("FIN DE TOUR: F1  " + nbDommages1 + ", F2 : " + nbDommages2);
-            numTour++;
-        }
+        ResultatCombatSpatial resultat = resoudreCombatSpatial(c1, c2, f1, f2, s1, s2, h1, h2, memfin1, memfin2);
+        boolean vainqueurCombat1 = resultat.vainqueur1;
+        boolean vainqueurCombat2 = resultat.vainqueur2;
+        int nbDommages1 = resultat.dommages1;
+        int nbDommages2 = resultat.dommages2;
+        Map mem1 = resultat.mem1;
+        Map mem2 = resultat.mem2;
 
         // FIN DE TOUR
         System.out.println("");
@@ -1091,6 +1015,123 @@ public class Combat {
             return false;
         else
             return true;
+    }
+
+    /**
+     * Cœur du combat spatial : positionnement puis boucle des rounds, sans aucun effet
+     * sur les commandants ni sur l'univers (rapports, événements, débris, directives).
+     * c1, c2, memfin1 et memfin2 peuvent être nuls (banc d'essai) : le détail du combat
+     * n'est alors pas écrit et les dégâts ne sont pas crédités aux commandants.
+     */
+    public static ResultatCombatSpatial resoudreCombatSpatial(Commandant c1, Commandant c2, Flotte f1, Flotte f2,
+                                                              StrategieDeCombatSpatial s1, StrategieDeCombatSpatial s2,
+                                                              Heros h1, Heros h2,
+                                                              Map.Entry[] memfin1, Map.Entry[] memfin2) {
+        ReglesCombat regles = ReglesCombat.actives();
+
+        f1.calculeCombativite(h1);
+        f2.calculeCombativite(h2);
+
+        boolean vainqueurCombat1 = false;
+        boolean vainqueurCombat2 = false;
+        int nbDommages1 = 0;
+        int nbDommages2 = 0;
+        Map mem1 = null;
+        Map mem2 = null;
+
+        // phase de positionnement et d'initialisation des cibles
+
+        Map.Entry[] m1 = f1.listeCompleteVaisseaux();
+        Map.Entry[] m2 = f2.listeCompleteVaisseaux();
+
+        HashMap hp1 = positionnement(s1, m1, true, h1);
+        HashMap hp2 = positionnement(s2, m2, false, h2);
+
+        HashMap hc1 = initialisationCibles(m1);
+        HashMap hc2 = initialisationCibles(m2);
+
+        boolean finDeTour = false;
+        int numTour = 0;
+        while (!finDeTour) {
+            if (regles.journal)
+                System.out.print("-t" + numTour);
+            Combat.logln("TOUR DE COMBAT " + (numTour + 1));
+
+            mem1 = f1.listeVaisseauxParTypePourCombat();
+            mem2 = f2.listeVaisseauxParTypePourCombat();
+
+            // phase de détermination de cible.
+            int tailleMax = tailleVaisseauMaximale(m1, m2);
+
+            f1.preparerAuCombat(true);
+            f2.preparerAuCombat(true);
+
+
+            TreeMap ht1 = determinationTempo(m1, h1);
+            TreeMap ht2 = determinationTempo(m2, h2);
+
+            determinationCible(m1, s1, hc1, hp1, hp2, f2, 0);
+            determinationCible(m2, s2, hc2, hp2, hp1, f1, 0);
+
+            // phase de mouvement.
+
+            mouvement(f1, s1, hp1, hc1, ht1, f2, s2, hp2, hc2, ht2);
+
+            // phase de combat.
+
+            int temp1 = f1.dommagesTotaux();
+            int temp2 = f2.dommagesTotaux();
+
+            combat(f1, hp1, hc1, ht1, h1, c1, f2, hp2, hc2, ht2, h2, c2, 0);
+
+            // Tirs sur cibles multiples (regles.multiCible = false : ancien tir sur cible unique).
+            // Seuls les vaisseaux qui ont encore des armes à tirer désignent une nouvelle cible,
+            // et on s'arrête dès qu'aucun d'eux ne peut plus en trouver : les itérations
+            // suivantes ne produiraient aucun tir.
+            int nbTirsSupplementaires = regles.multiCible ? Const.NB_CIBLES[tailleMax] : 0;
+            for (int i = 1; i <= nbTirsSupplementaires
+                    && (resteCibleNouvelle(m1, hc1, f2, i) || resteCibleNouvelle(m2, hc2, f1, i)); i++) {
+                determinationCible(m1, s1, hc1, hp1, hp2, f2, i);
+                determinationCible(m2, s2, hc2, hp2, hp1, f1, i);
+                combat(f1, hp1, hc1, ht1, h1, c1, f2, hp2, hc2, ht2, h2, c2, i);
+            }
+
+            nbDommages1 = nbDommages1 + f1.dommagesTotaux() - temp1;
+            nbDommages2 = nbDommages2 + f2.dommagesTotaux() - temp2;
+
+            f1.eliminerPertesVaisseaux();
+            f2.eliminerPertesVaisseaux();
+
+            f1.diminuerCombativite();
+            f2.diminuerCombativite();
+            m1 = f1.listeCompleteVaisseaux();
+            m2 = f2.listeCompleteVaisseaux();
+
+            Map inter1 = f1.listeVaisseauxParTypePourCombat();
+            Map inter2 = f2.listeVaisseauxParTypePourCombat();
+            if ((c1 != null) && (c2 != null)) {
+                ecrireDetailCombatFlotteFlotte(c1, c2, f1, f2, mem1, mem2, numTour,
+                        memfin1, memfin2, inter1, inter2);
+                ecrireDetailCombatFlotteFlotte(c2, c1, f2, f1, mem2, mem1, numTour,
+                        memfin2, memfin1, inter2, inter1);
+            }
+            mem1 = inter1;
+            mem2 = inter2;
+
+            if (f1.getNombreDeVaisseaux() == 0)
+                vainqueurCombat2 = true;
+            if (f2.getNombreDeVaisseaux() == 0)
+                vainqueurCombat1 = true;
+            if ((!f1.estCombative()) && (!f2.estCombative()))
+                finDeTour = true;
+            if ((vainqueurCombat1) || (vainqueurCombat2))
+                finDeTour = true;
+
+            Combat.logln("FIN DE TOUR: F1  " + nbDommages1 + ", F2 : " + nbDommages2);
+            numTour++;
+        }
+
+        return new ResultatCombatSpatial(vainqueurCombat1, vainqueurCombat2, nbDommages1, nbDommages2, numTour, mem1, mem2);
     }
 
     private static void ajouterEvenements(Commandant c1, Commandant c2,
@@ -1264,6 +1305,17 @@ public class Combat {
                 DocumentHTML.creerTable(Rapport.getTable(), a));
     }
 
+    private static int tailleVaisseauMaximale(Map.Entry[] m1, Map.Entry[] m2) {
+        int max = 0;
+        for (int i = 0; i < m1.length; i++)
+            if (((Vaisseau) m1[i].getValue()).getTaille() > max)
+                max = ((Vaisseau) m1[i].getValue()).getTaille();
+        for (int i = 0; i < m2.length; i++)
+            if (((Vaisseau) m2[i].getValue()).getTaille() > max)
+                max = ((Vaisseau) m2[i].getValue()).getTaille();
+        return max;
+    }
+
     private static HashMap positionnement(StrategieDeCombatSpatial s,
                                           Map.Entry[] m, boolean att, Heros h) {
         HashMap hm = new HashMap(m.length * 2, 0.5F);
@@ -1302,20 +1354,40 @@ public class Combat {
         return hm;
     }
 
-    private static HashMap initialisationCibles(Map.Entry[] m) {
-        HashMap retour = new HashMap(m.length * 2, 0.5F);
-        for (int i = 0; i < m.length; i++)
-            retour.put(m[i].getKey(),
-                    new int[((Vaisseau) m[i].getValue()).getNbCibleMax() + 1]);
-        return retour;
-    }
-
     /**
      * Vrai si le vaisseau peut encore tirer pendant ce round : en vie, combatif, et avec au
      * moins une arme qui n'a pas encore servi.
      */
     private static boolean peutEncoreTirer(Vaisseau v) {
         return (!v.estDetruit()) && v.estCombatif() && (v.getNombreArmesValides() > 0);
+    }
+
+    /**
+     * Vrai si au moins un vaisseau de m, encore capable de tirer, peut désigner au tir numTir
+     * un vaisseau de la flotte f qu'il n'a pas déjà pris pour cible pendant ce round.
+     */
+    private static boolean resteCibleNouvelle(Map.Entry[] m, HashMap hc, Flotte f, int numTir) {
+        int nbAdversaires = f.getNombreDeVaisseaux();
+        for (int i = 0; i < m.length; i++) {
+            int[] inter = (int[]) hc.get(m[i].getKey());
+            if ((inter.length > numTir) && peutEncoreTirer((Vaisseau) m[i].getValue())) {
+                int dejaPrises = 0;
+                for (int j = 0; j < numTir; j++)
+                    if (inter[j] != -1)
+                        dejaPrises++;
+                if (dejaPrises < nbAdversaires)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private static HashMap initialisationCibles(Map.Entry[] m) {
+        HashMap retour = new HashMap(m.length * 2, 0.5F);
+        for (int i = 0; i < m.length; i++)
+            retour.put(m[i].getKey(),
+                    new int[((Vaisseau) m[i].getValue()).getNbCibleMax() + 1]);
+        return retour;
     }
 
     private static void determinationCible(Map.Entry[] m,
@@ -1423,18 +1495,14 @@ public class Combat {
     /**
      * Répartit des numéros de vaisseaux de la flotte f par taille. Chaque liste est rangée dans
      * l'ordre de parcours d'un HashSet, comme le faisait la sélection d'origine : cet ordre
-     * départage les cibles situées à la même distance. Les vaisseaux déjà détruits pendant le
-     * round sont écartés : la liste de secours (toute la flotte) les contient encore.
+     * départage les cibles situées à la même distance.
      */
     private static Integer[][] repartirParTaille(Flotte f, Integer[] depart) {
         ArrayList[] listes = new ArrayList[Const.TAILLE_MAXIMAL_VAISSEAU];
         for (int i = 0; i < listes.length; i++)
             listes[i] = new ArrayList();
-        for (int i = 0; i < depart.length; i++) {
-            Vaisseau v = f.getVaisseau(depart[i]);
-            if (!v.estDetruit())
-                listes[v.getTaille()].add(depart[i]);
-        }
+        for (int i = 0; i < depart.length; i++)
+            listes[f.getVaisseau(depart[i]).getTaille()].add(depart[i]);
         Integer[][] retour = new Integer[listes.length][];
         for (int i = 0; i < listes.length; i++)
             retour[i] = (Integer[]) new HashSet(listes[i]).toArray(new Integer[0]);
@@ -1595,16 +1663,9 @@ public class Combat {
         }
     }
 
-    /**
-     * Phase de tir d'un round : les vaisseaux des deux flottes tirent une seule fois chacun,
-     * entrelacés par tempo décroissant. À son tour, un vaisseau tire sur sa première cible
-     * (choisie avant le mouvement), puis en désigne de nouvelles tant qu'il lui reste des armes,
-     * dans la limite de getNbCibleMax (Const.NB_CIBLES) : une grosse coque utilise tout son
-     * armement à son tempo, comme une petite, au lieu d'attendre que tous les autres aient tiré.
-     */
-    private static void combat(Flotte f1, StrategieDeCombatSpatial s1, HashMap pos1, HashMap cible1,
-                               TreeMap ht1, Heros h1, Flotte f2, StrategieDeCombatSpatial s2,
-                               HashMap pos2, HashMap cible2, TreeMap ht2, Heros h2) {
+    private static void combat(Flotte f1, HashMap pos1, HashMap cible1,
+                               TreeMap ht1, Heros h1, Commandant c1, Flotte f2, HashMap pos2, HashMap cible2,
+                               TreeMap ht2, Heros h2, Commandant c2, int numTir) {
 
         Map.Entry[] mt1 = (Map.Entry[]) ht1.entrySet()
                 .toArray(new Map.Entry[0]);
@@ -1626,45 +1687,26 @@ public class Combat {
             }
 
             if (premier) {
-                tirVaisseauToutesCibles(mt1[compteur1].getValue(), f1, s1, pos1, pos2, cible1, f2, h1, h2);
+                tirVaisseau(mt1[compteur1].getValue(), f1, pos1, pos2, cible1, f2, numTir, h1, h2, c1);
                 compteur1--;
             } else {
-                tirVaisseauToutesCibles(mt2[compteur2].getValue(), f2, s2, pos2, pos1, cible2, f1, h2, h1);
+                tirVaisseau(mt2[compteur2].getValue(), f2, pos2, pos1, cible2, f1, numTir, h2, h1, c2);
                 compteur2--;
             }
         }
     }
 
-    /** Tour de tir d'un vaisseau : cible 0, puis nouvelles cibles tant qu'il a des armes. */
-    private static void tirVaisseauToutesCibles(Object cle, Flotte f1, StrategieDeCombatSpatial s,
-                                                HashMap pos1, HashMap pos2, HashMap cible, Flotte f2,
-                                                Heros h1, Heros h2) {
-        tirVaisseau(cle, f1, pos1, pos2, cible, f2, 0, h1, h2);
-        Vaisseau v = f1.getVaisseau((Integer) cle);
-        int[] cibles = (int[]) cible.get(cle);
-        Map.Entry[] seul = {new AbstractMap.SimpleEntry(cle, v)};
-        int recherchesVides = 0;
-        for (int i = 1; (i < cibles.length) && peutEncoreTirer(v); i++) {
-            determinationCible(seul, s, cible, pos1, pos2, f2, i);
-            if (cibles[i] != -1)
-                tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2);
-            else if (++recherchesVides > 3)
-                break; // plus de cible : le vaisseau garde ses armes restantes
-            // (la recherche de cible parcourt les tailles au hasard et peut échouer : on la refait)
-        }
-    }
-
-    private static void tirVaisseau(Object cle, Flotte f1, HashMap pos1, HashMap pos2, HashMap cible, Flotte f2, int numTir, Heros h1, Heros h2) {
+    private static void tirVaisseau(Object cle, Flotte f1, HashMap pos1, HashMap pos2, HashMap cible, Flotte f2, int numTir, Heros h1, Heros h2, Commandant com) {
         Vaisseau v = f1.getVaisseau((Integer) cle);
         int nbCibleMax = v.getNbCibleMax();
         boolean estCombatif = v.estCombatif();
         boolean estVivant = !v.estDetruit();
         Position3D att = (Position3D) pos1.get(cle);
-        Commandant com = Univers.getCommandantFromFlotte(f1);
+        boolean journal = ReglesCombat.actives().journal;
         boolean vaisseau_a_tire = false;
-        if (Const.COMBAT_LOG_DETAIL)
+        if (journal && Const.COMBAT_LOG_DETAIL)
             Combat.logDetail(combatEnCours + " C{0} , tir vaisseau {6} N°{1}/{2} ({3}, race: {4}) , attP: {5} ",
-                com.getNumero(), numTir, nbCibleMax, v.getPlan().getNom(), v.getRaceEquipage(), att, cle);
+                    com == null ? -1 : com.getNumero(), numTir, nbCibleMax, v.getPlan().getNom(), v.getRaceEquipage(), att, cle);
         if ((numTir <= nbCibleMax) && (estCombatif) && (estVivant)) {
             Integer cle2 = new Integer(((int[]) cible.get(cle))[numTir]);
             if (cle2.intValue() != -1) {
@@ -1677,13 +1719,13 @@ public class Combat {
                     int dommagesAvant = v.getDommagesEffectues();
                     v.tir(c, distance, h1, h2);
                     int degatsDuTir = v.getDommagesEffectues() - dommagesAvant;
-                    if (degatsDuTir > 0) {
+                    if ((degatsDuTir > 0) && (com != null)) {
                         com.ajouterDegats((float)degatsDuTir);
                     }
                     // --------------------------
 
                     // Log exhaustif pour traçabilité
-                    if (Const.COMBAT_LOG_DETAIL)
+                    if (journal && Const.COMBAT_LOG_DETAIL && (com != null))
                         SherilLogger.log(String.format(
                             "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
                             v.getPlan().getNom(),
@@ -1695,7 +1737,8 @@ public class Combat {
                         ));
                     //--------------
                     
-                    Combat.logDetailln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
+                    if (journal)
+                        Combat.logDetailln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
                     
                 }
