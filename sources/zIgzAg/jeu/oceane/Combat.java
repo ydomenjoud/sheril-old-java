@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.text.MessageFormat;
 
 import zIgzAg.utile.Mdt;
@@ -45,6 +46,19 @@ public class Combat {
 
     public static void log(String message, Object... parameters) {
         log(message, false, parameters);
+    }
+
+    // Détail du journal (une ligne par vaisseau et par tir d'arme), coupé si
+    // COMBAT_LOG_DETAIL = false dans config.properties.
+
+    public static void logDetailln(String message, Object... parameters) {
+        if (Const.COMBAT_LOG_DETAIL)
+            log(message, true, parameters);
+    }
+
+    public static void logDetail(String message, Object... parameters) {
+        if (Const.COMBAT_LOG_DETAIL)
+            log(message, false, parameters);
     }
 
     private static void log(String message, boolean newLine, Object... parameters) {
@@ -997,8 +1011,10 @@ public class Combat {
 
             combat(f1, hp1, hc1, ht1, h1, f2, hp2, hc2, ht2, h2, 0);
 
-            //Const.NB_CIBLES[tailleMax]
-            for (int i = 1; i <= 0 /* Const.NB_CIBLES[tailleMax] */; i++) {
+            // tirs sur cibles multiples : tant qu'un vaisseau a encore des armes à tirer et une
+            // cible nouvelle à désigner, dans la limite de Const.NB_CIBLES pour la plus grande taille.
+            for (int i = 1; i <= Const.NB_CIBLES[tailleMax]
+                    && (resteCibleNouvelle(m1, hc1, f2, i) || resteCibleNouvelle(m2, hc2, f1, i)); i++) {
                 determinationCible(m1, s1, hc1, hp1, hp2, f2, i);
                 determinationCible(m2, s2, hc2, hp2, hp1, f1, i);
                 combat(f1, hp1, hc1, ht1, h1, f2, hp2, hc2, ht2, h2, i);
@@ -1310,18 +1326,59 @@ public class Combat {
         return retour;
     }
 
+    /**
+     * Vrai si le vaisseau peut encore tirer pendant ce round : en vie, combatif, et avec au
+     * moins une arme qui n'a pas encore servi.
+     */
+    private static boolean peutEncoreTirer(Vaisseau v) {
+        return (!v.estDetruit()) && v.estCombatif() && (v.getNombreArmesValides() > 0);
+    }
+
+    /**
+     * Vrai si au moins un vaisseau de m, encore capable de tirer, peut désigner au tir numTir
+     * un vaisseau de la flotte f qu'il n'a pas déjà pris pour cible pendant ce round.
+     */
+    private static boolean resteCibleNouvelle(Map.Entry[] m, HashMap hc, Flotte f, int numTir) {
+        int nbAdversaires = f.getNombreDeVaisseaux();
+        for (int i = 0; i < m.length; i++) {
+            int[] inter = (int[]) hc.get(m[i].getKey());
+            if ((inter.length > numTir) && peutEncoreTirer((Vaisseau) m[i].getValue())) {
+                int dejaPrises = 0;
+                for (int j = 0; j < numTir; j++)
+                    if (inter[j] != -1)
+                        dejaPrises++;
+                if (dejaPrises < nbAdversaires)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     private static void determinationCible(Map.Entry[] m,
                                            StrategieDeCombatSpatial s, HashMap hc, HashMap hp1, HashMap hp2,
                                            Flotte f, int numTir) {
+        // La flotte adverse ne change pas pendant la désignation : ses vaisseaux sont répartis
+        // par taille une seule fois, au lieu d'être refiltrés pour chaque tireur.
+        Integer[][] parTailleType = null;
+        Integer[][] parTailleTous = null;
+        // Pour chaque liste de cibles non filtrée : ses positions, et la cible déjà trouvée pour
+        // chaque position de tireur (deux tireurs au même endroit ont la même cible la plus proche).
+        IdentityHashMap positionsParListe = new IdentityHashMap();
+        IdentityHashMap ciblesParListe = new IdentityHashMap();
         for (int i = 0; i < m.length; i++) {
             int[] inter = (int[]) hc.get(m[i].getKey());
 
             Vaisseau vaisseau = ((Vaisseau) m[i].getValue());
-            if (inter.length > numTir) {
+            if ((numTir > 0) && (inter.length > numTir) && (!peutEncoreTirer(vaisseau))) {
+                // cible supplémentaire inutile : ce vaisseau ne tirera plus pendant ce round
+                inter[numTir] = -1;
+            } else if (inter.length > numTir) {
 
                 // détermination des cibles possibles (par type, puis par taille).
 
-                Integer[] choix1 = f.listeNumerosVaisseauxDeType(s.getTypeCible());
+                if (parTailleType == null)
+                    parTailleType = repartirParTaille(f, f.listeNumerosVaisseauxDeType(s.getTypeCible()));
+                HashSet dejaPrises = ciblesDejaPrises(inter, numTir);
                 Integer[] choix2 = null;
 
                 Object o = s.getCibles(((Vaisseau) m[i].getValue()).getType());
@@ -1329,17 +1386,18 @@ public class Combat {
                 while (choix2 == null)
                     for (int j = 0; j < Const.TAILLE_MAXIMAL_VAISSEAU; j++) {
                         if (Univers.getTest(50))
-                            choix2 = cibleNonDejaChoisie(choixPossibleCible(choix1, f, o, j), inter, numTir);
+                            choix2 = cibleNonDejaChoisie(choixPossibleCible(parTailleType, o, j), dejaPrises);
                         if ((choix2 != null) && (choix2.length > 0))
                             break;
                     }
 
                 int compteurTour = 0;
                 while ((choix2.length == 0) && (compteurTour < 5)) {
-                    choix1 = f.listeNumerosVaisseaux2();
+                    if (parTailleTous == null)
+                        parTailleTous = repartirParTaille(f, f.listeNumerosVaisseaux2());
                     for (int j = 0; j < Const.TAILLE_MAXIMAL_VAISSEAU; j++) {
                         if (Univers.getTest(50))
-                            choix2 = cibleNonDejaChoisie(choixPossibleCible(choix1, f, o, j), inter, numTir);
+                            choix2 = cibleNonDejaChoisie(choixPossibleCible(parTailleTous, o, j), dejaPrises);
                         if ((choix2 != null) && (choix2.length > 0))
                             break;
                     }
@@ -1350,53 +1408,137 @@ public class Combat {
                     inter[numTir] = -1;
                 else {
                     // choix de la cible.
-                    Position3D[] posChoix = new Position3D[choix2.length];
-                    for (int j = 0; j < choix2.length; j++)
-                        posChoix[j] = (Position3D) hp2.get(choix2[j]);
-
-                    Position3D posFinale = Position3D.positionLaPlusProche((Position3D) hp1.get(m[i].getKey()), posChoix);
-                    inter[numTir] = choix2[Mdt.position(posChoix, posFinale)];
+                    Position3D posTireur = (Position3D) hp1.get(m[i].getKey());
+                    if (dejaPrises != null)
+                        inter[numTir] = choix2[indexPlusProche(posTireur, positionsDe(choix2, hp2))];
+                    else {
+                        Position3D[] posChoix = (Position3D[]) positionsParListe.get(choix2);
+                        HashMap dejaTrouvees = (HashMap) ciblesParListe.get(choix2);
+                        if (posChoix == null) {
+                            posChoix = positionsDe(choix2, hp2);
+                            dejaTrouvees = new HashMap();
+                            positionsParListe.put(choix2, posChoix);
+                            ciblesParListe.put(choix2, dejaTrouvees);
+                        }
+                        String clePosition = posTireur.getPos()[0] + "," + posTireur.getPos()[1] + "," + posTireur.getPos()[2];
+                        Integer trouvee = (Integer) dejaTrouvees.get(clePosition);
+                        if (trouvee == null) {
+                            trouvee = choix2[indexPlusProche(posTireur, posChoix)];
+                            dejaTrouvees.put(clePosition, trouvee);
+                        }
+                        inter[numTir] = trouvee.intValue();
+                    }
                 }
             }
         }
     }
 
-    private static Integer[] choixPossibleCible(Integer[] depart, Flotte f,
+    private static final Integer[] AUCUN_VAISSEAU = new Integer[0];
+
+    private static Position3D[] positionsDe(Integer[] numeros, HashMap positions) {
+        Position3D[] retour = new Position3D[numeros.length];
+        for (int i = 0; i < numeros.length; i++)
+            retour[i] = (Position3D) positions.get(numeros[i]);
+        return retour;
+    }
+
+    /** Index de la position la plus proche de depart ; la première de la liste en cas d'égalité. */
+    private static int indexPlusProche(Position3D depart, Position3D[] arrivees) {
+        int min = Integer.MAX_VALUE;
+        int index = 0;
+        for (int i = 0; i < arrivees.length; i++) {
+            int d = Position3D.distance(depart, arrivees[i]);
+            if (d < min) {
+                min = d;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Répartit des numéros de vaisseaux de la flotte f par taille. Chaque liste est rangée dans
+     * l'ordre de parcours d'un HashSet, comme le faisait la sélection d'origine : cet ordre
+     * départage les cibles situées à la même distance.
+     */
+    private static Integer[][] repartirParTaille(Flotte f, Integer[] depart) {
+        ArrayList[] listes = new ArrayList[Const.TAILLE_MAXIMAL_VAISSEAU];
+        for (int i = 0; i < listes.length; i++)
+            listes[i] = new ArrayList();
+        for (int i = 0; i < depart.length; i++)
+            listes[f.getVaisseau(depart[i]).getTaille()].add(depart[i]);
+        Integer[][] retour = new Integer[listes.length][];
+        for (int i = 0; i < listes.length; i++)
+            retour[i] = (Integer[]) new HashSet(listes[i]).toArray(new Integer[0]);
+        return retour;
+    }
+
+    private static Integer[] choixPossibleCible(Integer[][] parTaille,
                                                 Object cibles, int compteur) {
         int tailleCible = 0;
         if (cibles == null)
             tailleCible = Const.TAILLE_MAXIMAL_VAISSEAU - compteur - 1;
         else
             tailleCible = ((int[]) cibles)[compteur] - 1;
-        return f.listeNumerosVaisseauxDeTaille(tailleCible, depart);
+        if ((tailleCible < 0) || (tailleCible >= parTaille.length))
+            return AUCUN_VAISSEAU;
+        return parTaille[tailleCible];
     }
 
-    private static Integer[] cibleNonDejaChoisie(Integer[] depart,
-                                                 int[] ciblePre, int numTir) {
-        HashSet yo = new HashSet(Arrays.asList(depart));
+    /** Cibles déjà désignées par un vaisseau pendant ce round, ou null s'il n'y en a pas. */
+    private static HashSet ciblesDejaPrises(int[] ciblePre, int numTir) {
+        if (numTir == 0)
+            return null;
+        HashSet prises = new HashSet(numTir * 2);
         for (int i = 0; i < numTir; i++)
-            yo.remove(new Integer(ciblePre[i]));
-        return (Integer[]) yo.toArray(new Integer[0]);
+            prises.add(Integer.valueOf(ciblePre[i]));
+        return prises;
+    }
+
+    private static Integer[] cibleNonDejaChoisie(Integer[] depart, HashSet dejaPrises) {
+        if ((dejaPrises == null) || (depart.length == 0))
+            return depart;
+        ArrayList restantes = new ArrayList(depart.length);
+        for (int i = 0; i < depart.length; i++)
+            if (!dejaPrises.contains(depart[i]))
+                restantes.add(depart[i]);
+        return (Integer[]) restantes.toArray(new Integer[0]);
     }
 
     private static TreeMap determinationTempo(Map.Entry[] m, Heros h) {
         TreeMap hm = new TreeMap();
+        HashMap suivant = new HashMap(m.length * 2);
         int modificateurHeros = h.getVitesseModifie();
         int tempo;
         for (int i = 0; i < m.length; i++) {
             tempo = modificateurHeros * Univers.getInt(100)
                     + ((Vaisseau) m[i].getValue()).getTempo()
                     + Univers.getInt(500);
-            hm.put(trouverTempoLibre(hm, tempo), m[i].getKey());
+            hm.put(trouverTempoLibre(suivant, tempo), m[i].getKey());
         }
         return hm;
     }
 
-    private static Integer trouverTempoLibre(TreeMap hm, int t) {
-        int retour = t;
-        while (hm.containsKey(new Integer(retour)))
-            retour++;
-        return new Integer(retour);
+    /**
+     * Premier tempo libre à partir de t, qui est alors réservé. suivant associe à chaque tempo
+     * déjà pris un tempo plus grand à essayer, ce qui évite de reparcourir une suite de tempos pris.
+     */
+    private static Integer trouverTempoLibre(HashMap suivant, int t) {
+        int libre = t;
+        Integer s = (Integer) suivant.get(Integer.valueOf(libre));
+        while (s != null) {
+            libre = s.intValue();
+            s = (Integer) suivant.get(Integer.valueOf(libre));
+        }
+        Integer apres = Integer.valueOf(libre + 1);
+        int courant = t;
+        while (courant != libre) {
+            int prochain = ((Integer) suivant.get(Integer.valueOf(courant))).intValue();
+            suivant.put(Integer.valueOf(courant), apres);
+            courant = prochain;
+        }
+        suivant.put(Integer.valueOf(libre), apres);
+        return Integer.valueOf(libre);
     }
 
     private static boolean fuiteTactique(Flotte f1, Flotte f2,
@@ -1526,7 +1668,8 @@ public class Combat {
         Position3D att = (Position3D) pos1.get(cle);
         Commandant com = Univers.getCommandantFromFlotte(f1);
         boolean vaisseau_a_tire = false;
-        Combat.log(combatEnCours + " C{0} , tir vaisseau {6} N°{1}/{2} ({3}, race: {4}) , attP: {5} ",
+        if (Const.COMBAT_LOG_DETAIL)
+            Combat.logDetail(combatEnCours + " C{0} , tir vaisseau {6} N°{1}/{2} ({3}, race: {4}) , attP: {5} ",
                 com.getNumero(), numTir, nbCibleMax, v.getPlan().getNom(), v.getRaceEquipage(), att, cle);
         if ((numTir <= nbCibleMax) && (estCombatif) && (estVivant)) {
             Integer cle2 = new Integer(((int[]) cible.get(cle))[numTir]);
@@ -1546,6 +1689,7 @@ public class Combat {
                     // --------------------------
 
                     // Log exhaustif pour traçabilité
+                    if (Const.COMBAT_LOG_DETAIL)
                         SherilLogger.log(String.format(
                             "[COMBAT-SPATIAL] Tir: %s (ID:%s) sur %s | Dégâts: %d | Cumul Commandant %s: %.2f",
                             v.getPlan().getNom(),
@@ -1557,16 +1701,16 @@ public class Combat {
                         ));
                     //--------------
                     
-                    Combat.logln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
+                    Combat.logDetailln(", cible: {2}, deffP: {0}, distance: {1}", def, distance, c.getPlan().getNom());
                     vaisseau_a_tire = true;
                     
                 }
             } else {
-                Combat.log("pas de cible");
+                Combat.logDetail("pas de cible");
             }
         }
         if (!vaisseau_a_tire) {
-            Combat.logln("");
+            Combat.logDetailln("");
         }
     }
 

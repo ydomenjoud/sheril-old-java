@@ -34,6 +34,8 @@ public class Const {
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
+    // false : le journal de combat ne garde que les lignes de combat et de tour, sans le détail des tirs.
+    public static Boolean COMBAT_LOG_DETAIL = true;
     public static Boolean USE_REGISTRATIONS = true;
     public static String PATH_PHP = "./php/";
 
@@ -81,6 +83,7 @@ public class Const {
 
             NOTIFY_BOT = "true".equalsIgnoreCase(properties.getProperty("NOTIFY_BOT"));
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
+            COMBAT_LOG_DETAIL = !"false".equalsIgnoreCase(properties.getProperty("COMBAT_LOG_DETAIL"));
             // Par défaut (paramètre absent) les inscriptions du site sont utilisées
             USE_REGISTRATIONS = !"false".equalsIgnoreCase(properties.getProperty("USE_REGISTRATIONS"));
             IS_LOCAL = "true".equalsIgnoreCase(properties.getProperty("IS_LOCAL"));

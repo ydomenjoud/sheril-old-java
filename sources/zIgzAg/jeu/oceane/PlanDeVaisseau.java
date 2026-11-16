@@ -455,9 +455,10 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 
 	public boolean possedeCaracteristiqueSpeciale(int carac, int[] invalides) {
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
 			if ((composantsDeVaisseau[i].possedeCaracteristiqueSpeciale(carac))
-					&& (!Mdt.estPresent(invalides, i)))
+					&& (!horsService[i]))
 				return true;
 		return false;
 	}
@@ -466,9 +467,28 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 			int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				retour = Math.max(composantsDeVaisseau[i].getNiveau(), retour);
+		return retour;
+	}
+
+	/**
+	 * Tableau indexé par numéro de composant : vrai si le composant figure dans invalides.
+	 * Évite de reparcourir la liste des composants détruits pour chaque composant du plan.
+	 */
+	private boolean[] horsService(int[] invalides) {
+		determinerComposantsDeVaisseau();
+		int taille = composantsDeVaisseau.length;
+		if (invalides != null)
+			for (int i = 0; i < invalides.length; i++)
+				taille = Math.max(taille, invalides[i] + 1);
+		boolean[] retour = new boolean[taille];
+		if (invalides != null)
+			for (int i = 0; i < invalides.length; i++)
+				if (invalides[i] >= 0)
+					retour[invalides[i]] = true;
 		return retour;
 	}
 
@@ -476,8 +496,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 			int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i)) {
+			if (!horsService[i]) {
 				retour = Math.max(composantsDeVaisseau[i]
 						.getValeurCaracteristiqueSpeciale(carac), retour);
 			}
@@ -487,8 +508,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public int sommeCaracteristiqueSpeciale(int carac, int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				retour = retour
 						+ composantsDeVaisseau[i]
 								.getValeurCaracteristiqueSpeciale(carac);
@@ -688,8 +710,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public int getForceSpatiale(int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estArme())
 					retour = retour
 							+ ((Arme) composantsDeVaisseau[i])
@@ -704,8 +727,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public int getForcePlanetaire(int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estArme())
 					retour = retour
 							+ ((Arme) composantsDeVaisseau[i])
@@ -724,8 +748,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public int getVitesseArmes(int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estArme())
 					retour = retour
 							+ ((Arme) composantsDeVaisseau[i]).getVitesse();
@@ -735,8 +760,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public int getNombreBoucliers(int[] invalides) {
 		int retour = 0;
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estBouclier())
 					retour++;
 		return retour;
@@ -744,8 +770,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 
 	public boolean estBombardier(int[] invalides) {
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estArme())
 					if (((Arme) composantsDeVaisseau[i]).estCombatPlanetaire())
 						return true;
@@ -754,8 +781,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 
 	public boolean estChasseur(int[] invalides) {
 		determinerComposantsDeVaisseau();
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (!Mdt.estPresent(invalides, i))
+			if (!horsService[i])
 				if (composantsDeVaisseau[i].estArme())
 					if (((Arme) composantsDeVaisseau[i]).estCombatSpatial())
 						return true;
@@ -799,8 +827,9 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 	public String descriptionComposantsDetruits(int[] invalides, Locale l) {
 		determinerComposantsDeVaisseau();
 		ArrayList<ComposantDeVaisseau> a = new ArrayList<>(composantsDeVaisseau.length);
+		boolean[] horsService = horsService(invalides);
 		for (int i = 0; i < composantsDeVaisseau.length; i++)
-			if (Mdt.estPresent(invalides, i))
+			if (horsService[i])
 				a.add(composantsDeVaisseau[i]);
 		return descriptionComposants(
 				a.toArray(new ComposantDeVaisseau[0]),
