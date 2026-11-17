@@ -13,6 +13,8 @@ public class ReglesCombat {
 	/** Chaque tir peut s'enrayer, selon la caractéristique « fiabilité » de l'arme. */
 	public boolean fiabilite = false;
 
+	/** Si >= 0 : taux d'enrayement identique pour toutes les armes (règle fiabNN, NN = fiabilité en %). */
+	public int enrayementUniforme = -1;
 
 	/** Écriture du journal de combat (fichier de log, console, SherilLogger). */
 	public boolean journal = true;

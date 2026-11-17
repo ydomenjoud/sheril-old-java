@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrice des combats</title>
+<style>
+:root {
+  --bg: #f7f7f5; --surface: #ffffff; --fg: #1d1d1f; --muted: #6b6b70; --line: #dcdcd8;
+  --att: #2f6fdf; --def: #d9822b; --accent: #1d1d1f; --accent-fg: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161618; --surface: #1f1f22; --fg: #ececee; --muted: #9a9aa2; --line: #34343a;
+    --att: #5b93f5; --def: #f0a050; --accent: #ececee; --accent-fg: #161618;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161618; --surface: #1f1f22; --fg: #ececee; --muted: #9a9aa2; --line: #34343a;
+  --att: #5b93f5; --def: #f0a050; --accent: #ececee; --accent-fg: #161618;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+.sous-titre { color: var(--muted); margin: 0 0 16px; }
+.barre-outils { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 12px; }
+.case { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 600; }
+.case input { width: 16px; height: 16px; margin: 0; }
+.etats { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 12px; margin-bottom: 18px; }
+fieldset { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 6px 14px 12px; margin: 0; min-width: 0; }
+legend { font-weight: 600; padding: 0 6px; }
+.ligne { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+fieldset .ligne { flex-direction: column; align-items: flex-start; gap: 3px; margin-top: 7px; }
+.ligne > .nom { color: var(--muted); font-size: .85rem; }
+.ligne.diff > .nom { color: var(--fg); font-weight: 600; }
+.ligne.diff > .nom::after { content: " — différent de l'état 1"; font-weight: 400; color: var(--muted); }
+.pastille { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.choix { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.choix label { position: relative; }
+.choix input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choix label span { display: block; padding: 3px 9px; font-size: .88rem; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); cursor: pointer; }
+.choix label span:hover { border-color: var(--muted); }
+.choix input:checked + span { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.choix input:focus-visible + span { outline: 2px solid var(--att); outline-offset: 1px; }
+button { font: inherit; font-size: .88rem; padding: 4px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); cursor: pointer; }
+button:hover { border-color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.resume { margin: 0 0 4px; font-weight: 600; }
+.moyenne { margin: 0 0 10px; color: var(--muted); font-size: .9rem; }
+.defilement { overflow-x: auto; }
+table { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 620px; table-layout: fixed; }
+col.entete { width: 92px; }
+th { font-weight: 600; font-size: .85rem; color: var(--muted); padding: 4px; }
+thead th { text-align: center; }
+tbody th { text-align: right; white-space: nowrap; }
+th.coin { text-align: right; font-weight: 400; font-size: .75rem; line-height: 1.2; }
+td { text-align: center; border-radius: 6px; padding: 6px 4px; font-variant-numeric: tabular-nums; border: 1px solid var(--line); cursor: default; }
+td .a { font-weight: 600; }
+td .lib { color: var(--muted); font-size: .75rem; margin-right: 3px; font-weight: 400; }
+td.vide { color: var(--muted); }
+td.diag { border-style: dashed; }
+td.actif { outline: 2px solid var(--fg); outline-offset: -1px; }
+.legende { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 14px 0 0; font-size: .85rem; color: var(--muted); }
+.degrade { display: inline-flex; align-items: center; gap: 6px; }
+.barre { width: 160px; height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--def), var(--surface), var(--att)); border: 1px solid var(--line); }
+.notes { margin-top: 22px; font-size: .85rem; color: var(--muted); }
+.notes p { margin: 4px 0; }
+#detail { min-height: 1.5em; margin-top: 10px; font-size: .9rem; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Matrice des combats</h1>
+  <p class="sous-titre" id="sous-titre"></p>
+
+  <div class="barre-outils">
+    <label class="case"><input type="checkbox" id="comparer"> Comparer deux états</label>
+    <div class="ligne" id="bloc-vue" hidden style="margin:0"><span class="nom" style="width:auto">Afficher</span><div class="choix" id="vue"></div></div>
+  </div>
+
+  <div class="etats">
+    <fieldset id="etat1"><legend>État 1</legend></fieldset>
+    <fieldset id="etat2" hidden><legend>État 2</legend></fieldset>
+  </div>
+
+  <p class="resume" id="resume"></p>
+  <p class="moyenne" id="moyenne"></p>
+  <div class="defilement"><table id="tableau"></table></div>
+  <div id="detail" aria-live="polite">Survolez ou touchez une case pour le détail.</div>
+
+  <div class="legende" id="legende"></div>
+
+  <div class="notes">
+    <p>Combats à minerai égal : le camp dont le vaisseau coûte le plus aligne 20 vaisseaux, l'autre en aligne autant que le même minerai le permet.</p>
+    <p>Armes et boucliers de niveau V ; un bouclier remplace 4 armes. Agressivité « rage » des deux côtés, placement par défaut, sans héros.</p>
+    <p>Minerai vivant = 1 − pertes moyennes ÷ vaisseaux engagés (un vaisseau endommagé compte comme entier). « Moyenne » fait la moyenne sur les quatre armes.</p>
+    <p>Fiabilité : une arme peut s'enrayer à chaque tir. « Actuelle » : taux de l'arme (laser et plasma 16 %, torpille 21 %, missile 26 % au niveau V) ; « 80 % » : 20 % d'enrayement pour toutes.</p>
+  </div>
+</main>
+
+<script>
+const DONNEES = /*DONNEES*/null;
+const META = /*META*/null;
+const TAILLES = [3, 4, 5, 6, 7, 8, 9];
+const ARMES = [["laser", "Laser"], ["plasma", "Plasma"], ["torp", "Torpille"], ["miss", "Missile"], ["*", "Moyenne"]];
+const BOUC = [["0", "Sans"], ["1", "Avec"]];
+const NOMS_REGLES = { "multi": "Sans fiabilité", "multi+fiab": "Fiabilité actuelle", "multi+fiab80": "Fiabilité 80 %" };
+const VUES = [["ecart", "Écart (2 − 1)"], ["1", "État 1"], ["2", "État 2"]];
+const NOMS_ARMES = Object.fromEntries(ARMES);
+const nomRegle = r => NOMS_REGLES[r] || r;
+
+const defaut = { aa: "laser", ad: "laser", ba: "0", bd: "0", regle: META.regles[0] };
+const etat = {
+  e1: { ...defaut },
+  e2: { ...defaut, regle: META.regles[1] || META.regles[0] },
+  comparer: false, vue: "ecart",
+};
+try {
+  const s = JSON.parse(localStorage.getItem("matrice-combats-v2") || "null");
+  if (s) { Object.assign(etat.e1, s.e1); Object.assign(etat.e2, s.e2); etat.comparer = !!s.comparer; etat.vue = s.vue || "ecart"; }
+} catch (e) {}
+// l'adresse prime (ex. #aa=laser&regle=multi&cmp=1&2.regle=multi%2Bfiab80) : une vue se partage par son lien
+if (location.hash.length > 1) etat.comparer = false;  // une adresse décrit la vue entière
+for (const [k, v] of new URLSearchParams(location.hash.slice(1))) {
+  if (k === "cmp") etat.comparer = v === "1";
+  else if (k === "vue") etat.vue = v;
+  else if (k.startsWith("2.") && k.slice(2) in etat.e2) etat.e2[k.slice(2)] = v;
+  else if (k in etat.e1) etat.e1[k] = v;
+}
+for (const e of [etat.e1, etat.e2]) if (!META.regles.includes(e.regle)) e.regle = META.regles[0];
+
+function radios(conteneur, nom, options, lire, ecrire) {
+  const el = document.createElement("div");
+  el.className = "choix";
+  el.setAttribute("role", "radiogroup");
+  for (const [val, lib] of options) {
+    const l = document.createElement("label");
+    l.innerHTML = `<input type="radio" name="${nom}" value="${val}"><span>${lib}</span>`;
+    const i = l.querySelector("input");
+    i.addEventListener("change", () => { ecrire(val); rendre(); });
+    el.appendChild(l);
+  }
+  el.synchroniser = () => el.querySelectorAll("input").forEach(i => i.checked = i.value === lire());
+  conteneur.appendChild(el);
+  return el;
+}
+
+const groupes = [];
+const lignesE2 = [];  // pour signaler les réglages de l'état 2 qui diffèrent de l'état 1
+function construireEtat(id, cle) {
+  const fs = document.getElementById(id);
+  const lignes = [
+    [`<span class="pastille" style="background:var(--att)"></span>Arme attaquant`, "aa", ARMES],
+    [`<span class="pastille" style="background:var(--att)"></span>Boucliers attaquant`, "ba", BOUC],
+    [`<span class="pastille" style="background:var(--def)"></span>Arme défenseur`, "ad", ARMES],
+    [`<span class="pastille" style="background:var(--def)"></span>Boucliers défenseur`, "bd", BOUC],
+    ["Règles", "regle", META.regles.map(r => [r, nomRegle(r)])],
+  ];
+  for (const [lib, champ, opts] of lignes) {
+    const l = document.createElement("div");
+    l.className = "ligne";
+    l.innerHTML = `<span class="nom">${lib}</span>`;
+    groupes.push(radios(l, `${id}-${champ}`, opts, () => etat[cle][champ], v => etat[cle][champ] = v));
+    if (cle === "e2") lignesE2.push([l, champ]);
+    fs.appendChild(l);
+  }
+  const act = document.createElement("div");
+  act.className = "actions";
+  const ech = document.createElement("button");
+  ech.type = "button";
+  ech.textContent = "Échanger attaquant et défenseur";
+  ech.title = "Inverse l'armement et les boucliers des deux camps";
+  ech.addEventListener("click", () => {
+    const e = etat[cle];
+    [e.aa, e.ad] = [e.ad, e.aa];
+    [e.ba, e.bd] = [e.bd, e.ba];
+    rendre();
+  });
+  act.appendChild(ech);
+  if (cle === "e2") {
+    const cp = document.createElement("button");
+    cp.type = "button";
+    cp.textContent = "Reprendre l'état 1";
+    cp.title = "Copie les réglages de l'état 1 dans l'état 2, pour n'en changer ensuite qu'un seul";
+    cp.addEventListener("click", () => { Object.assign(etat.e2, etat.e1); rendre(); });
+    act.appendChild(cp);
+  }
+  fs.appendChild(act);
+}
+
+function valeur(e, ta, td) {
+  const aas = e.aa === "*" ? ARMES.slice(0, 4).map(a => a[0]) : [e.aa];
+  const ads = e.ad === "*" ? ARMES.slice(0, 4).map(a => a[0]) : [e.ad];
+  const vals = [];
+  for (const aa of aas) for (const ad of ads) {
+    const v = DONNEES[[e.regle, aa, e.ba, ad, e.bd, ta, td].join("|")];
+    if (v) vals.push(v);
+  }
+  if (!vals.length) return null;
+  const moy = i => vals.reduce((s, v) => s + v[i], 0) / vals.length;
+  return { a: moy(0), d: moy(1), va: moy(2), vd: moy(3), rounds: moy(6), n: vals.length,
+           seul: vals.length === 1 ? vals[0] : null, attendu: aas.length * ads.length };
+}
+
+const fmt = x => x.toLocaleString("fr-FR", { maximumFractionDigits: 0 });
+const fmt1 = x => x.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const signe = x => (x > 0.05 ? "+" : x < -0.05 ? "−" : "±") + fmt1(Math.abs(x));
+const b = x => x === "1" ? " avec boucliers" : "";
+const descr = e => `${NOMS_ARMES[e.aa]}${b(e.ba)} (attaquant) contre ${NOMS_ARMES[e.ad]}${b(e.bd)} (défenseur) · ${nomRegle(e.regle)}`;
+
+function texteUn(e, ta, td, v) {
+  if (!v) return "pas de résultat";
+  let t = `minerai vivant ${fmt1(v.a)} % / ${fmt1(v.d)} % · victoires ${fmt(v.va)} % / ${fmt(v.vd)} % · ${fmt1(v.rounds)} rounds`;
+  if (v.seul) t += ` · ${fmt(v.seul[4])} T${ta} contre ${fmt(v.seul[5])} T${td}`;
+  else t += ` · moyenne de ${v.n} combinaisons d'armes`;
+  if (v.n < v.attendu) t += ` (${v.attendu - v.n} manquantes)`;
+  return t;
+}
+function texteDetail(ta, td) {
+  if (!etat.comparer) return `T${ta} contre T${td} : ` + texteUn(etat.e1, ta, td, valeur(etat.e1, ta, td));
+  return `T${ta} contre T${td} — état 1 : ${texteUn(etat.e1, ta, td, valeur(etat.e1, ta, td))} — état 2 : ${texteUn(etat.e2, ta, td, valeur(etat.e2, ta, td))}`;
+}
+
+// couleur selon un écart signé (positif = en faveur de l'attaquant), saturée à « plein »
+function fond(ecart, plein) {
+  const force = Math.min(Math.abs(ecart) / plein, 1) * 65;
+  return `background:color-mix(in srgb, ${ecart >= 0 ? "var(--att)" : "var(--def)"} ${force.toFixed(0)}%, var(--surface))`;
+}
+
+function rendre() {
+  try { localStorage.setItem("matrice-combats-v2", JSON.stringify(etat)); } catch (e) {}
+  const p = new URLSearchParams(etat.e1);
+  if (etat.comparer) {
+    p.set("cmp", "1"); p.set("vue", etat.vue);
+    for (const [k, v] of Object.entries(etat.e2)) p.set("2." + k, v);
+  }
+  try { history.replaceState(null, "", "#" + p); } catch (e) {}
+
+  groupes.forEach(g => g.synchroniser());
+  lignesE2.forEach(([l, champ]) => l.classList.toggle("diff", etat.e1[champ] !== etat.e2[champ]));
+  document.getElementById("comparer").checked = etat.comparer;
+  document.getElementById("etat2").hidden = !etat.comparer;
+  document.getElementById("bloc-vue").hidden = !etat.comparer;
+  document.querySelector("#etat1 legend").textContent = etat.comparer ? "État 1" : "Réglages";
+
+  const ecartMode = etat.comparer && etat.vue === "ecart";
+  const affiche = etat.comparer && etat.vue === "2" ? etat.e2 : etat.e1;
+  document.getElementById("resume").textContent = ecartMode
+    ? `Écart état 2 − état 1, en points de minerai vivant`
+    : (etat.comparer ? `État ${etat.vue} : ` : "") + descr(affiche);
+
+  let h = `<colgroup><col class="entete">${TAILLES.map(() => "<col>").join("")}</colgroup>`
+    + `<thead><tr><th class="coin">défenseur →<br>attaquant ↓</th>${TAILLES.map(t => `<th scope="col">T${t}</th>`).join("")}</tr></thead><tbody>`;
+  const tot = { a: 0, d: 0, a2: 0, d2: 0, n: 0 };
+  for (const ta of TAILLES) {
+    h += `<tr><th scope="row">T${ta}</th>`;
+    for (const td of TAILLES) {
+      const diag = ta === td ? "diag" : "";
+      const v1 = valeur(ecartMode ? etat.e1 : affiche, ta, td);
+      const v2 = ecartMode ? valeur(etat.e2, ta, td) : null;
+      if (!v1 || (ecartMode && !v2)) { h += `<td class="vide ${diag}" data-a="${ta}" data-d="${td}">–</td>`; continue; }
+      tot.n++; tot.a += v1.a; tot.d += v1.d;
+      if (ecartMode) {
+        tot.a2 += v2.a; tot.d2 += v2.d;
+        const da = v2.a - v1.a, dd = v2.d - v1.d;
+        h += `<td class="${diag}" data-a="${ta}" data-d="${td}" style="${fond(da - dd, 20)}">`
+          + `<div class="a"><span class="lib">A</span>${signe(da)}</div><div><span class="lib">D</span>${signe(dd)}</div></td>`;
+      } else {
+        h += `<td class="${diag}" data-a="${ta}" data-d="${td}" style="${fond(v1.a - v1.d, 50)}">`
+          + `<div class="a"><span class="lib">A</span>${fmt(v1.a)} %</div><div><span class="lib">D</span>${fmt(v1.d)} %</div></td>`;
+      }
+    }
+    h += "</tr>";
+  }
+  document.getElementById("tableau").innerHTML = h + "</tbody>";
+
+  const moy = document.getElementById("moyenne");
+  if (!tot.n) moy.textContent = "Aucun résultat pour ce choix.";
+  else if (ecartMode) moy.textContent =
+    `Moyenne du tableau : attaquant ${fmt1(tot.a / tot.n)} % → ${fmt1(tot.a2 / tot.n)} % (${signe((tot.a2 - tot.a) / tot.n)}), `
+    + `défenseur ${fmt1(tot.d / tot.n)} % → ${fmt1(tot.d2 / tot.n)} % (${signe((tot.d2 - tot.d) / tot.n)})`;
+  else moy.textContent = `Moyenne du tableau : attaquant ${fmt1(tot.a / tot.n)} % · défenseur ${fmt1(tot.d / tot.n)} %`;
+
+  document.getElementById("legende").innerHTML = ecartMode
+    ? `<span><b>A</b> / <b>D</b> : variation, en points, du % de minerai vivant de l'attaquant / du défenseur entre l'état 1 et l'état 2</span>`
+      + `<span class="degrade">l'état 2 favorise le défenseur <span class="barre"></span> l'état 2 favorise l'attaquant</span>`
+    : `<span><b>A</b> : % du minerai de l'attaquant encore vivant · <b>D</b> : idem pour le défenseur</span>`
+      + `<span class="degrade">défenseur garde plus <span class="barre"></span> attaquant garde plus</span>`;
+  if (tot.n && etat.comparer && ecartMode) {
+    document.getElementById("resume").title = "État 1 : " + descr(etat.e1) + "\nÉtat 2 : " + descr(etat.e2);
+  }
+}
+
+function montrer(e) {
+  const c = e.target.closest("td");
+  if (!c) return;
+  document.querySelectorAll("td.actif").forEach(x => x.classList.remove("actif"));
+  c.classList.add("actif");
+  document.getElementById("detail").textContent = texteDetail(+c.dataset.a, +c.dataset.d);
+}
+document.getElementById("tableau").addEventListener("mouseover", montrer);
+document.getElementById("tableau").addEventListener("click", montrer);
+document.getElementById("comparer").addEventListener("change", e => { etat.comparer = e.target.checked; rendre(); });
+
+document.getElementById("sous-titre").textContent =
+  `${META.n.toLocaleString("fr-FR")} résultats · ${META.combats.join(", ")} combats par scénario · généré le ${new Date(META.date).toLocaleDateString("fr-FR")}`;
+construireEtat("etat1", "e1");
+construireEtat("etat2", "e2");
+groupes.push(radios(document.getElementById("vue"), "vue", VUES, () => etat.vue, v => etat.vue = v));
+rendre();
+</script>
+</body>
+</html>

@@ -30,6 +30,7 @@ Chaque jeu de règles rejoue les mêmes graines : à graine égale, seule la rè
 | `multi` | Identique à `actuel` (nom gardé pour les anciens résultats) |
 | `mono` | Ancien moteur : une seule cible par vaisseau et par round |
 | `fiab` | Chaque tir peut s'enrayer : la caractéristique « fiabilité » de l'arme est lue comme un pourcentage d'enrayement |
+| `fiabNN` | Comme `fiab`, mais avec la même fiabilité de NN % pour toutes les armes (`fiab80` : 20 % d'enrayement) |
 
 Elles se combinent avec `+` : `--regles actuel,mono+fiab`.
 

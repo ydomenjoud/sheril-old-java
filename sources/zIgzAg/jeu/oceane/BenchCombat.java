@@ -526,7 +526,12 @@ public class BenchCombat {
 				v.regles.fiabilite = true;
 				break;
 			default:
-				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, multi, mono, fiab, combinables avec +)");
+				if (regle.matches("fiab\\d+")) {
+					v.regles.fiabilite = true;
+					v.regles.enrayementUniforme = 100 - Integer.parseInt(regle.substring(4));
+					break;
+				}
+				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, multi, mono, fiab, fiabNN, combinables avec +)");
 			}
 		return v;
 	}
