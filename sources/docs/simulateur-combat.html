@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulateur de combat spatial</title>
+<style>
+:root {
+  --fond: #f4f5f7; --carte: #ffffff; --texte: #1c2330; --discret: #5b6676; --bord: #d5d9e0;
+  --att: #2563d9; --def: #c2541b; --coque: #cf2f2f; --bouclier: #0e8f8f; --rate: #8a93a0;
+  --accent: #1f4fb8; --accent-texte: #ffffff; --alerte-fond: #fdecec; --alerte: #a32020;
+  --espace: #eef1f6; --grille: #d9dee7; --ok-fond: #e8f3ea;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #12151b; --carte: #1b2029; --texte: #e6e9ee; --discret: #9aa5b5; --bord: #333b49;
+    --att: #6ea0ff; --def: #ff9a5c; --coque: #ff6b6b; --bouclier: #3fd0d0; --rate: #7d8796;
+    --accent: #4f83ef; --accent-texte: #0b0e13; --alerte-fond: #3a1d1d; --alerte: #ff9d9d;
+    --espace: #0d1016; --grille: #232a36; --ok-fond: #1c2b20;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--texte); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1700px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 0 0 10px; }
+h3 { font-size: 1rem; margin: 0 0 8px; }
+p { margin: 0 0 10px; }
+.discret { color: var(--discret); font-size: .9rem; }
+section, .carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+.camps { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.camp { margin: 0; border-top: 4px solid var(--att); }
+.camp.def { border-top-color: var(--def); }
+.camp.att h2 { color: var(--att); } .camp.def h2 { color: var(--def); }
+label { display: inline-flex; flex-direction: column; gap: 2px; font-size: .85rem; color: var(--discret); }
+label.ligne { flex-direction: row; align-items: flex-start; gap: 8px; color: var(--texte); font-size: .95rem; }
+input, select, button { font: inherit; color: var(--texte); }
+input[type=text], input[type=number], select { background: var(--fond); border: 1px solid var(--bord); border-radius: 5px; padding: 5px 7px; min-height: 32px; }
+input[type=number] { width: 5.2em; }
+input:focus-visible, select:focus-visible, button:focus-visible, canvas:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { background: var(--carte); border: 1px solid var(--bord); border-radius: 5px; padding: 6px 12px; min-height: 34px; cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: .45; cursor: default; }
+button.principal { background: var(--accent); color: var(--accent-texte); border-color: var(--accent); font-weight: 600; }
+button.lien { border: none; background: none; color: var(--accent); padding: 4px 6px; min-height: 0; }
+.rangee { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 10px; }
+.type { border: 1px solid var(--bord); border-radius: 6px; padding: 10px; margin-bottom: 10px; background: var(--fond); }
+.type table { border-collapse: collapse; margin: 4px 0; }
+.type td, .type th { padding: 2px 6px 2px 0; text-align: left; font-weight: normal; font-size: .85rem; color: var(--discret); }
+.resume { font-size: .88rem; margin: 6px 0 2px; }
+.resume b { font-weight: 600; }
+details { margin: 6px 0; }
+summary { cursor: pointer; color: var(--accent); font-size: .9rem; }
+.erreurs { background: var(--alerte-fond); color: var(--alerte); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+.erreurs ul { margin: 4px 0 0; padding-left: 20px; }
+.regles { border: 1px solid var(--bord); border-radius: 6px; padding: 10px 12px; margin: 0 0 12px; }
+.regles legend { padding: 0 6px; font-weight: 600; }
+.regles label.ligne { margin-bottom: 8px; }
+.regles small { display: block; color: var(--discret); }
+#bandeau { padding: 10px 12px; border-radius: 6px; background: var(--ok-fond); margin-bottom: 10px; font-weight: 600; }
+.lecteur { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.lecteur input[type=range] { flex: 1 1 220px; }
+#etape { font-weight: 600; min-width: 15em; }
+.vue { display: grid; grid-template-columns: minmax(315px, 1fr) minmax(0, 2fr) minmax(315px, 1fr); grid-template-areas: "att centre def"; gap: 14px; margin-bottom: 12px; }
+.vue .flotte.att { grid-area: att; } .vue .centre { grid-area: centre; } .vue .flotte.def { grid-area: def; }
+.flotte.att h3 { color: var(--att); } .flotte.def h3 { color: var(--def); }
+@media (max-width: 1250px) { .vue { grid-template-columns: 1fr 1fr; grid-template-areas: "centre centre" "att def"; } }
+@media (max-width: 640px) { .vue { grid-template-columns: 1fr; grid-template-areas: "centre" "att" "def"; } }
+.scene { position: relative; }
+canvas { width: 100%; height: 560px; display: block; background: var(--espace); border: 1px solid var(--bord); border-radius: 6px; }
+#bulle { position: absolute; pointer-events: none; background: var(--carte); border: 1px solid var(--bord); border-radius: 6px; padding: 6px 9px; font-size: .85rem; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,.25); display: none; z-index: 2; }
+.legende { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--discret); margin-top: 6px; }
+.legende span::before { content: ""; display: inline-block; width: 18px; height: 0; border-top: 3px solid currentColor; vertical-align: middle; margin-right: 5px; }
+.legende .l-att { color: var(--att); } .legende .l-def { color: var(--def); }
+.legende .l-coque { color: var(--coque); } .legende .l-bouc { color: var(--bouclier); }
+.legende .l-rate { color: var(--rate); } .legende .l-rate::before, .legende .l-cible::before { border-top-style: dashed; }
+.legende .l-att::before { content: "▲"; border: none; width: auto; height: auto; }
+.legende .l-def::before { content: "■"; border: none; width: auto; height: auto; }
+.panneau { max-height: 300px; overflow: auto; border: 1px solid var(--bord); border-radius: 6px; padding: 8px 10px; margin-bottom: 12px; font-size: .88rem; }
+.panneau.etat { max-height: 560px; padding: 4px 6px; margin-bottom: 0; }
+#journal { max-height: 260px; }
+.tir { padding: 4px 6px; border-radius: 4px; border-left: 3px solid transparent; margin-bottom: 2px; }
+.tir.A { border-left-color: var(--att); } .tir.D { border-left-color: var(--def); }
+.tir.sel { background: var(--fond); }
+.tir .det { color: var(--discret); }
+.tir .muet { color: var(--rate); font-style: italic; }
+.c-coque { color: var(--coque); font-weight: 600; } .c-bouc { color: var(--bouclier); font-weight: 600; }
+table.donnees { border-collapse: collapse; width: 100%; font-size: .86rem; }
+table.donnees th, table.donnees td { padding: 3px 6px; border-bottom: 1px solid var(--bord); text-align: left; white-space: nowrap; }
+table.donnees th { color: var(--discret); font-weight: 600; }
+.panneau table.donnees th { position: sticky; top: 0; background: var(--carte); }
+table.donnees tr.A td:first-child { color: var(--att); font-weight: 600; }
+table.donnees tr.D td:first-child { color: var(--def); font-weight: 600; }
+table.donnees tr.mort td { color: var(--rate); text-decoration: line-through; }
+table.donnees tr.sel td { background: var(--fond); }
+table.donnees tr.inactif td { font-style: italic; }
+.flotte table.donnees { font-size: .82rem; }
+.flotte table.donnees th, .flotte table.donnees td { padding: 3px 4px; }
+.flotte .jauge { width: 26px; margin-right: 3px; }
+table.donnees tr[data-id] { cursor: pointer; }
+.jauge { display: inline-block; width: 36px; height: 8px; background: var(--grille); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 5px; }
+.jauge i { display: block; height: 100%; background: var(--coque); }
+td.num, th.num { text-align: right; }
+.apres { border: 1px solid var(--bord); border-radius: 6px; padding: 8px 12px; margin: 0 0 12px; }
+.apres summary { font-weight: 600; color: var(--texte); font-size: 1rem; }
+.apres table { margin: 8px 0; width: auto; }
+.apres .defile { overflow-x: auto; }
+.apres th.groupe { border-bottom: 1px solid var(--bord); }
+.apres th.groupe { text-align: center; border-left: 1px solid var(--bord); }
+.apres td.g, .apres th.g { border-left: 1px solid var(--bord); }
+.apres .fort { font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Simulateur de combat spatial</h1>
+  <p class="discret">Reproduit <code>Combat.combatFlotteFlotte</code> : placement, choix des cibles, mouvement, tirs et dommages, round par round.
+  Composez les deux flottes, choisissez les règles, puis lancez le combat. Les tailles sont affichées comme dans le jeu (1 à 10).</p>
+
+  <div class="camps" id="camps"></div>
+
+  <section aria-labelledby="t-regles">
+    <h2 id="t-regles">Règles et tirage</h2>
+    <fieldset class="regles">
+      <legend>Règles du moteur</legend>
+      <label class="ligne"><input type="checkbox" id="o-multi">
+        <span>Multi-cible (moteur actuel)
+        <small>Coché : reproduit le moteur de la branche <code>fix/moteur-de-combat</code>. Après la première salve, tout vaisseau qui a encore des armes à tirer désigne une cible différente, jusqu'à 4, 8, 16… cibles par round selon sa taille (<code>Const.NB_CIBLES</code>) ; les itérations s'arrêtent dès que plus personne n'a d'arme ou de cible nouvelle. Décoché : ancien moteur, une seule cible par vaisseau et par round.</small></span></label>
+      <label class="ligne"><input type="checkbox" id="o-fiab">
+        <span>Prendre en compte la fiabilité des armes
+        <small>Chaque arme s'enraye avec une probabilité égale à sa caractéristique « fiabilité » (laser et plasma 20 %, torpille 25 %, missile 30 %, moins 1 point par niveau). Une arme enrayée est perdue pour le round.</small></span></label>
+      <label class="ligne"><input type="checkbox" id="o-sym">
+        <span>Corriger la symétrie du placement du défenseur
+        <small>Décoché : reproduit le moteur actuel, où les vaisseaux défenseurs d'un même type ayant une position imposée sont placés alternativement de chaque côté.</small></span></label>
+      <label class="ligne"><input type="checkbox" id="o-recul">
+        <span>Placer le défenseur dans sa propre zone
+        <small>Coché : une position imposée du défenseur est le miroir de celle de l'attaquant (y = 30 − y), donc entre 20 et 30 comme son placement au hasard ; y = 0 le met tout à l'arrière. Décoché : reproduit le moteur actuel (y = 20 − y), où y = 0 le met sur sa ligne de front et y = 10 au milieu du terrain.</small></span></label>
+    </fieldset>
+    <div class="rangee">
+      <label>Graine du tirage aléatoire
+        <input type="number" id="o-graine" min="1" max="999999999" step="1"></label>
+      <button type="button" id="b-graine" title="Tire une nouvelle graine et relance le combat">Nouveau tirage</button>
+      <label title="Débris d'anciennes batailles déjà présents sur la case ; ils s'ajoutent à ceux que ce combat laissera">Débris déjà sur la case
+        <input type="number" id="o-debris" min="0" max="100000" step="50" style="width:7em"></label>
+      <span class="discret">La même graine redonne exactement le même combat.</span>
+    </div>
+    <div id="erreurs" class="erreurs" role="alert" hidden></div>
+    <div class="rangee">
+      <button type="button" class="principal" id="b-lancer">Lancer le combat</button>
+      <button type="button" id="b-stats" title="200 combats par variante ; moins pour les très grandes flottes, afin de garder un temps de calcul raisonnable">Comparer les règles sur une série de combats</button>
+      <button type="button" id="b-reinit">Réinitialiser les flottes</button>
+    </div>
+  </section>
+
+  <section id="resultat" aria-labelledby="t-resultat" hidden>
+    <h2 id="t-resultat">Déroulement du combat</h2>
+    <div id="bandeau" role="status"></div>
+    <details id="apres" class="apres" open>
+      <summary>Collisions après le combat</summary>
+      <div id="apres-contenu"></div>
+    </details>
+    <div class="lecteur">
+      <button type="button" id="b-debut" title="Revenir au déploiement (touche Début)">⏮ Début</button>
+      <button type="button" id="b-prec" title="Étape précédente (flèche gauche)">◀ Précédent</button>
+      <button type="button" id="b-lecture" title="Lecture automatique (barre d'espace)">▶ Lecture</button>
+      <button type="button" id="b-suiv" title="Étape suivante (flèche droite)">Suivant ▶</button>
+      <button type="button" id="b-fin" title="Aller au résultat (touche Fin)">Fin ⏭</button>
+      <input type="range" id="curseur" min="0" max="0" value="0" aria-label="Étape du combat">
+      <span id="etape" aria-live="polite"></span>
+      <label>Cadrage
+        <select id="cadrage">
+          <option value="champ">Champ de bataille</option>
+          <option value="tout">Tous les vaisseaux</option>
+        </select></label>
+    </div>
+    <div class="vue">
+      <div class="flotte att">
+        <h3 id="t-etatA">▲ Attaquant</h3>
+        <div class="panneau etat" id="etatA" tabindex="0" aria-labelledby="t-etatA"></div>
+      </div>
+      <div class="centre">
+        <div class="scene">
+          <canvas id="scene" tabindex="0" aria-label="Vue de dessus du champ de bataille. Flèches gauche et droite pour changer d'étape."></canvas>
+          <div id="bulle"></div>
+        </div>
+        <div class="legende">
+          <span class="l-att">Attaquant</span><span class="l-def">Défenseur</span>
+          <span class="l-cible">Cible choisie / trajet</span>
+          <span class="l-coque">Coque touchée</span><span class="l-bouc">Bouclier touché</span>
+          <span class="l-rate">Tir sans effet</span>
+        </div>
+        <p class="discret" style="margin-top:6px">Vue de dessus (axes x et y). L'axe z n'est pas dessiné mais compte dans les distances.
+        Survolez un vaisseau pour son détail, cliquez pour isoler ses tirs. Les vaisseaux qui se superposent sont écartés en cercle pour rester lisibles. Un contour en pointillé signale un vaisseau hors du cadre.</p>
+      </div>
+      <div class="flotte def">
+        <h3 id="t-etatD">■ Défenseur</h3>
+        <div class="panneau etat" id="etatD" tabindex="0" aria-labelledby="t-etatD"></div>
+      </div>
+    </div>
+    <h3 id="t-journal">Journal du round</h3>
+    <div class="panneau" id="journal" tabindex="0" aria-labelledby="t-journal"></div>
+  </section>
+
+  <section id="stats" aria-labelledby="t-stats" hidden>
+    <h2 id="t-stats">Comparaison des règles</h2>
+    <p class="discret" id="stats-info"></p>
+    <div id="stats-table"></div>
+  </section>
+</main>
+
+<script>
+"use strict";
+/* =====================================================================
+ *  DONNÉES (reprises de Const, ListeCaracArmes, ListeChancesDeToucherArmes,
+ *  ListeTechnologique et ListeCaracSpeciales)
+ * ===================================================================== */
+const NB_CIBLES = [0, 3, 7, 15, 31, 63, 127, 255, 511, 2000];
+const TAILLE_VAISSEAUX = [[1, 3, 9], [4, 9, 8], [10, 17, 7], [18, 33, 6], [34, 65, 5],
+  [66, 129, 4], [130, 257, 3], [258, 512, 2], [513, 1025, 1], [1026, 1000000, 0]];
+const X_MAX = 30, Y_MAX = 10, Y_ESPACE = 10, Y_FIN1 = -1000, Y_FIN2 = 1000 + Y_MAX + Y_ESPACE;
+const CHANCE_EXPLOSION_MOTEUR = 1;
+const BASE_XP = 2000;
+const NIVEAUX = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+// carac : vitesse, dommages bouclier, dommages coque, dommages sol, portée, fiabilité
+const ARMES = {
+  laser:  { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Laser",    spatial: true,  carac: [10, 2, 1, 1, 8, 20],  touche: [50, 45, 35, 25, 20, 15, 10, 5, 3, 1] },
+  plasma: { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Plasma",   spatial: true,  carac: [7, 1, 1, 1, 12, 20],  touche: [20, 35, 40, 45, 50, 45, 35, 25, 15, 5] },
+  torp:   { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Torpille", spatial: true,  carac: [3, 1, 2, 2, 20, 25],  touche: [1, 2, 3, 10, 15, 20, 30, 40, 45, 50] },
+  miss:   { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Missile",  spatial: true,  carac: [5, 0, 1, 1, 15, 30],  touche: [30, 35, 40, 40, 40, 40, 40, 40, 40, 40] },
+  bombe:  { minerai: [5, 5, 4, 4, 3, 3, 2, 2, 2, 1], prix: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16], nom: "Bombe",    spatial: false, carac: [0, 0, 0, 5, 0, 20],   touche: null }
+};
+const AUTRES = {
+  moteur:   { minerai: [1, 4, 8, 15, 30, 60, 120, 250, 500, 1000], prix: [4, 8, 12, 16, 30, 60, 120, 250, 500, 1000], nom: "Réacteur", cases: [1, 4, 8, 15, 30, 60, 120, 250, 500, 1000], valeur: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+  bouclier: { minerai: [10, 10, 15, 20, 25, 30, 35, 40, 45, 50], prix: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100], nom: "Bouclier",  cases: [4, 4, 4, 4, 4, 5, 5, 5, 5, 5],             valeur: [2, 4, 6, 8, 10, 14, 16, 20, 26, 40] },
+  absorb:   { minerai: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30], prix: [100, 150, 200, 250, 300, 350, 400, 450, 500, 600], nom: "Absorbeur", cases: [10, 20, 30, 50, 70, 100, 140, 180, 230, 300], valeur: [1, 2, 3, 5, 7, 9, 12, 15, 19, 25] },
+  cargo:    { minerai: [1, 2, 3, 4, 5, 7, 9, 12, 15, 20], prix: [5, 10, 20, 40, 50, 60, 70, 80, 90, 100], nom: "Soute",     cases: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],            valeur: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+};
+const CODES = ["laser", "plasma", "torp", "miss", "bombe", "moteur", "bouclier", "absorb", "cargo"];
+const AGRESSIVITES = [[5, "Rage (ne fuit jamais)"], [4, "Combatif (fuit sous 1/8)"], [3, "Normal (fuit sous 1/4)"],
+  [2, "Prudent (fuit sous 1/2)"], [1, "Fuyard (fuit toujours)"], [0, "Pillage (fuit sans proie)"]];
+const TYPES_CIBLE = [[0, "La plus proche"], [1, "Chasseurs (armes spatiales)"], [2, "Bombardiers (bombes)"], [3, "Cargos (soutes)"]];
+
+/* Caractéristiques d'une arme à un niveau donné (Arme.calculCaracteristiquesArmes / calculChancesDeToucher). */
+const cacheArmes = {};
+function statsArme(code, niv) {
+  const cle = code + niv;
+  if (cacheArmes[cle]) return cacheArmes[cle];
+  const base = ARMES[code], c = base.carac.slice();
+  c[5] = Math.max(0, c[5] - niv);
+  if (niv !== 0 && base.spatial) {
+    c[4] += niv;
+    c[0] += niv === 1 ? 1 : niv < 5 ? 2 : niv === 5 ? 3 : niv < 9 ? 4 : 5;
+    if (niv > 2) c[1] += niv < 7 ? 1 : niv < 9 ? 2 : 3;
+    if (niv > 3) c[2] += niv < 8 ? 1 : niv === 8 ? 2 : 3;
+  }
+  if (niv !== 0 && !base.spatial) c[3] += niv;
+  const touche = base.spatial ? base.touche.map(t => t + niv * Math.max(Math.floor(t / 10), 1)) : new Array(10).fill(0);
+  return cacheArmes[cle] = { code, niv, nom: base.nom + " " + NIVEAUX[niv], spatial: base.spatial,
+    vitesse: c[0], domBouclier: c[1], domCoque: c[2], domSol: c[3], portee: c[4], fiab: c[5], touche };
+}
+function tailleDeCases(nb) {
+  for (let i = 0; i < 10; i++) if (TAILLE_VAISSEAUX[i][0] <= nb && TAILLE_VAISSEAUX[i][1] >= nb) return i;
+  return 0;
+}
+/* Coût de construction d'un vaisseau : somme du minerai et du prix de base de ses composants
+   (ListeTechnologique, PlanDeVaisseau.determinerMineraiNecessaire / determinerPrix), hors royalties et marchandises. */
+function coutType(t) {
+  let minerai = 0, prix = 0;
+  for (const c of t.comps) { const d = ARMES[c.code] || AUTRES[c.code]; minerai += d.minerai[c.niv] * c.qte; prix += d.prix[c.niv] * c.qte; }
+  return { minerai, prix };
+}
+function casesComposant(code, niv) { return ARMES[code] ? 1 : AUTRES[code].cases[niv]; }
+
+/* =====================================================================
+ *  MOTEUR (portage de Combat.java, Vaisseau.java, Flotte.java, Position3D.java)
+ * ===================================================================== */
+function generateur(graine) {
+  let a = graine | 0;
+  return function () {
+    a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const SEUILS_XP = [0, 2, 10, 20, 50].map(x => x * BASE_XP);
+function niveauXp(xp) { let n = 0; for (let i = 1; i < 5; i++) if (xp >= SEUILS_XP[i]) n = i; return n; }
+function niveauMoral(m) { return m < 10000 ? Math.floor(m / 1000) : m < 15000 ? 10 : 11; }
+function moralDeNiveau(n) { return n <= 9 ? n * 1000 + 500 : n === 10 ? 12000 : 15000; }
+
+function creerVaisseau(id, camp, type) {
+  const comps = [];
+  for (const c of type.comps) for (let q = 0; q < c.qte; q++) {
+    const cases = casesComposant(c.code, c.niv);
+    comps.push({ code: c.code, niv: c.niv, cases, dmg: 0, arme: ARMES[c.code] ? statsArme(c.code, c.niv) : null,
+      valeur: ARMES[c.code] ? 0 : AUTRES[c.code].valeur[c.niv] });
+  }
+  const nbCases = comps.reduce((s, c) => s + c.cases, 0);
+  return { id, camp, type: type.nom, comps, nbCases, taille: tailleDeCases(nbCases),
+    valides: comps.map((_, i) => i), armes: [], boucliers: null, absorbeur: 0,
+    xp: SEUILS_XP[type.xp], moral: moralDeNiveau(type.moral), combativite: 0, detruit: false, dommagesEffectues: 0 };
+}
+const estValide = (v, i) => v.comps[i].dmg < v.comps[i].cases;
+function capMouvement(v) {
+  let m = 0;
+  for (const i of v.valides) if (v.comps[i].code === "moteur") m = Math.max(m, v.comps[i].valeur);
+  return m === 0 ? 0 : m + TAILLE_VAISSEAUX[v.taille][2];
+}
+function capAbsorb(v) {
+  let m = 0;
+  for (const i of v.valides) if (v.comps[i].code === "absorb") m = Math.max(m, v.comps[i].valeur);
+  return m;
+}
+function puissance(v) {
+  let fs = 0, fp = 0;
+  for (const i of v.valides) { const a = v.comps[i].arme; if (a) { fs += a.domCoque + a.domBouclier; fp += a.domSol; } }
+  return fs + Math.floor(fp / 2);
+}
+const aCode = (v, code) => v.valides.some(i => v.comps[i].code === code);
+const estChasseur = v => v.valides.some(i => v.comps[i].arme && v.comps[i].arme.spatial);
+const estBombardier = v => aCode(v, "bombe");
+const estCargo = v => aCode(v, "cargo");
+function pointsDeVie(v) { let s = 0; for (const c of v.comps) s += c.cases - c.dmg; return s; }
+function boucliersRestants(v) {
+  if (!v.boucliers) { let s = 0; for (const i of v.valides) if (v.comps[i].code === "bouclier") s += v.comps[i].valeur; return s; }
+  let s = 0, k = 0;
+  for (let i = 0; i < v.comps.length; i++) if (v.comps[i].code === "bouclier" && estValide(v, i)) {
+    s += Math.max(0, v.comps[i].valeur - (v.boucliers[k] || 0)); k++;
+  }
+  return s;
+}
+function numeroBouclierValide(v) {
+  if (v.boucliers.length === 0) return -1;
+  let k = 0;
+  for (let i = 0; i < v.comps.length; i++) if (v.comps[i].code === "bouclier" && estValide(v, i)) {
+    if (v.boucliers[k] < v.comps[i].valeur) return k; else k++;
+  }
+  return -1;
+}
+function chanceDeToucher(a, taille, distance) {
+  if (distance >= a.portee) return 0;
+  return Math.floor(a.touche[taille] * (100 - Math.floor(90 * distance / a.portee)) / 100);
+}
+const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]), Math.abs(a[2] - b[2]));
+function positionAtteinte(dep, arr, x) {
+  if (!arr) return dep;
+  return dep.map((d, k) => { const diff = arr[k] - d; return d + Math.sign(diff) * Math.min(Math.max(x, 0), Math.abs(diff)); });
+}
+
+/**
+ * Résout un combat complet.
+ * cfg  : { camps: [attaquant, défenseur] }
+ * opts : { multi, fiab, sym }
+ * enregistrer : conserve le détail round par round pour l'affichage.
+ */
+function resoudreCombat(cfg, opts, graine, enregistrer) {
+  const alea = generateur(graine);
+  const getInt = n => Math.floor(alea() * n);
+  const getInd = () => alea() < 0.5 ? 1 : -1;
+  const test = chance => getInt(100) < chance;
+
+  const flottes = cfg.camps.map((camp, k) => {
+    const prefixe = k === 0 ? "A" : "D", ships = [];
+    for (const t of camp.types) for (let q = 0; q < t.nb; q++) ships.push(creerVaisseau(prefixe + (ships.length + 1), prefixe, t));
+    // les positions imposées sont copiées par flotte, comme l'objet stratégie du commandant
+    const positions = {}, priorites = {};
+    for (const t of camp.types) {
+      if (t.px !== null && t.py !== null) positions[t.nom] = [t.px, t.py, 0];
+      if (t.prio === "petits") priorites[t.nom] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+    return { camp: prefixe, ships, agress: camp.agress, typeCible: camp.cible, heros: camp.heros, positions, priorites };
+  });
+  const [f1, f2] = flottes;
+  const parId = {};
+  for (const f of flottes) for (const v of f.ships) parId[v.id] = v;
+  const tous = () => f1.ships.concat(f2.ships);
+  const puissanceFlotte = f => f.ships.reduce((s, v) => s + puissance(v), 0);
+
+  // --- Vaisseau ---
+  const augmenterXp = (v, mod) => { v.xp += mod * Math.floor(getInt(BASE_XP) / Math.max(1, v.comps.length)); };
+  const augmenterMoral = v => { v.moral += getInt(10); };
+  const diminuerMoral = v => { v.moral = Math.max(0, v.moral - getInt(10)); };
+  function preparer(v) {
+    v.armes = v.valides.filter(i => v.comps[i].arme && v.comps[i].arme.spatial);
+    v.dommagesEffectues = 0;
+    v.detruit = false;
+    if (!v.boucliers) v.boucliers = new Array(v.valides.filter(i => v.comps[i].code === "bouclier").length).fill(0);
+  }
+  function ajouterDommage(v, i) {
+    v.comps[i].dmg++;
+    if (!estValide(v, i)) {
+      v.valides.splice(v.valides.indexOf(i), 1);
+      const k = v.armes.indexOf(i);
+      if (k !== -1) v.armes.splice(k, 1);
+      if (v.comps[i].code === "moteur" && test(CHANCE_EXPLOSION_MOTEUR)) v.detruit = true;
+    }
+  }
+  function ajouterDommagesAuHasard(v, nb) {
+    for (let n = 0; n < nb; n++) {
+      if (v.valides.length === 0) return false;
+      ajouterDommage(v, v.valides[getInt(v.valides.length)]);
+      if (v.valides.length === 0) return false;
+    }
+    return true;
+  }
+  function tempoVaisseau(v) {
+    let vit = 0;
+    for (const i of v.valides) if (v.comps[i].arme) vit += v.comps[i].arme.vitesse;
+    return capMouvement(v) * 100 + getInt(100) * niveauXp(v.xp) + Math.floor(vit * 100 / (v.armes.length + 1));
+  }
+  function effectuerDommages(v, cible, a, hAtt, hDef, w) {
+    const b = numeroBouclierValide(cible);
+    if (b !== -1) {
+      cible.boucliers[b] += a.domBouclier;
+      augmenterMoral(v); diminuerMoral(cible);
+      if (w) w.bouclier++;
+    } else {
+      let degats = 0;
+      if (a.domCoque > cible.absorbeur) { degats = a.domCoque - cible.absorbeur; cible.absorbeur = 0; }
+      else cible.absorbeur -= a.domCoque;
+      if (degats > 0) {
+        augmenterMoral(v); diminuerMoral(cible);
+        if (!ajouterDommagesAuHasard(cible, degats)) cible.detruit = true;
+        v.dommagesEffectues += degats;
+        if (w) { w.coque++; w.pts += degats; }
+      } else { diminuerMoral(v); if (w) w.absorbes++; }
+      augmenterXp(v, 1); augmenterXp(cible, 1);
+    }
+  }
+  function tir(v, cible, dist, hAtt, hDef, rec) {
+    cible.absorbeur = capAbsorb(cible);
+    let compteur = 0;
+    while (compteur < v.armes.length && compteur <= NB_CIBLES[v.taille] && !cible.detruit) {
+      const idx = v.armes[compteur], a = v.comps[idx].arme;
+      const chance = chanceDeToucher(a, cible.taille, dist);
+      let w = null;
+      if (rec) w = rec.armes[a.nom] || (rec.armes[a.nom] = { nom: a.nom, chance: 0, tirs: 0, coque: 0, pts: 0, bouclier: 0, absorbes: 0, rates: 0, enrayes: 0, hors: 0 });
+      if (chance === 0) { compteur++; if (w) w.hors++; continue; }
+      const seuil = Math.max(1, chance + niveauXp(v.xp) + hAtt.att - niveauXp(cible.xp) - hDef.def);
+      if (w) { w.tirs++; w.chance = seuil; }
+      if (opts.fiab && test(a.fiab)) { if (w) w.enrayes++; }
+      else if (test(seuil)) effectuerDommages(v, cible, a, hAtt, hDef, w);
+      else if (w) w.rates++;
+      v.armes.splice(compteur, 1);
+    }
+  }
+
+  // --- Combat ---
+  function positionnement(f, attaquant) {
+    const pos = {};
+    for (const v of f.ships) {
+      let dep = f.positions[v.type];
+      if (!dep) {
+        dep = [getInt(X_MAX), attaquant ? getInt(Y_MAX) : getInt(Y_MAX) + Y_ESPACE + Y_MAX, 0];
+      } else if (!attaquant) {
+        // moteur actuel : y = 20 - y (devant la zone du défenseur) ; placement corrigé : y = 30 - y (dans sa zone, de 20 à 30)
+        const miroirY = opts.recul ? 2 * Y_MAX + Y_ESPACE : Y_ESPACE + Y_MAX;
+        if (opts.sym) dep = [X_MAX - dep[0], miroirY - dep[1], dep[2]];
+        else { dep[1] = miroirY - dep[1]; dep[0] = X_MAX - dep[0]; }   // modifie la stratégie, comme le moteur
+      }
+      pos[v.id] = [dep[0] + getInd() * getInt(6), dep[1] + getInd() * getInt(6), dep[2] + getInd() * getInt(10)];
+    }
+    return pos;
+  }
+  function deType(f, type) {
+    return f.ships.filter(v => !v.detruit && (type === 0 || (type === 1 && estChasseur(v)) || (type === 2 && estBombardier(v)) || (type === 3 && estCargo(v)))).map(v => v.id);
+  }
+  // Les listes de cibles possibles sont rangées par taille une fois par appel : l'état des flottes ne change pas pendant le ciblage.
+  const parTaille = ids => { const b = Array.from({ length: 10 }, () => []); for (const id of ids) b[parId[id].taille].push(id); return b; };
+  function determinationCible(mien, ennemi, cibles, posMien, posEnnemi, numTir) {
+    let bType = null, bTous = null;
+    for (const v of mien.ships) {
+      const inter = cibles[v.id];
+      if (NB_CIBLES[v.taille] + 1 <= numTir) continue;
+      // cibles supplémentaires : inutile de chercher pour un vaisseau qui ne pourra plus tirer ce round
+      if (numTir > 0 && (v.armes.length === 0 || v.detruit || v.combativite <= 0)) { inter[numTir] = -1; continue; }
+      if (!bType) bType = parTaille(deType(ennemi, mien.typeCible));
+      const dejaPris = numTir > 0 ? inter.slice(0, numTir) : null;
+      const prio = mien.priorites[v.type] || null;
+      const candidats = (b, j) => { const l = b[prio ? prio[j] - 1 : 9 - j]; return dejaPris ? l.filter(id => !dejaPris.includes(id)) : l; };
+      let choix2 = null;
+      while (choix2 === null)
+        for (let j = 0; j < 10; j++) {
+          if (test(50)) choix2 = candidats(bType, j);
+          if (choix2 !== null && choix2.length > 0) break;
+        }
+      let essais = 0;
+      while (choix2.length === 0 && essais < 5) {
+        if (!bTous) bTous = parTaille(ennemi.ships.map(x => x.id));
+        for (let j = 0; j < 10; j++) {
+          if (test(50)) choix2 = candidats(bTous, j);
+          if (choix2 !== null && choix2.length > 0) break;
+        }
+        essais++;
+      }
+      if (choix2.length === 0) inter[numTir] = -1;
+      else {
+        const p = posMien[v.id];
+        let min = Infinity, choisi = choix2[0];
+        for (let k = 0; k < choix2.length; k++) { const d = distance(p, posEnnemi[choix2[k]]); if (d < min) { min = d; choisi = choix2[k]; } }
+        inter[numTir] = choisi;
+      }
+    }
+  }
+  function determinationTempo(f) {
+    const pris = new Set(), liste = [];
+    for (const v of f.ships) {
+      let t = f.heros.vit * getInt(100) + tempoVaisseau(v) + getInt(500);
+      while (pris.has(t)) t++;
+      pris.add(t); liste.push({ t, id: v.id });
+    }
+    return liste.sort((a, b) => a.t - b.t);
+  }
+  function fuiteTactique(a, b) {
+    const pa = puissanceFlotte(a), pb = puissanceFlotte(b);
+    if (a.agress === 1) return true;
+    if (a.agress === 2 && pa < Math.floor(pb / 2)) return true;
+    if (a.agress === 3 && pa < Math.floor(pb / 4)) return true;
+    if (a.agress === 4 && pa < Math.floor(pb / 8)) return true;
+    if (a.agress === 0) {
+      if (a.typeCible === 3 && !b.ships.some(estCargo)) return true;
+      if (a.typeCible === 2 && !b.ships.some(estBombardier)) return true;
+      if (a.typeCible === 1 && !b.ships.some(estChasseur)) return true;
+    }
+    return false;
+  }
+  function entrelacer(t1, t2, croissant, action) {
+    if (croissant) {
+      let i = 0, j = 0;
+      while (i < t1.length || j < t2.length) {
+        let premier = false;
+        if (j === t2.length) premier = true; else if (i !== t1.length && t1[i].t < t2[j].t) premier = true;
+        if (premier) action(t1[i++].id, true); else action(t2[j++].id, false);
+      }
+    } else {
+      let i = t1.length - 1, j = t2.length - 1;
+      while (i > -1 || j > -1) {
+        let premier = false;
+        if (j === -1) premier = true; else if (i !== -1 && t1[i].t > t2[j].t) premier = true;
+        if (premier) action(t1[i--].id, true); else action(t2[j--].id, false);
+      }
+    }
+  }
+
+  const etat = () => { const e = {}; for (const v of tous()) e[v.id] = { pv: pointsDeVie(v), bouc: boucliersRestants(v), comb: v.combativite, armes: v.valides.filter(i => v.comps[i].arme && v.comps[i].arme.spatial).length, mouv: capMouvement(v), det: v.detruit, xp: niveauXp(v.xp) }; return e; };
+  const copie = pos => { const c = {}; for (const id in pos) if (parId[id]) c[id] = pos[id].slice(); return c; };
+
+  // Initialisation
+  for (const f of flottes) for (const v of f.ships) v.combativite = 5 + niveauMoral(v.moral) + f.heros.moral;
+  const pos1 = positionnement(f1, true), pos2 = positionnement(f2, false);
+  const pos = Object.assign({}, pos1, pos2);
+  const cibles = {};
+  for (const v of tous()) cibles[v.id] = [0];
+  const resultat = { rounds: [], vaisseaux: {}, initial: null, vainqueur: null, dommages: [0, 0] };
+  if (enregistrer) {
+    for (const v of tous()) resultat.vaisseaux[v.id] = { id: v.id, camp: v.camp, type: v.type, taille: v.taille, pvMax: v.nbCases };
+    for (const f of flottes) for (const v of f.ships) preparer(v);
+    resultat.initial = { pos: copie(pos), etat: etat() };
+  }
+  const departs = [f1.ships.length, f2.ships.length];
+  let v1 = false, v2 = false, fin = false, numTour = 0;
+
+  while (!fin) {
+    let tailleMax = 0;
+    for (const v of tous()) tailleMax = Math.max(tailleMax, v.taille);
+    for (const f of flottes) for (const v of f.ships) preparer(v);
+    const ht1 = determinationTempo(f1), ht2 = determinationTempo(f2);
+    determinationCible(f1, f2, cibles, pos, pos, 0);
+    determinationCible(f2, f1, cibles, pos, pos, 0);
+
+    const rd = enregistrer ? { n: numTour + 1, presents: tous().map(v => v.id), avant: copie(pos), etatAvant: etat(), cibles: {}, fuite: {}, apres: null, tirs: [], etatApres: null } : null;
+    if (rd) for (const v of tous()) rd.cibles[v.id] = cibles[v.id][0];
+
+    // mouvement
+    const fuite1 = fuiteTactique(f1, f2), fuite2 = fuiteTactique(f2, f1);
+    entrelacer(ht1, ht2, true, (id, att) => {
+      const v = parId[id], fuit = (att ? fuite1 : fuite2) || v.combativite <= 0 || v.armes.length === 0;
+      if (fuit) {
+        const cible = [getInd() * getInt(100), att ? Y_FIN1 : Y_FIN2, getInd() * getInt(100)];
+        pos[id] = positionAtteinte(pos[id], cible, Math.max(0, capMouvement(v) - 2));
+        if (rd) rd.fuite[id] = true;
+      } else {
+        const ci = cibles[id][0];
+        pos[id] = positionAtteinte(pos[id], ci === -1 ? null : pos[ci], capMouvement(v));
+      }
+    });
+    if (rd) rd.apres = copie(pos);
+
+    // tirs
+    const dAvant = [0, 0];
+    flottes.forEach((f, k) => { dAvant[k] = f.ships.reduce((s, v) => s + v.nbCases - pointsDeVie(v), 0); });
+    const salve = numTir => entrelacer(ht1, ht2, false, (id, att) => {
+      const v = parId[id], hAtt = att ? f1.heros : f2.heros, hDef = att ? f2.heros : f1.heros;
+      if (numTir > NB_CIBLES[v.taille]) return;
+      let raison = null, rec = null;
+      if (v.combativite <= 0) raison = "n'est plus combatif";
+      else if (v.detruit) raison = "détruit avant d'avoir tiré";
+      else {
+        const ci = cibles[id][numTir];
+        if (ci === -1) raison = "n'a trouvé aucune cible";
+        else if (ci === undefined) return;
+        else {
+          const c = parId[ci];
+          if (c.detruit) raison = "sa cible " + ci + " était déjà détruite";
+          else {
+            const d = distance(pos[id], pos[ci]);
+            if (rd) rec = { de: id, vers: ci, numTir, dist: d, armes: {}, detruite: false };
+            if (rd && v.armes.length === 0) rec.raison = "n'a plus d'arme utilisable";
+            tir(v, c, d, hAtt, hDef, rec);
+            if (rec) { rec.detruite = c.detruit; if (numTir === 0 || Object.keys(rec.armes).length) rd.tirs.push(rec); }
+            return;
+          }
+        }
+      }
+      if (rd && numTir === 0) rd.tirs.push({ de: id, vers: null, numTir, raison, armes: {} });
+    });
+    salve(0);
+    if (opts.multi) {
+      // au-delà du nombre de vaisseaux adverses, toutes les cibles sont déjà prises : inutile de continuer
+      const borne = Math.min(NB_CIBLES[tailleMax], Math.max(f1.ships.length, f2.ships.length));
+      for (let i = 1; i <= borne; i++) {
+        if (!f1.ships.concat(f2.ships).some(v => v.armes.length > 0 && !v.detruit && v.combativite > 0)) break;   // plus personne n'a d'arme à tirer
+        determinationCible(f1, f2, cibles, pos, pos, i);
+        determinationCible(f2, f1, cibles, pos, pos, i);
+        salve(i);
+      }
+    }
+    flottes.forEach((f, k) => { resultat.dommages[k] += f.ships.reduce((s, v) => s + v.nbCases - pointsDeVie(v), 0) - dAvant[k]; });
+    if (rd) { rd.etatApres = etat(); resultat.rounds.push(rd); }
+
+    for (const f of flottes) {
+      f.ships = f.ships.filter(v => !v.detruit);
+      for (const v of f.ships) v.combativite--;
+    }
+    if (f1.ships.length === 0) v2 = true;
+    if (f2.ships.length === 0) v1 = true;
+    if (!f1.ships.some(v => v.combativite > 0) && !f2.ships.some(v => v.combativite > 0)) fin = true;
+    if (v1 || v2) fin = true;
+    numTour++;
+  }
+  resultat.nbRounds = numTour;
+  resultat.vainqueur = v1 && v2 ? "AD" : v1 ? "A" : v2 ? "D" : null;
+  resultat.survivants = [f1.ships.length, f2.ships.length];
+  resultat.departs = departs;
+  if (enregistrer) resultat.final = { pos: copie(pos), etat: etat(), presents: tous().map(v => v.id) };
+
+  // --- Après le combat : collisions subies par les survivants ---
+  const appliquer = (f, v, d, bilan) => {
+    const avant = pointsDeVie(v), entier = ajouterDommagesAuHasard(v, d);
+    bilan.degats += d; bilan.reels += avant - pointsDeVie(v); if (d > 0) bilan.touches++;
+    if (!entier) { bilan.detruits++; f.ships.splice(f.ships.indexOf(v), 1); }
+  };
+  const bilans = flottes.map((f, k) => ({ finCombat: f.ships.length, militaire: cfg.camps[k].militaire || 0, risque: 0,
+    interne: { touches: 0, degats: 0, reels: 0, detruits: 0 }, interneAvant: { touches: 0, degats: 0, reels: 0, detruits: 0 }, debris: { touches: 0, degats: 0, reels: 0, detruits: 0 }, restants: 0 }));
+  // 1. collisions internes en fin de tour (Commandant.resolutionGestionFlottes + Flotte.gererCollisionVaisseaux)
+  const alea2 = generateur(graine ^ 0x5bd1e995), getInt2 = n => Math.floor(alea2() * n);
+  flottes.forEach((f, k) => {
+    if (!f.ships.length) return;
+    const b = bilans[k], diviseur = 45 + 5 * getInt(5);
+    b.risque = Math.ceil(f.ships.length / diviseur) - 2 * b.militaire;
+    if (b.risque <= 0) return;
+    const taille = b.risque * b.risque;
+    // a) ancienne règle, calculée à blanc pour comparaison : l'excédent tiré sur un vaisseau détruit vide la réserve.
+    //    Elle a son propre tirage et ne modifie pas la flotte.
+    let frisk = taille * (5 + getInt2(3)) + getInt2(10);
+    for (const v of f.ships) {
+      const d = getInt2(Math.max(1, Math.floor(taille / (v.taille + 1)))), pv = pointsDeVie(v), a = b.interneAvant;
+      a.degats += d; a.reels += Math.min(d, pv); if (d > 0) a.touches++; if (d >= pv) a.detruits++;
+      frisk -= d;
+      if (frisk <= 0) break;
+    }
+    // b) règle corrigée (Flotte.java actuel) : seuls les dommages réellement subis sont comptés et retirés de la réserve
+    frisk = taille * (5 + getInt(3)) + getInt(10);
+    for (const v of f.ships.slice()) {
+      const avant = b.interne.reels;
+      appliquer(f, v, getInt(Math.max(1, Math.floor(taille / (v.taille + 1)))), b.interne);
+      frisk -= b.interne.reels - avant;
+      if (frisk <= 0) break;
+    }
+    b.interne.degats = b.interne.reels;
+  });
+  // 2. débris laissés par le combat, percutés au début du tour suivant (Debris.gererCollisions + Flotte.gererCollision)
+  const total = resultat.dommages[0] + resultat.dommages[1];
+  const crees = total > 200 ? total : 0, champ = (opts.debris || 0) + crees;
+  if (champ > 0) flottes.forEach((f, k) => {
+    for (const v of f.ships.slice()) {
+      const d = Math.floor(getInt(Math.max(1, Math.floor(Math.floor(champ / (getInt(500) + 1)) / (11 - v.taille)))) / 10);
+      appliquer(f, v, d, bilans[k].debris);
+    }
+  });
+  flottes.forEach((f, k) => { bilans[k].restants = f.ships.length; });
+  resultat.apres = { dommagesCombat: total, debrisCrees: crees, debrisDejaLa: opts.debris || 0, champ, camps: bilans };
+  return resultat;
+}
+
+/* =====================================================================
+ *  INTERFACE
+ * ===================================================================== */
+if (typeof document !== "undefined") (function () {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const CLE = "sheril-simulateur-combat-v2";
+  const NOMS_CAMP = ["Attaquant", "Défenseur"];
+
+  function configParDefaut() {
+    const type = (nom, nb, comps) => ({ nom, nb, xp: 0, moral: 4, px: null, py: null, prio: "defaut", comps: comps.map(([code, niv, qte]) => ({ code, niv, qte })) });
+    return {
+      opts: { multi: true, fiab: false, sym: false, graine: 2026, moteurMulti: true },
+      camps: [
+        { agress: 3, cible: 0, heros: { att: 0, def: 0, vit: 0, moral: 0 }, types: [
+          type("Chasseur", 10, [["laser", 1, 3], ["moteur", 0, 1]]),
+          type("Croiseur", 3, [["plasma", 1, 10], ["torp", 0, 6], ["bouclier", 0, 1], ["moteur", 2, 1]]) ] },
+        { agress: 3, cible: 0, heros: { att: 0, def: 0, vit: 0, moral: 0 }, types: [
+          type("Intercepteur", 8, [["miss", 1, 4], ["moteur", 0, 1]]),
+          type("Cuirassé", 2, [["torp", 1, 14], ["laser", 1, 12], ["bouclier", 1, 2], ["moteur", 3, 1]]) ] }
+      ]
+    };
+  }
+  let cfg = configParDefaut();
+  try { const s = localStorage.getItem(CLE); if (s) { const c = JSON.parse(s); if (c && c.camps && c.camps.length === 2 && c.opts) cfg = c; } } catch (e) { /* stockage indisponible */ }
+  // configuration enregistrée avant l'activation du multi-cible dans le moteur : on l'aligne une fois sur le moteur actuel
+  if (!cfg.opts.moteurMulti) { cfg.opts.multi = true; cfg.opts.moteurMulti = true; }
+  const sauver = () => { try { localStorage.setItem(CLE, JSON.stringify(cfg)); } catch (e) { /* idem */ } };
+
+  /* ---------- Configuration des flottes ---------- */
+  const nombre = n => Math.round(n).toLocaleString("fr-FR");
+  function resumeCamp(camp) {
+    let nb = 0, minerai = 0, prix = 0;
+    for (const t of camp.types) { const c = coutType(t); nb += t.nb; minerai += c.minerai * t.nb; prix += c.prix * t.nb; }
+    return `Flotte : <b>${nombre(nb)}</b> vaisseau${nb > 1 ? "x" : ""} · <b>${nombre(minerai)}</b> minerai · <b>${nombre(prix)}</b> centaures`;
+  }
+  function resumeType(t) {
+    const v = creerVaisseau("x", "A", Object.assign({}, t, { xp: 0, moral: 0 }));
+    if (!v.comps.length) return "Aucun composant : ajoutez-en au moins un.";
+    const cout = coutType(t);
+    const armes = v.comps.filter(c => c.arme && c.arme.spatial).length;
+    let bouc = 0; for (const c of v.comps) if (c.code === "bouclier") bouc += c.valeur;
+    return `<b>${v.nbCases}</b> cases (points de structure) · taille <b>${v.taille + 1}</b> · vitesse <b>${capMouvement(v)}</b> · puissance <b>${puissance(v)}</b> · ` +
+      `<b>${armes}</b> arme${armes > 1 ? "s" : ""} spatiale${armes > 1 ? "s" : ""} · bouclier <b>${bouc}</b> · absorbeur <b>${capAbsorb(v)}</b> · tire sur <b>${NB_CIBLES[v.taille] + 1}</b> cible${NB_CIBLES[v.taille] ? "s" : ""} par round` +
+      `<br>Coût : <b>${nombre(cout.minerai)}</b> minerai et <b>${nombre(cout.prix)}</b> centaures l'unité` +
+      (t.nb > 1 ? ` · les ${nombre(t.nb)} : <b>${nombre(cout.minerai * t.nb)}</b> minerai et <b>${nombre(cout.prix * t.nb)}</b> centaures` : "");
+  }
+  const options = (liste, val) => liste.map(([v, l]) => `<option value="${v}"${v === val ? " selected" : ""}>${esc(l)}</option>`).join("");
+  function rendreCamps() {
+    $("camps").innerHTML = cfg.camps.map((camp, k) => `
+      <section class="camp ${k ? "def" : "att"}" aria-labelledby="t-camp${k}">
+        <h2 id="t-camp${k}">${k ? "■" : "▲"} ${NOMS_CAMP[k]}</h2>
+        <p class="resume" id="total-${k}" title="Somme du minerai et du prix de base des composants, hors royalties et marchandises">${resumeCamp(camp)}</p>
+        <div class="rangee">
+          <label>Agressivité<select data-k="${k}" data-champ="agress">${options(AGRESSIVITES, camp.agress)}</select></label>
+          <label>Type de cible visé<select data-k="${k}" data-champ="cible">${options(TYPES_CIBLE, camp.cible)}</select></label>
+          <label title="Niveau de la technologie « maîtrise militaire » du commandant : chaque niveau retire 2 au risque de collision interne">Maîtrise militaire (0 à 10)<input type="number" min="0" max="10" data-k="${k}" data-champ="militaire" value="${camp.militaire || 0}"></label>
+        </div>
+        <details${Object.values(camp.heros).some(x => x) ? " open" : ""}>
+          <summary>Héros de la flotte (facultatif)</summary>
+          <div class="rangee" style="margin-top:8px">
+            <label>Attaque<input type="number" min="0" max="50" data-k="${k}" data-heros="att" value="${camp.heros.att}"></label>
+            <label>Défense<input type="number" min="0" max="50" data-k="${k}" data-heros="def" value="${camp.heros.def}"></label>
+            <label>Vitesse<input type="number" min="0" max="50" data-k="${k}" data-heros="vit" value="${camp.heros.vit}"></label>
+            <label>Moral<input type="number" min="0" max="50" data-k="${k}" data-heros="moral" value="${camp.heros.moral}"></label>
+          </div>
+          <p class="discret">Attaque et défense s'ajoutent ou se retranchent à la chance de toucher, la vitesse joue sur l'initiative, le moral ajoute des rounds de combativité.</p>
+        </details>
+        ${camp.types.map((t, i) => `
+        <div class="type" role="group" aria-label="Type de vaisseau ${esc(t.nom)}">
+          <div class="rangee">
+            <label>Nom du type<input type="text" maxlength="30" data-k="${k}" data-i="${i}" data-champ="nom" value="${esc(t.nom)}"></label>
+            <label>Nombre<input type="number" min="1" max="3000" data-k="${k}" data-i="${i}" data-champ="nb" value="${t.nb}"></label>
+            <button type="button" data-k="${k}" data-i="${i}" data-action="dupliquer">Dupliquer</button>
+            <button type="button" data-k="${k}" data-i="${i}" data-action="supprimer-type"${camp.types.length < 2 ? " disabled title=\"Une flotte doit garder au moins un type\"" : ""}>Supprimer</button>
+          </div>
+          <table>
+            <tr><th>Composant</th><th>Niveau</th><th>Quantité</th><th></th></tr>
+            ${t.comps.map((c, j) => `<tr>
+              <td><select aria-label="Composant" data-k="${k}" data-i="${i}" data-j="${j}" data-comp="code">${CODES.map(code => `<option value="${code}"${code === c.code ? " selected" : ""}>${(ARMES[code] || AUTRES[code]).nom}</option>`).join("")}</select></td>
+              <td><select aria-label="Niveau" data-k="${k}" data-i="${i}" data-j="${j}" data-comp="niv">${NIVEAUX.map((n, x) => `<option value="${x}"${x === c.niv ? " selected" : ""}>${n}</option>`).join("")}</select></td>
+              <td><input aria-label="Quantité" type="number" min="1" max="500" data-k="${k}" data-i="${i}" data-j="${j}" data-comp="qte" value="${c.qte}"></td>
+              <td><button type="button" class="lien" data-k="${k}" data-i="${i}" data-j="${j}" data-action="supprimer-comp" aria-label="Retirer ce composant">Retirer</button></td>
+            </tr>`).join("")}
+          </table>
+          <button type="button" class="lien" data-k="${k}" data-i="${i}" data-action="ajouter-comp">+ Ajouter un composant</button>
+          <div class="resume" id="resume-${k}-${i}">${resumeType(t)}</div>
+          <details${t.xp || t.moral !== 4 || t.px !== null || t.py !== null || t.prio !== "defaut" ? " open" : ""}>
+            <summary>Équipage, placement et priorités (facultatif)</summary>
+            <div class="rangee" style="margin-top:8px">
+              <label>Expérience (0 à 4)<input type="number" min="0" max="4" data-k="${k}" data-i="${i}" data-champ="xp" value="${t.xp}"></label>
+              <label>Moral (0 à 11, 4 à la construction)<input type="number" min="0" max="11" data-k="${k}" data-i="${i}" data-champ="moral" value="${t.moral}"></label>
+              <label>Position x (0 à 30)<input type="number" min="0" max="30" placeholder="hasard" data-k="${k}" data-i="${i}" data-champ="px" value="${t.px === null ? "" : t.px}"></label>
+              <label title="0 : tout à l'arrière de sa zone ; 10 : tout à l'avant, face à l'ennemi">Position y (0 arrière à 10 avant)<input type="number" min="0" max="10" placeholder="hasard" data-k="${k}" data-i="${i}" data-champ="py" value="${t.py === null ? "" : t.py}"></label>
+              <label>Tailles visées en priorité<select data-k="${k}" data-i="${i}" data-champ="prio">
+                <option value="defaut"${t.prio === "defaut" ? " selected" : ""}>Les plus gros d'abord (défaut)</option>
+                <option value="petits"${t.prio === "petits" ? " selected" : ""}>Les plus petits d'abord</option></select></label>
+            </div>
+            <p class="discret">La combativité vaut 5 + moral + moral du héros : c'est le nombre de rounds pendant lesquels le vaisseau se bat. Laissez x et y vides pour un placement au hasard dans la zone du camp ; renseignez les deux pour imposer la position.</p>
+          </details>
+        </div>`).join("")}
+        <button type="button" data-k="${k}" data-action="ajouter-type">+ Ajouter un type de vaisseau</button>
+      </section>`).join("");
+  }
+  const borner = (el, def) => {
+    if (el.value === "") return def;
+    const n = Math.round(Number(el.value));
+    if (!Number.isFinite(n)) return def;
+    return Math.min(Number(el.max), Math.max(Number(el.min), n));
+  };
+  $("camps").addEventListener("input", e => {
+    const d = e.target.dataset, camp = cfg.camps[d.k];
+    if (!camp) return;
+    if (d.heros) camp.heros[d.heros] = borner(e.target, 0);
+    else if (d.comp) {
+      const c = camp.types[d.i].comps[d.j];
+      c[d.comp] = d.comp === "code" ? e.target.value : d.comp === "niv" ? Number(e.target.value) : borner(e.target, 1);
+    } else if (d.i !== undefined) {
+      const t = camp.types[d.i];
+      if (d.champ === "nom" || d.champ === "prio") t[d.champ] = e.target.value;
+      else if (d.champ === "px" || d.champ === "py") t[d.champ] = borner(e.target, null);
+      else t[d.champ] = borner(e.target, d.champ === "nb" ? 1 : d.champ === "moral" ? 4 : 0);
+    } else if (d.champ) camp[d.champ] = e.target.type === "number" ? borner(e.target, 0) : Number(e.target.value);
+    if (d.i !== undefined) { const r = $(`resume-${d.k}-${d.i}`); if (r) r.innerHTML = resumeType(camp.types[d.i]); }
+    const total = $(`total-${d.k}`); if (total) total.innerHTML = resumeCamp(camp);
+    sauver();
+  });
+  // à la sortie d'un champ numérique, on réaffiche la valeur réellement prise en compte
+  $("camps").addEventListener("change", e => {
+    if (e.target.type === "number" && e.target.value !== "") e.target.value = borner(e.target, e.target.min);
+  });
+  $("camps").addEventListener("click", e => {
+    const b = e.target.closest("button[data-action]");
+    if (!b) return;
+    const d = b.dataset, camp = cfg.camps[d.k], a = d.action;
+    if (a === "ajouter-type") camp.types.push({ nom: "Nouveau type " + (camp.types.length + 1), nb: 1, xp: 0, moral: 4, px: null, py: null, prio: "defaut", comps: [{ code: "laser", niv: 0, qte: 1 }, { code: "moteur", niv: 0, qte: 1 }] });
+    else if (a === "dupliquer") { const c = JSON.parse(JSON.stringify(camp.types[d.i])); c.nom += " (copie)"; camp.types.splice(Number(d.i) + 1, 0, c); }
+    else if (a === "supprimer-type") camp.types.splice(d.i, 1);
+    else if (a === "ajouter-comp") camp.types[d.i].comps.push({ code: "laser", niv: 0, qte: 1 });
+    else if (a === "supprimer-comp") camp.types[d.i].comps.splice(d.j, 1);
+    sauver(); rendreCamps();
+  });
+
+  /* ---------- Options ---------- */
+  function rendreOptions() {
+    $("o-multi").checked = cfg.opts.multi; $("o-fiab").checked = cfg.opts.fiab; $("o-sym").checked = cfg.opts.sym; $("o-recul").checked = !!cfg.opts.recul;
+    $("o-graine").value = cfg.opts.graine; $("o-debris").value = cfg.opts.debris || 0;
+  }
+  $("o-multi").addEventListener("change", e => { cfg.opts.multi = e.target.checked; sauver(); });
+  $("o-fiab").addEventListener("change", e => { cfg.opts.fiab = e.target.checked; sauver(); });
+  $("o-sym").addEventListener("change", e => { cfg.opts.sym = e.target.checked; sauver(); });
+  $("o-recul").addEventListener("change", e => { cfg.opts.recul = e.target.checked; sauver(); });
+  $("o-graine").addEventListener("change", e => { cfg.opts.graine = borner(e.target, 1); e.target.value = cfg.opts.graine; sauver(); });
+  $("o-debris").addEventListener("change", e => { cfg.opts.debris = borner(e.target, 0); e.target.value = cfg.opts.debris; sauver(); });
+  $("b-graine").addEventListener("click", () => { cfg.opts.graine = 1 + Math.floor(Math.random() * 999999); rendreOptions(); sauver(); lancer(); });
+  $("b-reinit").addEventListener("click", () => {
+    if (!confirm("Remplacer les deux flottes et les règles par la configuration d'exemple ?")) return;
+    cfg = configParDefaut(); sauver(); rendreCamps(); rendreOptions(); $("erreurs").hidden = true;
+  });
+
+  function valider() {
+    const err = [];
+    cfg.camps.forEach((camp, k) => {
+      const noms = new Set();
+      let total = 0;
+      camp.types.forEach(t => {
+        const ou = `${NOMS_CAMP[k]}, type « ${t.nom || "sans nom"} »`;
+        if (!t.nom.trim()) err.push(`${NOMS_CAMP[k]} : un type n'a pas de nom. Donnez-lui un nom, il sert à l'identifier dans le journal.`);
+        if (noms.has(t.nom)) err.push(`${ou} : ce nom est utilisé deux fois dans la flotte. Renommez l'un des deux types.`);
+        noms.add(t.nom);
+        if (!t.comps.length) err.push(`${ou} : aucun composant. Ajoutez au moins un composant.`);
+        if ((t.px === null) !== (t.py === null)) err.push(`${ou} : une seule coordonnée de position est renseignée. Renseignez x et y, ou videz les deux.`);
+        total += t.nb;
+      });
+      if (total > 3000) err.push(`${NOMS_CAMP[k]} : ${total} vaisseaux. Limitez la flotte à 3000 vaisseaux : au-delà, le calcul devient trop long pour le navigateur.`);
+    });
+    const z = $("erreurs");
+    if (err.length) { z.innerHTML = "Le combat ne peut pas être lancé :<ul>" + err.map(x => `<li>${esc(x)}</li>`).join("") + "</ul>"; z.hidden = false; z.scrollIntoView({ block: "nearest" }); }
+    else z.hidden = true;
+    return !err.length;
+  }
+
+  /* ---------- Lecteur ---------- */
+  let res = null, etapes = [], iEtape = 0, selection = null, minuteur = null, anim = 1, dessines = [];
+  const PHASES = { ciblage: "Choix des cibles", mouvement: "Mouvement", tirs: "Tirs" };
+
+  function lancer() {
+    if (!valider()) return;
+    res = resoudreCombat(cfg, cfg.opts, cfg.opts.graine, true);
+    etapes = [{ phase: "deploiement" }];
+    res.rounds.forEach((r, k) => { for (const p of ["ciblage", "mouvement", "tirs"]) etapes.push({ phase: p, r: k }); });
+    etapes.push({ phase: "fin" });
+    selection = null; arreter();
+    $("resultat").hidden = false;
+    $("curseur").max = etapes.length - 1;
+    const issue = res.vainqueur === "A" ? "Victoire de l'attaquant : la flotte du défenseur est anéantie."
+      : res.vainqueur === "D" ? "Victoire du défenseur : la flotte de l'attaquant est anéantie."
+      : res.vainqueur === "AD" ? "Les deux flottes sont anéanties."
+      : "Aucun vainqueur : plus aucun vaisseau n'est combatif.";
+    const regles = [cfg.opts.multi ? null : "cible unique (ancien moteur)", cfg.opts.fiab ? "fiabilité" : null, cfg.opts.sym ? "symétrie corrigée" : null, cfg.opts.recul ? "défenseur placé dans sa zone" : null].filter(Boolean);
+    $("bandeau").textContent = `${issue} ${res.nbRounds} round${res.nbRounds > 1 ? "s" : ""}. Survivants : attaquant ${res.survivants[0]}/${res.departs[0]}, défenseur ${res.survivants[1]}/${res.departs[1]}. ` +
+      `Règles : ${regles.length ? regles.join(", ") : "moteur actuel"}. Graine ${cfg.opts.graine}.`;
+    rendreApres();
+    aller(0, false);
+    $("resultat").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  $("b-lancer").addEventListener("click", lancer);
+
+  function rendreApres() {
+    const a = res.apres, n = x => x ? `<span class="fort">${x}</span>` : "0";
+    const lignes = a.camps.map((c, k) => `<tr class="${k ? "D" : "A"}"><td>${NOMS_CAMP[k]}</td><td class="num">${c.finCombat}</td>` +
+      (c.finCombat === 0 ? `<td class="g" colspan="12">Flotte anéantie pendant le combat : aucune collision à subir.</td>`
+        : `<td class="num g">${c.risque}</td>` +
+          `<td class="num g">${n(c.interneAvant.touches)}</td><td class="num">${n(c.interneAvant.degats)}</td><td class="num">${n(c.interneAvant.reels)}</td><td class="num">${n(c.interneAvant.detruits)}</td>` +
+          `<td class="num g">${n(c.interne.touches)}</td><td class="num">${n(c.interne.reels)}</td><td class="num">${n(c.interne.detruits)}</td>` +
+          `<td class="num g">${n(c.debris.touches)}</td><td class="num">${n(c.debris.degats)}</td><td class="num">${n(c.debris.reels)}</td><td class="num">${n(c.debris.detruits)}</td>`) +
+      `<td class="num g">${c.restants}</td></tr>`).join("");
+    const debris = a.debrisCrees
+      ? `Le combat a infligé ${a.dommagesCombat} points de dommages (plus de 200) : il laisse ${a.debrisCrees} débris sur la case` +
+        (a.debrisDejaLa ? `, qui s'ajoutent aux ${a.debrisDejaLa} déjà présents (danger total ${a.champ}).` : ".")
+      : `Le combat a infligé ${a.dommagesCombat} points de dommages : le seuil de 200 n'est pas dépassé, il ne laisse aucun débris` +
+        (a.debrisDejaLa ? ` ; restent les ${a.debrisDejaLa} débris déjà présents.` : ".");
+    const tAnn = "Chiffre écrit dans le rapport du joueur : somme des dégâts tirés, y compris la part qui dépasse la structure restante du vaisseau";
+    const tStr = "Points de structure réellement perdus par la flotte";
+    $("apres-contenu").innerHTML = `
+      <div class="defile"><table class="donnees">
+        <thead>
+          <tr><th rowspan="3">Flotte</th><th rowspan="3" class="num">Vaisseaux en fin de combat</th>
+            <th colspan="8" class="groupe">Collisions internes (fin de ce tour)</th>
+            <th colspan="4" rowspan="2" class="groupe">Collisions avec les débris (début du tour suivant)</th>
+            <th rowspan="3" class="num g">Vaisseaux restants</th></tr>
+          <tr><th rowspan="2" class="num g" title="Arrondi supérieur de (vaisseaux / 45 à 65) − 2 × maîtrise militaire. Collisions seulement si ce risque est supérieur à 0.">Risque</th>
+            <th colspan="4" class="groupe">Avant correction (ancienne règle)</th><th colspan="3" class="groupe">Après correction (règle en vigueur)</th></tr>
+          <tr><th class="num g">Collisions</th><th class="num" title="${tAnn}">Dégâts annoncés</th><th class="num" title="${tStr}">Structure perdue</th><th class="num">Détruits</th>
+            <th class="num g">Collisions</th><th class="num" title="Dégâts annoncés et structure perdue sont désormais le même chiffre">Dégâts</th><th class="num">Détruits</th>
+            <th class="num g">Collisions</th><th class="num" title="${tAnn}">Dégâts annoncés</th><th class="num" title="${tStr}">Structure perdue</th><th class="num">Détruits</th></tr>
+        </thead><tbody>${lignes}</tbody>
+      </table></div>
+      <p class="discret">« Collisions » compte les vaisseaux qui ont pris au moins un point de dégât.
+      Collisions internes : le risque vaut 1 par tranche de 45 à 65 vaisseaux (tirage), moins 2 par niveau de maîtrise militaire ; un risque de 1 ne cause jamais de dégât.
+      <b>Avant correction</b>, le jeu comptait tous les dégâts tirés sur un vaisseau, même au-delà de sa structure : cet excédent vidait la réserve et gonflait le chiffre annoncé, si bien qu'une grande flotte ne perdait que quelques dizaines de petits vaisseaux.
+      <b>Après correction</b> (<code>Flotte.gererCollisionVaisseaux</code>), seuls les dégâts réellement subis sont comptés : toute la réserve se transforme en pertes, et le chiffre annoncé est la perte réelle.
+      Les deux règles partent du même risque mais ont chacune leur tirage ; « Vaisseaux restants » et les collisions avec les débris suivent la règle en vigueur.
+      ${esc(debris)} Les débris sont percutés par toute flotte encore présente sur la case au début du tour suivant, avant l'exécution des ordres.</p>`;
+  }
+
+  function aller(i, animer) {
+    iEtape = Math.max(0, Math.min(etapes.length - 1, i));
+    $("curseur").value = iEtape;
+    const e = etapes[iEtape];
+    $("etape").textContent = e.phase === "deploiement" ? "Déploiement initial" : e.phase === "fin" ? "Résultat final"
+      : `Round ${e.r + 1} / ${res.rounds.length} — ${PHASES[e.phase]}`;
+    $("b-prec").disabled = $("b-debut").disabled = iEtape === 0;
+    $("b-suiv").disabled = $("b-fin").disabled = iEtape === etapes.length - 1;
+    const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (animer && e.phase === "mouvement" && !reduit) {
+      const debut = performance.now(); anim = 0;
+      const pas = t => { anim = Math.min(1, (t - debut) / 600); dessiner(); if (anim < 1 && etapes[iEtape] === e) requestAnimationFrame(pas); else { anim = 1; dessiner(); } };
+      requestAnimationFrame(pas);
+    } else { anim = 1; dessiner(); }
+    rendreJournal(); rendreEtat();
+  }
+  function arreter() { if (minuteur) clearInterval(minuteur); minuteur = null; $("b-lecture").textContent = "▶ Lecture"; }
+  function basculerLecture() {
+    if (minuteur) return arreter();
+    if (iEtape === etapes.length - 1) aller(0, false);
+    $("b-lecture").textContent = "⏸ Pause";
+    minuteur = setInterval(() => { if (iEtape >= etapes.length - 1) arreter(); else aller(iEtape + 1, true); }, 1300);
+  }
+  $("b-debut").addEventListener("click", () => { arreter(); aller(0, false); });
+  $("b-fin").addEventListener("click", () => { arreter(); aller(etapes.length - 1, false); });
+  $("b-prec").addEventListener("click", () => { arreter(); aller(iEtape - 1, false); });
+  $("b-suiv").addEventListener("click", () => { arreter(); aller(iEtape + 1, true); });
+  $("b-lecture").addEventListener("click", basculerLecture);
+  $("curseur").addEventListener("input", e => { arreter(); aller(Number(e.target.value), false); });
+  $("cadrage").addEventListener("change", dessiner);
+  document.addEventListener("keydown", e => {
+    if (!res || e.target.matches("input:not([type=range]), select, textarea, button")) return;
+    if (e.key === "ArrowRight") { arreter(); aller(iEtape + 1, true); }
+    else if (e.key === "ArrowLeft") { arreter(); aller(iEtape - 1, false); }
+    else if (e.key === "Home") { arreter(); aller(0, false); }
+    else if (e.key === "End") { arreter(); aller(etapes.length - 1, false); }
+    else if (e.key === " ") basculerLecture();
+    else return;
+    e.preventDefault();
+  });
+
+  /* Ce qu'il faut afficher à l'étape courante. */
+  function vueCourante() {
+    const e = etapes[iEtape];
+    if (e.phase === "deploiement") return { ids: Object.keys(res.initial.pos), pos: res.initial.pos, etat: res.initial.etat, e };
+    if (e.phase === "fin") return { ids: res.final.presents, pos: res.final.pos, etat: res.final.etat, e };
+    const r = res.rounds[e.r];
+    if (e.phase === "ciblage") return { ids: r.presents, pos: r.avant, etat: r.etatAvant, e, r };
+    if (e.phase === "mouvement") return { ids: r.presents, pos: r.apres, depuis: r.avant, etat: r.etatAvant, e, r };
+    return { ids: r.presents, pos: r.apres, etat: r.etatApres, e, r };
+  }
+
+  /* ---------- Dessin ---------- */
+  const cv = $("scene"), ctx = cv.getContext("2d");
+  const couleur = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function dessiner() {
+    if (!res) return;
+    const dpr = window.devicePixelRatio || 1, L = cv.clientWidth, H = cv.clientHeight;
+    if (cv.width !== Math.round(L * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(L * dpr); cv.height = Math.round(H * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, L, H);
+    const C = { att: couleur("--att"), def: couleur("--def"), coque: couleur("--coque"), bouc: couleur("--bouclier"), rate: couleur("--rate"), grille: couleur("--grille"), texte: couleur("--texte"), discret: couleur("--discret") };
+    const vue = vueCourante();
+    const posAff = id => {
+      const p = vue.pos[id];
+      if (vue.depuis && anim < 1 && vue.depuis[id]) { const d = vue.depuis[id]; return [d[0] + (p[0] - d[0]) * anim, d[1] + (p[1] - d[1]) * anim, p[2]]; }
+      return p;
+    };
+    // cadrage
+    let x0 = -5, x1 = X_MAX + 5, y0 = -4, y1 = 2 * Y_MAX + Y_ESPACE + 4;
+    if ($("cadrage").value === "tout") for (const id of vue.ids) { const p = posAff(id); x0 = Math.min(x0, p[0] - 4); x1 = Math.max(x1, p[0] + 4); y0 = Math.min(y0, p[1] - 4); y1 = Math.max(y1, p[1] + 4); }
+    const ech = Math.min(L / (x1 - x0), H / (y1 - y0));
+    const ox = (L - (x1 - x0) * ech) / 2, oy = (H - (y1 - y0) * ech) / 2;
+    const X = x => ox + (x - x0) * ech, Y = y => H - oy - (y - y0) * ech;
+    // zones de déploiement
+    ctx.lineWidth = 1; ctx.setLineDash([4, 4]); ctx.font = "12px system-ui, sans-serif";
+    [[0, Y_MAX, C.att, "Zone de déploiement de l'attaquant"], [Y_MAX + Y_ESPACE, 2 * Y_MAX + Y_ESPACE, C.def, "Zone de déploiement du défenseur"]].forEach(([a, b, c, t]) => {
+      ctx.strokeStyle = c; ctx.globalAlpha = .55; ctx.strokeRect(X(0), Y(b), X(X_MAX) - X(0), Y(a) - Y(b));
+      ctx.fillStyle = c; ctx.fillText(t, X(0) + 4, Y(b) + 14); ctx.globalAlpha = 1;
+    });
+    ctx.setLineDash([]);
+    const marge = 10;
+    const ecran = id => {
+      const p = posAff(id); let x = X(p[0]), y = Y(p[1]), hors = false;
+      if (x < marge || x > L - marge || y < marge || y > H - marge) { hors = true; x = Math.min(L - marge, Math.max(marge, x)); y = Math.min(H - marge, Math.max(marge, y)); }
+      return { x, y, hors };
+    };
+    // les vaisseaux superposés (fréquent : chacun fonce sur sa cible) sont écartés en cercle pour rester lisibles
+    const E = {}, groupes = {};
+    for (const id of vue.ids) { const p = E[id] = ecran(id), cle = Math.round(p.x / 7) + ":" + Math.round(p.y / 7); (groupes[cle] = groupes[cle] || []).push(id); }
+    for (const cle in groupes) {
+      const g = groupes[cle], n = g.length;
+      if (n < 2) continue;
+      const rayon = Math.min(46, 10 + n * 2.2);
+      g.forEach((id, k) => { E[id].x += rayon * Math.cos(2 * Math.PI * k / n - Math.PI / 2); E[id].y += rayon * Math.sin(2 * Math.PI * k / n - Math.PI / 2); });
+    }
+    const ligne = (a, b, c, larg, tirets, alpha) => {
+      const A = E[a] || ecran(a), B = E[b] || ecran(b);
+      ctx.strokeStyle = c; ctx.lineWidth = larg; ctx.setLineDash(tirets || []); ctx.globalAlpha = alpha;
+      ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    };
+    const visible = id => vue.pos[id] !== undefined;
+    const concerne = (a, b) => selection === null || a === selection || b === selection;
+    // traits selon la phase
+    if (vue.e.phase === "ciblage") {
+      for (const id of vue.ids) { const c = vue.r.cibles[id]; if (c !== -1 && c !== undefined && visible(c) && concerne(id, c)) ligne(id, c, id[0] === "A" ? C.att : C.def, 1, [5, 4], selection ? .95 : .5); }
+    } else if (vue.e.phase === "mouvement") {
+      for (const id of vue.ids) if (concerne(id, null) || selection === null) {
+        const d = vue.depuis[id], p = E[id];
+        ctx.strokeStyle = id[0] === "A" ? C.att : C.def; ctx.globalAlpha = .6; ctx.lineWidth = 1.5; ctx.setLineDash(vue.r.fuite[id] ? [2, 4] : [5, 4]);
+        ctx.beginPath(); ctx.moveTo(X(d[0]), Y(d[1])); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      }
+    } else if (vue.e.phase === "tirs") {
+      for (const t of vue.r.tirs) {
+        if (!t.vers || !concerne(t.de, t.vers)) continue;
+        let coque = 0, bouc = 0, tirs = 0;
+        for (const n in t.armes) { coque += t.armes[n].coque; bouc += t.armes[n].bouclier; tirs += t.armes[n].tirs; }
+        if (coque) ligne(t.de, t.vers, C.coque, 2.2, null, .9);
+        else if (bouc) ligne(t.de, t.vers, C.bouc, 2.2, null, .9);
+        else ligne(t.de, t.vers, C.rate, 1, tirs ? [6, 4] : [1, 5], .7);
+      }
+    }
+    // vaisseaux
+    dessines = [];
+    const etiquettes = vue.ids.length <= 60;
+    ctx.textAlign = "center"; ctx.font = "11px system-ui, sans-serif";
+    for (const id of vue.ids) {
+      const info = res.vaisseaux[id], et = vue.etat[id], p = E[id], r = 5 + info.taille * 1.3;
+      const c = info.camp === "A" ? C.att : C.def, mort = et.det;
+      ctx.globalAlpha = selection && selection !== id ? .55 : 1;
+      ctx.fillStyle = c; ctx.strokeStyle = c; ctx.lineWidth = 2;
+      if (p.hors) ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      if (info.camp === "A") { ctx.moveTo(p.x, p.y - r); ctx.lineTo(p.x + r, p.y + r * .8); ctx.lineTo(p.x - r, p.y + r * .8); ctx.closePath(); }
+      else ctx.rect(p.x - r * .85, p.y - r * .85, r * 1.7, r * 1.7);
+      if (mort || p.hors || et.comb <= 0) { ctx.globalAlpha *= mort ? .5 : 1; ctx.stroke(); } else ctx.fill();
+      ctx.setLineDash([]);
+      if (mort) { ctx.strokeStyle = C.coque; ctx.lineWidth = 2.5; ctx.globalAlpha = 1; ctx.beginPath(); ctx.moveTo(p.x - r, p.y - r); ctx.lineTo(p.x + r, p.y + r); ctx.moveTo(p.x + r, p.y - r); ctx.lineTo(p.x - r, p.y + r); ctx.stroke(); }
+      else if (et.bouc > 0) { ctx.strokeStyle = C.bouc; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(p.x, p.y, r + 4, 0, 2 * Math.PI); ctx.stroke(); }
+      if (selection === id) { ctx.strokeStyle = C.texte; ctx.lineWidth = 1.5; ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(p.x, p.y, r + 8, 0, 2 * Math.PI); ctx.stroke(); }
+      if (etiquettes || selection === id) { ctx.globalAlpha = 1; ctx.fillStyle = C.texte; ctx.fillText(id, p.x, p.y + r + 13); }
+      ctx.globalAlpha = 1;
+      dessines.push({ id, x: p.x, y: p.y, r: r + 6 });
+    }
+    ctx.textAlign = "left";
+  }
+  window.addEventListener("resize", dessiner);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", dessiner);
+
+  const sous = (ev) => {
+    const b = cv.getBoundingClientRect(), x = ev.clientX - b.left, y = ev.clientY - b.top;
+    let mieux = null, dm = Infinity;
+    for (const d of dessines) { const dist = Math.hypot(d.x - x, d.y - y); if (dist <= d.r + 4 && dist < dm) { dm = dist; mieux = d; } }
+    return mieux && { id: mieux.id, x, y };
+  };
+  cv.addEventListener("mousemove", ev => {
+    const s = res && sous(ev), bulle = $("bulle");
+    if (!s) { bulle.style.display = "none"; cv.style.cursor = "default"; return; }
+    const vue = vueCourante(), info = res.vaisseaux[s.id], et = vue.etat[s.id], p = vue.pos[s.id];
+    let cible = "";
+    if (vue.r) { const c = vue.r.cibles[s.id]; cible = `<br>Cible du round : ${c === -1 ? "aucune" : c + " (" + esc(res.vaisseaux[c].type) + ")"}${vue.r.fuite[s.id] ? "<br>En fuite ce round" : ""}`; }
+    bulle.innerHTML = `<b>${s.id} · ${esc(info.type)}</b> (taille ${info.taille + 1})<br>` +
+      `Structure ${et.pv}/${info.pvMax} · bouclier ${et.bouc}<br>Armes valides ${et.armes} · vitesse ${et.mouv}<br>` +
+      `Combativité ${et.comb}${et.det ? " · <span class=\"c-coque\">détruit</span>" : ""}<br>Position x ${p[0]}, y ${p[1]}, z ${p[2]}${cible}`;
+    bulle.style.display = "block";
+    bulle.style.left = Math.min(s.x + 14, cv.clientWidth - 270) + "px"; bulle.style.top = (s.y + 14) + "px";
+    cv.style.cursor = "pointer";
+  });
+  cv.addEventListener("mouseleave", () => { $("bulle").style.display = "none"; });
+  cv.addEventListener("click", ev => { const s = res && sous(ev); selectionner(s ? (selection === s.id ? null : s.id) : null); });
+  function selectionner(id) { selection = id; dessiner(); rendreJournal(); rendreEtat(); }
+
+  /* ---------- Journal et état ---------- */
+  function rendreJournal() {
+    const vue = vueCourante(), z = $("journal");
+    if (!vue.r) {
+      z.innerHTML = vue.e.phase === "deploiement"
+        ? "<p class=\"discret\">Les flottes sont déployées. Passez à l'étape suivante pour voir le premier round.</p>"
+        : `<p class="discret">Combat terminé en ${res.nbRounds} round${res.nbRounds > 1 ? "s" : ""}. Points de structure perdus : attaquant ${res.dommages[0]}, défenseur ${res.dommages[1]}.</p>`;
+      return;
+    }
+    const nom = id => `<b>${id}</b> ${esc(res.vaisseaux[id].type)}`;
+    const MAX_JOURNAL = 400;
+    let affiches = 0, masques = 0;
+    const lignes = vue.r.tirs.map(t => {
+      const sel = selection && (t.de === selection || t.vers === selection) ? " sel" : "";
+      if (selection && !sel) return "";
+      if (++affiches > MAX_JOURNAL) { masques++; return ""; }
+      if (!t.vers) return `<div class="tir ${t.de[0]}${sel}">${nom(t.de)} <span class="muet">${esc(t.raison)}</span></div>`;
+      const det = Object.values(t.armes).map(w => {
+        const m = [];
+        if (w.coque) m.push(`<span class="c-coque">${w.coque} sur la coque (${w.pts} pt${w.pts > 1 ? "s" : ""})</span>`);
+        if (w.bouclier) m.push(`<span class="c-bouc">${w.bouclier} sur le bouclier</span>`);
+        if (w.absorbes) m.push(`${w.absorbes} absorbé${w.absorbes > 1 ? "s" : ""}`);
+        if (w.rates) m.push(`${w.rates} raté${w.rates > 1 ? "s" : ""}`);
+        if (w.enrayes) m.push(`${w.enrayes} enrayé${w.enrayes > 1 ? "s" : ""}`);
+        if (w.hors) m.push(`${w.hors} hors de portée`);
+        return `${esc(w.nom)}${w.tirs ? ` ×${w.tirs} à ${w.chance} %` : ""} : ${m.join(", ")}`;
+      }).join("<br>");
+      return `<div class="tir ${t.de[0]}${sel}">${nom(t.de)} → ${nom(t.vers)} · distance ${t.dist}${t.numTir ? ` · cible n° ${t.numTir + 1}` : ""}` +
+        `${t.detruite ? " · <span class=\"c-coque\">cible détruite</span>" : ""}<div class="det">${det || esc(t.raison || "aucune arme n'a pu tirer")}</div></div>`;
+    }).join("");
+    const intro = vue.e.phase === "tirs" ? "" : "<p class=\"discret\">Tirs de ce round (résolus après le mouvement, du plus rapide au plus lent) :</p>";
+    const filtre = selection ? `<p>Filtré sur <b>${selection}</b>. <button type="button" class="lien" id="b-tout">Tout afficher</button></p>` : "";
+    const reste = masques ? `<p class="discret">${masques} autres tirs ne sont pas affichés. Cliquez sur un vaisseau (carte ou colonne) pour voir tous les siens.</p>` : "";
+    z.innerHTML = filtre + intro + (lignes || "<p class=\"discret\">Aucun tir.</p>") + reste;
+    const b = $("b-tout"); if (b) b.addEventListener("click", () => selectionner(null));
+  }
+  function rendreEtat() {
+    const vue = vueCourante(), presents = new Set(vue.ids);
+    ["A", "D"].forEach((camp, k) => {
+      const ids = Object.keys(res.vaisseaux).filter(id => res.vaisseaux[id].camp === camp);
+      let restants = 0;
+      const lignes = ids.map(id => {
+        const info = res.vaisseaux[id], present = presents.has(id), et = present ? vue.etat[id] : null;
+        const mort = !present || et.det, pv = et ? et.pv : 0;
+        if (!mort) restants++;
+        const statut = mort ? "détruit" : et.comb <= 0 ? "non combatif" : vue.r && vue.r.fuite[id] ? "en fuite" : "au combat";
+        const titre = mort ? "Détruit" : `Combativité : encore ${Math.max(0, et.comb)} round(s) · vitesse ${et.mouv} · taille ${info.taille + 1}`;
+        return `<tr class="${camp}${mort ? " mort" : ""}${!mort && statut !== "au combat" ? " inactif" : ""}${selection === id ? " sel" : ""}" data-id="${present ? id : ""}" title="${titre}">
+          <td>${id}</td><td>${esc(info.type)}</td>
+          <td><span class="jauge"><i style="width:${Math.round(100 * pv / info.pvMax)}%"></i></span>${pv}/${info.pvMax}</td>
+          <td class="num">${et ? et.bouc : "–"}</td><td class="num">${et ? et.armes : "–"}</td><td>${statut}</td></tr>`;
+      }).join("");
+      $("t-etat" + camp).textContent = `${k ? "■ Défenseur" : "▲ Attaquant"} : ${restants} / ${ids.length} restant${restants > 1 ? "s" : ""}`;
+      $("etat" + camp).innerHTML = `<table class="donnees"><thead><tr><th>N°</th><th>Type</th><th>Structure</th><th class="num" title="Points de bouclier restants">Boucl.</th><th class="num" title="Armes spatiales encore valides">Armes</th><th>Statut</th></tr></thead><tbody>${lignes}</tbody></table>`;
+    });
+  }
+  for (const zone of ["etatA", "etatD"]) $(zone).addEventListener("click", e => { const tr = e.target.closest("tr[data-id]"); if (tr && tr.dataset.id) selectionner(selection === tr.dataset.id ? null : tr.dataset.id); });
+
+  /* ---------- Comparaison statistique ---------- */
+  $("b-stats").addEventListener("click", () => {
+    if (!valider()) return;
+    const nbVaisseaux = cfg.camps.reduce((s, c) => s + c.types.reduce((x, t) => x + t.nb, 0), 0);
+    const N = nbVaisseaux <= 300 ? 200 : nbVaisseaux <= 1000 ? 50 : 10, bouton = $("b-stats");
+    const variantes = [["Moteur actuel (multi-cible)", true, false], ["Cible unique (ancien moteur)", false, false], ["Multi-cible + fiabilité", true, true], ["Cible unique + fiabilité", false, true]];
+    const acc = variantes.map(() => ({ a: 0, d: 0, nul: 0, rounds: 0, sa: 0, sd: 0, da: 0, dd: 0, ca: 0, cd: 0 }));
+    $("stats").hidden = false; $("stats-table").innerHTML = ""; bouton.disabled = true;
+    let fait = 0, depA = 0, depD = 0;
+    const lot = () => {
+      const debut = performance.now();
+      while (fait < N && performance.now() - debut < 60) {
+        variantes.forEach((v, k) => {
+          const r = resoudreCombat(cfg, { multi: v[1], fiab: v[2], sym: cfg.opts.sym, recul: cfg.opts.recul, debris: cfg.opts.debris || 0 }, cfg.opts.graine + fait * 7919 + 1, false), s = acc[k];
+          if (r.vainqueur === "A") s.a++; else if (r.vainqueur === "D") s.d++; else s.nul++;
+          s.rounds += r.nbRounds; s.sa += r.survivants[0]; s.sd += r.survivants[1]; s.da += r.dommages[0]; s.dd += r.dommages[1];
+          s.ca += r.apres.camps[0].interne.reels + r.apres.camps[0].debris.reels; s.cd += r.apres.camps[1].interne.reels + r.apres.camps[1].debris.reels;
+          depA = r.departs[0]; depD = r.departs[1];
+        });
+        fait++;
+      }
+      $("stats-info").textContent = `Calcul en cours : ${fait} / ${N} combats…`;
+      if (fait < N) return setTimeout(lot, 0);
+      const pc = x => (100 * x / N).toFixed(0) + " %", moy = x => (x / N).toFixed(1);
+      $("stats-info").textContent = `${N} combats par variante${N < 200 ? " (nombre réduit à cause de la taille des flottes)" : ""}, avec les mêmes flottes et les mêmes graines (à partir de ${cfg.opts.graine}). « Sans vainqueur » regroupe les combats arrêtés faute de combativité et les destructions mutuelles.`;
+      $("stats-table").innerHTML = `<table class="donnees"><thead><tr><th>Règles</th><th class="num">Victoires attaquant</th><th class="num">Victoires défenseur</th><th class="num">Sans vainqueur</th><th class="num">Rounds (moy.)</th>` +
+        `<th class="num">Survivants attaquant (sur ${depA})</th><th class="num">Survivants défenseur (sur ${depD})</th><th class="num">Structure perdue att.</th><th class="num">Structure perdue déf.</th><th class="num" title="Collisions internes et débris : points de structure réellement perdus">Structure perdue par collision att.</th><th class="num" title="Collisions internes et débris : points de structure réellement perdus">Structure perdue par collision déf.</th></tr></thead><tbody>` +
+        variantes.map((v, k) => { const s = acc[k]; return `<tr><td>${v[0]}</td><td class="num">${pc(s.a)}</td><td class="num">${pc(s.d)}</td><td class="num">${pc(s.nul)}</td><td class="num">${moy(s.rounds)}</td><td class="num">${moy(s.sa)}</td><td class="num">${moy(s.sd)}</td><td class="num">${moy(s.da)}</td><td class="num">${moy(s.dd)}</td><td class="num">${moy(s.ca)}</td><td class="num">${moy(s.cd)}</td></tr>`; }).join("") +
+        "</tbody></table>";
+      bouton.disabled = false;
+      $("stats").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+    lot();
+  });
+
+  rendreCamps(); rendreOptions();
+})();
+if (typeof module !== "undefined") module.exports = { resoudreCombat, statsArme, creerVaisseau, tailleDeCases };
+</script>
+</body>
+</html>
