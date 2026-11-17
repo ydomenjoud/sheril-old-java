@@ -1303,9 +1303,13 @@ public class Combat {
                                 inter,
                                 h.getNiveauCompetence(Const.COMPETENCE_LEADER_MAITRISE_SAVOIR)));
             } else {
-                int[] inter = (int[]) o;
+                // copie : la stratégie du joueur ne doit pas être modifiée
+                // (sinon un défenseur sur deux du même type reprend la position
+                // non retournée, et la stratégie enregistrée est faussée)
+                int[] inter = ((int[]) o).clone();
                 if (!att) {
-                    inter[1] = Const.COMBAT_Y_ESPACE + Const.COMBAT_Y_MAX
+                    // miroir dans la zone du défenseur (y 20 à 30) : arrière 0 -> 30
+                    inter[1] = 2 * Const.COMBAT_Y_MAX + Const.COMBAT_Y_ESPACE
                             - inter[1];
                     inter[0] = Const.COMBAT_X_MAX - inter[0];
                 }
