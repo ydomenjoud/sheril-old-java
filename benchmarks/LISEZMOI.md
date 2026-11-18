@@ -31,6 +31,10 @@ Chaque jeu de règles rejoue les mêmes graines : à graine égale, seule la rè
 | `mono` | Ancien moteur : une seule cible par vaisseau et par round |
 | `fiab` | Chaque tir peut s'enrayer : la caractéristique « fiabilité » de l'arme est lue comme un pourcentage d'enrayement |
 | `fiabNN` | Comme `fiab`, mais avec la même fiabilité de NN % pour toutes les armes (`fiab80` : 20 % d'enrayement) |
+| `fiabtA-B` | Enrayement selon la taille du vaisseau qui tire : A % pour une coque T1, B % pour une T10, linéaire entre les deux (`fiabt40-0` : T3 31 %, T6 18 %, T9 4 %) |
+| `fiabtailleN` | Taux de l'arme (déjà réduit de 1 point par niveau d'arme), moins N points par cran de taille du vaisseau qui tire, T1 = 0 (`fiabtaille1`, laser V : T3 14 %, T9 8 %) |
+| `continu` | Tir continu : à son tour (ordre du tempo), un vaisseau enchaîne ses cibles tant qu'il lui reste des armes, au lieu d'attendre la passe suivante pour en changer |
+| `vivantes` | La liste de secours du choix de cible (toute la flotte adverse) écarte les vaisseaux déjà détruits pendant le round |
 
 Elles se combinent avec `+` : `--regles actuel,mono+fiab`.
 

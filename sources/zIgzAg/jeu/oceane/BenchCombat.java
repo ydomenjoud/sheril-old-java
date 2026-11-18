@@ -531,7 +531,27 @@ public class BenchCombat {
 					v.regles.enrayementUniforme = 100 - Integer.parseInt(regle.substring(4));
 					break;
 				}
-				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, multi, mono, fiab, fiabNN, combinables avec +)");
+				if (regle.equals("vivantes")) {
+					v.regles.ciblesVivantes = true;
+					break;
+				}
+				if (regle.equals("continu")) {
+					v.regles.tirContinu = true;
+					break;
+				}
+				if (regle.matches("fiabtaille\\d+")) {
+					v.regles.fiabilite = true;
+					v.regles.reductionParTaille = Integer.parseInt(regle.substring(10));
+					break;
+				}
+				java.util.regex.Matcher fiabt = java.util.regex.Pattern.compile("fiabt(\\d+)-(\\d+)").matcher(regle);
+				if (fiabt.matches()) {
+					v.regles.fiabilite = true;
+					v.regles.enrayementT1 = Integer.parseInt(fiabt.group(1));
+					v.regles.enrayementT10 = Integer.parseInt(fiabt.group(2));
+					break;
+				}
+				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, continu, vivantes, combinables avec +)");
 			}
 		return v;
 	}

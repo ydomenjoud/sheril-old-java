@@ -94,9 +94,9 @@ td.actif { outline: 2px solid var(--fg); outline-offset: -1px; }
 
   <div class="notes">
     <p>Combats à minerai égal : le camp dont le vaisseau coûte le plus aligne 20 vaisseaux, l'autre en aligne autant que le même minerai le permet.</p>
-    <p>Armes et boucliers de niveau V ; un bouclier remplace 4 armes. Agressivité « rage » des deux côtés, placement par défaut, sans héros.</p>
+    <p>Armes et boucliers de niveau V. Chaque coque est remplie jusqu'au maximum de cases de sa taille : le plus petit moteur qui donne une vitesse de 8, les boucliers, puis des armes ; un bouclier remplace 4 armes. Agressivité « rage » des deux côtés, placement par défaut, sans héros.</p>
     <p>Minerai vivant = 1 − pertes moyennes ÷ vaisseaux engagés (un vaisseau endommagé compte comme entier). « Moyenne » fait la moyenne sur les quatre armes.</p>
-    <p>Fiabilité : une arme peut s'enrayer à chaque tir. « Actuelle » : taux de l'arme (laser et plasma 16 %, torpille 21 %, missile 26 % au niveau V) ; « 80 % » : 20 % d'enrayement pour toutes.</p>
+    <p>Fiabilité : une arme peut s'enrayer à chaque tir. « Actuelle » : taux de l'arme (laser et plasma 16 %, torpille 21 %, missile 26 % au niveau V) ; « 80 % » : 20 % d'enrayement pour toutes ; « Selon la taille » : l'enrayement dépend de la taille du vaisseau qui tire, plus élevé sur les petites coques (taux en T3 et en T9 indiqués entre parenthèses).</p>
   </div>
 </main>
 
@@ -109,7 +109,17 @@ const BOUC = [["0", "Sans"], ["1", "Avec"]];
 const NOMS_REGLES = { "multi": "Sans fiabilité", "multi+fiab": "Fiabilité actuelle", "multi+fiab80": "Fiabilité 80 %" };
 const VUES = [["ecart", "Écart (2 − 1)"], ["1", "État 1"], ["2", "État 2"]];
 const NOMS_ARMES = Object.fromEntries(ARMES);
-const nomRegle = r => NOMS_REGLES[r] || r;
+// fiabtA-B : enrayement de A % (coque T1) à B % (coque T10), linéaire selon la taille du tireur
+const enrayement = (a, b, t) => a + Math.round((b - a) * (t - 1) / 9);
+const nomRegle = r => {
+  if (NOMS_REGLES[r]) return NOMS_REGLES[r];
+  const n = /fiabtaille(\d+)$/.exec(r);
+  if (n) return `Fiabilité de l'arme −${n[1]} point${+n[1] > 1 ? "s" : ""} par taille`;
+  const m = /fiabt(\d+)-(\d+)$/.exec(r);
+  if (!m) return r;
+  const [a, b] = [+m[1], +m[2]];
+  return `Selon la taille (T3 ${enrayement(a, b, 3)} % → T9 ${enrayement(a, b, 9)} %)`;
+};
 
 const defaut = { aa: "laser", ad: "laser", ba: "0", bd: "0", regle: META.regles[0] };
 const etat = {

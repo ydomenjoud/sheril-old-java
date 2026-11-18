@@ -1,6 +1,9 @@
 """Génère la matrice complète des combats à minerai égal : tailles T3 à T9 de chaque côté,
 4 armes de chaque côté (niveau V), boucliers V oui/non pour chaque camp.
 
+Chaque coque est remplie jusqu'au maximum de cases de sa taille (Const.TAILLE_VAISSEAUX) :
+le plus petit moteur qui donne une vitesse de 8, les boucliers, puis des armes dans le reste.
+
 Le camp dont le vaisseau coûte le plus aligne 20 vaisseaux ; l'autre reçoit le même minerai
 et en aligne autant que possible (« * »). À coût égal, 20 contre 20.
 
@@ -11,18 +14,25 @@ import os, sys
 
 TAILLES = range(3, 10)
 ARMES = ("laser", "plasma", "torp", "miss")
-ARMES_PAR_TAILLE = {3: 16, 4: 32, 5: 64, 6: 128, 7: 256, 8: 511, 9: 1024}
-MOTEUR = {3: 1, 4: 2, 5: 2, 6: 3, 7: 3, 8: 3, 9: 3}
-MINERAI_MOTEUR = {1: 1, 2: 4, 3: 8}
-BOUCLIERS = {3: 1, 4: 2, 5: 3, 6: 5, 7: 10, 8: 10, 9: 10}  # 4 cases d'armes chacun
+# Const.TAILLE_VAISSEAUX : nombre maximal de cases et vitesse de base de chaque taille
+CASES_MAX = {1: 3, 2: 9, 3: 17, 4: 33, 5: 65, 6: 129, 7: 257, 8: 512, 9: 1025}
+VITESSE_BASE = {t: 10 - t for t in range(1, 11)}
+VITESSE_MIN = 8
+# moteur de niveau N : propulsion N, cases = minerai (ListeTechnologique.moteurI…VII)
+CASES_MOTEUR = {1: 1, 2: 4, 3: 8, 4: 15, 5: 30, 6: 60, 7: 120}
+# vitesse = propulsion + vitesse de base : le moteur le plus petit qui donne VITESSE_MIN
+MOTEUR = {t: max(1, VITESSE_MIN - VITESSE_BASE[t]) for t in TAILLES}
+BOUCLIERS = {3: 1, 4: 2, 5: 3, 6: 5, 7: 10, 8: 10, 9: 10}  # 4 cases chacun, pris sur les armes
 NB_FIXE = 20
 
 
 def vaisseau(t, arme, bouclier):
+    """Coque remplie jusqu'au maximum de sa taille : moteur, boucliers, puis armes dans le reste."""
     nb = BOUCLIERS[t] if bouclier else 0
-    n = ARMES_PAR_TAILLE[t] - 4 * nb
-    plan = f"moteur@{MOTEUR[t]} {arme}@5x{n}" + (f" bouclier@5x{nb}" if nb else "")
-    return plan, 5 * n + MINERAI_MOTEUR[MOTEUR[t]] + 25 * nb, n
+    moteur = MOTEUR[t]
+    n = CASES_MAX[t] - CASES_MOTEUR[moteur] - 4 * nb
+    plan = f"moteur@{moteur} {arme}@5x{n}" + (f" bouclier@5x{nb}" if nb else "")
+    return plan, 5 * n + CASES_MOTEUR[moteur] + 25 * nb, n
 
 
 def nom(ta, aa, ba, td, ad, bd):

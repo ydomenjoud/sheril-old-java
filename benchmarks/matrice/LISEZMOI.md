@@ -3,9 +3,22 @@
 Toutes les tailles T3 à T9 l'une contre l'autre (attaquant × défenseur, égalités comprises),
 4 armes de chaque côté (laser, plasma, torpille, missile, niveau V), boucliers V oui/non pour chaque camp :
 3 136 scénarios, à minerai égal. Le camp dont le vaisseau coûte le plus aligne 20 vaisseaux,
-l'autre autant que le même minerai le permet (jusqu'à 1 266 T3 contre 20 T9).
-Agressivité « rage » des deux côtés, placement par défaut, sans héros. Un bouclier remplace 4 armes
-(T3 : 1, T4 : 2, T5 : 3, T6 : 5, T7 à T9 : 10).
+l'autre autant que le même minerai le permet (jusqu'à 1 146 T3 contre 20 T9).
+Agressivité « rage » des deux côtés, placement par défaut, sans héros.
+
+Chaque coque est remplie jusqu'au nombre maximal de cases de sa taille (`Const.TAILLE_VAISSEAUX`),
+pour que la taille ne change jamais : le plus petit moteur qui donne une vitesse de 8, les
+boucliers éventuels, puis des armes dans le reste. Un bouclier (4 cases) remplace 4 armes.
+
+| Taille | Cases | Moteur (cases) | Armes | Boucliers | Armes avec boucliers |
+|---|---|---|---|---|---|
+| T3 | 17 | I (1) | 16 | 1 | 12 |
+| T4 | 33 | II (4) | 29 | 2 | 21 |
+| T5 | 65 | III (8) | 57 | 3 | 45 |
+| T6 | 129 | IV (15) | 114 | 5 | 94 |
+| T7 | 257 | V (30) | 227 | 10 | 187 |
+| T8 | 512 | VI (60) | 452 | 10 | 412 |
+| T9 | 1 025 | VII (120) | 905 | 10 | 865 |
 
 - `matrice.csv` : résultats, 50 combats par scénario, règles `multi`, `multi+fiab`, `multi+fiab80`.
 - `matrice_combats.html` : page autonome (données intégrées, hors ligne) ; choix de l'armement et des

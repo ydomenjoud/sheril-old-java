@@ -1082,13 +1082,16 @@ public class Combat {
             int temp1 = f1.dommagesTotaux();
             int temp2 = f2.dommagesTotaux();
 
-            combat(f1, hp1, hc1, ht1, h1, c1, f2, hp2, hc2, ht2, h2, c2, 0);
+            if (regles.tirContinu)
+                combatContinu(f1, s1, hp1, hc1, ht1, h1, c1, f2, s2, hp2, hc2, ht2, h2, c2);
+            else
+                combat(f1, hp1, hc1, ht1, h1, c1, f2, hp2, hc2, ht2, h2, c2, 0);
 
             // Tirs sur cibles multiples (regles.multiCible = false : ancien tir sur cible unique).
             // Seuls les vaisseaux qui ont encore des armes à tirer désignent une nouvelle cible,
             // et on s'arrête dès qu'aucun d'eux ne peut plus en trouver : les itérations
             // suivantes ne produiraient aucun tir.
-            int nbTirsSupplementaires = regles.multiCible ? Const.NB_CIBLES[tailleMax] : 0;
+            int nbTirsSupplementaires = (regles.multiCible && !regles.tirContinu) ? Const.NB_CIBLES[tailleMax] : 0;
             for (int i = 1; i <= nbTirsSupplementaires
                     && (resteCibleNouvelle(m1, hc1, f2, i) || resteCibleNouvelle(m2, hc2, f1, i)); i++) {
                 determinationCible(m1, s1, hc1, hp1, hp2, f2, i);
@@ -1501,8 +1504,12 @@ public class Combat {
         ArrayList[] listes = new ArrayList[Const.TAILLE_MAXIMAL_VAISSEAU];
         for (int i = 0; i < listes.length; i++)
             listes[i] = new ArrayList();
-        for (int i = 0; i < depart.length; i++)
-            listes[f.getVaisseau(depart[i]).getTaille()].add(depart[i]);
+        boolean vivantes = ReglesCombat.actives().ciblesVivantes;
+        for (int i = 0; i < depart.length; i++) {
+            Vaisseau v = f.getVaisseau(depart[i]);
+            if (!(vivantes && v.estDetruit()))
+                listes[v.getTaille()].add(depart[i]);
+        }
         Integer[][] retour = new Integer[listes.length][];
         for (int i = 0; i < listes.length; i++)
             retour[i] = (Integer[]) new HashSet(listes[i]).toArray(new Integer[0]);
@@ -1693,6 +1700,43 @@ public class Combat {
                 tirVaisseau(mt2[compteur2].getValue(), f2, pos2, pos1, cible2, f1, numTir, h2, h1, c2);
                 compteur2--;
             }
+        }
+    }
+
+    /**
+     * Tir continu (ReglesCombat.tirContinu) : les vaisseaux des deux flottes tirent dans l'ordre
+     * du tempo ; chacun, à son tour, tire sur sa première cible puis en désigne de nouvelles
+     * (jusqu'à getNbCibleMax) tant qu'il lui reste des armes.
+     */
+    private static void combatContinu(Flotte f1, StrategieDeCombatSpatial s1, HashMap pos1, HashMap cible1,
+                                      TreeMap ht1, Heros h1, Commandant c1, Flotte f2, StrategieDeCombatSpatial s2,
+                                      HashMap pos2, HashMap cible2, TreeMap ht2, Heros h2, Commandant c2) {
+        Map.Entry[] mt1 = (Map.Entry[]) ht1.entrySet().toArray(new Map.Entry[0]);
+        Map.Entry[] mt2 = (Map.Entry[]) ht2.entrySet().toArray(new Map.Entry[0]);
+        int compteur1 = mt1.length - 1;
+        int compteur2 = mt2.length - 1;
+        while ((compteur1 > -1) || (compteur2 > -1)) {
+            boolean premier = (compteur2 == -1) || ((compteur1 != -1)
+                    && (((Integer) mt1[compteur1].getKey()).compareTo((Integer) mt2[compteur2].getKey()) > 0));
+            if (premier)
+                tirVaisseauContinu(mt1[compteur1--].getValue(), f1, s1, pos1, pos2, cible1, f2, h1, h2, c1);
+            else
+                tirVaisseauContinu(mt2[compteur2--].getValue(), f2, s2, pos2, pos1, cible2, f1, h2, h1, c2);
+        }
+    }
+
+    private static void tirVaisseauContinu(Object cle, Flotte f1, StrategieDeCombatSpatial s, HashMap pos1,
+                                           HashMap pos2, HashMap cible, Flotte f2, Heros h1, Heros h2, Commandant com) {
+        tirVaisseau(cle, f1, pos1, pos2, cible, f2, 0, h1, h2, com);
+        Vaisseau v = f1.getVaisseau((Integer) cle);
+        int[] cibles = (int[]) cible.get(cle);
+        Map.Entry[] seul = {new java.util.AbstractMap.SimpleEntry(cle, v)};
+        for (int i = 1; (i < cibles.length) && peutEncoreTirer(v); i++) {
+            determinationCible(seul, s, cible, pos1, pos2, f2, i);
+            // plus de cible vivante disponible : le vaisseau garde ses armes restantes
+            if ((cibles[i] == -1) || f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit())
+                break;
+            tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2, com);
         }
     }
 
