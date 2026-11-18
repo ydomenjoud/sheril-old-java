@@ -380,7 +380,15 @@ public class PlanDeVaisseau extends Produit implements Serializable {
 				a.add(comp[i]);
 				comp[i] = null;
 			}
-		for (int j = 10; j >= 0; j--)
+		// armes de la plus rapide à la plus lente ; la vitesse comprend le bonus de niveau
+		// (laser V : 12), d'où un départ à la vitesse maximale et non à 10
+		int vitesseMax = 0;
+		for (int i = 0; i < comp.length; i++)
+			if ((comp[i] != null)
+					&& (((ComposantDeVaisseau) Univers.getTechnologie(comp[i])).estArme()))
+				vitesseMax = Math.max(vitesseMax,
+						((Arme) Univers.getTechnologie(comp[i])).getVitesse());
+		for (int j = vitesseMax; j >= 0; j--)
 			for (int i = 0; i < comp.length; i++)
 				if ((comp[i] != null)
 						&& (((ComposantDeVaisseau) Univers

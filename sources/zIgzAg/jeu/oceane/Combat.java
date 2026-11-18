@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map;
@@ -988,7 +989,6 @@ public class Combat {
             mem2 = f2.listeVaisseauxParTypePourCombat();
 
             // phase de détermination de cible.
-            int tailleMax = tailleVaisseauMaximale(m1, m2);
 
             f1.preparerAuCombat(true);
             f2.preparerAuCombat(true);
@@ -1009,16 +1009,7 @@ public class Combat {
             int temp1 = f1.dommagesTotaux();
             int temp2 = f2.dommagesTotaux();
 
-            combat(f1, hp1, hc1, ht1, h1, f2, hp2, hc2, ht2, h2, 0);
-
-            // tirs sur cibles multiples : tant qu'un vaisseau a encore des armes à tirer et une
-            // cible nouvelle à désigner, dans la limite de Const.NB_CIBLES pour la plus grande taille.
-            for (int i = 1; i <= Const.NB_CIBLES[tailleMax]
-                    && (resteCibleNouvelle(m1, hc1, f2, i) || resteCibleNouvelle(m2, hc2, f1, i)); i++) {
-                determinationCible(m1, s1, hc1, hp1, hp2, f2, i);
-                determinationCible(m2, s2, hc2, hp2, hp1, f1, i);
-                combat(f1, hp1, hc1, ht1, h1, f2, hp2, hc2, ht2, h2, i);
-            }
+            combat(f1, s1, hp1, hc1, ht1, h1, f2, s2, hp2, hc2, ht2, h2);
 
             nbDommages1 = nbDommages1 + f1.dommagesTotaux() - temp1;
             nbDommages2 = nbDommages2 + f2.dommagesTotaux() - temp2;
@@ -1273,17 +1264,6 @@ public class Combat {
                 DocumentHTML.creerTable(Rapport.getTable(), a));
     }
 
-    private static int tailleVaisseauMaximale(Map.Entry[] m1, Map.Entry[] m2) {
-        int max = 0;
-        for (int i = 0; i < m1.length; i++)
-            if (((Vaisseau) m1[i].getValue()).getTaille() > max)
-                max = ((Vaisseau) m1[i].getValue()).getTaille();
-        for (int i = 0; i < m2.length; i++)
-            if (((Vaisseau) m2[i].getValue()).getTaille() > max)
-                max = ((Vaisseau) m2[i].getValue()).getTaille();
-        return max;
-    }
-
     private static HashMap positionnement(StrategieDeCombatSpatial s,
                                           Map.Entry[] m, boolean att, Heros h) {
         HashMap hm = new HashMap(m.length * 2, 0.5F);
@@ -1336,26 +1316,6 @@ public class Combat {
      */
     private static boolean peutEncoreTirer(Vaisseau v) {
         return (!v.estDetruit()) && v.estCombatif() && (v.getNombreArmesValides() > 0);
-    }
-
-    /**
-     * Vrai si au moins un vaisseau de m, encore capable de tirer, peut désigner au tir numTir
-     * un vaisseau de la flotte f qu'il n'a pas déjà pris pour cible pendant ce round.
-     */
-    private static boolean resteCibleNouvelle(Map.Entry[] m, HashMap hc, Flotte f, int numTir) {
-        int nbAdversaires = f.getNombreDeVaisseaux();
-        for (int i = 0; i < m.length; i++) {
-            int[] inter = (int[]) hc.get(m[i].getKey());
-            if ((inter.length > numTir) && peutEncoreTirer((Vaisseau) m[i].getValue())) {
-                int dejaPrises = 0;
-                for (int j = 0; j < numTir; j++)
-                    if (inter[j] != -1)
-                        dejaPrises++;
-                if (dejaPrises < nbAdversaires)
-                    return true;
-            }
-        }
-        return false;
     }
 
     private static void determinationCible(Map.Entry[] m,
@@ -1463,14 +1423,18 @@ public class Combat {
     /**
      * Répartit des numéros de vaisseaux de la flotte f par taille. Chaque liste est rangée dans
      * l'ordre de parcours d'un HashSet, comme le faisait la sélection d'origine : cet ordre
-     * départage les cibles situées à la même distance.
+     * départage les cibles situées à la même distance. Les vaisseaux déjà détruits pendant le
+     * round sont écartés : la liste de secours (toute la flotte) les contient encore.
      */
     private static Integer[][] repartirParTaille(Flotte f, Integer[] depart) {
         ArrayList[] listes = new ArrayList[Const.TAILLE_MAXIMAL_VAISSEAU];
         for (int i = 0; i < listes.length; i++)
             listes[i] = new ArrayList();
-        for (int i = 0; i < depart.length; i++)
-            listes[f.getVaisseau(depart[i]).getTaille()].add(depart[i]);
+        for (int i = 0; i < depart.length; i++) {
+            Vaisseau v = f.getVaisseau(depart[i]);
+            if (!v.estDetruit())
+                listes[v.getTaille()].add(depart[i]);
+        }
         Integer[][] retour = new Integer[listes.length][];
         for (int i = 0; i < listes.length; i++)
             retour[i] = (Integer[]) new HashSet(listes[i]).toArray(new Integer[0]);
@@ -1631,9 +1595,16 @@ public class Combat {
         }
     }
 
-    private static void combat(Flotte f1, HashMap pos1, HashMap cible1,
-                               TreeMap ht1, Heros h1, Flotte f2, HashMap pos2, HashMap cible2,
-                               TreeMap ht2, Heros h2, int numTir) {
+    /**
+     * Phase de tir d'un round : les vaisseaux des deux flottes tirent une seule fois chacun,
+     * entrelacés par tempo décroissant. À son tour, un vaisseau tire sur sa première cible
+     * (choisie avant le mouvement), puis en désigne de nouvelles tant qu'il lui reste des armes,
+     * dans la limite de getNbCibleMax (Const.NB_CIBLES) : une grosse coque utilise tout son
+     * armement à son tempo, comme une petite, au lieu d'attendre que tous les autres aient tiré.
+     */
+    private static void combat(Flotte f1, StrategieDeCombatSpatial s1, HashMap pos1, HashMap cible1,
+                               TreeMap ht1, Heros h1, Flotte f2, StrategieDeCombatSpatial s2,
+                               HashMap pos2, HashMap cible2, TreeMap ht2, Heros h2) {
 
         Map.Entry[] mt1 = (Map.Entry[]) ht1.entrySet()
                 .toArray(new Map.Entry[0]);
@@ -1655,12 +1626,31 @@ public class Combat {
             }
 
             if (premier) {
-                tirVaisseau(mt1[compteur1].getValue(), f1, pos1, pos2, cible1, f2, numTir, h1, h2);
+                tirVaisseauToutesCibles(mt1[compteur1].getValue(), f1, s1, pos1, pos2, cible1, f2, h1, h2);
                 compteur1--;
             } else {
-                tirVaisseau(mt2[compteur2].getValue(), f2, pos2, pos1, cible2, f1, numTir, h2, h1);
+                tirVaisseauToutesCibles(mt2[compteur2].getValue(), f2, s2, pos2, pos1, cible2, f1, h2, h1);
                 compteur2--;
             }
+        }
+    }
+
+    /** Tour de tir d'un vaisseau : cible 0, puis nouvelles cibles tant qu'il a des armes. */
+    private static void tirVaisseauToutesCibles(Object cle, Flotte f1, StrategieDeCombatSpatial s,
+                                                HashMap pos1, HashMap pos2, HashMap cible, Flotte f2,
+                                                Heros h1, Heros h2) {
+        tirVaisseau(cle, f1, pos1, pos2, cible, f2, 0, h1, h2);
+        Vaisseau v = f1.getVaisseau((Integer) cle);
+        int[] cibles = (int[]) cible.get(cle);
+        Map.Entry[] seul = {new AbstractMap.SimpleEntry(cle, v)};
+        int recherchesVides = 0;
+        for (int i = 1; (i < cibles.length) && peutEncoreTirer(v); i++) {
+            determinationCible(seul, s, cible, pos1, pos2, f2, i);
+            if (cibles[i] != -1)
+                tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2);
+            else if (++recherchesVides > 3)
+                break; // plus de cible : le vaisseau garde ses armes restantes
+            // (la recherche de cible parcourt les tailles au hasard et peut échouer : on la refait)
         }
     }
 

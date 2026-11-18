@@ -439,7 +439,10 @@ public class Vaisseau implements Serializable {
                 compteur++;
             }
 			else {
-				if (reussiteTir(chance, cible, h1, h2))
+				// l'arme peut s'enrayer : son tir de ce round est perdu
+				if (Univers.getTest(arme.getTauxEnrayement()))
+					Combat.logDetail(" - arme enrayée");
+				else if (reussiteTir(chance, cible, h1, h2))
 					effectuerDommages(cible, arme, h1, h2);
 				listeArmesValides.remove(a);
 				if (h1 != null)

@@ -71,16 +71,17 @@ Après une attaque de système ou de planète, la directive est toujours remise 
    - défenseur : `x ∈ [0, 30[`, `y ∈ [20, 30[` (bande neutre de 10 entre les deux) ;
    - si la stratégie définit une position pour ce plan de vaisseau, elle est utilisée (symétrisée pour le défenseur : `x → 30 − x`, `y → 20 − y`) ; sinon la position est tirée au hasard dans la zone du camp ;
    - une dispersion est ajoutée (`Position3D.auHasard`) : `± rand(6 − niveau « maîtrise du savoir » du héros)` en x et y, `± rand(10)` en z.
-3. **Table des cibles** : un tableau d'entiers par vaisseau (`initialisationCibles`), dont seule la case 0 est utilisée aujourd'hui (voir 2.7).
+3. **Table des cibles** : un tableau d'entiers par vaisseau (`initialisationCibles`, `Combat.java:1305`), de `getNbCibleMax() + 1` cases : la cible principale (case 0) puis les cibles suivantes du round (voir 2.7).
 
 ### 2.2 Déroulement d'un round
 
 ```
 preparerAuCombat(true)      → liste des armes spatiales valides, reset des dommages infligés
 determinationTempo          → initiative de chaque vaisseau
-determinationCible (×2)     → chaque vaisseau choisit UNE cible
-mouvement                   → déplacements, du plus lent au plus rapide
-combat                      → tirs, du plus rapide au plus lent
+determinationCible (×2)     → chaque vaisseau choisit sa cible principale
+mouvement                   → déplacements vers la cible principale, du plus lent au plus rapide
+combat                      → tirs, du plus rapide au plus lent ; chaque vaisseau
+                              enchaîne ses cibles tant qu'il a des armes (2.7)
 eliminerPertesVaisseaux     → retrait des épaves
 diminuerCombativite         → −1 pour tous les survivants
 ```
@@ -101,7 +102,7 @@ Vaisseau.getTempo() = capacité de mouvement × 100
                     + (somme des vitesses des armes valides × 100) / (nb d'armes valides + 1)
 ```
 
-Les tempos sont rendus uniques (incrément en cas de collision) et triés. Le mouvement se fait par tempo croissant, les tirs par tempo décroissant, les deux flottes étant entrelacées (`mouvement`, `combat`). Les vaisseaux rapides bougent donc en dernier et tirent en premier.
+Les tempos sont rendus uniques (incrément en cas de collision) et triés. Le mouvement se fait par tempo croissant, les tirs par tempo décroissant, les deux flottes étant entrelacées (`mouvement`, `combat`). Les vaisseaux rapides bougent donc en dernier et tirent en premier. Le terme des armes vaut à peu près 100 × leur vitesse moyenne : un vaisseau à plusieurs armes prend la moyenne de leurs vitesses (bonus de niveau compris : laser V 12, plasma V 9, missile V 7, torpille V 5) et toutes ses armes tirent à ce même tempo, les plus rapides d'abord (2.6).
 
 ### 2.4 Choix de la cible (`determinationCible`, `Combat.java:1313`)
 
@@ -114,8 +115,8 @@ La cible est rechoisie à chaque round, pour chaque vaisseau :
    - `CIBLE_CARGO` (3) : les transporteurs.
 2. **Filtre par taille** : la stratégie fournit, par plan de vaisseau tireur, un ordre de préférence des 10 classes de taille (`getCibles`). À défaut, l'ordre va de la plus grande taille (9) à la plus petite (0) (`choixPossibleCible`).
 3. **Parcours probabiliste** : les 10 priorités sont parcourues dans l'ordre, mais chacune n'est examinée qu'avec **50 % de chance** (`Univers.getTest(50)`). Le parcours s'arrête à la première classe examinée qui contient au moins un candidat. L'ordre de priorité est donc une tendance, pas une règle stricte : la priorité n° 1 est sautée une fois sur deux.
-4. **Repli** : si rien n'est trouvé, le filtre par type est abandonné (toute la flotte ennemie) et le parcours est retenté jusqu'à 5 fois.
-5. **Échec** : si les 5 replis échouent, la cible vaut `−1` et le vaisseau ne tire pas ce round.
+4. **Repli** : si rien n'est trouvé, le filtre par type est abandonné (toute la flotte ennemie, sans les vaisseaux déjà détruits pendant le round : `repartirParTaille`, `Combat.java:1429`) et le parcours est retenté jusqu'à 5 fois.
+5. **Échec** : si les 5 replis échouent, la cible vaut `−1`. Pour la cible principale, le vaisseau ne tire pas ce round ; pour les cibles suivantes, la recherche est refaite (voir 2.7).
 6. **Départage** : parmi les candidats de la classe retenue, la cible est le vaisseau le plus proche (`Position3D.positionLaPlusProche`), le premier trouvé en cas d'égalité.
 
 La distance est une distance de Tchebychev : `max(|Δx|, |Δy|, |Δz|)` (`Position3D.java:90`).
@@ -141,13 +142,14 @@ La fuite n'est pas un désengagement : le vaisseau reste dans le combat et reste
 
 ### 2.6 Tir d'un vaisseau (`tirVaisseau` → `Vaisseau.tir`)
 
-Conditions pour tirer (`Combat.java:1531-1535`) : le tireur est combatif et non détruit, il a une cible (≠ −1), et cette cible n'a pas déjà été détruite plus tôt dans le round. Il n'y a **pas de reciblage** : si la cible est morte, le tir du round est perdu.
+Conditions pour tirer sur une cible (`tirVaisseau`, `Combat.java:1657`) : le tireur est combatif et non détruit, il a une cible (≠ −1), et cette cible n'a pas déjà été détruite plus tôt dans le round. Si la cible principale est morte avant son tour, le vaisseau passe directement à une nouvelle cible (2.7).
 
-`Vaisseau.tir` (`Vaisseau.java:421`) parcourt les armes spatiales valides :
+`Vaisseau.tir` (`Vaisseau.java:421`) parcourt les armes spatiales valides, les plus rapides d'abord. L'ordre est celui des composants du plan, fixé à sa création (`PlanDeVaisseau.classementComposants`) : moteurs, armes de la plus rapide à la plus lente, boucliers, puis le reste. La vitesse comprend le bonus de niveau (laser V : 12) ; le tri partait autrefois de la vitesse 10, si bien qu'un laser de niveau II ou plus était rangé après les boucliers et tirait en dernier. Les plans créés avant la correction gardent cet ancien ordre.
 
-- arme hors de portée (chance = 0) : ignorée pour ce round ;
+- arme hors de portée (chance = 0) : ignorée, elle reste disponible pour la cible suivante ;
 - sinon l'arme tire une fois et est retirée de la liste jusqu'au round suivant ;
-- la salve s'arrête dès que la cible est détruite ; les armes restantes ne sont pas réaffectées.
+- avant de tester le toucher, l'arme peut **s'enrayer** (voir plus bas) : son tir est perdu, l'arme est quand même consommée pour le round ;
+- la salve s'arrête dès que la cible est détruite ; les armes restantes servent contre la cible suivante.
 
 #### Chance de toucher
 
@@ -168,7 +170,7 @@ La chance décroît donc linéairement de 100 % de la base (distance 0) à envir
 | missile | 30 | 35 | 40 | 40 | 40 | 40 | 40 | 40 | 40 | 40 | 15 | 0 | 1 | 1 |
 | bombe | — | — | — | — | — | — | — | — | — | — | 0 | 0 | 0 | 5 |
 
-Valeurs au niveau 0. Par niveau d'arme (`Arme.java:102-146`) : chance `+ niveau × max(base/10, 1)`, portée `+ niveau`, fiabilité `− niveau`, vitesse de +1 à +5, dommages bouclier +1 à +3 à partir du niveau 3, dommages coque +1 à +3 à partir du niveau 4, dommages sol `+ niveau` pour les armes planétaires.
+Valeurs au niveau 0. Par niveau d'arme (`Arme.java:102-146`) : chance `+ niveau × max(base/10, 1)`, portée `+ niveau`, enrayement `− niveau` (voir plus bas), vitesse de +1 à +5, dommages bouclier +1 à +3 à partir du niveau 3, dommages coque +1 à +3 à partir du niveau 4, dommages sol `+ niveau` pour les armes planétaires.
 
 Modificateurs (`reussiteTir`, `Vaisseau.java:453`) :
 
@@ -184,6 +186,10 @@ test = base
 touché si rand(100) < max(1, test)
 ```
 
+#### Enrayement
+
+Chaque tir spatial a une chance de s'enrayer (`Arme.getTauxEnrayement`), testée avant le toucher : `Const.TAUX_ENRAYEMENT_BASE` (20 %) moins le niveau de l'arme (0 pour une arme I, 4 pour une arme V, soit 16 %), pour toutes les armes. La colonne « fiabilité » de `ListeCaracArmes` n'est plus lue. Le combat planétaire n'est pas concerné (`Arme.getFiabilite()` y renvoie toujours 100).
+
 #### Résolution des dommages (`effectuerDommages`, `Vaisseau.java:391`)
 
 1. **Bouclier.** Si la cible possède un composant bouclier valide non saturé (`getNumeroBouclierValide`), le coup est **entièrement absorbé** : le compteur de ce bouclier augmente des `dommages bouclier` de l'arme, et rien ne passe à la coque, quel que soit le débordement. Un bouclier de niveau N encaisse donc `⌈N / dommages bouclier⌉` coups. Les boucliers sont consommés l'un après l'autre.
@@ -196,15 +202,19 @@ touché si rand(100) < max(1, test)
 
 Effets annexes : le tireur gagne du moral et la cible en perd sur chaque coup efficace ; un coup entièrement absorbé par l'absorbeur fait perdre du moral au tireur ; tireur, cible et héros gagnent de l'expérience.
 
-### 2.7 Une seule cible par vaisseau et par round
+### 2.7 Tir continu sur plusieurs cibles
 
-La boucle prévue pour les tirs sur cibles multiples est désactivée (`Combat.java:1001`) :
+La phase de tir (`combat`, `Combat.java:1605`) fait tirer chaque vaisseau **une seule fois** par round, les deux flottes entrelacées par tempo décroissant. À son tour, le vaisseau (`tirVaisseauToutesCibles`, `Combat.java:1639`) :
 
-```java
-for (int i = 1; i <= 0 /* Const.NB_CIBLES[tailleMax] */; i++) {
-```
+1. tire sur sa cible principale, choisie avant le mouvement ;
+2. tant qu'il lui reste des armes qui n'ont pas tiré (`peutEncoreTirer`), désigne une nouvelle cible (`determinationCible` sur la case suivante de sa table) et tire dessus ;
+3. s'arrête quand il n'a plus d'arme, quand il a atteint `getNbCibleMax()` cibles (`Const.NB_CIBLES` selon sa taille : 0 pour T1, 3 pour T2, 7 pour T3… 255 pour T8), ou après 4 recherches de cible infructueuses (la recherche parcourt les tailles au hasard et peut échouer alors qu'il reste des ennemis).
 
-`Const.NB_CIBLES` ne sert plus qu'à dimensionner la table des cibles et à borner le nombre d'armes hors de portée tolérées dans `Vaisseau.tir` (`compteur <= NB_CIBLES[taille]`). En pratique chaque vaisseau concentre toutes ses armes à portée sur une cible unique, et l'excédent de puissance de feu sur une cible détruite est perdu.
+Une grosse coque utilise donc tout son armement à son tempo, comme une petite, au lieu d'attendre que tous les vaisseaux aient tiré pour changer de cible. Seules les cibles suivantes sont choisies au moment du tir : le mouvement du round n'a visé que la cible principale, et une arme dont la nouvelle cible est hors de portée ne tire pas.
+
+`Const.NB_CIBLES` borne aussi le nombre d'armes examinées dans une salve de `Vaisseau.tir` (`compteur <= NB_CIBLES[taille]`) : un vaisseau T1 (`NB_CIBLES[0] = 0`) abandonne sa salve dès qu'il rencontre une arme hors de portée.
+
+Historique : jusqu'au commit `82b6849`, le multi-cible fonctionnait par passes partagées : tous les vaisseaux tiraient sur leur cible principale, puis tous ceux qui avaient encore des armes sur une deuxième cible, etc. Dans un combat essaim contre grosses coques, l'essaim vidait ses armes à la première passe pendant qu'une grosse coque n'en tirait qu'une dizaine ; ses autres armes étaient détruites avant la passe suivante. Les épaves du round pouvaient en outre être redésignées comme cibles, et ces tirs étaient perdus.
 
 ### 2.8 Fin du combat
 
@@ -287,23 +297,24 @@ Dans tous les cas la population baisse de `min(milices tuées, population / 10)`
 
 Classés par impact estimé sur le résultat des combats.
 
-1. **La symétrie du défenseur modifie la stratégie elle-même** (`Combat.java:1290-1295`). `positionnement` écrit dans le tableau renvoyé par `StrategieDeCombatSpatial.getPositionnement`, qui est le tableau stocké, pas une copie. Chaque vaisseau défenseur d'un même plan réapplique la symétrie : le 1er est placé côté défenseur, le 2e revient côté attaquant, le 3e côté défenseur, etc. La stratégie du commandant reste modifiée pour les combats suivants et est sérialisée ainsi. Correctif simple : cloner le tableau avant de le transformer.
-2. **Multi-cibles désactivé** (2.7). Les gros vaisseaux ne répartissent plus leur feu : ils n'engagent qu'une cible par round, et le surplus est perdu dès qu'elle est détruite. Si c'est voulu, `NB_CIBLES` et la table des cibles sont du code mort ; à noter que `NB_CIBLES[0] = 0` fait abandonner sa salve à un vaisseau de taille 0 dès qu'il rencontre une arme hors de portée, les armes suivantes n'étant plus examinées.
-3. **Pas de reciblage dans le round** (2.6). Combiné à l'ordre d'initiative, plusieurs vaisseaux visant la même cible gaspillent leurs tirs dès qu'elle tombe.
+1. ~~**La symétrie du défenseur modifie la stratégie elle-même.**~~ Corrigé (commit `7a0e8d8`) : `positionnement` travaille sur une copie du tableau de la stratégie (`Combat.java:1289`).
+2. ~~**Multi-cibles désactivé.**~~ Corrigé : tir continu sur plusieurs cibles (2.7). Reste que `NB_CIBLES[0] = 0` fait abandonner sa salve à un vaisseau de taille 0 dès qu'il rencontre une arme hors de portée.
+3. ~~**Pas de reciblage dans le round.**~~ Corrigé (2.7) : un vaisseau dont la cible tombe reporte ses armes restantes sur une nouvelle cible vivante.
 4. **Boucliers jamais rechargés pendant le traitement du tour.** Le tableau `boucliers` est `transient` et n'est créé que s'il est nul (`Vaisseau.java:479`). Un bouclier entamé le reste pour tous les rounds et tous les combats du même tour ; il n'est « rechargé » que parce qu'il n'est pas sauvegardé. Le tableau est aussi dimensionné une seule fois, et l'index utilisé se décale si un composant bouclier est détruit entre-temps.
 5. **Une arme à 0 dommage bouclier ne perce jamais un bouclier.** Le coup est absorbé sans entamer le compteur. C'est le cas du missile aux niveaux 0 à 2 : une flotte de missiles bas niveau ne peut rien contre un vaisseau portant un bouclier valide.
-6. **Priorités de taille probabilistes et « pas de cible » possible** (2.4). Chaque priorité est sautée une fois sur deux. Face à une flotte d'une seule classe de taille, un vaisseau a environ 1,6 % de chance (0,5⁶) de ne trouver aucune cible pendant un round.
+6. **Priorités de taille probabilistes et « pas de cible » possible** (2.4). Chaque priorité est sautée une fois sur deux. Face à une flotte d'une seule classe de taille, un vaisseau a environ 1,6 % de chance (0,5⁶) de ne trouver aucune cible principale pendant un round ; pour les cibles suivantes, la recherche est refaite jusqu'à 4 fois.
 7. **Les salves des batteries visent aussi les épaves** (3.3, phase 1) : la défense perd de l'efficacité à mesure qu'elle détruit des vaisseaux dans le round.
 8. **Réputation du pillage** (`Combat.java:583`) : `REPUTATION − memoirePop − max(0, nbPopDefensive)` alors que le budget, deux lignes plus haut, utilise `memoirePop − max(0, nbPopDefensive)`. Il manque vraisemblablement des parenthèses.
 9. **Statistiques de dégâts hétérogènes.** Les vaisseaux ne comptent que les dommages de coque réellement infligés ; les batteries comptent aussi les dommages aux boucliers et le dépassement sur une cible détruite (`ConstructionPlanetaire.java:122-128`).
+10. ~~**Les armes de vitesse supérieure à 10 tiraient en dernier.**~~ Corrigé : `classementComposants` ne triait que les vitesses 10 à 0, si bien qu'un laser de niveau II ou plus (ou un phaser) était rangé après les boucliers. Les plans créés avant la correction gardent l'ancien ordre.
 
 ---
 
 ## 5. Simulateur
 
-`docs/simulateur-combat.html` (à ouvrir directement dans un navigateur) rejoue le combat spatial décrit en section 2, round par round, avec des flottes composées à la main. Trois règles y sont commutables : le multi-cible (anomalie 2), la fiabilité des armes et la correction de la symétrie du défenseur (anomalie 1).
+`docs/simulateur-combat.html` (à ouvrir directement dans un navigateur) rejoue le combat spatial décrit en section 2, round par round, avec des flottes composées à la main. Par défaut, il applique les règles du moteur décrites en section 2 (tir continu, cibles vivantes, enrayement 20 % − niveau). Trois règles y sont commutables pour comparer avec l'ancien moteur : le tir continu, l'enrayement des armes et la correction de la symétrie du défenseur.
 
-Écarts connus du simulateur par rapport au moteur Java : les compétences de héros (inspiration fanatique, maîtrise du savoir) et les bonus raciaux ne sont pas modélisés, et la taille d'un vaisseau est déduite de la somme des cases de ses composants.
+Écarts connus du simulateur par rapport au moteur Java : les compétences de héros (inspiration fanatique, maîtrise du savoir) et les bonus raciaux ne sont pas modélisés, et la taille d'un vaisseau est déduite de la somme des cases de ses composants. Les composants y sont rangés comme dans un plan créé avec le tri corrigé (2.6), quel que soit le mode de tir choisi.
 
 ---
 

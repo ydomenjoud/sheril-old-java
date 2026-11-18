@@ -123,18 +123,22 @@ td.num, th.num { text-align: right; }
     <h2 id="t-regles">Règles et tirage</h2>
     <fieldset class="regles">
       <legend>Règles du moteur</legend>
-      <label class="ligne"><input type="checkbox" id="o-multi">
-        <span>Multi-cible (moteur actuel)
-        <small>Coché : reproduit le moteur de la branche <code>fix/moteur-de-combat</code>. Après la première salve, tout vaisseau qui a encore des armes à tirer désigne une cible différente, jusqu'à 4, 8, 16… cibles par round selon sa taille (<code>Const.NB_CIBLES</code>) ; les itérations s'arrêtent dès que plus personne n'a d'arme ou de cible nouvelle. Décoché : ancien moteur, une seule cible par vaisseau et par round.</small></span></label>
+      <label class="ligne"><span>Mode de tir
+        <select id="o-mode">
+          <option value="continu">Tir continu (moteur actuel)</option>
+          <option value="passes">Multi-cible par passes (moteur jusqu'au commit 82b6849)</option>
+          <option value="unique">Cible unique (ancien moteur)</option>
+        </select>
+        <small>Tir continu : à son tour (ordre du tempo), un vaisseau tire sur sa cible principale puis en désigne de nouvelles, parmi les vaisseaux encore vivants, tant qu'il lui reste des armes, jusqu'à 4, 8, 16… cibles par round selon sa taille (<code>Const.NB_CIBLES</code>). Par passes : tous les vaisseaux tirent sur leur cible principale, puis tous ceux qui ont encore des armes sur une deuxième cible, etc. ; une épave du round peut être redésignée et le tir est perdu. Cible unique : une seule cible par vaisseau et par round.</small></span></label>
       <label class="ligne"><input type="checkbox" id="o-fiab">
-        <span>Prendre en compte la fiabilité des armes
-        <small>Chaque arme s'enraye avec une probabilité égale à sa caractéristique « fiabilité » (laser et plasma 20 %, torpille 25 %, missile 30 %, moins 1 point par niveau). Une arme enrayée est perdue pour le round.</small></span></label>
+        <span>Enrayement des armes (moteur actuel)
+        <small>Chaque tir s'enraye avec une probabilité de 20 % moins le niveau de l'arme (arme I : 20 %, arme V : 16 %), pour toutes les armes (<code>Const.TAUX_ENRAYEMENT_BASE</code>). Une arme enrayée est perdue pour le round.</small></span></label>
       <label class="ligne"><input type="checkbox" id="o-sym">
-        <span>Corriger la symétrie du placement du défenseur
-        <small>Décoché : reproduit le moteur actuel, où les vaisseaux défenseurs d'un même type ayant une position imposée sont placés alternativement de chaque côté.</small></span></label>
+        <span>Corriger la symétrie du placement du défenseur (moteur actuel)
+        <small>Décoché : reproduit l'ancien moteur, où les vaisseaux défenseurs d'un même type ayant une position imposée étaient placés alternativement de chaque côté.</small></span></label>
       <label class="ligne"><input type="checkbox" id="o-recul">
-        <span>Placer le défenseur dans sa propre zone
-        <small>Coché : une position imposée du défenseur est le miroir de celle de l'attaquant (y = 30 − y), donc entre 20 et 30 comme son placement au hasard ; y = 0 le met tout à l'arrière. Décoché : reproduit le moteur actuel (y = 20 − y), où y = 0 le met sur sa ligne de front et y = 10 au milieu du terrain.</small></span></label>
+        <span>Placer le défenseur dans sa propre zone (moteur actuel)
+        <small>Coché : une position imposée du défenseur est le miroir de celle de l'attaquant (y = 30 − y), donc entre 20 et 30 comme son placement au hasard ; y = 0 le met tout à l'arrière. Décoché : reproduit l'ancien moteur (y = 20 − y), où y = 0 le met sur sa ligne de front et y = 10 au milieu du terrain.</small></span></label>
     </fieldset>
     <div class="rangee">
       <label>Graine du tirage aléatoire
@@ -219,9 +223,10 @@ const TAILLE_VAISSEAUX = [[1, 3, 9], [4, 9, 8], [10, 17, 7], [18, 33, 6], [34, 6
   [66, 129, 4], [130, 257, 3], [258, 512, 2], [513, 1025, 1], [1026, 1000000, 0]];
 const X_MAX = 30, Y_MAX = 10, Y_ESPACE = 10, Y_FIN1 = -1000, Y_FIN2 = 1000 + Y_MAX + Y_ESPACE;
 const CHANCE_EXPLOSION_MOTEUR = 1;
+const TAUX_ENRAYEMENT_BASE = 20;   // Const.TAUX_ENRAYEMENT_BASE : enrayement de toutes les armes au niveau 0, − 1 point par niveau
 const BASE_XP = 2000;
 const NIVEAUX = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-// carac : vitesse, dommages bouclier, dommages coque, dommages sol, portée, fiabilité
+// carac : vitesse, dommages bouclier, dommages coque, dommages sol, portée, fiabilité (colonne d'origine, plus lue : voir TAUX_ENRAYEMENT_BASE)
 const ARMES = {
   laser:  { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Laser",    spatial: true,  carac: [10, 2, 1, 1, 8, 20],  touche: [50, 45, 35, 25, 20, 15, 10, 5, 3, 1] },
   plasma: { minerai: [7, 6, 5, 5, 5, 4, 3, 3, 3, 2], prix: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], nom: "Plasma",   spatial: true,  carac: [7, 1, 1, 1, 12, 20],  touche: [20, 35, 40, 45, 50, 45, 35, 25, 15, 5] },
@@ -246,7 +251,7 @@ function statsArme(code, niv) {
   const cle = code + niv;
   if (cacheArmes[cle]) return cacheArmes[cle];
   const base = ARMES[code], c = base.carac.slice();
-  c[5] = Math.max(0, c[5] - niv);
+  c[5] = Math.max(0, TAUX_ENRAYEMENT_BASE - niv);
   if (niv !== 0 && base.spatial) {
     c[4] += niv;
     c[0] += niv === 1 ? 1 : niv < 5 ? 2 : niv === 5 ? 3 : niv < 9 ? 4 : 5;
@@ -295,6 +300,10 @@ function creerVaisseau(id, camp, type) {
     comps.push({ code: c.code, niv: c.niv, cases, dmg: 0, arme: ARMES[c.code] ? statsArme(c.code, c.niv) : null,
       valeur: ARMES[c.code] ? 0 : AUTRES[c.code].valeur[c.niv] });
   }
+  // ordre du plan (PlanDeVaisseau.classementComposants) : moteurs, armes de la plus rapide à la plus lente
+  // (vitesse avec bonus de niveau), boucliers, puis le reste ; tri stable, l'ordre saisi départage
+  const rang = c => c.code === "moteur" ? 0 : c.arme ? 1 : c.code === "bouclier" ? 2 : 3;
+  comps.sort((x, y) => rang(x) - rang(y) || (x.arme && y.arme ? y.arme.vitesse - x.arme.vitesse : 0));
   const nbCases = comps.reduce((s, c) => s + c.cases, 0);
   return { id, camp, type: type.nom, comps, nbCases, taille: tailleDeCases(nbCases),
     valides: comps.map((_, i) => i), armes: [], boucliers: null, absorbeur: 0,
@@ -350,7 +359,7 @@ function positionAtteinte(dep, arr, x) {
 /**
  * Résout un combat complet.
  * cfg  : { camps: [attaquant, défenseur] }
- * opts : { multi, fiab, sym }
+ * opts : { mode ("continu" | "passes" | "unique"), fiab, sym, recul, debris }
  * enregistrer : conserve le détail round par round pour l'affichage.
  */
 function resoudreCombat(cfg, opts, graine, enregistrer) {
@@ -467,9 +476,9 @@ function resoudreCombat(cfg, opts, graine, enregistrer) {
   }
   // Les listes de cibles possibles sont rangées par taille une fois par appel : l'état des flottes ne change pas pendant le ciblage.
   const parTaille = ids => { const b = Array.from({ length: 10 }, () => []); for (const id of ids) b[parId[id].taille].push(id); return b; };
-  function determinationCible(mien, ennemi, cibles, posMien, posEnnemi, numTir) {
+  function determinationCible(mien, ennemi, cibles, posMien, posEnnemi, numTir, seul) {
     let bType = null, bTous = null;
-    for (const v of mien.ships) {
+    for (const v of seul ? [seul] : mien.ships) {
       const inter = cibles[v.id];
       if (NB_CIBLES[v.taille] + 1 <= numTir) continue;
       // cibles supplémentaires : inutile de chercher pour un vaisseau qui ne pourra plus tirer ce round
@@ -486,7 +495,8 @@ function resoudreCombat(cfg, opts, graine, enregistrer) {
         }
       let essais = 0;
       while (choix2.length === 0 && essais < 5) {
-        if (!bTous) bTous = parTaille(ennemi.ships.map(x => x.id));
+        // repli sur toute la flotte ; en tir continu, les vaisseaux déjà détruits pendant le round sont écartés (Combat.repartirParTaille)
+        if (!bTous) bTous = parTaille(ennemi.ships.filter(x => opts.mode !== "continu" || !x.detruit).map(x => x.id));
         for (let j = 0; j < 10; j++) {
           if (test(50)) choix2 = candidats(bTous, j);
           if (choix2 !== null && choix2.length > 0) break;
@@ -589,7 +599,8 @@ function resoudreCombat(cfg, opts, graine, enregistrer) {
     // tirs
     const dAvant = [0, 0];
     flottes.forEach((f, k) => { dAvant[k] = f.ships.reduce((s, v) => s + v.nbCases - pointsDeVie(v), 0); });
-    const salve = numTir => entrelacer(ht1, ht2, false, (id, att) => {
+    const salve = numTir => entrelacer(ht1, ht2, false, (id, att) => tirer(id, att, numTir));
+    function tirer(id, att, numTir) {
       const v = parId[id], hAtt = att ? f1.heros : f2.heros, hDef = att ? f2.heros : f1.heros;
       if (numTir > NB_CIBLES[v.taille]) return;
       let raison = null, rec = null;
@@ -613,9 +624,22 @@ function resoudreCombat(cfg, opts, graine, enregistrer) {
         }
       }
       if (rd && numTir === 0) rd.tirs.push({ de: id, vers: null, numTir, raison, armes: {} });
-    });
-    salve(0);
-    if (opts.multi) {
+    }
+    const peutEncoreTirer = v => !v.detruit && v.combativite > 0 && v.armes.length > 0;
+    if (opts.mode === "continu") {
+      // chaque vaisseau tire une fois, à son tempo : cible principale, puis nouvelles cibles tant qu'il a des armes
+      entrelacer(ht1, ht2, false, (id, att) => {
+        tirer(id, att, 0);
+        const v = parId[id];
+        let vides = 0;
+        for (let i = 1; i <= NB_CIBLES[v.taille] && peutEncoreTirer(v); i++) {
+          determinationCible(att ? f1 : f2, att ? f2 : f1, cibles, pos, pos, i, v);
+          if (cibles[id][i] !== -1) tirer(id, att, i);
+          else if (++vides > 3) break;   // la recherche parcourt les tailles au hasard : refaite jusqu'à 4 fois
+        }
+      });
+    } else salve(0);
+    if (opts.mode === "passes") {
       // au-delà du nombre de vaisseaux adverses, toutes les cibles sont déjà prises : inutile de continuer
       const borne = Math.min(NB_CIBLES[tailleMax], Math.max(f1.ships.length, f2.ships.length));
       for (let i = 1; i <= borne; i++) {
@@ -705,7 +729,7 @@ if (typeof document !== "undefined") (function () {
   function configParDefaut() {
     const type = (nom, nb, comps) => ({ nom, nb, xp: 0, moral: 4, px: null, py: null, prio: "defaut", comps: comps.map(([code, niv, qte]) => ({ code, niv, qte })) });
     return {
-      opts: { multi: true, fiab: false, sym: false, graine: 2026, moteurMulti: true },
+      opts: { mode: "continu", fiab: true, sym: true, recul: true, graine: 2026, moteurContinu: true },
       camps: [
         { agress: 3, cible: 0, heros: { att: 0, def: 0, vit: 0, moral: 0 }, types: [
           type("Chasseur", 10, [["laser", 1, 3], ["moteur", 0, 1]]),
@@ -718,8 +742,8 @@ if (typeof document !== "undefined") (function () {
   }
   let cfg = configParDefaut();
   try { const s = localStorage.getItem(CLE); if (s) { const c = JSON.parse(s); if (c && c.camps && c.camps.length === 2 && c.opts) cfg = c; } } catch (e) { /* stockage indisponible */ }
-  // configuration enregistrée avant l'activation du multi-cible dans le moteur : on l'aligne une fois sur le moteur actuel
-  if (!cfg.opts.moteurMulti) { cfg.opts.multi = true; cfg.opts.moteurMulti = true; }
+  // configuration enregistrée avant le tir continu : on aligne une fois ses règles sur le moteur actuel
+  if (!cfg.opts.moteurContinu) Object.assign(cfg.opts, { mode: "continu", fiab: true, sym: true, recul: true, moteurContinu: true });
   const sauver = () => { try { localStorage.setItem(CLE, JSON.stringify(cfg)); } catch (e) { /* idem */ } };
 
   /* ---------- Configuration des flottes ---------- */
@@ -838,10 +862,10 @@ if (typeof document !== "undefined") (function () {
 
   /* ---------- Options ---------- */
   function rendreOptions() {
-    $("o-multi").checked = cfg.opts.multi; $("o-fiab").checked = cfg.opts.fiab; $("o-sym").checked = cfg.opts.sym; $("o-recul").checked = !!cfg.opts.recul;
+    $("o-mode").value = cfg.opts.mode; $("o-fiab").checked = cfg.opts.fiab; $("o-sym").checked = cfg.opts.sym; $("o-recul").checked = !!cfg.opts.recul;
     $("o-graine").value = cfg.opts.graine; $("o-debris").value = cfg.opts.debris || 0;
   }
-  $("o-multi").addEventListener("change", e => { cfg.opts.multi = e.target.checked; sauver(); });
+  $("o-mode").addEventListener("change", e => { cfg.opts.mode = e.target.value; sauver(); });
   $("o-fiab").addEventListener("change", e => { cfg.opts.fiab = e.target.checked; sauver(); });
   $("o-sym").addEventListener("change", e => { cfg.opts.sym = e.target.checked; sauver(); });
   $("o-recul").addEventListener("change", e => { cfg.opts.recul = e.target.checked; sauver(); });
@@ -892,9 +916,9 @@ if (typeof document !== "undefined") (function () {
       : res.vainqueur === "D" ? "Victoire du défenseur : la flotte de l'attaquant est anéantie."
       : res.vainqueur === "AD" ? "Les deux flottes sont anéanties."
       : "Aucun vainqueur : plus aucun vaisseau n'est combatif.";
-    const regles = [cfg.opts.multi ? null : "cible unique (ancien moteur)", cfg.opts.fiab ? "fiabilité" : null, cfg.opts.sym ? "symétrie corrigée" : null, cfg.opts.recul ? "défenseur placé dans sa zone" : null].filter(Boolean);
+    const regles = [cfg.opts.mode === "passes" ? "multi-cible par passes" : cfg.opts.mode === "unique" ? "cible unique" : null, cfg.opts.fiab ? null : "sans enrayement", cfg.opts.sym ? null : "symétrie non corrigée", cfg.opts.recul ? null : "défenseur placé devant sa zone"].filter(Boolean);
     $("bandeau").textContent = `${issue} ${res.nbRounds} round${res.nbRounds > 1 ? "s" : ""}. Survivants : attaquant ${res.survivants[0]}/${res.departs[0]}, défenseur ${res.survivants[1]}/${res.departs[1]}. ` +
-      `Règles : ${regles.length ? regles.join(", ") : "moteur actuel"}. Graine ${cfg.opts.graine}.`;
+      `Règles : ${regles.length ? "moteur actuel modifié (" + regles.join(", ") + ")" : "moteur actuel"}. Graine ${cfg.opts.graine}.`;
     rendreApres();
     aller(0, false);
     $("resultat").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1174,7 +1198,7 @@ if (typeof document !== "undefined") (function () {
     if (!valider()) return;
     const nbVaisseaux = cfg.camps.reduce((s, c) => s + c.types.reduce((x, t) => x + t.nb, 0), 0);
     const N = nbVaisseaux <= 300 ? 200 : nbVaisseaux <= 1000 ? 50 : 10, bouton = $("b-stats");
-    const variantes = [["Moteur actuel (multi-cible)", true, false], ["Cible unique (ancien moteur)", false, false], ["Multi-cible + fiabilité", true, true], ["Cible unique + fiabilité", false, true]];
+    const variantes = [["Moteur actuel (tir continu + enrayement)", "continu", true], ["Tir continu sans enrayement", "continu", false], ["Multi-cible par passes (moteur jusqu'à 82b6849)", "passes", false], ["Cible unique (ancien moteur)", "unique", false]];
     const acc = variantes.map(() => ({ a: 0, d: 0, nul: 0, rounds: 0, sa: 0, sd: 0, da: 0, dd: 0, ca: 0, cd: 0 }));
     $("stats").hidden = false; $("stats-table").innerHTML = ""; bouton.disabled = true;
     let fait = 0, depA = 0, depD = 0;
@@ -1182,7 +1206,7 @@ if (typeof document !== "undefined") (function () {
       const debut = performance.now();
       while (fait < N && performance.now() - debut < 60) {
         variantes.forEach((v, k) => {
-          const r = resoudreCombat(cfg, { multi: v[1], fiab: v[2], sym: cfg.opts.sym, recul: cfg.opts.recul, debris: cfg.opts.debris || 0 }, cfg.opts.graine + fait * 7919 + 1, false), s = acc[k];
+          const r = resoudreCombat(cfg, { mode: v[1], fiab: v[2], sym: cfg.opts.sym, recul: cfg.opts.recul, debris: cfg.opts.debris || 0 }, cfg.opts.graine + fait * 7919 + 1, false), s = acc[k];
           if (r.vainqueur === "A") s.a++; else if (r.vainqueur === "D") s.d++; else s.nul++;
           s.rounds += r.nbRounds; s.sa += r.survivants[0]; s.sd += r.survivants[1]; s.da += r.dommages[0]; s.dd += r.dommages[1];
           s.ca += r.apres.camps[0].interne.reels + r.apres.camps[0].debris.reels; s.cd += r.apres.camps[1].interne.reels + r.apres.camps[1].debris.reels;

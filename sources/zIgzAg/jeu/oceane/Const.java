@@ -498,6 +498,10 @@ public class Const {
     public static final int ARME_FIABILITE = 5;
     // les différentes caractéristiques des composants armes.
 
+    public static final int TAUX_ENRAYEMENT_BASE = 20;
+    // Chance (%) qu'une arme s'enraye à chaque tir, au niveau 0, pour toutes les armes :
+    // fiabilité de base 80 %. L'enrayement baisse d'un point par niveau d'arme (I = 0, V = 4 : 16 %).
+
     public static final int PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE = 50;
     // puissance minimale requise pour attaquer une planéte.
 
