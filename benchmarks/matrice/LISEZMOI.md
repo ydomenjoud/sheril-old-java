@@ -20,7 +20,7 @@ Minerai vivant = 1 − pertes moyennes ÷ vaisseaux engagés (un vaisseau endomm
 
 ## Rejouer
 
-Depuis la racine du dépôt, après compilation dans `classes/` (environ 1 h sur 20 cœurs) :
+Depuis la racine du dépôt, après compilation dans `classes/` (environ 20 min sur 20 cœurs) :
 
 ```bash
 benchmarks/matrice/lancer_matrice.sh /chemin/travail 50 20 multi,multi+fiab,multi+fiab80
