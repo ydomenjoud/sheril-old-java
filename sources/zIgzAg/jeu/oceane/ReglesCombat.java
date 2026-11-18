@@ -42,12 +42,36 @@ public class ReglesCombat {
 	 */
 	public int reductionParTaille = -1;
 
+	/**
+	 * Si >= 0 : le taux de l'arme (20 % − niveau) monte de hausseParTaille points par cran de taille
+	 * au-dessus de T5 et baisse d'autant en dessous (règle fiabplustailleK ; arme V, K = 5 : T3 6 %, T9 36 %).
+	 */
+	public int hausseParTaille = -1;
+
+	/**
+	 * Règle fiabniveautaille : taux de l'arme (20 % − niveau) plus (10 − taille), T1 … T10
+	 * (arme V : T3 23 %, T6 20 %, T9 17 %).
+	 */
+	public boolean enrayementNiveauTaille = false;
+
+	/**
+	 * Règle fiaborigine : taux propre à chaque arme (colonne fiabilité de ListeCaracArmes) moins le niveau,
+	 * comme avant le commit 82b6849 (arme V : laser et plasma 16 %, torpille 21 %, missile 26 %).
+	 */
+	public boolean enrayementOrigine = false;
+
 	/** Taux d'enrayement d'une arme portée par un vaisseau de la taille donnée (0 = T1 … 9 = T10). */
 	public int tauxEnrayement(Arme arme, int taille) {
 		if (enrayementUniforme >= 0)
 			return enrayementUniforme;
 		if (enrayementT1 >= 0)
 			return enrayementT1 + Math.round((enrayementT10 - enrayementT1) * taille / 9f);
+		if (enrayementOrigine)
+			return Math.max(0, Univers.getCaracArme(arme.getCorpsCode())[Const.ARME_FIABILITE] - arme.getNiveau());
+		if (enrayementNiveauTaille)
+			return Math.max(0, arme.getTauxEnrayement() + (10 - (taille + 1)));
+		if (hausseParTaille >= 0)
+			return Math.max(0, arme.getTauxEnrayement() + hausseParTaille * (taille - 4));
 		if (reductionParTaille >= 0)
 			return Math.max(0, arme.getTauxEnrayement() - reductionParTaille * taille);
 		return arme.getTauxEnrayement();

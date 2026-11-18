@@ -24,6 +24,9 @@ Aucune partie n'est chargée et rien n'est écrit dans `data/`.
 | `fiabNN` | Enrayement identique de 100 − NN % pour toutes les armes (`fiab80` : 20 % d'enrayement, quel que soit le niveau) |
 | `fiabtA-B` | Enrayement selon la taille du vaisseau qui tire : A % pour une coque T1, B % pour une T10, linéaire entre les deux (`fiabt40-0` : T3 31 %, T6 18 %, T9 4 %) |
 | `fiabtailleN` | Taux de l'arme (20 % − niveau), moins N points par cran de taille du vaisseau qui tire, T1 = 0 (`fiabtaille1`, arme V : T3 14 %, T9 8 %) |
+| `fiabplustailleK` | Taux de l'arme (20 % − niveau), plus K points par cran de taille au-dessus de T5, moins K en dessous (`fiabplustaille5`, arme V : T3 6 %, T5 16 %, T7 26 %, T9 36 %) |
+| `fiabniveautaille` | Taux de l'arme (20 % − niveau) plus (10 − taille du vaisseau qui tire) (arme V : T3 23 %, T6 20 %, T9 17 %) |
+| `fiaborigine` | Taux propre à chaque arme (colonne fiabilité de `ListeCaracArmes`) moins le niveau, comme avant `82b6849` (arme V : laser et plasma 16 %, torpille 21 %, missile 26 %) |
 | `continu` | Tir continu, après un `ancien` ou un `mono` |
 | `vivantes` | Cibles vivantes, après un `ancien` ou un `mono` : la liste de secours du choix de cible (toute la flotte adverse) écarte les vaisseaux déjà détruits pendant le round |
 

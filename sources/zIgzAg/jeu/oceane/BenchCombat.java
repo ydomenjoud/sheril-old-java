@@ -546,6 +546,21 @@ public class BenchCombat {
 					v.regles.tirContinu = true;
 					break;
 				}
+				if (regle.equals("fiaborigine")) {
+					v.regles.fiabilite = true;
+					v.regles.enrayementOrigine = true;
+					break;
+				}
+				if (regle.equals("fiabniveautaille")) {
+					v.regles.fiabilite = true;
+					v.regles.enrayementNiveauTaille = true;
+					break;
+				}
+				if (regle.matches("fiabplustaille\\d+")) {
+					v.regles.fiabilite = true;
+					v.regles.hausseParTaille = Integer.parseInt(regle.substring(14));
+					break;
+				}
 				if (regle.matches("fiabtaille\\d+")) {
 					v.regles.fiabilite = true;
 					v.regles.reductionParTaille = Integer.parseInt(regle.substring(10));
@@ -558,7 +573,7 @@ public class BenchCombat {
 					v.regles.enrayementT10 = Integer.parseInt(fiabt.group(2));
 					break;
 				}
-				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, ancien, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, continu, vivantes, combinables avec +)");
+				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, ancien, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, fiabplustailleK, fiabniveautaille, fiaborigine, continu, vivantes, combinables avec +)");
 			}
 		return v;
 	}
