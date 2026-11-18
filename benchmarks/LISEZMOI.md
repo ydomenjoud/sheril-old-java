@@ -17,26 +17,19 @@ Aucune partie n'est chargée et rien n'est écrit dans `data/`.
 | `<fichier.bench>` ou `<dossier>` | — | Scénarios à jouer (tous les `.bench` d'un dossier) |
 | `--n` | 1000 | Nombre de combats par scénario et par jeu de règles |
 | `--graine` | 1 | Graine du premier combat ; le combat i utilise `graine + i` |
-| `--regles` | `actuel` | Jeux de règles séparés par des virgules |
-| `--csv` | — | Écrit aussi les résultats dans un fichier CSV |
-
-Chaque jeu de règles rejoue les mêmes graines : à graine égale, seule la règle change.
-
-## Règles
-
-| Nom | Effet |
-|---|---|
-| `actuel` | Le moteur tel qu'il tourne en partie : tirs sur cibles multiples (quand sa cible est détruite ou hors de portée, un vaisseau en désigne une autre pour les armes qui n'ont pas encore tiré, jusqu'à `Const.NB_CIBLES` fois selon sa taille) |
-| `multi` | Identique à `actuel` (nom gardé pour les anciens résultats) |
-| `mono` | Ancien moteur : une seule cible par vaisseau et par round |
-| `fiab` | Chaque tir peut s'enrayer : la caractéristique « fiabilité » de l'arme est lue comme un pourcentage d'enrayement |
-| `fiabNN` | Comme `fiab`, mais avec la même fiabilité de NN % pour toutes les armes (`fiab80` : 20 % d'enrayement) |
+| `--regles` | `actuel` | Le moteur tel qu'il tourne en partie (commit `82b6849`) : tir continu (à son tour, un vaisseau enchaîne ses cibles tant qu'il lui reste des armes, jusqu'à `Const.NB_CIBLES` selon sa taille), cibles vivantes, enrayement de 20 % − niveau de l'arme pour toutes les armes |
+| `ancien` / `multi` | Moteur d'avant `82b6849` : cibles multiples par passes partagées (une cible par vaisseau et par passe), épaves redésignables, sans enrayement. Les anciens résultats nommés `multi…` ont été calculés avec lui |
+| `mono` | Moteur d'origine : une seule cible par vaisseau et par round, sans enrayement |
+| `fiab` | Active l'enrayement (`Arme.getTauxEnrayement`, 20 % − niveau de l'arme), après un `ancien` ou un `mono`. Avant `82b6849`, il lisait la colonne « fiabilité » de `ListeCaracArmes` (laser 20, torpille 25, missile 30…) : les anciens résultats `…+fiab` ne sont plus reproductibles à l'identique |
+| `fiabNN` | Enrayement identique de 100 − NN % pour toutes les armes (`fiab80` : 20 % d'enrayement, quel que soit le niveau) |
 | `fiabtA-B` | Enrayement selon la taille du vaisseau qui tire : A % pour une coque T1, B % pour une T10, linéaire entre les deux (`fiabt40-0` : T3 31 %, T6 18 %, T9 4 %) |
-| `fiabtailleN` | Taux de l'arme (déjà réduit de 1 point par niveau d'arme), moins N points par cran de taille du vaisseau qui tire, T1 = 0 (`fiabtaille1`, laser V : T3 14 %, T9 8 %) |
-| `continu` | Tir continu : à son tour (ordre du tempo), un vaisseau enchaîne ses cibles tant qu'il lui reste des armes, au lieu d'attendre la passe suivante pour en changer |
-| `vivantes` | La liste de secours du choix de cible (toute la flotte adverse) écarte les vaisseaux déjà détruits pendant le round |
+| `fiabtailleN` | Taux de l'arme (20 % − niveau), moins N points par cran de taille du vaisseau qui tire, T1 = 0 (`fiabtaille1`, arme V : T3 14 %, T9 8 %) |
+| `continu` | Tir continu, après un `ancien` ou un `mono` |
+| `vivantes` | Cibles vivantes, après un `ancien` ou un `mono` : la liste de secours du choix de cible (toute la flotte adverse) écarte les vaisseaux déjà détruits pendant le round |
 
-Elles se combinent avec `+` : `--regles actuel,mono+fiab`.
+Les règles s'appliquent de gauche à droite et se combinent avec `+` : `ancien` et `mono` remettent
+tir continu, cibles vivantes et enrayement à zéro, les suivantes les réactivent une à une
+(`--regles actuel,ancien,ancien+continu+vivantes,mono+fiab`).
 
 ## Format d'un scénario
 

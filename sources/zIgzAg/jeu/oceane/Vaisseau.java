@@ -440,7 +440,7 @@ public class Vaisseau implements Serializable {
                 compteur++;
             }
 			else {
-				// Règle optionnelle (absente du moteur actuel) : l'arme s'enraye et son tir est perdu.
+				// l'arme peut s'enrayer : son tir de ce round est perdu (ReglesCombat.fiabilite, actif par défaut)
 				if (regles.fiabilite && Univers.getTest(regles.tauxEnrayement(arme, getTaille())))
 					Combat.logDetail(" - arme enrayée");
 				else if (reussiteTir(chance, cible, h1, h2))

@@ -1731,12 +1731,17 @@ public class Combat {
         Vaisseau v = f1.getVaisseau((Integer) cle);
         int[] cibles = (int[]) cible.get(cle);
         Map.Entry[] seul = {new java.util.AbstractMap.SimpleEntry(cle, v)};
+        int recherchesVides = 0;
         for (int i = 1; (i < cibles.length) && peutEncoreTirer(v); i++) {
             determinationCible(seul, s, cible, pos1, pos2, f2, i);
-            // plus de cible vivante disponible : le vaisseau garde ses armes restantes
-            if ((cibles[i] == -1) || f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit())
-                break;
-            tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2, com);
+            if (cibles[i] == -1) {
+                // la recherche parcourt les tailles au hasard et peut échouer : on la refait
+                if (++recherchesVides > 3)
+                    break; // plus de cible : le vaisseau garde ses armes restantes
+            } else if (f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit())
+                break; // épave (seulement sans ciblesVivantes)
+            else
+                tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2, com);
         }
     }
 

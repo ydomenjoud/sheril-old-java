@@ -20,7 +20,8 @@ boucliers éventuels, puis des armes dans le reste. Un bouclier (4 cases) rempla
 | T8 | 512 | VI (60) | 452 | 10 | 412 |
 | T9 | 1 025 | VII (120) | 905 | 10 | 865 |
 
-- `matrice.csv` : résultats, 50 combats par scénario, règles `multi`, `multi+fiab`, `multi+fiab80`.
+- `matrice.csv` : résultats, 50 combats par scénario, règles `actuel` (moteur du commit `82b6849` : tir continu,
+  cibles vivantes, enrayement 20 % − niveau) et `multi` (moteur précédent, par passes, sans enrayement).
 - `matrice_combats.html` : page autonome (données intégrées, hors ligne) ; choix de l'armement et des
   boucliers de chaque camp et de la règle, tableau croisé des tailles avec le % de minerai encore vivant
   en fin de combat ; mode comparaison de deux états (écart en points). L'adresse (`#…`) garde la vue.
@@ -33,9 +34,9 @@ Minerai vivant = 1 − pertes moyennes ÷ vaisseaux engagés (un vaisseau endomm
 
 ## Rejouer
 
-Depuis la racine du dépôt, après compilation dans `classes/` (environ 20 min sur 20 cœurs) :
+Depuis la racine du dépôt, après compilation dans `classes/` (environ 7 min par règle sur 20 cœurs) :
 
 ```bash
-benchmarks/matrice/lancer_matrice.sh /chemin/travail 50 20 multi,multi+fiab,multi+fiab80
+benchmarks/matrice/lancer_matrice.sh /chemin/travail 50 20 actuel,multi
 python3 benchmarks/matrice/generer_html.py /chemin/travail/matrice.csv matrice_combats.html
 ```

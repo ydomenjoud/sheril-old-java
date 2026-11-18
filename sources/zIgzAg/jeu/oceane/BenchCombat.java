@@ -516,11 +516,18 @@ public class BenchCombat {
 			switch (regle) {
 			case "actuel":
 				break;
-			case "multi":
+			case "multi": // ancien moteur (avant le tir continu) : multi-cible par passes, sans enrayement
+			case "ancien":
 				v.regles.multiCible = true;
+				v.regles.tirContinu = false;
+				v.regles.ciblesVivantes = false;
+				v.regles.fiabilite = false;
 				break;
-			case "mono":
+			case "mono": // moteur d'origine : une seule cible par vaisseau et par round, sans enrayement
 				v.regles.multiCible = false;
+				v.regles.tirContinu = false;
+				v.regles.ciblesVivantes = false;
+				v.regles.fiabilite = false;
 				break;
 			case "fiab":
 				v.regles.fiabilite = true;
@@ -551,7 +558,7 @@ public class BenchCombat {
 					v.regles.enrayementT10 = Integer.parseInt(fiabt.group(2));
 					break;
 				}
-				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, continu, vivantes, combinables avec +)");
+				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, ancien, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, continu, vivantes, combinables avec +)");
 			}
 		return v;
 	}

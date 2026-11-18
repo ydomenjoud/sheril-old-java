@@ -10,20 +10,21 @@ public class ReglesCombat {
 	/** Un vaisseau engage plusieurs cibles par round (Const.NB_CIBLES selon sa taille). Actif dans le moteur ; false = ancien tir sur cible unique. */
 	public boolean multiCible = true;
 
-	/** Chaque tir peut s'enrayer, selon la caractéristique « fiabilité » de l'arme. */
-	public boolean fiabilite = false;
+	/** Chaque tir peut s'enrayer (Arme.getTauxEnrayement : 20 % − niveau de l'arme). Actif dans le moteur. */
+	public boolean fiabilite = true;
 	/**
 	 * Tir continu : à son tour (ordre du tempo, qui dépend de la vitesse des armes), un vaisseau
 	 * enchaîne ses cibles tant qu'il lui reste des armes, au lieu d'attendre la passe suivante
-	 * pour changer de cible. false = tir par passes (une cible par vaisseau et par passe).
+	 * pour changer de cible. Actif dans le moteur ; false = ancien tir par passes (une cible par
+	 * vaisseau et par passe).
 	 */
-	public boolean tirContinu = false;
+	public boolean tirContinu = true;
 	/**
 	 * Cibles vivantes : quand plus aucun vaisseau du type visé ne reste, le choix de cible se
 	 * rabat sur toute la flotte adverse ; true en écarte les vaisseaux déjà détruits pendant le
-	 * round (false = moteur actuel, qui peut désigner une épave et perdre ce tir).
+	 * round. Actif dans le moteur ; false = ancien moteur, qui peut désigner une épave et perdre ce tir.
 	 */
-	public boolean ciblesVivantes = false;
+	public boolean ciblesVivantes = true;
 
 	/** Si >= 0 : taux d'enrayement identique pour toutes les armes (règle fiabNN, NN = fiabilité en %). */
 	public int enrayementUniforme = -1;
