@@ -3584,7 +3584,8 @@ public class Commandant extends Joueur implements Serializable {
 		eliminerFlotte(numSupprime);
 
 		return ajouterEvenement("EV_COMMANDANT_FUSIONNER_FLOTTE_0000",
-				f1.getNomNumeroHTML(numFlotte1), f2.getNomNumeroHTML(numFlotte2));
+				f1.getNomNumeroHTML(numFlotte1), f2.getNomNumeroHTML(numFlotte2),
+				Flotte.traductionDirective(directive, directivePrecision, getLocale()));
 	}
 
 	public boolean pisterFlotte(int nFlotte, int numFlotteVisee, int joueurVise) {

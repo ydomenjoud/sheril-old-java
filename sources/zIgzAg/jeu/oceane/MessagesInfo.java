@@ -340,7 +340,7 @@ public class MessagesInfo extends MessagesAbstraits {
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0000 = "Problème de fusion pour les flotte {0} et {1} : la flotte numéro {0} n'existe pas.";
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0001 = "Impossible de fusionner la flotte numéro {0} et la flotte numéro {1} : elles ont le même numéro!";
 	public static final String ER_COMMANDANT_FUSIONNER_FLOTTE_0002 = "La flotte {0} et la flotte {1} ne peuvent fusionner car elles ne se trouvent pas au même endroit!";
-	public static final String EV_COMMANDANT_FUSIONNER_FLOTTE_0000 = "Vous venez de fusionner votre flotte {0} et votre flotte {1}.";
+	public static final String EV_COMMANDANT_FUSIONNER_FLOTTE_0000 = "Vous venez de fusionner votre flotte {0} et votre flotte {1} en directive <span class='item'>{2}</span>.";
 
 	public static final String ER_COMMANDANT_PISTER_FLOTTE_0000 = "System failure, echec du pistage: la flotte numéro {1} du commandant {0} est hors d'atteinte. ";
 	public static final String EV_COMMANDANT_PISTER_FLOTTE_0000 = "Votre flotte {0} vient de pister avec succés la flotte numéro {2} du commandant {1}.";
