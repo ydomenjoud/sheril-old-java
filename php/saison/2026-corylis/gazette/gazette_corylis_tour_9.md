@@ -103,7 +103,7 @@ Votre peau a quitté l'océan. Ce n'est pas une raison pour qu'elle ressemble à
 ✦ **Texture filante**, conforme aux préceptes de la Grande Baveuse<br>
 ✦ **Certifiée Leaping Mussel** : jamais testée sur les huîtres ni les Zwaïas
 
-| <img src="https://lh3.googleusercontent.com/d/1TMJJ4wqeS29QQyWTsZSFD-F3EXwtS-KT" alt="Label Leaping Mussel" width="120"> | **Certifié Leaping Mussel**<br>Aucune huître ni aucun Zwaïa n'a été testé durant la fabrication de Bavéol™. |
+| <img src="/saison/2026-corylis/gazette/ads/9/leaping-mussel.png" alt="Label Leaping Mussel" width="120"> | **Certifié Leaping Mussel**<br>Aucune huître ni aucun Zwaïa n'a été testé durant la fabrication de Bavéol™. |
 | :---: | :--- |
 
 **BAVÉOL™ – Parce que vous venez de l'Eau. Et que ça doit se voir.**

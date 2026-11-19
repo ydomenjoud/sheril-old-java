@@ -12,7 +12,7 @@ Cette limite maximale de risques de collisions peut être augmentée grâce à l
 
 Il est possible de fusionner un nombre illimité de flottes situées au même emplacement en une ou plusieurs flottes distinctes. Lors d’une fusion, seule la flotte portant le plus petit numéro d'identification est conservée ; l’autre disparaît.
 
-Si vous regroupez plus de deux flottes, toutes sont automatiquement fusionnées avec celle dont le numéro est le plus bas. De même, la flotte résultante conserve la directive de la flotte ayant le numéro le plus bas.
+Si vous regroupez plus de deux flottes, toutes sont automatiquement fusionnées avec celle dont le numéro est le plus bas. La flotte résultante prend la directive indiquée dans l'ordre de fusion, qui remplace celle donnée lors du déplacement. Si une flotte fait l'objet de plusieurs fusions au cours du même tour, c'est la directive de la dernière fusion réussie qui s'applique : veillez donc à indiquer la même directive dans tous vos ordres de fusion.
 
 Les fusions de flottes ont lieu avant les attaques (spatiales et planétaires).
 
