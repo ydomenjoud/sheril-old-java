@@ -6,6 +6,8 @@
 <BR><BR>Le numéro de la nouvelle flotte est le numéro le moins élevé des deux flottes.
 <BR>Le nom de la nouvelle flotte est le nom de la flotte au numéro le moins élevé.
 <BR>Si il y avait un héros dans chaque flotte, le héros de la flotte au numéro le plus élevé va en réserve.
+<BR><BR>La nouvelle flotte prend la directive choisie dans cet ordre de fusion, qui remplace celle donnée lors du déplacement.
+<BR>Si une flotte fait l'objet de plusieurs fusions dans le même tour, c'est la directive de la dernière fusion réussie qui s'applique : indiquez la même directive dans tous vos ordres de fusion.
 
 
 
