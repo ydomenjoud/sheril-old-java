@@ -7,9 +7,9 @@
 
 **"Quand le portefeuille parle, la prudence se tait"**
 
-Alors que la galaxie entame son cinquième tour d'horloge, un phénomène sans précédent secoue nos observatoires : **la moitié des commandants se ruent sur le marché des lieutenants comme des Fergoks affamés sur un buffet de cristaux énergétiques !** <span style="color:#FFCC00">Zor</span> le <span style="color:#FFCC00">Zwaias</span> ouvre son coffre-fort et claque une petite fortune pour s'offrir Enchant, <span style="color:#009933">BoggShuggoth</span> débourse une somme rondelette pour Devolt, tandis que <span style="color:#009933">Grokan</span>, déjà à la tête d'un conseil de guerre impressionnant, continue d'accumuler les têtes pensantes.
+Alors que la galaxie entame son cinquième tour d'horloge, un phénomène sans précédent secoue nos observatoires : **la moitié des commandants se ruent sur le marché des lieutenants comme des Fergoks affamés sur un buffet de cristaux énergétiques !** <span class="race2">Zor</span> le <span class="race2">Zwaias</span> ouvre son coffre-fort et claque une petite fortune pour s'offrir Enchant, <span class="race4">BoggShuggoth</span> débourse une somme rondelette pour Devolt, tandis que <span class="race4">Grokan</span>, déjà à la tête d'un conseil de guerre impressionnant, continue d'accumuler les têtes pensantes.
 
-La rumeur court dans les cantines spatiales : certains commandants auraient vidé l'équivalent de plusieurs systèmes solaires en Centaures pour constituer leur garde rapprochée. **<span style="color:#009933">Raakasz</span>**, membre éminent du Codex <span style="color:#009933">Fergok</span>, détient le record absolu avec une collection de mercenaires qui ferait pâlir d'envie un collectionneur de timbres impériaux ! Pendant ce temps, des ermites comme <span style="color:#0066CC">Sitael</span> et <span style="color:#0066CC">Elemwe</span> regardent passer le défilé sans dépenser un seul Centaure, preuve qu'on peut encore rêver de grandeur avec un budget de radins.
+La rumeur court dans les cantines spatiales : certains commandants auraient vidé l'équivalent de plusieurs systèmes solaires en Centaures pour constituer leur garde rapprochée. **<span class="race4">Raakasz</span>**, membre éminent du Codex <span class="race4">Fergok</span>, détient le record absolu avec une collection de mercenaires qui ferait pâlir d'envie un collectionneur de timbres impériaux ! Pendant ce temps, des ermites comme <span class="race1">Sitael</span> et <span class="race1">Elemwe</span> regardent passer le défilé sans dépenser un seul Centaure, preuve qu'on peut encore rêver de grandeur avec un budget de radins.
 
 ---
 
@@ -17,17 +17,17 @@ La rumeur court dans les cantines spatiales : certains commandants auraient vid�
 
 ### *Quand le voisinage se complique*
 
-**<span style="color:#CC0033">Taraxacum</span> vs <span style="color:#0066CC">Looper</span> : Le match retour qui sent la vendetta**
+**<span class="race3">Taraxacum</span> vs <span class="race1">Looper</span> : Le match retour qui sent la vendetta**
 
-Les astéroïdes tremblent encore ! <span style="color:#CC0033">Taraxacum</span> et <span style="color:#0066CC">Looper</span> se sont livrés à un ballet spatial digne d'une chorégraphie de mauvais goût ce tour-ci. Deux assauts de <span style="color:#0066CC">Looper</span>, une contre-attaque de <span style="color:#CC0033">Taraxacum</span>, et au final... un monde perdu de chaque côté. Bilan comptable : match nul, mais les deux commandants affichent des mines de lendemain de beuverie intersidérale. <span style="color:#0066CC">Looper</span>, avec seulement soixante-neuf mondes sous contrôle, commence à ressembler à un propriétaire terrien en déclin, tandis que <span style="color:#CC0033">Taraxacum</span> se maintient vaillamment à cent cinquante-trois planètes malgré les coups de boutoir.
+Les astéroïdes tremblent encore ! <span class="race3">Taraxacum</span> et <span class="race1">Looper</span> se sont livrés à un ballet spatial digne d'une chorégraphie de mauvais goût ce tour-ci. Deux assauts de <span class="race1">Looper</span>, une contre-attaque de <span class="race3">Taraxacum</span>, et au final... un monde perdu de chaque côté. Bilan comptable : match nul, mais les deux commandants affichent des mines de lendemain de beuverie intersidérale. <span class="race1">Looper</span>, avec seulement soixante-neuf mondes sous contrôle, commence à ressembler à un propriétaire terrien en déclin, tandis que <span class="race3">Taraxacum</span> se maintient vaillamment à cent cinquante-trois planètes malgré les coups de boutoir.
 
-**<span style="color:#009933">Barlabuk</span> croque <span style="color:#009933">Fexellerein</span>**
+**<span class="race4">Barlabuk</span> croque <span class="race4">Fexellerein</span>**
 
-Dans un assaut éclair, <span style="color:#009933">Barlabuk</span> s'empare de trois mondes appartenant à l'infortuné <span style="color:#009933">Fexellerein</span>, qui encaisse également une tentative d'<span style="color:#CC00FF">Astheon</span> (repoussée cette fois). <span style="color:#009933">Fexellerein</span>, malgré ses cent trente et un mondes, semble jouer le rôle du punching-ball cosmique de service. Courage, camarade : l'expansion continue, mais à ce rythme, tu devras bientôt installer des tourelles automatiques à chaque coin de rue !
+Dans un assaut éclair, <span class="race4">Barlabuk</span> s'empare de trois mondes appartenant à l'infortuné <span class="race4">Fexellerein</span>, qui encaisse également une tentative d'<span class="race0">Astheon</span> (repoussée cette fois). <span class="race4">Fexellerein</span>, malgré ses cent trente et un mondes, semble jouer le rôle du punching-ball cosmique de service. Courage, camarade : l'expansion continue, mais à ce rythme, tu devras bientôt installer des tourelles automatiques à chaque coin de rue !
 
-**<span style="color:#CC0033">Akashi</span> dévore <span style="color:#CC00FF">Bouffosaure</span>**
+**<span class="race3">Akashi</span> dévore <span class="race0">Bouffosaure</span>**
 
-Quatre planètes d'un coup ! <span style="color:#CC0033">Akashi</span> ne fait pas dans la dentelle et scalpe le malheureux <span style="color:#CC00FF">Bouffosaure</span>, qui voit son empire fondre comme neige au soleil. Le Fremen semble avoir misé sur la mauvaise stratégie : expansion démographique forte, mais défense absente. Résultat : cent quarante-trois mondes, certes, mais une puissance militaire en chute libre.
+Quatre planètes d'un coup ! <span class="race3">Akashi</span> ne fait pas dans la dentelle et scalpe le malheureux <span class="race0">Bouffosaure</span>, qui voit son empire fondre comme neige au soleil. Le Fremen semble avoir misé sur la mauvaise stratégie : expansion démographique forte, mais défense absente. Résultat : cent quarante-trois mondes, certes, mais une puissance militaire en chute libre.
 
 ---
 
@@ -37,62 +37,62 @@ Quatre planètes d'un coup ! <span style="color:#CC0033">Akashi</span> ne fait p
 
 **Les Ermites de l'An 5**
 
-Treize commandants affichent un **parfait isolement** : <span style="color:#FFCC00">Zor</span>, <span style="color:#009933">BoggShuggoth</span>, <span style="color:#CC0033">Imotep</span>, <span style="color:#CC0033">Cynapse</span>, <span style="color:#FFCC00">Rikoom</span>, <span style="color:#0066CC">Sitael</span>, et toute une ribambelle d'autres reclus cosmiques. Pas un Centaure échangé, pas un monde cédé, aucune alliance déclarée. Ces solitaires jouent-ils les génies incompris ou sont-ils simplement trop fiers pour demander un coup de main ?
+Treize commandants affichent un **parfait isolement** : <span class="race2">Zor</span>, <span class="race4">BoggShuggoth</span>, <span class="race3">Imotep</span>, <span class="race3">Cynapse</span>, <span class="race2">Rikoom</span>, <span class="race1">Sitael</span>, et toute une ribambelle d'autres reclus cosmiques. Pas un Centaure échangé, pas un monde cédé, aucune alliance déclarée. Ces solitaires jouent-ils les génies incompris ou sont-ils simplement trop fiers pour demander un coup de main ?
 
-À l'opposé, **Le Codex <span style="color:#009933">Fergok</span>** et ses membres (<span style="color:#009933">Grokan</span>, <span style="color:#009933">Noshera</span>, <span style="color:#009933">Chaeros</span>, <span style="color:#009933">Lord Snake</span>, <span style="color:#009933">Hertz</span>, <span style="color:#009933">Raakasz</span>) maintiennent une cohésion de façade, tout en dépensant des fortunes en lieutenants. Coïncidence ? Certainement pas ! **Les Enfants du Prophète** (<span style="color:#CC00FF">Brethin</span> et son acolyte invisible) gardent aussi un profil discret mais organisé.
+À l'opposé, **Le Codex <span class="race4">Fergok</span>** et ses membres (<span class="race4">Grokan</span>, <span class="race4">Noshera</span>, <span class="race4">Chaeros</span>, <span class="race4">Lord Snake</span>, <span class="race4">Hertz</span>, <span class="race4">Raakasz</span>) maintiennent une cohésion de façade, tout en dépensant des fortunes en lieutenants. Coïncidence ? Certainement pas ! **Les Enfants du Prophète** (<span class="race0">Brethin</span> et son acolyte invisible) gardent aussi un profil discret mais organisé.
 
 
-**<span style="color:#CC0033">Darkspy</span> cède un monde à <span style="color:#0066CC">Faere</span>**
+**<span class="race3">Darkspy</span> cède un monde à <span class="race1">Faere</span>**
 
-Le système Piwb change de mains sans effusion de sang. <span style="color:#CC0033">Darkspy</span>, jouant les philanthropes, offre gracieusement une planète à <span style="color:#0066CC">Faere</span>. Acte de bonté ou calcul machiavélique pour brouiller les pistes ? <span style="color:#0066CC">Faere</span>, déjà en pleine ascension technologique, remercie poliment tout en fortifiant ses frontières.
+Le système Piwb change de mains sans effusion de sang. <span class="race3">Darkspy</span>, jouant les philanthropes, offre gracieusement une planète à <span class="race1">Faere</span>. Acte de bonté ou calcul machiavélique pour brouiller les pistes ? <span class="race1">Faere</span>, déjà en pleine ascension technologique, remercie poliment tout en fortifiant ses frontières.
 
-**<span style="color:#CC0033">Savyia</span> offre un monde à <span style="color:#CC0033">Prj</span>**
+**<span class="race3">Savyia</span> offre un monde à <span class="race3">Prj</span>**
 
-Tufio, système tranquille, rejoint l'empire de <span style="color:#CC0033">Prj</span>. <span style="color:#CC0033">Savyia</span> joue-t-il au bon samaritain ou prépare-t-il un coup fourré ? Nos enquêteurs surveillent.
+Tufio, système tranquille, rejoint l'empire de <span class="race3">Prj</span>. <span class="race3">Savyia</span> joue-t-il au bon samaritain ou prépare-t-il un coup fourré ? Nos enquêteurs surveillent.
 
-### *Théorie du Complot : L'Alliance Fantôme des <span style="color:#CC0033">Yoksor</span>*
+### *Théorie du Complot : L'Alliance Fantôme des <span class="race3">Yoksor</span>*
 
-Aucune alerte officielle, mais nos radars détectent une synchronisation étrange : **<span style="color:#CC0033">Taraxacum</span>, <span style="color:#CC0033">Imotep</span>, <span style="color:#CC0033">Cynapse</span>, <span style="color:#CC0033">Gremios</span>, <span style="color:#CC0033">Darkspy</span>, <span style="color:#CC0033">Prj</span>, <span style="color:#CC0033">Akashi</span>, <span style="color:#CC0033">Savyia</span>**... tous <span style="color:#CC0033">Yoksor</span> ou presque, tous en expansion démographique frénétique. Hasard génétique ou pacte tacite de domination raciale ? Nous enquêtons. Si vous voyez trois <span style="color:#CC0033">Yoksor</span> discuter dans un bar spatial, fuyez : ils mijotent quelque chose !
+Aucune alerte officielle, mais nos radars détectent une synchronisation étrange : **<span class="race3">Taraxacum</span>, <span class="race3">Imotep</span>, <span class="race3">Cynapse</span>, <span class="race3">Gremios</span>, <span class="race3">Darkspy</span>, <span class="race3">Prj</span>, <span class="race3">Akashi</span>, <span class="race3">Savyia</span>**... tous <span class="race3">Yoksor</span> ou presque, tous en expansion démographique frénétique. Hasard génétique ou pacte tacite de domination raciale ? Nous enquêtons. Si vous voyez trois <span class="race3">Yoksor</span> discuter dans un bar spatial, fuyez : ils mijotent quelque chose !
 
 ---
 
 ## 🔮 **L'HOROSCOPE GALACTIQUE DES STREAKS**
 
-**<span style="color:#FFCC00">Zor</span>, <span style="color:#009933">BoggShuggoth</span>, <span style="color:#CC0033">Cynapse</span>, <span style="color:#FFCC00">Rikoom</span>, <span style="color:#0066CC">Ezradion</span>** *(Ermites chroniques)* : Sous le signe de l'Autarcie Absolue, vous n'avez pas attaqué depuis cinq tours. Votre empire grandit dans un silence monastique. Mais attention : l'ermite trop tranquille finit en cible facile. Préparez vos flottes, car les loups rôdent.
+**<span class="race2">Zor</span>, <span class="race4">BoggShuggoth</span>, <span class="race3">Cynapse</span>, <span class="race2">Rikoom</span>, <span class="race1">Ezradion</span>** *(Ermites chroniques)* : Sous le signe de l'Autarcie Absolue, vous n'avez pas attaqué depuis cinq tours. Votre empire grandit dans un silence monastique. Mais attention : l'ermite trop tranquille finit en cible facile. Préparez vos flottes, car les loups rôdent.
 
-**<span style="color:#009933">Grokan</span>, <span style="color:#0066CC">Sitael</span>, <span style="color:#009933">Lord Snake</span>** *(Démographes compulsifs)* : Quatre tours d'expansion démographique consécutive ! Vos populations pullulent comme des lapins galactiques. Mais qui dit foule dit bouches à nourrir. Sous le signe de la Surpopulation Joyeuse, méfiez-vous des pénuries.
+**<span class="race4">Grokan</span>, <span class="race1">Sitael</span>, <span class="race4">Lord Snake</span>** *(Démographes compulsifs)* : Quatre tours d'expansion démographique consécutive ! Vos populations pullulent comme des lapins galactiques. Mais qui dit foule dit bouches à nourrir. Sous le signe de la Surpopulation Joyeuse, méfiez-vous des pénuries.
 
-**<span style="color:#0066CC">Faere</span>, <span style="color:#CC0033">Imotep</span>, <span style="color:#CC0033">Savyia</span>** *(Collectionneurs de lieutenants)* : Trois tours à recruter sans discontinuer ! Vous constituez des conseils de guerre dignes d'un empire millénaire. Mais vos caisses se vident. Sous le signe du Portefeuille Percé, attention à la banqueroute cosmique.
+**<span class="race1">Faere</span>, <span class="race3">Imotep</span>, <span class="race3">Savyia</span>** *(Collectionneurs de lieutenants)* : Trois tours à recruter sans discontinuer ! Vous constituez des conseils de guerre dignes d'un empire millénaire. Mais vos caisses se vident. Sous le signe du Portefeuille Percé, attention à la banqueroute cosmique.
 
-**<span style="color:#FFCC00">Hecate</span>** *(Conquérant en série)* : Sept mondes conquis au total, trois perdus. Vous incarnez la guerre totale ! Mais sous le signe de l'Épée à Double Tranchant, chaque victoire coûte cher. Votre trésor de guerre fond comme beurre au soleil d'une supergéante rouge.
+**<span class="race2">Hecate</span>** *(Conquérant en série)* : Sept mondes conquis au total, trois perdus. Vous incarnez la guerre totale ! Mais sous le signe de l'Épée à Double Tranchant, chaque victoire coûte cher. Votre trésor de guerre fond comme beurre au soleil d'une supergéante rouge.
 
-**<span style="color:#0066CC">Elemwe</span>, <span style="color:#0066CC">Strom</span>, <span style="color:#CC00FF">Gomraz</span>** *(Les Puissances en Déclin)* : Puissance militaire négative ce tour. Sous le signe de la Rouille Stellaire, vos flottes vieillissent mal. Préparez les cartons de déménagement ou recrutez d'urgence !
+**<span class="race1">Elemwe</span>, <span class="race1">Strom</span>, <span class="race0">Gomraz</span>** *(Les Puissances en Déclin)* : Puissance militaire négative ce tour. Sous le signe de la Rouille Stellaire, vos flottes vieillissent mal. Préparez les cartons de déménagement ou recrutez d'urgence !
 
-**<span style="color:#CC00FF">Brethin</span>** *(Le Perdant Récurrent)* : Trois mondes perdus, aucun gagné. Sous le signe du Souffre-Douleur Cosmique, votre empire saigne. Heureusement, votre foi dans le Prophète reste inébranlable... ou désespérée.
+**<span class="race0">Brethin</span>** *(Le Perdant Récurrent)* : Trois mondes perdus, aucun gagné. Sous le signe du Souffre-Douleur Cosmique, votre empire saigne. Heureusement, votre foi dans le Prophète reste inébranlable... ou désespérée.
 
 ---
 
 ## 💬 **LES BRÈVES DU VIDE**
 
-- **<span style="color:#009933">Noshera</span>** : Première place technologique perdue mais puissance nucléaire en hausse. Joue-t-il au savant fou ou au génie méconnu ?
+- **<span class="race4">Noshera</span>** : Première place technologique perdue mais puissance nucléaire en hausse. Joue-t-il au savant fou ou au génie méconnu ?
 
-- **<span style="color:#009933">Chaeros</span>** : Toujours second en puissance malgré un score technologique catastrophique. Preuves qu'on peut dominer en étant ignare ?
+- **<span class="race4">Chaeros</span>** : Toujours second en puissance malgré un score technologique catastrophique. Preuves qu'on peut dominer en étant ignare ?
 
-- **<span style="color:#CC0033">Gremios</span>** : Expansion pépère, sans combat ni drame. L'incarnation du commandant pépouze.
+- **<span class="race3">Gremios</span>** : Expansion pépère, sans combat ni drame. L'incarnation du commandant pépouze.
 
-- **<span style="color:#FFCC00">Belios</span>** : Trente-quatre mondes gagnés ce tour ! Expansion coloniale digne d'un empire du XIXe siècle terrien. Chapeau bas !
+- **<span class="race2">Belios</span>** : Trente-quatre mondes gagnés ce tour ! Expansion coloniale digne d'un empire du XIXe siècle terrien. Chapeau bas !
 
-- **<span style="color:#FFCC00">ShaDaSun</span>** : Dixième en puissance mais invisible diplomatiquement. Le fantôme souriant de la galaxie.
+- **<span class="race2">ShaDaSun</span>** : Dixième en puissance mais invisible diplomatiquement. Le fantôme souriant de la galaxie.
 
-- **<span style="color:#FFCC00">Hawoyse</span>** : Soixante et onze mondes, mais technologie en retard. Quantité vs qualité, le débat éternel.
+- **<span class="race2">Hawoyse</span>** : Soixante et onze mondes, mais technologie en retard. Quantité vs qualité, le débat éternel.
 
-- **<span style="color:#FFCC00">Ulukai</span> & <span style="color:#CC00FF">Carolus</span>** : Trente mondes chacun, figés comme des statues. Sont-ils en hibernation ou en grève cosmique ?
+- **<span class="race2">Ulukai</span> & <span class="race0">Carolus</span>** : Trente mondes chacun, figés comme des statues. Sont-ils en hibernation ou en grève cosmique ?
 
-- **<span style="color:#FFCC00">BrunS</span>** : Expansion territoriale explosive, mais puissance qui stagne. Empire de papier mâché ?
+- **<span class="race2">BrunS</span>** : Expansion territoriale explosive, mais puissance qui stagne. Empire de papier mâché ?
 
-- **<span style="color:#FFCC00">Concile d'Ilyr</span>** : Discrétion absolue, mais explosion de puissance ce tour. Préparent-ils l'apocalypse ?
+- **<span class="race2">Concile d'Ilyr</span>** : Discrétion absolue, mais explosion de puissance ce tour. Préparent-ils l'apocalypse ?
 
-- **<span style="color:#0066CC">Lorendoras</span>** : Achète des lieutenants, mais sa puissance ramollit. Trop de généraux, pas assez de soldats ?
+- **<span class="race1">Lorendoras</span>** : Achète des lieutenants, mais sa puissance ramollit. Trop de généraux, pas assez de soldats ?
 
 ---
 
