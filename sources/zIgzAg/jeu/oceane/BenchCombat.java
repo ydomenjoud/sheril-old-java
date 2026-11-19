@@ -566,6 +566,10 @@ public class BenchCombat {
 					v.regles.reductionParTaille = Integer.parseInt(regle.substring(10));
 					break;
 				}
+				if (regle.matches("salve\\d+")) {
+					v.regles.salve = Integer.parseInt(regle.substring(5));
+					break;
+				}
 				java.util.regex.Matcher fiabt = java.util.regex.Pattern.compile("fiabt(\\d+)-(\\d+)").matcher(regle);
 				if (fiabt.matches()) {
 					v.regles.fiabilite = true;
@@ -573,7 +577,7 @@ public class BenchCombat {
 					v.regles.enrayementT10 = Integer.parseInt(fiabt.group(2));
 					break;
 				}
-				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, ancien, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, fiabplustailleK, fiabniveautaille, fiaborigine, continu, vivantes, combinables avec +)");
+				throw new ErreurScenario("règle inconnue : " + regle + " (actuel, ancien, multi, mono, fiab, fiabNN, fiabtA-B, fiabtailleN, fiabplustailleK, fiabniveautaille, fiaborigine, salveN, continu, vivantes, combinables avec +)");
 			}
 		return v;
 	}

@@ -1707,42 +1707,91 @@ public class Combat {
      * Tir continu (ReglesCombat.tirContinu) : les vaisseaux des deux flottes tirent dans l'ordre
      * du tempo ; chacun, à son tour, tire sur sa première cible puis en désigne de nouvelles
      * (jusqu'à getNbCibleMax) tant qu'il lui reste des armes.
+     * Avec ReglesCombat.salve, un passage est limité à salve × (taille + 1)² armes : les vaisseaux
+     * qui en ont encore repassent ensuite, dans le même ordre, jusqu'à ce que plus personne ne tire.
      */
     private static void combatContinu(Flotte f1, StrategieDeCombatSpatial s1, HashMap pos1, HashMap cible1,
                                       TreeMap ht1, Heros h1, Commandant c1, Flotte f2, StrategieDeCombatSpatial s2,
                                       HashMap pos2, HashMap cible2, TreeMap ht2, Heros h2, Commandant c2) {
         Map.Entry[] mt1 = (Map.Entry[]) ht1.entrySet().toArray(new Map.Entry[0]);
         Map.Entry[] mt2 = (Map.Entry[]) ht2.entrySet().toArray(new Map.Entry[0]);
-        int compteur1 = mt1.length - 1;
-        int compteur2 = mt2.length - 1;
-        while ((compteur1 > -1) || (compteur2 > -1)) {
-            boolean premier = (compteur2 == -1) || ((compteur1 != -1)
-                    && (((Integer) mt1[compteur1].getKey()).compareTo((Integer) mt2[compteur2].getKey()) > 0));
-            if (premier)
-                tirVaisseauContinu(mt1[compteur1--].getValue(), f1, s1, pos1, pos2, cible1, f2, h1, h2, c1);
-            else
-                tirVaisseauContinu(mt2[compteur2--].getValue(), f2, s2, pos2, pos1, cible2, f1, h2, h1, c2);
+        // un état par flotte : les deux flottes numérotent leurs vaisseaux de la même façon
+        HashMap etats1 = new HashMap();
+        HashMap etats2 = new HashMap();
+        boolean repasser = true;
+        while (repasser) {
+            repasser = false;
+            int compteur1 = mt1.length - 1;
+            int compteur2 = mt2.length - 1;
+            while ((compteur1 > -1) || (compteur2 > -1)) {
+                boolean premier = (compteur2 == -1) || ((compteur1 != -1)
+                        && (((Integer) mt1[compteur1].getKey()).compareTo((Integer) mt2[compteur2].getKey()) > 0));
+                if (premier)
+                    repasser |= tirVaisseauContinu(mt1[compteur1--].getValue(), f1, s1, pos1, pos2, cible1, f2, h1, h2, c1, etats1);
+                else
+                    repasser |= tirVaisseauContinu(mt2[compteur2--].getValue(), f2, s2, pos2, pos1, cible2, f1, h2, h1, c2, etats2);
+            }
         }
+        for (Object cle : ht1.values())
+            f1.getVaisseau((Integer) cle).setTirsSalve(-1);
+        for (Object cle : ht2.values())
+            f2.getVaisseau((Integer) cle).setTirsSalve(-1);
     }
 
-    private static void tirVaisseauContinu(Object cle, Flotte f1, StrategieDeCombatSpatial s, HashMap pos1,
-                                           HashMap pos2, HashMap cible, Flotte f2, Heros h1, Heros h2, Commandant com) {
-        tirVaisseau(cle, f1, pos1, pos2, cible, f2, 0, h1, h2, com);
+    /**
+     * Un passage d'un vaisseau. etats garde, d'un passage à l'autre, {tir en cours, recherches
+     * de cible vides, prochaine cible à désigner (1) ou cible en cours à reprendre (0), fini}.
+     * Rend vrai si la salve a interrompu le vaisseau et qu'il doit repasser.
+     */
+    private static boolean tirVaisseauContinu(Object cle, Flotte f1, StrategieDeCombatSpatial s, HashMap pos1,
+                                              HashMap pos2, HashMap cible, Flotte f2, Heros h1, Heros h2,
+                                              Commandant com, HashMap etats) {
+        int[] e = (int[]) etats.get(cle);
+        if (e == null) {
+            e = new int[]{0, 0, 0, 0};
+            etats.put(cle, e);
+        }
+        if (e[3] == 1)
+            return false;
         Vaisseau v = f1.getVaisseau((Integer) cle);
+        int salve = ReglesCombat.actives().salve;
+        // taille du plan, pas getTaille() : celle-ci remplit le cache des composants valides et
+        // changerait la suite du combat
+        int t = (salve > 0) ? v.getPlan().getTaille() + 1 : 0;
+        v.setTirsSalve(salve > 0 ? salve * t * t : -1);
         int[] cibles = (int[]) cible.get(cle);
         Map.Entry[] seul = {new java.util.AbstractMap.SimpleEntry(cle, v)};
-        int recherchesVides = 0;
-        for (int i = 1; (i < cibles.length) && peutEncoreTirer(v); i++) {
-            determinationCible(seul, s, cible, pos1, pos2, f2, i);
-            if (cibles[i] == -1) {
-                // la recherche parcourt les tailles au hasard et peut échouer : on la refait
-                if (++recherchesVides > 3)
-                    break; // plus de cible : le vaisseau garde ses armes restantes
-            } else if (f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit())
-                break; // épave (seulement sans ciblesVivantes)
-            else
-                tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2, com);
+        int i = e[0];
+        boolean designer = e[2] == 1;
+        while (true) {
+            if (designer) {
+                if ((i >= cibles.length) || !peutEncoreTirer(v))
+                    break;
+                determinationCible(seul, s, cible, pos1, pos2, f2, i);
+                if (cibles[i] == -1) {
+                    // la recherche parcourt les tailles au hasard et peut échouer : on la refait
+                    if (++e[1] > 3)
+                        break; // plus de cible : le vaisseau garde ses armes restantes
+                    i++;
+                    continue;
+                }
+                if (f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit())
+                    break; // épave (seulement sans ciblesVivantes)
+            }
+            tirVaisseau(cle, f1, pos1, pos2, cible, f2, i, h1, h2, com);
+            if ((v.getTirsSalve() == 0) && peutEncoreTirer(v)) {
+                // salve épuisée : au passage suivant, reprise sur la même cible si elle vit encore
+                boolean cibleVivante = (cibles[i] != -1)
+                        && !f2.getVaisseau(Integer.valueOf(cibles[i])).estDetruit();
+                e[0] = cibleVivante ? i : i + 1;
+                e[2] = cibleVivante ? 0 : 1;
+                return true;
+            }
+            i++;
+            designer = true;
         }
+        e[3] = 1;
+        return false;
     }
 
     private static void tirVaisseau(Object cle, Flotte f1, HashMap pos1, HashMap pos2, HashMap cible, Flotte f2, int numTir, Heros h1, Heros h2, Commandant com) {

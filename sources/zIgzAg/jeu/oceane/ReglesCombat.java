@@ -60,6 +60,13 @@ public class ReglesCombat {
 	 */
 	public boolean enrayementOrigine = false;
 
+	/**
+	 * Si > 0 (règle salveN, tir continu seulement) : à chaque passage, un vaisseau utilise au plus
+	 * salve × (taille + 1)² armes (T3 : 9, T6 : 36, T9 : 81 pour salve1), puis attend que tous les
+	 * vaisseaux aient fait leur passage avant de reprendre.
+	 */
+	public int salve = -1;
+
 	/** Taux d'enrayement d'une arme portée par un vaisseau de la taille donnée (0 = T1 … 9 = T10). */
 	public int tauxEnrayement(Arme arme, int taille) {
 		if (enrayementUniforme >= 0)

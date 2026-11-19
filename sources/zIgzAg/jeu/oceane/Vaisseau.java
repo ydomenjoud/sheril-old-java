@@ -418,6 +418,21 @@ public class Vaisseau implements Serializable {
 	}
 
 	// fin absorbeur
+
+	/**
+	 * Armes que le vaisseau peut encore utiliser pendant son passage en cours (ReglesCombat.salve) ;
+	 * -1 : sans limite. Fixé par Combat.tirVaisseauContinu à chaque passage.
+	 */
+	private transient int tirsSalve = -1;
+
+	public int getTirsSalve() {
+		return tirsSalve;
+	}
+
+	public void setTirsSalve(int n) {
+		tirsSalve = n;
+	}
+
 	public void tir(Vaisseau cible, int distance, Heros h1, Heros h2) {
 		ReglesCombat regles = ReglesCombat.actives();
 		cible.initialiserAbsorbeur();
@@ -425,7 +440,8 @@ public class Vaisseau implements Serializable {
         if(listeArmesValides.isEmpty()){
             Combat.logDetailln(" - pas d'armes valides");
         }
-		while ((compteur < listeArmesValides.size()) && compteur <= Const.NB_CIBLES[getTaille()] && (!cible.estDetruit())) {
+		while ((compteur < listeArmesValides.size()) && compteur <= Const.NB_CIBLES[getTaille()] && (!cible.estDetruit())
+				&& (tirsSalve != 0)) {
 			Integer a = (Integer) listeArmesValides.get(compteur);
 			Arme arme = (Arme) plan.getComposant(a);
 			int chance = arme.getChanceDeToucher(cible.getTaille(), distance);
@@ -446,6 +462,8 @@ public class Vaisseau implements Serializable {
 				else if (reussiteTir(chance, cible, h1, h2))
 					effectuerDommages(cible, arme, h1, h2);
 				listeArmesValides.remove(a);
+				if (tirsSalve > 0)
+					tirsSalve--;
 				if (h1 != null)
 					h1.augmenterExperience();
 				if (h2 != null)
