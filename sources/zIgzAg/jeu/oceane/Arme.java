@@ -46,6 +46,11 @@ public class Arme extends ComposantDeVaisseau {
 		return 100;
 	}
 
+	/** Chance (%) que l'arme s'enraye à un tir spatial : son tir de ce round est alors perdu. */
+	public int getTauxEnrayement() {
+		return caracteristiquesArmes[Const.ARME_FIABILITE];
+	}
+
 	public int getForceSpatiale() {
 		return getDommagesCoque() + getDommagesBouclier();
 	}
@@ -111,7 +116,8 @@ public class Arme extends ComposantDeVaisseau {
 	public void calculCaracteristiquesArmes() {
 		caracteristiquesArmes = (int[]) Univers.getCaracArme(getCorpsCode())
 				.clone();
-		caracteristiquesArmes[5] = Math.max(0, caracteristiquesArmes[5]
+		// même enrayement de base pour toutes les armes (la colonne de ListeCaracArmes n'est plus lue)
+		caracteristiquesArmes[Const.ARME_FIABILITE] = Math.max(0, Const.TAUX_ENRAYEMENT_BASE
 				- getNiveau());
 
 		if ((getNiveau() != 0) && (estCombatSpatial())) {

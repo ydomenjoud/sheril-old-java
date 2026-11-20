@@ -34,6 +34,8 @@ public class Const {
 
     public static Boolean NOTIFY_BOT = false;
     public static Boolean FAKE_TURN = false;
+    // false : le journal de combat ne garde que les lignes de combat et de tour, sans le détail des tirs.
+    public static Boolean COMBAT_LOG_DETAIL = true;
     public static Boolean USE_REGISTRATIONS = true;
     public static String PATH_PHP = "./php/";
 
@@ -81,6 +83,7 @@ public class Const {
 
             NOTIFY_BOT = "true".equalsIgnoreCase(properties.getProperty("NOTIFY_BOT"));
             FAKE_TURN = "true".equalsIgnoreCase(properties.getProperty("FAKE_TURN"));
+            COMBAT_LOG_DETAIL = !"false".equalsIgnoreCase(properties.getProperty("COMBAT_LOG_DETAIL"));
             // Par défaut (paramètre absent) les inscriptions du site sont utilisées
             USE_REGISTRATIONS = !"false".equalsIgnoreCase(properties.getProperty("USE_REGISTRATIONS"));
             IS_LOCAL = "true".equalsIgnoreCase(properties.getProperty("IS_LOCAL"));
@@ -494,6 +497,10 @@ public class Const {
     public static final int ARME_PORTEE = 4;
     public static final int ARME_FIABILITE = 5;
     // les différentes caractéristiques des composants armes.
+
+    public static final int TAUX_ENRAYEMENT_BASE = 20;
+    // Chance (%) qu'une arme s'enraye à chaque tir, au niveau 0, pour toutes les armes :
+    // fiabilité de base 80 %. L'enrayement baisse d'un point par niveau d'arme (I = 0, V = 4 : 16 %).
 
     public static final int PUISSANCE_ATTAQUE_PLANETAIRE_MINIMALE = 50;
     // puissance minimale requise pour attaquer une planéte.

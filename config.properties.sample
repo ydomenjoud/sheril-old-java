@@ -39,6 +39,8 @@ FAKE_TURN = false
 # true : les inscriptions du site (table aa_inscription) créent les joueurs et les inactifs sont supprimés
 USE_REGISTRATIONS = true
 SEND_MAIL = false
+# false : journal de combat allégé (une ligne par combat et par tour, sans le détail des tirs) — beaucoup plus rapide
+COMBAT_LOG_DETAIL = true
 
 # LOCAL
 IS_LOCAL = true

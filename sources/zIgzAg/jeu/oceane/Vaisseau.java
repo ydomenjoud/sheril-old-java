@@ -392,18 +392,18 @@ public class Vaisseau implements Serializable {
 		int degats;
 		int b = cible.getNumeroBouclierValide();
 		if (b != -1) {
-            Combat.log(", shielded ({0})", a.getDommagesBouclier());
+            Combat.logDetail(", shielded ({0})", a.getDommagesBouclier());
 			cible.ajouterDommagesBouclier(b, a.getDommagesBouclier());
 			augmenterMoral();
 			cible.diminuerMoral();
 		} else {
 			degats = cible.dommagesApresAbsorbe(a.getDommagesCoque());
-            Combat.log(", degat ({0})", degats);
+            Combat.logDetail(", degat ({0})", degats);
 			if (degats > 0) {
 				augmenterMoral();
 				cible.diminuerMoral();
 				if (!cible.ajouterDommagesAuHasard(degats)) {
-                    Combat.log(", cible detruire");
+                    Combat.logDetail(", cible detruire");
                     cible.notifierDestruction();
                 }
 				dommagesEffectues = dommagesEffectues + degats;
@@ -422,23 +422,27 @@ public class Vaisseau implements Serializable {
 		cible.initialiserAbsorbeur();
 		int compteur = 0;
         if(listeArmesValides.isEmpty()){
-            Combat.logln(" - pas d'armes valides");
+            Combat.logDetailln(" - pas d'armes valides");
         }
 		while ((compteur < listeArmesValides.size()) && compteur <= Const.NB_CIBLES[getTaille()] && (!cible.estDetruit())) {
 			Integer a = (Integer) listeArmesValides.get(compteur);
 			Arme arme = (Arme) plan.getComposant(a);
 			int chance = arme.getChanceDeToucher(cible.getTaille(), distance);
-            Combat.log(
+            if (Const.COMBAT_LOG_DETAIL)
+                Combat.logDetail(
                     " - tir N{0}, arme: {1}",
                     compteur,
                     arme.getNom(Locale.FRANCE) + arme.getRepresentationNiveau(),
                     chance);
 			if (chance == 0) {
-                Combat.log(" - chance < 0 , exit");
+                Combat.logDetail(" - chance < 0 , exit");
                 compteur++;
             }
 			else {
-				if (reussiteTir(chance, cible, h1, h2))
+				// l'arme peut s'enrayer : son tir de ce round est perdu
+				if (Univers.getTest(arme.getTauxEnrayement()))
+					Combat.logDetail(" - arme enrayée");
+				else if (reussiteTir(chance, cible, h1, h2))
 					effectuerDommages(cible, arme, h1, h2);
 				listeArmesValides.remove(a);
 				if (h1 != null)
@@ -446,7 +450,7 @@ public class Vaisseau implements Serializable {
 				if (h2 != null)
 					h2.augmenterExperience();
 			}
-            Combat.logln("");
+            Combat.logDetailln("");
 		}
 	}
 
@@ -467,7 +471,7 @@ public class Vaisseau implements Serializable {
 					- 1
 					- h2.getNiveauCompetence(Const.COMPETENCE_LEADER_INSPIRATION_FANATIQUE);
 		boolean result = Univers.getTest(Math.max(1, test));
-        Combat.log(" => chance {0}({1}),  {2}", test,  test - chanceDepart, result ? "hit" : "miss");
+        Combat.logDetail(" => chance {0}({1}),  {2}", test,  test - chanceDepart, result ? "hit" : "miss");
         return result;
 	}
 
